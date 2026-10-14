@@ -14,10 +14,12 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/lzss.py` | Decompresses `.lzs` files (single files and multi-file archives) |
 | `tools/pac_tool.py` | Lists / splits `.pac` map packages into their chunks |
 | `tools/battle_script.py` | Battle script opcode reference and `.bsd` disassembler |
+| `tools/tex_tool.py` | Converts texture sets (`.tms`, `.dat`, `.pac` texture chunks) to PNG |
+| `tools/adpcm.py` | Converts `.int` audio streams to WAV; splits `.snd` sound banks into samples |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
 one file per function under `decomp/src/<source file>/`, `functions.csv`), `fs/`,
-`fs_unpacked/`, `fs_index.csv`, `docs/`.
+`fs_unpacked/`, `fs_index.csv`, `docs/`, `png/`, `wav/`.
 
 ## Rebuilding
 
@@ -33,6 +35,8 @@ python3 tools/fs_tool.py SLES_50891.ISO extract fs
 python3 tools/fs_tool.py SLES_50891.ISO list > fs_index.csv
 python3 tools/lzss.py --all fs fs_unpacked
 mkdir -p docs && python3 tools/battle_script.py opcodes disc/SLES_508.91 > docs/battle_script_opcodes.md
+python3 tools/tex_tool.py all fs png      # ~7,700 textures
+python3 tools/adpcm.py all fs wav         # ~3 GB of WAV
 ```
 
 ## Pipeline
@@ -96,3 +100,16 @@ commands, an opcode followed by its parameters. The executable carries the game'
 editor table at `0x0032ef48` with every opcode's name, parameter count, types, ranges and value
 names; `tools/battle_script.py opcodes` generates a reference from it. A `.bsd` holds up to 32 tracks; within
 a track, `FRAME COUNT n` marks the frame on which the following commands run.
+
+**Textures** (`.tms`, most `.dat`, `.pac` chunk types 0x01/0x05; uploaded by `init_0024bd78` and
+`init_0024bf60`): u32 count, then one offset per texture in 4-byte words. Each texture has a
+0x20- or 0x80-byte header (kind 0x41/0x42), a pixel format (4/8-bit indexed, 16/32-bit), width in
+16-bit units as on the PS1, VRAM position, then an optional 32-bit RGBA CLUT and row-major pixels.
+8-bit CLUTs are in the GS CSM1 order (index bits 3 and 4 swapped); GS alpha runs 0..0x80. Details
+in `tools/tex_tool.py`. 29 battle `.dat` files are a different, event/message format.
+
+**Audio** (`.int`): stereo PS2 SPU ADPCM interleaved in 0x400-byte blocks, 44,100 Hz (the stream
+player `FUN_0010d8a0` sets two SPU voices to `0xac44` Hz, panned hard left and right). Voice
+lines are mono duplicated into both channels. **Sound banks** (`.snd`): a 0x80-byte header, the
+ADPCM samples, then an `SShd` table with program/tone records and sound-effect sequences; the
+tone records are not decoded yet, so extracted samples use an assumed rate.
