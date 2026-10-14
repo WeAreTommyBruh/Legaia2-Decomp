@@ -2,7 +2,7 @@
 Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude opus and soon will turn into a pc port for preserving and modding capabilitys.
 
 # AI Usage
-I check mostly everything to make sure there are no copyrighted stuff or any errors. This project is heavily assisted using mostly claude opus.
+I check mostly everything to make sure there are no copyrighted stuff or any errors. This project is heavily ai assisted.
 
 # Building
 - You will be needing JDK 21 and Ghidra 12.1.4 with the
@@ -16,10 +16,3 @@ And Then in your terminal run
 ```bash
 ./decompile.sh
 ```
-
-# Credit 
-Started and maintained by [@WeAnitTommyBruh](https://github.com/WeAreTommyBruh). Claude opus doing majority of the work.
-
-# Contributors
-Unfortunately likely nobody else will be helping on this project.
-
