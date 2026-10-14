@@ -12,9 +12,12 @@ An .lzs file is either
   - an archive of compressed files: u32 0, u32 0, u32 count, u32 total size, then
     count entries {u32 offset, char path[32]}; each member is compressed as above.
 
+.moz files are single compressed files too: motion data in the .mov layout
+(they differ from the same-named .mov files).
+
 Usage:
   lzss.py FILE.lzs OUT          single file -> OUT; archive -> members under OUT/
-  lzss.py --all FS_DIR OUT_DIR  every .lzs under FS_DIR into OUT_DIR
+  lzss.py --all FS_DIR OUT_DIR  every .lzs (-> .pac) and .moz (-> .mov) under FS_DIR
 """
 
 import os
@@ -90,11 +93,11 @@ def main(argv):
         n = 0
         for root, _, names in os.walk(fs_dir):
             for name in sorted(names):
-                if not name.endswith(".lzs"):
+                if not name.endswith((".lzs", ".moz")):
                     continue
                 src = os.path.join(root, name)
                 rel = os.path.relpath(src, fs_dir)
-                dst = os.path.join(out_dir, rel[:-4] + ".pac")
+                dst = os.path.join(out_dir, rel[:-4] + (".pac" if name.endswith(".lzs") else ".mov"))
                 with open(src, "rb") as f:
                     archive = is_archive(f.read(8))
                 n += len(unpack(src, os.path.join(out_dir, rel[:-4]) if archive else dst))

@@ -16,10 +16,12 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/battle_script.py` | Battle script opcode reference and `.bsd` disassembler |
 | `tools/tex_tool.py` | Converts texture sets (`.tms`, `.dat`, `.pac` texture chunks) to PNG |
 | `tools/adpcm.py` | Converts `.int` audio streams to WAV; splits `.snd` sound banks into samples |
+| `tools/sq2mid.py` | Converts `.sq` music sequences to standard MIDI |
+| `tools/msg_tool.py` | Lists event/message containers (`EV` `.dat` files) |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
 one file per function under `decomp/src/<source file>/`, `functions.csv`), `fs/`,
-`fs_unpacked/`, `fs_index.csv`, `docs/`, `png/`, `wav/`.
+`fs_unpacked/`, `fs_index.csv`, `docs/`, `png/`, `wav/`, `mid/`.
 
 ## Rebuilding
 
@@ -37,6 +39,7 @@ python3 tools/lzss.py --all fs fs_unpacked
 mkdir -p docs && python3 tools/battle_script.py opcodes disc/SLES_508.91 > docs/battle_script_opcodes.md
 python3 tools/tex_tool.py all fs png      # ~7,700 textures
 python3 tools/adpcm.py all fs wav         # ~3 GB of WAV
+mkdir -p mid && for f in fs/data/aound/*.sq; do python3 tools/sq2mid.py $f mid/$(basename ${f%.sq}).mid; done
 ```
 
 ## Pipeline
@@ -86,7 +89,8 @@ Decrypted, it holds a 16-byte header, a table of 61 file extensions and 7,367 16
 `0xFEE`, flag bytes LSB first (1 = literal), references `b0 | (b1 & 0xF0) << 4`, length
 `(b1 & 0xF) + 3`. A file is either one compressed file (u32 size first) or, when the first two
 words are 0, an archive: u32 count, u32 total size, then `{u32 offset; char path[32]}` per member,
-each member compressed separately. 308 of the single-file `.lzs` are compressed copies of a `.pac`
+each member compressed separately. `.moz` files are single compressed files too (motion data in
+the `.mov` layout, not copies of the same-named `.mov`). 308 of the single-file `.lzs` are compressed copies of a `.pac`
 that is also on the disc; the rest (area maps like `world`, battle models, system data) only exist
 compressed and are unpacked into `fs_unpacked/`.
 
@@ -113,3 +117,17 @@ player `FUN_0010d8a0` sets two SPU voices to `0xac44` Hz, panned hard left and r
 lines are mono duplicated into both channels. **Sound banks** (`.snd`): a 0x80-byte header, the
 ADPCM samples, then an `SShd` table with program/tone records and sound-effect sequences; the
 tone records are not decoded yet, so extracted samples use an assumed rate.
+
+**Music sequences** (`.sq`, "SSsq"): ticks per quarter note and BPM in the header, 16 channel
+records, then MIDI-style events where each event is followed by its delta time. Pitch bend has one
+data byte and tempo is `ff 51` + u16 BPM; otherwise it is MIDI. Programs refer to the game's own
+sound banks, so converted MIDI plays with General MIDI instruments.
+
+**Event/message containers** (23 `data/battle/*.dat` files starting `EV\x03\x00`): a section
+table (`1st`, `MSG`) followed by message offsets and null-terminated strings. `msg_tool.py list`
+shows structure only.
+
+**Not decoded yet**: models (`.tmd`: a count/offset container with float vertex and normal arrays
+and packet-style primitive records, but the header varies between files and the loader has not
+been traced), motion (`.mov`), effects (`.efb`, `.efp`), sound bank tone tables, and the 6 other
+non-texture `.dat` files.
