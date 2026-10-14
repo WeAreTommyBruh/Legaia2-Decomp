@@ -2,7 +2,7 @@
 Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude code.
 
 # AI Usage
-I check mostly everything to make sure there are no copyrighted stuff or any errors. This project is heavily assisted using mostly claude opus 5.5.
+I check mostly everything to make sure there are no copyrighted stuff or any errors. This project is heavily assisted using mostly claude opus.
 
 # Rebuilding
 - You will be needing JDK 21 and Ghidra 12.1.4 with the
@@ -26,6 +26,5 @@ mkdir -p docs && python3 tools/battle_script.py opcodes disc/SLES_508.91 > docs/
 ```
 
 # Credit 
-Started and maintained by [@
-WeAnitTommyBruh](https://github.com/WeAreTommyBruh)
+Started and maintained by [@WeAnitTommyBruh](https://github.com/WeAreTommyBruh). Claude opus doing majority of the work.
 
