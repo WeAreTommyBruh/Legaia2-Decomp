@@ -1,0 +1,14 @@
+# Game data and anything generated from it: never commit (copyrighted)
+*.ISO
+*.iso
+*.BIN
+*.bin
+disc/
+fs/
+fs_unpacked/
+fs_index.csv
+decomp/
+docs/
+ghidra/*
+!ghidra/scripts/
+__pycache__/
