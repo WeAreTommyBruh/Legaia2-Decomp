@@ -7,7 +7,7 @@ Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude code a
 extension (expected in `~/tools`, override with `JAVA_HOME` / `GHIDRA`).
 
 - Then Put your Legaia 2 (PAL) disc image in the root as "SLES_50891.ISO"
-And Then in your terminal run
+And in your terminal run
 
 
 ```bash
