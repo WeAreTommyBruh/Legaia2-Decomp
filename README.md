@@ -1,5 +1,5 @@
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation
-Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude opus and soon will turn into a pc port for preserving and modding capabilitys.
+Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude code and soon will turn into a pc port for preserving and modding capabilitys.
 
 # Building
 - You will be needing JDK 21 and Ghidra 12.1.4 with the
