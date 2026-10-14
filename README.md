@@ -1,3 +1,5 @@
+![image](https://github.com/WeAreTommyBruh/Legaia2Decomp/blob/376f8a1be2cef0de38deb871467a2278fda8bff5/DECOMP.png)
+
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation
 Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude code.
 
