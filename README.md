@@ -21,5 +21,8 @@ extension (expected in `~/tools`, override with `JAVA_HOME` / `GHIDRA`).
 ./decompile.sh
 ```
 
+# AI Usage
+This decompilation project is heavily ai assisted. I check everything one by one to make sure there is nothing wrong.
+
 # License
 There are no copyrighted assets or game code in this. You will have to provide your own Legaia 2: Duel Saga (PAL, SLES-50891) disc images.
