@@ -1,5 +1,5 @@
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation
-Legaia 2:Duel Saga (PAL) is now being decompiled using ghidra and claude code.
+Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude code.
 
 # AI Usage
 I check mostly everything to make sure there are no copyrighted stuff or any errors. This project is heavily assisted using mostly claude opus 5.5.
