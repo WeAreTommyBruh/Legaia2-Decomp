@@ -25,5 +25,7 @@ python3 tools/lzss.py --all fs fs_unpacked
 mkdir -p docs && python3 tools/battle_script.py opcodes disc/SLES_508.91 > docs/battle_script_opcodes.md
 ```
 
-# Cr
+# Credit 
+Started and maintained by [@
+WeAnitTommyBruh](https://github.com/WeAreTommyBruh)
 
