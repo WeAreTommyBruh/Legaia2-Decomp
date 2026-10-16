@@ -24,6 +24,9 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/mov_tool.py` | Lists and decodes animation clips (`.mov`, unpacked `.moz`) to JSON |
 | `tools/efp_tool.py` | Lists / unpacks `.efp` effect packs and decodes `.efb` effects |
 | `tools/pss_demux.py` | Splits `PALMOVIE.PSS` into MPEG-2 video (`.m2v`) and WAV audio |
+| `tools/ee_disasm.py` | Small R5900 disassembler producing clang-compatible assembly |
+| `tools/asm_build.py` | Splits `.text` into assembly per source file, rebuilds the executable with clang/ld.lld and checks it is byte-identical |
+| `tools/progress.py` | Writes `PROGRESS.md` (matching-decomp progress) |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
 one file per function under `decomp/src/<source file>/`, `functions.csv`), `fs/`,

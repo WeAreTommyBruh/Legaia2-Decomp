@@ -36,6 +36,8 @@ python3 tools/adpcm.py all fs wav
 mkdir -p mid && for f in fs/data/aound/*.sq; do python3 tools/sq2mid.py "$f" "mid/$(basename "${f%.sq}").mid"; done
 python3 tools/tmd_tool.py all fs obj
 7z e -odisc SLES_50891.ISO PALMOVIE.PSS && mkdir -p movie && python3 tools/pss_demux.py disc/PALMOVIE.PSS movie/PALMOVIE
+python3 tools/asm_build.py all
+python3 tools/progress.py
 ```
 
 # AI Usage
