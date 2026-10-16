@@ -119,10 +119,77 @@ public class NameFunctions extends GhidraScript {
 					e.getKey().addTag("sdk");
 				}
 			}
+			debugNames();
 		}
 		finally {
 			out.close();
 		}
+	}
+
+	private static final int ENTRY_WINDOW = 0x60;
+	private static final Pattern SELF_NAME = Pattern.compile(
+		"^\\s*-*\\s*([A-Z][a-z0-9]+(?:[A-Z][A-Za-z0-9]*)+|[a-z]+[A-Z][A-Za-z0-9]+)(?=$|[\\s:(\\[%,.!])");
+
+	/**
+	 * Functions that print their own name at entry ("SyncCheck 0\n"). A name is
+	 * used only when one function prints it, within its first ENTRY_WINDOW bytes,
+	 * and that function prints no other such name; names printed deeper inside a
+	 * function usually describe something it calls.
+	 */
+	private void debugNames() throws Exception {
+		Map<Function, Set<String>> byFunc = new HashMap<>();
+		Map<String, Set<Function>> byName = new TreeMap<>();
+		Map<String, Long> distance = new HashMap<>();
+		for (Data d : strings()) {
+			Matcher m = SELF_NAME.matcher(String.valueOf(d.getValue()));
+			if (!m.find()) {
+				continue;
+			}
+			String name = m.group(1);
+			for (Reference r : getReferencesTo(d.getAddress())) {
+				Function f = getFunctionContaining(r.getFromAddress());
+				if (f == null) {
+					continue;
+				}
+				byFunc.computeIfAbsent(f, k -> new TreeSet<>()).add(name);
+				byName.computeIfAbsent(name, k -> new LinkedHashSet<>()).add(f);
+				distance.merge(name + "@" + f.getEntryPoint(),
+					r.getFromAddress().subtract(f.getEntryPoint()), Math::min);
+			}
+		}
+		out.println("== Names from debug messages printed at function entry ==");
+		int accepted = 0;
+		for (Map.Entry<String, Set<Function>> e : byName.entrySet()) {
+			String name = e.getKey();
+			Function f = e.getValue().iterator().next();
+			String verdict;
+			if (e.getValue().size() != 1) {
+				verdict = "SKIP printed by " + e.getValue().size() + " functions";
+			}
+			else if (byFunc.get(f).size() != 1) {
+				verdict = "SKIP function also prints " + byFunc.get(f);
+			}
+			else if (distance.get(name + "@" + f.getEntryPoint()) > ENTRY_WINDOW) {
+				verdict = "SKIP not printed at entry";
+			}
+			else if (getFunction(name) != null) {
+				verdict = "SKIP name already used";
+			}
+			else if (f.getSymbol().getSource() == SourceType.USER_DEFINED || !f.getName().matches(
+				"(FUN_|[a-z0-9_]+_)[0-9a-f]{8}")) {
+				verdict = "SKIP function already named " + f.getName();
+			}
+			else {
+				verdict = "ACCEPT " + f.getName();
+				accepted++;
+				if (apply) {
+					f.setName(name, SourceType.ANALYSIS);
+					f.addTag("debug-name");
+				}
+			}
+			out.printf("  %-30s %s%n", name, verdict);
+		}
+		out.printf("  accepted %d of %d%n%n", accepted, byName.size());
 	}
 
 	private void applyKnown() throws Exception {

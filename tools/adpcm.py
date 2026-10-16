@@ -14,7 +14,9 @@ and right blocks.
   0x80 body: ADPCM samples back to back, each ending in a frame with flag bit 0
   0x80 + body size: "SShd" table block (program/tone records, ADSR, and
        sound-effect sequences in MIDI-like events: 0xa0 note-on, ff 2f 00 end).
-The tone records (pitch per sample) are not decoded yet, so `snd` writes each
+The tone records (pitch per sample) are not decoded yet: the table does not hold
+the sample positions as byte offsets, 8/16-byte units or base+offset addresses,
+so the tone-to-sample mapping is still unknown. `snd` therefore writes each
 sample as mono WAV at an assumed rate (default 22050 Hz; pass --rate).
 
 Usage:
@@ -102,7 +104,8 @@ def snd_samples(data):
         fr = body[off:off + 16]
         frames.append(fr)
         if fr[1] & 1:
-            if any(any(f[2:]) for f in frames):
+            # a lone end frame after a sample is a terminator, not a sample
+            if len(frames) > 1 and any(any(f[2:]) for f in frames):
                 yield frames
             frames = []
 
