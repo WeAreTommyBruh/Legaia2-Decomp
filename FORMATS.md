@@ -36,20 +36,11 @@ Needs JDK 21 and Ghidra 12.1.4 with the
 [ghidra-emotionengine-reloaded](https://github.com/chaoticgd/ghidra-emotionengine-reloaded)
 extension (expected in `~/tools`, override with `JAVA_HOME` / `GHIDRA`).
 
-Put your disc image in the repo root as `SLES_50891.ISO`, then:
-
-```bash
-./decompile.sh
-python3 tools/fs_tool.py SLES_50891.ISO extract fs
-python3 tools/fs_tool.py SLES_50891.ISO list > fs_index.csv
-python3 tools/lzss.py --all fs fs_unpacked
-mkdir -p docs && python3 tools/battle_script.py opcodes disc/SLES_508.91 > docs/battle_script_opcodes.md
-python3 tools/tex_tool.py all fs png      # ~7,700 textures
-python3 tools/adpcm.py all fs wav         # ~3 GB of WAV
-mkdir -p mid && for f in fs/data/aound/*.sq; do python3 tools/sq2mid.py $f mid/$(basename ${f%.sq}).mid; done
-python3 tools/tmd_tool.py all fs obj      # ~280 models
-7z e -odisc SLES_50891.ISO PALMOVIE.PSS && mkdir -p movie && python3 tools/pss_demux.py disc/PALMOVIE.PSS movie/PALMOVIE
-```
+Put your disc image in the repo root as `SLES_50891.ISO`, then run `./decompile.sh`. It builds the
+Ghidra project and C output, then extracts and converts the game files: the file system (`fs/`,
+`fs_index.csv`), decompressed files (`fs_unpacked/`), the battle-script opcode list (`docs/`),
+~7,700 textures (`png/`), ~3 GB of WAV audio (`wav/`), MIDI (`mid/`), ~280 models (`obj/`) and the
+movie (`movie/`). Each tool can also be run on its own; see its usage text.
 
 ## Pipeline
 

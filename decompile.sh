@@ -5,6 +5,8 @@
 #   3. recover code the analyser missed (switch tables, pointer-only functions)
 #   4. name functions from __FILE__/__LINE__ evidence and SDK error strings
 #   5. export C (combined file, header, one file per function)
+#   6. extract and convert the game files (file system, textures, audio, MIDI,
+#      models, movie) with the tools in tools/
 # Reports land in ghidra/*.txt, logs in ghidra/*.log.
 set -euo pipefail
 
@@ -42,3 +44,20 @@ headless 4_export -process "$EXE" -noanalysis -readOnly \
 	-postScript ExportDecomp.java "$ROOT/decomp"
 
 grep -h "ExportDecomp.java>" "$ROOT/ghidra/4_export.log" | sed 's/^INFO  //'
+
+# 6. game files
+cd "$ROOT"
+step() { echo "== $1"; }
+step fs;        python3 tools/fs_tool.py "$ISO" extract fs
+                python3 tools/fs_tool.py "$ISO" list > fs_index.csv
+step lzss;      python3 tools/lzss.py --all fs fs_unpacked
+step docs;      mkdir -p docs && python3 tools/battle_script.py opcodes "disc/$EXE" > docs/battle_script_opcodes.md
+step textures;  python3 tools/tex_tool.py all fs png      # ~7,700 textures
+step audio;     python3 tools/adpcm.py all fs wav         # ~3 GB of WAV
+step midi;      mkdir -p mid
+for f in fs/data/aound/*.sq; do
+	python3 tools/sq2mid.py "$f" "mid/$(basename "${f%.sq}").mid"
+done
+step models;    python3 tools/tmd_tool.py all fs obj      # ~280 models
+step movie;     7z e -y -odisc "$ISO" PALMOVIE.PSS > /dev/null
+                mkdir -p movie && python3 tools/pss_demux.py disc/PALMOVIE.PSS movie/PALMOVIE
