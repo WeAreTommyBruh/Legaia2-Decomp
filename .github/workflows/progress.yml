@@ -1,0 +1,37 @@
+# Uploads the objdiff progress report for ByteMatch (bytematch.dev) and
+# decomp.dev, which read an artifact named <VERSION>_report from successful
+# push runs on the default branch.
+#
+# Building needs the game's executable, which is not in the repository, so
+# the report is generated locally (python3 tools/report.py) and committed as
+# report/report.json; this workflow only checks and uploads it.
+name: Progress report
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  VERSION: SLES_508.91
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the report
+        run: |
+          python3 - <<'PY'
+          import json
+          m = json.load(open("report/report.json"))["measures"]
+          print(f"{m['matched_functions']} / {m['total_functions']} functions, "
+                f"{float(m['matched_code_percent']):.2f}% of code")
+          PY
+
+      - name: Upload progress report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.VERSION }}_report
+          path: report/report.json
