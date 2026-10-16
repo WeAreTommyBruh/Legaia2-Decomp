@@ -2,23 +2,26 @@
  * Motion (.mov) accessors (0x00212f00-0x00213150). A motion file is a clip
  * count followed by byte offsets to each clip; see tools/mov_tool.py for the
  * clip layout. Functions marked MATCH compile to the original bytes with
- * ee-gcc 2.96 -O2 -G8 (check with tools/match.py); the others are kept
+ * ee-gcc 2.9-ee-991111-01 -O2 -G8 (check with tools/match.py); the others are kept
  * under NONMATCHING and the build uses the original assembly for them.
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
+#include "common.h"
 
-/* the clip header of clip `clip` in motion file `mov`
-   NONMATCHING: ee-gcc 2.96 adds a `move $v0, $a0` the original does not have */
-#ifdef NONMATCHING
+/* bone record of the packed layout (section 2) */
+typedef struct {
+    u16 name;       /* offset into the name section */
+    u16 base;       /* base vector index */
+    u16 mask;       /* channels present */
+    u16 seg[9];     /* first segment of tx ty tz rx ry rz sx sy sz */
+} MotBone;
+
+/* the clip header of clip `clip` in motion file `mov` */
+// MATCH func_00212F00
 u8 *MotClip(int *mov, int clip)
 {
     return (u8 *)mov + mov[clip + 1];
 }
-#else
-u8 *MotClip(int *mov, int clip);
-#endif
 
 // MATCH func_00212F18
 int MotClipCount(int *mov)
@@ -92,4 +95,99 @@ int MotFlag40(int *mov, int clip)
 int MotIsFineRotation(int *mov, int clip)
 {
     return MotClip(mov, clip)[1] >> 7;
+}
+
+/* hierarchy: after the old layout's 0x30-byte bone records, or section 0 */
+// MATCH func_00212F80
+u8 *MotHierarchy(int *mov, int clip)
+{
+    u8 *c;
+
+    if (MotIsPacked(mov, clip) == 0)
+        return (u8 *)mov + (((u8 *)mov)[7] * 48 + 0x68);
+    c = MotClip(mov, clip);
+    return c + *(int *)(c + 0x2c);
+}
+
+/* index map: after the old layout's hierarchy, or section 1 */
+// MATCH func_00212FE0
+u8 *MotIndexMap(int *mov, int clip)
+{
+    u8 *c;
+
+    if (MotIsPacked(mov, clip) == 0)
+        return (u8 *)mov + ((u8 *)mov)[7] + (((u8 *)mov)[7] * 48 + 0x68);
+    c = MotClip(mov, clip);
+    return c + *(int *)(c + 0x30);
+}
+
+/* the name of bone `bone`
+   NONMATCHING: the record address is added in the other register order */
+#ifdef NONMATCHING
+char *MotBoneName(int *mov, int clip, int bone)
+{
+    u8 *c;
+
+    if (MotIsPacked(mov, clip) == 0)
+        return (char *)mov + (bone * 48 + 0x68);
+    c = MotClip(mov, clip);
+    return (char *)c + *(int *)(c + 0x38) + ((MotBone *)(c + *(int *)(c + 0x34)))[bone].name;
+}
+#else
+char *MotBoneName(int *mov, int clip, int bone);
+#endif
+
+/* blend envelopes (extra table bit 2, offset at +0x50) */
+// MATCH func_00213FC8
+int MotEnvelopeCount(int *mov, int clip)
+{
+    u8 *c = MotClip(mov, clip);
+    int flags = *(int *)(c + 0x48);
+
+    if (flags == -1 || (flags & 2) == 0)
+        return 0;
+    return *(int *)(c + *(int *)(c + 0x50));
+}
+
+// MATCH func_00214010
+u8 *MotEnvelope(int *mov, int clip, int i)
+{
+    u8 *c = MotClip(mov, clip);
+    int flags = *(int *)(c + 0x48);
+
+    if (flags == -1 || (flags & 2) == 0)
+        return 0;
+    return c + *(int *)(c + 0x50) + (i * 16 + 4);
+}
+
+/* attachments (extra table bit 4, offset at +0x54) */
+// MATCH func_00214068
+int MotAttachmentCount(int *mov, int clip)
+{
+    u8 *c = MotClip(mov, clip);
+    int flags = *(int *)(c + 0x48);
+
+    if (flags == -1 || (flags & 4) == 0)
+        return 0;
+    return *(int *)(c + *(int *)(c + 0x54));
+}
+
+// MATCH func_002140B0
+u8 *MotAttachment(int *mov, int clip, int i)
+{
+    u8 *c = MotClip(mov, clip);
+    int flags = *(int *)(c + 0x48);
+
+    if (flags == -1 || (flags & 4) == 0)
+        return 0;
+    return c + *(int *)(c + 0x54) + (i * 32 + 4);
+}
+
+/* the word at +0x28 of a packed clip (0 for the old layout) */
+// MATCH func_00214108
+int MotClipWord28(int *mov, int clip)
+{
+    if (MotIsPacked(mov, clip) == 0)
+        return 0;
+    return *(int *)(MotClip(mov, clip) + 0x28);
 }

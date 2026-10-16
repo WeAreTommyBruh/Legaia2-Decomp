@@ -12,10 +12,10 @@ git clone https://github.com/WeAreTommyBruh/Legaia2Decomp.git
 [ghidra-emotionengine-reloaded](https://github.com/chaoticgd/ghidra-emotionengine-reloaded)
 extension (expected in `~/tools`, override with `JAVA_HOME` / `GHIDRA`).
 
-- For the matching build you also need clang and ld.lld (LLVM, with the MIPS target) and the game's compiler, ee-gcc 2.96, from decomp.me's compiler archive. It is a 32-bit Linux program, so on 64-bit Debian/Ubuntu you may need `libc6:i386`.
+- For the matching build you also need clang and ld.lld (LLVM, with the MIPS target) and the game's compiler, ee-gcc 2.9-ee-991111-01, from decomp.me's compiler archive. It is a 32-bit Linux program, so on 64-bit Debian/Ubuntu you may need `libc6:i386`.
 
 ```bash
-mkdir -p ~/tools/ee-gcc2.96 && curl -L https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz | tar xJ -C ~/tools/ee-gcc2.96
+mkdir -p ~/tools/ee-gcc2.9-991111-01 && curl -L https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111-01.tar.xz | tar xJ -C ~/tools/ee-gcc2.9-991111-01
 ```
 
 - Then Put your Legaia 2 (PAL) disc image in the root as "SLES_50891.ISO" And in your terminal run these.

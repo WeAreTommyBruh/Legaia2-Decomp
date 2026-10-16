@@ -45,6 +45,9 @@ def main(argv):
     named = [r for r in funcs if not r["name"].startswith("FUN_") and "_00" not in r["name"]]
     attributed = [r for r in funcs if r["source_file"]]
     m_funcs = [r for r in funcs if int(r["address"], 16) in matched]
+    generated = set()
+    for path in glob.glob(os.path.join(ROOT, "src", "gen", "*.c")):
+        generated |= {int(a, 16) for a in re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
     m_size = sum(int(r["size_bytes"]) for r in m_funcs)
 
     words = instr = 0
@@ -75,14 +78,16 @@ def main(argv):
              "Counts only; no game code or data.\n\n")
     L.append("## Steps\n\n")
     L.append("| # | Step | Status |\n|---|---|---|\n")
-    L.append("| 1 | Identify the original compiler | Done: **ee-gcc 2.96** (`2.96-ee-001003-1`), "
-             "`-O2 -G8`, confirmed by functions that compile byte-identical (see below) |\n")
+    L.append("| 1 | Identify the original compiler | Done: **ee-gcc 2.9-ee-991111-01**, `-O2 -G8`, "
+             "confirmed by functions that compile byte-identical (see below) |\n")
     L.append(f"| 2 | Rebuild the executable from assembly | Done: rebuilt executable is {status} |\n")
     L.append(f"| 3 | Match functions in C | In progress: {len(m_funcs)} of {total} functions "
              f"({pct(m_size, size)} of code) compile to the original bytes and are built from C |\n")
     L.append("\n## Overall\n\n")
     L.append("| | Count | Share | |\n|---|---:|---:|---|\n")
     L.append(f"| Functions matched in C | {len(m_funcs)} / {total} | {pct(len(m_funcs), total)} | {bar(len(m_funcs), total)} |\n")
+    L.append(f"| ... written by hand | {len(matched - generated)} | | |\n")
+    L.append(f"| ... generated from instruction patterns (`tools/gen_tiny.py`) | {len(generated)} | | |\n")
     L.append(f"| Code bytes matched in C | {m_size:,} / {size:,} | {pct(m_size, size)} | {bar(m_size, size)} |\n")
     L.append(f"| Functions with a source file | {len(attributed)} / {total} | {pct(len(attributed), total)} | {bar(len(attributed), total)} |\n")
     L.append(f"| Functions with a real name | {len(named)} / {total} | {pct(len(named), total)} | {bar(len(named), total)} |\n")
@@ -93,22 +98,27 @@ def main(argv):
              "The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, "
              "VU0 macro mode), written as `.word` because clang cannot assemble them.\n")
     L.append("\n## Compiler\n\n")
-    L.append("- The SDK libraries linked in are Runtime Library 2.5.0 (`PsIIlib... 2500` version "
-             "strings), and the disc was mastered in September 2002. That SDK shipped with SCE's "
-             "ee-gcc 2.96.\n")
     L.append("- The code is GCC output: libgcc's soft-float routines (`__unpack_f`, `__adddf3`, ...) "
              "are linked in and C++ type names use GCC's length-prefixed form (`11Accelerator`). "
-             "There are no SN Systems (ProDG) strings, and `.DVP` overlay sections come from SCE's "
-             "`dvp-as`.\n")
-    L.append("- Float constants are loaded gp-relative from `.lit4`, and `.sdata`/`.sbss` exist, so "
-             "it was built with a non-zero `-G` (small-data size).\n")
-    L.append("- Confirmed: with ee-gcc 2.96 and `-O2 -G8`, functions rewritten in C compile to exactly "
-             "the original bytes: the same register choice, stack frame (`sd $ra`), unfilled delay "
-             "slot after `jal`, instruction scheduling and 8-byte function alignment.\n")
+             "There are no SN Systems (ProDG) or Metrowerks strings.\n")
+    L.append("- The SDK libraries are Runtime Library 2.5.0 (`PsIIlib... 2500` strings), but the game "
+             "code itself was built with the older EE GCC 2.9 (1999) rather than the SDK's 2.96. "
+             "Compiling the same C with the builds from decomp.me's archive:\n")
+    L.append("  - ee-gcc 2.96 saves registers in 8-byte stack slots; the game uses 16-byte slots "
+             "(about 2,500 functions show this), so it is ruled out.\n")
+    L.append("  - ee-gcc 2.9-ee-990721 and 2.9-ee-991111 put a `nop` between `mtc1` and `cvt.s.w` "
+             "that the game does not have.\n")
+    L.append("  - ee-gcc 2.9-ee-991111-01 (and 991111a, which reports the same version) reproduce "
+             "every matched function. The build uses 991111-01.\n")
+    L.append("- Flags: `-O2 -G8`. Float constants are loaded gp-relative from `.lit4` and the gp "
+             "value (0x4a7c70) comes from `.reginfo`.\n")
     L.append("\n## How matching works\n\n")
     L.append("- `src/*.c` holds the functions rewritten in C. A matched function has a "
              "`// MATCH func_XXXXXXXX` comment just before it; one that compiles but does not match "
              "yet stays under `#ifdef NONMATCHING`, and the build uses the original assembly.\n")
+    L.append("- `src/gen/` is written by `tools/gen_tiny.py`: tiny functions (empty functions, "
+             "constants, field and global getters/setters) translated from their instructions; only "
+             "exact matches are kept.\n")
     L.append("- `python3 tools/match.py src/FILE.c NAME ADDRESS` compiles the file and compares one "
              "function word by word with the original.\n")
     L.append("- `python3 tools/asm_build.py all` rebuilds the executable from the assembly plus the "

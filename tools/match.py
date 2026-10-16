@@ -4,8 +4,8 @@ original executable.
 
   match.py FILE.c FUNCTION ADDRESS [compiler flags...]
 
-FILE.c is compiled with $EE_CC (default ~/tools/ee-gcc2.96/bin/ee-gcc;
-.cpp files go through ee-g++) using -O2 -G8 unless flags are given. The
+FILE.c is compiled with $EE_CC (default ~/tools/ee-gcc2.9-991111-01/bin/ee-gcc; the driver
+picks cc1plus for .cpp files) using -O2 -G8 unless flags are given. The
 function's bytes are taken from the object file and compared word by word
 with the original at ADDRESS (hex). Words the linker would still change
 (relocations: jal targets, %hi/%lo halves, gp offsets) are compared with
@@ -24,7 +24,7 @@ import ee_disasm  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EXE = os.path.join(ROOT, "disc", "SLES_508.91")
-DEFAULT_CC = os.path.expanduser("~/tools/ee-gcc2.96/bin/ee-gcc")
+DEFAULT_CC = os.path.expanduser("~/tools/ee-gcc2.9-991111-01/bin/ee-gcc")
 # relocation type -> bits the linker fills in
 RELOC_MASK = {4: 0x03FFFFFF, 5: 0xFFFF, 6: 0xFFFF, 7: 0xFFFF, 2: 0xFFFFFFFF}
 
@@ -83,11 +83,11 @@ def main(argv):
     src, name, addr = argv[1], argv[2], int(argv[3], 16)
     flags = argv[4:] or ["-O2", "-G8"]
     cc = os.environ.get("EE_CC", DEFAULT_CC)
-    if src.endswith(".cpp"):
-        cc = os.path.join(os.path.dirname(cc), os.path.basename(cc).replace("gcc", "g++"))
     with tempfile.TemporaryDirectory() as tmp:
         obj = os.path.join(tmp, "out.o")
-        subprocess.run([cc, "-c", *flags, "-o", obj, src], check=True)
+        r = subprocess.run([cc, "-c", *flags, "-o", obj, src], capture_output=True, text=True)
+        if r.returncode:
+            raise SystemExit(r.stderr.strip() or "compile failed")
         words, masks = function_bytes(obj, name)
     # functions are 8-byte aligned: trailing nops are padding
     while len(words) > 1 and words[-1] == 0 and masks[-1] == 0:

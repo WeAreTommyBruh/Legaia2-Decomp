@@ -9,7 +9,7 @@ split   disassembles .text into asm/NNN_<source>.s, one file per contiguous
         Functions marked `// MATCH func_XXXXXXXX` in src/*.c are left out of
         the assembly and taken from the compiled C instead.
 build   assembles everything with clang, compiles src/*.c with the game's
-        compiler (ee-gcc 2.96 -O2 -G8), links with ld.lld at
+        compiler (ee-gcc 2.9-ee-991111-01 -O2 -G8), links with ld.lld at
         the original addresses, writes build/SLES_508.91 and compares it with
         disc/SLES_508.91 section by section and as a whole file.
 
@@ -56,7 +56,7 @@ TOOLCHAIN = os.path.expanduser("~/.local/share/retcomm/toolchains/cmake-clang-v1
 ASFLAGS = ["-target", "mipsel-unknown-none", "-mcpu=mips4", "-mabi=32", "-modd-spreg",
            "-mno-abicalls", "-fno-pic", "-c"]
 HEADER = ".set noreorder\n.set noat\n.set nomacro\n"
-EE_CC = os.environ.get("EE_CC", os.path.expanduser("~/tools/ee-gcc2.96/bin/ee-gcc"))
+EE_CC = os.environ.get("EE_CC", os.path.expanduser("~/tools/ee-gcc2.9-991111-01/bin/ee-gcc"))
 CFLAGS = ["-O2", "-G8", "-ffunction-sections"]
 C_DATA = (".data", ".rodata", ".bss", ".sdata", ".sbss", ".lit4", ".lit8")
 
@@ -96,12 +96,13 @@ def c_functions():
     objcopy = tool("OBJCOPY", "llvm-objcopy")
     flags = abi_flags()
     out = {}
-    for src in sorted(glob.glob(os.path.join(ROOT, "src", "*.c"))):
+    for src in sorted(glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True)):
         text = open(src).read()
         marks = re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})\s*\n[^\n(]*?(\w+)\s*\(", text)
         if not marks:
             continue
-        obj = os.path.join(BUILD, "src", "c_" + os.path.basename(src)[:-2] + ".o")
+        rel = os.path.relpath(src, os.path.join(ROOT, "src"))[:-2]
+        obj = os.path.join(BUILD, "src", "c_" + re.sub(r"[^A-Za-z0-9_]", "_", rel) + ".o")
         os.makedirs(os.path.dirname(obj), exist_ok=True)
         subprocess.run([EE_CC, "-c", *CFLAGS, "-o", obj, src], check=True)
         subprocess.run([objcopy, "-w", "--remove-section=.rela*", obj], check=True)
@@ -257,6 +258,14 @@ def write_link(elf, order, funcs, cfuncs):
             lines.append(f"PROVIDE({name} = {addr:#x});\n")
     for addr, (_, name, _) in sorted(cfuncs.items()):
         lines.append(f"func_{addr:08X} = {name};\n")
+    # globals the C refers to as D_XXXXXXXX, and the original $gp (from .reginfo)
+    used = set()
+    for src in glob.glob(os.path.join(ROOT, "src", "**", "*.[ch]"), recursive=True):
+        used |= set(re.findall(r"\bD_([0-9A-F]{8})\b", open(src).read()))
+    for a in sorted(used):
+        lines.append(f"PROVIDE(D_{a} = 0x{a});\n")
+    gp = struct.unpack_from("<I", elf.data, elf.section(".reginfo")["off"] + 20)[0]
+    lines.append(f"_gp = {gp:#x};\n")
     with open(os.path.join(BUILD, "link.ld"), "w") as f:
         f.writelines(lines)
     with open(os.path.join(BUILD, "objects.txt"), "w") as f:
