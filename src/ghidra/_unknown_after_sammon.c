@@ -3,7 +3,7 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
-void battle_00126830(undefined8 param_1,undefined8 param_2);
+void battle_00126830(undefined8 param_1, undefined8 param_2);
 
 // MATCH func_0022BDD0
 void FUN_0022bdd0(void)

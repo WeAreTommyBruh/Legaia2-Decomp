@@ -4,6 +4,7 @@
 #include "../ghidra.h"
 
 extern int D_002F9804[];
+extern undefined * D_003C2770[];
 extern uint D_004A140C;
 extern int D_004A1444;
 extern uint D_004A45E4;
@@ -11,13 +12,14 @@ extern int D_004A4678;
 extern uint D_004A467C;
 extern int D_004A4960;
 extern uint D_004A67C4;
-int FUN_001301e0(int *param_1,int param_2);
-void FUN_00130260(int param_1,int param_2);
-int FUN_0020b360(undefined8 param_1,undefined4 param_2);
+int FUN_001301e0(int *param_1, int param_2);
+void FUN_00130260(int param_1, int param_2);
+int FUN_0020b360(undefined8 param_1, undefined4 param_2);
+uint FUN_0023a350(undefined8 param_1);
 void FUN_002978e0(void);
-void pchevent_0020b910(int param_1,int param_2,int param_3);
+void pchevent_0020b910(int param_1, int param_2, int param_3);
 int pchevent_0020bbd8(int param_1);
-void pchsysw_0012f840(undefined8 param_1,int param_2);
+void pchsysw_0012f840(undefined8 param_1, int param_2);
 
 // MATCH func_0020BD00
 undefined8 pchevent_0020bd00(int param_1)
@@ -85,3 +87,19 @@ undefined8 pchevent_0020f050(uint param_1)
   }
   return 0;
 }
+
+#define PTR_s_COLOR_003c2770 (D_003C2770[0])
+// MATCH func_002102D0
+void pchevent_002102d0(void)
+
+{
+  undefined **ppuVar1;
+  
+  ppuVar1 = &PTR_s_COLOR_003c2770;
+  do {
+    FUN_0023a350(ppuVar1);
+    ppuVar1 = ppuVar1 + 0xf;
+  } while (ppuVar1 == &PTR_s_COLOR_003c2770);
+  return;
+}
+#undef PTR_s_COLOR_003c2770

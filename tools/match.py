@@ -132,7 +132,11 @@ def compare(obj, name, addr):
     """Number of words of `name` in `obj` that differ from the original at
     `addr`, with relocations resolved; unknown symbols count as differences."""
     words, masks = function_bytes(obj, name, addr)
+    # trailing zero words are alignment padding, unless one is a delay slot
     while len(words) > 1 and words[-1] == 0 and masks[-1] == 0:
+        prev = ee_disasm.decode(words[-2], addr + 4 * (len(words) - 2))
+        if prev and (prev[0] in ("jr", "jalr") or prev[2] is not None):
+            break
         words.pop(), masks.pop()
     want = original_words(addr, len(words))
     return sum(1 for w, m, o in zip(words, masks, want) if m or w != o), words, masks, want

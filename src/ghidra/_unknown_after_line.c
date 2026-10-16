@@ -5,7 +5,7 @@
 
 void FUN_00249108(void);
 void FUN_002491d8(void);
-void battle_00126830(undefined8 param_1,undefined8 param_2);
+void battle_00126830(undefined8 param_1, undefined8 param_2);
 void sammon_002275b8(undefined8 param_1);
 
 // MATCH func_00187158

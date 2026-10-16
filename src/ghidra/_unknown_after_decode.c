@@ -5,10 +5,13 @@
 
 void FUN_00191618(undefined8 param_1);
 void FUN_00191658(undefined8 param_1);
+undefined4 FUN_002c2008(void);
 undefined8 FUN_002d5448(uint param_1);
 undefined8 FUN_002d5488(uint param_1);
-undefined4 FUN_002d54c8(uint param_1,uint param_2);
+undefined4 FUN_002d54c8(uint param_1, uint param_2);
 void MemFree(void *ptr);
+void SignalSema(int);
+void WaitSema(int);
 
 // MATCH func_00190A60
 void FUN_00190a60(int param_1)
@@ -62,6 +65,26 @@ void FUN_00191018(undefined4 *param_1)
   FUN_002d5448(3);
   *param_1 = 2;
   return;
+}
+
+// MATCH func_001922C0
+undefined4 FUN_001922c0(int param_1)
+
+{
+  undefined4 uVar1;
+  
+  WaitSema(*(undefined4 *)(param_1 + 0x40));
+  uVar1 = *(undefined4 *)(param_1 + 0x44);
+  SignalSema(*(undefined4 *)(param_1 + 0x40));
+  return uVar1;
+}
+
+// MATCH func_00192908
+undefined4 FUN_00192908(void)
+
+{
+  FUN_002c2008();
+  return 1;
 }
 
 // MATCH func_00192950

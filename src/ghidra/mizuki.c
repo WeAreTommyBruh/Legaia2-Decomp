@@ -18,3 +18,17 @@ void mizuki_001dfee0(float param_1,int param_2)
   *(float *)(param_2 + 0xcc) = *(float *)(param_2 + 0xcc) + param_1;
   return;
 }
+
+// MATCH func_001E01B0
+void mizuki_001e01b0(float param_1,int param_2)
+
+{
+  if (param_1 < 0.0f) {
+    param_1 = 0.0f;
+  }
+  if (127.0f < param_1) {
+    param_1 = 127.0f;
+  }
+  *(float *)(param_2 + 0xe0) = param_1;
+  return;
+}

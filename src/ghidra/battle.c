@@ -4,8 +4,11 @@
 #include "../ghidra.h"
 
 extern int D_00327880[];
+extern int D_003279A0[];
 extern int D_0041AADC[];
 extern int D_00431748[];
+extern float D_0049FE0C;
+extern int D_004A12A4;
 extern int D_004A1A20;
 extern uint D_004A1A30;
 extern uint D_004A1A64;
@@ -36,17 +39,18 @@ extern uint D_004A6D54;
 extern uint D_004A6D58;
 extern uint D_004A6D5C;
 extern int D_004A6E30;
-int DbgPrintf(char *fmt,...);
+int DbgPrintf(char *fmt);
 int FUN_00196ff8(void);
+float FUN_0021af68(int param_1);
 void FUN_00233178(void);
 void FUN_00237fe8(void);
 void FUN_00242b98(undefined4 param_1);
 void FUN_00249108(void);
 void FUN_002491d8(void);
 void FUN_00249390(void);
-int batread_0021f2a8(int param_1,int param_2,int param_3);
+int batread_0021f2a8(int param_1, int param_2, int param_3);
 void battle_00118708(long param_1);
-void battle_00126fa8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,undefined8 param_5,undefined8 param_6);
+void battle_00126fa8(undefined8 param_1, undefined8 param_2, undefined8 param_3, undefined8 param_4, undefined8 param_5, undefined8 param_6);
 undefined4 battle_00127430(void);
 bool battle_00127f70(void);
 void battle_0012aea8(int param_1);
@@ -105,6 +109,18 @@ void battle_00126810(undefined4 param_1,undefined4 param_2,undefined4 param_3,un
   return;
 }
 
+// MATCH func_00126930
+float battle_00126930(int param_1,int param_2)
+
+{
+  float fVar1;
+  float fVar2;
+  
+  fVar1 = (float)FUN_0021af68(D_004A1A20 + param_1 * 0x1560);
+  fVar2 = (float)FUN_0021af68(D_004A1A20 + param_2 * 0x1560);
+  return (fVar1 + fVar2) * 5120.0f * D_0049FE0C;
+}
+
 // MATCH func_00127060
 void battle_00127060(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
@@ -121,6 +137,23 @@ void battle_001270e8(undefined4 param_1,undefined4 param_2)
   D_004A6D00 = 1;
   D_004A6D08 = param_2;
   return;
+}
+
+// MATCH func_00127580
+bool battle_00127580(void)
+
+{
+  bool bVar1;
+  int lVar2;
+  
+  if (D_004A12A4 == 0xb) {
+    bVar1 = true;
+  }
+  else {
+    lVar2 = battle_00127430();
+    bVar1 = lVar2 != 0;
+  }
+  return bVar1;
 }
 
 // MATCH func_001275F0
@@ -148,6 +181,18 @@ undefined4 battle_00127fe8(int param_1)
   }
   return 0;
 }
+
+#define DAT_003279a0 (D_003279A0[0])
+// MATCH func_00129650
+bool battle_00129650(int param_1,int param_2)
+
+{
+  if ((*(uint *)(param_2 * 0x9c + *(int *)(param_1 * 0x1560 + D_004A1A20 + 0x1550)) & 1) != 0) {
+    return false;
+  }
+  return (*(uint *)((&DAT_003279a0)[param_1] + 0xc0) & 0x24) == 0x24;
+}
+#undef DAT_003279a0
 
 // MATCH func_001297A0
 void battle_001297a0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,

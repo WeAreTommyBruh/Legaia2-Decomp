@@ -2,16 +2,25 @@
 """Keeps Ghidra's decompilation of the functions where it already compiles
 to the original bytes.
 
-For every function that is not matched yet and has no globals other than
-gp-relative ones, the function from decomp/src/ is compiled with ee-gcc
-2.9-ee-991111-01 -O2 -G8 twice: as Ghidra wrote it, and with Ghidra's 64-bit
+Every unmatched function in decomp/src/ is compiled with ee-gcc
+2.9-ee-991111-01 -O2 -G8, as Ghidra wrote it and with Ghidra's 64-bit
 `long`/`ulong` turned into `int`/`uint` (Ghidra shows register-sized values
-as long). Gp-relative globals (`iGpffff9db0`: gp + offset, type from the
-prefix) become `D_XXXXXXXX` symbols; called functions get Ghidra's
-prototypes. Exact matches are written, marked `// MATCH func_XXXXXXXX`, to
-src/ghidra/<source group>.c (more files when two functions declare the
-same global differently). The code is Ghidra's, meant to be cleaned up by
-hand; the files are regenerated from scratch each run.
+as long), after these adjustments:
+  - globals named by address become D_XXXXXXXX symbols: gp-relative ones
+    (iGpffff9db0, typed by the prefix) as variables, absolute ones (DAT_,
+    PTR_, s_) as arrays so that they are addressed absolutely; DAT_ types are
+    unknown, so likely ones are tried
+  - Ghidra's spelled-out division checks (`trap(7)`) are dropped, since the
+    compiler adds them itself; float constants get their `f`
+  - called functions get Ghidra's prototypes, fitted to the number of
+    arguments the body passes, and int instead of void when a result is used
+  - float constants the compiler would place in its own .lit4/.rodata are
+    replaced by the original copies (checked against the original data)
+Exact matches (relocations resolved to the real addresses) are written,
+marked `// MATCH func_XXXXXXXX`, to src/ghidra/<source group>.c, split into
+more files when declarations clash. The code is Ghidra's, meant to be
+cleaned up by hand; the files are regenerated from scratch each run (after
+tools/gen_tiny.py).
 
 Usage: gen_ghidra.py [MAX_SIZE]        (default 1024 bytes)
 """
@@ -38,9 +47,14 @@ GP_TYPES = {"i": "int", "u": "uint", "f": "float", "c": "char", "b": "byte", "s"
             "pi": "int *", "pc": "char *", "pv": "void *", "pf": "float *", "pb": "byte *",
             "ps": "short *", "pus": "ushort *", "puc": "byte *", "pp": "void **"}
 DAT_TYPES = ("int", "uint", "byte", "char", "short", "ushort", "float")
-UNSUPPORTED = re.compile(r"\b(_DAT_\w+|PTR_\w+|s_\w+|in_\w+|unaff_\w+|extraout_\w+|"
-                         r"CONCAT\d+|SUB\d+|ZEXT\d+|SEXT\d+|_[a-z]+c2\w*|_v\w+|trap|halt_baddata|"
-                         r"\w+\._\d+_\d+_|LAB_\w+|switchD_\w+|joined_r0x\w+|caseD_\w+)\b")
+UNSUPPORTED = re.compile(r"\b(_DAT_\w+|_PTR_\w+|in_\w+|unaff_\w+|extraout_\w+|"
+                         r"CONCAT\d+|SUB\d+|ZEXT\d+|SEXT\d+|_[a-z]+c2\w*|_v\w+|halt_baddata|"
+                         r"\w+\._\d+_\d+_|switchD_\w+|joined_r0x\w+|caseD_\w+|REG_\w+|gp0x\w+|"
+                         r"[a-z]+Ram[0-9a-f]{8})\b")
+# globals Ghidra names by address: DAT_ (type unknown), PTR_ (a pointer), s_ (a string)
+ADDR_NAME = re.compile(r"\b(DAT|PTR_\w+?|s_\w*?)_([0-9a-f]{8})\b")
+TRAP = re.compile(r"\n[ \t]*if \([^\n]*\) \{\s*\n[ \t]*trap\(\w+\);\s*\n[ \t]*\}|"
+                  r"\n[ \t]*if \([^\n]*\) trap\(\w+\);|\n[ \t]*trap\(\w+\);")
 
 
 def prototypes():
@@ -59,14 +73,70 @@ def body_of(path):
     return s[s.index("\n", s.index("#include") if "#include" in s else 0):].strip()
 
 
+def split_args(text, start):
+    """Arguments of the call whose '(' is at text[start]; None if unbalanced."""
+    depth, args, cur = 0, [], ""
+    for k in range(start, len(text)):
+        ch = text[k]
+        if ch == "(":
+            depth += 1
+            if depth == 1:
+                continue
+        elif ch == ")":
+            depth -= 1
+            if depth == 0:
+                if cur.strip():
+                    args.append(cur)
+                return args
+        elif ch == "," and depth == 1:
+            args.append(cur)
+            cur = ""
+            continue
+        cur += ch
+    return None
+
+
+def adapt_prototype(proto, callee, body, variant):
+    """Ghidra's prototype of `callee`, fitted to how this body calls it:
+    the number of arguments used (extra ones as int), and int instead of
+    void when the result is used."""
+    m = re.match(r"^(.*?)\b" + re.escape(callee) + r"\((.*)\);$", proto)
+    ret, params = m.group(1).strip(), m.group(2).strip()
+    params = [] if params in ("", "void") else [x.strip() for x in params.split(",")]
+    counts, used = set(), False
+    for c in re.finditer(r"\b" + re.escape(callee) + r"\s*\(", body):
+        a = split_args(body, c.end() - 1)
+        if a is None:
+            return None
+        counts.add(len(a))
+        before = body[:c.start()].rstrip()
+        if before.endswith(("return",)) or (before and before[-1] in "=(,!&|+-*/<>?:"):
+            used = True
+    if len(counts) > 1:
+        return None
+    if counts:
+        n = counts.pop()
+        params = params[:n] + ["int"] * (n - len(params))
+    if used and ret == "void":
+        ret = "int"
+    p = f"{ret} {callee}({', '.join(params) or 'void'});"
+    if variant == "int":
+        p = re.sub(r"\bulong\b", "uint", re.sub(r"\blong\b", "int", p))
+    return p
+
+
 def prepare(name, body, protos, variant, dat_types=()):
     """Returns (C text, extern declarations {symbol: type}, prototypes) or None.
-    Absolute globals DAT_xxxxxxxx get the types in `dat_types` (in order of
-    first use); they are declared as arrays (D_XXXXXXXX[]) so that the
-    compiler addresses them absolutely, as the original does, and
-    `#define DAT_xxxxxxxx (D_XXXXXXXX[0])` keeps Ghidra's expressions."""
+    Globals named by address get `D_XXXXXXXX` symbols: gp-relative ones
+    (iGpffff9db0) as plain variables typed by their prefix; absolute ones
+    (DAT_, PTR_, s_) as arrays, so that the compiler addresses them
+    absolutely as the original does, with a #define keeping Ghidra's name.
+    DAT_ globals take the types in `dat_types`, in order of first use."""
     if UNSUPPORTED.search(body):
         return None
+    body = TRAP.sub("", body)  # Ghidra spells out the compiler's division checks
+    # Ghidra prints float constants without the f, which in C makes them double
+    body = FLOAT_TOKEN.sub(lambda m: m.group(1) + "f", body)
     externs = {}
 
     def gp(m):
@@ -82,32 +152,143 @@ def prepare(name, body, protos, variant, dat_types=()):
         body = re.sub(r"\b([a-z]+)Gp([0-9a-f]{8})\b", gp, body)
     except KeyError:
         return None
-    dats = list(dict.fromkeys(re.findall(r"\bDAT_([0-9a-f]{8})\b", body)))
+    names = list(dict.fromkeys(m.group(0) for m in ADDR_NAME.finditer(body)))
+    dats = [n for n in names if n.startswith("DAT_")]
     if len(dats) != len(dat_types):
         return None
+    types = dict(zip(dats, dat_types))
     defines = []
-    for a, t in zip(dats, dat_types):
-        externs[f"D_{a.upper()}[]"] = t
-        defines.append(f"#define DAT_{a} (D_{a.upper()}[0])")
+    for n in names:
+        kind, addr = ADDR_NAME.match(n).groups()
+        sym = f"D_{addr.upper()}"
+        if kind.startswith("s_"):
+            t, d = "char", f"#define {n} {sym}"
+        else:
+            t = types[n] if kind == "DAT" else "undefined *"
+            d = f"#define {n} ({sym}[0])"
+        if externs.setdefault(sym + "[]", t) != t:
+            return None
+        defines.append(d)
     if variant == "int":
         body = re.sub(r"\bulong\b", "uint", re.sub(r"\blong\b", "int", body))
     if defines:
-        body = "\n".join(defines) + "\n" + body + "\n" + "\n".join(f"#undef DAT_{a}" for a in dats)
-    called = sorted({c for c in re.findall(r"\b(\w+)\s*\(", body) if c in protos and c != name})
+        body = ("\n".join(defines) + "\n" + body + "\n" +
+                "\n".join(f"#undef {n}" for n in names))
     decls = []
-    for c in called:
-        p = protos[c]
-        if variant == "int":
-            p = re.sub(r"\bulong\b", "uint", re.sub(r"\blong\b", "int", p))
+    for c in sorted({c for c in re.findall(r"\b(\w+)\b", body) if c in protos and c != name}):
+        p = adapt_prototype(protos[c], c, body, variant)
+        if p is None:
+            return None
         decls.append(p)
     return body, externs, decls
 
 
 def dat_type_choices(body):
+    """All types for up to two DAT_ globals; for three to six, int for all and
+    then each one changed alone."""
     n = len(set(re.findall(r"\bDAT_[0-9a-f]{8}\b", body)))
-    if n > 2:
+    if n <= 2:
+        return list(itertools.product(DAT_TYPES, repeat=n))
+    if n > 6:
         return []
-    return list(itertools.product(DAT_TYPES, repeat=n))
+    out = [("int",) * n]
+    for k in range(n):
+        out += [tuple(t if j == k else "int" for j in range(n)) for t in DAT_TYPES[1:]]
+    return out
+
+
+FLOAT_TOKEN = re.compile(r"(?<![\w.])(-?\d+\.\d*(?:e[+-]?\d+)?)f?(?![\w.])")
+
+
+def literal_addresses(obj, name, addr):
+    """{float bits: original address} for the 4-byte constants the compiled
+    function loads from its own .lit4/.rodata, found by reading where the
+    original instruction at the same place loads from; None if any constant
+    cannot be placed or the original data there differs."""
+    d = open(obj, "rb").read()
+    secs = sections(d)
+    symtab = next(h for n, h in secs if h[1] == 2)
+    strtab = secs[symtab[6]][1]
+    syms = []
+    for i in range(symtab[5] // 16):
+        nm, val, size, info, other, shndx = struct.unpack_from("<IIIBBH", d, symtab[4] + 16 * i)
+        syms.append((d[strtab[4] + nm:d.index(b"\0", strtab[4] + nm)].decode(), val, size, info, shndx))
+    fn = next((x for x in syms if x[0] == name and x[3] & 0xF == 2), None)
+    if fn is None:
+        return None
+    _, val, size, _, shndx = fn
+    text = secs[shndx][1]
+    orig = asm_build.Elf(open(asm_build.EXE, "rb").read())
+    otext = orig.section(".text")
+
+    def oword(off):
+        return struct.unpack_from("<I", orig.data, otext["off"] + addr + off - val - otext["addr"])[0]
+
+    def odata(a, n):
+        for sec in orig.sections:
+            if sec["type"] == 1 and sec["addr"] <= a < sec["addr"] + sec["size"]:
+                return orig.data[sec["off"] + a - sec["addr"]:sec["off"] + a - sec["addr"] + n]
+        return None
+    relocs = []
+    for n, h in secs:
+        if h[1] == 9 and h[7] == shndx:
+            for j in range(h[5] // 8):
+                off, info = struct.unpack_from("<II", d, h[4] + 8 * j)
+                if val <= off < val + size:
+                    relocs.append((off, info & 0xFF, syms[info >> 8]))
+    out = {}
+    for k, (off, rtype, (sname, sval, _, sinfo, sshndx)) in enumerate(relocs):
+        if sinfo & 0xF != 3 or secs[sshndx][0] not in asm_build.C_DATA:
+            continue  # not a reference to the file's own data
+        lit_sec = secs[sshndx][1]
+        w = struct.unpack_from("<I", d, text[4] + off)[0]
+        if rtype == 7:  # gp-relative
+            lit_off = s16(w & 0xFFFF)
+            target = (GP + s16(oword(off) & 0xFFFF)) & 0xFFFFFFFF
+        elif rtype == 6:  # %lo, paired with the %hi before it
+            hi = next((o for o, t, sy in reversed(relocs[:k]) if t == 5 and sy[4] == sshndx), None)
+            if hi is None:
+                return None
+            hw = struct.unpack_from("<I", d, text[4] + hi)[0]
+            lit_off = ((hw & 0xFFFF) << 16) + s16(w & 0xFFFF)
+            target = ((oword(hi) & 0xFFFF) << 16) + s16(oword(off) & 0xFFFF)
+        elif rtype == 5:
+            continue
+        else:
+            return None
+        value = d[lit_sec[4] + lit_off:lit_sec[4] + lit_off + 4]
+        if len(value) != 4 or odata(target, 4) != value:
+            return None
+        bits = struct.unpack("<I", value)[0]
+        if out.setdefault(bits, (target, rtype == 7)) != (target, rtype == 7):
+            return None
+    return out
+
+
+def s16(x):
+    return x - 0x10000 if x & 0x8000 else x
+
+
+def use_literals(text, lits):
+    """Replaces the float constants in `text` by the globals at their
+    original addresses; returns (text, externs) or None."""
+    externs = {}
+
+    def sub(m):
+        bits = struct.unpack("<I", struct.pack("<f", float(m.group(1))))[0]
+        if bits not in lits:
+            return m.group(0)
+        a, gp_relative = lits[bits]
+        sym = f"D_{a:08X}"
+        if gp_relative:  # small data (.lit4): a plain variable
+            externs[sym] = "float"
+            return sym
+        externs[sym + "[]"] = "float"
+        return f"{sym}[0]"
+    new = FLOAT_TOKEN.sub(sub, text)
+    if new == text:
+        return None
+    return new, externs
 
 
 def try_one(job):
@@ -129,9 +310,24 @@ def try_one(job):
                                capture_output=True)
             if r.returncode:
                 continue
-            # constants of its own (.rodata, .lit4, ...) cannot be placed yet
+            # constants of its own (.lit4, .rodata): use the original copies
             if any(n in asm_build.C_DATA and h[5] for n, h in sections(open(obj, "rb").read())):
-                return None
+                lits = literal_addresses(obj, name, addr)
+                fixed = use_literals(text, lits) if lits else None
+                if not fixed:
+                    return None
+                text, more = fixed
+                externs = dict(externs, **more)
+                with open(src, "w") as f:
+                    f.write(f'#include "{hdr}"\n')
+                    f.writelines(f"extern {t} {s};\n" for s, t in externs.items())
+                    f.writelines(d + "\n" for d in decls)
+                    f.write(text + "\n")
+                r = subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", "-o", obj, src],
+                                   capture_output=True)
+                if r.returncode or any(n in asm_build.C_DATA and h[5]
+                                       for n, h in sections(open(obj, "rb").read())):
+                    return None
             try:
                 if compare(obj, name, addr)[0] == 0:
                     return addr, name, group, text, externs, decls
@@ -176,9 +372,10 @@ def main(argv):
             ok = all(have.get(s.replace("[]", ""), (s, t)) == (s, t) for s, t in externs.items())
             dnames = {re.search(r"\b(\w+)\(", d).group(1): d for d in decls}
             ok = ok and all(fdat["decls"].get(k, d) == d for k, d in dnames.items())
+            # a function defined in the file is its own prototype there: keep
+            # callers and callees apart (Ghidra's call sites disagree at times)
             names_here = {nm for _, nm, _ in fdat["funcs"]}
-            ok = ok and name not in fdat["decls"] and not (set(dnames) & names_here and
-                                                          any(fdat["decls"].get(k) for k in set(dnames) & names_here))
+            ok = ok and name not in fdat["decls"] and not (set(dnames) & names_here)
             if ok:
                 break
             n += 1

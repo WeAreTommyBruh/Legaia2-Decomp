@@ -6,8 +6,9 @@
 extern uint D_004A6B40;
 extern uint D_004A72FC;
 extern uint D_004A7300;
+void FUN_00295a30(void);
 void MemFree(void *ptr);
-void battleslot_00294b20(undefined8 param_1,ulong param_2);
+void battleslot_00294b20(undefined8 param_1, ulong param_2);
 
 // MATCH func_00295010
 void FUN_00295010(long param_1)
@@ -26,6 +27,25 @@ void FUN_00295080(int param_1)
 {
   if (param_1 != 0) {
     MemFree((void *)param_1);
+    return;
+  }
+  return;
+}
+
+// MATCH func_00295DA8
+void FUN_00295da8(int param_1,int param_2)
+
+{
+  if (*(int *)(param_1 + 0x88) == 0) {
+    if (param_2 == -1) {
+      *(undefined4 *)(param_1 + 0x80) = 0;
+      *(undefined4 *)(param_1 + 0x84) = 0xffff;
+    }
+    else {
+      *(int *)(param_1 + 0x84) = (int)param_2;
+      *(undefined4 *)(param_1 + 0x80) = 1;
+    }
+    FUN_00295a30();
     return;
   }
   return;

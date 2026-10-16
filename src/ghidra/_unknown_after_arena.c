@@ -4,9 +4,13 @@
 #include "../ghidra.h"
 
 extern int D_004A1A20;
+extern char D_004A4DF8[];
 extern int D_004A4E0C;
-void denlib_0018c5d0(undefined8 param_1,undefined4 param_2,undefined4 param_3);
-void shikimi_002b2690(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6,undefined4 param_7,undefined4 param_8);
+extern int D_004A7008;
+int DbgPrintf(char *fmt, ...);
+void denlib_0018c5d0(undefined8 param_1, undefined4 param_2, undefined4 param_3);
+int rand(void);
+void shikimi_002b2690(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8);
 
 // MATCH func_002215F8
 void FUN_002215f8(int *param_1)
@@ -55,6 +59,21 @@ void FUN_00222ab0(int *param_1)
   }
   return;
 }
+
+#define s_r__d_004a4df8 D_004A4DF8
+// MATCH func_00223440
+int FUN_00223440(int param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = rand();
+  iVar1 = ((iVar1 >> 8) + D_004A7008) % (int)param_1;
+  D_004A7008 = (D_004A7008 + 1) % 100;
+  DbgPrintf(s_r__d_004a4df8,iVar1);
+  return iVar1;
+}
+#undef s_r__d_004a4df8
 
 // MATCH func_002234D8
 void FUN_002234d8(void)

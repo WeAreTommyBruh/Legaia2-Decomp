@@ -3,7 +3,8 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
-float FUN_0015fb58(float param_1,int param_2);
+float FUN_0015fb58(float param_1, int param_2);
+void flare_0015ec08(int param_1);
 undefined4 flare_0015ec58(int param_1);
 undefined4 flare_0015ec88(int param_1);
 undefined4 flare_0015ec90(int param_1);
@@ -32,6 +33,14 @@ void FUN_002a8890(int param_1,undefined4 *param_2,undefined4 *param_3)
   *param_2 = uVar1;
   uVar1 = flare_0015eca8(param_1 + 0x1b0);
   *param_3 = uVar1;
+  return;
+}
+
+// MATCH func_002A88E0
+void FUN_002a88e0(int param_1)
+
+{
+  flare_0015ec08(param_1 + 0x1b0);
   return;
 }
 

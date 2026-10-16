@@ -3,6 +3,8 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern char D_00421260[];
+extern uint D_004A67B4;
 extern uint D_004A7358;
 extern uint D_004A735C;
 extern int D_00620920[];
@@ -59,3 +61,14 @@ int shikimi_002b8dc0(int param_1,int param_2,int param_3)
   }
   return param_1 + 0x14;
 }
+
+#define s_NOT_FILE_00421260 D_00421260
+// MATCH func_002B8E58
+void shikimi_002b8e58(undefined4 *param_1,undefined4 *param_2)
+
+{
+  *param_1 = D_004A67B4;
+  *param_2 = s_NOT_FILE_00421260;
+  return;
+}
+#undef s_NOT_FILE_00421260

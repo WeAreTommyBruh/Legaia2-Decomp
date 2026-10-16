@@ -3,10 +3,11 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern undefined * D_003E3D20[];
 extern int D_003FEBA8[];
 extern ushort D_004005C0[];
 void MemFree(void *ptr);
-void abeshi_0025eca8(undefined8 param_1,ulong param_2);
+void abeshi_0025eca8(undefined8 param_1, ulong param_2);
 
 // MATCH func_0025FE50
 void FUN_0025fe50(long param_1)
@@ -68,6 +69,15 @@ void FUN_00264e78(int param_1)
   return;
 }
 #undef DAT_003feba8
+
+#define PTR_DAT_003e3d20 (D_003E3D20[0])
+// MATCH func_00269588
+undefined * FUN_00269588(int param_1)
+
+{
+  return (&PTR_DAT_003e3d20)[param_1 * 5];
+}
+#undef PTR_DAT_003e3d20
 
 #define DAT_004005c0 (D_004005C0[0])
 // MATCH func_0026AF28

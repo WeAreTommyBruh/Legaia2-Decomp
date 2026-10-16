@@ -4,13 +4,22 @@
 #include "../ghidra.h"
 
 extern int D_00329640[];
-void battle_001297a0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6);
+void battle_001297a0(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6);
+void shikimi_002b3198(int, int);
 
 // MATCH func_0012D018
 void FUN_0012d018(void)
 
 {
   battle_001297a0(0,2,0,0,0,0);
+  return;
+}
+
+// MATCH func_0012D388
+void FUN_0012d388(void)
+
+{
+  shikimi_002b3198(0,0);
   return;
 }
 

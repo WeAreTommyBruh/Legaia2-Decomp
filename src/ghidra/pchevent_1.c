@@ -5,7 +5,7 @@
 
 extern int D_004A45E4;
 extern int D_004A4960;
-void pchevent_0020b910(int param_1,int param_2,int param_3);
+void pchevent_0020b910(int param_1, int param_2, int param_3);
 
 // MATCH func_0020F090
 undefined8 pchevent_0020f090(uint param_1)

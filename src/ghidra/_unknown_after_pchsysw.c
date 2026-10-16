@@ -4,6 +4,7 @@
 #include "../ghidra.h"
 
 void MemFree(void *ptr);
+void pchsysw_0012f840(void);
 
 // MATCH func_0012FFD8
 void FUN_0012ffd8(int *param_1,int param_2,undefined4 param_3)
@@ -14,6 +15,15 @@ void FUN_0012ffd8(int *param_1,int param_2,undefined4 param_3)
   if ((param_2 < *param_1) && (iVar1 = param_2 * 0x40 + param_1[1], *(int *)(iVar1 + 0x10) != 0)) {
     *(undefined4 *)(iVar1 + 0x38) = param_3;
   }
+  return;
+}
+
+// MATCH func_00130260
+void FUN_00130260(int param_1,int param_2)
+
+{
+  pchsysw_0012f840();
+  *(undefined4 *)(param_2 * 0x40 + *(int *)(param_1 + 4) + 0x10) = 0;
   return;
 }
 

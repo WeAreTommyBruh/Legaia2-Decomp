@@ -4,10 +4,12 @@
 #include "../ghidra.h"
 
 extern int D_003C2E00[];
-void FUN_00110098(undefined8 param_1,undefined8 param_2,undefined8 param_3);
+extern uint D_004A4AB8;
+void FUN_00110098(undefined8 param_1, undefined8 param_2, undefined8 param_3);
 void FUN_0023cb70(undefined4 param_1);
 void FUN_002af998(void);
 void MemFree(void *ptr);
+int titlemode_00214200(void);
 
 // MATCH func_002159C8
 undefined4 FUN_002159c8(int param_1)
@@ -66,6 +68,17 @@ undefined8 FUN_00215b60(int param_1)
   return 0;
 }
 
+// MATCH func_00215F88
+bool FUN_00215f88(void)
+
+{
+  int lVar1;
+  
+  lVar1 = titlemode_00214200();
+  D_004A4AB8 = (int)lVar1;
+  return lVar1 != 0;
+}
+
 // MATCH func_002162B0
 void FUN_002162b0(void)
 
@@ -85,4 +98,30 @@ void FUN_00216380(int param_1)
     return;
   }
   return;
+}
+
+// MATCH func_00216810
+bool FUN_00216810(int param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = false;
+  if (0 < *(int *)(param_1 + 0x18)) {
+    bVar1 = *(int *)(param_1 + 0x1c) < *(int *)(param_1 + 0x18);
+  }
+  return bVar1;
+}
+
+// MATCH func_00216830
+bool FUN_00216830(int param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = false;
+  if (0 < *(int *)(param_1 + 0x18)) {
+    bVar1 = *(int *)(param_1 + 0x18) == *(int *)(param_1 + 0x1c);
+  }
+  return bVar1;
 }

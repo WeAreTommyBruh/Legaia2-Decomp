@@ -18,4 +18,7 @@ typedef unsigned long ulong;
 typedef char bool;
 typedef int code();
 
+#define true 1
+#define false 0
+
 #endif

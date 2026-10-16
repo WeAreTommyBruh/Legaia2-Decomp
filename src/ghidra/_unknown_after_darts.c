@@ -4,7 +4,7 @@
 #include "../ghidra.h"
 
 void MemFree(void *ptr);
-void darts_0016ce98(undefined8 param_1,ulong param_2);
+void darts_0016ce98(undefined8 param_1, ulong param_2);
 
 // MATCH func_0016F768
 void FUN_0016f768(long param_1)

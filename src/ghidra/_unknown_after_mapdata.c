@@ -3,7 +3,13 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern uint D_004A12A4;
+extern char * D_004A1360;
+extern char * D_004A1364;
+void FUN_00110490(void);
+void FUN_0015e060(void);
 void MemFree(void *ptr);
+void init_0024a510(void);
 
 // MATCH func_0015DFA8
 void FUN_0015dfa8(int param_1)
@@ -24,5 +30,16 @@ void FUN_0015dfc0(int param_1)
     MemFree((void *)param_1);
     return;
   }
+  return;
+}
+
+// MATCH func_0015E038
+void FUN_0015e038(void)
+
+{
+  D_004A1360 = FUN_00110490;
+  D_004A1364 = FUN_0015e060;
+  D_004A12A4 = 0xd;
+  init_0024a510();
   return;
 }

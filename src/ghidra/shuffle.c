@@ -3,7 +3,7 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
-void shuffle_00178700(int param_1,uint param_2);
+void shuffle_00178700(int param_1, uint param_2);
 
 // MATCH func_00178688
 int shuffle_00178688(int param_1)
