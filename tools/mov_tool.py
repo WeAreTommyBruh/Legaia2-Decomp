@@ -4,34 +4,46 @@
 Container: u32 clip count, then one u32 byte offset per clip.
 
 Clip header:
-  0x00 u8 (varies; spread like a bone count), u8 ?
+  0x00 u8  bone count
+  0x01 u8  flags: bit 0 = stored at half rate (see below); 0x04, 0x80 not known
   0x02 u16 frame count
+  0x04 u8  ? (0 in 99.6% of clips)
+  0x05 u8  index map length       0x06 u8 root bone (0-based)
+  0x07 u8  hierarchy length, including its 0xff end marker
   0x08 char name[16]
   0x28 f32 (varies per clip; meaning unknown)
   0x2c u32[7] section offsets from the clip start:
        0 hierarchy   1 index map   2 bone records (24 bytes each)
-       3 bone names (null-terminated, packed)  4 ?  5 segments (8 bytes each)
-       6 values (s16)
+       3 bone names (null-terminated, packed)  4 reserved (16 zero bytes in
+       every clip)  5 segments (8 bytes each)  6 values (s16)
 Hierarchy: bones are numbered from 1 (bone k = bone record k-1); 0 is the
 model root. The list is a run of chains ended by 0xff: a value not seen
 before is a new bone whose parent is the previous value; a value already seen
 starts a new chain from that bone. E.g. a hand reads root->4 (the hand), then
 4->1->2->3, 4->5->6->7, ... one chain per finger.
+Index map: one u8 bone index (0-based) per bone slot of the model the clip
+drives, in part order (see tmd_tool.py): a skinned part has as many slots as
+its weight table says, a part with flag 0x01 has none, any other part has one.
+E.g. a monster's helmet and mask parts map to its head bone and its sword to
+the right-hand bone. Its length matches the model's slot total for all 4,769
+clips stored next to their model, except three files shared with a sibling
+model (mon012.mov fits mon012a, mon034.mov mon034c, ply02b.mov ply02).
 Bone record: u32 ?, u16 channel mask (0x3f = all six), u16 first segment of each
 channel: tx, ty, tz, rx, ry, rz.
 Segment: u32 value offset (in s16 units), u16 key count, u8 mode, u8 flag.
   mode 1: one value held for all its keys; mode 0: one value per key.
 A channel's segments are consecutive and their key counts add up to the
-clip's key count: either the frame count, or frame count / 2 + 1 for clips
-stored at half rate (every second frame plus the last). Rotations use 4096 =
+clip's key count: the frame count, or frame count / 2 + 1 for clips with the
+half-rate flag (every second frame plus the last). Rotations use 4096 =
 360 degrees (all values stay within +-8192, almost all within +-2048);
 translations are in model units.
-About 95% of clips use this layout; the rest (no sections, or offsets outside
-the clip) are other variants and are reported as unsupported.
+98.6% of the 38,542 clips on the disc use this layout; the rest (no sections,
+or offsets outside the clip) are other variants and are reported as unsupported.
 
 Usage:
   mov_tool.py FILE [...]                list clips
   mov_tool.py dump FILE OUT.json        decode every supported clip
+  mov_tool.py bind FILE.mov FILE.tmd    show which bone drives each model part
 """
 
 import json
@@ -99,20 +111,8 @@ def decode_clip(c):
             raise ValueError("segments overrun the key count")
         return out
 
-    # key count: the first channel's segments, up to where the next channel starts
-    first, nxt = recs[0][2], recs[0][3] if recs[0][1] & 2 else nseg
-    keys = sum(segs[i][1] for i in range(first, min(nxt, nseg))) if nxt > first else 0
-    if keys not in (frames, frames // 2 + 1):
-        # channels not laid out in order: accumulate until a valid count is hit
-        keys, i = 0, first
-        while i < nseg and keys < frames:
-            keys += segs[i][1]
-            i += 1
-            if keys == frames // 2 + 1 and frames > 2:
-                break
-    if keys not in (frames, frames // 2 + 1):
-        raise ValueError(f"key count {keys} does not match {frames} frames")
-    step = 1 if keys == frames else 2
+    half = c[1] & 1
+    keys = frames // 2 + 1 if half else frames
 
     names = c[so[3]:so[4]].split(b"\0")
     parent = hierarchy(c, so[0], so[1], nbones)
@@ -125,7 +125,11 @@ def decode_clip(c):
                 v = channel(rec[2 + k], keys)
                 bone[ch] = [round(x * 360 / 4096, 3) for x in v] if k >= 3 else v
         bones.append(bone)
-    return {"name": name, "frames": frames, "key_step": step, "bones": bones}
+    slot_bones = list(c[so[1]:so[1] + c[5]])
+    if any(b >= nbones for b in slot_bones):
+        raise ValueError("index map names a missing bone")
+    return {"name": name, "frames": frames, "key_step": 2 if half else 1,
+            "root": c[6], "slot_bones": slot_bones, "bones": bones}
 
 
 def main(argv):
@@ -142,6 +146,22 @@ def main(argv):
         with open(argv[3], "w") as f:
             json.dump(out, f)
         print(f"{argv[3]}: {len(out) - bad} clips decoded, {bad} unsupported")
+    elif len(argv) == 4 and argv[1] == "bind":
+        import tmd_tool
+        data = open(argv[2], "rb").read()
+        offsets = clip_offsets(data)
+        clip = decode_clip(data[offsets[0]:offsets[1]])
+        names = [b["name"] or f"bone_{i}" for i, b in enumerate(clip["bones"])]
+        model = tmd_tool.models(open(argv[3], "rb").read())[0]
+        if model.bad:
+            raise SystemExit(f"{argv[3]}: {len(model.bad)} parts not supported")
+        if model.slots != len(clip["slot_bones"]):
+            raise SystemExit(f"model has {model.slots} bone slots, clip maps {len(clip['slot_bones'])}")
+        slot = 0
+        for p in model.parts:
+            bones = [names[b] for b in clip["slot_bones"][slot:slot + p.slots]]
+            print(f"{p.name:<16} " + (" ".join(bones) if bones else "(no bone)"))
+            slot += p.slots
     elif len(argv) >= 2:
         for path in argv[1:]:
             for i, name, frames, size in clips(open(path, "rb").read()):

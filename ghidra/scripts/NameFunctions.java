@@ -55,6 +55,10 @@ public class NameFunctions extends GhidraScript {
 		{ "00144910", "BtlScriptRun", "void BtlScriptRun(float *cmds)" },
 		{ "001984e8", "EfbRun", null },
 		{ "001992c8", "EfbSetParam", null },
+		{ "00198790", "EfbExec", null },
+		{ "0019b260", "EfbLookupCommand", null },
+		{ "0019b488", "EfbLookupSection", null },
+		{ "0019b6c0", "EfbCommandAllowed", null },
 		{ "002d3b98", "SndBankRegister", null },
 		{ "002d04c0", "SndVoiceSetParam", null },
 		{ "002d1f48", "SndVoiceSetPitch", null },
@@ -99,6 +103,9 @@ public class NameFunctions extends GhidraScript {
 		{ "0055fc80", "BtlScriptTracks" },
 		{ "0058b280", "FsDirBuffer" },
 		{ "00443cc8", "EfbParamArgCounts" },
+		{ "0036cc10", "EfbSectionNames" },
+		{ "0036cc50", "EfbCommandNames" },
+		{ "0036ce50", "EfbCommandKinds" },
 	};
 
 	private static final String[] ARG_REGS = { "a0", "a1", "a2", "a3", "t0", "t1", "t2", "t3" };

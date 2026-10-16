@@ -144,38 +144,51 @@ sound banks, so converted MIDI plays with General MIDI instruments.
 table (`1st`, `MSG`) followed by message offsets and null-terminated strings. `msg_tool.py list`
 shows structure only.
 
-**Models** (`.tmd`): u32 count + word offsets, one model each. A model header holds offsets to
+**Models** (`.tmd`): u32 count + word offsets, one model each. A model is a run of named parts
+with 0xa0-byte headers (part 0's header also holds the part count). Each part has offsets to
 float vertex and normal arrays (4 floats each), a bounding box and counts; primitives are sections
 of triangle strips, each record carrying an RGBA colour, texture coordinates (0..1024) and
 vertex/normal offsets, with flag bit 0 marking strip restarts (GS ADC). Decoding reproduces the
-header's triangle count for every model on the disc. Details in `tools/tmd_tool.py`.
+header's triangle count for 98.6% of the 5,234 parts; a few files use another group layout.
+Skinned parts (flag 0x80) have a weight table: a slot count, then per vertex two
+`(slot, weight %)` pairs. Each part has a number of bone slots: a skinned part has its slot
+count, a part with flag 0x01 has none, any other part has one. A motion clip's index map gives
+the bone for each slot (see Motion). `tmd_tool.py obj` writes one OBJ object per part. Details in
+`tools/tmd_tool.py`.
 
 **Motion** (`.mov`, `.moz` after decompression, `mon*move.dat`): u32 clip count + byte offsets.
-Each clip has a name, frame count and seven sections: hierarchy, index map, bone records
-(six channels each: translation x/y/z, rotation x/y/z), bone names, segments and s16 values. A
-channel is a run of segments, each either one held value (mode 1) or one value per key (mode 0),
-adding up to the frame count or, for half-rate clips, frame count / 2 + 1. Rotations use
-4096 = 360 degrees. The hierarchy is a list of chains with bones numbered from 1 and 0 as the
+Each clip has a header (bone count, flags, frame count, index-map length, root bone, hierarchy
+length, name) and seven sections: hierarchy, index map, bone records (six channels each:
+translation x/y/z, rotation x/y/z), bone names, a reserved 16-byte block (always zero), segments
+and s16 values. A channel is a run of segments, each either one held value (mode 1) or one value
+per key (mode 0), adding up to the frame count or, for clips with the half-rate flag (header
+byte 1, bit 0), frame count / 2 + 1. Rotations use 4096 = 360 degrees. The hierarchy is a list of chains with bones numbered from 1 and 0 as the
 model root: a new value is a child of the previous one, a value already seen starts a new chain
 from that bone (a hand reads root->hand, then hand->finger->finger->finger five times). It covers
 every bone exactly once in every decodable clip, and `dump` gives each bone's parent.
-`mov_tool.py dump` decodes 98.6% of the 38,542 clips to JSON; decoded curves
+The index map holds the bone for each bone slot of the model, in part order. Its length matches
+the model's slot total for all 4,769 clips stored next to their model, except three files shared
+with a sibling model. `mov_tool.py bind` lists the bones driving each part; e.g. a monster's helmet
+and mask follow its head bone and its sword the right hand.
+`mov_tool.py dump` decodes 98.6% of the 38,542 clips (38,018) to JSON; decoded curves
 are smooth (mean step 4.5% of the channel range versus 31.6% for shuffled values). The remaining
 clips use other layouts.
 
 **Effect packs** (`.efp`, parser `eftpack_00202f88`): version 1001, a count, then
 `{u32 size, u32 offset, char name[16]}` entries. Packs hold 637 `.efb` effects and 914 texture
-sets (`.dat`). **Effects** (`.efb`, run by `EfbRun` @ `0x001984e8`): a stream of 4-byte commands:
-`01/02/03` + parameter id (0-95) + as many argument words as the game's table at `0x00443cc8`
-gives, `05` target, `06` slot (0-63), `08` ignored, `ff ff 00 00` end. All 2,310 effects on the
-disc parse exactly to their end. The opcode picks the object kind in the slot: 1 particle
-emitter, 2 water-surface effect, 3 ring effect. Parameter meanings come from what the game does
-with each value: the emitter spawn/update code (position += velocity, velocity += acceleration,
-rotation += rotation speed, sizes and colour channels with growth rates, bounce flag) and, for
-kinds 2 and 3, the effect editor's own range warnings (transparency, red/green/blue, subdivision
-and circle counts) and the ring builder (vertex = radius_x * cos, radius_z * sin).
-`efp_tool.py efb` prints named commands; 57 of the 89 parameter ids in use are named, covering
-two-thirds of all parameter uses.
+sets (`.dat`). **Effects** are written as text (`section:` lines and `command args` lines) and
+compiled to `.efb`; `EfbExec` (`0x00198790`) runs either form. The executable keeps the original
+section and command names (`EfbSectionNames` `0x0036cc10`, `EfbCommandNames` `0x0036cc50`, all 96
+commands), the argument counts (`EfbParamArgCounts` `0x00443cc8`) and which object kinds accept
+each command (`EfbCommandKinds` `0x0036ce50`). A binary `.efb` (run by `EfbRun` @ `0x001984e8`) is
+a stream of 4-byte words: `01/02/03` + command id + arguments sends a command to a particle,
+aqua (water surface) or model (shapes built from circles, e.g. rings) object; `05` time (start
+frame of the objects created next), `06` effect_number (slot 0-63), `08` id (ignored),
+`ff ff 00 00` end. All 2,310 effects on the disc parse exactly to their end, and all 118,776
+commands go to a kind that accepts them. `efp_tool.py efb` prints them with the game's names
+(`particle.pt_spx`, `model.wa_radiusx`, ...). The tool's docstring explains what the code does
+with each of them (lifetime, emit duration, spawn chance out of 1000, speed and acceleration
+curves, an attraction point, per-circle tweens), where that is known.
 
 **Movie** (`PALMOVIE.PSS`): MPEG-2 program stream; video in stream 0xE0, audio in private
 stream 1 with an `SShd`/`SSbd` header (16-bit PCM, 48 kHz stereo, 0x200-byte interleave).
@@ -183,5 +196,7 @@ stream 1 with an `SShd`/`SSbd` header (16-bit PCM, 48 kHz stereo, 0x200-byte int
 **Other files**: `light.dat` is a table of four-float rows in 0..1 (purpose unknown);
 `sys_tmd.dat` is all zeros.
 
-**Not decoded yet**: about 30 rarely-named effect parameters (listed by id), the motion index-map
-section, the ~1.4% of motion clips in other layouts, and the older `bpack1.efp` pack layout.
+**Not decoded yet**: what some effect commands do in detail (all 96 are named), the
+skinned parts' second primitive list and the flag 0x800 weight tables in models, the ~1.4% of
+motion clips in other layouts, a few model files with another primitive layout, and the older
+`bpack1.efp` pack layout.

@@ -10,27 +10,53 @@ Layout (parser eftpack_00202f88 @ 0x00202f88):
 without names and is reported as unsupported. Packs hold .efb effects and
 texture sets (.dat, readable with tex_tool.py).
 
-.efb effects are command streams of 4-byte words, run by FUN_001984e8
-(0x001984e8), which hands parameters to the setter ikumi_001992c8:
-  01/02/03 xx xx xx, u32 parameter id (0-95), then N argument words, where N
-           comes from the game's table at 0x00443cc8 (ARG_COUNTS below)
-  05, u32 value          sets a target (stored at +0x124)
-  06, s8 value           selects a slot 0-63 (stored at +0x330)
-  08, u32                ignored
+Effects are written as text and compiled to .efb; EfbExec (0x00198790) runs
+either form. The text is a list of "section:" lines and "command args" lines
+(";" starts a comment). The game's own names, from EfbSectionNames
+(0x0036cc10) and EfbCommandNames (0x0036cc50), are used below. A binary .efb
+is the same thing as a stream of 4-byte words, run by EfbRun (0x001984e8):
+  01/02/03 xx xx xx, u32 command id (0-95), then N argument words, where N
+           comes from EfbParamArgCounts (0x00443cc8, ARG_COUNTS below):
+           a command for a particle / aqua / model object
+  05, u32 value          time: start frame of the objects created after it
+  06, s8 value           effect_number: the object slot (0-63) commands go to
+  08, u32                id (ignored)
   ff ff 00 00            end
-Every effect on the disc parses exactly to its end.
+The other section names (ver 0, end 4, name 7) only appear in the text form.
+Every effect on the disc parses exactly to its end. The game passes each
+command to EfbSetParam (0x001992c8); EfbCommandKinds (0x0036ce50) says which
+object kinds accept it (COMMAND_KINDS below), and every command on the disc is
+sent to a kind that accepts it.
 
-The opcode picks the kind of object the slot holds (parameter 0 creates it):
-  01 particle emitter (nayuki.cpp)  02 water-surface effect (mizuki.cpp)
-  03 ring effect (yue.cpp)
-Parameter names below come from what the game does with each value: the
-emitter's spawn (nayuki_001da5f0) and update (nayuki_001db5a0) code, and the
-editor's own range warnings for kinds 2 and 3. Emitter vector parameters take
-(value, random spread, mode); x/y/z are separate parameters. A trailing "?"
-marks a meaning that is likely but not proven; unlisted ids are unknown.
-Ring parameters 0x11-0x17 are per-circle tweens (start, end, duration, delay,
-circle index, mode); the ring builder yue_001ec090 places each vertex at
-(radius_x * cos, height, radius_z * sin).
+Object kinds (command init creates one in the current slot):
+  particle  particle emitter (nayuki.cpp)
+  aqua      water surface (mizuki.cpp)
+  model     procedural model built from circles, e.g. rings and cylinders
+            (yue.cpp; the "wa_" commands are per-circle, wa = ring)
+What the commands do, from the code each one reaches:
+  particle  drawtime: particle lifetime in frames (copied into each particle
+            and counted down). apptime: frames the emitter keeps spawning
+            (0 = forever). drper: chance a particle spawns, out of 1000.
+            ptnum: particle count. texanipt: texture animation pattern count
+            (the game rejects 0). pt_pos* / pt_sp* / pt_ap*: spawn offset,
+            speed and acceleration (speed is added to position and
+            acceleration to speed each frame); pt_ang*, pt_rot*, pt_size*,
+            pt_alpha*, pt_cl_* (colour) follow the same value / sp (speed) /
+            ap (acceleration) pattern. Each takes (value, random spread, mode).
+            center_x/y/z: a tweened point (start, end, duration, delay)
+            rotated by the angles center_mx/my/mz (value, speed, acceleration);
+            with option bits 0x1800000000 particles are pulled towards it
+            (option bit 0x8 flips the direction). texdraw: 1 = textured
+            (0 frees the texture). texpattarn: texture number.
+            rolltx/rollty: integer tweens (start, end, duration, delay, mode)
+            the emitter stores but never reads.
+  aqua      see: transparency (0-255, the game warns above 255).
+  model     division: subdivisions; circlenum: circle count; wa_height,
+            wa_radiusx, wa_radiusy, wa_see (transparency), wa_colorr/g/b:
+            per-circle tweens (start, end, duration, delay, circle, mode); the
+            builder yue_001ec090 places each vertex at
+            (radius_x * cos, height, radius_y * sin).
+Commands not described above are known by name only.
 
 Usage:
   efp_tool.py list FILE.efp [...]
@@ -49,44 +75,48 @@ ARG_COUNTS = (
     5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
     5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 3, 4, 4, 8, 4, 4, 4, 3, 3, 3)
 
+SECTIONS = ("ver", "particle", "aqua", "model", "end", "time", "effect_number", "name", "id")
 
-_XYZ = "xyz"
-PARAM_NAMES = {
-    1: {0x00: "create", 0x01: "reset", 0x0A: "particle_timer?", 0x20: "render_mode",
-        0x22: "texture?", 0x24: "max_particles", 0x25: "spawn_value", 0x53: "spawn_flags",
-        0x54: "motion_flags", 0x41: "size_a", 0x42: "size_b", 0x43: "size_a_growth",
-        0x44: "size_b_growth", 0x45: "size_a_growth_accel", 0x46: "size_b_growth_accel",
-        0x47: "alpha?", 0x48: "alpha_rate?", 0x49: "alpha_accel?"},
-    2: {0x00: "create", 0x03: "transparency"},
-    3: {0x00: "create", 0x0F: "subdivisions", 0x10: "circle_count", 0x11: "height?",
-        0x12: "radius_x", 0x13: "radius_z", 0x14: "transparency",
-        0x15: "red", 0x16: "green", 0x17: "blue"},
-}
-for i, a in enumerate(_XYZ):
-    PARAM_NAMES[1].update({
-        0x26 + i: "spawn_offset_" + a, 0x29 + i: "velocity_" + a, 0x2C + i: "acceleration_" + a,
-        0x2F + i: "rotation_" + a, 0x32 + i: "rotation_speed_" + a,
-        0x38 + i: "vector4_" + a + "?", 0x3B + i: "vector4_rate_" + a + "?"})
-for i, c in enumerate(("red", "green", "blue")):
-    PARAM_NAMES[1].update({0x4A + i: c, 0x4D + i: c + "_rate", 0x50 + i: c + "_accel"})
+# EfbCommandNames, indexed by command id
+COMMANDS = (
+    "init", "pos", "angle", "see", "motion_ht", "motion_pt", "texroll", "wavemt",
+    "strain", "scale", "drawtime", "apptime", "angle_x", "angle_y", "angle_z", "division",
+    "circlenum", "wa_height", "wa_radiusx", "wa_radiusy", "wa_see", "wa_colorr", "wa_colorg",
+    "wa_colorb", "rolltx", "rollty", "pos_x", "pos_y", "pos_z", "rot_x", "rot_y", "rot_z",
+    "form", "texdraw", "texpattarn", "screen", "ptnum", "texanipt", "pt_posx", "pt_posy",
+    "pt_posz", "pt_spx", "pt_spy", "pt_spz", "pt_apx", "pt_apy", "pt_apz", "pt_angx",
+    "pt_angy", "pt_angz", "pt_angspx", "pt_angspy", "pt_angspz", "pt_angapx", "pt_angapy",
+    "pt_angapz", "pt_rotx", "pt_roty", "pt_rotz", "pt_rotspx", "pt_rotspy", "pt_rotspz",
+    "pt_rotapx", "pt_rotapy", "pt_rotapz", "pt_sizex", "pt_sizey", "pt_sizespx", "pt_sizespy",
+    "pt_sizeapx", "pt_sizeapy", "pt_alpha", "pt_alphasp", "pt_alphaap", "pt_cl_r", "pt_cl_g",
+    "pt_cl_b", "pt_clsp_r", "pt_clsp_g", "pt_clsp_b", "pt_clap_r", "pt_clap_g", "pt_clap_b",
+    "animeflag", "option", "drawnum", "formcoe", "range", "drper", "spread", "center_x",
+    "center_y", "center_z", "center_mx", "center_my", "center_mz")
+
+# EfbCommandKinds: which of particle / aqua / model accept each command
+COMMAND_KINDS = (
+    "111", "111", "011", "010", "010", "010", "010", "010", "010", "001", "100", "100",
+    "001", "001", "001", "001", "001", "001", "001", "001", "001", "001", "001", "001",
+    "101", "101", "001", "001", "001", "001", "001", "001", "101", "101", "101", "001")
+COMMAND_KINDS += ("100",) * 48 + ("101", "001", "001", "010", "100", "001") + ("100",) * 6
 
 
-def param_name(kind, pid):
-    return PARAM_NAMES.get(kind, {}).get(pid, f"param_{pid:#04x}")
+def accepts(kind, cid):
+    return COMMAND_KINDS[cid][kind - 1] == "1"
 
 
 def effect_commands(data):
-    """Yields (opcode, parameter id or None, [argument words])."""
+    """Yields (opcode, command id or None, [argument words])."""
     pos = 0
     while pos + 4 <= len(data):
         op = data[pos]
         pos += 4
         if op in (1, 2, 3):
-            pid = struct.unpack_from("<i", data, pos)[0]
-            if not 0 <= pid < len(ARG_COUNTS):
-                raise ValueError(f"bad parameter id {pid} at {pos:#x}")
-            n = ARG_COUNTS[pid]
-            yield op, pid, list(struct.unpack_from(f"<{n}I", data, pos + 4))
+            cid = struct.unpack_from("<i", data, pos)[0]
+            if not 0 <= cid < len(ARG_COUNTS):
+                raise ValueError(f"bad command id {cid} at {pos:#x}")
+            n = ARG_COUNTS[cid]
+            yield op, cid, list(struct.unpack_from(f"<{n}I", data, pos + 4))
             pos += 4 + 4 * n
         elif op in (5, 6, 8):
             yield op, None, [struct.unpack_from("<I", data, pos)[0]]
@@ -130,10 +160,8 @@ def main(argv):
             except ValueError as e:
                 print(f"{path}: {e}")
     elif len(argv) == 3 and argv[1] == "efb":
-        kinds = {1: "emitter", 2: "water", 3: "ring"}
-        names = {5: "target", 6: "slot", 8: "nop"}
-        for op, pid, args in effect_commands(open(argv[2], "rb").read()):
-            label = (f"{kinds[op]}.{param_name(op, pid)}" if pid is not None else names[op]).ljust(28)
+        for op, cid, args in effect_commands(open(argv[2], "rb").read()):
+            label = (f"{SECTIONS[op]}.{COMMANDS[cid]}" if cid is not None else SECTIONS[op]).ljust(24)
             if op == 6:
                 args = [args[0] & 0xFF if args[0] & 0xFF < 0x80 else (args[0] & 0xFF) - 256]
                 print(f"{label} {args[0]}")
