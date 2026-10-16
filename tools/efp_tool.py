@@ -6,9 +6,12 @@ Layout (parser eftpack_00202f88 @ 0x00202f88):
   (packs without the version word start directly with the count)
   count entries of 24 bytes: u32 size, u32 offset, char name[16]
   offsets are relative to the end of the entry table.
-58 of the 59 packs on the disc use this layout; bpack1.efp uses an older one
-without names and is reported as unsupported. Packs hold .efb effects and
-texture sets (.dat, readable with tex_tool.py).
+58 of the 59 packs on the disc use this layout. The other, bpack1.efp, is an
+older one without names: u32 count, count u32 sizes, then the entries back to
+back (46 effects, the first an empty one), zero-padded to the sector size.
+The executable never names it (it refers to bpack2-6 only), so it is probably
+unused. extract names its entries 000.efb, 001.efb, ... Packs hold .efb
+effects and texture sets (.dat, readable with tex_tool.py).
 
 Effects are written as text and compiled to .efb; EfbExec (0x00198790) runs
 either form. The text is a list of "section:" lines and "command args" lines
@@ -135,11 +138,21 @@ def show_word(w):
 
 
 def entries(data):
+    """Returns (name, offset, size) for each entry, for either pack layout."""
     first = struct.unpack_from("<I", data, 0)[0]
     if first == 0x3E9:
         count, table = struct.unpack_from("<I", data, 8)[0], 12
     else:
         count, table = first, 4
+    try:
+        return _named_entries(data, count, table)
+    except (ValueError, struct.error):
+        if first == 0x3E9:
+            raise
+    return _sized_entries(data, first)
+
+
+def _named_entries(data, count, table):
     base = table + count * 0x18
     out = []
     for i in range(count):
@@ -148,6 +161,22 @@ def entries(data):
         if not raw or not all(0x20 <= c < 0x7F for c in raw) or base + off + size > len(data):
             raise ValueError("unsupported pack layout")
         out.append((raw.decode("ascii"), base + off, size))
+    return out
+
+
+def _sized_entries(data, count):
+    """Old layout (bpack1.efp): u32 count, count u32 sizes, entries back to back."""
+    if not 0 < count < 0x10000 or 4 + 4 * count > len(data):
+        raise ValueError("unsupported pack layout")
+    sizes = struct.unpack_from(f"<{count}I", data, 4)
+    pos, out = 4 + 4 * count, []
+    for i, size in enumerate(sizes):
+        if pos + size > len(data) or data[pos + size - 4:pos + size] != b"\xff\xff\0\0":
+            raise ValueError("unsupported pack layout")
+        out.append((f"{i:03d}.efb", pos, size))
+        pos += size
+    if any(data[pos:]):
+        raise ValueError("unsupported pack layout")
     return out
 
 
