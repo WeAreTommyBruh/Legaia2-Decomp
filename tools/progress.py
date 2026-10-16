@@ -45,9 +45,12 @@ def main(argv):
     named = [r for r in funcs if not r["name"].startswith("FUN_") and "_00" not in r["name"]]
     attributed = [r for r in funcs if r["source_file"]]
     m_funcs = [r for r in funcs if int(r["address"], 16) in matched]
-    generated = set()
-    for path in glob.glob(os.path.join(ROOT, "src", "gen", "*.c")):
-        generated |= {int(a, 16) for a in re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
+    def marked(pattern):
+        out = set()
+        for path in glob.glob(os.path.join(ROOT, "src", pattern, "*.c")):
+            out |= {int(a, 16) for a in re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
+        return out
+    generated, from_ghidra = marked("gen"), marked("ghidra")
     m_size = sum(int(r["size_bytes"]) for r in m_funcs)
 
     words = instr = 0
@@ -86,8 +89,9 @@ def main(argv):
     L.append("\n## Overall\n\n")
     L.append("| | Count | Share | |\n|---|---:|---:|---|\n")
     L.append(f"| Functions matched in C | {len(m_funcs)} / {total} | {pct(len(m_funcs), total)} | {bar(len(m_funcs), total)} |\n")
-    L.append(f"| ... written by hand | {len(matched - generated)} | | |\n")
+    L.append(f"| ... written by hand | {len(matched - generated - from_ghidra)} | | |\n")
     L.append(f"| ... generated from instruction patterns (`tools/gen_tiny.py`) | {len(generated)} | | |\n")
+    L.append(f"| ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | {len(from_ghidra)} | | |\n")
     L.append(f"| Code bytes matched in C | {m_size:,} / {size:,} | {pct(m_size, size)} | {bar(m_size, size)} |\n")
     L.append(f"| Functions with a source file | {len(attributed)} / {total} | {pct(len(attributed), total)} | {bar(len(attributed), total)} |\n")
     L.append(f"| Functions with a real name | {len(named)} / {total} | {pct(len(named), total)} | {bar(len(named), total)} |\n")
@@ -119,6 +123,14 @@ def main(argv):
     L.append("- `src/gen/` is written by `tools/gen_tiny.py`: tiny functions (empty functions, "
              "constants, field and global getters/setters) translated from their instructions; only "
              "exact matches are kept.\n")
+    L.append("- `src/ghidra/` is written by `tools/gen_ghidra.py`: Ghidra's own decompilation, with "
+             "only types and global names adjusted, for the functions where it already compiles to "
+             "the original bytes. It reads like Ghidra output and is meant to be cleaned up by hand.\n")
+    L.append("- Every check resolves relocations to the real addresses (functions, `D_XXXXXXXX` "
+             "globals, gp-relative offsets), so a call or global access to the wrong place counts "
+             "as a difference.\n")
+    L.append("- `python3 tools/report.py` writes the objdiff report `report/report.json` that "
+             "ByteMatch reads.\n")
     L.append("- `python3 tools/match.py src/FILE.c NAME ADDRESS` compiles the file and compares one "
              "function word by word with the original.\n")
     L.append("- `python3 tools/asm_build.py all` rebuilds the executable from the assembly plus the "

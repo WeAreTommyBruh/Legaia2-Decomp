@@ -29,7 +29,7 @@ import tempfile
 
 import asm_build
 import ee_disasm
-from match import function_bytes
+from match import compare
 
 ROOT = asm_build.ROOT
 GEN = os.path.join(ROOT, "src", "gen")
@@ -179,15 +179,9 @@ def check(funcs):
         if r.returncode:
             print(r.stderr[:1500])
             return []
-        orig = open(asm_build.EXE, "rb").read()
-        text = asm_build.Elf(orig).section(".text")
         kept = []
         for addr, name, c in funcs:
-            words, masks = function_bytes(obj, name)
-            while len(words) > 1 and words[-1] == 0 and masks[-1] == 0:
-                words.pop(), masks.pop()
-            want = struct.unpack_from(f"<{len(words)}I", orig, text["off"] + addr - text["addr"])
-            if all((w & ~m) == (o & ~m) for w, m, o in zip(words, masks, want)):
+            if compare(obj, name, addr)[0] == 0:
                 kept.append((addr, name, c))
         return kept
 

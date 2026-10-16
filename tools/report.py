@@ -151,9 +151,18 @@ def main(argv):
                for a, n, _ in funcs}  # Ghidra repeats a few names (thunks)
     name_of.update({a: n for a, (_, n) in csrc.items()})
 
+    # a unit per source group for its unmatched functions, and one per C file
+    # for the functions matched there (its base is that file alone)
     units = collections.OrderedDict()
+    unit_src = {}
     for (addr, _, group), end in zip(funcs, ends):
-        units.setdefault(unit_name(group), []).append((addr, end))
+        if addr in csrc:
+            rel = os.path.relpath(csrc[addr][0], os.path.join(ROOT, "src"))[:-2]
+            u = f"{unit_name(group)}/{rel}"
+            unit_src[u] = csrc[addr][0]
+        else:
+            u = unit_name(group)
+        units.setdefault(u, []).append((addr, end))
 
     # base objects: one wrapper per unit that includes the unit's C files
     ee_flags = None
@@ -161,18 +170,11 @@ def main(argv):
     os.makedirs(os.path.join(OUT, "base"), exist_ok=True)
     os.makedirs(os.path.join(OUT, "target"), exist_ok=True)
     for unit, fl in units.items():
-        files = sorted({csrc[a][0] for a, _ in fl if a in csrc})
-        if not files:
+        if unit not in unit_src:
             continue
-        for f in files:  # a C file must not hold matched functions of another unit
-            other = [hex(a) for a, (src, _) in csrc.items() if src == f and a not in {x for x, _ in fl}]
-            if other:
-                raise SystemExit(f"{f} has matched functions outside unit {unit}: {other[:5]}")
-        wrapper = os.path.join(OUT, "base", unit + ".c")
-        with open(wrapper, "w") as w:
-            w.writelines(f'#include "{f}"\n' for f in files)
-        obj = wrapper[:-2] + ".o"
-        subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-o", obj, wrapper], check=True)
+        files = [unit_src[unit]]
+        obj = os.path.join(OUT, "base", unit.replace("/", "__") + ".o")
+        subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", "-o", obj, files[0]], check=True)
         ee_flags = struct.unpack_from("<I", open(obj, "rb").read(), 0x24)[0]
         base_info[unit] = (obj, symbols_and_relocs(obj), files)
 
@@ -223,7 +225,7 @@ def main(argv):
                     lines.append(f"    .word    {w:#010x}\n")
             if fend >= end:
                 lines.append(f".size {name}, . - {name}\n")
-        src = os.path.join(OUT, "target", unit + ".s")
+        src = os.path.join(OUT, "target", unit.replace("/", "__") + ".s")
         open(src, "w").writelines(lines)
         obj = src[:-2] + ".o"
         r = subprocess.run([clang] + asm_build.ASFLAGS + [src, "-o", obj], capture_output=True, text=True)

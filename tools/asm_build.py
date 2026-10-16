@@ -104,7 +104,9 @@ def c_functions():
         rel = os.path.relpath(src, os.path.join(ROOT, "src"))[:-2]
         obj = os.path.join(BUILD, "src", "c_" + re.sub(r"[^A-Za-z0-9_]", "_", rel) + ".o")
         os.makedirs(os.path.dirname(obj), exist_ok=True)
-        subprocess.run([EE_CC, "-c", *CFLAGS, "-o", obj, src], check=True)
+        r = subprocess.run([EE_CC, "-c", *CFLAGS, "-o", obj, src], capture_output=True, text=True)
+        if r.returncode:
+            raise SystemExit(f"{src}:\n{r.stderr}")
         subprocess.run([objcopy, "-w", "--remove-section=.rela*", obj], check=True)
         data = bytearray(open(obj, "rb").read())
         struct.pack_into("<I", data, 0x24, flags)

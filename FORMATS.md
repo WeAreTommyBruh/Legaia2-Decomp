@@ -30,6 +30,7 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/report.py` | Writes the objdiff progress report `report/report.json` (for ByteMatch / decomp.dev; uploaded by `.github/workflows/progress.yml` as `SLES_508.91_report`) |
 | `tools/match.py` | Compiles C with ee-gcc 2.9-ee-991111-01 and compares one function with the original |
 | `tools/gen_tiny.py` | Writes C for tiny functions from their instructions (`src/gen/`), keeping exact matches |
+| `tools/gen_ghidra.py` | Keeps Ghidra's decompilation of functions where it already matches (`src/ghidra/`; run after `gen_tiny.py`) |
 | `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`) |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
