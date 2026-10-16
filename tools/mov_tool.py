@@ -9,9 +9,14 @@ Clip header:
   0x08 char name[16]
   0x28 f32 (varies per clip; meaning unknown)
   0x2c u32[7] section offsets from the clip start:
-       0 hierarchy list   1 index map   2 bone records (24 bytes each)
-       3 bone names (equal-size entries)  4 ?  5 segments (8 bytes each)
+       0 hierarchy   1 index map   2 bone records (24 bytes each)
+       3 bone names (null-terminated, packed)  4 ?  5 segments (8 bytes each)
        6 values (s16)
+Hierarchy: bones are numbered from 1 (bone k = bone record k-1); 0 is the
+model root. The list is a run of chains ended by 0xff: a value not seen
+before is a new bone whose parent is the previous value; a value already seen
+starts a new chain from that bone. E.g. a hand reads root->4 (the hand), then
+4->1->2->3, 4->5->6->7, ... one chain per finger.
 Bone record: u32 ?, u16 channel mask (0x3f = all six), u16 first segment of each
 channel: tx, ty, tz, rx, ry, rz.
 Segment: u32 value offset (in s16 units), u16 key count, u8 mode, u8 flag.
@@ -51,6 +56,22 @@ def clips(data):
         frames = struct.unpack_from("<H", data, o + 2)[0]
         name = data[o + 8:o + 24].split(b"\0")[0].decode("latin1")
         yield i, name, frames, offsets[i + 1] - o
+
+
+def hierarchy(c, start, end, nbones):
+    """Returns parent[bone] for bones 1..nbones (0 = model root)."""
+    parent, prev = {}, None
+    for v in c[start:end]:
+        if v == 0xFF:
+            break
+        if v != 0 and v not in parent:
+            if prev is None:
+                raise ValueError("hierarchy starts with a new bone")
+            parent[v] = prev
+        prev = v
+    if sorted(parent) != list(range(1, nbones + 1)):
+        raise ValueError("hierarchy does not cover every bone")
+    return parent
 
 
 def decode_clip(c):
@@ -93,11 +114,12 @@ def decode_clip(c):
         raise ValueError(f"key count {keys} does not match {frames} frames")
     step = 1 if keys == frames else 2
 
-    name_size = (so[4] - so[3]) // nbones if nbones else 0
+    names = c[so[3]:so[4]].split(b"\0")
+    parent = hierarchy(c, so[0], so[1], nbones)
     bones = []
     for b, rec in enumerate(recs):
-        raw = c[so[3] + b * name_size:so[3] + (b + 1) * name_size].split(b"\0")[0]
-        bone = {"name": raw.decode("latin1")}
+        raw = names[b] if b < len(names) else b""
+        bone = {"name": raw.decode("latin1"), "parent": parent[b + 1] - 1 if parent[b + 1] else None}
         for k, ch in enumerate(CHANNELS):
             if rec[1] >> k & 1:
                 v = channel(rec[2 + k], keys)

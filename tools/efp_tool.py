@@ -18,8 +18,19 @@ texture sets (.dat, readable with tex_tool.py).
   06, s8 value           selects a slot 0-63 (stored at +0x330)
   08, u32                ignored
   ff ff 00 00            end
-Every effect on the disc parses exactly to its end. Parameter meanings are not
-named in the executable, so they are listed by id.
+Every effect on the disc parses exactly to its end.
+
+The opcode picks the kind of object the slot holds (parameter 0 creates it):
+  01 particle emitter (nayuki.cpp)  02 water-surface effect (mizuki.cpp)
+  03 ring effect (yue.cpp)
+Parameter names below come from what the game does with each value: the
+emitter's spawn (nayuki_001da5f0) and update (nayuki_001db5a0) code, and the
+editor's own range warnings for kinds 2 and 3. Emitter vector parameters take
+(value, random spread, mode); x/y/z are separate parameters. A trailing "?"
+marks a meaning that is likely but not proven; unlisted ids are unknown.
+Ring parameters 0x11-0x17 are per-circle tweens (start, end, duration, delay,
+circle index, mode); the ring builder yue_001ec090 places each vertex at
+(radius_x * cos, height, radius_z * sin).
 
 Usage:
   efp_tool.py list FILE.efp [...]
@@ -37,6 +48,31 @@ ARG_COUNTS = (
     5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 3, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
     5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
     5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 3, 4, 4, 8, 4, 4, 4, 3, 3, 3)
+
+
+_XYZ = "xyz"
+PARAM_NAMES = {
+    1: {0x00: "create", 0x01: "reset", 0x0A: "particle_timer?", 0x20: "render_mode",
+        0x22: "texture?", 0x24: "max_particles", 0x25: "spawn_value", 0x53: "spawn_flags",
+        0x54: "motion_flags", 0x41: "size_a", 0x42: "size_b", 0x43: "size_a_growth",
+        0x44: "size_b_growth", 0x45: "size_a_growth_accel", 0x46: "size_b_growth_accel",
+        0x47: "alpha?", 0x48: "alpha_rate?", 0x49: "alpha_accel?"},
+    2: {0x00: "create", 0x03: "transparency"},
+    3: {0x00: "create", 0x0F: "subdivisions", 0x10: "circle_count", 0x11: "height?",
+        0x12: "radius_x", 0x13: "radius_z", 0x14: "transparency",
+        0x15: "red", 0x16: "green", 0x17: "blue"},
+}
+for i, a in enumerate(_XYZ):
+    PARAM_NAMES[1].update({
+        0x26 + i: "spawn_offset_" + a, 0x29 + i: "velocity_" + a, 0x2C + i: "acceleration_" + a,
+        0x2F + i: "rotation_" + a, 0x32 + i: "rotation_speed_" + a,
+        0x38 + i: "vector4_" + a + "?", 0x3B + i: "vector4_rate_" + a + "?"})
+for i, c in enumerate(("red", "green", "blue")):
+    PARAM_NAMES[1].update({0x4A + i: c, 0x4D + i: c + "_rate", 0x50 + i: c + "_accel"})
+
+
+def param_name(kind, pid):
+    return PARAM_NAMES.get(kind, {}).get(pid, f"param_{pid:#04x}")
 
 
 def effect_commands(data):
@@ -94,9 +130,10 @@ def main(argv):
             except ValueError as e:
                 print(f"{path}: {e}")
     elif len(argv) == 3 and argv[1] == "efb":
-        names = {1: "param", 2: "param2", 3: "param3", 5: "target", 6: "slot", 8: "nop"}
+        kinds = {1: "emitter", 2: "water", 3: "ring"}
+        names = {5: "target", 6: "slot", 8: "nop"}
         for op, pid, args in effect_commands(open(argv[2], "rb").read()):
-            label = f"{names[op]} {pid:3d}" if pid is not None else f"{names[op]:<9}"
+            label = (f"{kinds[op]}.{param_name(op, pid)}" if pid is not None else names[op]).ljust(28)
             if op == 6:
                 args = [args[0] & 0xFF if args[0] & 0xFF < 0x80 else (args[0] & 0xFF) - 256]
                 print(f"{label} {args[0]}")

@@ -151,11 +151,15 @@ vertex/normal offsets, with flag bit 0 marking strip restarts (GS ADC). Decoding
 header's triangle count for every model on the disc. Details in `tools/tmd_tool.py`.
 
 **Motion** (`.mov`, `.moz` after decompression, `mon*move.dat`): u32 clip count + byte offsets.
-Each clip has a name, frame count and seven sections: hierarchy list, index map, bone records
+Each clip has a name, frame count and seven sections: hierarchy, index map, bone records
 (six channels each: translation x/y/z, rotation x/y/z), bone names, segments and s16 values. A
 channel is a run of segments, each either one held value (mode 1) or one value per key (mode 0),
 adding up to the frame count or, for half-rate clips, frame count / 2 + 1. Rotations use
-4096 = 360 degrees. `mov_tool.py dump` decodes 98.6% of the 38,542 clips to JSON; decoded curves
+4096 = 360 degrees. The hierarchy is a list of chains with bones numbered from 1 and 0 as the
+model root: a new value is a child of the previous one, a value already seen starts a new chain
+from that bone (a hand reads root->hand, then hand->finger->finger->finger five times). It covers
+every bone exactly once in every decodable clip, and `dump` gives each bone's parent.
+`mov_tool.py dump` decodes 98.6% of the 38,542 clips to JSON; decoded curves
 are smooth (mean step 4.5% of the channel range versus 31.6% for shuffled values). The remaining
 clips use other layouts.
 
@@ -164,8 +168,14 @@ clips use other layouts.
 sets (`.dat`). **Effects** (`.efb`, run by `EfbRun` @ `0x001984e8`): a stream of 4-byte commands:
 `01/02/03` + parameter id (0-95) + as many argument words as the game's table at `0x00443cc8`
 gives, `05` target, `06` slot (0-63), `08` ignored, `ff ff 00 00` end. All 2,310 effects on the
-disc parse exactly to their end; parameter meanings are not named in the executable, so
-`efp_tool.py efb` lists them by id.
+disc parse exactly to their end. The opcode picks the object kind in the slot: 1 particle
+emitter, 2 water-surface effect, 3 ring effect. Parameter meanings come from what the game does
+with each value: the emitter spawn/update code (position += velocity, velocity += acceleration,
+rotation += rotation speed, sizes and colour channels with growth rates, bounce flag) and, for
+kinds 2 and 3, the effect editor's own range warnings (transparency, red/green/blue, subdivision
+and circle counts) and the ring builder (vertex = radius_x * cos, radius_z * sin).
+`efp_tool.py efb` prints named commands; 57 of the 89 parameter ids in use are named, covering
+two-thirds of all parameter uses.
 
 **Movie** (`PALMOVIE.PSS`): MPEG-2 program stream; video in stream 0xE0, audio in private
 stream 1 with an `SShd`/`SSbd` header (16-bit PCM, 48 kHz stereo, 0x200-byte interleave).
@@ -173,5 +183,5 @@ stream 1 with an `SShd`/`SSbd` header (16-bit PCM, 48 kHz stereo, 0x200-byte int
 **Other files**: `light.dat` is a table of four-float rows in 0..1 (purpose unknown);
 `sys_tmd.dat` is all zeros.
 
-**Not decoded yet**: the meaning of individual effect parameters, the bone hierarchy encoding and
-the ~1.4% of motion clips in other layouts, and the older `bpack1.efp` pack layout.
+**Not decoded yet**: about 30 rarely-named effect parameters (listed by id), the motion index-map
+section, the ~1.4% of motion clips in other layouts, and the older `bpack1.efp` pack layout.
