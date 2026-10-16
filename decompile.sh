@@ -23,7 +23,16 @@ headless() {
 	echo "== $log"
 	"$GHIDRA/support/analyzeHeadless" "$ROOT/ghidra" Legaia2 \
 		-scriptPath "$ROOT/ghidra/scripts;$EE_SCRIPTS" -max-cpu "$(nproc)" "$@" \
-		> "$ROOT/ghidra/$log.log" 2>&1
+		> "$ROOT/ghidra/$log.log" 2>&1 &
+	local pid=$! start=$SECONDS
+	# Ghidra is quiet for long stretches (auto-analysis takes a while):
+	# show the elapsed time and its latest log line while it runs
+	while kill -0 "$pid" 2>/dev/null; do
+		sleep 15
+		printf '   %4ds  %s\n' $((SECONDS - start)) \
+			"$(tail -n 1 "$ROOT/ghidra/$log.log" | cut -c1-100)"
+	done
+	wait "$pid"
 	if grep -qE "SCRIPT ERROR|ERROR .*\.java" "$ROOT/ghidra/$log.log"; then
 		grep -E "ERROR" "$ROOT/ghidra/$log.log" | head -20
 		exit 1
