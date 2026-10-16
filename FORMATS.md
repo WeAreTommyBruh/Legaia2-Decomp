@@ -27,6 +27,8 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/ee_disasm.py` | Small R5900 disassembler producing clang-compatible assembly |
 | `tools/asm_build.py` | Splits `.text` into assembly per source file, rebuilds the executable with clang/ld.lld and checks it is byte-identical |
 | `tools/progress.py` | Writes `PROGRESS.md` (matching-decomp progress) |
+| `tools/match.py` | Compiles C with ee-gcc 2.96 and compares one function with the original |
+| `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`) |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
 one file per function under `decomp/src/<source file>/`, `functions.csv`), `fs/`,

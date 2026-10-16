@@ -6,7 +6,10 @@ split   disassembles .text into asm/NNN_<source>.s, one file per contiguous
         run of functions attributed to the same source file (from
         decomp/functions.csv), and writes asm/data.s (the other sections,
         included from the original executable) and build/link.ld.
-build   assembles everything with clang, links with ld.lld at
+        Functions marked `// MATCH func_XXXXXXXX` in src/*.c are left out of
+        the assembly and taken from the compiled C instead.
+build   assembles everything with clang, compiles src/*.c with the game's
+        compiler (ee-gcc 2.96 -O2 -G8), links with ld.lld at
         the original addresses, writes build/SLES_508.91 and compares it with
         disc/SLES_508.91 section by section and as a whole file.
 
@@ -17,6 +20,12 @@ writes it as a .word next time. Branch targets get local labels and jal/j
 targets global func_XXXXXXXX labels, so calls are real relocations.
 The ELF headers are generated from the original's layout; only the section
 contents are rebuilt.
+
+C: each matched function is compiled into its own section
+(-ffunction-sections) and placed at its original address; ee-gcc's objects
+get the clang objects' ELF ABI flags (only the header changes) so ld.lld
+accepts them. Every function also gets its readable name as a symbol, so C
+can call any function by the name in decomp/functions.csv.
 
 Needs clang and ld.lld with the MIPS target ($CLANG, $LLD; found on PATH or
 in the retcomm toolchain otherwise). Generated files (asm/, build/) contain
@@ -44,9 +53,12 @@ ASM = os.path.join(ROOT, "asm")
 BUILD = os.path.join(ROOT, "build")
 OVERRIDES = os.path.join(BUILD, "word_overrides.txt")
 TOOLCHAIN = os.path.expanduser("~/.local/share/retcomm/toolchains/cmake-clang-v1/latest/bin")
-ASFLAGS = ["-target", "mips64el-unknown-none", "-mcpu=mips4", "-mabi=n32",
+ASFLAGS = ["-target", "mipsel-unknown-none", "-mcpu=mips4", "-mabi=32", "-modd-spreg",
            "-mno-abicalls", "-fno-pic", "-c"]
 HEADER = ".set noreorder\n.set noat\n.set nomacro\n"
+EE_CC = os.environ.get("EE_CC", os.path.expanduser("~/tools/ee-gcc2.96/bin/ee-gcc"))
+CFLAGS = ["-O2", "-G8", "-ffunction-sections"]
+C_DATA = (".data", ".rodata", ".bss", ".sdata", ".sbss", ".lit4", ".lit8")
 
 
 def tool(env, name):
@@ -78,6 +90,43 @@ def functions():
     return sorted((int(r["address"], 16), r["name"], r["group"]) for r in rows)
 
 
+def c_functions():
+    """Compiles src/*.c; returns {address: (object, name, size)} for MATCH functions."""
+    from match import function_bytes, sections
+    objcopy = tool("OBJCOPY", "llvm-objcopy")
+    flags = abi_flags()
+    out = {}
+    for src in sorted(glob.glob(os.path.join(ROOT, "src", "*.c"))):
+        text = open(src).read()
+        marks = re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})\s*\n[^\n(]*?(\w+)\s*\(", text)
+        if not marks:
+            continue
+        obj = os.path.join(BUILD, "src", "c_" + os.path.basename(src)[:-2] + ".o")
+        os.makedirs(os.path.dirname(obj), exist_ok=True)
+        subprocess.run([EE_CC, "-c", *CFLAGS, "-o", obj, src], check=True)
+        subprocess.run([objcopy, "-w", "--remove-section=.rela*", obj], check=True)
+        data = bytearray(open(obj, "rb").read())
+        struct.pack_into("<I", data, 0x24, flags)
+        open(obj, "wb").write(data)
+        for name, h in sections(bytes(data)):
+            if name in C_DATA and h[5]:
+                raise SystemExit(f"{src}: has {name} data; not supported yet")
+        for addr, name in marks:
+            words, _ = function_bytes(obj, name)
+            out[int(addr, 16)] = (os.path.basename(obj), name, 4 * len(words))
+    return out
+
+
+def abi_flags():
+    """ELF e_flags of a clang object (copied into ee-gcc objects)."""
+    clang = tool("CLANG", "clang")
+    probe = os.path.join(BUILD, "probe.o")
+    os.makedirs(BUILD, exist_ok=True)
+    subprocess.run([clang] + ASFLAGS + ["-x", "assembler", "-", "-o", probe],
+                   input=b".text\n", check=True)
+    return struct.unpack_from("<I", open(probe, "rb").read(), 0x24)[0]
+
+
 def split():
     elf = Elf(open(EXE, "rb").read())
     text = elf.section(".text")
@@ -88,6 +137,7 @@ def split():
     overrides = set()
     if os.path.exists(OVERRIDES):
         overrides = {int(x, 16) for x in open(OVERRIDES).read().split()}
+    cfuncs = c_functions()
 
     # runs of functions from the same source group, in address order
     runs = []
@@ -130,11 +180,31 @@ def split():
     for old in glob.glob(os.path.join(ASM, "*.s")):
         os.remove(old)
     order = []
+
+    def flush(name, lines, first):
+        if first is None:
+            return
+        with open(os.path.join(ASM, name), "w") as f:
+            f.writelines(lines)
+        order.append(("asm", os.path.join("asm", name), 8 if first % 8 == 0 else 4))
+
     for i, r in enumerate(runs):
-        name = f"{i:03d}_{re.sub(r'[^A-Za-z0-9_]', '_', r['group'] or 'none')}.s"
-        lines = [HEADER, ".text\n"]
+        base = f"{i:03d}_{re.sub(r'[^A-Za-z0-9_]', '_', r['group'] or 'none')}"
+        name, lines, first = base + ".s", [HEADER, ".text\n"], None
         names = {a: n for a, _, n in r["funcs"]}
+        skip = 0
         for a in range(r["start"], r["end"], 4):
+            if a < skip:
+                continue
+            if a in cfuncs:
+                flush(name, lines, first)
+                obj, cname, size = cfuncs[a]
+                order.append(("c", obj, cname, f"{a:08X}", size))
+                skip = a + size
+                name, lines, first = f"{base}_{a:08X}.s", [HEADER, ".text\n"], None
+                continue
+            if first is None:
+                first = a
             if a in names:
                 lines.append(f"\n# {names[a]}\n")
             if a in globals_:
@@ -146,13 +216,11 @@ def split():
                 lines.append(f"    {d[0]:<8} {d[1]}\n" if d[1] else f"    {d[0]}\n")
             else:
                 lines.append(f"    .word    {word(a):#010x}\n")
-        with open(os.path.join(ASM, name), "w") as f:
-            f.writelines(lines)
-        order.append(os.path.join("asm", name))
+        flush(name, lines, first)
     write_data(elf)
-    write_link(elf, order)
+    write_link(elf, order, funcs, cfuncs)
     print(f"split .text into {len(runs)} runs, {sum(1 for d in decoded.values() if d)} "
-          f"of {len(decoded)} words as instructions")
+          f"of {len(decoded)} words as instructions; {len(cfuncs)} functions from C")
 
 
 DATA_SECTIONS = (".vutext", ".data", ".rodata", ".gcc_except_table", ".lit4", ".sdata")
@@ -166,41 +234,61 @@ def write_data(elf):
                     f'.incbin "{EXE}", {sec["off"]}, {sec["size"]}\n')
 
 
-def write_link(elf, order):
+def write_link(elf, order, funcs, cfuncs):
     os.makedirs(BUILD, exist_ok=True)
     text = elf.section(".text")
-    lines = ["ENTRY(func_00100008)\nSECTIONS\n{\n",
-             f"  .text {text['addr']:#x} : SUBALIGN(4) {{\n"]
-    lines.append("    *(.text)\n  }\n")  # objects are given to ld.lld in address order
+    lines = ["ENTRY(func_00100008)\nSECTIONS\n{\n", f"  .text {text['addr']:#x} : {{\n"]
+    for o in order:
+        if o[0] == "asm":
+            lines.append(f"    */{os.path.basename(o[1])[:-2]}.o(.text)\n")
+        else:
+            lines.append(f"    */{o[1]}(.text.{o[2]})\n")
+    lines.append("  } =0\n")
     for s in DATA_SECTIONS:
         sec = elf.section(s)
         lines.append(f"  {s}_out {sec['addr']:#x} : {{ *(.bin{s}) }}\n")
-    lines.append("  /DISCARD/ : { *(.MIPS.abiflags) *(.reginfo) *(.pdr) *(.comment) }\n}\n")
+    lines.append("  /DISCARD/ : { *(.MIPS.abiflags) *(.reginfo) *(.pdr) *(.comment) *(.mdebug*)"
+                 " *(.data) *(.bss)"
+                 " *(.text) *(.text.*) }\n}\n")  # C's own empty .text, unmarked functions
+    # readable names for every function, func_XXXXXXXX for the ones now in C
+    c_names = {n for _, n, _ in cfuncs.values()}
+    for addr, name, _ in funcs:
+        if re.fullmatch(r"[A-Za-z_]\w*", name) and name not in c_names:
+            lines.append(f"PROVIDE({name} = {addr:#x});\n")
+    for addr, (_, name, _) in sorted(cfuncs.items()):
+        lines.append(f"func_{addr:08X} = {name};\n")
     with open(os.path.join(BUILD, "link.ld"), "w") as f:
         f.writelines(lines)
     with open(os.path.join(BUILD, "objects.txt"), "w") as f:
-        f.write("\n".join(order) + "\n")
+        f.writelines(" ".join(map(str, o)) + "\n" for o in order)
 
 
 def build():
     clang, lld = tool("CLANG", "clang"), tool("LLD", "ld.lld")
     objcopy = tool("OBJCOPY", "llvm-objcopy")
-    order = open(os.path.join(BUILD, "objects.txt")).read().split()
+    order = [line.split() for line in open(os.path.join(BUILD, "objects.txt"))]
+    align = {o[1]: o[2] for o in order if o[0] == "asm"}
 
     def assemble(rel):
         out = os.path.join(BUILD, rel[:-2] + ".o")
         os.makedirs(os.path.dirname(out), exist_ok=True)
         r = subprocess.run([clang] + ASFLAGS + [os.path.join(ROOT, rel), "-o", out],
                            capture_output=True, text=True)
+        if not r.returncode and rel in align:
+            # clang aligns .text to 16; the original only to 4 or 8
+            r = subprocess.run([objcopy, f"--set-section-alignment=.text={align[rel]}", out],
+                               capture_output=True, text=True)
         return rel, r.returncode, r.stderr
 
-    jobs = order + [os.path.join("asm", "data.s")]
+    c_functions()  # recompile src/*.c
+    jobs = [o[1] for o in order if o[0] == "asm"] + [os.path.join("asm", "data.s")]
     with concurrent.futures.ThreadPoolExecutor(os.cpu_count()) as pool:
         for rel, rc, err in pool.map(assemble, jobs):
             if rc:
                 raise SystemExit(f"{rel}:\n{err[:2000]}")
     linked = os.path.join(BUILD, "linked.elf")
     objs = [os.path.join(BUILD, o[:-2] + ".o") for o in jobs]
+    objs += sorted({os.path.join(BUILD, "src", o[1]) for o in order if o[0] == "c"})
     subprocess.run([lld, "-T", os.path.join(BUILD, "link.ld"), "-o", linked,
                     "--no-check-sections", "-z", "norelro"] + objs, check=True)
     orig = Elf(open(EXE, "rb").read())
@@ -218,7 +306,8 @@ def build():
             bad = next((i for i in range(min(len(got), len(want))) if got[i] != want[i]), min(len(got), len(want)))
             print(f"{s}: differs at {sec['addr'] + bad:#x} ({len(got)} vs {len(want)} bytes)")
             if s == ".text":
-                record_mismatches(got, want, sec["addr"])
+                c_ranges = [(int(o[3], 16), int(o[3], 16) + int(o[4])) for o in order if o[0] == "c"]
+                record_mismatches(got, want, sec["addr"], c_ranges)
         new[sec["off"]:sec["off"] + len(got)] = got[:sec["size"]]
     out = os.path.join(BUILD, "SLES_508.91")
     open(out, "wb").write(new)
@@ -228,15 +317,21 @@ def build():
     return ok and h1 == h2
 
 
-def record_mismatches(got, want, base):
-    """Remembers mis-assembled words so the next split writes them as .word."""
+def record_mismatches(got, want, base, c_ranges):
+    """Remembers mis-assembled words so the next split writes them as .word.
+    Words inside C functions are reported instead: the C has to be fixed."""
     bad = set()
     if os.path.exists(OVERRIDES):
         bad = {int(x, 16) for x in open(OVERRIDES).read().split()}
     if len(got) == len(want):
         for i in range(0, len(want), 4):
+            a = base + i
             if got[i:i + 4] != want[i:i + 4]:
-                bad.add(base + i)
+                c = next((r for r in c_ranges if r[0] <= a < r[1]), None)
+                if c:
+                    print(f"C function at {c[0]:#x} does not match (word {a:#x})")
+                else:
+                    bad.add(a)
     with open(OVERRIDES, "w") as f:
         f.write("\n".join(f"{a:08X}" for a in sorted(bad)) + "\n")
     print(f"recorded {len(bad)} words to write as .word; run split again")

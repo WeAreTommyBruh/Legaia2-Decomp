@@ -22,7 +22,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def pct(a, b):
-    return f"{100 * a / b:.1f}%" if b else "-"
+    if not b:
+        return "-"
+    return f"{100 * a / b:.2f}%" if 0 < a / b < 0.01 else f"{100 * a / b:.1f}%"
 
 
 def bar(a, b, width=30):
@@ -73,11 +75,11 @@ def main(argv):
              "Counts only; no game code or data.\n\n")
     L.append("## Steps\n\n")
     L.append("| # | Step | Status |\n|---|---|---|\n")
-    L.append("| 1 | Identify the original compiler | Done: GCC-based SCE toolchain, most likely "
-             "**ee-gcc 2.96** (see below) |\n")
+    L.append("| 1 | Identify the original compiler | Done: **ee-gcc 2.96** (`2.96-ee-001003-1`), "
+             "`-O2 -G8`, confirmed by functions that compile byte-identical (see below) |\n")
     L.append(f"| 2 | Rebuild the executable from assembly | Done: rebuilt executable is {status} |\n")
-    L.append(f"| 3 | Match functions in C | {len(m_funcs)} of {total} functions "
-             f"({pct(m_size, size)} of code); needs ee-gcc 2.96 installed |\n")
+    L.append(f"| 3 | Match functions in C | In progress: {len(m_funcs)} of {total} functions "
+             f"({pct(m_size, size)} of code) compile to the original bytes and are built from C |\n")
     L.append("\n## Overall\n\n")
     L.append("| | Count | Share | |\n|---|---:|---:|---|\n")
     L.append(f"| Functions matched in C | {len(m_funcs)} / {total} | {pct(len(m_funcs), total)} | {bar(len(m_funcs), total)} |\n")
@@ -100,8 +102,17 @@ def main(argv):
              "`dvp-as`.\n")
     L.append("- Float constants are loaded gp-relative from `.lit4`, and `.sdata`/`.sbss` exist, so "
              "it was built with a non-zero `-G` (small-data size).\n")
-    L.append("- Confirming 2.96 (and the exact flags) means compiling a few functions and comparing; "
-             "that is the first job of step 3.\n")
+    L.append("- Confirmed: with ee-gcc 2.96 and `-O2 -G8`, functions rewritten in C compile to exactly "
+             "the original bytes: the same register choice, stack frame (`sd $ra`), unfilled delay "
+             "slot after `jal`, instruction scheduling and 8-byte function alignment.\n")
+    L.append("\n## How matching works\n\n")
+    L.append("- `src/*.c` holds the functions rewritten in C. A matched function has a "
+             "`// MATCH func_XXXXXXXX` comment just before it; one that compiles but does not match "
+             "yet stays under `#ifdef NONMATCHING`, and the build uses the original assembly.\n")
+    L.append("- `python3 tools/match.py src/FILE.c NAME ADDRESS` compiles the file and compares one "
+             "function word by word with the original.\n")
+    L.append("- `python3 tools/asm_build.py all` rebuilds the executable from the assembly plus the "
+             "matched C, and checks it is byte-identical.\n")
     L.append("\n## By source file\n\n")
     L.append("| Source file | Functions | Code bytes | Matched | Matched bytes |\n|---|---:|---:|---:|---:|\n")
     for key, (n, b, m, mb) in sorted(by_file.items(), key=lambda kv: (kv[0].startswith("("), kv[0])):
