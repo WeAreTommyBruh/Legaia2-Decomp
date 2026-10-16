@@ -22,8 +22,8 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/sq2mid.py` | Converts `.sq` music sequences to standard MIDI |
 | `tools/msg_tool.py` | Lists event/message containers (`EV` `.dat` files) |
 | `tools/tmd_tool.py` | Converts `.tmd` models (and `mon*tmd.dat`) to Wavefront OBJ |
-| `tools/mov_tool.py` | Lists animation clips in `.mov` motion files (and unpacked `.moz`) |
-| `tools/efp_tool.py` | Lists / unpacks `.efp` effect packs into their `.efb` effects |
+| `tools/mov_tool.py` | Lists and decodes animation clips (`.mov`, unpacked `.moz`) to JSON |
+| `tools/efp_tool.py` | Lists / unpacks `.efp` effect packs and decodes `.efb` effects |
 | `tools/pss_demux.py` | Splits `PALMOVIE.PSS` into MPEG-2 video (`.m2v`) and WAV audio |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
@@ -128,8 +128,12 @@ in `tools/tex_tool.py`. 29 battle `.dat` files are a different, event/message fo
 **Audio** (`.int`): stereo PS2 SPU ADPCM interleaved in 0x400-byte blocks, 44,100 Hz (the stream
 player `FUN_0010d8a0` sets two SPU voices to `0xac44` Hz, panned hard left and right). Voice
 lines are mono duplicated into both channels. **Sound banks** (`.snd`): a 0x80-byte header, the
-ADPCM samples, then an `SShd` table with program/tone records and sound-effect sequences; the
-tone records are not decoded yet, so extracted samples use an assumed rate.
+ADPCM samples, then an `SShd` table (registered by `SndBankRegister`). Its program section holds
+"drum" programs with one 16-byte tone per key: root note, signed fine tune (1/16 semitone), sample
+address in 8-byte units, ADSR, key range, pan, bend range, volume. 99.7% of tones point exactly at
+a sample start. The game's IOP driver (`sndn2drv.irx`) turns note, root, fine and bend into an SPU
+pitch through its own 16-steps-per-semitone table scaled by 441/480, so a tone played at its root
+note runs at 44,100 Hz (shifted by its fine tune); `adpcm.py snd` writes each sample at that rate.
 
 **Music sequences** (`.sq`, "SSsq"): ticks per quarter note and BPM in the header, 16 channel
 records, then MIDI-style events where each event is followed by its delta time. Pitch bend has one
@@ -146,12 +150,22 @@ of triangle strips, each record carrying an RGBA colour, texture coordinates (0.
 vertex/normal offsets, with flag bit 0 marking strip restarts (GS ADC). Decoding reproduces the
 header's triangle count for every model on the disc. Details in `tools/tmd_tool.py`.
 
-**Motion** (`.mov`, `.moz` after decompression, `mon*move.dat`): u32 clip count + byte offsets;
-each clip has a name and a likely frame count. Keyframe data is not decoded yet.
+**Motion** (`.mov`, `.moz` after decompression, `mon*move.dat`): u32 clip count + byte offsets.
+Each clip has a name, frame count and seven sections: hierarchy list, index map, bone records
+(six channels each: translation x/y/z, rotation x/y/z), bone names, segments and s16 values. A
+channel is a run of segments, each either one held value (mode 1) or one value per key (mode 0),
+adding up to the frame count or, for half-rate clips, frame count / 2 + 1. Rotations use
+4096 = 360 degrees. `mov_tool.py dump` decodes 98.6% of the 38,542 clips to JSON; decoded curves
+are smooth (mean step 4.5% of the channel range versus 31.6% for shuffled values). The remaining
+clips use other layouts.
 
 **Effect packs** (`.efp`, parser `eftpack_00202f88`): version 1001, a count, then
-`{u32 size, u32 offset, char name[16]}` entries naming `.efb` effects. 1,306 of the 1,551
-packed effects exist only inside packs.
+`{u32 size, u32 offset, char name[16]}` entries. Packs hold 637 `.efb` effects and 914 texture
+sets (`.dat`). **Effects** (`.efb`, run by `EfbRun` @ `0x001984e8`): a stream of 4-byte commands:
+`01/02/03` + parameter id (0-95) + as many argument words as the game's table at `0x00443cc8`
+gives, `05` target, `06` slot (0-63), `08` ignored, `ff ff 00 00` end. All 2,310 effects on the
+disc parse exactly to their end; parameter meanings are not named in the executable, so
+`efp_tool.py efb` lists them by id.
 
 **Movie** (`PALMOVIE.PSS`): MPEG-2 program stream; video in stream 0xE0, audio in private
 stream 1 with an `SShd`/`SSbd` header (16-bit PCM, 48 kHz stereo, 0x200-byte interleave).
@@ -159,6 +173,5 @@ stream 1 with an `SShd`/`SSbd` header (16-bit PCM, 48 kHz stereo, 0x200-byte int
 **Other files**: `light.dat` is a table of four-float rows in 0..1 (purpose unknown);
 `sys_tmd.dat` is all zeros.
 
-**Not decoded yet**: motion keyframes, the `.efb` effect format (and the older `bpack1.efp`
-layout), and the sound-bank tone tables (the `SShd` table in `.snd` does not store sample
-positions as plain offsets, so the tone-to-sample mapping and real sample rates are unknown).
+**Not decoded yet**: the meaning of individual effect parameters, the bone hierarchy encoding and
+the ~1.4% of motion clips in other layouts, and the older `bpack1.efp` pack layout.

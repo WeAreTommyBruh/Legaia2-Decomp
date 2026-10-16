@@ -53,6 +53,11 @@ public class NameFunctions extends GhidraScript {
 		{ "00151c60", "BsdLoad", null },
 		{ "00151930", "BtlScriptFindFrame", "float * BtlScriptFindFrame(int track, int frame)" },
 		{ "00144910", "BtlScriptRun", "void BtlScriptRun(float *cmds)" },
+		{ "001984e8", "EfbRun", null },
+		{ "001992c8", "EfbSetParam", null },
+		{ "002d3b98", "SndBankRegister", null },
+		{ "002d04c0", "SndVoiceSetParam", null },
+		{ "002d1f48", "SndVoiceSetPitch", null },
 		// Sony SDK (identified from usage)
 		{ "002cb958", "sceCdSearchFile", "int sceCdSearchFile(void *file, char *name)" },
 		// newlib C library
@@ -93,6 +98,7 @@ public class NameFunctions extends GhidraScript {
 		{ "0032ef48", "BtlScriptOpTable" },
 		{ "0055fc80", "BtlScriptTracks" },
 		{ "0058b280", "FsDirBuffer" },
+		{ "00443cc8", "EfbParamArgCounts" },
 	};
 
 	private static final String[] ARG_REGS = { "a0", "a1", "a2", "a3", "t0", "t1", "t2", "t3" };

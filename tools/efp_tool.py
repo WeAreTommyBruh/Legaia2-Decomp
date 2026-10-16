@@ -7,17 +7,65 @@ Layout (parser eftpack_00202f88 @ 0x00202f88):
   count entries of 24 bytes: u32 size, u32 offset, char name[16]
   offsets are relative to the end of the entry table.
 58 of the 59 packs on the disc use this layout; bpack1.efp uses an older one
-without names and is reported as unsupported. The .efb effect format itself is
-not decoded yet.
+without names and is reported as unsupported. Packs hold .efb effects and
+texture sets (.dat, readable with tex_tool.py).
+
+.efb effects are command streams of 4-byte words, run by FUN_001984e8
+(0x001984e8), which hands parameters to the setter ikumi_001992c8:
+  01/02/03 xx xx xx, u32 parameter id (0-95), then N argument words, where N
+           comes from the game's table at 0x00443cc8 (ARG_COUNTS below)
+  05, u32 value          sets a target (stored at +0x124)
+  06, s8 value           selects a slot 0-63 (stored at +0x330)
+  08, u32                ignored
+  ff ff 00 00            end
+Every effect on the disc parses exactly to its end. Parameter meanings are not
+named in the executable, so they are listed by id.
 
 Usage:
   efp_tool.py list FILE.efp [...]
   efp_tool.py extract FILE.efp OUT_DIR
+  efp_tool.py efb FILE.efb               print an effect's commands
 """
 
 import os
 import struct
 import sys
+
+
+ARG_COUNTS = (
+    1, 3, 3, 2, 1, 1, 4, 4, 1, 5, 1, 1, 5, 5, 5, 1, 1, 6, 6, 6, 6, 6, 6, 6,
+    5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 3, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 3, 4, 4, 8, 4, 4, 4, 3, 3, 3)
+
+
+def effect_commands(data):
+    """Yields (opcode, parameter id or None, [argument words])."""
+    pos = 0
+    while pos + 4 <= len(data):
+        op = data[pos]
+        pos += 4
+        if op in (1, 2, 3):
+            pid = struct.unpack_from("<i", data, pos)[0]
+            if not 0 <= pid < len(ARG_COUNTS):
+                raise ValueError(f"bad parameter id {pid} at {pos:#x}")
+            n = ARG_COUNTS[pid]
+            yield op, pid, list(struct.unpack_from(f"<{n}I", data, pos + 4))
+            pos += 4 + 4 * n
+        elif op in (5, 6, 8):
+            yield op, None, [struct.unpack_from("<I", data, pos)[0]]
+            pos += 4
+        elif op == 0xFF:
+            return
+        else:
+            raise ValueError(f"unknown opcode {op:#x} at {pos - 4:#x}")
+
+
+def show_word(w):
+    exp = (w >> 23) & 0xFF
+    if w and 0x60 <= exp <= 0x9F:
+        return f"{struct.unpack('<f', struct.pack('<I', w))[0]:g}"
+    return str(w - (1 << 32) if w & 0x80000000 else w)
 
 
 def entries(data):
@@ -45,6 +93,15 @@ def main(argv):
                     print(f"{path} {name:<16} {off:#8x} {size:7d}")
             except ValueError as e:
                 print(f"{path}: {e}")
+    elif len(argv) == 3 and argv[1] == "efb":
+        names = {1: "param", 2: "param2", 3: "param3", 5: "target", 6: "slot", 8: "nop"}
+        for op, pid, args in effect_commands(open(argv[2], "rb").read()):
+            label = f"{names[op]} {pid:3d}" if pid is not None else f"{names[op]:<9}"
+            if op == 6:
+                args = [args[0] & 0xFF if args[0] & 0xFF < 0x80 else (args[0] & 0xFF) - 256]
+                print(f"{label} {args[0]}")
+            else:
+                print(f"{label} " + " ".join(show_word(w) for w in args))
     elif len(argv) == 4 and argv[1] == "extract":
         data = open(argv[2], "rb").read()
         os.makedirs(argv[3], exist_ok=True)

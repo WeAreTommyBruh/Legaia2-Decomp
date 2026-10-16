@@ -12,17 +12,29 @@ and right blocks.
 .snd files are sound banks:
   0x00 u32 version (2), 0x04 u32 body size, 0x08 u32 table size; filler to 0x80
   0x80 body: ADPCM samples back to back, each ending in a frame with flag bit 0
-  0x80 + body size: "SShd" table block (program/tone records, ADSR, and
-       sound-effect sequences in MIDI-like events: 0xa0 note-on, ff 2f 00 end).
-The tone records (pitch per sample) are not decoded yet: the table does not hold
-the sample positions as byte offsets, 8/16-byte units or base+offset addresses,
-so the tone-to-sample mapping is still unknown. `snd` therefore writes each
-sample as mono WAV at an assumed rate (default 22050 Hz; pass --rate).
+  0x80 + body size: the "SShd" table, read by FUN_002d3b98 (0x002d3b98):
+       0x0c "SShd"; 0x10, 0x18, 0x1c, 0x20, 0x24 section offsets (-1 = none)
+       0x24 programs: u16 last index, u16 offset per program (0xffff = none)
+            program: 8-byte header; byte 0 = tone count - 1, or 0xff for a
+            "drum" program with one tone per key from byte 6 to byte 7 (every
+            bank on the disc uses drum programs); a tone whose byte 0x0d is
+            0xff ends the list early
+            tone (16 bytes): 0x02 root note, 0x03 s8 fine tune (1/16 semitone),
+            0x04 u16 sample address in 8-byte units (from the body start),
+            0x06/0x08 SPU ADSR1/ADSR2, 0x0a/0x0b key range, 0x0c pan,
+            0x0d pitch-bend range, 0x0e volume
+       0x20 per-program bend/volume state; 0x1c sound-effect sequences
+Pitch (sound driver sndn2drv.irx, function at 0x0a90): the driver looks up its
+own 16-steps-per-semitone table, shifts by octaves and scales by 441/480, so a
+tone played at its root note with no fine tune runs at exactly 44,100 Hz. Each
+sample is therefore written at 44100 * table[0xd0 + fine] / 4096 Hz, using the
+fine tune of the tones that play it.
 
 Usage:
   adpcm.py FILE.int OUT.wav
   adpcm.py all FS_DIR OUT_DIR             every .int under FS_DIR
   adpcm.py snd FILE.snd OUT_DIR [--rate N] one WAV per sample in a sound bank
+  adpcm.py tones FILE.snd                 list the bank's programs and tones
 """
 
 import os
@@ -96,36 +108,77 @@ def _job(job):
 
 
 def snd_samples(data):
-    """Yields the 16-byte frames of each sample in a .snd bank body."""
+    """Yields (body offset, frames) for each sample in a .snd bank body."""
     body_size = struct.unpack_from("<I", data, 4)[0]
     body = data[0x80:0x80 + body_size]
-    frames = []
+    frames, start = [], 0
     for off in range(0, len(body) - 15, 16):
         fr = body[off:off + 16]
         frames.append(fr)
         if fr[1] & 1:
             # a lone end frame after a sample is a terminator, not a sample
             if len(frames) > 1 and any(any(f[2:]) for f in frames):
-                yield frames
-            frames = []
+                yield start, frames
+            frames, start = [], off + 16
 
 
-def convert_snd(src, out_dir, rate):
+# The driver's pitch table: 16 steps per semitone, 0x1000 at index 0xd0.
+PITCH = [round(4096 * 2 ** ((i - 0xD0) / (12 * 16))) for i in range(400)]
+
+
+def tones(data):
+    """Yields (program, tone index, root note, fine, sample offset) from the SShd table."""
+    body_size = struct.unpack_from("<I", data, 4)[0]
+    t = data[0x80 + body_size:]
+    if t[12:16] != b"SShd":
+        return
+    sec = struct.unpack_from("<i", t, 0x24)[0]
+    if sec < 0:
+        return
+    last = struct.unpack_from("<H", t, sec)[0]
+    for prog in range(last + 1):
+        po = struct.unpack_from("<H", t, sec + 2 + 2 * prog)[0]
+        if po == 0xFFFF:
+            continue
+        hdr = t[sec + po:sec + po + 8]
+        count = hdr[7] - hdr[6] + 1 if hdr[0] == 0xFF else (hdr[0] & 0x7F) + 1
+        for i in range(count):
+            r = sec + po + 8 + 16 * i
+            if r + 16 > len(t) or t[r + 0x0D] == 0xFF:
+                break
+            root, fine, addr = t[r + 2], struct.unpack_from("<b", t, r + 3)[0], struct.unpack_from("<H", t, r + 4)[0]
+            yield prog, i, root, fine, addr * 8
+
+
+def sample_rates(data):
+    """Maps sample body offset -> playback rate at its root note."""
+    fines = {}
+    for _, _, _, fine, off in tones(data):
+        fines.setdefault(off, []).append(fine)
+    return {off: round(RATE * PITCH[0xD0 + max(set(f), key=f.count)] / 4096) for off, f in fines.items()}
+
+
+def convert_snd(src, out_dir, rate=None):
     with open(src, "rb") as f:
         data = f.read()
     os.makedirs(out_dir, exist_ok=True)
     stem = os.path.splitext(os.path.basename(src))[0]
+    rates = sample_rates(data)
     n = 0
-    for i, frames in enumerate(snd_samples(data)):
-        write_wav(os.path.join(out_dir, f"{stem}_{i:03d}.wav"), [decode(frames)], rate)
+    for i, (off, frames) in enumerate(snd_samples(data)):
+        r = rate or rates.get(off, RATE)
+        write_wav(os.path.join(out_dir, f"{stem}_{i:03d}.wav"), [decode(frames)], r)
         n += 1
     return n
 
 
 def main(argv):
     if len(argv) >= 4 and argv[1] == "snd":
-        rate = int(argv[argv.index("--rate") + 1]) if "--rate" in argv else 22050
+        rate = int(argv[argv.index("--rate") + 1]) if "--rate" in argv else None
         print(convert_snd(argv[2], argv[3], rate), "samples")
+    elif len(argv) == 3 and argv[1] == "tones":
+        for prog, i, root, fine, off in tones(open(argv[2], "rb").read()):
+            print(f"program {prog:3d} tone {i:3d}: root {root:3d} fine {fine:+4d} sample @{off:#x}")
     elif len(argv) == 4 and argv[1] == "all":
         from multiprocessing import Pool
         fs_dir, out_dir = argv[2], argv[3]
