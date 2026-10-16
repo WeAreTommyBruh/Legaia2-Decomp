@@ -11,8 +11,7 @@ everything locally; `.gitignore` keeps generated files out of git.
 
 | Path | What |
 | --- | --- |
-| `decompile.sh` | Builds the Ghidra project and decompiled C from your disc image |
-| `ghidra/scripts/` | Headless Ghidra scripts used by `decompile.sh` |
+| `ghidra/scripts/` | Headless Ghidra scripts (import, code recovery, naming, C export) |
 | `tools/fs_tool.py` | Lists / extracts the game's FS archive straight from the ISO |
 | `tools/lzss.py` | Decompresses `.lzs` files (single files and multi-file archives) |
 | `tools/pac_tool.py` | Lists / splits `.pac` map packages into their chunks |
@@ -36,11 +35,11 @@ Needs JDK 21 and Ghidra 12.1.4 with the
 [ghidra-emotionengine-reloaded](https://github.com/chaoticgd/ghidra-emotionengine-reloaded)
 extension (expected in `~/tools`, override with `JAVA_HOME` / `GHIDRA`).
 
-Put your disc image in the repo root as `SLES_50891.ISO`, then run `./decompile.sh`. It builds the
-Ghidra project and C output, then extracts and converts the game files: the file system (`fs/`,
-`fs_index.csv`), decompressed files (`fs_unpacked/`), the battle-script opcode list (`docs/`),
-~7,700 textures (`png/`), ~3 GB of WAV audio (`wav/`), MIDI (`mid/`), ~280 models (`obj/`) and the
-movie (`movie/`). Each tool can also be run on its own; see its usage text.
+Put your disc image in the repo root as `SLES_50891.ISO`, then type the commands listed in
+`README.md`. The four Ghidra commands build the project and C output; the rest extract and convert
+the game files: the file system (`fs/`, `fs_index.csv`), decompressed files (`fs_unpacked/`), the
+battle-script opcode list (`docs/`), ~7,700 textures (`png/`), ~3 GB of WAV audio (`wav/`), MIDI
+(`mid/`), ~280 models (`obj/`) and the movie (`movie/`).
 
 ## Pipeline
 
