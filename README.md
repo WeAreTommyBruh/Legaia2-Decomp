@@ -12,7 +12,7 @@ git clone https://github.com/WeAreTommyBruh/Legaia2Decomp.git
 [ghidra-emotionengine-reloaded](https://github.com/chaoticgd/ghidra-emotionengine-reloaded)
 extension (expected in `~/tools`, override with `JAVA_HOME` / `GHIDRA`).
 
-- Then Put your Legaia 2 (PAL) disc image in the root as "SLES_50891.ISO" And in your terminal, from the repo folder.
+- Then Put your Legaia 2 (PAL) disc image in the root as "SLES_50891.ISO" And in your terminal run these.
 
 
 ```bash
