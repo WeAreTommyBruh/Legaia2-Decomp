@@ -19,6 +19,12 @@ extern int D_004A657C, D_004A6580, D_004A6584;
 void FUN_00260150(int, int);
 void FUN_00265db0(int);
 int FUN_00268580(int);
+int rand(void);
+int FUN_0029b710(void *);
+extern struct {
+    char unk0[0x84];
+    int busy; /* see FUN_0025feb0 */
+} D_003FEBA8;
 
 extern s64 D_004A12F0; /* the pad's buttons */
 extern int D_004A140C, D_004A64A0, D_004A1448;
@@ -184,6 +190,61 @@ void FUN_00260c00(void)
 }
 
 /* runs FUN_00265db0 for each of the 5 states, then puts everything back */
+/* calls FUN_00260150(4, ...) with an id chosen from the state of a
+   random member among those in states 0-4 (state 1 only when
+   D_003FEBA8.busy is 0) */
+// MATCH func_00261018
+void FUN_00261018(void)
+{
+    u32 st[4];
+    int idx[4];
+    char buf[16];
+    int n = 0, i, v;
+    u32 k;
+    for (i = 0; i < 3; i++) {
+        u32 s = D_00314D08[i];
+        if (s < 5) {
+            if (s == 1 && D_003FEBA8.busy != 0)
+                continue;
+            st[n] = s;
+            idx[n] = i;
+            n++;
+        }
+    }
+    if (n == 0)
+        return;
+    k = st[rand() % n];
+    v = FUN_0029b710(buf) < 80 ? 0 : 4;
+    if (FUN_0029b710(buf) < 46)
+        v = 2;
+    if (n == 1 && k == 0) {
+        FUN_00260150(4, rand() % 2 + 109);
+    } else {
+        switch (k) {
+        case 0: {
+            int r = rand() % 2 + 103;
+            FUN_00260150(4, v + r);
+            break;
+        }
+        case 1:
+            FUN_00260150(4, rand() % 2 + 111);
+            break;
+        case 2:
+            FUN_00260150(4, rand() % 2 + 113);
+            break;
+        case 3:
+            FUN_00260150(4, rand() % 2 + 115);
+            break;
+        case 4:
+            FUN_00260150(4, rand() % 2 + 117);
+            break;
+        case 5:
+            FUN_00260150(4, rand() % 2 + 119);
+            break;
+        }
+    }
+}
+
 /* a frame of the camera test: the pad turns (wrapping at pi) and moves it */
 // MATCH func_00264600
 void FUN_00264600(void)
