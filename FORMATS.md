@@ -31,6 +31,7 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/match.py` | Compiles C with ee-gcc 2.9-ee-991111-01 and compares one function with the original |
 | `tools/gen_tiny.py` | Writes C for tiny functions from their instructions (`src/gen/`), keeping exact matches |
 | `tools/gen_ghidra.py` | Keeps Ghidra's decompilation of functions where it already matches (`src/ghidra/`; run after `gen_tiny.py`) |
+| `tools/perm_setup.py` | Sets up a [decomp-permuter](https://github.com/simonlindholm/decomp-permuter) directory for one function (`build/perm/`), scored with `tools/perm_objdump.py` (no MIPS binutils needed) |
 | `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`) |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,

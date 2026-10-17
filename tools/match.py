@@ -91,13 +91,19 @@ def symbol_address(name):
     return _symbols.get(name)
 
 
-def function_bytes(obj, name, addr=None, original=None):
+DATA_SECTIONS = (".rodata", ".data", ".sdata", ".lit4", ".lit8")
+
+
+def function_bytes(obj, name, addr=None, original=None, placements=None):
     """Returns (words, masks) of function `name` in a relocatable ELF object.
 
     Without `addr`, relocated fields are masked (masks has their bits set).
     With `addr` (the function's final address), they are filled in from the
     symbols' final addresses as the linker would; only fields whose symbol
-    is unknown stay masked."""
+    is unknown stay masked. References to the object's own data (a switch's
+    jump table in .rodata, constants) are placed where the original
+    instruction (`original`) points; `placements` ({section: address}) gets
+    those addresses, and compare() checks the data there."""
     d = open(obj, "rb").read()
     secs = sections(d)
     symtab = next(h for n, h in secs if h[1] == 2)
@@ -124,15 +130,56 @@ def function_bytes(obj, name, addr=None, original=None):
                     relocs.append((off, info & 0xFF, info >> 8))
     funcs_at = {v: s for s, v, sz, inf, sh in syms if sh == shndx and inf & 0xF == 2}
     gp = 0x4A7C70
+
+    def inplace(off):
+        return struct.unpack_from("<I", d, text[4] + off)[0]
+
+    def lo_after(k, si):
+        return next((inplace(o) for o, t, s2 in relocs[k + 1:] if t == 6 and s2 == si), 0) & 0xFFFF
+
+    def own_data(si):
+        """Name of the object's data section a section symbol stands for."""
+        s, v, sz, inf, sh = syms[si]
+        if inf & 0xF == 3 and 0 < sh < len(secs) and secs[sh][0] in DATA_SECTIONS:
+            return secs[sh][0]
+        return None
+    placed, refs = {}, {}
+    if addr is not None and original is not None:
+        # where the original puts each of the object's data sections
+        for k, (off, rtype, si) in enumerate(relocs):
+            sec = own_data(si)
+            if not sec:
+                continue
+            i = (off - val) // 4
+            if rtype == 5:
+                j = next(((o - val) // 4 for o, t, s2 in relocs[k + 1:] if t == 6 and s2 == si), None)
+                if j is None:
+                    continue
+                want = ((original[i] & 0xFFFF) << 16) + s16(original[j] & 0xFFFF)
+                ours = ((inplace(off) & 0xFFFF) << 16) + s16(inplace(val + 4 * j) & 0xFFFF)
+            elif rtype == 7:
+                want = gp + s16(original[i] & 0xFFFF)
+                ours = s16(inplace(off) & 0xFFFF)
+            else:
+                continue
+            base = (want - ours) & 0xFFFFFFFF
+            if placed.setdefault(sec, base) != base:
+                placed[sec] = None  # the references disagree
+            refs.setdefault(sec, set()).add(ours)
+        if placements is not None:
+            placements.update({sec: (b, refs[sec]) for sec, b in placed.items()})
     for k, (off, rtype, si) in enumerate(relocs):
         i = (off - val) // 4
         mask = RELOC_MASK.get(rtype, 0xFFFFFFFF)
         target = None
         if addr is not None:
             sname = syms[si][0]
-            if not sname and rtype == 4:  # call inside the file: by section offset
+            if own_data(si):
+                target, sname = placed.get(own_data(si)), ""
+            elif not sname and rtype == 4:  # call inside the file: by section offset
                 sname = funcs_at.get((words[i] & 0x03FFFFFF) << 2, "")
-            target = symbol_address(sname) if sname else None
+            if sname:
+                target = symbol_address(sname)
             if target is None and sname and rtype == 4 and original is not None:
                 # a name Ghidra repeats: fine if the original calls one of them
                 o = ((addr + off - val) & 0xF0000000) | ((original[i] & 0x03FFFFFF) << 2)
@@ -144,8 +191,7 @@ def function_bytes(obj, name, addr=None, original=None):
         elif rtype == 4:
             words[i] = (w & ~0x03FFFFFF) | ((target >> 2) & 0x03FFFFFF)
         elif rtype == 5:  # %hi: the addend continues in the next %lo of the symbol
-            lo = next((struct.unpack_from("<I", d, text[4] + o)[0] for o, t, s2 in relocs[k + 1:]
-                       if t == 6 and s2 == si), 0) & 0xFFFF
+            lo = lo_after(k, si)
             v = target + ((w & 0xFFFF) << 16) + (lo - 0x10000 if lo & 0x8000 else lo)
             words[i] = (w & ~0xFFFF) | (((v + 0x8000) >> 16) & 0xFFFF)
         elif rtype in (6, 7):
@@ -157,11 +203,72 @@ def function_bytes(obj, name, addr=None, original=None):
     return words, masks
 
 
+def s16(x):
+    return x - 0x10000 if x & 0x8000 else x
+
+
+def check_data(obj, name, addr, placements):
+    """Number of words of the object's data, placed at `placements`, that
+    differ from the original: the words the function's relocations refer
+    to, and every word relocated against the function (jump table entries,
+    whose addresses must be the original's)."""
+    d = open(obj, "rb").read()
+    secs = sections(d)
+    symtab = next(h for n, h in secs if h[1] == 2)
+    strtab = secs[symtab[6]][1]
+    syms = []
+    for i in range(symtab[5] // 16):
+        nm, v, size, info, other, shndx = struct.unpack_from("<IIIBBH", d, symtab[4] + 16 * i)
+        syms.append((d[strtab[4] + nm:d.index(b"\0", strtab[4] + nm)].decode(), v, size, info, shndx))
+    fn = next(x for x in syms if x[0] == name and x[3] & 0xF == 2)
+    fval, fsize, fsec = fn[1], fn[2], fn[4]
+    exe = open(EXE, "rb").read()
+    osecs = [h for n, h in sections(exe) if h[1] == 1]
+
+    def original_at(a):
+        for h in osecs:
+            if h[3] <= a < h[3] + h[5]:
+                return struct.unpack_from("<I", exe, h[4] + a - h[3])[0]
+        return None
+    bad = 0
+    for sname, (base, refs) in placements.items():
+        if base is None:
+            bad += 1
+            continue
+        si = next(i for i, (n, h) in enumerate(secs) if n == sname)
+        h = secs[si][1]
+        data = bytearray(d[h[4]:h[4] + h[5]])
+        relocs = {}
+        for n, rh in secs:
+            if rh[1] == 9 and rh[7] == si:
+                for j in range(rh[5] // 8):
+                    off, info = struct.unpack_from("<II", d, rh[4] + 8 * j)
+                    relocs[off] = (info & 0xFF, info >> 8)
+        for off, (rtype, symi) in relocs.items():
+            s, v, size, info, shndx = syms[symi]
+            if rtype != 2 or shndx != fsec:
+                continue  # another function's table: checked with that function
+            w = struct.unpack_from("<I", data, off)[0]
+            target = addr - fval + v + w  # REL: the addend is in place
+            if not fval <= target - addr + fval < fval + fsize or original_at(base + off) != target:
+                bad += 1
+        # constants the code refers to (a jump table's first word is
+        # relocated, and checked above)
+        for off in refs:
+            if off not in relocs and (off + 4 > len(data) or
+                                      original_at(base + off) != struct.unpack_from("<I", data, off)[0]):
+                bad += 1
+    return bad
+
+
 def compare(obj, name, addr):
     """Number of words of `name` in `obj` that differ from the original at
-    `addr`, with relocations resolved; unknown symbols count as differences."""
+    `addr`, with relocations resolved; unknown symbols count as differences,
+    and so do words of the object's own data that differ from the original
+    where the original keeps them."""
     n = len(function_bytes(obj, name)[0])
-    words, masks = function_bytes(obj, name, addr, original_words(addr, n))
+    placements = {}
+    words, masks = function_bytes(obj, name, addr, original_words(addr, n), placements)
     # trailing zero words are alignment padding, unless one is a delay slot
     while len(words) > 1 and words[-1] == 0 and masks[-1] == 0:
         prev = ee_disasm.decode(words[-2], addr + 4 * (len(words) - 2))
@@ -169,7 +276,10 @@ def compare(obj, name, addr):
             break
         words.pop(), masks.pop()
     want = original_words(addr, len(words))
-    return sum(1 for w, m, o in zip(words, masks, want) if m or w != o), words, masks, want
+    bad = sum(1 for w, m, o in zip(words, masks, want) if m or w != o)
+    if placements:
+        bad += check_data(obj, name, addr, placements)
+    return bad, words, masks, want
 
 
 def original_words(addr, count):

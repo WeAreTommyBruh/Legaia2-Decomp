@@ -63,6 +63,9 @@ C_DATA = (".data", ".rodata", ".bss", ".sdata", ".sbss", ".lit4", ".lit8")
 # a C file can ask for more flags with a `// cflags: ...` line; only
 # -fexceptions is used: the game's C++ files were built with exceptions on,
 # which keeps calls at the end of a function from becoming tail calls
+# (object, section, address) of the C files' own data, placed where the
+# original has it (a switch's jump table must be at the address the code uses)
+C_DATA_PLACED = []
 FILE_FLAGS = re.compile(r"^//\s*cflags:(.*)$", re.M)
 
 
@@ -103,8 +106,9 @@ def functions():
 
 def c_functions():
     """Compiles src/*.c; returns {address: (object, name, size)} for MATCH functions."""
-    from match import function_bytes, sections
+    from match import function_bytes, original_words, sections
     objcopy = tool("OBJCOPY", "llvm-objcopy")
+    del C_DATA_PLACED[:]
     flags = abi_flags()
     out = {}
     for src in sorted(glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True)):
@@ -118,9 +122,7 @@ def c_functions():
         r = subprocess.run([EE_CC, "-c", *CFLAGS, "-o", obj, src], capture_output=True, text=True)
         if r.returncode:
             raise SystemExit(f"{src}:\n{r.stderr}")
-        for name, h in sections(open(obj, "rb").read()):
-            if name in C_DATA and h[5]:
-                raise SystemExit(f"{src}: has {name} data; not supported yet")
+        own = {name for name, h in sections(open(obj, "rb").read()) if name in C_DATA and h[5]}
         extra = file_flags(src)
         if extra:
             # -fexceptions adds frame tables to .data, which the build does not
@@ -132,9 +134,21 @@ def c_functions():
         data = bytearray(open(obj, "rb").read())
         struct.pack_into("<I", data, 0x24, flags)
         open(obj, "wb").write(data)
+        placed = {}
         for addr, name in marks:
             words, _ = function_bytes(obj, name)
             out[int(addr, 16)] = (os.path.basename(obj), name, 4 * len(words))
+            # the file's own data (switch tables) goes where the original has it
+            p = {}
+            function_bytes(obj, name, int(addr, 16), original_words(int(addr, 16), len(words)), p)
+            for sec, (base, _) in p.items():
+                if base is None or placed.setdefault(sec, base) != base:
+                    raise SystemExit(f"{src}: {sec} would have to be in two places; "
+                                     "put the functions that use it in separate files")
+        for sec in own:
+            if sec not in placed:
+                raise SystemExit(f"{src}: has {sec} data that no matched function places")
+            C_DATA_PLACED.append((os.path.basename(obj), sec, placed[sec]))
     return out
 
 
@@ -268,6 +282,8 @@ def write_link(elf, order, funcs, cfuncs):
     for s in DATA_SECTIONS:
         sec = elf.section(s)
         lines.append(f"  {s}_out {sec['addr']:#x} : {{ *(.bin{s}) }}\n")
+    for k, (obj, sec, addr) in enumerate(C_DATA_PLACED):
+        lines.append(f"  .c_data{k} {addr:#x} : {{ */{obj}({sec}) }}\n")
     lines.append("  /DISCARD/ : { *(.MIPS.abiflags) *(.reginfo) *(.pdr) *(.comment) *(.mdebug*)"
                  " *(.data) *(.bss)"
                  " *(.text) *(.text.*) }\n}\n")  # C's own empty .text, unmarked functions
@@ -343,6 +359,18 @@ def build():
                 c_ranges = [(int(o[3], 16), int(o[3], 16) + int(o[4])) for o in order if o[0] == "c"]
                 record_mismatches(got, want, sec["addr"], c_ranges)
         new[sec["off"]:sec["off"] + len(got)] = got[:sec["size"]]
+    # the C files' own data overlays the original's at the same address
+    for k, (obj, sec, addr) in enumerate(C_DATA_PLACED):
+        dump = os.path.join(BUILD, "sec.bin")
+        subprocess.run([objcopy, "-O", "binary", f"--only-section=.c_data{k}", linked, dump], check=True)
+        got = open(dump, "rb").read()
+        host = next(orig.section(s) for s in DATA_SECTIONS
+                    if orig.section(s)["addr"] <= addr < orig.section(s)["addr"] + orig.section(s)["size"])
+        off = host["off"] + addr - host["addr"]
+        if got != orig.data[off:off + len(got)]:
+            ok = False
+            print(f"{obj} {sec} at {addr:#x} differs from the original data")
+        new[off:off + len(got)] = got
     out = os.path.join(BUILD, "SLES_508.91")
     open(out, "wb").write(new)
     h1, h2 = hashlib.sha1(new).hexdigest(), hashlib.sha1(orig.data).hexdigest()
