@@ -279,6 +279,10 @@ def write_link(elf, order, funcs, cfuncs):
             lines.append(f"PROVIDE({name} = {addr:#x});\n")
     for addr, (_, name, _) in sorted(cfuncs.items()):
         lines.append(f"func_{addr:08X} = {name};\n")
+    from match import extra_symbols
+    for name, addr in sorted(extra_symbols().items()):  # src/symbols.txt
+        if name not in c_names:
+            lines.append(f"PROVIDE({name} = {addr:#x});\n")
     # globals the C refers to as D_XXXXXXXX, and the original $gp (from .reginfo)
     used = set()
     for src in glob.glob(os.path.join(ROOT, "src", "**", "*.[ch]"), recursive=True):

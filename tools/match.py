@@ -3,6 +3,7 @@
 original executable.
 
   match.py FILE.c FUNCTION ADDRESS [compiler flags...]
+  match.py FILE.c          (every function marked `// MATCH func_XXXXXXXX`)
 
 FILE.c is compiled with $EE_CC (default ~/tools/ee-gcc2.9-991111-01/bin/ee-gcc; the driver
 picks cc1plus for .cpp files) using -O2 -G8 plus the file's `// cflags:` line
@@ -52,6 +53,18 @@ def symbol_addresses(name):
     return _dupes.get(name, ())
 
 
+def extra_symbols():
+    """{name: address} from src/symbols.txt (names Ghidra's list lacks)."""
+    out = {}
+    path = os.path.join(ROOT, "src", "symbols.txt")
+    if os.path.exists(path):
+        for line in open(path):
+            f = line.split("#")[0].split()
+            if len(f) == 2:
+                out[f[0]] = int(f[1], 16)
+    return out
+
+
 def symbol_address(name):
     """Final address of a symbol the C refers to: D_XXXXXXXX / func_XXXXXXXX,
     a function name from decomp/functions.csv, or a matched C function."""
@@ -71,6 +84,7 @@ def symbol_address(name):
                 else:
                     seen.add(n)
                     _symbols[n] = int(r["address"], 16)
+        _symbols.update(extra_symbols())
         for src in glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True):
             for a, n in re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})\s*\n[^\n(]*?(\w+)\s*\(", open(src).read()):
                 _symbols[n] = int(a, 16)
@@ -176,7 +190,28 @@ def file_flags(src):
     return m.group(1).split() if m else []
 
 
+def check_file(src):
+    """Compiles FILE.c and compares every function marked `// MATCH func_X`."""
+    cc = os.environ.get("EE_CC", DEFAULT_CC)
+    marks = re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})\s*\n[^\n(]*?(\w+)\s*\(", open(src).read())
+    with tempfile.TemporaryDirectory() as tmp:
+        obj = os.path.join(tmp, "out.o")
+        r = subprocess.run([cc, "-c", "-O2", "-G8", *file_flags(src), "-o", obj, src],
+                           capture_output=True, text=True)
+        if r.returncode:
+            raise SystemExit(r.stderr.strip() or "compile failed")
+        bad_funcs = 0
+        for a, name in marks:
+            bad, words, _, _ = compare(obj, name, int(a, 16))
+            print(f"{a.lower()} {name}: " + ("MATCH" if not bad else f"{bad} of {len(words)} words differ"))
+            bad_funcs += bool(bad)
+    print(f"{len(marks) - bad_funcs} of {len(marks)} marked functions match")
+    return 1 if bad_funcs else 0
+
+
 def main(argv):
+    if len(argv) == 2:
+        return check_file(argv[1])
     if len(argv) < 4:
         raise SystemExit(__doc__)
     src, name, addr = argv[1], argv[2], int(argv[3], 16)
