@@ -49,6 +49,7 @@ python3 tools/asm_build.py all
 python3 tools/progress.py
 python3 tools/report.py
 ```
+- For windows users you need to install [WSL](https://github.com/microsoft/WSL) with Ubuntu.
 
 # AI Usage
 This decompilation project is heavily ai assisted. I check everything one by one to make sure there is nothing wrong.
