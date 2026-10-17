@@ -23,7 +23,7 @@ This is not a matching decompilation. "Matched" below means C that happens to co
 | Code bytes matched in C | 65,148 / 2,019,536 | 3.2% | `#.............................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
-| .text words disassembled as instructions | 484,375 / 492,244 | 98.4% | `##############################` |
+| .text words disassembled as instructions | 484,226 / 492,094 | 98.4% | `##############################` |
 
 Functions with a source file come from the game's `__FILE__` debug strings; real names are the descriptive and library names given in `ghidra/scripts/NameFunctions.java`. The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, VU0 macro mode), written as `.word` because clang cannot assemble them.
 
