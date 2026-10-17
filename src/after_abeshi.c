@@ -33,9 +33,40 @@ typedef struct {
 typedef struct {
     char unk0[0x12c0];
     Model *model;
-    char unk12c4[0x1560 - 0x12c4];
+    char unk12c4[0x12d0 - 0x12c4];
+    int flags;
+    char unk12d4[0x1560 - 0x12d4];
 } Chr;
 extern Chr *D_004A1A20;
+
+/* a battle slot (10 at D_003FDFA0: 5 of each side) */
+typedef struct {
+    char unk0[0x20];
+    u16 base_a;
+    u16 a;
+    u16 base_c;
+    u16 c;
+    char unk28[0x48 - 0x28];
+} Slot;
+/* the slot's display values (D_00400498 for the first five, D_003FD938) */
+typedef struct {
+    char unk0[0xa8];
+    float a;
+    char unkac[4];
+    float c;
+    char unkb4[0x1d8 - 0xb4];
+} SlotView;
+/* a party record (20 at D_00419D18) */
+typedef struct {
+    char unk0[4];
+    int x4, x8;
+    char unkc[0x38 - 0xc];
+    int saved4, saved8;
+    char unk40[0xb0 - 0x40];
+} Record;
+extern Slot D_003FDFA0[10];
+extern SlotView D_00400498[], D_003FD938[];
+extern Record D_00419D18[20];
 
 int FUN_0010a268(void *, int);
 int FUN_0010ef68(void *, void *, int);
@@ -218,6 +249,34 @@ void FUN_00264eb0(int id, int mode, int reset)
         for (i = 0; i < 10; i++)
             D_003FEBA8.order[i] = -1;
         break;
+    }
+}
+
+/* resets the slots' values to their base ones (in mode 11: the records') */
+// MATCH func_00265B38
+void FUN_00265b38(void)
+{
+    int i;
+    if (D_004A12A4 == 11) {
+        for (i = 0; i < 20; i++) {
+            if (D_004A1A20[i].flags & 0x40000000) {
+                D_00419D18[i].saved4 = D_00419D18[i].x4;
+                D_00419D18[i].saved8 = D_00419D18[i].x8;
+                if (D_004A1A20[i].flags & 1)
+                    D_004A1A20[i].flags &= ~1;
+            }
+        }
+    } else {
+        for (i = 0; i < 10; i++) {
+            Slot *o = &D_003FDFA0[i];
+            SlotView *q;
+            if (i < 5)
+                q = &D_00400498[i];
+            else
+                q = &D_003FD938[i];
+            q->a = o->a = o->base_a;
+            q->c = o->c = o->base_c;
+        }
     }
 }
 
