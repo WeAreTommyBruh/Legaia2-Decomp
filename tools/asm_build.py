@@ -75,13 +75,17 @@ def file_flags(src):
     return m.group(1).split() if m else []
 
 
-# Some of the game's files were built with an older EE GCC, 2.9-ee-990721
-# (no global CSE, and other small differences); such a C file has a
-# `// compiler: 990721` line.
+# Some of the game's files were built with an older EE GCC: its compiler is
+# 2.9-ee-990721's (no global CSE, and other small differences), its
+# assembler the one of 991111-01 (which pads short loops for the R5900);
+# such a C file has a `// compiler: 990721` line. The game's build may have
+# been a version in between: 990721 calls a library routine to convert a
+# float to an int, where the game uses cvt.w.s.
 FILE_COMPILER = re.compile(r"^//\s*compiler:\s*(\S+)", re.M)
+EE_CC_990721 = os.environ.get("EE_CC_990721", os.path.expanduser("~/tools/ee-gcc2.9-990721/bin/ee-gcc"))
 COMPILERS = {
-    "991111-01": EE_CC,
-    "990721": os.environ.get("EE_CC_990721", os.path.expanduser("~/tools/ee-gcc2.9-990721/bin/ee-gcc")),
+    "991111-01": [EE_CC],
+    "990721": [EE_CC_990721, "-B" + os.path.join(os.path.dirname(os.path.dirname(EE_CC)), "ee", "bin") + "/"],
 }
 
 
@@ -97,7 +101,7 @@ def compile_c(src, obj, flags, compiler=None, capture=True, timeout=None):
     compiler = compiler or file_compiler(src)
     if compiler not in COMPILERS:
         raise SystemExit(f"{src}: unknown compiler {compiler}")
-    return subprocess.run([COMPILERS[compiler], "-c", *flags, "-o", obj, src], capture_output=capture,
+    return subprocess.run([*COMPILERS[compiler], "-c", *flags, "-o", obj, src], capture_output=capture,
                           text=True, timeout=timeout)
 
 

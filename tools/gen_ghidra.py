@@ -501,26 +501,35 @@ def compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp):
 timed_out = False
 
 
-def try_one(job):
-    """Returns (job key, match or None)."""
+# the searches, in order: (name, compiler, extra flags). A function is
+# tried with the next only when the ones before found nothing; results are
+# cached per search, so adding one only runs the new search.
+PASSES = (
+    ("991111-01", "991111-01", ()),
+    ("990721", "990721", ()),
+    ("991111-01-nogcse", "991111-01", ("-fno-gcse",)),
+)
+
+
+def try_one(job_passes):
+    """Returns (job key, {pass name: match or None}) for the passes asked."""
     global timed_out
-    timed_out = False
-    return job[-1], search(job)
-
-
-def search(job):
-    """Ghidra's text with every rewrite, built with ee-gcc 2.9-ee-991111-01;
-    then all of it again with ee-gcc 2.9-ee-990721, which built some files."""
-    for compiler in ("991111-01", "990721"):
-        found = search_with(job, compiler)
+    job, passes = job_passes
+    out = {}
+    for name, compiler, extra in PASSES:
+        if name not in passes:
+            continue
+        timed_out = False
+        found = search_with(job, compiler, extra)
+        out[name] = found
         if found or timed_out:
-            return found
-    return None
+            break
+    return job[-1], out
 
 
-def search_with(job, compiler):
+def search_with(job, compiler, extra=()):
     addr, name, group, body0, protos, hdr, size, _ = job
-    flag_sets = [f + ((f"compiler={compiler}",) if compiler != "991111-01" else ())
+    flag_sets = [tuple(extra) + f + ((f"compiler={compiler}",) if compiler != "991111-01" else ())
                  for f in flag_choices(addr, size)]
     tried = set()  # options often give the same text (no long to change, no byte to sign)
     for opts, variant, types in itertools.product(OPTIONS, ("int", "ghidra"), dat_type_choices(body0)):
@@ -564,7 +573,7 @@ CACHE = os.path.join(ROOT, "build", "gen_ghidra_cache.json")
 
 # bump when a change to the search (rewrites, flags, compilers) can change
 # results; the cache in build/ is then rebuilt from scratch
-CACHE_VERSION = 3
+CACHE_VERSION = 3  # the passes are cached apart (PASSES)
 
 
 def inputs_key():
@@ -575,7 +584,7 @@ def inputs_key():
     h = hashlib.sha1(f"{CACHE_VERSION}".encode())
     for path in (os.path.join(ROOT, "src", "ghidra.h"), os.path.join(ROOT, "decomp", "legaia2.h"),
                  os.path.join(ROOT, "decomp", "functions.csv"), asm_build.EXE,
-                 *asm_build.COMPILERS.values()):
+                 asm_build.EE_CC, asm_build.EE_CC_990721):
         h.update(open(path, "rb").read())
     return h.hexdigest()
 
@@ -587,13 +596,17 @@ def job_key(job, tools_key):
 
 
 def load_cache():
-    """{job key: match or None} from earlier runs (build/, so not in git)."""
+    """{job key: {pass name: match or None}} from earlier runs (build/, so not
+    in git). An older cache ({job key: match or None}, from the first two
+    passes) is read as such."""
     import json
     try:
         with open(CACHE) as f:
-            return json.load(f)
+            cache = json.load(f)
     except (OSError, ValueError):
         return {}
+    return {k: (v if isinstance(v, dict) else {"991111-01": v, "990721": v} if v is None else
+                {"991111-01": v}) for k, v in cache.items()}
 
 
 def save_cache(cache, keep):
@@ -627,17 +640,35 @@ def main(argv):
         job = (addr, r["name"], r["group"] or "none", body_of(paths[0]), protos, hdr, size)
         jobs.append(job + (job_key(job, tools_key),))
     cache = load_cache()
+
+    def match_of(entry):
+        return next((v for v in entry.values() if v), None)
     if "--from-cache" in argv:
         # only rewrite src/ghidra: every match in the cache that is not taken now
-        by_addr = {v[0]: tuple(v[:-1]) + (tuple(v[-1]),) for v in cache.values() if v and v[0] not in taken}
+        by_addr = {}
+        for entry in cache.values():
+            m = match_of(entry)
+            if m and m[0] not in taken:
+                by_addr[m[0]] = tuple(m[:-1]) + (tuple(m[-1]),)
         return write_files([by_addr[a] for a in sorted(by_addr)])
-    todo = [j for j in jobs if j[-1] not in cache]
-    print(f"trying {len(jobs)} functions ({len(jobs) - len(todo)} known from {CACHE})")
+    todo = []
+    for j in jobs:
+        entry = cache.get(j[-1], {})
+        if match_of(entry):
+            continue
+        missing = [n for n, _, _ in PASSES if n not in entry]
+        if missing:
+            todo.append((j, missing))
+    print(f"trying {len(todo)} of {len(jobs)} functions (the rest known from {CACHE})")
     with concurrent.futures.ProcessPoolExecutor(os.cpu_count()) as pool:
-        for key, found in pool.map(try_one, todo, chunksize=8):
-            cache[key] = found
+        for key, results in pool.map(try_one, todo, chunksize=8):
+            cache.setdefault(key, {}).update(results)
     save_cache(cache, {j[-1] for j in jobs})
-    found = [tuple(cache[j[-1]][:-1]) + (tuple(cache[j[-1]][-1]),) for j in jobs if cache.get(j[-1])]
+    found = []
+    for j in jobs:
+        m = match_of(cache.get(j[-1], {}))
+        if m:
+            found.append(tuple(m[:-1]) + (tuple(m[-1]),))
     write_files(found)
 
 
