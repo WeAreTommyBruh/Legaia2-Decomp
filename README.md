@@ -62,4 +62,4 @@ I will not be accepting pull requests,external code contributions, or issue repo
 This repository contains no game files: no disc image, executable, graphics, audio, text or other assets, and nothing extracted from them. It holds only tools, documentation and C reconstructed from analysing the game's code (written by hand, or generated with Ghidra and checked against the original). You will have to provide your own Legaia 2: Duel Saga (PAL, SLES-50891) disc image.
 
 # How long will this take?
-This is take between a few months to years of matching functions and decoding stuff to reach 100%. After 100% decompile it will take a between a few weeks to a month to recompile it. I am in no rush to complete this project so it will be finished when its finished.
+This is take between a few months to years of matching functions and decoding stuff to reach 100%. After 100% decompile it will take between a few weeks to a month to recompile it. I am in no rush to complete this project so it will be finished when its finished.
