@@ -11,10 +11,6 @@ Open your terminal and clone the repo.
 git clone https://github.com/WeAreTommyBruh/Legaia2Decomp.git
 ```
 
-- You will be needing JDK 21 and Ghidra 12.1.4 with the
-[ghidra-emotionengine-reloaded](https://github.com/chaoticgd/ghidra-emotionengine-reloaded)
-extension (expected in `~/tools`, override with `JAVA_HOME` / `GHIDRA`).
-
 - For the rebuild and progress tools you also need clang and ld.lld (LLVM, with the MIPS target) and the game's compiler, ee-gcc 2.9-ee-991111-01, from decomp.me's compiler archive. It is a 32-bit Linux program, so on 64-bit Debian/Ubuntu you may need `libc6:i386`.
 
 ```bash
