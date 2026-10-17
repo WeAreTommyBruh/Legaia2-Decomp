@@ -152,6 +152,22 @@ def prepare(name, body, protos, variant, dat_types=()):
         body = re.sub(r"\b([a-z]+)Gp([0-9a-f]{8})\b", gp, body)
     except KeyError:
         return None
+    # names that quote a string (s_..., PTR_s_...) are replaced by the address
+    # symbol outright, so no text from the game stays in the source
+    def by_address(m):
+        kind, addr = m.groups()
+        sym = f"D_{addr.upper()}"
+        if kind.startswith("s_"):
+            if externs.setdefault(sym + "[]", "char") != "char":
+                raise KeyError(sym)
+            return sym
+        if externs.setdefault(sym + "[]", "undefined *") != "undefined *":
+            raise KeyError(sym)
+        return f"({sym}[0])"
+    try:
+        body = re.sub(r"\b(s_\w*?|PTR_s_\w*?)_([0-9a-f]{8})\b", by_address, body)
+    except KeyError:
+        return None
     names = list(dict.fromkeys(m.group(0) for m in ADDR_NAME.finditer(body)))
     dats = [n for n in names if n.startswith("DAT_")]
     if len(dats) != len(dat_types):

@@ -88,18 +88,16 @@ undefined8 pchevent_0020f050(uint param_1)
   return 0;
 }
 
-#define PTR_s_COLOR_003c2770 (D_003C2770[0])
 // MATCH func_002102D0
 void pchevent_002102d0(void)
 
 {
   undefined **ppuVar1;
   
-  ppuVar1 = &PTR_s_COLOR_003c2770;
+  ppuVar1 = &(D_003C2770[0]);
   do {
     FUN_0023a350(ppuVar1);
     ppuVar1 = ppuVar1 + 0xf;
-  } while (ppuVar1 == &PTR_s_COLOR_003c2770);
+  } while (ppuVar1 == &(D_003C2770[0]));
   return;
 }
-#undef PTR_s_COLOR_003c2770

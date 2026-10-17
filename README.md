@@ -1,6 +1,11 @@
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation
 Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude code. This is for preserving and educational purposes.
 
+This is not a matching decompilation: the goal is readable C and documented file formats, not source that rebuilds the game byte for byte. Functions whose C happens to compile to exactly the original bytes are counted as progress in [PROGRESS.md](PROGRESS.md) and on [ByteMatch](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp), which only tracks byte-identical code.
+
+[![Code](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp.svg?label=Code&measure=matched_code_percent)](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp)
+[![Functions](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp.svg?label=Functions&measure=matched_functions)](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp)
+
 # Setup
 Open your terminal and clone the repo.
 
@@ -12,7 +17,7 @@ git clone https://github.com/WeAreTommyBruh/Legaia2Decomp.git
 [ghidra-emotionengine-reloaded](https://github.com/chaoticgd/ghidra-emotionengine-reloaded)
 extension (expected in `~/tools`, override with `JAVA_HOME` / `GHIDRA`).
 
-- For the matching build you also need clang and ld.lld (LLVM, with the MIPS target) and the game's compiler, ee-gcc 2.9-ee-991111-01, from decomp.me's compiler archive. It is a 32-bit Linux program, so on 64-bit Debian/Ubuntu you may need `libc6:i386`.
+- For the rebuild and progress tools you also need clang and ld.lld (LLVM, with the MIPS target) and the game's compiler, ee-gcc 2.9-ee-991111-01, from decomp.me's compiler archive. It is a 32-bit Linux program, so on 64-bit Debian/Ubuntu you may need `libc6:i386`.
 
 ```bash
 mkdir -p ~/tools/ee-gcc2.9-991111-01 && curl -L https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111-01.tar.xz | tar xJ -C ~/tools/ee-gcc2.9-991111-01
@@ -54,7 +59,7 @@ This decompilation project is heavily ai assisted. I check everything one by one
 I will not be accepting pull requests,external code contributions, or issue reports at this time. You can fork this repo if you want.
 
 # Legal
-There are no copyrighted assets or game code in this. You will have to provide your own Legaia 2: Duel Saga (PAL, SLES-50891) disc image.
+This repository contains no game files: no disc image, executable, graphics, audio, text or other assets, and nothing extracted from them. It holds only tools, documentation and C reconstructed from analysing the game's code (written by hand, or generated with Ghidra and checked against the original). You will have to provide your own Legaia 2: Duel Saga (PAL, SLES-50891) disc image.
 
 # How long will this take?
 This is take between a few months to years of matching functions and decoding stuff to reach 100%. After 100% decompile it will take a between a few weeks to a month to recompile it. I am in no rush to complete this project so it will be finished when its finished.

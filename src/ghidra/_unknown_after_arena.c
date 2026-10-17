@@ -60,7 +60,6 @@ void FUN_00222ab0(int *param_1)
   return;
 }
 
-#define s_r__d_004a4df8 D_004A4DF8
 // MATCH func_00223440
 int FUN_00223440(int param_1)
 
@@ -70,10 +69,9 @@ int FUN_00223440(int param_1)
   iVar1 = rand();
   iVar1 = ((iVar1 >> 8) + D_004A7008) % (int)param_1;
   D_004A7008 = (D_004A7008 + 1) % 100;
-  DbgPrintf(s_r__d_004a4df8,iVar1);
+  DbgPrintf(D_004A4DF8,iVar1);
   return iVar1;
 }
-#undef s_r__d_004a4df8
 
 // MATCH func_002234D8
 void FUN_002234d8(void)
