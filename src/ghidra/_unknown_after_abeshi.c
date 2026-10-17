@@ -5,8 +5,6 @@
 
 extern char D_003E2013[];
 extern undefined * D_003E3D20[];
-extern int D_003FEBA8[];
-extern ushort D_004005C0[];
 extern byte D_005F8918[];
 extern byte D_005F8930[];
 extern byte D_005F8948[];
@@ -107,22 +105,6 @@ int FUN_00264e18(uint param_1)
 }
 #undef DAT_005f8960
 
-#define DAT_003feba8 (D_003FEBA8[0])
-// MATCH func_00264E78
-void FUN_00264e78(int param_1)
-
-{
-  DAT_003feba8 = DAT_003feba8 + param_1;
-  if (9999999 < DAT_003feba8) {
-    DAT_003feba8 = 9999999;
-  }
-  if (DAT_003feba8 < 0) {
-    DAT_003feba8 = 0;
-  }
-  return;
-}
-#undef DAT_003feba8
-
 // MATCH func_00269530
 int FUN_00269530(int param_1)
 
@@ -138,12 +120,3 @@ undefined * FUN_00269588(int param_1)
   return (&PTR_DAT_003e3d20)[param_1 * 5];
 }
 #undef PTR_DAT_003e3d20
-
-#define DAT_004005c0 (D_004005C0[0])
-// MATCH func_0026AF28
-int FUN_0026af28(void)
-
-{
-  return DAT_004005c0 - 0x12d;
-}
-#undef DAT_004005c0

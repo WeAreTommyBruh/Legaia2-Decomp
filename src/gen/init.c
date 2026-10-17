@@ -3,10 +3,23 @@
 #include "../common.h"
 
 extern int D_004A723C;
+void func_0024BD78();
 
 // MATCH func_0024AD50
 void init_0024ad50(void)
 {
+}
+
+// MATCH func_0024BC98
+void init_0024bc98(int a0, int a1, int a2, int a3, int a4)
+{
+    func_0024BD78(a0, a1, a2, a3, a4, 0);
+}
+
+// MATCH func_0024BCA0
+void init_0024bca0(int a0, int a1, int a2, int a3, int a4)
+{
+    func_0024BD78(a0, a1, a2, a3, a4, 1);
 }
 
 // MATCH func_0024BD48

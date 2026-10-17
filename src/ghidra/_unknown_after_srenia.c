@@ -4,9 +4,7 @@
 #include "../ghidra.h"
 
 extern int D_0043FED0[];
-extern char D_0045BFA0[];
 void FUN_00108b80(int param_1);
-int FUN_0018b508(undefined1 *param_1, undefined8 param_2);
 void MemFree(void *ptr);
 void eftpack_00202878(undefined8 param_1, uint param_2);
 
@@ -33,17 +31,5 @@ void FUN_0022bf98(int param_1)
     MemFree((void *)param_1);
     return;
   }
-  return;
-}
-
-// MATCH func_0022C080
-void FUN_0022c080(int param_1)
-
-{
-  undefined4 uVar1;
-  undefined1 auStack_30 [16];
-  
-  uVar1 = FUN_0018b508(((int)D_0045BFA0),auStack_30);
-  *(undefined4 *)(param_1 + 0x282c) = uVar1;
   return;
 }

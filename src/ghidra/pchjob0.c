@@ -5,46 +5,7 @@
 
 void FUN_00216a30(int *param_1);
 void FUN_00216b18(int param_1);
-int pchjob0_002056a8(void);
 void pchjob0_00206f38(int param_1);
-
-// MATCH func_00204A00
-int pchjob0_00204a00(int param_1)
-
-{
-  *(undefined4 *)param_1 = 0;
-  return param_1;
-}
-
-// MATCH func_00205718
-int pchjob0_00205718(void)
-
-{
-  int lVar1;
-  int uVar2;
-  
-  lVar1 = pchjob0_002056a8();
-  uVar2 = 0xffffffff;
-  if (lVar1 != 0) {
-    uVar2 = *(int *)lVar1;
-  }
-  return uVar2;
-}
-
-// MATCH func_00205748
-int pchjob0_00205748(void)
-
-{
-  int lVar1;
-  int uVar2;
-  
-  lVar1 = pchjob0_002056a8();
-  uVar2 = 0xffffffff;
-  if (lVar1 != 0) {
-    uVar2 = *(int *)((int)lVar1 + 4);
-  }
-  return uVar2;
-}
 
 // MATCH func_002057D8
 int pchjob0_002057d8(float param_1,float *param_2)

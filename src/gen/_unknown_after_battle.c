@@ -5,6 +5,8 @@
 extern int D_004A6E30;
 extern int D_004A6E34;
 extern int D_004A6E3C;
+void func_001297A0();
+void func_002B3198();
 
 // MATCH func_0012CF78
 void FUN_0012cf78(void)
@@ -18,9 +20,21 @@ void FUN_0012cf88(void)
     D_004A6E30 = 1;
 }
 
+// MATCH func_0012D018
+void FUN_0012d018(void)
+{
+    func_001297A0(0, 2, 0, 0, 0, 0);
+}
+
 // MATCH func_0012D238
 void FUN_0012d238(int v)
 {
     D_004A6E34 = v;
+}
+
+// MATCH func_0012D388
+void FUN_0012d388(void)
+{
+    func_002B3198(0, 0);
 }
 

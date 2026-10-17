@@ -122,3 +122,10 @@ int FUN_001f60e8(void *p)
     return FIELD(int, p, 0x100);
 }
 
+// MATCH func_001F6BE8
+void FUN_001f6be8(int a0, int a1)
+{
+    FIELD(int, a0, 0x18) = a1;
+    FIELD(int, a0, 0x14) = 0;
+}
+

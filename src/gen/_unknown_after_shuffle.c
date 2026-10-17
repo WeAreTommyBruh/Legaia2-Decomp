@@ -3,6 +3,7 @@
 #include "../common.h"
 
 extern int D_004A33B0;
+void func_0017A220();
 
 // MATCH func_00179868
 int FUN_00179868(void)
@@ -20,5 +21,11 @@ void FUN_00179ee8(void)
 void FUN_00179ef8(void)
 {
     D_004A33B0 = 0;
+}
+
+// MATCH func_0017A370
+void FUN_0017a370(void)
+{
+    func_0017A220(12608, 320, 112, 10);
 }
 

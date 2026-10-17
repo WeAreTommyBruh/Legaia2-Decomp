@@ -11,6 +11,12 @@ int FUN_00156610(void *p)
     return FIELD(int, p, 0x80);
 }
 
+// MATCH func_00156928
+void FUN_00156928(int a0, int a1)
+{
+    FIELD(int, a0, 0x10) = (a1 + 8);
+}
+
 // MATCH func_00156D98
 s16 FUN_00156d98(void *p)
 {

@@ -2,13 +2,23 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_0040E070[];
 extern int D_003FEBA8[];
 extern int D_003FEBAC[];
+void func_00202878();
+void func_00264E78();
 
 // MATCH func_00278698
 int FUN_00278698(void)
 {
     return 0;
+}
+
+// MATCH func_002941F0
+void FUN_002941f0(void)
+{
+    D_003FEBA8[0] = 0;
+    func_00264E78();
 }
 
 // MATCH func_00294200
@@ -21,5 +31,11 @@ int FUN_00294200(void)
 int FUN_00294210(void)
 {
     return D_003FEBAC[0];
+}
+
+// MATCH func_002943A0
+void FUN_002943a0(void)
+{
+    func_00202878((int)D_0040E070, 2);
 }
 

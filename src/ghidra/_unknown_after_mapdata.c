@@ -7,7 +7,6 @@ extern uint D_004A12A4;
 extern char * D_004A1360;
 extern char * D_004A1364;
 void FUN_00110490(void);
-void FUN_0015a570(int param_1, undefined4 param_2);
 void FUN_0015e060(void);
 int FUN_0018b508(undefined1 *param_1, undefined8 param_2);
 void MemFree(void *ptr);
@@ -23,36 +22,6 @@ void FUN_0015a578(int param_1,int param_2,int param_3)
   uVar1 = FUN_0018b508(param_2,0);
   mapdata_0015a1f8(param_1,uVar1,param_3);
   return;
-}
-
-// MATCH func_0015A5C0
-void FUN_0015a5c0(int param_1,int param_2)
-
-{
-  int uVar1;
-  undefined1 auStack_30 [16];
-  
-  if (param_2 == 0) {
-    FUN_0015a570(param_1,0);
-  }
-  else {
-    uVar1 = FUN_0018b508(param_2,auStack_30);
-    FUN_0015a570(param_1,uVar1);
-  }
-  return;
-}
-
-// MATCH func_0015AA68
-int FUN_0015aa68(int param_1)
-
-{
-  int iVar1;
-  
-  iVar1 = (int)param_1;
-  *(undefined4 *)(iVar1 + 0x120) = 0;
-  *(undefined4 *)(iVar1 + 0x138) = 0;
-  *(undefined4 *)(iVar1 + 0x144) = 0;
-  return param_1;
 }
 
 // MATCH func_0015ACE0

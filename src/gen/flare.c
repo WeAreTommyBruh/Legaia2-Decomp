@@ -2,6 +2,9 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_0015E2A0();
+void func_0015E4D8();
+
 // MATCH func_0015EB38
 void flare_0015eb38(void *p, float v)
 {
@@ -42,6 +45,24 @@ void flare_0015eb80(void *p)
 void flare_0015eb90(void *p)
 {
     FIELD(int, p, 0x5a0) = 0;
+}
+
+// MATCH func_0015EC28
+void flare_0015ec28(int a0)
+{
+    func_0015E4D8((a0 + 736));
+}
+
+// MATCH func_0015EC30
+void flare_0015ec30(int a0)
+{
+    func_0015E4D8((a0 + 1088));
+}
+
+// MATCH func_0015EC38
+void flare_0015ec38(int a0)
+{
+    func_0015E2A0((a0 + 80));
 }
 
 // MATCH func_0015EC40

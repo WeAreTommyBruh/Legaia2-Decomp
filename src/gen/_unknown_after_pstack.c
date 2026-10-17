@@ -3,12 +3,21 @@
 #include "../common.h"
 
 extern int D_003FEBB0[];
+extern int D_004257D4[];
 extern int D_004A5E50;
+void func_0029B758();
 
 // MATCH func_0024CFC0
 void FUN_0024cfc0(void *p)
 {
     FIELD(int, p, 0x4) = 0;
+}
+
+// MATCH func_0024F360
+int FUN_0024f360(int a0)
+{
+    D_003FEBB0[0] = a0;
+    return a0;
 }
 
 // MATCH func_0024F370
@@ -27,6 +36,13 @@ int FUN_00256238(void)
 void FUN_002562f0(int v)
 {
     D_004A5E50 = v;
+}
+
+// MATCH func_0025DD68
+void FUN_0025dd68(void)
+{
+    D_004257D4[0] = 0;
+    func_0029B758();
 }
 
 // MATCH func_0025DE00

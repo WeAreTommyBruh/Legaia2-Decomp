@@ -4,8 +4,6 @@
 #include "../ghidra.h"
 
 extern uint D_004A6B40;
-extern uint D_004A72FC;
-extern uint D_004A7300;
 void FUN_00295a30(void);
 void MemFree(void *ptr);
 void battleslot_00294b20(undefined8 param_1, ulong param_2);
@@ -48,15 +46,6 @@ void FUN_00295da8(int param_1,int param_2)
     FUN_00295a30();
     return;
   }
-  return;
-}
-
-// MATCH func_002971C0
-void FUN_002971c0(undefined4 param_1,undefined4 param_2)
-
-{
-  D_004A72FC = param_1;
-  D_004A7300 = param_2;
   return;
 }
 

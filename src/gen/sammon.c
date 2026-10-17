@@ -2,6 +2,10 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern int D_004A7010;
+extern int D_004A7014;
+void func_00227E58();
+
 // MATCH func_002275B0
 void sammon_002275b0(void)
 {
@@ -16,5 +20,19 @@ int sammon_002279d8(void *p)
 // MATCH func_00227E40
 void sammon_00227e40(void)
 {
+}
+
+// MATCH func_00227E48
+void sammon_00227e48(int a0, int a1, int a2)
+{
+    FIELD(int, a0, 0x140) = a1;
+    func_00227E58(a0, a2);
+}
+
+// MATCH func_002287F0
+void sammon_002287f0(int a0, int a1, int a2)
+{
+    D_004A7010 = a1;
+    D_004A7014 = a2;
 }
 

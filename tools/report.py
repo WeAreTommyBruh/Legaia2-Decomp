@@ -174,7 +174,11 @@ def main(argv):
             continue
         files = [unit_src[unit]]
         obj = os.path.join(OUT, "base", unit.replace("/", "__") + ".o")
-        subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", "-o", obj, files[0]], check=True)
+        subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", *asm_build.file_flags(files[0]),
+                        "-o", obj, files[0]], check=True)
+        if asm_build.file_flags(files[0]):  # -fexceptions frame tables (see asm_build.py)
+            subprocess.run([asm_build.tool("OBJCOPY", "llvm-objcopy"), "-w", "--remove-section=.data",
+                            "--remove-section=.rel.data", obj], check=True)
         ee_flags = struct.unpack_from("<I", open(obj, "rb").read(), 0x24)[0]
         base_info[unit] = (obj, symbols_and_relocs(obj), files)
 

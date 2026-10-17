@@ -2,6 +2,8 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_0018F5F0();
+
 // MATCH func_00172A98
 void FUN_00172a98(void *p, int v)
 {
@@ -24,6 +26,12 @@ void FUN_00172cb0(void *p)
 void FUN_00172cb8(void *p)
 {
     FIELD(int, p, 0x7c) = 1;
+}
+
+// MATCH func_00172CD8
+void FUN_00172cd8(int a0, int a1)
+{
+    func_0018F5F0(a1, (a0 + 16), a0);
 }
 
 // MATCH func_00172CF0

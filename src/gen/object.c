@@ -2,6 +2,9 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_0045D270[];
+void func_001118F8();
+
 // MATCH func_002432E0
 void object_002432e0(void)
 {
@@ -20,5 +23,11 @@ void object_002432f0(void)
 // MATCH func_00243D88
 void object_00243d88(void)
 {
+}
+
+// MATCH func_002441E0
+void object_002441e0(void)
+{
+    func_001118F8((int)D_0045D270);
 }
 

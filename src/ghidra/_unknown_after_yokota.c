@@ -3,7 +3,6 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
-void FUN_001171b8(undefined1 *param_1, undefined1 param_2, int param_3);
 
 // MATCH func_00241C98
 undefined4 * FUN_00241c98(undefined4 *param_1,uint param_2)
@@ -23,14 +22,6 @@ undefined1 * FUN_00241cc8(undefined1 *param_1,uint param_2)
     *param_1 = 0;
   }
   return param_1;
-}
-
-// MATCH func_002420D0
-void FUN_002420d0(int param_1)
-
-{
-  FUN_001171b8(param_1,0,0x4c);
-  return;
 }
 
 // MATCH func_002421B8

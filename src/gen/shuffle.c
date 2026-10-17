@@ -2,6 +2,8 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_00178700();
+
 // MATCH func_00177CA0
 void shuffle_00177ca0(void *p, int v)
 {
@@ -18,5 +20,11 @@ int shuffle_00177cc0(void)
 int shuffle_00177cc8(void)
 {
     return -1;
+}
+
+// MATCH func_00178730
+void shuffle_00178730(int a0)
+{
+    func_00178700(a0, 3);
 }
 

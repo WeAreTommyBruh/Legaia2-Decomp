@@ -5,6 +5,7 @@
 extern char D_0041AE58[];
 extern int D_003FEC34[];
 extern int D_004A66DC;
+extern u16 D_004005C0[];
 
 // MATCH func_00261AF8
 void *FUN_00261af8(void)
@@ -22,5 +23,11 @@ int FUN_00264e68(void)
 int FUN_0026ac78(void)
 {
     return D_004A66DC;
+}
+
+// MATCH func_0026AF28
+int FUN_0026af28(void)
+{
+    return (D_004005C0[0] + -301);
 }
 

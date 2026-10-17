@@ -19,12 +19,3 @@ int FUN_001f5e78(int param_1)
   puVar1[0x3f] = 0;
   return param_1;
 }
-
-// MATCH func_001F6BE8
-void FUN_001f6be8(int param_1,undefined4 param_2)
-
-{
-  *(undefined4 *)(param_1 + 0x18) = param_2;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  return;
-}

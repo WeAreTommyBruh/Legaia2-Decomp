@@ -3,10 +3,60 @@
 #include "../common.h"
 
 extern char D_0055BB00[];
+void func_00137298();
+void func_00137330();
 
 // MATCH func_00133848
 void *FUN_00133848(void)
 {
     return D_0055BB00;
+}
+
+// MATCH func_00137310
+void FUN_00137310(int a0)
+{
+    func_00137298(a0, 0);
+}
+
+// MATCH func_00137318
+void FUN_00137318(int a0)
+{
+    func_00137298(a0, 1);
+}
+
+// MATCH func_00137320
+void FUN_00137320(int a0)
+{
+    func_00137298(a0, 2);
+}
+
+// MATCH func_00137328
+void FUN_00137328(int a0)
+{
+    func_00137298(a0, 3);
+}
+
+// MATCH func_001373B0
+void FUN_001373b0(int a0)
+{
+    func_00137330(a0, 0);
+}
+
+// MATCH func_001373B8
+void FUN_001373b8(int a0)
+{
+    func_00137330(a0, 1);
+}
+
+// MATCH func_001373C0
+void FUN_001373c0(int a0)
+{
+    func_00137330(a0, 2);
+}
+
+// MATCH func_001373C8
+void FUN_001373c8(int a0)
+{
+    func_00137330(a0, 3);
 }
 

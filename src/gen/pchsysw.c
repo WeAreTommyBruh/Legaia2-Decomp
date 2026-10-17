@@ -2,6 +2,9 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_0012E100();
+void func_0012E658();
+
 // MATCH func_0012D8C8
 int pchsysw_0012d8c8(void *p)
 {
@@ -29,6 +32,42 @@ float pchsysw_0012e4f8(void *p)
 // MATCH func_0012EC28
 void pchsysw_0012ec28(void)
 {
+}
+
+// MATCH func_0012F2D8
+void pchsysw_0012f2d8(int a0)
+{
+    func_0012E100(FIELD(int, a0, 0x0));
+}
+
+// MATCH func_0012F2E0
+void pchsysw_0012f2e0(int a0)
+{
+    func_0012E100(FIELD(int, a0, 0x4));
+}
+
+// MATCH func_0012F2E8
+void pchsysw_0012f2e8(int a0)
+{
+    func_0012E100(FIELD(int, a0, 0x8));
+}
+
+// MATCH func_0012F4B8
+void pchsysw_0012f4b8(int a0)
+{
+    func_0012E658(FIELD(int, a0, 0x0));
+}
+
+// MATCH func_0012F4C0
+void pchsysw_0012f4c0(int a0)
+{
+    func_0012E658(FIELD(int, a0, 0x4));
+}
+
+// MATCH func_0012F4C8
+void pchsysw_0012f4c8(int a0)
+{
+    func_0012E658(FIELD(int, a0, 0x8));
 }
 
 // MATCH func_0012F5D0

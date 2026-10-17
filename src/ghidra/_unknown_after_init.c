@@ -3,7 +3,6 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
-undefined * FUN_002cea48(ulong param_1);
 void MemFree(void *ptr);
 
 // MATCH func_0024CD80
@@ -14,16 +13,5 @@ void FUN_0024cd80(int param_1)
     MemFree((void *)param_1);
     return;
   }
-  return;
-}
-
-// MATCH func_0024CDA0
-void FUN_0024cda0(undefined4 *param_1,undefined8 param_2)
-
-{
-  undefined4 uVar1;
-  
-  uVar1 = FUN_002cea48(param_2);
-  *param_1 = uVar1;
   return;
 }

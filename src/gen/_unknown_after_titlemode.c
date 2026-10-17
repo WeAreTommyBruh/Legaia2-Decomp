@@ -2,7 +2,17 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_003C2E00[];
 extern int D_004A6F7C;
+void func_00190328();
+void func_00190420();
+
+// MATCH func_002159C8
+int FUN_002159c8(int a0)
+{
+    FIELD(int, a0, 0x1c) = 0;
+    return 1;
+}
 
 // MATCH func_00215A70
 int FUN_00215a70(void)
@@ -10,10 +20,32 @@ int FUN_00215a70(void)
     return 1;
 }
 
+// MATCH func_00215A78
+int FUN_00215a78(int a0)
+{
+    FIELD(int, a0, 0x4) = (int)D_003C2E00;
+    return 1;
+}
+
+// MATCH func_00215AA8
+int FUN_00215aa8(int a0)
+{
+    FIELD(int, a0, 0x1c) = 2;
+    FIELD(int, a0, 0x4) = (int)D_003C2E00;
+    return 0;
+}
+
 // MATCH func_00215B08
 int FUN_00215b08(void)
 {
     return 0;
+}
+
+// MATCH func_00215B10
+int FUN_00215b10(int a0)
+{
+    FIELD(int, a0, 0x1c) = 0;
+    return 1;
 }
 
 // MATCH func_00215B20
@@ -359,6 +391,18 @@ int FUN_002162f0(void)
 int FUN_002162f8(void)
 {
     return D_004A6F7C;
+}
+
+// MATCH func_00216370
+void FUN_00216370(int a0)
+{
+    func_00190420(FIELD(int, a0, 0x78));
+}
+
+// MATCH func_00216378
+void FUN_00216378(int a0)
+{
+    func_00190328(FIELD(int, a0, 0x78));
 }
 
 // MATCH func_00216418

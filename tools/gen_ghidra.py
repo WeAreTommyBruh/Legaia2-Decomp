@@ -18,7 +18,12 @@ as long), after these adjustments:
     replaced by the original copies (checked against the original data)
   - when that does not match: numbers that are addresses become references
     to the address, unsigned bytes/shorts signed, untyped 4-byte parameters
-    float (see rewrite())
+    float, if/else branches swapped (see rewrite())
+  - functions that make calls are also tried with -fexceptions (the game's
+    C++ files were built with it: no tail calls); matches go to *_eh.c
+    files with a `// cflags: -fexceptions` line
+  - a stack frame smaller than the original's gets an unused local array
+    (Ghidra does not show unused locals, which still take stack space)
 Exact matches (relocations resolved to the real addresses) are written,
 marked `// MATCH func_XXXXXXXX`, to src/ghidra/<source group>.c, split into
 more files when declarations clash. The code is Ghidra's, meant to be
@@ -135,7 +140,7 @@ def prepare(name, body, protos, variant, dat_types=()):
     (DAT_, PTR_, s_) as arrays, so that the compiler addresses them
     absolutely as the original does, with a #define keeping Ghidra's name.
     DAT_ globals take the types in `dat_types`, in order of first use."""
-    if UNSUPPORTED.search(body):
+    if UNSUPPORTED.search(body) or '"' in body:  # no text from the game in the source
         return None
     body = TRAP.sub("", body)  # Ghidra spells out the compiler's division checks
     # Ghidra prints float constants without the f, which in C makes them double
@@ -312,7 +317,47 @@ def use_literals(text, lits):
 
 # further rewrites tried when Ghidra's text does not match as it is
 OPTIONS = ((), ("addr",), ("signed",), ("float",), ("addr", "signed"), ("addr", "float"),
-           ("signed", "float"), ("sint",), ("wide",), ("s64",), ("addr", "sint"))
+           ("signed", "float"), ("sint",), ("wide",), ("s64",), ("addr", "sint"),
+           ("swap",), ("swap", "addr"), ("swap", "signed"))
+
+
+def closing(text, i, open_ch, close_ch):
+    """Index of the bracket closing the one at text[i]."""
+    depth = 0
+    for k in range(i, len(text)):
+        if text[k] == open_ch:
+            depth += 1
+        elif text[k] == close_ch:
+            depth -= 1
+            if depth == 0:
+                return k
+    return None
+
+
+def swap_branches(body):
+    """`if (c) {A} else {B}` -> `if (!(c)) {B} else {A}`, for every if/else
+    whose else is a plain block (Ghidra picks its own order of the two)."""
+    out, pos = [], 0
+    for m in re.finditer(r"\bif \(", body):
+        if m.start() < pos:
+            continue
+        c_end = closing(body, m.end() - 1, "(", ")")
+        if c_end is None or body[c_end + 1:c_end + 3] != " {":
+            continue
+        a_end = closing(body, c_end + 2, "{", "}")
+        e = re.match(r"\s*else \{", body[a_end + 1:]) if a_end is not None else None
+        if not e:
+            continue
+        b_start = a_end + e.end()
+        b_end = closing(body, b_start, "{", "}")
+        if b_end is None:
+            continue
+        a, b = swap_branches(body[c_end + 3:a_end]), swap_branches(body[b_start + 1:b_end])
+        out.append(body[pos:m.start()])
+        out.append(f"if (!({body[m.end():c_end]})) {{{b}}}{body[a_end + 1:b_start]}{{{a}}}")
+        pos = b_end + 1
+    out.append(body[pos:])
+    return "".join(out)
 
 
 def rewrite(body, opts):
@@ -324,8 +369,12 @@ def rewrite(body, opts):
     float   4-byte parameters Ghidra left untyped become float
     sint    unsigned / untyped 4-byte values become int
     s64     unsigned 64-bit values become signed
-    wide    byte and short parameters become int"""
+    wide    byte and short parameters become int
+    swap    the two branches of each if/else change places, the condition
+            negated"""
     extra = {}
+    if "swap" in opts:
+        body = swap_branches(body)
     if "addr" in opts:
         def sub(m):
             v = int(m.group(1), 16)
@@ -374,8 +423,71 @@ def pin_repeated_names(text, decls, addr, nwords):
     return text, decls
 
 
+def frame_size(words):
+    """Stack frame size from a function's first instruction (0 for none)."""
+    w = words[0] if words else 0
+    return 0x10000 - (w & 0xFFFF) if w >> 16 == 0x27BD and w & 0x8000 else 0
+
+
+def flag_choices(addr, size):
+    """Compiler flags to try. The game's C++ files were built with
+    exceptions on, which keeps a call at the end of a function from becoming
+    a tail call (`j`); only functions that make calls can tell."""
+    from match import original_words
+    words = original_words(addr, size // 4)
+    calls = any(w >> 26 == 3 for w in words)
+    tail = any(w >> 26 == 2 for w in words)
+    if not calls:
+        return ((),)
+    return ((), ("-fexceptions",)) if tail else (("-fexceptions",), ())
+
+
+def compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp):
+    """Compiles one candidate; returns (differing words, words, text, externs)
+    or None if it does not compile or keeps constants of its own."""
+    src = os.path.join(tmp, "f.c")
+    obj = os.path.join(tmp, "f.o")
+
+    def build():
+        with open(src, "w") as f:
+            f.write(f'#include "{hdr}"\n')
+            f.writelines(f"extern {t} {s};\n" for s, t in externs.items())
+            f.writelines(d + "\n" for d in decls)
+            f.write(text + "\n")
+        try:  # cc1 loops forever on a few inputs
+            r = subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", *flags, "-o", obj, src],
+                               capture_output=True, timeout=60)
+        except subprocess.TimeoutExpired:
+            subprocess.run(["pkill", "-f", src])
+            return False
+        return r.returncode == 0
+
+    def own_data():
+        # with -fexceptions, .data holds the frame tables (dropped by the build)
+        return any(n in asm_build.C_DATA and h[5] and not (flags and n == ".data")
+                   for n, h in sections(open(obj, "rb").read()))
+    if not build():
+        return None
+    # constants of its own (.lit4, .rodata): use the original copies
+    if own_data():
+        lits = literal_addresses(obj, name, addr)
+        fixed = use_literals(text, lits) if lits else None
+        if not fixed:
+            return None
+        text, more = fixed
+        externs = dict(externs, **more)
+        if not build() or own_data():
+            return None
+    try:
+        bad, words, _, want = compare(obj, name, addr)
+    except SystemExit:
+        return None
+    return bad, words, want, text, externs
+
+
 def try_one(job):
-    addr, name, group, body0, protos, hdr = job
+    addr, name, group, body0, protos, hdr, size = job
+    flag_sets = flag_choices(addr, size)
     for opts, variant, types in itertools.product(OPTIONS, ("int", "ghidra"), dat_type_choices(body0)):
         body, extra = rewrite(body0, opts)
         if opts and body == body0:
@@ -387,43 +499,22 @@ def try_one(job):
         if any(externs.get(k, t) != t for k, t in extra.items()):
             continue
         externs = dict(externs, **extra)
-        with tempfile.TemporaryDirectory() as tmp:
-            src = os.path.join(tmp, "f.c")
-            with open(src, "w") as f:
-                f.write(f'#include "{hdr}"\n')
-                f.writelines(f"extern {t} {s};\n" for s, t in externs.items())
-                f.writelines(d + "\n" for d in decls)
-                f.write(text + "\n")
-            obj = os.path.join(tmp, "f.o")
-            r = subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", "-o", obj, src],
-                               capture_output=True)
-            if r.returncode:
-                continue
-            # constants of its own (.lit4, .rodata): use the original copies
-            if any(n in asm_build.C_DATA and h[5] for n, h in sections(open(obj, "rb").read())):
-                lits = literal_addresses(obj, name, addr)
-                fixed = use_literals(text, lits) if lits else None
-                if not fixed:
-                    continue
-                text, more = fixed
-                externs = dict(externs, **more)
-                with open(src, "w") as f:
-                    f.write(f'#include "{hdr}"\n')
-                    f.writelines(f"extern {t} {s};\n" for s, t in externs.items())
-                    f.writelines(d + "\n" for d in decls)
-                    f.write(text + "\n")
-                r = subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", "-o", obj, src],
-                                   capture_output=True)
-                if r.returncode or any(n in asm_build.C_DATA and h[5]
-                                       for n, h in sections(open(obj, "rb").read())):
-                    continue
-            try:
-                bad, words, _, _ = compare(obj, name, addr)
-                if bad == 0:
-                    text, decls = pin_repeated_names(text, decls, addr, len(words))
-                    return addr, name, group, text, externs, decls
-            except SystemExit:
-                continue
+        for flags in flag_sets:
+            with tempfile.TemporaryDirectory() as tmp:
+                res = compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp)
+                if res and res[0]:
+                    # unused local arrays still take stack space, and Ghidra
+                    # does not show them: pad the frame to the original's size
+                    bad, words, want, t2, e2 = res
+                    pad = frame_size(want) - frame_size(words)
+                    if pad > 0 and pad % 16 == 0 and "{\n" in t2:
+                        i = t2.index("{\n") + 2
+                        t3 = t2[:i] + f"  undefined1 auStack_pad[{pad}];\n" + t2[i:]
+                        res = compile_and_compare(t3, e2, decls, hdr, name, addr, flags, tmp)
+                if res and res[0] == 0:
+                    _, words, _, text2, externs2 = res
+                    text2, decls2 = pin_repeated_names(text2, decls, addr, len(words))
+                    return addr, name, group, text2, externs2, decls2, flags
     return None
 
 
@@ -436,14 +527,17 @@ def main(argv):
     hdr = os.path.join(ROOT, "src", "ghidra.h")
     jobs = []
     with open(os.path.join(ROOT, "decomp", "functions.csv")) as f:
-        for r in csv.DictReader(f):
-            addr, size = int(r["address"], 16), int(r["size_bytes"])
-            if addr in taken or addr % 8 or size > max_size or r["decompiled"] != "ok":
-                continue
-            paths = glob.glob(os.path.join(ROOT, "decomp", "src", "*", r["name"] + ".c"))
-            if len(paths) != 1:
-                continue
-            jobs.append((addr, r["name"], r["group"] or "none", body_of(paths[0]), protos, hdr))
+        rows = list(csv.DictReader(f))
+    for r in rows:
+        addr, size = int(r["address"], 16), int(r["size_bytes"])
+        if addr in taken or addr % 8 or size > max_size or r["decompiled"] != "ok":
+            continue
+        paths = (glob.glob(os.path.join(ROOT, "decomp", "src", "*", r["name"] + ".c")) +
+                 glob.glob(os.path.join(ROOT, "decomp", "src", "*", f"{r['name']}_{addr:08x}.c")))
+        paths = [p for p in paths if f"@ 0x{addr:08x}," in open(p).read(200)]
+        if len(paths) != 1:
+            continue
+        jobs.append((addr, r["name"], r["group"] or "none", body_of(paths[0]), protos, hdr, size))
     print(f"trying {len(jobs)} functions")
     with concurrent.futures.ProcessPoolExecutor(os.cpu_count()) as pool:
         found = [x for x in pool.map(try_one, jobs, chunksize=8) if x]
@@ -452,12 +546,13 @@ def main(argv):
         os.remove(old)
     os.makedirs(OUTDIR, exist_ok=True)
     files = {}
-    for addr, name, group, text, externs, decls in sorted(found):
-        base = re.sub(r"[^A-Za-z0-9_]", "_", group)
+    for addr, name, group, text, externs, decls, flags in sorted(found):
+        # files built with -fexceptions are kept apart (`// cflags:` line)
+        base = re.sub(r"[^A-Za-z0-9_]", "_", group) + ("_eh" if flags else "")
         n = 0
         while True:  # one file per group unless declarations clash
             key = base if n == 0 else f"{base}_{n}"
-            fdat = files.setdefault(key, {"externs": {}, "decls": {}, "funcs": []})
+            fdat = files.setdefault(key, {"externs": {}, "decls": {}, "funcs": [], "flags": flags})
             # the same symbol declared alike (type, and array or not)
             have = {k.replace("[]", ""): (k, t) for k, t in fdat["externs"].items()}
             ok = all(have.get(s.replace("[]", ""), (s, t)) == (s, t) for s, t in externs.items())
@@ -479,7 +574,8 @@ def main(argv):
         with open(os.path.join(OUTDIR, key + ".c"), "w") as f:
             f.write(f"/* {key}: Ghidra's decompilation of these functions, with only types and global\n"
                     "   names adjusted (tools/gen_ghidra.py); each compiles to the original bytes.\n"
-                    "   Still to be cleaned up by hand. */\n"
+                    "   Still to be cleaned up by hand. */\n" +
+                    (f"// cflags: {' '.join(fdat['flags'])}\n" if fdat["flags"] else "") +
                     '#include "../ghidra.h"\n\n')
             f.writelines(f"extern {t} {s};\n" for s, t in sorted(fdat["externs"].items()))
             f.writelines(d + "\n" for k, d in sorted(fdat["decls"].items()) if k not in defined)

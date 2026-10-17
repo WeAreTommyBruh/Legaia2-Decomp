@@ -5,7 +5,8 @@ original executable.
   match.py FILE.c FUNCTION ADDRESS [compiler flags...]
 
 FILE.c is compiled with $EE_CC (default ~/tools/ee-gcc2.9-991111-01/bin/ee-gcc; the driver
-picks cc1plus for .cpp files) using -O2 -G8 unless flags are given. The
+picks cc1plus for .cpp files) using -O2 -G8 plus the file's `// cflags:` line
+unless flags are given. The
 function's bytes are taken from the object file and compared word by word
 with the original at ADDRESS (hex). Words the linker would still change
 (relocations: jal targets, %hi/%lo halves, gp offsets) are filled in from
@@ -169,11 +170,17 @@ def show(w, pc):
     return f"{dec[0]} {dec[1]}" if dec else f".word {w:#010x}"
 
 
+def file_flags(src):
+    """Flags from a `// cflags: ...` line in the file (see asm_build.py)."""
+    m = re.search(r"^//\s*cflags:(.*)$", open(src).read(), re.M)
+    return m.group(1).split() if m else []
+
+
 def main(argv):
     if len(argv) < 4:
         raise SystemExit(__doc__)
     src, name, addr = argv[1], argv[2], int(argv[3], 16)
-    flags = argv[4:] or ["-O2", "-G8"]
+    flags = argv[4:] or ["-O2", "-G8"] + file_flags(src)
     cc = os.environ.get("EE_CC", DEFAULT_CC)
     with tempfile.TemporaryDirectory() as tmp:
         obj = os.path.join(tmp, "out.o")

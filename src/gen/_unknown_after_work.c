@@ -6,6 +6,13 @@ extern int D_004A1524;
 extern int D_004A56AC;
 extern int D_004A7234;
 extern int D_004A7238;
+void func_00231D98();
+void func_00231E30();
+void func_00231EF0();
+void func_002473F0();
+void func_002489D8();
+void func_002493D0();
+void func_002496F0();
 
 // MATCH func_00247580
 void FUN_00247580(void *p, int v)
@@ -24,9 +31,51 @@ void FUN_002478b0(void)
 {
 }
 
+// MATCH func_00247A40
+void thunk_FUN_002473f0(void)
+{
+    func_002473F0();
+}
+
+// MATCH func_00247A70
+void thunk_FUN_002493d0(void)
+{
+    func_002493D0();
+}
+
 // MATCH func_00248168
 void FUN_00248168(void)
 {
+}
+
+// MATCH func_00248A48
+void FUN_00248a48(void)
+{
+    func_002489D8(0x70003f80);
+}
+
+// MATCH func_00248E00
+void thunk_FUN_00231d98(void)
+{
+    func_00231D98();
+}
+
+// MATCH func_00248E08
+void thunk_FUN_00231e30(void)
+{
+    func_00231E30();
+}
+
+// MATCH func_002490F8
+void thunk_FUN_002496f0(void)
+{
+    func_002496F0();
+}
+
+// MATCH func_00249100
+void thunk_FUN_00231ef0(void)
+{
+    func_00231EF0();
 }
 
 // MATCH func_0024A3A8

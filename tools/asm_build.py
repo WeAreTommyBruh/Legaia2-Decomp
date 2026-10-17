@@ -60,6 +60,16 @@ HEADER = ".set noreorder\n.set noat\n.set nomacro\n"
 EE_CC = os.environ.get("EE_CC", os.path.expanduser("~/tools/ee-gcc2.9-991111-01/bin/ee-gcc"))
 CFLAGS = ["-O2", "-G8", "-ffunction-sections"]
 C_DATA = (".data", ".rodata", ".bss", ".sdata", ".sbss", ".lit4", ".lit8")
+# a C file can ask for more flags with a `// cflags: ...` line; only
+# -fexceptions is used: the game's C++ files were built with exceptions on,
+# which keeps calls at the end of a function from becoming tail calls
+FILE_FLAGS = re.compile(r"^//\s*cflags:(.*)$", re.M)
+
+
+def file_flags(src):
+    """The extra compiler flags a C file asks for."""
+    m = FILE_FLAGS.search(open(src).read())
+    return m.group(1).split() if m else []
 
 
 def tool(env, name):
@@ -108,13 +118,20 @@ def c_functions():
         r = subprocess.run([EE_CC, "-c", *CFLAGS, "-o", obj, src], capture_output=True, text=True)
         if r.returncode:
             raise SystemExit(f"{src}:\n{r.stderr}")
+        for name, h in sections(open(obj, "rb").read()):
+            if name in C_DATA and h[5]:
+                raise SystemExit(f"{src}: has {name} data; not supported yet")
+        extra = file_flags(src)
+        if extra:
+            # -fexceptions adds frame tables to .data, which the build does not
+            # use (there is no data of the file's own, checked just above)
+            subprocess.run([EE_CC, "-c", *CFLAGS, *extra, "-o", obj, src], check=True)
+            subprocess.run([objcopy, "-w", "--remove-section=.data", "--remove-section=.rel.data", obj],
+                           check=True)
         subprocess.run([objcopy, "-w", "--remove-section=.rela*", obj], check=True)
         data = bytearray(open(obj, "rb").read())
         struct.pack_into("<I", data, 0x24, flags)
         open(obj, "wb").write(data)
-        for name, h in sections(bytes(data)):
-            if name in C_DATA and h[5]:
-                raise SystemExit(f"{src}: has {name} data; not supported yet")
         for addr, name in marks:
             words, _ = function_bytes(obj, name)
             out[int(addr, 16)] = (os.path.basename(obj), name, 4 * len(words))

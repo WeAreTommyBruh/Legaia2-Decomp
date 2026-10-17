@@ -2,6 +2,8 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_002DD4CC();
+
 // MATCH func_001E24B8
 void akari_001e24b8(void *p, float v)
 {
@@ -66,6 +68,12 @@ float akari_001e2508(void *p)
 float akari_001e2510(void *p)
 {
     return FIELD(float, p, 0x44);
+}
+
+// MATCH func_001E2518
+void akari_001e2518(int a0, int a1)
+{
+    func_002DD4CC(a1, a0);
 }
 
 // MATCH func_001E2528

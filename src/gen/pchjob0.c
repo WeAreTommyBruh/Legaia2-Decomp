@@ -2,6 +2,13 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+// MATCH func_00204A00
+int pchjob0_00204a00(int a0)
+{
+    FIELD(int, a0, 0x0) = 0;
+    return a0;
+}
+
 // MATCH func_002059A8
 void pchjob0_002059a8(void)
 {

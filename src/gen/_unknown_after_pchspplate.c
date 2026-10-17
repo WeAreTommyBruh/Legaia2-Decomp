@@ -8,3 +8,15 @@ int FUN_00216a28(void *p)
     return FIELD(int, p, 0x0);
 }
 
+// MATCH func_00216BC8
+int FUN_00216bc8(int a0, int a1, int a2, int a3, int a4)
+{
+    FIELD(int, a0, 0x8) = a1;
+    FIELD(int, a0, 0xc) = a2;
+    FIELD(int, a0, 0x10) = a3;
+    FIELD(int, a0, 0x14) = a4;
+    FIELD(int, a0, 0x0) = 0;
+    FIELD(int, a0, 0x4) = 0;
+    return a0;
+}
+

@@ -4,8 +4,25 @@
 #include "../ghidra.h"
 
 extern int D_0043C688[];
+extern int * D_004A6F44;
 void FUN_00108b80(int param_1);
 void FUN_00162f68(undefined8 param_1, uint param_2);
+
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+// MATCH func_001618C8
+int MemGetFreeSize(void)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  
+  iVar2 = 0;
+  for (puVar1 = *(undefined4 **)(*D_004A6F44 + 0x80);
+      puVar1 != (undefined4 *)(*D_004A6F44 + 0x80); puVar1 = (undefined4 *)*puVar1) {
+    iVar2 = iVar2 + puVar1[2];
+  }
+  return iVar2;
+}
 
 #define DAT_0043c688 (D_0043C688[0])
 // MATCH func_00162340

@@ -3,11 +3,26 @@
 #include "../common.h"
 
 extern int D_10000000[];
+void func_0018CF98();
+void func_0018DC98();
+void func_0018EC38();
+
+// MATCH func_0018D048
+void thunk_FUN_0018cf98(void)
+{
+    func_0018CF98();
+}
 
 // MATCH func_0018D800
 int FUN_0018d800(void)
 {
     return D_10000000[0];
+}
+
+// MATCH func_0018DD70
+void thunk_FUN_0018dc98(void)
+{
+    func_0018DC98();
 }
 
 // MATCH func_0018DDE8
@@ -23,6 +38,18 @@ void FUN_0018ddf0(void)
 // MATCH func_0018DDF8
 void FUN_0018ddf8(void)
 {
+}
+
+// MATCH func_0018DE38
+void FUN_0018de38(int a0, int a1)
+{
+    FIELD(int, a0, 0x10) = (a1 + 8);
+}
+
+// MATCH func_0018EC58
+void thunk_FUN_0018ec38(void)
+{
+    func_0018EC38();
 }
 
 // MATCH func_0018FC60

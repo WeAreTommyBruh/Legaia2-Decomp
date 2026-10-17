@@ -2,9 +2,47 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_00336B00[];
+extern char D_0043E538[];
+void func_00184590();
+void func_00184748();
+void func_00190328();
+void func_00190420();
+
+// MATCH func_00185058
+void FUN_00185058(void)
+{
+    func_00184748((int)D_00336B00, 2);
+}
+
+// MATCH func_00185068
+void FUN_00185068(void)
+{
+    func_00184590((int)D_00336B00);
+}
+
 // MATCH func_00185230
 int FUN_00185230(void *p)
 {
     return FIELD(int, p, 0x0);
+}
+
+// MATCH func_00185270
+int FUN_00185270(int a0)
+{
+    FIELD(int, a0, 0xc) = (int)D_0043E538;
+    return a0;
+}
+
+// MATCH func_001852C8
+void FUN_001852c8(int a0)
+{
+    func_00190420(FIELD(int, a0, 0x78));
+}
+
+// MATCH func_001852D0
+void FUN_001852d0(int a0)
+{
+    func_00190328(FIELD(int, a0, 0x78));
 }
 

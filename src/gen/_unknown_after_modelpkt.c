@@ -2,6 +2,36 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_0058B1F0[];
+void func_00179FD8();
+void func_001809C8();
+void func_00190328();
+void func_00190420();
+
+// MATCH func_001808A0
+void FUN_001808a0(void)
+{
+    func_00179FD8((int)D_0058B1F0);
+}
+
+// MATCH func_001808B0
+void FUN_001808b0(int a0)
+{
+    func_00190420(FIELD(int, a0, 0x78));
+}
+
+// MATCH func_001808B8
+void FUN_001808b8(int a0)
+{
+    func_00190328(FIELD(int, a0, 0x78));
+}
+
+// MATCH func_001808F0
+void FUN_001808f0(int a0, int a1)
+{
+    FIELD(int, a0, 0x10) = (a1 + 8);
+}
+
 // MATCH func_001809C8
 void FUN_001809c8(void *p)
 {
@@ -18,5 +48,11 @@ void FUN_00180a50(void *p, float v)
 float FUN_00180b20(void *p)
 {
     return FIELD(float, p, 0x10);
+}
+
+// MATCH func_00180B88
+void thunk_FUN_001809c8(void)
+{
+    func_001809C8();
 }
 

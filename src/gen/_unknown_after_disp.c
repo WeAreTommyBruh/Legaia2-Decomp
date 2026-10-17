@@ -2,8 +2,14 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_00321030[];
+extern int D_004A70C0;
 extern int D_004A70E4;
 extern int D_004A70E8;
+void func_00231968();
+void func_002327F0();
+void func_00235970();
+void func_00249E18();
 
 // MATCH func_0022ECA8
 int FUN_0022eca8(void)
@@ -38,10 +44,34 @@ void FUN_00231898(void)
 {
 }
 
+// MATCH func_00231920
+void FUN_00231920(void)
+{
+    func_00249E18((int)D_00321030);
+}
+
+// MATCH func_00231A60
+void FUN_00231a60(void)
+{
+    func_00231968(D_004A70C0);
+}
+
 // MATCH func_00232028
 void FUN_00232028(void *p, float v)
 {
     FIELD(float, p, 0x30) = v;
+}
+
+// MATCH func_002327E8
+void FUN_002327e8(int a0, int a1, int a2, int a3)
+{
+    func_002327F0(a0, a1, a2, a3, -2);
+}
+
+// MATCH func_00235960
+void FUN_00235960(int a0, int a1, int a2, int a3, int a4)
+{
+    func_00235970(a0, a1, a2, a3, a4, 0xfffffe);
 }
 
 // MATCH func_00236DB8

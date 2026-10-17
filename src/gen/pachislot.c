@@ -3,6 +3,14 @@
 #include "../common.h"
 
 extern int D_004A2F28;
+void func_00164D08();
+void func_002DC650();
+
+// MATCH func_001649C8
+void pachislot_001649c8(int a0)
+{
+    func_00164D08(a0, FIELD(int, FIELD(int, a0, 0x0), 0x18), FIELD(int, FIELD(int, a0, 0x0), 0x14));
+}
 
 // MATCH func_001649D8
 void pachislot_001649d8(void *p, int v)
@@ -27,10 +35,22 @@ void pachislot_00164ac8(void)
 {
 }
 
+// MATCH func_00164CF0
+int pachislot_00164cf0(int a0)
+{
+    return FIELD(int, FIELD(int, a0, 0x0), 0x14);
+}
+
 // MATCH func_00164D00
 int pachislot_00164d00(void *p)
 {
     return FIELD(int, p, 0x4);
+}
+
+// MATCH func_00164D08
+void pachislot_00164d08(int a0)
+{
+    func_002DC650(FIELD(int, a0, 0x4));
 }
 
 // MATCH func_00164D10

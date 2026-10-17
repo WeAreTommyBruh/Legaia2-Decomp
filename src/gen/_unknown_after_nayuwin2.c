@@ -4,6 +4,13 @@
 
 extern int D_00343654[];
 
+// MATCH func_001AFF48
+int FUN_001aff48(int a0, int a1)
+{
+    FIELD(int, a0, 0x70) = a1;
+    return 1;
+}
+
 // MATCH func_001B4680
 int FUN_001b4680(void)
 {

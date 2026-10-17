@@ -4,35 +4,10 @@
 #include "../ghidra.h"
 
 extern byte D_0035A780[];
-extern int D_0044CAE8[];
 extern int D_004A12A4;
 undefined * FUN_001e52b0(int param_1, int);
 void FUN_001e7cb0(uint param_1);
-undefined8 akari_001e23b8(void);
 void akari_001e2628(int param_1, int param_2);
-
-#define DAT_0044cae8 (D_0044CAE8[0])
-// MATCH func_001E7EC8
-int yue_001e7ec8(int param_1)
-
-{
-  int iVar1;
-  
-  akari_001e23b8();
-  iVar1 = (int)param_1;
-  *(undefined **)(iVar1 + 100) = &DAT_0044cae8;
-  *(undefined4 *)(iVar1 + 0x78) = 3;
-  *(undefined4 *)(iVar1 + 0x7c) = 2;
-  *(undefined4 *)(iVar1 + 0x350) = 0;
-  *(undefined4 *)(iVar1 + 0x354) = 0;
-  *(undefined4 *)(iVar1 + 0x358) = 0;
-  *(undefined4 *)(iVar1 + 0x35c) = 0;
-  *(undefined4 *)(iVar1 + 0x360) = 0;
-  *(undefined4 *)(iVar1 + 0x364) = 0;
-  *(undefined4 *)(iVar1 + 0x368) = 0;
-  return param_1;
-}
-#undef DAT_0044cae8
 
 // MATCH func_001E7F98
 void yue_001e7f98(int param_1,int param_2)

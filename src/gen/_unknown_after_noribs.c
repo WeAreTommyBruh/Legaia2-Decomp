@@ -3,11 +3,19 @@
 #include "../common.h"
 
 extern char D_0055FC80[];
+void func_0018EB78();
+void func_0018EDB8();
 
 // MATCH func_00153510
 void *FUN_00153510(void)
 {
     return D_0055FC80;
+}
+
+// MATCH func_00153B38
+void FUN_00153b38(int a0)
+{
+    func_0018EDB8(a0, a0);
 }
 
 // MATCH func_00154990
@@ -61,6 +69,18 @@ int FUN_001556b8(int a)
 int FUN_001556c0(int a)
 {
     return a + 96;
+}
+
+// MATCH func_001556E8
+void FUN_001556e8(int a0)
+{
+    func_0018EB78((a0 + 32));
+}
+
+// MATCH func_001556F0
+void FUN_001556f0(int a0)
+{
+    func_0018EB78((a0 + 32));
 }
 
 // MATCH func_001556F8
@@ -126,5 +146,11 @@ int FUN_001558e8(int a)
 int FUN_001558f0(int a)
 {
     return a;
+}
+
+// MATCH func_00155998
+void FUN_00155998(int a0)
+{
+    func_0018EDB8(a0, a0);
 }
 

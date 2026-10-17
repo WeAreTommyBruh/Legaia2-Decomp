@@ -6,14 +6,11 @@
 extern int D_004A14B8;
 extern uint D_004A14BC;
 extern uint D_004A1514;
-extern int D_004A1518;
 void FUN_0018df68(undefined4 *param_1, undefined1 (*param_2) [16]);
 void FUN_0018e680(undefined4 param_1);
 void FUN_0018e860(undefined4 param_1);
-void FUN_0018eb98(undefined4 *param_1, undefined4 *param_2);
 void FUN_0018f1f8(undefined1 (*param_1) [16]);
 void FUN_0018f208(undefined1 (*param_1) [16]);
-void FUN_0018f2c0(undefined1 *param_1, undefined1 (*param_2) [16], byte *param_3);
 void FUN_0018f3d8(undefined1 (*param_1) [16], undefined1 (*param_2) [16], undefined1 (*param_3) [16]);
 void FUN_00248960(undefined1 (*param_1) [16], undefined1 (*param_2) [16], undefined1 (*param_3) [16]);
 void FUN_002489d8(undefined1 (*param_1) [16]);
@@ -46,15 +43,6 @@ void FUN_002478d0(uint param_1)
   return;
 }
 
-// MATCH func_00247940
-void FUN_00247940(int param_1)
-
-{
-  FUN_0018f2c0(D_004A1518,param_1,D_004A1518);
-  *(undefined1 *)(D_004A1518 + 3) = 0x80;
-  return;
-}
-
 // MATCH func_00247C88
 void FUN_00247c88(void)
 
@@ -70,14 +58,6 @@ void FUN_002489f0(void)
   FUN_00248960(0x70003d40,0x70003c00,0x70003f80);
   FUN_00248960(0x70003fc0,0x70003bc0,0x70003d40);
   FUN_002489d8(0x70003fc0);
-  return;
-}
-
-// MATCH func_00248A48
-void FUN_00248a48(void)
-
-{
-  FUN_002489d8(0x70003f80);
   return;
 }
 
@@ -117,18 +97,6 @@ void FUN_002492a0(void)
   FUN_0018f208(0x70003c40);
   FUN_0018f3d8(0x70003d00,0x70003cc0,0x70003c80);
   FUN_0018f1f8(0x70003d00);
-  return;
-}
-
-// MATCH func_002492E8
-void FUN_002492e8(int param_1)
-
-{
-  if (D_004A14B8 != 0) {
-    FUN_0018eb98(param_1,0x70003d80);
-    return;
-  }
-  FUN_0018df68(param_1,0x70003f80);
   return;
 }
 

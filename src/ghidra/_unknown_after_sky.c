@@ -33,14 +33,6 @@ void FUN_001568f8(int param_1)
   return;
 }
 
-// MATCH func_00156928
-void FUN_00156928(int param_1,int param_2)
-
-{
-  *(int *)(param_1 + 0x10) = param_2 + 8;
-  return;
-}
-
 // MATCH func_00156D38
 void FUN_00156d38(int param_1,int param_2,undefined4 param_3)
 

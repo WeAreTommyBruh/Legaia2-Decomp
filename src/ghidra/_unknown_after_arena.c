@@ -5,25 +5,9 @@
 
 extern char D_00343028[];
 extern int D_004A1A20;
-extern char D_004A4DF8[];
 extern int D_004A4E0C;
-extern int D_004A7008;
-int DbgPrintf(char *fmt, ...);
-void denlib_0018c5d0(undefined8 param_1, undefined4 param_2, undefined4 param_3);
-int rand(void);
 void rsound_0010c2b0(int, int, int, int, int, int, int);
 void shikimi_002b2690(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8);
-
-// MATCH func_002215F8
-void FUN_002215f8(int *param_1)
-
-{
-  if (*param_1 != 0) {
-    denlib_0018c5d0(param_1[0x21],0x2a40,0x3e00);
-    param_1[2] = 1;
-  }
-  return;
-}
 
 // MATCH func_00221638
 int FUN_00221638(int *param_1)
@@ -60,19 +44,6 @@ void FUN_00222ab0(int *param_1)
     *(int *)(iVar1 + 8) = param_1[0x1f];
   }
   return;
-}
-
-// MATCH func_00223440
-int FUN_00223440(int param_1)
-
-{
-  int iVar1;
-  
-  iVar1 = rand();
-  iVar1 = ((iVar1 >> 8) + D_004A7008) % (int)param_1;
-  D_004A7008 = (D_004A7008 + 1) % 100;
-  DbgPrintf(D_004A4DF8,iVar1);
-  return iVar1;
 }
 
 // MATCH func_002234B0

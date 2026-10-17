@@ -11,21 +11,6 @@ void denlib_0018c710(undefined4 *param_1, int param_2);
 void denlib_0018c908(void);
 
 #define DAT_00440710 (D_00440710[0])
-// MATCH func_0018C450
-int denlib_0018c450(int param_1)
-
-{
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)param_1;
-  *puVar1 = 0;
-  puVar1[0xe] = &DAT_00440710;
-  puVar1[1] = 0;
-  return param_1;
-}
-#undef DAT_00440710
-
-#define DAT_00440710 (D_00440710[0])
 // MATCH func_0018C470
 void denlib_0018c470(int param_1,int param_2)
 

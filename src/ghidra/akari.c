@@ -3,8 +3,6 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
-extern char D_0044B740[];
-void rouge_00133528(void *param_1, int, int);
 
 // MATCH func_001E2478
 void akari_001e2478(int param_1,int param_2)
@@ -43,17 +41,6 @@ void akari_001e2530(int param_1)
 
 {
   *(float *)(param_1 + 0x44) = *(float *)(param_1 + 0x44) + *(float *)(param_1 + 0x48);
-  return;
-}
-
-// MATCH func_001E2548
-void akari_001e2548(int param_1)
-
-{
-  if (*(int *)(param_1 + 0x58) != 0) {
-    rouge_00133528(*(int *)(param_1 + 0x58),((int)D_0044B740),0x10d);
-  }
-  *(undefined4 *)(param_1 + 0x58) = 0;
   return;
 }
 

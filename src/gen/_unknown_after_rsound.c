@@ -2,6 +2,8 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_00315D88[];
+extern int D_004A12A4;
 extern int D_004A136C;
 extern int D_004A1560;
 extern int D_004A557C;
@@ -14,6 +16,9 @@ extern int D_004A6BDC;
 extern int D_004A6BEC;
 extern int D_004A6C00;
 extern int D_004A6C04;
+void func_0010F000();
+void func_00113038();
+void func_001138C0();
 
 // MATCH func_0010F1C8
 void FUN_0010f1c8(void)
@@ -25,6 +30,12 @@ void FUN_0010f1c8(void)
 void FUN_0010f1d8(void)
 {
     D_004A6BDC = 0;
+}
+
+// MATCH func_00110098
+void FUN_00110098(int a0, int a1, int a2)
+{
+    func_001138C0((int)D_00315D88, a0, a1, a2);
 }
 
 // MATCH func_001114B0
@@ -67,6 +78,13 @@ int FUN_001114d8(void)
 void FUN_001114e0(int v)
 {
     D_004A136C = v;
+}
+
+// MATCH func_00111500
+void FUN_00111500(void)
+{
+    D_004A12A4 = 18;
+    func_0010F000();
 }
 
 // MATCH func_00111510
@@ -121,5 +139,11 @@ void FUN_001118c0(void)
 void FUN_00111950(int v)
 {
     D_004A557C = v;
+}
+
+// MATCH func_00111958
+void FUN_00111958(void)
+{
+    func_00113038((int)D_00315D88);
 }
 

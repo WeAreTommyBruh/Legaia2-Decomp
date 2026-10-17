@@ -3,11 +3,18 @@
 #include "../common.h"
 
 extern int D_004A1500;
+void func_00219518();
 
 // MATCH func_002194B0
 void FUN_002194b0(void *p)
 {
     FIELD(int, p, 0x268) = 1;
+}
+
+// MATCH func_00219500
+void FUN_00219500(int a0, int a1, int a2)
+{
+    func_00219518(a0, a1, a2, 0x80ffffff, 30, 30, 60);
 }
 
 // MATCH func_0021B988

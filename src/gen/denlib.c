@@ -2,6 +2,17 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_00440710[];
+
+// MATCH func_0018C450
+int denlib_0018c450(int a0)
+{
+    FIELD(int, a0, 0x0) = 0;
+    FIELD(int, a0, 0x38) = (int)D_00440710;
+    FIELD(int, a0, 0x4) = 0;
+    return a0;
+}
+
 // MATCH func_0018C7E8
 int denlib_0018c7e8(void *p)
 {

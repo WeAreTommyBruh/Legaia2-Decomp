@@ -3,9 +3,7 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
-void FUN_00172aa0(void);
 void FUN_001736d0(void);
-void FUN_0018f5f0(undefined4 *param_1, undefined4 *param_2, undefined1 (*param_3) [16]);
 void MemFree(void *ptr);
 
 // MATCH func_001728F0
@@ -66,14 +64,6 @@ bool FUN_00172cc8(int param_1)
   return *(int *)(param_1 + 0x5c) == 0;
 }
 
-// MATCH func_00172CD8
-void FUN_00172cd8(int param_1,int param_2)
-
-{
-  FUN_0018f5f0(param_2,(int)param_1 + 0x10,param_1);
-  return;
-}
-
 // MATCH func_00172D78
 void FUN_00172d78(int param_1)
 
@@ -114,15 +104,5 @@ void FUN_00173a98(int param_1,int param_2)
 {
   *(undefined2 *)(*(int *)(param_1 + 0x70) + 0xbc) =
        *(undefined2 *)((param_2 + *(int *)(param_1 + 0x160)) * 4 + *(int *)(param_1 + 0x74));
-  return;
-}
-
-// MATCH func_00173AC0
-void FUN_00173ac0(int param_1)
-
-{
-  FUN_00172aa0();
-  *(undefined4 *)(param_1 + 0x158) = 0;
-  *(undefined4 *)(param_1 + 0x154) = *(undefined4 *)(param_1 + 0x150);
   return;
 }

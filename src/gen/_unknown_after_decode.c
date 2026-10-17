@@ -2,15 +2,44 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_00191018();
+void func_00192030();
+void func_00192118();
+void func_002C2C30();
+
 // MATCH func_00190DC0
 void FUN_00190dc0(void)
 {
+}
+
+// MATCH func_00191068
+void thunk_FUN_00191018(void)
+{
+    func_00191018();
 }
 
 // MATCH func_001925F0
 void FUN_001925f0(void *p)
 {
     FIELD(int, p, 0xa8) = 0;
+}
+
+// MATCH func_00192900
+void thunk_FUN_002c2c30(void)
+{
+    func_002C2C30();
+}
+
+// MATCH func_00192928
+void FUN_00192928(int a0)
+{
+    func_00192030((a0 + 72));
+}
+
+// MATCH func_00192930
+void FUN_00192930(int a0)
+{
+    func_00192118((a0 + 72));
 }
 
 // MATCH func_00192938

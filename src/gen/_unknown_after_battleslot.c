@@ -2,8 +2,65 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_004227CC[];
+extern char D_00422EFC[];
+extern char D_0042325C[];
+extern char D_0042339C[];
+extern char D_004234D4[];
+extern char D_00423B1C[];
+extern char D_0062B040[];
+extern char D_0062B080[];
+extern char D_0062B0C0[];
+extern char D_0062B100[];
+extern char D_0062B140[];
 extern int D_004257D8[];
 extern int D_004A6B58;
+extern int D_004A72FC;
+extern int D_004A7300;
+void func_002988A0();
+
+// MATCH func_002971C0
+void FUN_002971c0(int a0, int a1)
+{
+    D_004A72FC = a0;
+    D_004A7300 = a1;
+}
+
+// MATCH func_002986D0
+void FUN_002986d0(void)
+{
+    func_002988A0((int)D_0062B040, (int)D_004227CC, ((int)D_004227CC + 52));
+}
+
+// MATCH func_002986E8
+void FUN_002986e8(void)
+{
+    func_002988A0((int)D_0062B080, (int)D_00422EFC, ((int)D_00422EFC + 52));
+}
+
+// MATCH func_00298AB0
+void FUN_00298ab0(void)
+{
+    func_002988A0((int)D_0062B100, (int)D_0042325C, ((int)D_0042325C + 52));
+}
+
+// MATCH func_00298AC8
+void FUN_00298ac8(void)
+{
+    func_002988A0((int)D_0062B0C0, (int)D_0042339C, ((int)D_0042339C + 52));
+}
+
+// MATCH func_00298AE0
+void FUN_00298ae0(void)
+{
+    func_002988A0((int)D_0062B100, (int)D_004234D4, ((int)D_004234D4 + 52));
+}
+
+// MATCH func_00298AF8
+void FUN_00298af8(void)
+{
+    func_002988A0((int)D_0062B140, (int)D_00423B1C, ((int)D_00423B1C + 52));
+}
 
 // MATCH func_00299118
 void FUN_00299118(int v)

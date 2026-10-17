@@ -2,8 +2,16 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_00126830();
+
 // MATCH func_00229858
 void FUN_00229858(void)
 {
+}
+
+// MATCH func_0022BDD0
+void FUN_0022bdd0(void)
+{
+    func_00126830(0, 0);
 }
 

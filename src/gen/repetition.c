@@ -2,6 +2,15 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_00172B30();
+void func_001739F0();
+
+// MATCH func_001743A0
+void thunk_FUN_00172b30(void)
+{
+    func_00172B30();
+}
+
 // MATCH func_001743A8
 void repetition_001743a8(void *p, int v)
 {
@@ -30,5 +39,11 @@ void repetition_001749d8(void *p, int v)
 int repetition_00175f30(void)
 {
     return 1;
+}
+
+// MATCH func_00176698
+void thunk_FUN_001739f0(void)
+{
+    func_001739F0();
 }
 

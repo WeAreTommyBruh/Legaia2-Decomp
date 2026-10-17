@@ -15,25 +15,3 @@ void FUN_00111d40(int param_1)
   }
   return;
 }
-
-// MATCH func_00111D58
-void FUN_00111d58(int param_1,int param_2)
-
-{
-  *(int *)(param_1 + 0x10) = param_2 + 8;
-  return;
-}
-
-// MATCH func_00112B00
-undefined4 FUN_00112b00(int *param_1)
-
-{
-  return *(undefined4 *)(*param_1 + 0xc);
-}
-
-// MATCH func_00112B18
-undefined4 FUN_00112b18(int *param_1)
-
-{
-  return *(undefined4 *)(*param_1 + 8);
-}

@@ -10,6 +10,15 @@ void FUN_0015a570(void *p, int v)
     FIELD(int, p, 0x10) = v;
 }
 
+// MATCH func_0015AA68
+int FUN_0015aa68(int a0)
+{
+    FIELD(int, a0, 0x120) = 0;
+    FIELD(int, a0, 0x138) = 0;
+    FIELD(int, a0, 0x144) = 0;
+    return a0;
+}
+
 // MATCH func_0015AEA0
 void FUN_0015aea0(void)
 {

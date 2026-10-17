@@ -2,6 +2,8 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_00108B98();
+
 // MATCH func_001AD788
 int nayuwin2_001ad788(int a)
 {
@@ -126,6 +128,30 @@ void nayuwin2_001ad8f8(void *p, s8 v)
 void nayuwin2_001ad900(void *p, s8 v)
 {
     FIELD(s8, p, 0x69) = v;
+}
+
+// MATCH func_001AD930
+void nayuwin2_001ad930(int a0)
+{
+    func_00108B98((a0 + 140));
+}
+
+// MATCH func_001AD938
+void nayuwin2_001ad938(int a0)
+{
+    func_00108B98((a0 + 184));
+}
+
+// MATCH func_001AD940
+void nayuwin2_001ad940(int a0)
+{
+    func_00108B98((a0 + 228));
+}
+
+// MATCH func_001AD948
+void nayuwin2_001ad948(int a0)
+{
+    func_00108B98((a0 + 272));
 }
 
 // MATCH func_001AD950

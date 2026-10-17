@@ -2,6 +2,15 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern int D_0041F934[];
+
+// MATCH func_002AAE40
+int FUN_002aae40(void)
+{
+    D_0041F934[0] = 1;
+    return 1;
+}
+
 // MATCH func_002AAE50
 void FUN_002aae50(void)
 {

@@ -2,12 +2,31 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_004213A0[];
+extern int D_002F9804[];
 extern int D_004A6AA0;
+extern int D_004A7358;
+extern int D_004A735C;
+void func_00246D88();
+
+// MATCH func_002B0DC8
+int shikimi_002b0dc8(void)
+{
+    D_004A735C = 0;
+    D_004A7358 = 3;
+    return 3;
+}
 
 // MATCH func_002B32A0
 void shikimi_002b32a0(void)
 {
     D_004A6AA0 = 0;
+}
+
+// MATCH func_002B34C0
+void shikimi_002b34c0(void)
+{
+    func_00246D88((int)D_004213A0, D_002F9804[0]);
 }
 
 // MATCH func_002B3F08

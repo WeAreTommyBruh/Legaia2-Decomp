@@ -4,8 +4,18 @@
 
 extern int D_004A1284;
 extern int D_004A14B0;
+extern int D_004A7104;
+extern int D_004A710C;
 extern int D_004A7154;
 extern int D_004A7180;
+
+// MATCH func_00237FE8
+int FUN_00237fe8(void)
+{
+    D_004A7104 = 1;
+    D_004A710C = -1;
+    return 1;
+}
 
 // MATCH func_00239050
 void FUN_00239050(void)

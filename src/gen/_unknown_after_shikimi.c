@@ -2,18 +2,93 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_002E18F8[];
+extern char D_004248E8[];
+extern char D_00424968[];
+extern char D_00424A18[];
+extern char D_00424B98[];
 extern char D_004260A0[];
+extern char D_0049DA28[];
+extern char D_0049DA98[];
+extern char D_0049DAC8[];
+extern char D_0049DAE0[];
+extern char D_0049DB18[];
+extern char D_0049E678[];
+extern char D_0049E690[];
+extern char D_0049E7E0[];
+extern char D_0049E7F8[];
+extern char D_0049E810[];
+extern char D_0049E828[];
 extern char D_0049F248[];
 extern char D_0062F580[];
 extern char D_00631840[];
 extern char D_00631A40[];
 extern char D_00632858[];
 extern int D_004293F4[];
+extern int D_0042991C[];
 extern int D_00631800[];
+void func_0029D3D0();
+void func_002A7350();
+void func_002C35C8();
+void func_002C5C38();
+void func_002CF9C8();
+void func_002CFAB0();
+void func_002D04C0();
+void func_002D3628();
+void func_002D62C8();
+void func_002DBB00();
+void func_002DBBB0();
+void func_002DD4CC();
+void func_002E1B20();
+void func_002E58C0();
+void func_002E7940();
+void func_002EE750();
 
 // MATCH func_002BAFB8
 void FUN_002bafb8(void)
 {
+}
+
+// MATCH func_002BEA80
+void FUN_002bea80(void)
+{
+    func_002DD4CC((int)D_00424B98);
+}
+
+// MATCH func_002BEA90
+void FUN_002bea90(void)
+{
+    func_002DD4CC((int)D_00424A18);
+}
+
+// MATCH func_002BEBE8
+void FUN_002bebe8(void)
+{
+    func_002DD4CC((int)D_004248E8);
+}
+
+// MATCH func_002BEBF8
+void FUN_002bebf8(void)
+{
+    func_002DD4CC((int)D_00424968);
+}
+
+// MATCH func_002BEC70
+void thunk_FUN_002a7350(void)
+{
+    func_002A7350();
+}
+
+// MATCH func_002BEEA0
+void FUN_002beea0(int a0)
+{
+    func_0029D3D0((a0 + 4));
+}
+
+// MATCH func_002BF5A0
+void FUN_002bf5a0(int a0, int a1)
+{
+    FIELD(int, a0, 0x10) = (a1 + 8);
 }
 
 // MATCH func_002BF838
@@ -26,6 +101,115 @@ void *FUN_002bf838(void)
 int FUN_002c2b20(void)
 {
     return 1;
+}
+
+// MATCH func_002C2C68
+int FUN_002c2c68(int a0)
+{
+    return FIELD(int, FIELD(int, a0, 0x40), 0x0);
+}
+
+// MATCH func_002C2E08
+int FUN_002c2e08(int a0)
+{
+    return FIELD(int, FIELD(int, a0, 0x40), 0xcc);
+}
+
+// MATCH func_002C2E18
+int FUN_002c2e18(int a0)
+{
+    return FIELD(int, FIELD(int, a0, 0x40), 0xd0);
+}
+
+// MATCH func_002C2E28
+int FUN_002c2e28(int a0)
+{
+    return (FIELD(int, a0, 0x40) + 180);
+}
+
+// MATCH func_002C2E38
+int FUN_002c2e38(int a0)
+{
+    return (FIELD(int, a0, 0x40) + 180);
+}
+
+// MATCH func_002C2E88
+int FUN_002c2e88(int a0)
+{
+    FIELD(int, a0, 0xc) = FIELD(int, a0, 0x8);
+    return FIELD(int, a0, 0x8);
+}
+
+// MATCH func_002C2E98
+int FUN_002c2e98(int a0)
+{
+    FIELD(int, a0, 0x8) = FIELD(int, a0, 0xc);
+    return FIELD(int, a0, 0xc);
+}
+
+// MATCH func_002C33C8
+void FUN_002c33c8(int a0)
+{
+    FIELD(int, a0, 0x848) = 0;
+    func_002C5C38(1);
+}
+
+// MATCH func_002C3580
+void FUN_002c3580(int a0)
+{
+    func_002E7940((int)D_0049DA28, a0);
+}
+
+// MATCH func_002C3E90
+void FUN_002c3e90(int a0)
+{
+    func_002C35C8(a0, (int)D_0049DA98);
+}
+
+// MATCH func_002C3EA0
+void FUN_002c3ea0(int a0)
+{
+    func_002C35C8(a0, (int)D_0049DAC8);
+}
+
+// MATCH func_002C3EB0
+void FUN_002c3eb0(int a0)
+{
+    func_002C35C8(a0, (int)D_0049DAE0);
+}
+
+// MATCH func_002C3EC0
+void FUN_002c3ec0(int a0)
+{
+    func_002C35C8(a0, (int)D_0049DB18);
+}
+
+// MATCH func_002C3ED0
+void FUN_002c3ed0(int a0)
+{
+    func_002CF9C8((FIELD(int, a0, 0x40) + 76));
+}
+
+// MATCH func_002C3EE0
+void FUN_002c3ee0(int a0)
+{
+    func_002CFAB0((FIELD(int, a0, 0x40) + 76));
+}
+
+// MATCH func_002CF148
+int FUN_002cf148(int a0)
+{
+    FIELD(int, a0, 0x8) = 0;
+    FIELD(int, a0, 0x0) = FIELD(int, a0, 0x4);
+    return FIELD(int, a0, 0x4);
+}
+
+// MATCH func_002CF448
+int FUN_002cf448(int a0)
+{
+    FIELD(int, a0, 0x8) = 0;
+    FIELD(int, a0, 0x0) = FIELD(int, a0, 0x4);
+    return FIELD(int, a0, 0x4);
 }
 
 // MATCH func_002CFF38
@@ -52,6 +236,90 @@ int FUN_002cffb0(void)
     return D_00631800[0];
 }
 
+// MATCH func_002D38E8
+void FUN_002d38e8(void)
+{
+    func_002D3628(0);
+}
+
+// MATCH func_002D38F0
+void FUN_002d38f0(void)
+{
+    func_002D3628(1);
+}
+
+// MATCH func_002D3998
+void FUN_002d3998(int a0)
+{
+    func_002D04C0(50, 10, a0, 0);
+}
+
+// MATCH func_002D3FE0
+void FUN_002d3fe0(int a0, int a1)
+{
+    func_002D04C0(20, a0, a1, 0);
+}
+
+// MATCH func_002D3FF8
+void FUN_002d3ff8(int a0, int a1)
+{
+    func_002D04C0(21, a0, a1, 0);
+}
+
+// MATCH func_002D4010
+void FUN_002d4010(int a0, int a1, int a2)
+{
+    func_002D04C0(22, a0, a1, a2);
+}
+
+// MATCH func_002D4028
+void FUN_002d4028(int a0, int a1)
+{
+    func_002D04C0(23, a0, a1, 0);
+}
+
+// MATCH func_002D4040
+void FUN_002d4040(int a0, int a1)
+{
+    func_002D04C0(24, a0, a1, 0);
+}
+
+// MATCH func_002D41A8
+void FUN_002d41a8(int a0, int a1, int a2)
+{
+    func_002D04C0(40, a0, a1, a2);
+}
+
+// MATCH func_002D5020
+void FUN_002d5020(void)
+{
+    func_002D04C0(60, 0, 0, 0);
+}
+
+// MATCH func_002D5038
+void FUN_002d5038(void)
+{
+    func_002D04C0(61, 0, 0, 0);
+}
+
+// MATCH func_002D5350
+void FUN_002d5350(void)
+{
+    func_002D04C0(70, 0, 0, 0);
+}
+
+// MATCH func_002D5368
+void FUN_002d5368(void)
+{
+    func_002D04C0(71, 0, 0, 0);
+}
+
+// MATCH func_002D5430
+void FUN_002d5430(int a0)
+{
+    func_002D04C0(78, a0, 0, 0);
+}
+
 // MATCH func_002D6320
 void FUN_002d6320(void)
 {
@@ -62,16 +330,84 @@ void FUN_002d6b28(void)
 {
 }
 
+// MATCH func_002D7448
+void thunk_FUN_002d62c8(void)
+{
+    func_002D62C8();
+}
+
+// MATCH func_002D87B0
+int FUN_002d87b0(int a0)
+{
+    FIELD(int, a0, 0x0) = (int)D_0049E678;
+    return a0;
+}
+
+// MATCH func_002D8848
+int FUN_002d8848(int a0)
+{
+    FIELD(int, a0, 0x0) = (int)D_0049E690;
+    return a0;
+}
+
+// MATCH func_002DA948
+int FUN_002da948(int a0, int a1)
+{
+    FIELD(int, a0, 0x0) = a1;
+    FIELD(int, a0, 0x4) = (int)D_0049E7E0;
+    return a0;
+}
+
+// MATCH func_002DAA00
+int FUN_002daa00(int a0)
+{
+    FIELD(int, a0, 0x0) = (int)D_0049E7F8;
+    return a0;
+}
+
+// MATCH func_002DAA98
+int FUN_002daa98(int a0)
+{
+    FIELD(int, a0, 0x0) = (int)D_0049E810;
+    return a0;
+}
+
 // MATCH func_002DAB20
 int FUN_002dab20(void *p)
 {
     return FIELD(int, p, 0x0);
 }
 
+// MATCH func_002DAB28
+int FUN_002dab28(int a0, int a1)
+{
+    FIELD(int, a0, 0x0) = a1;
+    FIELD(int, a0, 0x4) = (int)D_0049E828;
+    return a0;
+}
+
 // MATCH func_002DB948
 int FUN_002db948(void)
 {
     return D_004293F4[0];
+}
+
+// MATCH func_002DBB00
+void FUN_002dbb00(int a0)
+{
+    func_002DBBB0(a0, (int)D_002E18F8);
+}
+
+// MATCH func_002DBB10
+void FUN_002dbb10(void)
+{
+    func_002DBB00(D_004293F4[0]);
+}
+
+// MATCH func_002DBC70
+void FUN_002dbc70(int a0)
+{
+    func_002E1B20(D_004293F4[0], a0);
 }
 
 // MATCH func_002DC8C8
@@ -130,5 +466,17 @@ int FUN_002e6070(void)
 void *FUN_002e7a08(void)
 {
     return D_00632858;
+}
+
+// MATCH func_002E95E0
+void FUN_002e95e0(void)
+{
+    func_002E58C0(D_0042991C[0]);
+}
+
+// MATCH func_002EE200
+void thunk_FUN_002ee750(void)
+{
+    func_002EE750();
 }
 

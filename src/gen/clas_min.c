@@ -2,12 +2,118 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+extern char D_00425368[];
+extern int D_004A14B8;
 extern int D_004A69F8;
+extern int D_004A6A0C;
+void func_002492E8();
+void func_0029C980();
+void func_0029D010();
+void func_0029D420();
+void func_002A2F00();
+void func_002DD4CC();
 
 // MATCH func_0029C408
 void clas_min_0029c408(void *p, int v)
 {
     FIELD(int, p, 0x4) = v;
+}
+
+// MATCH func_0029FB60
+void clas_min_0029fb60(void)
+{
+    D_004A14B8 = 0;
+    func_002492E8();
+}
+
+// MATCH func_0029FDE8
+void clas_min_0029fde8(int a0, int a1, int a2, int a3)
+{
+    func_0029D420((a0 + 4), a1, a3, a2);
+}
+
+// MATCH func_0029FE00
+void clas_min_0029fe00(int a0, int a1, int a2)
+{
+    func_0029C980((a0 + 80), a2, a1);
+}
+
+// MATCH func_0029FE18
+void clas_min_0029fe18(int a0, int a1)
+{
+    func_0029C980((a0 + 128), 0, a1);
+}
+
+// MATCH func_0029FE28
+void clas_min_0029fe28(int a0, int a1)
+{
+    func_0029C980((a0 + 176), 0, a1);
+}
+
+// MATCH func_0029FE38
+void clas_min_0029fe38(int a0, int a1)
+{
+    func_0029D010((a0 + 284), 0, a1);
+}
+
+// MATCH func_0029FE48
+void clas_min_0029fe48(int a0, int a1, int a2)
+{
+    func_0029D010((a0 + 224), a2, a1);
+}
+
+// MATCH func_0029FE60
+void clas_min_0029fe60(int a0, int a1, int a2)
+{
+    func_0029D010((a0 + 244), a2, a1);
+}
+
+// MATCH func_0029FE78
+void clas_min_0029fe78(int a0, int a1, int a2)
+{
+    func_0029D010((a0 + 264), a2, a1);
+}
+
+// MATCH func_0029FE90
+void clas_min_0029fe90(int a0, int a1)
+{
+    func_0029D010((a0 + 516), 0, a1);
+}
+
+// MATCH func_0029FEA0
+void clas_min_0029fea0(int a0, int a1)
+{
+    func_0029D010((a0 + 536), 0, a1);
+}
+
+// MATCH func_0029FEB0
+void clas_min_0029feb0(int a0, int a1)
+{
+    func_0029D010((a0 + 556), 0, a1);
+}
+
+// MATCH func_002A12F8
+int clas_min_002a12f8(int a0)
+{
+    FIELD(int, a0, 0x0) = 0;
+    FIELD(int, a0, 0x4) = -1;
+    return a0;
+}
+
+// MATCH func_002A1AA8
+void clas_min_002a1aa8(int a0, int a1, int a2, int a3)
+{
+    FIELD(int, a0, 0x104) = a1;
+    FIELD(int, a0, 0x108) = a3;
+    func_002DD4CC(a0, a2);
+}
+
+// MATCH func_002A1E30
+void clas_min_002a1e30(int a0, int a1, int a2, int a3, int a4)
+{
+    FIELD(int, a1, 0x104) = a2;
+    FIELD(int, a1, 0x108) = a4;
+    func_002DD4CC(a1, a3);
 }
 
 // MATCH func_002A25B8
@@ -16,15 +122,43 @@ void clas_min_002a25b8(void)
     D_004A69F8 = 0;
 }
 
+// MATCH func_002A2EF0
+void clas_min_002a2ef0(int a0, int a1, int a2)
+{
+    FIELD(int, a0, 0x1c) = a1;
+    func_002A2F00(a0, a2, 1);
+}
+
+// MATCH func_002A3268
+void clas_min_002a3268(int a0, int a1)
+{
+    FIELD(int, a0, 0x20) = a1;
+    D_004A6A0C = 0;
+}
+
 // MATCH func_002A3FE8
 int clas_min_002a3fe8(int a)
 {
     return a;
 }
 
+// MATCH func_002A4010
+void clas_min_002a4010(void)
+{
+    func_002DD4CC((int)D_00425368);
+}
+
 // MATCH func_002A46B8
 void clas_min_002a46b8(void *p, float v)
 {
     FIELD(float, p, 0x4) = v;
+}
+
+// MATCH func_002A6100
+int clas_min_002a6100(int a0)
+{
+    FIELD(int, a0, 0x0) = 0;
+    FIELD(int, a0, 0x4) = 0;
+    return a0;
 }
 

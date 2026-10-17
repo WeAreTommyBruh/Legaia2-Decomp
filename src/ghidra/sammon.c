@@ -6,16 +6,6 @@
 extern int D_0045AE68[];
 int DbgPrintf(char *fmt);
 int FUN_00237ca0(int param_1, int param_2, undefined8 param_3);
-void sammon_00227e58(int, int);
-
-// MATCH func_00227E48
-void sammon_00227e48(int param_1,undefined4 param_2,int param_3)
-
-{
-  *(undefined4 *)(param_1 + 0x140) = param_2;
-  sammon_00227e58(param_1,param_3);
-  return;
-}
 
 #define DAT_0045ae68 (D_0045AE68[0])
 // MATCH func_002293C8

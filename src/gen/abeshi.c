@@ -2,6 +2,8 @@
    instructions; each compiles to the original bytes. */
 #include "../common.h"
 
+void func_0025F778();
+
 // MATCH func_0025F210
 int abeshi_0025f210(void)
 {
@@ -12,6 +14,13 @@ int abeshi_0025f210(void)
 int abeshi_0025f218(void)
 {
     return -1;
+}
+
+// MATCH func_0025F7A8
+void abeshi_0025f7a8(int a0)
+{
+    FIELD(int, a0, 0x134) = 0;
+    func_0025F778(a0, 3);
 }
 
 // MATCH func_0025FDC0

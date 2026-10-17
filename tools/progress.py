@@ -117,6 +117,9 @@ def main(argv):
              "that the game does not have.\n")
     L.append("  - ee-gcc 2.9-ee-991111-01 (and 991111a, which reports the same version) reproduce "
              "every matched function. The build uses 991111-01.\n")
+    L.append("- The game's C++ files were built with exceptions on (`-fexceptions`): a call at the end "
+             "of a function stays a `jal` instead of becoming a tail call (`j`). Generated files that "
+             "need it carry a `// cflags: -fexceptions` line.\n")
     L.append("- Flags: `-O2 -G8`. Float constants are loaded gp-relative from `.lit4` and the gp "
              "value (0x4a7c70) comes from `.reginfo`.\n")
     L.append("\n## How matching works\n\n")
@@ -124,7 +127,8 @@ def main(argv):
              "`// MATCH func_XXXXXXXX` comment just before it; one that compiles but does not match "
              "yet stays under `#ifdef NONMATCHING`, and the build uses the original assembly.\n")
     L.append("- `src/gen/` is written by `tools/gen_tiny.py`: tiny functions (empty functions, "
-             "constants, field and global getters/setters) translated from their instructions; only "
+             "constants, field and global getters/setters, short wrappers that end in a tail call) "
+             "translated from their instructions; only "
              "exact matches are kept.\n")
     L.append("- `src/ghidra/` is written by `tools/gen_ghidra.py`: Ghidra's own decompilation, with "
              "only types and global names adjusted, for the functions where it already compiles to "
