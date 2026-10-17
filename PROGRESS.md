@@ -10,20 +10,20 @@ This is not a matching decompilation. "Matched" below means C that happens to co
 |---|---|---|
 | 1 | Identify the original compiler | Done: **ee-gcc 2.9-ee-991111-01**, `-O2 -G8`, confirmed by functions that compile byte-identical (see below) |
 | 2 | Rebuild the executable from assembly | Done: rebuilt executable is **byte-identical** to the original |
-| 3 | Match functions in C | In progress: 1699 of 6254 functions (2.8% of code) compile to the original bytes and are built from C |
+| 3 | Match functions in C | In progress: 1704 of 6254 functions (2.8% of code) compile to the original bytes and are built from C |
 
 ## Overall
 
 | | Count | Share | |
 |---|---:|---:|---|
-| Functions matched in C | 1699 / 6254 | 27.2% | `########......................` |
-| ... written by hand | 145 | | |
+| Functions matched in C | 1704 / 6254 | 27.2% | `########......................` |
+| ... written by hand | 150 | | |
 | ... generated from instruction patterns (`tools/gen_tiny.py`) | 758 | | |
 | ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 796 | | |
-| Code bytes matched in C | 55,656 / 2,019,536 | 2.8% | `#.............................` |
+| Code bytes matched in C | 57,412 / 2,019,536 | 2.8% | `#.............................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
-| .text words disassembled as instructions | 486,583 / 494,468 | 98.4% | `##############################` |
+| .text words disassembled as instructions | 486,149 / 494,029 | 98.4% | `##############################` |
 
 Functions with a source file come from the game's `__FILE__` debug strings; real names are the descriptive and library names given in `ghidra/scripts/NameFunctions.java`. The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, VU0 macro mode), written as `.word` because clang cannot assemble them.
 
@@ -34,6 +34,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
   - ee-gcc 2.96 saves registers in 8-byte stack slots; the game uses 16-byte slots (about 2,500 functions show this), so it is ruled out.
   - ee-gcc 2.9-ee-990721 and 2.9-ee-991111 put a `nop` between `mtc1` and `cvt.s.w` that the game does not have.
   - ee-gcc 2.9-ee-991111-01 (and 991111a, which reports the same version) reproduce every matched function. The build uses 991111-01.
+- Not every file was built the same way. Some match only with the older ee-gcc 2.9-ee-990721 (no global CSE), some only with 991111-01 and `-fno-gcse`; such C files carry a `// compiler: 990721` or `// cflags: -fno-gcse` line. A few functions still point to a build that is not in the archive (a `cvt.s.w` in a call's delay slot).
 - The game's C++ files were built with exceptions on (`-fexceptions`): a call at the end of a function stays a `jal` instead of becoming a tail call (`j`). Generated files that need it carry a `// cflags: -fexceptions` line.
 - Flags: `-O2 -G8`. Float constants are loaded gp-relative from `.lit4` and the gp value (0x4a7c70) comes from `.reginfo`.
 
@@ -91,7 +92,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `nayuini2.cpp` | 1 | 200 | 0 | 0.0% |
 | `nayuki.cpp` | 98 | 30,000 | 66 | 8.8% |
 | `nayuwin2.cpp` | 78 | 18,128 | 36 | 2.2% |
-| `nori.cpp` | 64 | 48,300 | 22 | 3.7% |
+| `nori.cpp` | 64 | 48,300 | 23 | 4.8% |
 | `noribs.cpp` | 3 | 1,324 | 0 | 0.0% |
 | `noriwin.cpp` | 1 | 2,152 | 0 | 0.0% |
 | `nowloding.cpp` | 1 | 596 | 0 | 0.0% |
@@ -128,4 +129,4 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `work.cpp` | 36 | 4,400 | 7 | 2.9% |
 | `yokota.cpp` | 40 | 18,260 | 4 | 0.85% |
 | `yue.cpp` | 56 | 36,396 | 24 | 6.0% |
-| `(not attributed)` | 4212 | 1,336,852 | 1140 | 2.8% |
+| `(not attributed)` | 4212 | 1,336,852 | 1144 | 2.9% |

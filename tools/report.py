@@ -70,6 +70,8 @@ def symbols_and_relocs(obj):
     for i in range(symtab[5] // 16):
         nm, val, size, info, other, shndx = struct.unpack_from("<IIIBBH", d, symtab[4] + 16 * i)
         s = d[strtab[4] + nm:d.index(b"\0", strtab[4] + nm)].decode()
+        if not s and info & 0xF == 3 and 0 < shndx < len(secs) and secs[shndx][0] in DATA_RELOC:
+            s = DATA_RELOC[secs[shndx][0]]  # the file's own data (a switch's jump table)
         names.append(s)
         if shndx == text_idx and info & 0xF == 2:
             funcs[s] = (val, size)
@@ -92,6 +94,17 @@ def symbols_and_relocs(obj):
         elif not sym:
             raise SystemExit(f"{obj}: relocation type {t} at {off:#x} against a section")
     return funcs, relocs
+
+
+# local labels standing for a C file's own data sections in the target
+# objects (relocations against them become section relocations, as in the
+# base object)
+DATA_RELOC = {".rodata": ".Lrodata"}
+
+
+def data_sizes(obj):
+    """{section: size} of the data sections in DATA_RELOC of an object."""
+    return {n: h[5] for n, h in sections(open(obj, "rb").read()) if n in DATA_RELOC and h[5]}
 
 
 def s16(x):
@@ -174,8 +187,8 @@ def main(argv):
             continue
         files = [unit_src[unit]]
         obj = os.path.join(OUT, "base", unit.replace("/", "__") + ".o")
-        subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", *asm_build.file_flags(files[0]),
-                        "-o", obj, files[0]], check=True)
+        if asm_build.compile_c(files[0], obj, ["-O2", "-G8", "-w", *asm_build.file_flags(files[0])]).returncode:
+            raise SystemExit(f"{files[0]} does not compile")
         if asm_build.file_flags(files[0]):  # -fexceptions frame tables (see asm_build.py)
             subprocess.run([asm_build.tool("OBJCOPY", "llvm-objcopy"), "-w", "--remove-section=.data",
                             "--remove-section=.rel.data", obj], check=True)
@@ -229,6 +242,9 @@ def main(argv):
                     lines.append(f"    .word    {w:#010x}\n")
             if fend >= end:
                 lines.append(f".size {name}, . - {name}\n")
+        if unit in base_info:  # room for the C file's own data, at the same offsets
+            for sec, size in data_sizes(base_info[unit][0]).items():
+                lines.append(f"\n.section {sec}\n{DATA_RELOC[sec]}:\n    .space {size}\n")
         src = os.path.join(OUT, "target", unit.replace("/", "__") + ".s")
         open(src, "w").writelines(lines)
         obj = src[:-2] + ".o"

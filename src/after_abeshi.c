@@ -128,3 +128,32 @@ int FUN_002695a8(int i, int j)
 {
     return D_004A1A20[i].model->objs->obj[j]->id == 0x6306;
 }
+
+extern int D_004A23E0;
+extern int D_0041AB60[], D_0041B360[], D_0041AF60[];
+extern char D_00343010[];
+int FUN_002207e8(int);
+int akari_001e2a98(void *, int, int, int, float);
+int akari_001e3890(void *, int, int);
+int FUN_001e3e38(void *, int, int);
+void akari_001e26a8(void *, int, int, int, float);
+
+/* starts effect `id`: 190-253 are one kind, the others come from three tables */
+// MATCH func_002619D8
+int FUN_002619d8(float s, int id, int a, int b)
+{
+    int r = 0;
+    if ((u32)(id - 190) < 64) {
+        r = FUN_002207e8(id - 190);
+    } else if (D_0041AB60[id] != 0) {
+        r = akari_001e2a98(D_00343010, D_0041AB60[id], a, b, s);
+    } else {
+        int c = D_0041B360[id];
+        if (c != 0 && !((u32)(id - 40) < 6 && D_004A23E0 != 0)) {
+            r = akari_001e3890(D_00343010, c, D_0041AF60[id]);
+            FUN_001e3e38(D_00343010, r, 0);
+            akari_001e26a8(D_00343010, r, a, b, s);
+        }
+    }
+    return r;
+}

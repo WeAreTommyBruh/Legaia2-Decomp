@@ -22,6 +22,9 @@ as long), after these adjustments:
   - functions that make calls are also tried with -fexceptions (the game's
     C++ files were built with it: no tail calls); matches go to *_eh.c
     files with a `// cflags: -fexceptions` line
+  - what does not match with ee-gcc 2.9-ee-991111-01 is tried again with
+    ee-gcc 2.9-ee-990721, which built some of the game's files; such matches
+    go to *_990721.c files with a `// compiler: 990721` line
   - a stack frame smaller than the original's gets an unused local array
     (Ghidra does not show unused locals, which still take stack space)
 Exact matches (relocations resolved to the real addresses) are written,
@@ -35,6 +38,8 @@ Ghidra text and a hash of the tools, headers, function list, executable and
 compiler; a rerun only compiles functions whose inputs changed.
 
 Usage: gen_ghidra.py [MAX_SIZE]        (default 1024 bytes)
+       gen_ghidra.py --from-cache     (only rewrite src/ghidra from the cache, leaving
+                                       out functions now matched elsewhere in src/)
 """
 
 import concurrent.futures
@@ -451,6 +456,9 @@ def compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp):
     or None if it does not compile or keeps constants of its own."""
     src = os.path.join(tmp, "f.c")
     obj = os.path.join(tmp, "f.o")
+    # flags may name the compiler ("compiler=990721"); the rest go to it
+    compiler = next((f[9:] for f in flags if f.startswith("compiler=")), "991111-01")
+    real_flags = [f for f in flags if not f.startswith("compiler=")]
 
     def build():
         with open(src, "w") as f:
@@ -459,8 +467,7 @@ def compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp):
             f.writelines(d + "\n" for d in decls)
             f.write(text + "\n")
         try:  # cc1 loops forever on a few inputs
-            r = subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", *flags, "-o", obj, src],
-                               capture_output=True, timeout=60)
+            r = asm_build.compile_c(src, obj, ["-O2", "-G8", "-w", *real_flags], compiler, timeout=60)
         except subprocess.TimeoutExpired:
             global timed_out
             timed_out = True
@@ -470,7 +477,7 @@ def compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp):
 
     def own_data():
         # with -fexceptions, .data holds the frame tables (dropped by the build)
-        return any(n in asm_build.C_DATA and h[5] and not (flags and n == ".data")
+        return any(n in asm_build.C_DATA and h[5] and not (real_flags and n == ".data")
                    for n, h in sections(open(obj, "rb").read()))
     if not build():
         return None
@@ -502,8 +509,19 @@ def try_one(job):
 
 
 def search(job):
+    """Ghidra's text with every rewrite, built with ee-gcc 2.9-ee-991111-01;
+    then all of it again with ee-gcc 2.9-ee-990721, which built some files."""
+    for compiler in ("991111-01", "990721"):
+        found = search_with(job, compiler)
+        if found or timed_out:
+            return found
+    return None
+
+
+def search_with(job, compiler):
     addr, name, group, body0, protos, hdr, size, _ = job
-    flag_sets = flag_choices(addr, size)
+    flag_sets = [f + ((f"compiler={compiler}",) if compiler != "991111-01" else ())
+                 for f in flag_choices(addr, size)]
     tried = set()  # options often give the same text (no long to change, no byte to sign)
     for opts, variant, types in itertools.product(OPTIONS, ("int", "ghidra"), dat_type_choices(body0)):
         body, extra = rewrite(body0, opts)
@@ -544,17 +562,20 @@ def search(job):
 CACHE = os.path.join(ROOT, "build", "gen_ghidra_cache.json")
 
 
+# bump when a change to the search (rewrites, flags, compilers) can change
+# results; the cache in build/ is then rebuilt from scratch
+CACHE_VERSION = 3
+
+
 def inputs_key():
     """Hash of everything besides a function's own text that decides whether
-    it matches: these tools, the header, Ghidra's prototypes and function
-    list, the original executable and the compiler."""
+    it matches: CACHE_VERSION, the header, Ghidra's prototypes and function
+    list, the original executable and the compilers."""
     import hashlib
-    h = hashlib.sha1(asm_build.EE_CC.encode())
-    tools = os.path.dirname(os.path.abspath(__file__))
-    for path in (__file__, os.path.join(tools, "match.py"), os.path.join(tools, "asm_build.py"),
-                 os.path.join(tools, "ee_disasm.py"), os.path.join(ROOT, "src", "ghidra.h"),
-                 os.path.join(ROOT, "decomp", "legaia2.h"), os.path.join(ROOT, "decomp", "functions.csv"),
-                 asm_build.EXE, asm_build.EE_CC):
+    h = hashlib.sha1(f"{CACHE_VERSION}".encode())
+    for path in (os.path.join(ROOT, "src", "ghidra.h"), os.path.join(ROOT, "decomp", "legaia2.h"),
+                 os.path.join(ROOT, "decomp", "functions.csv"), asm_build.EXE,
+                 *asm_build.COMPILERS.values()):
         h.update(open(path, "rb").read())
     return h.hexdigest()
 
@@ -584,11 +605,11 @@ def save_cache(cache, keep):
 
 
 def main(argv):
-    max_size = int(argv[1]) if len(argv) > 1 else 1024
+    max_size = int(argv[1]) if len(argv) > 1 and argv[1].isdigit() else 1024
     protos = prototypes()
     taken = set()
     for path in glob.glob(os.path.join(ROOT, "src", "*.c")) + glob.glob(os.path.join(ROOT, "src", "gen", "*.c")):
-        taken |= {int(a, 16) for a in re.findall(r"func_([0-9A-Fa-f]{8})", open(path).read())}
+        taken |= {int(a, 16) for a in re.findall(r"MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
     hdr = os.path.join(ROOT, "src", "ghidra.h")
     tools_key = inputs_key()
     jobs = []
@@ -606,6 +627,10 @@ def main(argv):
         job = (addr, r["name"], r["group"] or "none", body_of(paths[0]), protos, hdr, size)
         jobs.append(job + (job_key(job, tools_key),))
     cache = load_cache()
+    if "--from-cache" in argv:
+        # only rewrite src/ghidra: every match in the cache that is not taken now
+        by_addr = {v[0]: tuple(v[:-1]) + (tuple(v[-1]),) for v in cache.values() if v and v[0] not in taken}
+        return write_files([by_addr[a] for a in sorted(by_addr)])
     todo = [j for j in jobs if j[-1] not in cache]
     print(f"trying {len(jobs)} functions ({len(jobs) - len(todo)} known from {CACHE})")
     with concurrent.futures.ProcessPoolExecutor(os.cpu_count()) as pool:
@@ -613,18 +638,28 @@ def main(argv):
             cache[key] = found
     save_cache(cache, {j[-1] for j in jobs})
     found = [tuple(cache[j[-1]][:-1]) + (tuple(cache[j[-1]][-1]),) for j in jobs if cache.get(j[-1])]
+    write_files(found)
+
+
+def write_files(found):
+    """Writes src/ghidra/ from the matches (addr, name, group, text, externs, decls, flags)."""
 
     for old in glob.glob(os.path.join(OUTDIR, "*.c")):
         os.remove(old)
     os.makedirs(OUTDIR, exist_ok=True)
     files = {}
     for addr, name, group, text, externs, decls, flags in sorted(found):
-        # files built with -fexceptions are kept apart (`// cflags:` line)
-        base = re.sub(r"[^A-Za-z0-9_]", "_", group) + ("_eh" if flags else "")
+        # files built with -fexceptions (`// cflags:` line) or with 990721
+        # (`// compiler:` line) are kept apart
+        compiler = next((f[9:] for f in flags if f.startswith("compiler=")), None)
+        cflags = tuple(f for f in flags if not f.startswith("compiler="))
+        base = (re.sub(r"[^A-Za-z0-9_]", "_", group) + ("_eh" if cflags else "") +
+                (f"_{compiler}" if compiler else ""))
         n = 0
         while True:  # one file per group unless declarations clash
             key = base if n == 0 else f"{base}_{n}"
-            fdat = files.setdefault(key, {"externs": {}, "decls": {}, "funcs": [], "flags": flags})
+            fdat = files.setdefault(key, {"externs": {}, "decls": {}, "funcs": [], "flags": cflags,
+                                          "compiler": compiler})
             # the same symbol declared alike (type, and array or not)
             have = {k.replace("[]", ""): (k, t) for k, t in fdat["externs"].items()}
             ok = all(have.get(s.replace("[]", ""), (s, t)) == (s, t) for s, t in externs.items())
@@ -648,6 +683,7 @@ def main(argv):
                     "   names adjusted (tools/gen_ghidra.py); each compiles to the original bytes.\n"
                     "   Still to be cleaned up by hand. */\n" +
                     (f"// cflags: {' '.join(fdat['flags'])}\n" if fdat["flags"] else "") +
+                    (f"// compiler: {fdat['compiler']}\n" if fdat["compiler"] else "") +
                     '#include "../ghidra.h"\n\n')
             f.writelines(f"extern {t} {s};\n" for s, t in sorted(fdat["externs"].items()))
             f.writelines(d + "\n" for k, d in sorted(fdat["decls"].items()) if k not in defined)

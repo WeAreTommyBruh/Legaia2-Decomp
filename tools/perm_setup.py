@@ -4,8 +4,8 @@
   perm_setup.py FILE.c NAME ADDRESS [-fexceptions]
 
 Writes build/perm/<address>/ (git-ignored): base.c (FILE.c preprocessed,
-other functions stripped), compile.sh (ee-gcc 2.9-ee-991111-01 -O2 -G8 and
-the file's `// cflags:`), target.o and target.size (the original function is
+other functions stripped), compile.sh (the file's compiler, or $COMPILER,
+with -O2 -G8 and the file's `// cflags:`), target.o and target.size (the original function is
 read from the executable by tools/perm_objdump.py) and settings.toml. Then:
 
   $PERMUTER/venv/bin/python $PERMUTER/permuter.py build/perm/<address> -j8
@@ -41,9 +41,11 @@ def main(argv):
     subprocess.run([os.path.join(PERMUTER, "venv", "bin", "python"),
                     os.path.join(PERMUTER, "strip_other_fns.py"), base, name], check=True)
     compile_sh = os.path.join(out, "compile.sh")
+    compiler = os.environ.get("COMPILER") or asm_build.file_compiler(src)
     with open(compile_sh, "w") as f:
         f.write("#!/bin/sh\n"
-                f'exec "{asm_build.EE_CC}" -c -O2 -G8 -w {" ".join(flags)} "$1" -o "$3"\n')
+                f'exec python3 "{os.path.join(asm_build.ROOT, "tools", "ee_cc.py")}" --compiler {compiler} '
+                f'-O2 -G8 -w {" ".join(flags)} "$1" -o "$3"\n')
     os.chmod(compile_sh, 0o755)
     # any MIPS object will do: perm_objdump.py reads the original from the executable
     subprocess.run([compile_sh, base, "-o", os.path.join(out, "target.o")], check=True)

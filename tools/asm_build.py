@@ -75,6 +75,32 @@ def file_flags(src):
     return m.group(1).split() if m else []
 
 
+# Some of the game's files were built with an older EE GCC, 2.9-ee-990721
+# (no global CSE, and other small differences); such a C file has a
+# `// compiler: 990721` line.
+FILE_COMPILER = re.compile(r"^//\s*compiler:\s*(\S+)", re.M)
+COMPILERS = {
+    "991111-01": EE_CC,
+    "990721": os.environ.get("EE_CC_990721", os.path.expanduser("~/tools/ee-gcc2.9-990721/bin/ee-gcc")),
+}
+
+
+def file_compiler(src):
+    """The compiler a C file asks for: "991111-01" (the default) or "990721"."""
+    m = FILE_COMPILER.search(open(src).read())
+    return m.group(1) if m else "991111-01"
+
+
+def compile_c(src, obj, flags, compiler=None, capture=True, timeout=None):
+    """Compiles `src` to `obj` with the file's compiler (or `compiler`);
+    returns the CompletedProcess."""
+    compiler = compiler or file_compiler(src)
+    if compiler not in COMPILERS:
+        raise SystemExit(f"{src}: unknown compiler {compiler}")
+    return subprocess.run([COMPILERS[compiler], "-c", *flags, "-o", obj, src], capture_output=capture,
+                          text=True, timeout=timeout)
+
+
 def tool(env, name):
     path = os.environ.get(env) or shutil.which(name) or os.path.join(TOOLCHAIN, name)
     if not os.path.exists(path):
@@ -119,7 +145,7 @@ def c_functions():
         rel = os.path.relpath(src, os.path.join(ROOT, "src"))[:-2]
         obj = os.path.join(BUILD, "src", "c_" + re.sub(r"[^A-Za-z0-9_]", "_", rel) + ".o")
         os.makedirs(os.path.dirname(obj), exist_ok=True)
-        r = subprocess.run([EE_CC, "-c", *CFLAGS, "-o", obj, src], capture_output=True, text=True)
+        r = compile_c(src, obj, CFLAGS)
         if r.returncode:
             raise SystemExit(f"{src}:\n{r.stderr}")
         own = {name for name, h in sections(open(obj, "rb").read()) if name in C_DATA and h[5]}
@@ -127,7 +153,8 @@ def c_functions():
         if extra:
             # -fexceptions adds frame tables to .data, which the build does not
             # use (there is no data of the file's own, checked just above)
-            subprocess.run([EE_CC, "-c", *CFLAGS, *extra, "-o", obj, src], check=True)
+            if compile_c(src, obj, CFLAGS + extra).returncode:
+                raise SystemExit(f"{src}: does not compile with {' '.join(extra)}")
             subprocess.run([objcopy, "-w", "--remove-section=.data", "--remove-section=.rel.data", obj],
                            check=True)
         subprocess.run([objcopy, "-w", "--remove-section=.rela*", obj], check=True)

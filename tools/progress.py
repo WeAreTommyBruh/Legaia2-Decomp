@@ -117,6 +117,10 @@ def main(argv):
              "that the game does not have.\n")
     L.append("  - ee-gcc 2.9-ee-991111-01 (and 991111a, which reports the same version) reproduce "
              "every matched function. The build uses 991111-01.\n")
+    L.append("- Not every file was built the same way. Some match only with the older ee-gcc "
+             "2.9-ee-990721 (no global CSE), some only with 991111-01 and `-fno-gcse`; such C files "
+             "carry a `// compiler: 990721` or `// cflags: -fno-gcse` line. A few functions still "
+             "point to a build that is not in the archive (a `cvt.s.w` in a call's delay slot).\n")
     L.append("- The game's C++ files were built with exceptions on (`-fexceptions`): a call at the end "
              "of a function stays a `jal` instead of becoming a tail call (`j`). Generated files that "
              "need it carry a `// cflags: -fexceptions` line.\n")

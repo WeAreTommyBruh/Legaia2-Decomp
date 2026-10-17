@@ -7,7 +7,8 @@ original executable.
 
 FILE.c is compiled with $EE_CC (default ~/tools/ee-gcc2.9-991111-01/bin/ee-gcc; the driver
 picks cc1plus for .cpp files) using -O2 -G8 plus the file's `// cflags:` line
-unless flags are given. The
+unless flags are given; a file with a `// compiler: 990721` line is built with
+ee-gcc 2.9-ee-990721 instead (see tools/asm_build.py). The
 function's bytes are taken from the object file and compared word by word
 with the original at ADDRESS (hex). Words the linker would still change
 (relocations: jal targets, %hi/%lo halves, gp offsets) are filled in from
@@ -250,7 +251,9 @@ def check_data(obj, name, addr, placements):
                 continue  # another function's table: checked with that function
             w = struct.unpack_from("<I", data, off)[0]
             target = addr - fval + v + w  # REL: the addend is in place
-            if not fval <= target - addr + fval < fval + fsize or original_at(base + off) != target:
+            if not fval <= target - addr + fval < fval + fsize:
+                continue  # into another function of the same section: checked with that one
+            if original_at(base + off) != target:
                 bad += 1
         # constants the code refers to (a jump table's first word is
         # relocated, and checked above)
@@ -306,8 +309,8 @@ def check_file(src):
     marks = re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})\s*\n[^\n(]*?(\w+)\s*\(", open(src).read())
     with tempfile.TemporaryDirectory() as tmp:
         obj = os.path.join(tmp, "out.o")
-        r = subprocess.run([cc, "-c", "-O2", "-G8", *file_flags(src), "-o", obj, src],
-                           capture_output=True, text=True)
+        import asm_build
+        r = asm_build.compile_c(src, obj, ["-O2", "-G8", *file_flags(src)])
         if r.returncode:
             raise SystemExit(r.stderr.strip() or "compile failed")
         bad_funcs = 0
@@ -329,7 +332,9 @@ def main(argv):
     cc = os.environ.get("EE_CC", DEFAULT_CC)
     with tempfile.TemporaryDirectory() as tmp:
         obj = os.path.join(tmp, "out.o")
-        r = subprocess.run([cc, "-c", *flags, "-o", obj, src], capture_output=True, text=True)
+        import asm_build
+        r = (asm_build.compile_c(src, obj, flags) if "EE_CC" not in os.environ else
+             subprocess.run([cc, "-c", *flags, "-o", obj, src], capture_output=True, text=True))
         if r.returncode:
             raise SystemExit(r.stderr.strip() or "compile failed")
         bad, words, masks, want = compare(obj, name, addr)
