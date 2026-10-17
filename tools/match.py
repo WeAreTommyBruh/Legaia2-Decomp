@@ -33,7 +33,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EXE = os.path.join(ROOT, "disc", "SLES_508.91")
 DEFAULT_CC = os.path.expanduser("~/tools/ee-gcc2.9-991111-01/bin/ee-gcc")
 # relocation type -> bits the linker fills in
-RELOC_MASK = {4: 0x03FFFFFF, 5: 0xFFFF, 6: 0xFFFF, 7: 0xFFFF, 2: 0xFFFFFFFF}
+RELOC_MASK = {4: 0x03FFFFFF, 5: 0xFFFF, 6: 0xFFFF, 7: 0xFFFF, 8: 0xFFFF, 2: 0xFFFFFFFF}
 
 
 def sections(d):
@@ -131,6 +131,8 @@ def function_bytes(obj, name, addr=None, original=None, placements=None):
                     relocs.append((off, info & 0xFF, info >> 8))
     funcs_at = {v: s for s, v, sz, inf, sh in syms if sh == shndx and inf & 0xF == 2}
     gp = 0x4A7C70
+    # the object's own gp: %gp_rel addends against its local sections are relative to it
+    gp0 = next((struct.unpack_from("<I", d, h[4] + 20)[0] for n, h in secs if n == ".reginfo"), 0)
 
     def inplace(off):
         return struct.unpack_from("<I", d, text[4] + off)[0]
@@ -158,9 +160,9 @@ def function_bytes(obj, name, addr=None, original=None, placements=None):
                     continue
                 want = ((original[i] & 0xFFFF) << 16) + s16(original[j] & 0xFFFF)
                 ours = ((inplace(off) & 0xFFFF) << 16) + s16(inplace(val + 4 * j) & 0xFFFF)
-            elif rtype == 7:
+            elif rtype in (7, 8):  # %gp_rel, and a literal (li.s) in .lit4
                 want = gp + s16(original[i] & 0xFFFF)
-                ours = s16(inplace(off) & 0xFFFF)
+                ours = s16(inplace(off) & 0xFFFF) + gp0
             else:
                 continue
             base = (want - ours) & 0xFFFFFFFF
@@ -177,6 +179,8 @@ def function_bytes(obj, name, addr=None, original=None, placements=None):
             sname = syms[si][0]
             if own_data(si):
                 target, sname = placed.get(own_data(si)), ""
+                if target is not None and rtype in (7, 8):
+                    target += gp0
             elif not sname and rtype == 4:  # call inside the file: by section offset
                 sname = funcs_at.get((words[i] & 0x03FFFFFF) << 2, "")
             if sname:
@@ -195,9 +199,9 @@ def function_bytes(obj, name, addr=None, original=None, placements=None):
             lo = lo_after(k, si)
             v = target + ((w & 0xFFFF) << 16) + (lo - 0x10000 if lo & 0x8000 else lo)
             words[i] = (w & ~0xFFFF) | (((v + 0x8000) >> 16) & 0xFFFF)
-        elif rtype in (6, 7):
+        elif rtype in (6, 7, 8):
             a = w & 0xFFFF
-            v = target + (a - 0x10000 if a & 0x8000 else a) - (gp if rtype == 7 else 0)
+            v = target + (a - 0x10000 if a & 0x8000 else a) - (gp if rtype in (7, 8) else 0)
             words[i] = (w & ~0xFFFF) | (v & 0xFFFF)
         else:
             masks[i] |= mask

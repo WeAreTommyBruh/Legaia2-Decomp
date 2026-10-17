@@ -80,17 +80,22 @@ def file_flags(src):
 # assembler the one of 991111-01 (which pads short loops for the R5900);
 # such a C file has a `// compiler: 990721` line. The game's build may have
 # been a version in between: 990721 calls a library routine to convert a
-# float to an int, where the game uses cvt.w.s.
+# float to an int, where the game uses cvt.w.s, and it fills the delay slot
+# of short loops, which the game does not: `// compiler: 990721-r5900`
+# undoes that (tools/r5900_short_loops.py) before assembling.
 FILE_COMPILER = re.compile(r"^//\s*compiler:\s*(\S+)", re.M)
 EE_CC_990721 = os.environ.get("EE_CC_990721", os.path.expanduser("~/tools/ee-gcc2.9-990721/bin/ee-gcc"))
 COMPILERS = {
     "991111-01": [EE_CC],
     "990721": [EE_CC_990721, "-B" + os.path.join(os.path.dirname(os.path.dirname(EE_CC)), "ee", "bin") + "/"],
 }
+COMPILERS["990721-r5900"] = COMPILERS["990721"]
+SHORT_LOOP_FIX = {"990721-r5900"}
 
 
 def file_compiler(src):
-    """The compiler a C file asks for: "991111-01" (the default) or "990721"."""
+    """The compiler a C file asks for: "991111-01" (the default), "990721" or
+    "990721-r5900"."""
     m = FILE_COMPILER.search(open(src).read())
     return m.group(1) if m else "991111-01"
 
@@ -101,8 +106,23 @@ def compile_c(src, obj, flags, compiler=None, capture=True, timeout=None):
     compiler = compiler or file_compiler(src)
     if compiler not in COMPILERS:
         raise SystemExit(f"{src}: unknown compiler {compiler}")
-    return subprocess.run([*COMPILERS[compiler], "-c", *flags, "-o", obj, src], capture_output=capture,
-                          text=True, timeout=timeout)
+    if compiler not in SHORT_LOOP_FIX:
+        return subprocess.run([*COMPILERS[compiler], "-c", *flags, "-o", obj, src], capture_output=capture,
+                              text=True, timeout=timeout)
+    import tempfile
+    from r5900_short_loops import fix
+    with tempfile.TemporaryDirectory() as tmp:
+        asm = os.path.join(tmp, "a.s")
+        r = subprocess.run([*COMPILERS[compiler], "-S", *flags, "-o", asm, src], capture_output=capture,
+                           text=True, timeout=timeout)
+        if r.returncode:
+            return r
+        with open(asm) as f:
+            lines = fix(f.read().splitlines(True))
+        with open(asm, "w") as f:
+            f.writelines(lines)
+        return subprocess.run([*COMPILERS[compiler], "-c", *flags, "-o", obj, asm], capture_output=capture,
+                              text=True, timeout=timeout)
 
 
 def tool(env, name):
@@ -164,6 +184,14 @@ def c_functions():
         subprocess.run([objcopy, "-w", "--remove-section=.rela*", obj], check=True)
         data = bytearray(open(obj, "rb").read())
         struct.pack_into("<I", data, 0x24, flags)
+        # lld does not know R_MIPS_LITERAL (a li.s constant in .lit4); it is
+        # R_MIPS_GPREL16 against the literal's section
+        for _, h in sections(bytes(data)):
+            if h[1] == 9:  # SHT_REL
+                for off in range(h[4], h[4] + h[5], 8):
+                    info = struct.unpack_from("<I", data, off + 4)[0]
+                    if info & 0xFF == 8:
+                        struct.pack_into("<I", data, off + 4, info & ~0xFF | 7)
         open(obj, "wb").write(data)
         placed = {}
         for addr, name in marks:

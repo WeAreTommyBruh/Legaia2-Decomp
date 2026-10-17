@@ -17,6 +17,27 @@ extern Member D_00419D18[];
 extern int D_004A657C, D_004A6580, D_004A6584;
 void FUN_00260150(int, int);
 void FUN_00265db0(int);
+
+extern s64 D_004A12F0; /* the pad's buttons */
+extern int D_004A140C, D_004A64A0, D_004A1448;
+extern float D_004A5AD4;   /* turn step */
+extern float D_004028E0[]; /* two angles */
+extern float D_004028D0[]; /* a position */
+extern char D_00320E20[];
+extern int D_002F9800[];
+void FUN_00110080(int);
+void FUN_00299168(void);
+void FUN_00133858(void);
+void nori_002709c0(void);
+void nori_00270c88(void);
+void FUN_00139cf8(void);
+void FUN_00290ba8(void);
+void FUN_0024ce38(void *);
+void FUN_0024ce40(void *);
+void window_00195908(void);
+void work_00246ad0(int);
+void work_00246b98(int);
+void nori_0026c7a8(void);
 int FUN_0010e240(void *);
 void FUN_0010e368(void *);
 void work_00246d88(void *, int);
@@ -161,6 +182,53 @@ void FUN_00260c00(void)
 }
 
 /* runs FUN_00265db0 for each of the 5 states, then puts everything back */
+/* a frame of the camera test: the pad turns (wrapping at pi) and moves it */
+// MATCH func_00264600
+void FUN_00264600(void)
+{
+    FUN_00110080(0);
+    D_004A5E50 = 0;
+    if ((int)(D_004A12F0 & 1)) {
+        if ((D_004A12F0 & 0x40) && (D_004028E0[0] += D_004A5AD4) > 3.14159265f)
+            D_004028E0[0] -= 6.28318531f;
+        if ((D_004A12F0 & 0x10) && (D_004028E0[0] -= D_004A5AD4) <= -3.14159265f)
+            D_004028E0[0] += 6.28318531f;
+        if ((D_004A12F0 & 0x20) && (D_004028E0[1] += D_004A5AD4) > 3.14159265f)
+            D_004028E0[1] -= 6.28318531f;
+        if ((D_004A12F0 & 0x80) && (D_004028E0[1] -= D_004A5AD4) <= -3.14159265f)
+            D_004028E0[1] += 6.28318531f;
+        if (D_004A12F0 & 0x2000)
+            D_004028D0[0] -= 200.0f;
+        if (D_004A12F0 & 0x8000)
+            D_004028D0[0] += 200.0f;
+        if (D_004A12F0 & 0x4000)
+            D_004028D0[1] -= 200.0f;
+        if (D_004A12F0 & 0x1000)
+            D_004028D0[1] += 200.0f;
+        if (D_004A12F0 & 2)
+            D_004028D0[2] += 400.0f;
+        if (D_004A12F0 & 8)
+            D_004028D0[2] -= 400.0f;
+        D_004A140C = 0;
+    }
+    if (D_004A64A0 == 1 && D_004A1448 == 1) {
+        FUN_00299168();
+        FUN_00133858();
+        nori_002709c0();
+    }
+    nori_00270c88();
+    FUN_00139cf8();
+    FUN_00290ba8();
+    FUN_0024ce38(D_00320E20);
+    window_00195908();
+    work_00246ad0(D_002F9800[1]);
+    work_00246b98(D_002F9800[1]);
+    work_00246ad0(D_002F9800[2]);
+    work_00246b98(D_002F9800[2]);
+    FUN_0024ce40(D_00320E20);
+    nori_0026c7a8();
+}
+
 // MATCH func_0026A570
 void FUN_0026a570(void)
 {
