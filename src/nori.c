@@ -34,6 +34,26 @@ typedef struct {
     int handle[1];
 } PosTable;
 
+/* one of the 4 stage lights at D_0041F1D0 (see nori_nogcse.c) */
+typedef struct {
+    char unk0[0x7b0];
+} Light;
+
+/* a light's settings in a Stage */
+typedef struct {
+    float pos[3];
+    float dir[2];
+    float unk14;
+    float color[3];
+} LightSet;
+
+/* the 0x100-byte entries of the table FUN_00133848 returns */
+typedef struct {
+    char unk0[0x20];
+    LightSet light[4];
+    char unkb0[0x100 - 0xb0];
+} Stage;
+
 extern Chr *D_004A1A20;
 extern int D_004A1448, D_004A64A0, D_004A65B8, D_004A660C, D_004A6598, D_004A6908;
 extern int D_004A670C, D_004A6710, D_004A6714;
@@ -50,6 +70,7 @@ extern Slot D_0041C600[32];
 extern int *D_0041B7EC[];
 extern float D_0041C540[3], D_0041C550[3], D_0041C5A0[3], D_0041C5B0[3];
 extern Vec4 D_0041EA50[20], D_0041EB90[20];
+extern Light D_0041F1D0[4];
 
 char *strcpy(char *, const char *);
 float fabsf(float);
@@ -69,6 +90,9 @@ void FUN_00295148(void *, int);
 void FUN_00295de8(void *);
 void FUN_002a8a38(void);
 void FUN_002a8d30(void *);
+void FUN_002a8228(Light *, int, int, float, float, float);
+void FUN_002a8600(Light *, int, int, float, float);
+void FUN_002a8358(Light *, int, int, float, float, float);
 void func_002AAE58(void);
 float FUN_002d5738(float, float);
 
@@ -189,6 +213,34 @@ void nori_00270c88(void)
     D_0041F138[10] = z;
     D_0041F138[0] = x;
     D_0041F138[5] = y;
+}
+
+/* gives the 4 stage lights the settings of stage entry 3 (for 6 and 18)
+   and of entry 2 (for 36) */
+#define SET_LIGHT(l, n, s) \
+    FUN_002a8228(l, n, 0, (s)->pos[0], (s)->pos[1], (s)->pos[2]); \
+    FUN_002a8600(l, n, 0, (s)->dir[0], (s)->dir[1]); \
+    FUN_002a8358(l, n, 0, (s)->color[0], (s)->color[1], (s)->color[2])
+
+// MATCH func_00270CF0
+void nori_00270cf0(void)
+{
+    Stage *t = (Stage *)FUN_00133848();
+    Stage *s = &t[3];
+    Light *l0 = &D_0041F1D0[0], *l1 = &D_0041F1D0[1], *l2 = &D_0041F1D0[2], *l3 = &D_0041F1D0[3];
+    SET_LIGHT(l0, 6, &s->light[0]);
+    SET_LIGHT(l1, 6, &s->light[1]);
+    SET_LIGHT(l2, 6, &s->light[2]);
+    SET_LIGHT(l3, 6, &s->light[3]);
+    SET_LIGHT(l0, 18, &s->light[0]);
+    SET_LIGHT(l1, 18, &s->light[1]);
+    SET_LIGHT(l2, 18, &s->light[2]);
+    SET_LIGHT(l3, 18, &s->light[3]);
+    s = &t[2];
+    SET_LIGHT(l0, 36, &s->light[0]);
+    SET_LIGHT(l1, 36, &s->light[1]);
+    SET_LIGHT(l2, 36, &s->light[2]);
+    SET_LIGHT(l3, 36, &s->light[3]);
 }
 
 // MATCH func_00271A58
