@@ -3,9 +3,14 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern char D_003E2013[];
 extern undefined * D_003E3D20[];
 extern int D_003FEBA8[];
 extern ushort D_004005C0[];
+extern byte D_005F8918[];
+extern byte D_005F8930[];
+extern byte D_005F8948[];
+extern byte D_005F8960[];
 void MemFree(void *ptr);
 void abeshi_0025eca8(undefined8 param_1, ulong param_2);
 
@@ -54,6 +59,54 @@ void FUN_0025fe98(int param_1)
   return;
 }
 
+#define DAT_005f8918 (D_005F8918[0])
+// MATCH func_00264DA0
+int FUN_00264da0(uint param_1)
+
+{
+  if (4 < param_1) {
+    return 0xffffffff;
+  }
+  return *(int *)(&DAT_005f8918 + (int)param_1 * 4);
+}
+#undef DAT_005f8918
+
+#define DAT_005f8930 (D_005F8930[0])
+// MATCH func_00264DC8
+int FUN_00264dc8(uint param_1)
+
+{
+  if (4 < param_1) {
+    return 0xffffffff;
+  }
+  return *(int *)(&DAT_005f8930 + (int)param_1 * 4);
+}
+#undef DAT_005f8930
+
+#define DAT_005f8948 (D_005F8948[0])
+// MATCH func_00264DF0
+int FUN_00264df0(uint param_1)
+
+{
+  if (4 < param_1) {
+    return 0xffffffff;
+  }
+  return *(int *)(&DAT_005f8948 + (int)param_1 * 4);
+}
+#undef DAT_005f8948
+
+#define DAT_005f8960 (D_005F8960[0])
+// MATCH func_00264E18
+int FUN_00264e18(uint param_1)
+
+{
+  if (4 < param_1) {
+    return 0xffffffff;
+  }
+  return *(int *)(&DAT_005f8960 + (int)param_1 * 4);
+}
+#undef DAT_005f8960
+
 #define DAT_003feba8 (D_003FEBA8[0])
 // MATCH func_00264E78
 void FUN_00264e78(int param_1)
@@ -69,6 +122,13 @@ void FUN_00264e78(int param_1)
   return;
 }
 #undef DAT_003feba8
+
+// MATCH func_00269530
+int FUN_00269530(int param_1)
+
+{
+  return param_1 * 0x1c + ((int)D_003E2013);
+}
 
 #define PTR_DAT_003e3d20 (D_003E3D20[0])
 // MATCH func_00269588

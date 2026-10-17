@@ -3,35 +3,62 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
-extern int D_0043E4F8[];
-void FUN_00108b80(void);
+extern char D_00336B00[];
+extern int D_0043E460[];
+extern int D_0043E538[];
+int DbgPrintf(char *fmt);
+void FUN_00108b80(int param_1);
+void FUN_001809b8(void);
+void FUN_00184518(int *param_1);
+int FUN_00184590(int param_1);
 void FUN_00186ac0(void);
 void MemFree(void *ptr);
 
-// MATCH func_00184748
-void FUN_00184748(undefined8 param_1,uint param_2)
+#define DAT_0043e460 (D_0043E460[0])
+// MATCH func_001843A0
+void FUN_001843a0(int param_1,int param_2)
 
 {
+  if (*(int *)param_1 != 0) {
+    DbgPrintf(&DAT_0043e460);
+    FUN_00184518(param_1);
+  }
   if ((param_2 & 1) != 0) {
-    FUN_00108b80();
+    FUN_00108b80(param_1);
     return;
   }
   return;
 }
+#undef DAT_0043e460
 
-#define DAT_0043e4f8 (D_0043E4F8[0])
-// MATCH func_00185168
-void FUN_00185168(int param_1,uint param_2)
+// MATCH func_00185068
+void FUN_00185068(void)
 
 {
-  *(undefined **)(param_1 + 0xc) = &DAT_0043e4f8;
-  if ((param_2 & 1) != 0) {
-    FUN_00108b80();
-    return;
-  }
+  FUN_00184590(((int)D_00336B00));
   return;
 }
-#undef DAT_0043e4f8
+
+#define DAT_0043e538 (D_0043E538[0])
+// MATCH func_00185238
+int FUN_00185238(int param_1)
+
+{
+  *(undefined **)((int)param_1 + 0xc) = &DAT_0043e538;
+  FUN_001809b8();
+  return param_1;
+}
+#undef DAT_0043e538
+
+#define DAT_0043e538 (D_0043E538[0])
+// MATCH func_00185270
+int FUN_00185270(int param_1)
+
+{
+  *(undefined **)((int)param_1 + 0xc) = &DAT_0043e538;
+  return param_1;
+}
+#undef DAT_0043e538
 
 // MATCH func_001852D8
 void FUN_001852d8(int param_1)

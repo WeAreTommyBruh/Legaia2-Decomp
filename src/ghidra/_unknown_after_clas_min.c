@@ -5,6 +5,8 @@
 
 float FUN_0015fb58(float param_1, int param_2);
 void flare_0015ec08(int param_1);
+void flare_0015ec28(int param_1);
+int flare_0015ec30(int param_1, int param_2);
 undefined4 flare_0015ec58(int param_1);
 undefined4 flare_0015ec88(int param_1);
 undefined4 flare_0015ec90(int param_1);
@@ -20,6 +22,15 @@ void FUN_002a8820(int param_1,undefined4 *param_2)
   
   uVar1 = flare_0015ec58(param_1 + 0x1b0);
   *param_2 = uVar1;
+  return;
+}
+
+// MATCH func_002A8850
+void FUN_002a8850(int param_1,int param_2,int param_3)
+
+{
+  flare_0015ec28(param_1 + 0x1b0);
+  flare_0015ec30(param_1 + 0x1b0,param_3);
   return;
 }
 

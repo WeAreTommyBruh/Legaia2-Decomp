@@ -3,9 +3,15 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern char D_003215D0[];
 void FUN_00191618(undefined8 param_1);
 void FUN_00191658(undefined8 param_1);
+undefined4 FUN_00192168(int param_1);
+undefined4 FUN_00192268(int param_1);
 undefined4 FUN_002c2008(void);
+undefined4 FUN_002c2b20(int);
+void FUN_002cf4b0(int *param_1, uint param_2);
+void FUN_002cf848(int *param_1, undefined4 param_2);
 undefined8 FUN_002d5448(uint param_1);
 undefined8 FUN_002d5488(uint param_1);
 undefined4 FUN_002d54c8(uint param_1, uint param_2);
@@ -79,6 +85,15 @@ undefined4 FUN_001922c0(int param_1)
   return uVar1;
 }
 
+// MATCH func_001926F8
+undefined4 FUN_001926f8(int param_1)
+
+{
+  FUN_00192268((int)param_1 + 0x48);
+  FUN_002c2b20(param_1);
+  return 1;
+}
+
 // MATCH func_00192908
 undefined4 FUN_00192908(void)
 
@@ -96,6 +111,24 @@ undefined4 FUN_00192950(int param_1,undefined4 param_2)
   uVar1 = *(undefined4 *)(param_1 + 0xa8);
   *(undefined4 *)(param_1 + 0xa8) = param_2;
   return uVar1;
+}
+
+// MATCH func_00192BB8
+undefined4 FUN_00192bb8(void)
+
+{
+  FUN_00192168(((int)D_003215D0));
+  return 1;
+}
+
+// MATCH func_00194848
+void FUN_00194848(int param_1,int param_2,int param_3)
+
+{
+  FUN_002cf4b0(param_1,0);
+  FUN_002cf848(param_1,param_2);
+  FUN_002cf848(param_1,param_3);
+  return;
 }
 
 // MATCH func_00194900

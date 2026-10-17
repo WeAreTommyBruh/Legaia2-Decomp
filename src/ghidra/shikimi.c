@@ -3,11 +3,14 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern int D_002F9804[];
 extern char D_00421260[];
+extern char D_004213A0[];
 extern uint D_004A67B4;
 extern uint D_004A7358;
 extern uint D_004A735C;
 extern int D_00620920[];
+void work_00246d88(undefined4 *param_1, undefined8 param_2);
 
 // MATCH func_002B0DC8
 void shikimi_002b0dc8(void)
@@ -51,6 +54,16 @@ void shikimi_002b1c18(void)
   return;
 }
 #undef DAT_00620920
+
+#define DAT_002f9804 (D_002F9804[0])
+// MATCH func_002B34C0
+void shikimi_002b34c0(void)
+
+{
+  work_00246d88(((int)D_004213A0),DAT_002f9804);
+  return;
+}
+#undef DAT_002f9804
 
 // MATCH func_002B8DC0
 int shikimi_002b8dc0(int param_1,int param_2,int param_3)

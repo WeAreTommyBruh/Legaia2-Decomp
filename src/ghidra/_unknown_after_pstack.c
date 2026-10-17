@@ -4,6 +4,8 @@
 #include "../ghidra.h"
 
 extern byte D_003E2010[];
+extern char D_003E9DF0[];
+extern char D_003EC550[];
 extern short D_003FED1C[];
 extern int D_00401028[];
 extern int D_004257D4[];
@@ -12,16 +14,17 @@ void FUN_00108b80(void);
 bool FUN_0024dae8(undefined8 param_1);
 undefined4 FUN_0024e098(int param_1);
 undefined4 * FUN_0024f380(void);
+undefined4 * FUN_0024f8a0(void);
+undefined4 * FUN_0024f9a0(void);
+undefined4 * FUN_0024faa0(void);
 undefined4 * FUN_0024fc70(void);
 undefined4 * FUN_00250388(void);
 char FUN_00250c00(uint param_1);
 undefined4 FUN_00250da0(int);
-undefined1 FUN_00251070(void);
-undefined1 FUN_00251090(void);
-undefined1 FUN_002510b0(void);
 void FUN_002523d8(uint param_1);
 undefined4 FUN_00254990(uint param_1);
 void FUN_00255278(uint param_1);
+undefined * FUN_00255c68(void);
 undefined4 * FUN_002560a8(void);
 undefined4 FUN_0025a688(uint param_1);
 uint FUN_0025dce0(uint param_1);
@@ -213,34 +216,434 @@ int FUN_00250e60(void)
   return (*(int *)(iVar1 + 0x38) + 1) / 2;
 }
 
-// MATCH func_00251E88
-bool FUN_00251e88(void)
+// MATCH func_00250E90
+char FUN_00250e90(void)
 
 {
-  uint uVar1;
+  int iVar1;
   
-  uVar1 = FUN_00251070();
-  return (uVar1 & 0x60) != 0;
+  iVar1 = FUN_0024f380();
+  return *(char *)(iVar1 + 0x62);
 }
 
-// MATCH func_00251ED8
-bool FUN_00251ed8(void)
+// MATCH func_00250EB0
+char FUN_00250eb0(void)
 
 {
-  uint uVar1;
+  int iVar1;
   
-  uVar1 = FUN_00251090();
-  return (uVar1 & 0x60) != 0;
+  iVar1 = FUN_0024fc70();
+  return *(char *)(iVar1 + 0x62);
 }
 
-// MATCH func_00251F00
-bool FUN_00251f00(void)
+// MATCH func_00250ED0
+char FUN_00250ed0(void)
 
 {
-  uint uVar1;
+  int iVar1;
   
-  uVar1 = FUN_002510b0();
-  return (uVar1 & 0x60) != 0;
+  iVar1 = FUN_00250388();
+  return *(char *)(iVar1 + 0x62);
+}
+
+// MATCH func_00250FB0
+char FUN_00250fb0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(char *)(iVar1 + 99);
+}
+
+// MATCH func_00250FD0
+char FUN_00250fd0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(char *)(iVar1 + 99);
+}
+
+// MATCH func_00250FF0
+char FUN_00250ff0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(char *)(iVar1 + 99);
+}
+
+// MATCH func_00251010
+char FUN_00251010(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f8a0();
+  return *(char *)(iVar1 + 100);
+}
+
+// MATCH func_00251030
+char FUN_00251030(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(char *)(iVar1 + 100);
+}
+
+// MATCH func_00251050
+char FUN_00251050(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(char *)(iVar1 + 100);
+}
+
+// MATCH func_00251070
+char FUN_00251070(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024faa0();
+  return *(char *)(iVar1 + 0x65);
+}
+
+// MATCH func_00251090
+char FUN_00251090(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(char *)(iVar1 + 0x65);
+}
+
+// MATCH func_002510B0
+char FUN_002510b0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(char *)(iVar1 + 0x65);
+}
+
+// MATCH func_002510D0
+char FUN_002510d0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f9a0();
+  return *(char *)(iVar1 + 0x66);
+}
+
+// MATCH func_002510F0
+char FUN_002510f0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(char *)(iVar1 + 0x66);
+}
+
+// MATCH func_00251110
+char FUN_00251110(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(char *)(iVar1 + 0x66);
+}
+
+// MATCH func_00251F28
+char FUN_00251f28(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(char *)(iVar1 + 0x69);
+}
+
+// MATCH func_00251F48
+char FUN_00251f48(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(char *)(iVar1 + 0x69);
+}
+
+// MATCH func_00251F68
+char FUN_00251f68(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(char *)(iVar1 + 0x69);
+}
+
+// MATCH func_00251F88
+char FUN_00251f88(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f8a0();
+  return *(char *)(iVar1 + 0x67);
+}
+
+// MATCH func_00251FA8
+char FUN_00251fa8(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(char *)(iVar1 + 0x67);
+}
+
+// MATCH func_00251FC8
+char FUN_00251fc8(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(char *)(iVar1 + 0x67);
+}
+
+// MATCH func_00252080
+short FUN_00252080(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(short *)(iVar1 + 0x40);
+}
+
+// MATCH func_002520A0
+short FUN_002520a0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(short *)(iVar1 + 0x40);
+}
+
+// MATCH func_002520C0
+short FUN_002520c0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(short *)(iVar1 + 0x40);
+}
+
+// MATCH func_002520E0
+short FUN_002520e0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(short *)(iVar1 + 0x42);
+}
+
+// MATCH func_00252100
+short FUN_00252100(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(short *)(iVar1 + 0x42);
+}
+
+// MATCH func_00252120
+short FUN_00252120(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(short *)(iVar1 + 0x42);
+}
+
+// MATCH func_00252140
+short FUN_00252140(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(short *)(iVar1 + 0x44);
+}
+
+// MATCH func_00252160
+short FUN_00252160(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(short *)(iVar1 + 0x44);
+}
+
+// MATCH func_00252180
+short FUN_00252180(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(short *)(iVar1 + 0x44);
+}
+
+// MATCH func_002521A0
+short FUN_002521a0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(short *)(iVar1 + 0x46);
+}
+
+// MATCH func_002521C0
+short FUN_002521c0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(short *)(iVar1 + 0x46);
+}
+
+// MATCH func_002521E0
+short FUN_002521e0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(short *)(iVar1 + 0x46);
+}
+
+// MATCH func_00252200
+short FUN_00252200(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(short *)(iVar1 + 0x48);
+}
+
+// MATCH func_00252220
+short FUN_00252220(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(short *)(iVar1 + 0x48);
+}
+
+// MATCH func_00252240
+short FUN_00252240(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(short *)(iVar1 + 0x48);
+}
+
+// MATCH func_00252260
+short FUN_00252260(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(short *)(iVar1 + 0x4a);
+}
+
+// MATCH func_00252280
+short FUN_00252280(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(short *)(iVar1 + 0x4a);
+}
+
+// MATCH func_002522A0
+short FUN_002522a0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(short *)(iVar1 + 0x4a);
+}
+
+// MATCH func_002522C0
+short FUN_002522c0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(short *)(iVar1 + 0x4c);
+}
+
+// MATCH func_002522E0
+short FUN_002522e0(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024fc70();
+  return *(short *)(iVar1 + 0x4c);
+}
+
+// MATCH func_00252300
+short FUN_00252300(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00250388();
+  return *(short *)(iVar1 + 0x4c);
+}
+
+// MATCH func_00252320
+short FUN_00252320(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_0024f380();
+  return *(short *)(iVar1 + 0x4e);
 }
 
 // MATCH func_00252340
@@ -294,6 +697,16 @@ bool FUN_00253ff8(int param_1)
   return param_1 < 300;
 }
 
+// MATCH func_00255DE8
+char FUN_00255de8(undefined8 param_1,int param_2)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_00255c68();
+  return *(char *)(param_2 * 2 + iVar1);
+}
+
 // MATCH func_002561B8
 undefined4 FUN_002561b8(void)
 
@@ -314,6 +727,16 @@ undefined4 FUN_002561d8(void)
   return *(undefined4 *)(iVar1 + 4);
 }
 
+// MATCH func_002561F8
+short FUN_002561f8(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_002560a8();
+  return *(short *)(iVar1 + 8);
+}
+
 // MATCH func_00256218
 undefined4 FUN_00256218(void)
 
@@ -322,6 +745,23 @@ undefined4 FUN_00256218(void)
   
   iVar1 = FUN_002560a8();
   return *(undefined4 *)(iVar1 + 0xc);
+}
+
+// MATCH func_00256240
+char FUN_00256240(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_002560a8();
+  return *(char *)(iVar1 + 0xb);
+}
+
+// MATCH func_0025A470
+int FUN_0025a470(int param_1)
+
+{
+  return param_1 * 0x50 + ((int)D_003EC550);
 }
 
 // MATCH func_0025A798
@@ -336,6 +776,13 @@ void FUN_0025a798(void)
     iVar1 = iVar1 + 1;
   } while (iVar1 < 0x40);
   return;
+}
+
+// MATCH func_0025A7D0
+int FUN_0025a7d0(int param_1)
+
+{
+  return param_1 * 0xa8 + ((int)D_003E9DF0);
 }
 
 #define DAT_003e2010 (D_003E2010[0])

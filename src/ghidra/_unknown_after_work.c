@@ -6,11 +6,14 @@
 extern int D_004A14B8;
 extern uint D_004A14BC;
 extern uint D_004A1514;
+extern int D_004A1518;
 void FUN_0018df68(undefined4 *param_1, undefined1 (*param_2) [16]);
 void FUN_0018e680(undefined4 param_1);
 void FUN_0018e860(undefined4 param_1);
+void FUN_0018eb98(undefined4 *param_1, undefined4 *param_2);
 void FUN_0018f1f8(undefined1 (*param_1) [16]);
 void FUN_0018f208(undefined1 (*param_1) [16]);
+void FUN_0018f2c0(undefined1 *param_1, undefined1 (*param_2) [16], byte *param_3);
 void FUN_0018f3d8(undefined1 (*param_1) [16], undefined1 (*param_2) [16], undefined1 (*param_3) [16]);
 void FUN_00248960(undefined1 (*param_1) [16], undefined1 (*param_2) [16], undefined1 (*param_3) [16]);
 void FUN_002489d8(undefined1 (*param_1) [16]);
@@ -43,6 +46,15 @@ void FUN_002478d0(uint param_1)
   return;
 }
 
+// MATCH func_00247940
+void FUN_00247940(int param_1)
+
+{
+  FUN_0018f2c0(D_004A1518,param_1,D_004A1518);
+  *(undefined1 *)(D_004A1518 + 3) = 0x80;
+  return;
+}
+
 // MATCH func_00247C88
 void FUN_00247c88(void)
 
@@ -69,6 +81,20 @@ void FUN_00248a48(void)
   return;
 }
 
+// MATCH func_00248E10
+void FUN_00248e10(int param_1)
+
+{
+  FUN_0018f3d8(0x70003f80,0x70003f80,param_1);
+  FUN_0018f3d8(0x70003c80,0x70003c80,param_1);
+  if (D_004A14B8 != 0) {
+    FUN_0018df68(0x70003f40,param_1);
+    FUN_0018f3d8(0x70003d80,0x70003f40,0x70003d80);
+    return;
+  }
+  return;
+}
+
 // MATCH func_00248EA0
 void FUN_00248ea0(void)
 
@@ -91,6 +117,32 @@ void FUN_002492a0(void)
   FUN_0018f208(0x70003c40);
   FUN_0018f3d8(0x70003d00,0x70003cc0,0x70003c80);
   FUN_0018f1f8(0x70003d00);
+  return;
+}
+
+// MATCH func_002492E8
+void FUN_002492e8(int param_1)
+
+{
+  if (D_004A14B8 != 0) {
+    FUN_0018eb98(param_1,0x70003d80);
+    return;
+  }
+  FUN_0018df68(param_1,0x70003f80);
+  return;
+}
+
+// MATCH func_00249308
+void FUN_00249308(int param_1)
+
+{
+  if (D_004A14B8 != 0) {
+    FUN_0018df68(0x70003f00,0x70003c00);
+    FUN_0018f3d8(param_1,0x70003d80,0x70003f00);
+    return;
+  }
+  FUN_0018f3d8(0x70003d40,0x70003c00,0x70003f80);
+  FUN_0018df68(param_1,0x70003d40);
   return;
 }
 

@@ -3,6 +3,7 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern char D_00321030[];
 extern int D_004A14B8;
 extern int D_004A5128;
 extern uint D_004A7094;
@@ -14,9 +15,12 @@ extern uint D_004A70FC;
 void FUN_0018df68(undefined4 *param_1, undefined1 (*param_2) [16]);
 void FUN_0018e860(undefined4 param_1);
 void FUN_0018f3d8(undefined1 (*param_1) [16], undefined1 (*param_2) [16], undefined1 (*param_3) [16]);
+void FUN_0018f620(int param_1, undefined1 (*param_2) [16]);
 void FUN_0022fe58(void);
 void FUN_00230100(void);
 void FUN_002313a8(uint param_1, int param_2, int param_3, int param_4, int param_5, int param_6);
+void FUN_00249e18(undefined4 param_1);
+void thunk_FUN_0018ec38(undefined1 (*param_1) [16]);
 
 // MATCH func_0022FDB0
 void FUN_0022fdb0(void)
@@ -45,6 +49,14 @@ void FUN_00231548(void)
   FUN_002313a8(1,1,0,0,0,0);
   D_004A70A0 = 0;
   D_004A70A4 = 0;
+  return;
+}
+
+// MATCH func_00231920
+void FUN_00231920(void)
+
+{
+  FUN_00249e18(((int)D_00321030));
   return;
 }
 
@@ -79,6 +91,21 @@ void FUN_00231d98(void)
   FUN_0018e860(0x70003f00);
   FUN_0018f3d8(0x70003f80,0x70003f80,0x70003f00);
   FUN_0018f3d8(0x70003c80,0x70003c80,0x70003f00);
+  if (D_004A14B8 != 0) {
+    FUN_0018df68(0x70003f40,0x70003f00);
+    FUN_0018f3d8(0x70003d80,0x70003f40,0x70003d80);
+    return;
+  }
+  return;
+}
+
+// MATCH func_00231F28
+void FUN_00231f28(int param_1)
+
+{
+  thunk_FUN_0018ec38(0x70003f00);
+  FUN_0018f620(0x70003f00,param_1);
+  FUN_0018f3d8(0x70003f80,0x70003f80,0x70003f00);
   if (D_004A14B8 != 0) {
     FUN_0018df68(0x70003f40,0x70003f00);
     FUN_0018f3d8(0x70003d80,0x70003f40,0x70003d80);

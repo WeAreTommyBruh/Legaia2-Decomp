@@ -4,6 +4,13 @@
 #include "../ghidra.h"
 
 
+// MATCH func_0024B260
+char init_0024b260(int param_1,int param_2)
+
+{
+  return *(char *)(param_2 * 0x10 + param_1 + 0xc);
+}
+
 // MATCH func_0024B270
 void init_0024b270(char *param_1)
 

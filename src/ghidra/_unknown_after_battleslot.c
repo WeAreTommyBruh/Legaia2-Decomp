@@ -77,3 +77,22 @@ void FUN_0029b700(void)
   D_004A6B40 = D_004A6B40 | 0x2000;
   return;
 }
+
+// MATCH func_0029B9C0
+int FUN_0029b9c0(int param_1,int param_2)
+
+{
+  int iVar1;
+  int *puVar2;
+  
+  puVar2 = (int *)(param_1 + 0x18);
+  iVar1 = 0;
+  do {
+    iVar1 = iVar1 + 1;
+    if (param_2 == puVar2[3]) {
+      return *puVar2;
+    }
+    puVar2 = puVar2 + 1;
+  } while (iVar1 < 3);
+  return 0xffffffff;
+}

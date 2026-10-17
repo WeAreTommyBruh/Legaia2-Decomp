@@ -4,10 +4,41 @@
 #include "../ghidra.h"
 
 void FUN_00154170(void);
+void FUN_001544f0(int param_1);
 void FUN_00154ba0(void);
 void FUN_0018eb78(undefined4 *param_1);
 void FUN_0018ec18(undefined1 (*param_1) [16]);
+void FUN_0018ed08(undefined1 (*param_1) [16]);
 void FUN_0018ed30(undefined1 (*param_1) [16]);
+void FUN_0018edb8(undefined1 (*param_1) [16], undefined1 (*param_2) [16]);
+void FUN_0018f068(undefined1 (*param_1) [16], undefined1 (*param_2) [16]);
+void FUN_0018f368(undefined1 (*param_1) [16], undefined1 (*param_2) [16], undefined1 (*param_3) [16]);
+
+// MATCH func_00153B38
+void FUN_00153b38(int param_1)
+
+{
+  FUN_0018edb8(param_1,param_1);
+  return;
+}
+
+// MATCH func_00153C38
+void FUN_00153c38(int param_1)
+
+{
+  FUN_0018ed08((int)param_1 + 0x10);
+  FUN_001544f0(param_1);
+  return;
+}
+
+// MATCH func_00154078
+void FUN_00154078(int param_1,int param_2)
+
+{
+  FUN_0018f368(param_2,(int)param_1 + 0x40,param_2);
+  FUN_0018f068(param_1,param_2);
+  return;
+}
 
 // MATCH func_00154208
 void FUN_00154208(float param_1,int param_2)

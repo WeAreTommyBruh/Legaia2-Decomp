@@ -4,7 +4,19 @@
 #include "../ghidra.h"
 
 extern int D_00456878[];
+undefined8 FUN_00216c40(void);
 void FUN_00216cc0(void);
+
+#define DAT_00456878 (D_00456878[0])
+// MATCH func_00218B30
+int FUN_00218b30(int param_1)
+
+{
+  FUN_00216c40();
+  *(undefined **)((int)param_1 + 0x844) = &DAT_00456878;
+  return param_1;
+}
+#undef DAT_00456878
 
 #define DAT_00456878 (D_00456878[0])
 // MATCH func_00218B68

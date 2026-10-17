@@ -16,6 +16,9 @@ as long), after these adjustments:
     arguments the body passes, and int instead of void when a result is used
   - float constants the compiler would place in its own .lit4/.rodata are
     replaced by the original copies (checked against the original data)
+  - when that does not match: numbers that are addresses become references
+    to the address, unsigned bytes/shorts signed, untyped 4-byte parameters
+    float (see rewrite())
 Exact matches (relocations resolved to the real addresses) are written,
 marked `// MATCH func_XXXXXXXX`, to src/ghidra/<source group>.c, split into
 more files when declarations clash. The code is Ghidra's, meant to be
@@ -307,13 +310,83 @@ def use_literals(text, lits):
     return new, externs
 
 
+# further rewrites tried when Ghidra's text does not match as it is
+OPTIONS = ((), ("addr",), ("signed",), ("float",), ("addr", "signed"), ("addr", "float"),
+           ("signed", "float"), ("sint",), ("wide",), ("s64",), ("addr", "sint"))
+
+
+def rewrite(body, opts):
+    """Returns (body, extra externs) with the rewrites in `opts`:
+    addr    numbers that are addresses in the executable become references to
+            that address (the compiler builds a symbol's address with
+            lui/addiu, a number with lui/ori)
+    signed  Ghidra's unsigned bytes and shorts become signed
+    float   4-byte parameters Ghidra left untyped become float
+    sint    unsigned / untyped 4-byte values become int
+    s64     unsigned 64-bit values become signed
+    wide    byte and short parameters become int"""
+    extra = {}
+    if "addr" in opts:
+        def sub(m):
+            v = int(m.group(1), 16)
+            if not 0x100000 <= v < 0x640000:
+                return m.group(0)
+            extra[f"D_{v:08X}[]"] = "char"
+            return f"((int)D_{v:08X})"
+        body = re.sub(r"\b0x([0-9a-f]{6,8})\b", sub, body)
+    if "signed" in opts:
+        for a, b in (("byte", "char"), ("undefined1", "char"), ("ushort", "short"), ("undefined2", "short")):
+            body = re.sub(rf"\b{a}\b", b, body)
+    if "sint" in opts:
+        for a in ("uint", "undefined4"):
+            body = re.sub(rf"\b{a}\b", "int", body)
+    if "s64" in opts:
+        body = re.sub(r"\b(undefined8|ulong)\b", "long", body)
+    if "wide" in opts:
+        head, brace, rest = body.partition("{")
+        head = re.sub(r"\b(undefined1|undefined2|byte|char|short|ushort) param_", "int param_", head)
+        body = head + brace + rest
+    if "float" in opts:
+        head, brace, rest = body.partition("{")
+        body = re.sub(r"\bundefined4 param_", "float param_", head) + brace + rest
+    return body, extra
+
+
+def pin_repeated_names(text, decls, addr, nwords):
+    """Calls to a name Ghidra gives to several functions become calls to
+    func_XXXXXXXX of the one the original calls."""
+    from match import original_words, symbol_addresses
+    words = None
+    for d in list(decls):
+        callee = re.search(r"\b(\w+)\(", d).group(1)
+        options = symbol_addresses(callee)
+        if not options:
+            continue
+        if words is None:
+            words = original_words(addr, nwords)
+        targets = {((addr + 4 * i) & 0xF0000000) | ((w & 0x03FFFFFF) << 2)
+                   for i, w in enumerate(words) if w >> 26 in (2, 3)}
+        hit = [a for a in options if a in targets]
+        if len(hit) == 1:
+            new = f"func_{hit[0]:08X}"
+            text = re.sub(rf"\b{callee}\b", new, text)
+            decls = [x if x != d else re.sub(rf"\b{callee}\b", new, d) for x in decls]
+    return text, decls
+
+
 def try_one(job):
-    addr, name, group, body, protos, hdr = job
-    for variant, types in itertools.product(("int", "ghidra"), dat_type_choices(body)):
+    addr, name, group, body0, protos, hdr = job
+    for opts, variant, types in itertools.product(OPTIONS, ("int", "ghidra"), dat_type_choices(body0)):
+        body, extra = rewrite(body0, opts)
+        if opts and body == body0:
+            continue
         prep = prepare(name, body, protos, variant, types)
         if prep is None:
             return None
         text, externs, decls = prep
+        if any(externs.get(k, t) != t for k, t in extra.items()):
+            continue
+        externs = dict(externs, **extra)
         with tempfile.TemporaryDirectory() as tmp:
             src = os.path.join(tmp, "f.c")
             with open(src, "w") as f:
@@ -331,7 +404,7 @@ def try_one(job):
                 lits = literal_addresses(obj, name, addr)
                 fixed = use_literals(text, lits) if lits else None
                 if not fixed:
-                    return None
+                    continue
                 text, more = fixed
                 externs = dict(externs, **more)
                 with open(src, "w") as f:
@@ -343,9 +416,11 @@ def try_one(job):
                                    capture_output=True)
                 if r.returncode or any(n in asm_build.C_DATA and h[5]
                                        for n, h in sections(open(obj, "rb").read())):
-                    return None
+                    continue
             try:
-                if compare(obj, name, addr)[0] == 0:
+                bad, words, _, _ = compare(obj, name, addr)
+                if bad == 0:
+                    text, decls = pin_repeated_names(text, decls, addr, len(words))
                     return addr, name, group, text, externs, decls
             except SystemExit:
                 continue

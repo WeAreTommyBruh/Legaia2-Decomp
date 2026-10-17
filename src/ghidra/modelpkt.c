@@ -4,13 +4,13 @@
 #include "../ghidra.h"
 
 void FUN_00108b80(void);
-void modelpkt_001804f0(void);
+void modelpkt_001804f0(int *param_1, int param_2, int param_3);
 
-// MATCH func_00180200
-undefined8 modelpkt_00180200(undefined8 param_1)
+// MATCH func_001801D0
+int modelpkt_001801d0(int param_1,int param_2)
 
 {
-  modelpkt_001804f0();
+  modelpkt_001804f0(param_1,param_2,1);
   return param_1;
 }
 

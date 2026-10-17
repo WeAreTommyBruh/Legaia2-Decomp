@@ -6,6 +6,7 @@
 void FUN_001540c0(undefined4 param_1);
 void FUN_00154118(undefined4 param_1);
 void FUN_00154170(undefined4 param_1);
+void FUN_00154268(undefined8 param_1);
 void FUN_00154388(undefined4 param_1);
 
 // MATCH func_00200CA8
@@ -14,6 +15,17 @@ void FUN_00200ca8(undefined4 *param_1,uint param_2)
 {
   if ((param_2 & param_1[0xb]) != 0) {
     FUN_00154388(*param_1);
+    return;
+  }
+  return;
+}
+
+// MATCH func_00200CF0
+void FUN_00200cf0(int *param_1,int param_2)
+
+{
+  if ((param_2 & param_1[9]) != 0) {
+    FUN_00154268(*param_1);
     return;
   }
   return;

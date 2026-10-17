@@ -4,6 +4,22 @@
 #include "../ghidra.h"
 
 
+// MATCH func_001F5E78
+int FUN_001f5e78(int param_1)
+
+{
+  undefined4 *puVar1;
+  
+  puVar1 = (undefined4 *)param_1;
+  *puVar1 = 0;
+  puVar1[0x3e] = 0xffffff;
+  puVar1[1] = 0;
+  puVar1[5] = 0;
+  puVar1[6] = 0;
+  puVar1[0x3f] = 0;
+  return param_1;
+}
+
 // MATCH func_001F6BE8
 void FUN_001f6be8(int param_1,undefined4 param_2)
 

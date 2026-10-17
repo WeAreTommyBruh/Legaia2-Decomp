@@ -3,6 +3,9 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern char D_00321060[];
+void battle_00127480(undefined8 param_1, undefined8 param_2);
+int strcmp(char *a, char *b);
 
 // MATCH func_002194E0
 void FUN_002194e0(int param_1,int param_2)
@@ -15,6 +18,22 @@ void FUN_002194e0(int param_1,int param_2)
   }
   return;
 }
+
+#define DAT_00321060 (D_00321060[0])
+// MATCH func_00219550
+void FUN_00219550(int param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = strcmp((char *)&DAT_00321060,*(char **)(param_1 + 0x20));
+  if (iVar1 != 0) {
+    battle_00127480(((int)D_00321060),0);
+    return;
+  }
+  return;
+}
+#undef DAT_00321060
 
 // MATCH func_0021A540
 void FUN_0021a540(float param_1,int param_2,float *param_3,float *param_4)

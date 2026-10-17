@@ -42,6 +42,13 @@ def sections(d):
 
 
 _symbols = None
+_dupes = {}
+
+
+def symbol_addresses(name):
+    """Every address of a function name Ghidra gave to more than one function."""
+    symbol_address(name)
+    return _dupes.get(name, ())
 
 
 def symbol_address(name):
@@ -56,8 +63,10 @@ def symbol_address(name):
         with open(os.path.join(ROOT, "decomp", "functions.csv")) as f:
             for r in csv.DictReader(f):
                 n = r["name"]
-                if n in seen:
-                    _symbols.pop(n, None)  # ambiguous (Ghidra repeats some names)
+                if n in seen:  # ambiguous (Ghidra repeats some names)
+                    if n in _symbols:
+                        _dupes[n] = [_symbols.pop(n)]
+                    _dupes.setdefault(n, []).append(int(r["address"], 16))
                 else:
                     seen.add(n)
                     _symbols[n] = int(r["address"], 16)
@@ -67,7 +76,7 @@ def symbol_address(name):
     return _symbols.get(name)
 
 
-def function_bytes(obj, name, addr=None):
+def function_bytes(obj, name, addr=None, original=None):
     """Returns (words, masks) of function `name` in a relocatable ELF object.
 
     Without `addr`, relocated fields are masked (masks has their bits set).
@@ -109,6 +118,11 @@ def function_bytes(obj, name, addr=None):
             if not sname and rtype == 4:  # call inside the file: by section offset
                 sname = funcs_at.get((words[i] & 0x03FFFFFF) << 2, "")
             target = symbol_address(sname) if sname else None
+            if target is None and sname and rtype == 4 and original is not None:
+                # a name Ghidra repeats: fine if the original calls one of them
+                o = ((addr + off - val) & 0xF0000000) | ((original[i] & 0x03FFFFFF) << 2)
+                if o in symbol_addresses(sname):
+                    target = o
         w = words[i]
         if target is None:
             masks[i] |= mask
@@ -131,7 +145,8 @@ def function_bytes(obj, name, addr=None):
 def compare(obj, name, addr):
     """Number of words of `name` in `obj` that differ from the original at
     `addr`, with relocations resolved; unknown symbols count as differences."""
-    words, masks = function_bytes(obj, name, addr)
+    n = len(function_bytes(obj, name)[0])
+    words, masks = function_bytes(obj, name, addr, original_words(addr, n))
     # trailing zero words are alignment padding, unless one is a delay slot
     while len(words) > 1 and words[-1] == 0 and masks[-1] == 0:
         prev = ee_disasm.decode(words[-2], addr + 4 * (len(words) - 2))

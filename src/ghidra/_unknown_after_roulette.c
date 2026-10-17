@@ -5,6 +5,7 @@
 
 void FUN_00172aa0(void);
 void FUN_001736d0(void);
+void FUN_0018f5f0(undefined4 *param_1, undefined4 *param_2, undefined1 (*param_3) [16]);
 void MemFree(void *ptr);
 
 // MATCH func_001728F0
@@ -63,6 +64,14 @@ bool FUN_00172cc8(int param_1)
 
 {
   return *(int *)(param_1 + 0x5c) == 0;
+}
+
+// MATCH func_00172CD8
+void FUN_00172cd8(int param_1,int param_2)
+
+{
+  FUN_0018f5f0(param_2,(int)param_1 + 0x10,param_1);
+  return;
 }
 
 // MATCH func_00172D78

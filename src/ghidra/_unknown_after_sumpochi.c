@@ -3,9 +3,13 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern int D_0043FED0[];
 extern int D_00456178[];
+void FUN_00108b80(int param_1);
+undefined8 FUN_00216c40(void);
 void FUN_00216cc0(void);
 void MemFree(void *ptr);
+void eftpack_00202878(undefined8 param_1, uint param_2);
 void sammon_002282e8(int param_1, int param_2, undefined4 param_3);
 
 // MATCH func_00218240
@@ -31,6 +35,21 @@ void FUN_00218240(int param_1)
   return;
 }
 
+#define DAT_0043fed0 (D_0043FED0[0])
+// MATCH func_002183D0
+void FUN_002183d0(int param_1,int param_2)
+
+{
+  *(undefined **)((int)param_1 + 0x844) = &DAT_0043fed0;
+  eftpack_00202878((int)param_1 + 0x18,2);
+  if ((param_2 & 1) != 0) {
+    FUN_00108b80(param_1);
+    return;
+  }
+  return;
+}
+#undef DAT_0043fed0
+
 // MATCH func_00218518
 void FUN_00218518(int param_1)
 
@@ -41,6 +60,17 @@ void FUN_00218518(int param_1)
   }
   return;
 }
+
+#define DAT_00456178 (D_00456178[0])
+// MATCH func_00218530
+int FUN_00218530(int param_1)
+
+{
+  FUN_00216c40();
+  *(undefined **)((int)param_1 + 0x844) = &DAT_00456178;
+  return param_1;
+}
+#undef DAT_00456178
 
 #define DAT_00456178 (D_00456178[0])
 // MATCH func_00218568

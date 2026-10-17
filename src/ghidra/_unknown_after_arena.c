@@ -3,6 +3,7 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+extern char D_00343028[];
 extern int D_004A1A20;
 extern char D_004A4DF8[];
 extern int D_004A4E0C;
@@ -10,6 +11,7 @@ extern int D_004A7008;
 int DbgPrintf(char *fmt, ...);
 void denlib_0018c5d0(undefined8 param_1, undefined4 param_2, undefined4 param_3);
 int rand(void);
+void rsound_0010c2b0(int, int, int, int, int, int, int);
 void shikimi_002b2690(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8);
 
 // MATCH func_002215F8
@@ -71,6 +73,14 @@ int FUN_00223440(int param_1)
   D_004A7008 = (D_004A7008 + 1) % 100;
   DbgPrintf(D_004A4DF8,iVar1);
   return iVar1;
+}
+
+// MATCH func_002234B0
+void FUN_002234b0(void)
+
+{
+  rsound_0010c2b0(((int)D_00343028),0x78,0xd,3,0,0,0);
+  return;
 }
 
 // MATCH func_002234D8

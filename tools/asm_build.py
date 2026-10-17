@@ -34,6 +34,7 @@ game code and are git-ignored.
 Usage: asm_build.py split | build | all
 """
 
+import collections
 import concurrent.futures
 import csv
 import glob
@@ -255,8 +256,9 @@ def write_link(elf, order, funcs, cfuncs):
                  " *(.text) *(.text.*) }\n}\n")  # C's own empty .text, unmarked functions
     # readable names for every function, func_XXXXXXXX for the ones now in C
     c_names = {n for _, n, _ in cfuncs.values()}
-    for addr, name, _ in funcs:
-        if re.fullmatch(r"[A-Za-z_]\w*", name) and name not in c_names:
+    counts = collections.Counter(n for _, n, _ in funcs)
+    for addr, name, _ in funcs:  # names Ghidra repeats are left out: C uses func_XXXXXXXX
+        if re.fullmatch(r"[A-Za-z_]\w*", name) and name not in c_names and counts[name] == 1:
             lines.append(f"PROVIDE({name} = {addr:#x});\n")
     for addr, (_, name, _) in sorted(cfuncs.items()):
         lines.append(f"func_{addr:08X} = {name};\n")

@@ -3,8 +3,33 @@
    Still to be cleaned up by hand. */
 #include "../ghidra.h"
 
+void FUN_00108b80(int param_1);
 byte * FUN_0022d7b8(undefined8 param_1, int param_2);
 void FUN_0022f0f8(int param_1);
+void func_00246140(void);
+void work_002461e0(void);
+undefined4 work_00246810(int param_1);
+
+// MATCH func_00245F98
+void work_00245f98(int param_1,int param_2)
+
+{
+  func_00246140();
+  if ((param_2 & 1) != 0) {
+    FUN_00108b80(param_1);
+    return;
+  }
+  return;
+}
+
+// MATCH func_00246340
+void work_00246340(int param_1)
+
+{
+  work_002461e0();
+  work_00246810(param_1);
+  return;
+}
 
 // MATCH func_00246490
 void work_00246490(int param_1)

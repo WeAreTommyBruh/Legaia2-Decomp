@@ -16,6 +16,7 @@ void FUN_00108b80(void);
 void FUN_00264e78(void);
 undefined4 FUN_00290850(void);
 uint FUN_00291c20(int param_1, char param_2, char param_3);
+void FUN_002a88e0(int param_1, int, int, int);
 void MemFree(void *ptr);
 
 // MATCH func_00282A08
@@ -83,6 +84,14 @@ void FUN_002941f0(void)
   return;
 }
 #undef DAT_003feba8
+
+// MATCH func_00294418
+void FUN_00294418(float param_1,float param_2,float param_3,int param_4)
+
+{
+  FUN_002a88e0(param_4,(int)param_1,(int)param_2,(int)param_3);
+  return;
+}
 
 #define DAT_00456f58 (D_00456F58[0])
 // MATCH func_00294438
