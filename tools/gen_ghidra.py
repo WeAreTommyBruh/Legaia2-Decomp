@@ -30,6 +30,10 @@ more files when declarations clash. The code is Ghidra's, meant to be
 cleaned up by hand; the files are regenerated from scratch each run (after
 tools/gen_tiny.py).
 
+Results are cached in build/gen_ghidra_cache.json, keyed by each function's
+Ghidra text and a hash of the tools, headers, function list, executable and
+compiler; a rerun only compiles functions whose inputs changed.
+
 Usage: gen_ghidra.py [MAX_SIZE]        (default 1024 bytes)
 """
 
@@ -458,6 +462,8 @@ def compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp):
             r = subprocess.run([asm_build.EE_CC, "-c", "-O2", "-G8", "-w", *flags, "-o", obj, src],
                                capture_output=True, timeout=60)
         except subprocess.TimeoutExpired:
+            global timed_out
+            timed_out = True
             subprocess.run(["pkill", "-f", src])
             return False
         return r.returncode == 0
@@ -485,9 +491,20 @@ def compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp):
     return bad, words, want, text, externs
 
 
+timed_out = False
+
+
 def try_one(job):
-    addr, name, group, body0, protos, hdr, size = job
+    """Returns (job key, match or None)."""
+    global timed_out
+    timed_out = False
+    return job[-1], search(job)
+
+
+def search(job):
+    addr, name, group, body0, protos, hdr, size, _ = job
     flag_sets = flag_choices(addr, size)
+    tried = set()  # options often give the same text (no long to change, no byte to sign)
     for opts, variant, types in itertools.product(OPTIONS, ("int", "ghidra"), dat_type_choices(body0)):
         body, extra = rewrite(body0, opts)
         if opts and body == body0:
@@ -500,8 +517,14 @@ def try_one(job):
             continue
         externs = dict(externs, **extra)
         for flags in flag_sets:
+            key = (text, tuple(sorted(externs.items())), tuple(decls), flags)
+            if key in tried:
+                continue
+            tried.add(key)
             with tempfile.TemporaryDirectory() as tmp:
                 res = compile_and_compare(text, externs, decls, hdr, name, addr, flags, tmp)
+                if timed_out:  # cc1 loops on this function; its variants would too
+                    return None
                 if res and res[0]:
                     # unused local arrays still take stack space, and Ghidra
                     # does not show them: pad the frame to the original's size
@@ -518,6 +541,48 @@ def try_one(job):
     return None
 
 
+CACHE = os.path.join(ROOT, "build", "gen_ghidra_cache.json")
+
+
+def inputs_key():
+    """Hash of everything besides a function's own text that decides whether
+    it matches: these tools, the header, Ghidra's prototypes and function
+    list, the original executable and the compiler."""
+    import hashlib
+    h = hashlib.sha1(asm_build.EE_CC.encode())
+    tools = os.path.dirname(os.path.abspath(__file__))
+    for path in (__file__, os.path.join(tools, "match.py"), os.path.join(tools, "asm_build.py"),
+                 os.path.join(tools, "ee_disasm.py"), os.path.join(ROOT, "src", "ghidra.h"),
+                 os.path.join(ROOT, "decomp", "legaia2.h"), os.path.join(ROOT, "decomp", "functions.csv"),
+                 asm_build.EXE, asm_build.EE_CC):
+        h.update(open(path, "rb").read())
+    return h.hexdigest()
+
+
+def job_key(job, tools_key):
+    import hashlib
+    addr, name, group, body, _, _, size = job
+    return hashlib.sha1(f"{tools_key}\0{addr:x}\0{name}\0{group}\0{size}\0{body}".encode()).hexdigest()
+
+
+def load_cache():
+    """{job key: match or None} from earlier runs (build/, so not in git)."""
+    import json
+    try:
+        with open(CACHE) as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {}
+
+
+def save_cache(cache, keep):
+    import json
+    os.makedirs(os.path.dirname(CACHE), exist_ok=True)
+    with open(CACHE + ".tmp", "w") as f:
+        json.dump({k: v for k, v in cache.items() if k in keep}, f)
+    os.replace(CACHE + ".tmp", CACHE)
+
+
 def main(argv):
     max_size = int(argv[1]) if len(argv) > 1 else 1024
     protos = prototypes()
@@ -525,6 +590,7 @@ def main(argv):
     for path in glob.glob(os.path.join(ROOT, "src", "*.c")) + glob.glob(os.path.join(ROOT, "src", "gen", "*.c")):
         taken |= {int(a, 16) for a in re.findall(r"func_([0-9A-Fa-f]{8})", open(path).read())}
     hdr = os.path.join(ROOT, "src", "ghidra.h")
+    tools_key = inputs_key()
     jobs = []
     with open(os.path.join(ROOT, "decomp", "functions.csv")) as f:
         rows = list(csv.DictReader(f))
@@ -537,10 +603,16 @@ def main(argv):
         paths = [p for p in paths if f"@ 0x{addr:08x}," in open(p).read(200)]
         if len(paths) != 1:
             continue
-        jobs.append((addr, r["name"], r["group"] or "none", body_of(paths[0]), protos, hdr, size))
-    print(f"trying {len(jobs)} functions")
+        job = (addr, r["name"], r["group"] or "none", body_of(paths[0]), protos, hdr, size)
+        jobs.append(job + (job_key(job, tools_key),))
+    cache = load_cache()
+    todo = [j for j in jobs if j[-1] not in cache]
+    print(f"trying {len(jobs)} functions ({len(jobs) - len(todo)} known from {CACHE})")
     with concurrent.futures.ProcessPoolExecutor(os.cpu_count()) as pool:
-        found = [x for x in pool.map(try_one, jobs, chunksize=8) if x]
+        for key, found in pool.map(try_one, todo, chunksize=8):
+            cache[key] = found
+    save_cache(cache, {j[-1] for j in jobs})
+    found = [tuple(cache[j[-1]][:-1]) + (tuple(cache[j[-1]][-1]),) for j in jobs if cache.get(j[-1])]
 
     for old in glob.glob(os.path.join(OUTDIR, "*.c")):
         os.remove(old)
