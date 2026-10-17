@@ -1,6 +1,7 @@
 /* Functions of _unknown_after_abeshi built with the older ee-gcc
-   2.9-ee-990721 (see tools/asm_build.py). Matched by hand. */
-// compiler: 990721
+   2.9-ee-990721, which here leaves short loops' delay slots empty (see
+   tools/asm_build.py). Matched by hand. */
+// compiler: 990721-r5900
 #include "common.h"
 
 typedef struct {
@@ -17,6 +18,7 @@ extern Member D_00419D18[];
 extern int D_004A657C, D_004A6580, D_004A6584;
 void FUN_00260150(int, int);
 void FUN_00265db0(int);
+int FUN_00268580(int);
 
 extern s64 D_004A12F0; /* the pad's buttons */
 extern int D_004A140C, D_004A64A0, D_004A1448;
@@ -227,6 +229,34 @@ void FUN_00264600(void)
     work_00246b98(D_002F9800[2]);
     FUN_0024ce40(D_00320E20);
     nori_0026c7a8();
+}
+
+/* waits (empty counting loops, their bodies compiled out) for each of
+   the records of FUN_00268580(0) that have flags set */
+// MATCH func_00268470
+void FUN_00268470(void)
+{
+    int p = FUN_00268580(0);
+    int i, j, m, k;
+    if (FIELD(int, p, 8) != 0) {
+        m = FIELD(int, p, 0xb14);
+        for (i = 0; i < FIELD(int, p, 4); i = k) {
+            int q;
+            k = i + 1;
+            q = p + 12 + i * 936;
+            if (FIELD(u8, q, 0x356))
+                for (j = 0; j < 40; j++)
+                    ;
+            if (FIELD(u8, q, 0x37e))
+                for (j = 0; j < 30; j++)
+                    ;
+            if (FIELD(u8, q, 0x39c))
+                for (j = 0; j < 10; j++)
+                    ;
+        }
+        for (i = 0; i < m; i++)
+            ;
+    }
 }
 
 // MATCH func_0026A570
