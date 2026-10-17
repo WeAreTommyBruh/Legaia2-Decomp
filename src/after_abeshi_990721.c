@@ -1,7 +1,8 @@
 /* Functions of _unknown_after_abeshi built with the older ee-gcc
    2.9-ee-990721, which here leaves short loops' delay slots empty (see
-   tools/asm_build.py). Matched by hand. */
+   tools/asm_build.py) and does not thread jumps. Matched by hand. */
 // compiler: 990721-r5900
+// cflags: -fno-thread-jumps
 #include "common.h"
 
 typedef struct {
@@ -14,6 +15,8 @@ extern u32 D_004A5E50;   /* the current party member, 0-2 */
 extern int D_00314D08[4]; /* the 3 members' states, then one more */
 extern int D_004A5E38;
 extern int D_003FEC2C[];
+extern int D_00314CC8[]; /* the enemies' kinds */
+extern int D_004A66C4;
 extern Member D_00419D18[];
 extern int D_004A657C, D_004A6580, D_004A6584;
 void FUN_00260150(int, int);
@@ -190,6 +193,59 @@ void FUN_00260c00(void)
 }
 
 /* runs FUN_00265db0 for each of the 5 states, then puts everything back */
+/* calls FUN_00260150 with a random id for the one at D_004A5E50: a
+   member (0-3, by state) or an enemy (4-9, by kind) */
+// MATCH func_00260CF0
+void FUN_00260cf0(void)
+{
+    if (D_004A5E50 > 9)
+        return;
+    if ((int)D_004A5E50 < 4) {
+        int s = D_00314D08[D_004A5E50];
+        if (s == 1 && D_003FEC2C[0] != 0)
+            return;
+        switch (s) {
+        case 0:
+            if (D_00314CC8[0] == 83)
+                FUN_00260150(0, rand() % 2 + 61);
+            else
+                FUN_00260150(0, rand() % 3 + 60);
+            break;
+        case 1:
+            FUN_00260150(1, rand() % 6 + 50);
+            break;
+        case 2:
+            FUN_00260150(2, rand() % 4 + 30);
+            break;
+        case 3:
+            FUN_00260150(3, rand() % 6 + 30);
+            break;
+        }
+    } else {
+        switch (D_00314CC8[D_004A5E50 - 4]) {
+        case 58:
+        case 251:
+            FUN_00260150(4, rand() % 6 + 127);
+            break;
+        case 65:
+        case 114:
+        case 240:
+        case 313:
+            FUN_00260150(4, rand() % 4 + 133);
+            break;
+        case 89:
+        case 115:
+        case 239:
+        case 312:
+            if (D_004A66C4 & 0x40)
+                FUN_00260150(4, rand() % 4 + 141);
+            else
+                FUN_00260150(4, rand() % 4 + 137);
+            break;
+        }
+    }
+}
+
 /* calls FUN_00260150(4, ...) with an id chosen from the state of a
    random member among those in states 0-4 (state 1 only when
    D_003FEBA8.busy is 0) */
