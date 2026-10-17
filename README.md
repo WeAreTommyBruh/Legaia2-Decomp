@@ -1,8 +1,5 @@
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation
 Legaia 2: Duel Saga (PAL) is now being decompiled using ghidra and claude code. This is for preserving and educational purposes.
-
-This is not a matching decompilation: the goal is readable C and documented file formats, not source that rebuilds the game byte for byte. Functions whose C happens to compile to exactly the original bytes are counted as progress in [PROGRESS.md](PROGRESS.md) and on [ByteMatch](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp), which only tracks byte-identical code.
-
 [![Code](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp.svg?label=Code&measure=matched_code_percent)](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp)
 [![Functions](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp.svg?label=Functions&measure=matched_functions)](https://bytematch.dev/WeAreTommyBruh/Legaia2Decomp)
 
