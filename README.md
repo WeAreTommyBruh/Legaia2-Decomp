@@ -55,7 +55,7 @@ python3 tools/report.py
 This decompilation project is heavily ai assisted. I check everything one by one to make sure there is nothing wrong.
 
 # Contributing
-I will not be accepting pull requests,external code contributions, or issue reports at this time. You can fork this repo if you want.
+I will not be accepting pull requests,external code contributions, or issue reports at this time. You can fork this repo if you want. If you want to extract textures, audio or models you can do so.
 
 # Legal
 This repository contains no game files: no disc image, executable, graphics, audio, text or other assets, and nothing extracted from them. It holds only tools, documentation and C reconstructed from analysing the game's code (written by hand, or generated with Ghidra and checked against the original). You will have to provide your own Legaia 2: Duel Saga (PAL, SLES-50891) disc image.
