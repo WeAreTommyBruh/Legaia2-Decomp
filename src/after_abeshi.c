@@ -7,6 +7,8 @@ extern struct {
     int money;
     char unk4[0x88];
     int count;
+    char unk90[0x18e4 - 0x90];
+    s8 order[10]; /* a list of ids, -1 for none (see FUN_002650d0) */
 } D_003FEBA8;
 extern int D_004A3860, D_004A66C8, D_004A64A0, D_004A12A4, D_004A24E8, D_004A1448;
 extern void *D_004A1360, *D_004A1364;
@@ -46,6 +48,8 @@ void init_0024a510(void);
 void noriwin_00139490(void);
 void yokota_0023efb8(void);
 void FUN_00260150(int, int);
+void FUN_002650d0(void);
+extern int D_00314D08[4];
 void work_00246d88(void *, int);
 
 extern int D_003FEC2C[], D_00314CC8[], D_002F9808[];
@@ -171,6 +175,52 @@ void FUN_00264e40(void)
 }
 
 /* entry `i` (from 1) of the table at 0x40d228 */
+/* list operations on D_003FEBA8.order: 0 adds `id` in the last free
+   place (if it is not there yet), 1 removes it, 2 clears the list; with
+   `reset` the list starts again from D_00314D08 */
+// MATCH func_00264EB0
+void FUN_00264eb0(int id, int mode, int reset)
+{
+    int i;
+    for (i = 5; i < 10; i++)
+        D_003FEBA8.order[i] = -1;
+    if (reset != 0) {
+        for (i = 0; i < 10; i++)
+            D_003FEBA8.order[i] = -1;
+        for (i = 0; i < 3; i++)
+            D_003FEBA8.order[i] = D_00314D08[i];
+        FUN_002650d0();
+        return;
+    }
+    switch (mode) {
+    case 0:
+        for (i = 0; i < 10 && D_003FEBA8.order[i] != id; i++)
+            ;
+        if (i == 10) {
+            for (i = 9; i >= 0; i--) {
+                if (D_003FEBA8.order[i] == -1) {
+                    D_003FEBA8.order[i] = id;
+                    FUN_002650d0();
+                    break;
+                }
+            }
+        }
+        break;
+    case 1:
+        for (i = 0; i < 10; i++) {
+            if (D_003FEBA8.order[i] == id) {
+                D_003FEBA8.order[i] = -1;
+                FUN_002650d0();
+            }
+        }
+        break;
+    case 2:
+        for (i = 0; i < 10; i++)
+            D_003FEBA8.order[i] = -1;
+        break;
+    }
+}
+
 // MATCH func_00269548
 void *FUN_00269548(u32 i)
 {
