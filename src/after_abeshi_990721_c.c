@@ -18,6 +18,12 @@ extern int D_00314CC8[];
 extern int D_004A66DC, D_004A6594, D_004A5A50;
 int rand(void);
 
+/* the party's shared state, as in after_abeshi.c */
+extern struct {
+    char unk0[0x18e4];
+    s8 order[10]; /* a list of ids, -1 for none */
+} D_003FEBA8;
+
 /* a list of up to 24 entries: five parallel arrays after a count */
 typedef struct {
     char unk0[2836];
@@ -146,4 +152,48 @@ void FUN_00269240(void)
     }
     for (i = 0; i < D_004A6578->n; i++)
         FUN_00254ce0(D_004A6578->a[i], D_004A6578->d[i]);
+}
+
+/* tidies D_003FEBA8.order: drops the entries that are not ids (0-9), then
+   the repeated ids, closing the gaps with -1 at the end */
+// MATCH func_002650D0
+void FUN_002650d0(void)
+{
+    int i, j, k, n;
+    i = 0;
+    n = 0;
+    while (i < 9 && n < 32) {
+        n++;
+        if ((u8)D_003FEBA8.order[i] >= 10) {
+            for (k = i; k < 9; k++) {
+                u8 c = D_003FEBA8.order[k + 1];
+                D_003FEBA8.order[k + 1] = -1;
+                D_003FEBA8.order[k] = c;
+            }
+        } else {
+            i++;
+        }
+    }
+    for (i = 0; i < 9; i = j) {
+        j = i + 1;
+        if ((u8)D_003FEBA8.order[i] < 10) {
+            for (k = j; k < 10; k++) {
+                if (D_003FEBA8.order[i] == D_003FEBA8.order[k]) {
+                    n = k;
+                    if (n != 9) {
+                        if (n < 9) {
+                            for (; n < 9; n++) {
+                                u8 c = D_003FEBA8.order[n + 1];
+                                D_003FEBA8.order[n + 1] = -1;
+                                D_003FEBA8.order[n] = c;
+                            }
+                        }
+                    } else {
+                        D_003FEBA8.order[9] = -1;
+                    }
+                    k--;
+                }
+            }
+        }
+    }
 }
