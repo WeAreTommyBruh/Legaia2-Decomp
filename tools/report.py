@@ -48,12 +48,12 @@ def unit_name(group):
     return re.sub(r"[^A-Za-z0-9_]", "_", group or "none")
 
 
-def c_sources():
-    """{address: (c file, function name)} for every MATCH function in src/."""
+def c_sources(top="src", mark="MATCH"):
+    """{address: (c file, function name)} for every `// <mark>` function in <top>/."""
     out = {}
-    for src in sorted(glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True)):
+    for src in sorted(glob.glob(os.path.join(ROOT, top, "**", "*.c"), recursive=True)):
         text = open(src).read()
-        for addr, name in re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})\s*\n[^\n(]*?(\w+)\s*\(", text):
+        for addr, name in re.findall(r"//\s*" + mark + r"\s+func_([0-9A-Fa-f]{8})\s*\n[^\n(]*?(\w+)\s*\(", text):
             out[int(addr, 16)] = (src, name)
     return out
 
@@ -135,10 +135,14 @@ def symbolize(d, word, reloc):
     mn, ops = d[0], d[1]
     if rtype == 4 and mn in ("j", "jal"):
         return mn, sym
-    if rtype == 5 and mn == "lui":
+    if rtype == 5:
+        if mn != "lui":
+            return None
         add = (inplace & 0xFFFF) << 16
         return mn, re.sub(r"0x[0-9a-f]+$", f"%hi({sym}{f'+{add:#x}' if add else ''})", ops)
     if rtype in (6, 7, 8):  # 8: R_MIPS_LITERAL, a float constant in .lit4 (see patch_literals)
+        if not re.fullmatch(r"addiu|ori|[ls][bhwdq]u?|[ls][wd][lr]|[ls]wc1", mn):
+            return None  # work in progress: the base's relocation sits on a different instruction
         add = s16(inplace & 0xFFFF)
         op = "%lo" if rtype == 6 else "%gp_rel"
         ref = f"{op}({sym}{f'+{add}' if add else ''})"
@@ -177,6 +181,10 @@ def main(argv):
         rows = list(csv.DictReader(f))
     source_file = {int(r["address"], 16): r["source_file"] for r in rows}
     csrc = c_sources()
+    # work in progress (wip/*.c, `// WIP func_XXXXXXXX`): compiled as the unit's base so that
+    # objdiff reports a partial match; they count as matched only at 100%
+    wip = {a: v for a, v in c_sources("wip", "WIP").items() if a not in csrc}
+    csrc.update(wip)
     counts = collections.Counter(n for _, n, _ in funcs)
     name_of = {a: (n if counts[n] == 1 and re.fullmatch(r"[A-Za-z_]\w*", n) else f"func_{a:08X}")
                for a, n, _ in funcs}  # Ghidra repeats a few names (thunks)
@@ -188,7 +196,7 @@ def main(argv):
     unit_src = {}
     for (addr, _, group), end in zip(funcs, ends):
         if addr in csrc:
-            rel = os.path.relpath(csrc[addr][0], os.path.join(ROOT, "src"))[:-2]
+            rel = os.path.relpath(csrc[addr][0], ROOT)[:-2].removeprefix("src/")
             u = f"{unit_name(group)}/{rel}"
             unit_src[u] = csrc[addr][0]
         else:
@@ -223,7 +231,8 @@ def main(argv):
             for a, _ in fl:
                 if a in csrc:
                     off, size = bfuncs[csrc[a][1]]
-                    size_of[a] = size
+                    if a not in wip:  # a draft's size differs from the original's
+                        size_of[a] = size
                     for o in range(off, off + size, 4):
                         if o in brel:
                             relocs[a + o - off] = brel[o]

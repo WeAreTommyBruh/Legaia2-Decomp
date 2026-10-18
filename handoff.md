@@ -5,6 +5,9 @@
 - This session matched (all in `_unknown_after_abeshi`, now 41/54): 26ac80, 269240 (src/after_abeshi_990721_c.c), 2650d0 (same file), 265230 (src/after_abeshi_990721_d.c), 2656b0 (src/after_abeshi_990721_e.c; needs the div.s nops, see below). report/report.json and PROGRESS.md are refreshed by `build/work/commit.sh` (user asked for both on every commit); tools/report.py now handles R_MIPS_LITERAL (.lit4).
 - Drafts/tools (git-ignored) in `build/work/`: `wk.py diff ADDR [-q]`, `vtry.py`, `all3.py`, `flags2.py`, `commit.sh "msg" files...` (build must say MATCH; runs progress.py + report.py, commits, pushes), drafts in `w/`. Permuter: `python3 tools/perm_setup.py build/work/w/<addr>.c FUN_<addr> <addr>` then `~/tools/decomp-permuter/venv/bin/python permuter.py build/perm/<addr> -j2 --stop-on-zero` under `timeout`; wait on its PID with `kill -0` (not pgrep -f).
 
+## WIP drafts (report)
+- `wip/<addr>.c` holds near-miss drafts (`// WIP func_XXXXXXXX` instead of `// MATCH`; include `../src/common.h`). tools/report.py compiles them as a unit `<group>/wip/<addr>` so bytematch.dev shows a partial match (in progress). Not built by asm_build. When one matches: move it to src/ with `// MATCH`, delete the wip file.
+
 ## Rules (user)
 - No copyrighted assets: only tools/docs/C in repo; game data git-ignored. Don't print game text in chat. No game string literals in C (use `D_<addr>` symbols).
 - Commit to main. Ask before downloads / visibility change. **Never force-push** (denied before). Keep CPU jobs modest (user killed background jobs).
