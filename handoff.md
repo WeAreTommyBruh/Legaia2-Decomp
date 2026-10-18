@@ -1,12 +1,9 @@
-# Legaia 2 decomp handoff (2026-10-18)
+# Legaia 2 decomp handoff (2026-10-18, end of session 2)
 
 ## 1. STATUS
-- Repo: WeAreTommyBruh/Legaia2Decomp (redirects to Legaia2-Decomp.git), branch `main`, HEAD 6c309a2. Tree clean except this file (untracked, don't commit).
-- PAL SLES-50891. Progress **1722/6254** matched. Build `python3 tools/asm_build.py all` prints `MATCH` (byte-identical ELF).
-- Group counts: nori 26/64 (target 32), _unknown_after_abeshi 36/54 (target all), cam_min 2/5 (target all), _unknown_after_disp 53/106 (target met).
-- Last match: FUN_0026a2b8 in `src/after_abeshi_990721_b.c` (with FUN_002695e0; separate file because .rodata placement is contiguous per file).
-- Other files this session: src/after_abeshi.c (991111-01), src/after_abeshi_990721.c (990721-r5900), src/nori.c, nori_nogcse.c, nori_eh.c (-fexceptions), tools/asm_build.py (COMPILERS["990721-r5900"], SHORT_LOOP_FIX), tools/r5900_short_loops.py, tools/match.py (reloc type 8 = R_MIPS_LITERAL, gp0 from .reginfo+20).
-- Drafts/tools (git-ignored) in `build/work/`: `wk.py diff ADDR [-q]` (compile w/<addr>.c with file's `// compiler:`/`// cflags:`, show diff, ops~ = opcode edit distance), `vtry.py ADDR BASE.c SPEC.json` (apply [old,new] variants, restores base), `all3.py`, `flags2.py`, `commit.sh "msg" files...` (refuses unless build says MATCH; commits, pushes), drafts in `w/`. Permuter dirs in `build/perm/` (none running).
+- Repo: WeAreTommyBruh/Legaia2Decomp, branch `main`. PAL SLES-50891. Progress **1727/6254** matched; `python3 tools/asm_build.py all` prints `MATCH`.
+- This session matched (all in `_unknown_after_abeshi`, now 41/54): 26ac80, 269240 (src/after_abeshi_990721_c.c), 2650d0 (same file), 265230 (src/after_abeshi_990721_d.c), 2656b0 (src/after_abeshi_990721_e.c; needs the div.s nops, see below). report/report.json and PROGRESS.md are refreshed by `build/work/commit.sh` (user asked for both on every commit); tools/report.py now handles R_MIPS_LITERAL (.lit4).
+- Drafts/tools (git-ignored) in `build/work/`: `wk.py diff ADDR [-q]`, `vtry.py`, `all3.py`, `flags2.py`, `commit.sh "msg" files...` (build must say MATCH; runs progress.py + report.py, commits, pushes), drafts in `w/`. Permuter: `python3 tools/perm_setup.py build/work/w/<addr>.c FUN_<addr> <addr>` then `~/tools/decomp-permuter/venv/bin/python permuter.py build/perm/<addr> -j2 --stop-on-zero` under `timeout`; wait on its PID with `kill -0` (not pgrep -f).
 
 ## Rules (user)
 - No copyrighted assets: only tools/docs/C in repo; game data git-ignored. Don't print game text in chat. No game string literals in C (use `D_<addr>` symbols).
@@ -14,17 +11,12 @@
 - Commit trailer: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>` (commit.sh already set).
 - User mostly says "keep going"; last instruction was "do only one" per turn.
 
-## 2. CURRENT BLOCKER
-No compile error. Open unmatched drafts:
-- **FUN_00269fc8** (`build/work/w/00269fc8.c`, wk ops~10): needs its own C file (jump table at 0x496BA0). Original keeps `lui 0x40` (hi of D_003FEBA8) live in $21 across the switch and recomputes `a >> 1` inside the loop; mine doesn't.
-- Others blocked: nori 275a30 big switch (27 fragment entries); cam_min 2aa360/2aa588 (fptosi issue); 2a9ee0 and 265c30 (original keeps extra loop pointers); 2650d0 (12 diffs, reg swaps); 260428 (7 diffs, reg choice); 26c8a0 (5 ops, reg reuse; needs `-malign-loops=2`).
-
-## 3. NEXT STEPS
-- `cd "/home/tommy/src/Legaia 2 Decomp"; git pull --rebase origin main` (user edits README on remote), confirm `python3 tools/asm_build.py all | tail -1` = MATCH.
-- Pick next abeshi target: finish 269fc8 (try keeping D_003FEBA8 address in a local pointer assigned before the switch; try `a>>1` as separate expression in loop), else draft 26ac80 or 269240.
-- Workflow per function: write `build/work/w/<addr>.c` with header `// compiler: 990721-r5900` + `// cflags: -fno-thread-jumps` (abeshi), loop `python3 build/work/wk.py diff <addr>`, use vtry.py for source variants; also sweep 991111-01, 991111-01 -fno-gcse via all3.py.
-- When 0 diffs: move into the correct src file (check .rodata contiguity; separate file if jump table is far), add `// MATCH func_<ADDR>`, run build, then `build/work/commit.sh "Match <group> <addr> by hand (N / 6254)" <files>`.
-- Then toward targets: ~6 more nori, rest of abeshi, cam_min (2 left unmatched + 1).
+## 2. CLOSE BUT UNMATCHED (drafts in build/work/w/)
+- **2682e0** (15 of 99 words, ~6 ops): `w/002682e0.c`; the loop/px-py/unfolded-table parts match; left: lbu-y goes in the beq delay slot in the original (nv3/new_var trick got closest), store `addu` operand order, a `bnel` vs `bne` at the first loop's end.
+- **260428** (7 words): sll goes in the bltz delay slot in the original (scheduler order: sll before lui), r in $6.
+- **269fc8** (22 words with `// cflags: -fno-thread-jumps -fno-cse-skip-blocks`): original reuses $4 (= &D_003FEBA8) after the b1ab if in cases 5/6; mine recomputes from $21.
+- **265c30**: original keeps separate pointers for D_00419D50 (+0, +44) and base+4 with an offset giv; a mini harness (below) was not tried on it yet.
+- Others (big/switch): 260658, 261288, 261bd8, 264868, 265db0, 268580, 269838, 26a658, 26af38; nori's remaining ones are fragments of the 275a30 switch; cam_min 2aa360/2aa588/2a9ee0 (fptosi).
 
 ## 4. TECHNIQUES THAT MATCHED
 - 990721-r5900 = 990721 cc1 -S, then `r5900_short_loops.py` (un-fill delay slot for backward-branch loops <=6 insns with no other b/j, incl. fills taken from loop top), then 991111-01 assembler.
@@ -39,3 +31,8 @@ for (i = 0; i < 5; i++) {
 }
 ```
   Placement of that assignment also changed register numbering of earlier `saved[]` loads ($6 skipped otherwise).
+
+## 5. NEW THIS SESSION (details also in the compiler-variants memory)
+- Mini harness: compile a small C file with `asm_build.COMPILERS['990721-r5900']` and `-S` (plus `-dr -ds -dj -dg` for RTL dumps) to see how one construct compiles before touching the big function.
+- Compare inside each branch (`if (i<4) { if (A[i]==a) cnt++; } else { if (B[i-4]==a) cnt++; }`) changes the if-converted insn order; giving each switch case its own temp pointers (`e`, `e0`, `s`, `s0`; sharing only `q`) fixes register assignment; `e = SYM; e -= 5; q = e + a;` stops SYM-2360 being folded into one %lo; `cur > mx * -c / 100` operand order changes load order; pointer `py = row + 4` (same symbol) gives the unreduced loop without -fno-strength-reduce; reusing a dead local as a loop variable (2650d0) changes register priority.
+- 990721-r5900 now puts two nops before every div.s (tools/r5900_short_loops.py fix_div_s), as 991111-01 does.
