@@ -192,7 +192,7 @@ def main(argv):
             u = f"{unit_name(group)}/{rel}"
             unit_src[u] = csrc[addr][0]
         else:
-            u = unit_name(group)
+            u = unit_name(group) + "/unmatched"  # the functions of the group still to do
         units.setdefault(u, []).append((addr, end))
 
     # base objects: one wrapper per unit that includes the unit's C files
