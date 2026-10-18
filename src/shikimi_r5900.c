@@ -24,6 +24,13 @@ extern int D_004A69A8, D_004A72F8;
 extern char D_0041EF40[], D_004A6A78[], D_004A6A80[], D_004A6A88[];
 long FUN_00160c70(char *, char *, int);
 void FUN_002394d0(int, char *, long, int);
+typedef struct { int f0, f4, f8, fc, f10, f14, f18, f1c, f20, f24, f28, f2c; } Ch3198;
+typedef struct { char p0[0x198]; int f198; } Own3198;
+extern Ch3198 D_004210E0[8];
+extern char D_00424A18[], D_00424A98[], D_00343028[];
+Own3198 *FUN_0029b8b0(Ch3198 *);
+int rsound_0010c4c0(char *, int);
+int strcmp(char *, char *);
 
 // MATCH func_002B1B30
 int shikimi_002b1b30(void)
@@ -126,5 +133,47 @@ void shikimi_002b0bc8(void)
         FUN_002394d0(t + 0x20, D_004A6A78, FUN_00160c70(D_0041EF40, D_004A6A88, e->f1e8), e->f1e8);
       }
     }
+  }
+}
+
+// MATCH func_002B3198
+void shikimi_002b3198(void)
+{
+  int i;
+  Ch3198 *p = D_004210E0;
+  for (i = 7; i >= 0; i--) {
+    Own3198 *q = FUN_0029b8b0(p);
+    if (q != 0) {
+      int t = 0;
+      if (strcmp(D_00424A98, D_00424A18) == 0) t = 1;
+      if (!t) {
+        if (q->f198 != 2) {
+          rsound_0010c4c0(D_00343028, p->f18);
+          p->f4 = 0;
+          p->f8 = 0;
+          p->fc = 0;
+          p->f10 = 0;
+          p->f14 = 0;
+          p->f0 = 0;
+          p->f18 = -1;
+          p->f1c = 0x1000;
+          p->f20 = 0x1000;
+        }
+      } else {
+        if (q->f198 == 0) {
+          rsound_0010c4c0(D_00343028, p->f18);
+          p->f4 = 0;
+          p->f8 = 0;
+          p->fc = 0;
+          p->f10 = 0;
+          p->f14 = 0;
+          p->f0 = 0;
+          p->f18 = -1;
+          p->f1c = 0x1000;
+          p->f20 = 0x1000;
+        }
+      }
+    }
+    p++;
   }
 }
