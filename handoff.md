@@ -11,6 +11,10 @@
 - Commit trailer: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>` (commit.sh already set).
 - User mostly says "keep going"; last instruction was "do only one" per turn.
 
+## 1b. SHIKIMI (done: half)
+- Group `shikimi` is 21/42 matched (src/shikimi.c has 14 by hand; 7 were already in src/gen and src/ghidra). The mostly-constructor-like functions (build a stack object, pass &obj to a worker) match from the Ghidra text turned into a struct with the stores in asm order; `build/work/permstmt.py ADDR` brute-forces the order of the lines between `// PERM-BEGIN` and `// PERM-END` (a draft with 8 lines is 40k compiles, keep blocks <= 8).
+- Left in the group: 2b1b30 (needs the loop top aligned with a nop and a `daddu $7,$3,$0` hi copy; plain `for` over a 96-byte record array gets within 2 ops), 2b1b98 (negative-index branch: hi kept in $5 across the loop), 2b8de0 (quote-stripping copy: original loads lb for compares and lbu for the store separately), 2b11f8, 2b1d88, 2b3198, 2b0bc8, 2b10a0, 2b2778, 2b32a8, 2b0dd8, 2b0978, 2b8ee8 and the big ones (2afa58, 2b8650, 2b1e68, 2b12c8, 2b0100, 2b2900, 2b34d8, 2b3f10).
+
 ## 2. CLOSE BUT UNMATCHED (drafts in build/work/w/)
 - **2682e0** (15 of 99 words, ~6 ops): `w/002682e0.c`; the loop/px-py/unfolded-table parts match; left: lbu-y goes in the beq delay slot in the original (nv3/new_var trick got closest), store `addu` operand order, a `bnel` vs `bne` at the first loop's end.
 - **260428** (7 words): sll goes in the bltz delay slot in the original (scheduler order: sll before lui), r in $6.
