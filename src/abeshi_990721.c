@@ -9,6 +9,8 @@ typedef struct { char pad[308]; int n; char pad2[412 - 312]; V8 a; V8 b; } Cd;
 /* a record with a countdown at +20 and an 8-byte value at +412 */
 typedef struct { char pad[20]; int n; char pad2[412 - 24]; V8 a; } Fd;
 extern V8 D_004A5A18[2];
+extern V8 D_004A5A00[2];
+void FUN_0025de00(void *, float);
 extern V8 D_004A59F8[2];
 extern char D_00489038[];
 void abeshi_0025ee38(void *);
@@ -58,4 +60,27 @@ int abeshi_0025f250(Cd *o)
 int abeshi_0025fe10(void *o)
 {
     return abeshi_0025ea38(MemAllocDbg(428, D_00489038, 995), o);
+}
+
+/* fades four sub-records in over 75 frames, then snaps to 1.0 */
+typedef struct { char pad[308]; int n; char pad2[412 - 312]; V8 a; } Fade;
+// MATCH func_0025F298
+int abeshi_0025f298(Fade *o)
+{
+  float f;
+  if (++o->n < 75) {
+    f = (float)((double)o->n / 75.0);
+    FUN_0025de00((char *)o + 28, f);
+    FUN_0025de00((char *)o + 96, f);
+    FUN_0025de00((char *)o + 164, f);
+    FUN_0025de00((char *)o + 232, f);
+  } else {
+    f = 1.0f;
+    FUN_0025de00((char *)o + 28, f);
+    FUN_0025de00((char *)o + 96, f);
+    FUN_0025de00((char *)o + 164, f);
+    FUN_0025de00((char *)o + 232, f);
+    o->a = D_004A5A00[0];
+  }
+  return 0;
 }
