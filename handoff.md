@@ -13,7 +13,6 @@
 - No copyrighted assets: only tools/docs/C in repo; game data git-ignored. Don't print game text in chat. No game string literals in C (use `D_<addr>` symbols).
 - Commit to main. Ask before downloads / visibility change. **Never force-push** (denied before). Keep CPU jobs modest (user killed background jobs).
 - Commit trailer: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>` (commit.sh already set).
-- User mostly says "keep going"; last instruction was "do only one" per turn.
 
 ## 1b. SHIKIMI (29/42 matched, 13 left; 8 matched in session 3: 2b11f8 2b1b30 2b1b98 2b8de0 2b1d88 2b0bc8 2b0dd8 2b3198)
 - Group `shikimi` is 27/42. Hand-matched: `src/shikimi.c` (14, 991111-01 default) and `src/shikimi_r5900.c` (6: 2b1b30, 2b1b98, 2b8de0, 2b11f8, 2b1d88, 2b0bc8; header `// compiler: 990721-r5900`). **The group is a mix of compilers**: 14 small ones match with either, the six above only with 990721-r5900, and 2b10a0 / 2b2778 look like 991111-01 (a tail call `j` and a nop before the loop branch). Always score a draft under both (`CCV=990721-r5900` and `CCV=991111-01` with `build/work/wk.py diff ADDR -q`).
