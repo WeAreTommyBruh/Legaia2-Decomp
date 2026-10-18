@@ -1,7 +1,7 @@
 /* Functions of shikimi.cpp, matched by hand. */
 // compiler: 990721-r5900
 #include "common.h"
-typedef struct { char p0[0x20]; signed char f20; char p21[3]; int f24, f28; char p2c[0x10]; int f3c, f40; char p44[4]; int f48; char p4c[4]; int f50; char p54[12]; } Win;
+typedef struct { char p0[0x20]; signed char f20; char p21[3]; int f24, f28; char p2c[0xc]; int f38, f3c, f40, f44, f48, f4c, f50; char p54[12]; } Win;
 extern Win D_00620320[16];
 typedef struct { char p0[0xd8]; void *fd8; } Wk;
 extern int D_002F9804[];
@@ -17,8 +17,8 @@ Wk *work_00246d88(char *, int);
 extern char D_004213B0[];
 extern char D_004213C0[];
 int *shikimi_002b2650(void);
-typedef struct { int f0; char p4[484]; int f1e8, f1ec, f1f0, f1f4; char p1f8[608 - 504]; } Ent0bc8;
-extern Ent0bc8 D_005F9640[];
+typedef struct { int f0; char p4[484]; int f1e8, f1ec, f1f0, f1f4; char p1f8[608 - 504]; } Ent608;
+extern Ent608 D_005F9640[];
 extern unsigned D_004A13CC;
 extern int D_004A69A8, D_004A72F8;
 extern char D_0041EF40[], D_004A6A78[], D_004A6A80[], D_004A6A88[];
@@ -116,7 +116,7 @@ void shikimi_002b0bc8(void)
   int i;
   if ((D_004A13CC & 3) != 0) {
     for (i = 0; i < D_004A69A8; i++) {
-      Ent0bc8 *e = &D_005F9640[i];
+      Ent608 *e = &D_005F9640[i];
       if ((D_004A13CC & 1) != 0 && e->f1f4 == D_004A72F8 && (e->f1f0 & 3) != 0) {
         int t = e->f0;
         FUN_002394d0(t + 0x20, D_004A6A78, FUN_00160c70(D_0041EF40, D_004A6A80, e->f1e8), e->f1e8);
