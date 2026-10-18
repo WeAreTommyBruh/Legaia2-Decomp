@@ -99,12 +99,30 @@ def symbols_and_relocs(obj):
 # local labels standing for a C file's own data sections in the target
 # objects (relocations against them become section relocations, as in the
 # base object)
-DATA_RELOC = {".rodata": ".Lrodata"}
+DATA_RELOC = {".rodata": ".Lrodata", ".lit4": ".Llit4"}
 
 
 def data_sizes(obj):
     """{section: size} of the data sections in DATA_RELOC of an object."""
     return {n: h[5] for n, h in sections(open(obj, "rb").read()) if n in DATA_RELOC and h[5]}
+
+
+def patch_literals(obj):
+    """clang writes a gp-relative reference to .lit4 as R_MIPS_GPREL16; ee-gcc
+    writes R_MIPS_LITERAL. Gives the target's references to .lit4 the latter."""
+    d = bytearray(open(obj, "rb").read())
+    secs = sections(bytes(d))
+    symtab = next(h for n, h in secs if h[1] == 2)
+    lit = {i for i in range(symtab[5] // 16)
+           if (lambda t: t[5] > 0 and secs[t[5]][0] == ".lit4" and t[3] & 0xF == 3)(
+               struct.unpack_from("<IIIBBH", d, symtab[4] + 16 * i))}
+    for n, h in secs:
+        if h[1] == 9 and secs[h[7]][0] == ".text":
+            for j in range(h[5] // 8):
+                off, info = struct.unpack_from("<II", d, h[4] + 8 * j)
+                if info >> 8 in lit and info & 0xFF == 7:
+                    struct.pack_into("<I", d, h[4] + 8 * j + 4, (info & ~0xFF) | 8)
+    open(obj, "wb").write(d)
 
 
 def s16(x):
@@ -120,7 +138,7 @@ def symbolize(d, word, reloc):
     if rtype == 5 and mn == "lui":
         add = (inplace & 0xFFFF) << 16
         return mn, re.sub(r"0x[0-9a-f]+$", f"%hi({sym}{f'+{add:#x}' if add else ''})", ops)
-    if rtype in (6, 7):
+    if rtype in (6, 7, 8):  # 8: R_MIPS_LITERAL, a float constant in .lit4 (see patch_literals)
         add = s16(inplace & 0xFFFF)
         op = "%lo" if rtype == 6 else "%gp_rel"
         ref = f"{op}({sym}{f'+{add}' if add else ''})"
@@ -251,6 +269,7 @@ def main(argv):
         r = subprocess.run([clang] + asm_build.ASFLAGS + [src, "-o", obj], capture_output=True, text=True)
         if r.returncode:
             raise SystemExit(f"{src}:\n{r.stderr[:2000]}")
+        patch_literals(obj)
         entry = {"name": unit, "target_path": os.path.relpath(obj, OUT),
                  "metadata": {"progress_categories": ["game" if any(source_file.get(a) for a, _ in fl) else "other"]}}
         if unit in base_info:
