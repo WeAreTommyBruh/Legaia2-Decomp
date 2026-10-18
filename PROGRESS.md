@@ -10,20 +10,20 @@ This is not a matching decompilation. "Matched" below means C that happens to co
 |---|---|---|
 | 1 | Identify the original compiler | Done: **ee-gcc 2.9-ee-991111-01**, `-O2 -G8`, confirmed by functions that compile byte-identical (see below) |
 | 2 | Rebuild the executable from assembly | Done: rebuilt executable is **byte-identical** to the original |
-| 3 | Match functions in C | In progress: 1725 of 6254 functions (3.3% of code) compile to the original bytes and are built from C |
+| 3 | Match functions in C | In progress: 1726 of 6254 functions (3.4% of code) compile to the original bytes and are built from C |
 
 ## Overall
 
 | | Count | Share | |
 |---|---:|---:|---|
-| Functions matched in C | 1725 / 6254 | 27.6% | `########......................` |
-| ... written by hand | 166 | | |
+| Functions matched in C | 1726 / 6254 | 27.6% | `########......................` |
+| ... written by hand | 167 | | |
 | ... generated from instruction patterns (`tools/gen_tiny.py`) | 758 | | |
 | ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 801 | | |
-| Code bytes matched in C | 67,612 / 2,019,536 | 3.3% | `#.............................` |
+| Code bytes matched in C | 68,764 / 2,019,536 | 3.4% | `#.............................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
-| .text words disassembled as instructions | 483,616 / 491,478 | 98.4% | `##############################` |
+| .text words disassembled as instructions | 483,346 / 491,190 | 98.4% | `##############################` |
 
 Functions with a source file come from the game's `__FILE__` debug strings; real names are the descriptive and library names given in `ghidra/scripts/NameFunctions.java`. The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, VU0 macro mode), written as `.word` because clang cannot assemble them.
 
@@ -129,4 +129,4 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `work.cpp` | 36 | 4,400 | 7 | 2.9% |
 | `yokota.cpp` | 40 | 18,260 | 4 | 0.85% |
 | `yue.cpp` | 56 | 36,396 | 24 | 6.0% |
-| `(not attributed)` | 4212 | 1,336,852 | 1160 | 3.5% |
+| `(not attributed)` | 4212 | 1,336,852 | 1161 | 3.6% |
