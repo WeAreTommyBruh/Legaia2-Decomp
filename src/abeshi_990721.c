@@ -9,6 +9,11 @@ typedef struct { char pad[308]; int n; char pad2[412 - 312]; V8 a; V8 b; } Cd;
 /* a record with a countdown at +20 and an 8-byte value at +412 */
 typedef struct { char pad[20]; int n; char pad2[412 - 24]; V8 a; } Fd;
 extern V8 D_004A5A18[2];
+extern V8 D_004A59F8[2];
+extern char D_00489038[];
+void abeshi_0025ee38(void *);
+int abeshi_0025ea38(void *, void *);
+void *MemAllocDbg(int, char *, int);
 
 // MATCH func_0025F1F8
 void abeshi_0025f1f8(int *p, int a)
@@ -37,4 +42,20 @@ int abeshi_0025f740(Fd *o)
         o->a = D_004A5A18[0];
     }
     return 0;
+}
+
+/* resets the record (countdown and the 8-byte value) after a call */
+// MATCH func_0025F250
+int abeshi_0025f250(Cd *o)
+{
+    abeshi_0025ee38(o);
+    o->n = 0;
+    o->a = D_004A59F8[0];
+    return 0;
+}
+
+// MATCH func_0025FE10
+int abeshi_0025fe10(void *o)
+{
+    return abeshi_0025ea38(MemAllocDbg(428, D_00489038, 995), o);
 }

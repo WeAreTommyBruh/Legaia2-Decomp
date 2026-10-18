@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 3.8184025,
+  "fuzzy_match_percent": 3.8249295,
   "total_code": "2022408",
-  "matched_code": "72936",
-  "matched_code_percent": 3.6063938,
+  "matched_code": "73068",
+  "matched_code_percent": 3.612921,
   "total_data": "1768028",
   "matched_data": "108",
   "matched_data_percent": 0.0061085005,
   "total_functions": 6254,
-  "matched_functions": 1752,
-  "matched_functions_percent": 28.01407,
+  "matched_functions": 1754,
+  "matched_functions_percent": 28.046051,
   "total_units": 155
  },
  "units": [
@@ -33009,11 +33009,11 @@
     "total_code": "5112",
     "total_functions": 19,
     "total_units": 1,
-    "fuzzy_match_percent": 3.1298904538341157,
-    "matched_code": "160",
-    "matched_code_percent": 3.1298904538341157,
-    "matched_functions": 7,
-    "matched_functions_percent": 36.8421052631579,
+    "fuzzy_match_percent": 5.712050078247262,
+    "matched_code": "292",
+    "matched_code_percent": 5.712050078247262,
+    "matched_functions": 9,
+    "matched_functions_percent": 47.36842105263158,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -33032,7 +33032,7 @@
      "name": ".text",
      "metadata": {},
      "size": "5144",
-     "fuzzy_match_percent": 3.265940902021773
+     "fuzzy_match_percent": 5.909797822706065
     }
    ],
    "functions": [
@@ -33055,79 +33055,81 @@
      "address": "1024"
     },
     {
-     "name": "abeshi_0025f250",
-     "size": "68",
-     "metadata": {},
-     "address": "1984"
-    },
-    {
      "name": "abeshi_0025f298",
      "size": "236",
      "metadata": {},
-     "address": "2056"
+     "address": "1984"
     },
     {
      "name": "abeshi_0025f388",
      "size": "384",
      "metadata": {},
-     "address": "2296"
+     "address": "2224"
     },
     {
      "name": "abeshi_0025f508",
      "size": "564",
      "metadata": {},
-     "address": "2680"
+     "address": "2608"
     },
     {
      "name": "abeshi_0025f778",
      "size": "44",
      "metadata": {},
-     "address": "3248"
+     "address": "3176"
     },
     {
      "name": "abeshi_0025f7b8",
      "size": "736",
      "metadata": {},
-     "address": "3296"
+     "address": "3224"
     },
     {
      "name": "abeshi_0025fa98",
      "size": "808",
      "metadata": {},
-     "address": "4032"
+     "address": "3960"
     },
     {
      "name": "abeshi_0025fdc8",
      "size": "72",
      "metadata": {},
-     "address": "4840"
-    },
-    {
-     "name": "abeshi_0025fe10",
-     "size": "64",
-     "metadata": {},
-     "address": "4912"
+     "address": "4768"
     },
     {
      "name": "abeshi_0025f1f8",
      "size": "20",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "4976"
+     "address": "4840"
     },
     {
      "name": "abeshi_0025f220",
      "size": "48",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "5000"
+     "address": "4864"
+    },
+    {
+     "name": "abeshi_0025f250",
+     "size": "68",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "4912"
     },
     {
      "name": "abeshi_0025f740",
      "size": "52",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "5048"
+     "address": "4984"
+    },
+    {
+     "name": "abeshi_0025fe10",
+     "size": "64",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "5040"
     },
     {
      "name": "abeshi_0025f210",
@@ -45265,14 +45267,14 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 3.8546965,
+    "fuzzy_match_percent": 3.8739908,
     "total_code": "684140",
-    "matched_code": "23984",
-    "matched_code_percent": 3.5057154,
+    "matched_code": "24116",
+    "matched_code_percent": 3.5250094,
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 590,
-    "matched_functions_percent": 28.893242,
+    "matched_functions": 592,
+    "matched_functions_percent": 28.991184,
     "complete_data_percent": 100.0,
     "total_units": 77
    }
