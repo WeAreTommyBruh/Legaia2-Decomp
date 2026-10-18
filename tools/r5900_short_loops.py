@@ -12,6 +12,9 @@ slot was filled from the loop's top instead (the instruction copied there
 and the label moved past it), the label goes back in front of it. Used for
 the `// compiler: 990721-r5900` files (see tools/asm_build.py).
 
+The same files also get the R5900 divide fix: 991111-01 puts two nops in
+front of every div.s (in `.set noreorder`), 990721 does not.
+
   r5900_short_loops.py IN.s OUT.s
 """
 
@@ -71,6 +74,17 @@ def fix(lines):
                 i += 2
                 continue
         i += 1
+    return fix_div_s(out)
+
+
+def fix_div_s(lines):
+    """Two nops in front of every div.s, as 991111-01 writes them."""
+    out = []
+    for line in lines:
+        if line.split()[:1] == ["div.s"]:
+            out += ["\t.set\tnoreorder\n", "\tnop\n", "\tnop\n", line, "\t.set\treorder\n"]
+        else:
+            out.append(line)
     return out
 
 
