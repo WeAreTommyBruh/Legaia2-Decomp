@@ -16,6 +16,8 @@ under build/objdiff/ and runs `objdiff-cli report generate`:
            relocate alike.
   base     the unit's C files (src/*.c, src/gen/*.c) compiled with ee-gcc;
            units without C have none (0% matched).
+  merge    afterwards the per-file units of a group are folded into one unit
+           named after the group (merge_groups), so a group shows a combined figure.
 The report holds unit and function names, sizes and match percentages only.
 
 Needs disc/SLES_508.91, decomp/functions.csv, clang, ee-gcc and objdiff-cli
@@ -168,6 +170,60 @@ def padded_end(code, base, start, end):
     return end
 
 
+def merge_groups(rep):
+    """One unit per source group: the group's per-file units (and the leftover
+    unit) are folded into one, so a group shows a combined figure. Functions
+    keep their own match percentages; the measures are summed."""
+    groups = collections.OrderedDict()
+    for u in rep["units"]:
+        groups.setdefault(u["name"].split("/")[0], []).append(u)
+    num = lambda m, k: float(m.get(k, 0))
+    units = []
+    for name, us in groups.items():
+        if len(us) == 1:
+            us[0]["name"] = name
+            units.append(us[0])
+            continue
+        funcs, secs, offset = [], collections.OrderedDict(), 0
+        for u in us:
+            for f in u["functions"]:
+                funcs.append({**f, "address": str(offset + int(f.get("address", 0)))})
+            for sec in u["sections"]:
+                t = secs.setdefault(sec["name"], {"size": 0, "w": 0.0, "n": 0})
+                t["size"] += int(sec.get("size", 0))
+                t["w"] += float(sec.get("fuzzy_match_percent", 0)) * int(sec.get("size", 0))
+                t["n"] += 1
+            offset += next((int(x.get("size", 0)) for x in u["sections"] if x["name"] == ".text"), 0)
+        ms = [u["measures"] for u in us]
+        tc, mc = sum(num(m, "total_code") for m in ms), sum(num(m, "matched_code") for m in ms)
+        td, md = sum(num(m, "total_data") for m in ms), sum(num(m, "matched_data") for m in ms)
+        tf, mf = sum(num(m, "total_functions") for m in ms), sum(num(m, "matched_functions") for m in ms)
+        fz = sum(num(m, "fuzzy_match_percent") * num(m, "total_code") for m in ms)
+        out = {"total_code": str(int(tc)), "total_functions": int(tf), "total_units": 1}
+        if tc:
+            out.update(fuzzy_match_percent=fz / tc, matched_code=str(int(mc)), matched_code_percent=100.0 * mc / tc)
+        if tf:
+            out.update(matched_functions=int(mf), matched_functions_percent=100.0 * mf / tf)
+        if td:
+            out.update(total_data=str(int(td)), matched_data=str(int(md)), matched_data_percent=100.0 * md / td)
+        else:
+            out.update(matched_data_percent=100.0, complete_data_percent=100.0)
+        sections = []
+        for n, t in secs.items():
+            d = {"name": n, "metadata": {}}
+            if t["size"]:
+                d.update(size=str(t["size"]), fuzzy_match_percent=t["w"] / t["size"])
+            else:
+                d["fuzzy_match_percent"] = 100.0
+            sections.append(d)
+        units.append({"name": name, "measures": out, "sections": sections, "functions": funcs,
+                      "metadata": us[0]["metadata"]})
+    rep["units"] = units
+    rep["measures"]["total_units"] = len(units)
+    for c in rep["categories"]:
+        c["measures"]["total_units"] = sum(1 for u in units if c["id"] in u["metadata"]["progress_categories"])
+
+
 def main(argv):
     out_json = argv[1] if len(argv) > 1 else os.path.join(ROOT, "report", "report.json")
     clang = asm_build.tool("CLANG", "clang")
@@ -269,7 +325,7 @@ def main(argv):
                     lines.append(f"    .word    {w:#010x}\n")
             if fend >= end:
                 lines.append(f".size {name}, . - {name}\n")
-        if unit in base_info:  # room for the C file's own data, at the same offsets
+        if unit in base_info and not all(a in wip for a, _ in fl):  # room for the C file's own data, at the same offsets
             for sec, size in data_sizes(base_info[unit][0]).items():
                 lines.append(f"\n.section {sec}\n{DATA_RELOC[sec]}:\n    .space {size}\n")
         src = os.path.join(OUT, "target", unit.replace("/", "__") + ".s")
@@ -315,6 +371,8 @@ def main(argv):
     os.makedirs(os.path.dirname(out_json), exist_ok=True)
     subprocess.run([OBJDIFF, "report", "generate", "-p", OUT, "-o", out_json, "-f", "json"], check=True)
     rep = json.load(open(out_json))
+    merge_groups(rep)
+    json.dump(rep, open(out_json, "w"), indent=1)
     m = rep.get("measures", {})
     print(f"wrote {os.path.relpath(out_json, ROOT)}: {m.get('matched_functions', 0)} / "
           f"{m.get('total_functions', 0)} functions, {float(m.get('matched_code_percent', 0)):.2f}% of code")
