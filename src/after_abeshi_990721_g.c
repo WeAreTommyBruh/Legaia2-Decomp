@@ -1,6 +1,9 @@
+/* More of _unknown_after_abeshi, built like after_abeshi_990721.c but also with
+   -fno-cse-skip-blocks (it makes gcc share the high half of an address across the
+   switch cases). Matched by hand. */
 // compiler: 990721-r5900
 // cflags: -fno-thread-jumps -fno-cse-skip-blocks
-#include "../src/common.h"
+#include "common.h"
 typedef struct {
   char unk0[0x78];
   int x78, x7c, x80, x84;
@@ -26,11 +29,13 @@ extern int D_004A12A4;
 extern int D_004A657C, D_004A6580, D_004A6584;
 void FUN_00265db0(int);
 void FUN_00290bd8(int);
-// WIP func_00269FC8
+// MATCH func_00269FC8
 void FUN_00269fc8(int mode)
 {
   int saved[7];
   int a, b, c, i;
+  u8 *g;
+  int t;
   switch (mode) {
   case 2:
     a = 1500;
@@ -47,10 +52,12 @@ void FUN_00269fc8(int mode)
     b = 32000;
     break;
   case 5:
-    if (D_003FEBA8.rec[0].b1ab == 0)
-      D_003FEBA8.rec[0].b1ab = 1;
-    D_003FEBA8.rec[1].xf0 = 0;
-    if (D_004A12A4 == 11) {
+    g = (u8 *)&D_003FEBA8;
+    if (g[6811] == 0)
+      g[6811] = 1;
+    t = D_004A12A4;
+    *(int *)(g + 7096) = 0;
+    if (t == 11) {
       for (i = 0; i < 3; i++) {
         if (D_00314D08[i] == 1)
           D_004A1A20[i].flags |= 0x4000;
@@ -60,10 +67,12 @@ void FUN_00269fc8(int mode)
     b = 120000;
     break;
   case 6:
-    if (D_003FEBA8.rec[0].b1ab == 0)
-      D_003FEBA8.rec[0].b1ab = 1;
-    D_003FEBA8.rec[1].xf0 = 0;
-    if (D_004A12A4 == 11) {
+    g = (u8 *)&D_003FEBA8;
+    if (g[6811] == 0)
+      g[6811] = 1;
+    t = D_004A12A4;
+    *(int *)(g + 7096) = 0;
+    if (t == 11) {
       for (i = 0; i < 3; i++) {
         if (D_00314D08[i] == 1)
           D_004A1A20[i].flags |= 0x4000;
@@ -77,7 +86,6 @@ void FUN_00269fc8(int mode)
     b = 0;
     break;
   }
-  c = a;
   saved[0] = D_00314D08[0];
   saved[1] = D_00314D08[1];
   saved[2] = D_00314D08[2];
@@ -88,7 +96,7 @@ void FUN_00269fc8(int mode)
   D_00314D08[3] = -1;
   D_00314D08[2] = -1;
   D_00314D08[1] = -1;
-  for (i = 0; i < 5; i++) {
+  for (i = 0, c = a; i < 5; i++) {
     D_00314D08[0] = i;
     if (D_003FEBA8.rec[i].x94 < a)
       D_004A657C = a - D_003FEBA8.rec[i].x94;
