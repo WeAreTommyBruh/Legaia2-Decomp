@@ -46,3 +46,36 @@ int FUN_00163ff0(Pair20 *s, int **pp)
     s->b = *p++;
     return 0;
 }
+
+/* work.cpp: a buffer allocated on first use */
+extern char D_0045D4F0[];
+void *MemAllocDbg(int, char *, int);
+typedef struct { char pad[384]; void *buf; } Buf384;
+typedef struct { char pad[388]; void *buf; } Buf388;
+
+// MATCH func_00245E58
+void work_00245e58(Buf384 *s)
+{
+    if (s->buf == 0)
+        s->buf = MemAllocDbg(1024, D_0045D4F0, 28);
+}
+
+// MATCH func_00245EA0
+void work_00245ea0(Buf388 *s)
+{
+    if (s->buf == 0)
+        s->buf = MemAllocDbg(1024, D_0045D4F0, 37);
+}
+
+/* work.cpp: a byte looked up through a table of offsets */
+typedef struct { char pad[152]; int *t; char pad2[188 - 156]; short i; } Tbl;
+
+// MATCH func_002464B0
+int work_002464b0(Tbl *s)
+{
+    int *t = s->t;
+
+    if (t == 0)
+        return 0;
+    return ((u8 *)t)[t[s->i + 1]];
+}
