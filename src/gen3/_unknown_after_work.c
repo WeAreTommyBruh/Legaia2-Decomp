@@ -23,3 +23,9 @@ int FUN_00247a78(float f0)
     return D_004A1528;
 }
 
+// MATCH func_002498D0
+void FUN_002498d0(int a0, int a1)
+{
+    FIELD(u128, a0, 0x0) = FIELD(u128, a1, 0x0);
+}
+

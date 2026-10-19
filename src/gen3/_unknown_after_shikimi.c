@@ -3,6 +3,10 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
+extern char D_002DCF40[];
+extern char D_002DCFA8[];
+extern char D_002DD028[];
+extern char D_002DD090[];
 extern char D_00427DC8[];
 extern char D_0062B900[];
 extern char D_0062CEC0[];
@@ -22,5 +26,23 @@ int FUN_002cd280(int a0, int a1)
     FIELD(int, a1, 0x0) = (int)D_00427DC8;
     FIELD(int, (int)D_0062CEC0, 0x3c) = D_00427DCC[0];
     return (int)D_0062B900;
+}
+
+// MATCH func_002DB958
+void FUN_002db958(int a0, int a1, int a2, int a3)
+{
+    FIELD(s16, a0, 0xc) = a1;
+    FIELD(s16, a0, 0xe) = a2;
+    FIELD(int, a0, 0x20) = (int)D_002DCF40;
+    FIELD(int, a0, 0x24) = (int)D_002DCFA8;
+    FIELD(int, a0, 0x28) = (int)D_002DD028;
+    FIELD(int, a0, 0x2c) = (int)D_002DD090;
+    FIELD(int, a0, 0x0) = 0;
+    FIELD(int, a0, 0x4) = 0;
+    FIELD(int, a0, 0x8) = 0;
+    FIELD(int, a0, 0x10) = 0;
+    FIELD(int, a0, 0x18) = 0;
+    FIELD(int, a0, 0x1c) = a0;
+    FIELD(int, a0, 0x54) = a3;
 }
 

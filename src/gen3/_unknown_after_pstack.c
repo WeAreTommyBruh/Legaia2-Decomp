@@ -3,7 +3,27 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
+extern float D_004A59A8[];
 
+// MATCH func_0025DD78
+int FUN_0025dd78(int a0, int a1, int a2)
+{
+    FIELD(int, a0, 0x4) = a1;
+    FIELD(float, a0, 0x20) = D_004A59A8[0];
+    FIELD(int, a0, 0x38) = a2;
+    FIELD(int, a0, 0x40) = 1;
+    FIELD(int, a0, 0x0) = 0;
+    FIELD(int, a0, 0x8) = 0;
+    FIELD(int, a0, 0xc) = 0;
+    FIELD(int, a0, 0x10) = 0;
+    FIELD(int, a0, 0x14) = 0;
+    FIELD(int, a0, 0x1c) = 0;
+    FIELD(int, a0, 0x24) = 0;
+    FIELD(int, a0, 0x28) = 0;
+    FIELD(int, a0, 0x2c) = 0;
+    FIELD(int, a0, 0x3c) = 0;
+    return a0;
+}
 
 // MATCH func_0025DE20
 void FUN_0025de20(int a0, int a1, float f0)

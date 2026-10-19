@@ -54,7 +54,7 @@ def compile_check(cands, compiler, extra):
         srcp = os.path.join(tmp, "t.c")
         externs = sorted({e for *_, ex in cands for e in ex})
         with open(srcp, "w") as f:
-            f.write(f'#include "{os.path.join(ROOT, "src", "common.h")}"\n' + "\n".join(externs) + "\n")
+            f.write(f'#include "{os.path.join(ROOT, "src", "common.h")}"\ntypedef int u128 __attribute__((mode(TI)));\n' + "\n".join(externs) + "\n")
             for _, _, c, _ in cands:
                 f.write(c)
         obj = os.path.join(tmp, "t.o")

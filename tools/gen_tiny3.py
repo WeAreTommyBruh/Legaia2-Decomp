@@ -202,7 +202,7 @@ def variants(t):
     ret, name, params, stmts, tail, ex = t
     out = []
     n = len(stmts)
-    perms = itertools.permutations(stmts) if n <= 5 else [tuple(stmts)]
+    perms = itertools.permutations(stmts) if n <= 5 else [tuple(stmts[k:] + stmts[:k]) for k in range(n)] + [tuple(stmts[::-1])]
     for p in perms:
         body = list(p) + ([tail] if tail else [])
         out.append(f"{ret} {name}({params})\n{{\n" + "\n".join(body) + "\n}\n")
@@ -230,7 +230,7 @@ def main():
         if count[r["name"]] > 1:
             continue
         addr, size, name = int(r["address"], 16), int(r["size_bytes"]), r["name"]
-        if addr in done or size > 64 or not re.fullmatch(r"[A-Za-z_]\w*", name):
+        if addr in done or size > 96 or not re.fullmatch(r"[A-Za-z_]\w*", name):
             continue
         if not text["addr"] <= addr < text["addr"] + text["size"]:
             continue
