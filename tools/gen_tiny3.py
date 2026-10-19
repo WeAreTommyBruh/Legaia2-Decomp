@@ -206,6 +206,9 @@ def variants(t):
     for p in perms:
         body = list(p) + ([tail] if tail else [])
         out.append(f"{ret} {name}({params})\n{{\n" + "\n".join(body) + "\n}\n")
+        if tail and tail.lstrip().startswith("return") and p:
+            # the register written last may only have been a scratch register
+            out.append(f"void {name}({params})\n{{\n" + "\n".join(p) + "\n}\n")
     return out, ex
 
 

@@ -5,12 +5,28 @@ typedef int u128 __attribute__((mode(TI)));
 
 
 
+// MATCH func_001D8F30
+void nayuki_001d8f30(int a0, int a1)
+{
+    FIELD(float, a0, 0x70) = FIELD(float, a1, 0x0);
+    FIELD(float, a0, 0x74) = FIELD(float, a1, 0x4);
+    FIELD(float, a0, 0x78) = FIELD(float, a1, 0x8);
+}
+
 // MATCH func_001D8F50
 void nayuki_001d8f50(int a0, float f0, float f1, float f2)
 {
     FIELD(float, a0, 0x70) = f0;
     FIELD(float, a0, 0x74) = f1;
     FIELD(float, a0, 0x78) = f2;
+}
+
+// MATCH func_001D8FE8
+void nayuki_001d8fe8(int a0, int a1)
+{
+    FIELD(float, a0, 0x208) = FIELD(float, a1, 0x0);
+    FIELD(float, a0, 0x20c) = FIELD(float, a1, 0x4);
+    FIELD(float, a0, 0x210) = FIELD(float, a1, 0x8);
 }
 
 // MATCH func_001D9008

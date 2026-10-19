@@ -4,6 +4,17 @@
 typedef int u128 __attribute__((mode(TI)));
 
 extern int D_004A1528;
+extern int D_004A7208;
+
+// MATCH func_002474D0
+void FUN_002474d0(int a0)
+{
+    FIELD(int, a0, 0x4) = 0;
+    FIELD(int, a0, 0x40) = -1;
+    FIELD(int, a0, 0x8) = 0;
+    D_004A7208 = -1;
+    FIELD(s16, a0, 0x0) = 0;
+}
 
 // MATCH func_00247A78
 int FUN_00247a78(float f0)

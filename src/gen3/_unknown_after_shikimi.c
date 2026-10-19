@@ -8,6 +8,13 @@ extern char D_0062B900[];
 extern char D_0062CEC0[];
 extern int D_00427DCC[];
 
+// MATCH func_002C2E58
+void FUN_002c2e58(int a0, int a1)
+{
+    FIELD(u64, FIELD(int, a0, 0x40), 0xf0) = a1;
+    FIELD(int, FIELD(int, a0, 0x40), 0xf8) = 1;
+}
+
 // MATCH func_002CD280
 int FUN_002cd280(int a0, int a1)
 {
