@@ -3,7 +3,15 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
+void func_0018C908();
 
+// MATCH func_0018C5C0
+void denlib_0018c5c0(int a0, int a1, int a2)
+{
+    FIELD(int, a0, 0x30) = a1;
+    FIELD(int, a0, 0x34) = a2;
+    func_0018C908(a0);
+}
 
 // MATCH func_0018C7F8
 void denlib_0018c7f8(int a0, int a1)

@@ -3,7 +3,17 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
+void func_001E02A8();
 
+// MATCH func_001E0188
+void mizuki_001e0188(int a0, float f0, float f1, float f2)
+{
+    FIELD(float, a0, 0x70) = f0;
+    FIELD(float, a0, 0x78) = f2;
+    FIELD(float, a0, 0x74) = f1;
+    FIELD(float, a0, 0xcc) = f1;
+    func_001E02A8(a0);
+}
 
 // MATCH func_001E01A0
 void mizuki_001e01a0(int a0, float f0, float f1, float f2)

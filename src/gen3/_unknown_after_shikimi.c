@@ -11,6 +11,47 @@ extern char D_00427DC8[];
 extern char D_0062B900[];
 extern char D_0062CEC0[];
 extern int D_00427DCC[];
+void func_00295B88();
+void func_002A7350();
+void func_002A8EB0();
+void func_002A8F30();
+
+// MATCH func_002BEC08
+void FUN_002bec08(int a0, int a1)
+{
+    FIELD(int, a0, 0x7c) = 11;
+    FIELD(int, a0, 0x84) = a1;
+    FIELD(int, a0, 0x80) = 0;
+    FIELD(int, a0, 0x88) = 0;
+    func_00295B88(a0);
+}
+
+// MATCH func_002BEC28
+void FUN_002bec28(int a0, float f0, float f1, float f2)
+{
+    FIELD(float, a0, 0x10) = f0;
+    FIELD(float, a0, 0xc) = f1;
+    FIELD(float, a0, 0x14) = f2;
+    func_002A8F30(a0);
+}
+
+// MATCH func_002BEC40
+void FUN_002bec40(int a0, float f0, float f1, float f2)
+{
+    FIELD(float, a0, 0x0) = f0;
+    FIELD(float, a0, 0x4) = f1;
+    FIELD(float, a0, 0x8) = f2;
+    func_002A8EB0(a0);
+}
+
+// MATCH func_002BEC58
+void FUN_002bec58(int a0, float f0, float f1, float f2)
+{
+    FIELD(float, a0, 0x18) = f0;
+    FIELD(float, a0, 0x1c) = f1;
+    FIELD(float, a0, 0x20) = f2;
+    func_002A7350(a0);
+}
 
 // MATCH func_002C2E58
 void FUN_002c2e58(int a0, int a1)

@@ -159,6 +159,7 @@ def translate(name, ins):
             continue
         return None
     tail = None
+    tailcall = None
     ret = "void"
     if jump[0] == "j":
         m = re.fullmatch(r"func_([0-9A-F]{8})", jump[1])
@@ -179,6 +180,7 @@ def translate(name, ins):
                 return None
             args.append(v)
         tail = f"    {callee}({', '.join(args)});"
+        tailcall = (callee, args)
         externs.add(f"void {callee}();")
     else:
         if 2 in iw:
@@ -195,21 +197,30 @@ def translate(name, ins):
     ni = max(iread, default=3) - 3
     nf = max(fread, default=11) - 11
     params = [f"int a{i}" for i in range(ni)] + [f"float f{i}" for i in range(nf)]
-    return ret, name, ", ".join(params) or "void", stmts, tail, sorted(externs)
+    return ret, name, ", ".join(params) or "void", stmts, tail, sorted(externs), tailcall
 
 
 def variants(t):
-    ret, name, params, stmts, tail, ex = t
+    ret, name, params, stmts, tail, ex, tailcall = t
     out = []
+    tails = [(tail, ex)]
+    if tailcall:
+        callee, args = tailcall
+        for k in range(len(args) - 1, -1, -1):
+            tails.append((f"    {callee}({', '.join(args[:k])});", ex))
     n = len(stmts)
     perms = itertools.permutations(stmts) if n <= 5 else [tuple(stmts[k:] + stmts[:k]) for k in range(n)] + [tuple(stmts[::-1])]
     for p in perms:
-        body = list(p) + ([tail] if tail else [])
-        out.append(f"{ret} {name}({params})\n{{\n" + "\n".join(body) + "\n}\n")
-        if tail and tail.lstrip().startswith("return") and p:
-            # the register written last may only have been a scratch register
-            out.append(f"void {name}({params})\n{{\n" + "\n".join(p) + "\n}\n")
-    return out, ex
+        for tail, ex in tails:
+            body = list(p) + ([tail] if tail else [])
+            out.append((f"{ret} {name}({params})\n{{\n" + "\n".join(body) + "\n}\n", ex))
+            if tail and tail.lstrip().startswith("return") and p:
+                out.append((f"void {name}({params})\n{{\n" + "\n".join(p) + "\n}\n", ex))
+            if tail and re.match(r"\s+func_[0-9A-F]{8}\(", tail):
+                rt = "    return " + tail.lstrip()
+                ex2 = [e.replace("void func_", "int func_") if e.startswith("void func_") else e for e in ex]
+                out.append((f"int {name}({params})\n{{\n" + "\n".join(list(p) + [rt]) + "\n}\n", ex2))
+    return out
 
 
 def main():
@@ -246,8 +257,7 @@ def main():
                 ins.pop()
             t = translate(name, ins)
             if t:
-                vs, ex = variants(t)
-                for v in vs:
+                for v, ex in variants(t):
                     cands.append((addr, name, v, ex, r["group"] or "none"))
     print(len(cands), "variants")
     found = {}
