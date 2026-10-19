@@ -93,6 +93,20 @@ def symbols_and_relocs(obj):
             if callee is None:
                 raise SystemExit(f"{obj}: call at {off:#x} to an unknown local target")
             relocs[off] = (t, callee, word & ~0x03FFFFFF)
+        elif not sym and t in (5, 6):
+            # the address of a function in this file (lui/addiu pair against the section)
+            def lo16(w):
+                v = w & 0xFFFF
+                return v - 0x10000 if v & 0x8000 else v
+            if t == 6:
+                target = lo16(word)
+            else:  # HI16: take the addend from the next LO16 against a section
+                nxt = [r for o2, r in sorted(relocs.items()) if o2 > off and r[0] == 6 and not r[1]]
+                target = lo16(nxt[0][2]) if nxt else 0
+            callee = by_off.get(target)
+            if callee is None:
+                raise SystemExit(f"{obj}: address of an unknown local target at {off:#x}")
+            relocs[off] = (t, callee, word)
         elif not sym:
             raise SystemExit(f"{obj}: relocation type {t} at {off:#x} against a section")
     return funcs, relocs
