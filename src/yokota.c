@@ -22,6 +22,29 @@ void FUN_002467f8(int, void (*)(void));
 void work_00246800(int);
 void object_00242f40(void *);
 
+extern void (*D_004A1360)(void);
+extern void (*D_004A1364)(void);
+extern int D_004A12A4, D_004A71AC, D_004A1448;
+extern long D_004A1300, D_004A12F0, D_004A12E8;
+extern char D_0045C9C0[];
+extern char D_00343028[];
+void FUN_00110490(void);
+void yokota_0023ccf0(void);
+void FUN_0024a3b8(void);
+void init_0024a510(void);
+void yokota_0023efb8(void);
+void init_0024ad58(int, int, int, int);
+void *MemAllocDbg(int, char *, int);
+void FUN_001976b8(void);
+void FUN_0010e368(char *);
+void FUN_002a1988(void);
+void FUN_0010a458(char *, int, int, int);
+extern char D_0045CE40[], D_0045CE50[], D_0045CE60[], D_00320980[], D_0603D040[], D_004A5518[], D_004A5520[];
+extern int D_004A140C;
+char *strcpy(char *, const char *);
+void FUN_00245db8(char *, char *, void *);
+int yokota_0023f108(int);
+
 // MATCH func_0023CFF0
 void yokota_0023cff0(void)
 {
@@ -91,4 +114,45 @@ void yokota_0023f090(int a, int b, int c, int d)
     D_004A1478 = d;
     D_004A146C = 1;
     D_004A149C = 1;
+}
+
+// MATCH func_0023CC28
+void yokota_0023cc28(void)
+{
+    D_004A1360 = FUN_00110490;
+    D_004A1364 = yokota_0023ccf0;
+    D_004A12A4 = 0x13;
+    FUN_0024a3b8();
+    init_0024a510();
+    yokota_0023efb8();
+    init_0024ad58(0, 0x40, 0x80, 0x80);
+    D_004A1448 = 0;
+    D_004A1300 = 0;
+    D_004A12F0 = 0;
+    D_004A12E8 = 0;
+    D_004A71AC = (int)MemAllocDbg(0x200000, D_0045C9C0, 964);
+    FUN_001976b8();
+    FUN_0010e368(D_00343028);
+    FUN_002a1988();
+    FUN_0010a458(D_00343028, 0, 100, 100);
+    FUN_0010a458(D_00343028, 1, 100, 100);
+}
+
+// MATCH func_0023F108
+int yokota_0023f108(int flags)
+{
+  if (flags == 0) return 0;
+  if ((flags & 2) != 0) {
+    DbgPrintf(D_0045CE40, D_00320980);
+    strcpy(D_0603D040, D_00320980);
+    return 0;
+  }
+  if ((flags & 8) != 0) {
+    DbgPrintf(D_004A5518);
+    FUN_00245db8(D_0045CE50, D_004A5520, yokota_0023f108);
+    return 0;
+  }
+  if ((D_004A140C & 8) != 0)
+    yokota_0023f090(100, 100, (int)D_0045CE60, (int)yokota_0023f108);
+  return 0;
 }
