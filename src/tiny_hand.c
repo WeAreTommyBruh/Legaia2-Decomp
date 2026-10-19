@@ -105,3 +105,47 @@ void work_00245f98(void *p, int flags)
     if (flags & 1)
         func_00108B80(p);
 }
+
+/* work.cpp */
+typedef struct { char pad[8]; int f8; char pad2[412 - 12]; int p; } Obj412;
+void func_00246368(Obj412 *);
+void func_00246DC0(Obj412 *);
+void func_00245FE8(int);
+
+// MATCH func_00246140
+void work_00246140(Obj412 *s)
+{
+    func_00246368(s);
+    func_00246DC0(s);
+    if (s->p != 0)
+        func_00245FE8(s->p);
+    s->p = 0;
+    s->f8 = 0;
+}
+
+/* unlinks a node from its list and pushes it on a stack of removed nodes */
+typedef struct LNode LNode;
+typedef struct { char pad[16]; LNode *last; } LList;
+struct LNode { LNode *next; LNode *prev; LList *list; };
+typedef struct { int n; int pad[3]; LNode *a[1]; } LStack;
+extern LStack D_002F9800;
+
+// MATCH func_00246DC0
+void work_00246dc0(LNode *n)
+{
+    LList *l = n->list;
+    LNode *next, *prev;
+
+    if (l == 0)
+        return;
+    next = n->next;
+    prev = n->prev;
+    *(LNode **)((char *)&D_002F9800 + 16 + 4 * ++D_002F9800.n) = n;
+    if (next == 0) {
+        l->last = prev;
+        prev->next = 0;
+    } else {
+        next->prev = prev;
+        prev->next = next;
+    }
+}
