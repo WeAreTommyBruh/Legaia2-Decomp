@@ -79,3 +79,29 @@ int work_002464b0(Tbl *s)
         return 0;
     return ((u8 *)t)[t[s->i + 1]];
 }
+
+/* work.cpp: the address of entry idx of a table of offsets (0 when out of range) */
+typedef struct { char pad[152]; int *t; } Tbl2;
+
+// MATCH func_00246A40
+int work_00246a40(Tbl2 *s, int idx)
+{
+    int *t = s->t;
+
+    if (t == 0)
+        return 0;
+    if (idx < 0 || (unsigned)idx >= (unsigned)t[0])
+        return 0;
+    return (int)t + t[idx + 1] + 8;
+}
+
+void func_00246140(void *);
+void func_00108B80(void *);
+
+// MATCH func_00245F98
+void work_00245f98(void *p, int flags)
+{
+    func_00246140(p);
+    if (flags & 1)
+        func_00108B80(p);
+}
