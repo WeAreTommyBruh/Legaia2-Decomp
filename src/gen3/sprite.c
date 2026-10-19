@@ -3,7 +3,8 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
-
+extern char D_00454020[];
+void func_00201B78();
 
 // MATCH func_00201BF8
 void sprite_00201bf8(int a0, float f0, float f1)
@@ -24,5 +25,12 @@ void sprite_00201c38(int a0, float f0, float f1)
 {
     FIELD(float, a0, 0x24) = f0;
     FIELD(float, a0, 0x28) = f1;
+}
+
+// MATCH func_00202228
+void sprite_00202228(int a0)
+{
+    FIELD(int, a0, 0x4c) = (int)D_00454020;
+    func_00201B78(a0);
 }
 

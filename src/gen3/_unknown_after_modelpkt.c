@@ -3,7 +3,7 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
-
+void func_001809C8();
 
 // MATCH func_00180A20
 void FUN_00180a20(int a0, float f0, float f1, float f2)
@@ -21,5 +21,13 @@ void FUN_00180a38(int a0, float f0, float f1, float f2)
     FIELD(float, a0, 0x20) = f0;
     FIELD(float, a0, 0x28) = f1;
     FIELD(float, a0, 0x2c) = f2;
+}
+
+// MATCH func_00180A58
+void FUN_00180a58(int a0)
+{
+    FIELD(float, a0, 0x10) = FIELD(float, a0, 0x14);
+    FIELD(float, a0, 0x20) = FIELD(float, a0, 0x24);
+    func_001809C8(a0);
 }
 

@@ -3,7 +3,14 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
+void func_00246550();
 
+// MATCH func_00229860
+void FUN_00229860(int a0)
+{
+    FIELD(s8, a0, 0xd2) = 0;
+    func_00246550(a0);
+}
 
 // MATCH func_0022AC40
 void FUN_0022ac40(int a0, int a1, int a2, int a3, int a4, int a5, int a6)

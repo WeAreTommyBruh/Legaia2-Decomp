@@ -165,8 +165,8 @@ def translate(name, ins):
         if not m:
             return None
         callee = f"func_{m.group(1)}"
-        li = max([r for r in range(4, 12) if r in iw], default=3)
-        lf = max([r for r in range(12, 20) if r in fw], default=11)
+        li = max([r for r in range(4, 12) if r in iw or r in iread], default=3)
+        lf = max([r for r in range(12, 20) if r in fw or r in fread], default=11)
         args = []
         for r in range(4, li + 1):
             v = ival(r)

@@ -3,7 +3,15 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
+extern char D_0044B3D0[];
+void func_001E2400();
 
+// MATCH func_001D82B8
+void nayuki_001d82b8(int a0)
+{
+    FIELD(int, a0, 0x64) = (int)D_0044B3D0;
+    func_001E2400(a0);
+}
 
 // MATCH func_001D8F30
 void nayuki_001d8f30(int a0, int a1)
