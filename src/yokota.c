@@ -66,6 +66,8 @@ extern char D_0045CE70[], D_004A5528[], D_004A5530[], D_004A5538[];
 int FUN_0023b5d0(int, int, int, int, int);
 void FUN_00239568(char *, ...);
 
+void thunk_FUN_0021b600(P *);
+
 // MATCH func_0023CFF0
 void yokota_0023cff0(void)
 {
@@ -240,4 +242,16 @@ int yokota_0023f1c8(int a, int b)
       col = 0x808080;
     FUN_00239568(D_004A5538, col, a2, b);
     return ret;
+}
+
+// MATCH func_0023DFB0
+void yokota_0023dfb0(P *p)
+{
+    FUN_00249108();
+    thunk_FUN_00231ef0(p->f32, p->f36, p->f40);
+    FUN_00248cf8(0, p->f64);
+    FUN_00248cf8(1, p->f68);
+    FUN_00248cf8(2, p->f72);
+    thunk_FUN_0021b600(p);
+    FUN_002491d8();
 }

@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 3.93646,
+  "fuzzy_match_percent": 3.9412067,
   "total_code": "2022408",
-  "matched_code": "76408",
-  "matched_code_percent": 3.7780707,
+  "matched_code": "76504",
+  "matched_code_percent": 3.7828174,
   "total_data": "1768056",
   "matched_data": "136",
   "matched_data_percent": 0.0076920637,
   "total_functions": 6254,
-  "matched_functions": 1773,
-  "matched_functions_percent": 28.349855,
+  "matched_functions": 1774,
+  "matched_functions_percent": 28.365845,
   "total_units": 155
  },
  "units": [
@@ -29107,11 +29107,11 @@
     "total_code": "18252",
     "total_functions": 40,
     "total_units": 1,
-    "fuzzy_match_percent": 11.198772737234275,
-    "matched_code": "2044",
-    "matched_code_percent": 11.198772737234275,
-    "matched_functions": 19,
-    "matched_functions_percent": 47.5,
+    "fuzzy_match_percent": 11.724742493973263,
+    "matched_code": "2140",
+    "matched_code_percent": 11.724742493973263,
+    "matched_functions": 20,
+    "matched_functions_percent": 50.0,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -29130,7 +29130,7 @@
      "name": ".text",
      "metadata": {},
      "size": "18312",
-     "fuzzy_match_percent": 11.314984709480122
+     "fuzzy_match_percent": 11.839231105286151
     }
    ],
    "functions": [
@@ -29163,121 +29163,122 @@
      "address": "272"
     },
     {
+     "name": "yokota_0023dfb0",
+     "size": "96",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "304"
+    },
+    {
      "name": "yokota_0023e7a0",
      "size": "28",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "304"
+     "address": "400"
     },
     {
      "name": "yokota_0023ee78",
      "size": "16",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "336"
+     "address": "432"
     },
     {
      "name": "yokota_0023ee88",
      "size": "300",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "352"
+     "address": "448"
     },
     {
      "name": "yokota_0023efb8",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "656"
+     "address": "752"
     },
     {
      "name": "yokota_0023f070",
      "size": "28",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "720"
+     "address": "816"
     },
     {
      "name": "yokota_0023f090",
      "size": "120",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "752"
+     "address": "848"
     },
     {
      "name": "yokota_0023f108",
      "size": "192",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "872"
+     "address": "968"
     },
     {
      "name": "yokota_0023f1c8",
      "size": "264",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1064"
+     "address": "1160"
     },
     {
      "name": "yokota_0023fa50",
      "size": "112",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1328"
+     "address": "1424"
     },
     {
      "name": "yokota_0023ccf0",
      "size": "764",
      "metadata": {},
-     "address": "1440"
+     "address": "1536"
     },
     {
      "name": "yokota_0023d058",
      "size": "548",
      "metadata": {},
-     "address": "2208"
+     "address": "2304"
     },
     {
      "name": "yokota_0023d280",
      "size": "968",
      "metadata": {},
-     "address": "2760"
+     "address": "2856"
     },
     {
      "name": "yokota_0023d648",
      "size": "784",
      "metadata": {},
-     "address": "3728"
+     "address": "3824"
     },
     {
      "name": "yokota_0023d958",
      "size": "488",
      "metadata": {},
-     "address": "4512"
+     "address": "4608"
     },
     {
      "name": "yokota_0023db40",
      "size": "728",
      "metadata": {},
-     "address": "5000"
+     "address": "5096"
     },
     {
      "name": "yokota_0023de38",
      "size": "180",
      "metadata": {},
-     "address": "5728"
+     "address": "5824"
     },
     {
      "name": "yokota_0023def0",
      "size": "192",
      "metadata": {},
-     "address": "5912"
-    },
-    {
-     "name": "yokota_0023dfb0",
-     "size": "96",
-     "metadata": {},
-     "address": "6104"
+     "address": "6008"
     },
     {
      "name": "yokota_0023e010",
@@ -45292,16 +45293,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 4.1949778,
+    "fuzzy_match_percent": 4.2090096,
     "total_code": "684140",
-    "matched_code": "26312",
-    "matched_code_percent": 3.8459964,
+    "matched_code": "26408",
+    "matched_code_percent": 3.8600287,
     "total_data": "8",
     "matched_data": "8",
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 609,
-    "matched_functions_percent": 29.823702,
+    "matched_functions": 610,
+    "matched_functions_percent": 29.872673,
     "total_units": 77
    }
   },
