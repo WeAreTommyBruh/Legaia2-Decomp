@@ -149,3 +149,41 @@ void work_00246dc0(LNode *n)
         prev->next = next;
     }
 }
+
+/* work.cpp: calls the callback of every node of a list that is not flagged */
+typedef struct CbNode CbNode;
+struct CbNode { CbNode *next; int pad[4]; void (*cb)(CbNode *); int flags; };
+typedef struct { CbNode *head; } CbList;
+
+// MATCH func_00246B98
+void work_00246b98(CbList *l)
+{
+    CbNode *n;
+    CbNode *nx = l->head;
+
+    if (nx != 0) {
+        do {
+            n = nx;
+            nx = n->next;
+            if ((n->flags & 0x2000a) == 0 && n->cb != 0)
+                n->cb(n);
+        } while (nx != 0);
+    }
+}
+
+/* nayuki.cpp: a 4-vector (x, y, z, 1) picked from a matrix-like block */
+typedef struct { float a, b, c, d; } V4 __attribute__((aligned(8)));
+typedef struct { char pad[536]; float x; char p1[616 - 540]; float y; char p2[696 - 620]; float z; } Mat;
+
+// MATCH func_001D9018
+V4 *nayuki_001d9018(V4 *o, Mat *s)
+{
+    V4 t;
+
+    t.a = s->x;
+    t.b = s->y;
+    t.c = s->z;
+    t.d = 1.0f;
+    *o = t;
+    return o;
+}

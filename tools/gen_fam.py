@@ -154,7 +154,23 @@ def fam_setf_call2(t, name):
     body = f"void {name}(S *s, float x)\n{{\n    s->v = x;\n    {g[0]}(s);\n    {g[2]}(s);\n}}\n"
     return src, ex, body
 
-FAMILIES = [fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
+
+def fam_copy16_ret(t, name):
+    """d->v = s->v (16 bytes, unaligned); return d;"""
+    g = match([r"ldl \$3, (\d+)\(\$5\)", r"ldr \$3, (\d+)\(\$5\)", r"ldl \$6, (\d+)\(\$5\)", r"ldr \$6, (\d+)\(\$5\)",
+               r"sdl \$3, (\d+)\(\$4\)", r"sdr \$3, (\d+)\(\$4\)", r"sdl \$6, (\d+)\(\$4\)", r"sdr \$6, (\d+)\(\$4\)", r"jr \$31", r"daddu \$2, \$4, \$0"], t)
+    if not g:
+        return None
+    soff, doff = int(g[1]), int(g[5])
+    if int(g[0]) != soff + 7 or int(g[2]) != soff + 15 or int(g[3]) != soff + 8 or int(g[4]) != doff + 7 or int(g[6]) != doff + 15 or int(g[7]) != doff + 8:
+        return None
+    pd = f"char pad[{doff}]; " if doff else ""
+    ps = f"char pad[{soff}]; " if soff else ""
+    src = f"typedef struct {{ char c[16]; }} V8;\ntypedef struct {{ {pd}V8 v; }} D;\ntypedef struct {{ {ps}V8 v; }} S;\n"
+    body = f"D *{name}(D *d, S *s)\n{{\n    d->v = s->v;\n    return d;\n}}\n"
+    return src, [], body
+
+FAMILIES = [fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
 
 
 def main():
@@ -213,6 +229,7 @@ def main():
                 text_ = re.sub(r"\bS\b", "S_" + sfx, text_)
                 text_ = re.sub(r"\bItem\b", "Item_" + sfx, text_)
                 text_ = re.sub(r"\bV8\b", "V8_" + sfx, text_)
+                text_ = re.sub(r"\bD\b", "D_" + sfx, text_)
                 f.write("\n" + text_)
     print(tried, "candidates,", len(found), "matched")
 
