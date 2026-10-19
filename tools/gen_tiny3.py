@@ -86,6 +86,11 @@ def translate(name, ins):
         b = ival(base)
         if b is None or b == "0":
             return None
+        m = re.fullmatch(r"\(int\)(D_[0-9A-F]{8})", b)
+        if m:
+            size = {"int": 4, "u64": 8, "u128": 16, "s16": 2, "u16": 2, "s8": 1, "u8": 1, "float": 4}[t]
+            if off % size == 0:
+                return f"(({t} *){m.group(1)})[{off // size}]"
         return f"FIELD({t}, {b}, {off:#x})"
 
     for mn, ops in body:
@@ -200,6 +205,20 @@ def translate(name, ins):
     return ret, name, ", ".join(params) or "void", stmts, tail, sorted(externs), tailcall
 
 
+
+def fix_arrays(text, ex):
+    """A symbol only ever accessed as ((T *)sym)[i] is declared as T sym[]."""
+    ex = list(ex)
+    for sym in set(re.findall(r"\(\(\w+ \*\)(D_[0-9A-F]{8})\)\[", text)):
+        types = set(re.findall(r"\(\((\w+) \*\)" + sym + r"\)\[", text))
+        uses = len(re.findall(sym + r"\b", text))
+        typed = len(re.findall(r"\(\(\w+ \*\)" + sym + r"\)\[", text))
+        if len(types) == 1 and uses == typed:
+            ty = types.pop()
+            text = re.sub(r"\(\(\w+ \*\)" + sym + r"\)\[", sym + "[", text)
+            ex = [e for e in ex if e != f"extern char {sym}[];"] + [f"extern {ty} {sym}[];"]
+    return text, ex
+
 def variants(t):
     ret, name, params, stmts, tail, ex, tailcall = t
     out = []
@@ -213,13 +232,13 @@ def variants(t):
     for p in perms:
         for tail, ex in tails:
             body = list(p) + ([tail] if tail else [])
-            out.append((f"{ret} {name}({params})\n{{\n" + "\n".join(body) + "\n}\n", ex))
+            out.append(fix_arrays(f"{ret} {name}({params})\n{{\n" + "\n".join(body) + "\n}\n", ex))
             if tail and tail.lstrip().startswith("return") and p:
-                out.append((f"void {name}({params})\n{{\n" + "\n".join(p) + "\n}\n", ex))
+                out.append(fix_arrays(f"void {name}({params})\n{{\n" + "\n".join(p) + "\n}\n", ex))
             if tail and re.match(r"\s+func_[0-9A-F]{8}\(", tail):
                 rt = "    return " + tail.lstrip()
                 ex2 = [e.replace("void func_", "int func_") if e.startswith("void func_") else e for e in ex]
-                out.append((f"int {name}({params})\n{{\n" + "\n".join(list(p) + [rt]) + "\n}\n", ex2))
+                out.append(fix_arrays(f"int {name}({params})\n{{\n" + "\n".join(list(p) + [rt]) + "\n}\n", ex2))
     return out
 
 

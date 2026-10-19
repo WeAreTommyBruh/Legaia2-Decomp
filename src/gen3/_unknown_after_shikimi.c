@@ -65,7 +65,7 @@ int FUN_002cd280(int a0, int a1)
 {
     FIELD(int, a0, 0x0) = (int)D_0062CEC0;
     FIELD(int, a1, 0x0) = (int)D_00427DC8;
-    FIELD(int, (int)D_0062CEC0, 0x3c) = D_00427DCC[0];
+    ((int *)D_0062CEC0)[15] = D_00427DCC[0];
     return (int)D_0062B900;
 }
 

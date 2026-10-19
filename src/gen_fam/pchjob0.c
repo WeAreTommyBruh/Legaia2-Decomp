@@ -3,7 +3,7 @@
 
 typedef struct { char pad[528]; int v; } Item_00204CF8;
 typedef struct { int n; Item_00204CF8 *a[8]; } S_00204CF8;
-void func_00203D58(Item_00204CF8 *);
+void func_00203D58(void *);
 // MATCH func_00204CF8
 void pchjob0_00204cf8(S_00204CF8 *s)
 {
@@ -19,7 +19,7 @@ void pchjob0_00204cf8(S_00204CF8 *s)
 
 typedef struct { char pad[528]; int v; } Item_00204D30;
 typedef struct { int n; Item_00204D30 *a[8]; } S_00204D30;
-void func_00203DB8(Item_00204D30 *);
+void func_00203DB8(void *);
 // MATCH func_00204D30
 void pchjob0_00204d30(S_00204D30 *s)
 {
@@ -35,7 +35,7 @@ void pchjob0_00204d30(S_00204D30 *s)
 
 typedef struct { char pad[528]; int v; } Item_00204E20;
 typedef struct { int n; Item_00204E20 *a[8]; } S_00204E20;
-void func_00203EC0(Item_00204E20 *);
+void func_00203EC0(void *);
 // MATCH func_00204E20
 void pchjob0_00204e20(S_00204E20 *s)
 {
@@ -51,7 +51,7 @@ void pchjob0_00204e20(S_00204E20 *s)
 
 typedef struct { char pad[528]; int v; } Item_00204E58;
 typedef struct { int n; Item_00204E58 *a[8]; } S_00204E58;
-void func_00203F40(Item_00204E58 *);
+void func_00203F40(void *);
 // MATCH func_00204E58
 void pchjob0_00204e58(S_00204E58 *s)
 {

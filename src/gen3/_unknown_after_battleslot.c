@@ -5,6 +5,7 @@ typedef int u128 __attribute__((mode(TI)));
 
 extern float D_004A0D14;
 extern float D_004A11F8;
+extern int D_00425710[];
 extern int D_004A1448;
 extern int D_004A6830;
 extern int D_004A6B28;
@@ -61,6 +62,30 @@ void FUN_00299120(void)
     D_004A11F8 = D_004A0D14;
     D_004A1448 = D_004A6830;
     D_004A6B60 = 1;
+}
+
+// MATCH func_0029B790
+void FUN_0029b790(int a0, int a1)
+{
+    D_00425710[46] = a1;
+    D_00425710[47] = 0;
+    D_00425710[48] = 0;
+}
+
+// MATCH func_0029B7D0
+void FUN_0029b7d0(int a0, int a1)
+{
+    D_00425710[47] = a1;
+    D_00425710[46] = 0;
+    D_00425710[48] = 0;
+}
+
+// MATCH func_0029B810
+void FUN_0029b810(int a0, int a1)
+{
+    D_00425710[48] = a1;
+    D_00425710[47] = 0;
+    D_00425710[46] = 0;
 }
 
 // MATCH func_0029B890

@@ -81,7 +81,7 @@ def fam_top_cond(t, name):
         return None
     off = int(g[0])
     src = f"typedef struct {{ char pad[{off}]; int v; }} Item;\ntypedef struct {{ int n; Item *a[8]; }} S;\n"
-    ex = [f"void {g[2]}(Item *);"]
+    ex = [f"void {g[2]}(void *);"]
     body = f"void {name}(S *s)\n{{\n    Item *t;\n    int n = s->n;\n\n    if (n > 0) {{\n        t = s->a[n - 1];\n        if (t->v < {g[1]})\n            {g[2]}(t);\n    }}\n}}\n"
     return src, ex, body
 
@@ -141,7 +141,20 @@ def fam_call_and(t, name):
     body = f"int {name}(void)\n{{\n    return ({g[0]}() & {g[1]}) > 0;\n}}\n"
     return "", ex, body
 
-FAMILIES = [fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
+
+def fam_setf_call2(t, name):
+    """o->f = x; A(o); B(o);   (A and B take o; x stays in $f12 for A)"""
+    g = match([r"addiu \$29, \$29, -32", r"sd \$16, 0\(\$29\)", r"daddu \$16, \$4, \$0", r"sd \$31, 16\(\$29\)", r"jal (func_\w+)", r"swc1 \$f12, (\d+)\(\$16\)",
+               r"daddu \$4, \$16, \$0", r"ld \$31, 16\(\$29\)", r"ld \$16, 0\(\$29\)", r"j (func_\w+)", r"addiu \$29, \$29, 32"], t)
+    if not g:
+        return None
+    off = int(g[1])
+    src = f"typedef struct {{ char pad[{off}]; float v; }} S;\n"
+    ex = [f"void {g[0]}(void *);", f"void {g[2]}(void *);"]
+    body = f"void {name}(S *s, float x)\n{{\n    s->v = x;\n    {g[0]}(s);\n    {g[2]}(s);\n}}\n"
+    return src, ex, body
+
+FAMILIES = [fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
 
 
 def main():
