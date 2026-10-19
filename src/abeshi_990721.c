@@ -9,6 +9,8 @@ typedef struct { char pad[308]; int n; char pad2[412 - 312]; V8 a; V8 b; } Cd;
 /* a record with a countdown at +20 and an 8-byte value at +412 */
 typedef struct { char pad[20]; int n; char pad2[412 - 24]; V8 a; } Fd;
 extern V8 D_004A5A18[2];
+extern char D_00489110[];
+int DbgPrintf(char *, ...);
 extern V8 D_004A5A00[2];
 void FUN_0025de00(void *, float);
 extern V8 D_004A59F8[2];
@@ -83,4 +85,13 @@ int abeshi_0025f298(Fade *o)
     o->a = D_004A5A00[0];
   }
   return 0;
+}
+
+/* prints the three words when the first is not the sum of the other two, and returns the last */
+// MATCH func_0025FDC8
+int abeshi_0025fdc8(int *o)
+{
+    if (o[0] != o[2] + o[3])
+        DbgPrintf(D_00489110, o[0], o[2], o[3]);
+    return o[3];
 }
