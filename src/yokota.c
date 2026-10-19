@@ -3,6 +3,13 @@
 
 extern int D_004A13AC, D_004A14D0, D_004A5580, D_004A717C, D_004A71D8;
 extern char D_005F7560[];
+extern char D_0045CE30[];
+extern int D_0603D140[4], D_0603D144[4], D_0603D148[4];
+extern int D_004A1478, D_004A149C, D_004A146C;
+extern int D_002F9800[];
+int DbgPrintf(char *, ...);
+void FUN_0024a138(void);
+int FUN_0024a190(void);
 typedef struct { char pad[56]; int a; int b; int c; } Obj;
 extern Obj D_005F7500;
 typedef struct { char pad[148]; int f; } Thing;
@@ -63,4 +70,25 @@ int yokota_0023f070(int a, int b)
         return;
     }
     return 1;
+}
+
+// MATCH func_0023EFB8
+void yokota_0023efb8(void)
+{
+    FUN_0024a138();
+    D_002F9800[1] = FUN_0024a190();
+    D_002F9800[2] = FUN_0024a190();
+    D_002F9800[3] = FUN_0024a190();
+}
+
+// MATCH func_0023F090
+void yokota_0023f090(int a, int b, int c, int d)
+{
+    DbgPrintf(D_0045CE30);
+    D_0603D140[0] = a;
+    D_0603D144[0] = b;
+    D_0603D148[0] = c;
+    D_004A1478 = d;
+    D_004A146C = 1;
+    D_004A149C = 1;
 }
