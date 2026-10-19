@@ -19,6 +19,13 @@ extern int D_004A6B60;
 extern int D_004A6B64;
 extern int D_004A6B68;
 extern int D_004A6B6C;
+void func_00164928();
+
+// MATCH func_00295078
+void dup_00295078(void)
+{
+    func_00164928();
+}
 
 // MATCH func_00295110
 int FUN_00295110(int a0)

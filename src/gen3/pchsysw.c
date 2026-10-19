@@ -4,6 +4,7 @@
 typedef int u128 __attribute__((mode(TI)));
 
 void func_0012D980();
+void func_0012EDE8();
 
 // MATCH func_0012D970
 void pchsysw_0012d970(int a0)
@@ -11,5 +12,11 @@ void pchsysw_0012d970(int a0)
     FIELD(int, a0, 0x0) = 0;
     FIELD(int, a0, 0x4) = 0;
     func_0012D980(a0);
+}
+
+// MATCH func_0012EE28
+void dup_0012ee28(void)
+{
+    func_0012EDE8();
 }
 

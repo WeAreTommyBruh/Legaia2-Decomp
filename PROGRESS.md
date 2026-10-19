@@ -10,20 +10,20 @@ This is not a matching decompilation. "Matched" below means C that happens to co
 |---|---|---|
 | 1 | Identify the original compiler | Done: **ee-gcc 2.9-ee-991111-01**, `-O2 -G8`, confirmed by functions that compile byte-identical (see below) |
 | 2 | Rebuild the executable from assembly | Done: rebuilt executable is **byte-identical** to the original |
-| 3 | Match functions in C | In progress: 1890 of 6254 functions (3.9% of code) compile to the original bytes and are built from C |
+| 3 | Match functions in C | In progress: 2063 of 6254 functions (4.4% of code) compile to the original bytes and are built from C |
 
 ## Overall
 
 | | Count | Share | |
 |---|---:|---:|---|
-| Functions matched in C | 1890 / 6254 | 30.2% | `#########.....................` |
-| ... written by hand | 331 | | |
+| Functions matched in C | 2063 / 6254 | 33.0% | `##########....................` |
+| ... written by hand | 504 | | |
 | ... generated from instruction patterns (`tools/gen_tiny.py`) | 758 | | |
 | ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 801 | | |
-| Code bytes matched in C | 79,236 / 2,019,536 | 3.9% | `#.............................` |
+| Code bytes matched in C | 88,572 / 2,019,536 | 4.4% | `#.............................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
-| .text words disassembled as instructions | 480,770 / 488,574 | 98.4% | `##############################` |
+| .text words disassembled as instructions | 478,436 / 486,240 | 98.4% | `##############################` |
 
 Functions with a source file come from the game's `__FILE__` debug strings; real names are the descriptive and library names given in `ghidra/scripts/NameFunctions.java`. The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, VU0 macro mode), written as `.word` because clang cannot assemble them.
 
@@ -53,18 +53,18 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | Source file | Functions | Code bytes | Matched | Matched bytes |
 |---|---:|---:|---:|---:|
 | `abeshi.cpp` | 19 | 5,112 | 11 | 11.7% |
-| `akari.cpp` | 48 | 7,468 | 23 | 5.8% |
+| `akari.cpp` | 48 | 7,468 | 24 | 5.9% |
 | `anime.cpp` | 1 | 2,160 | 0 | 0.0% |
 | `arena.cpp` | 1 | 2,296 | 0 | 0.0% |
 | `batread.cpp` | 20 | 7,760 | 3 | 0.72% |
 | `battle.cpp` | 206 | 88,708 | 69 | 2.1% |
-| `battleslot.cpp` | 15 | 1,244 | 3 | 3.9% |
+| `battleslot.cpp` | 15 | 1,244 | 5 | 8.4% |
 | `battuto.cpp` | 1 | 280 | 0 | 0.0% |
 | `bwin.cpp` | 1 | 44 | 1 | 100.0% |
 | `cam_min.cpp` | 5 | 2,584 | 2 | 4.0% |
-| `clas_min.cpp` | 191 | 42,376 | 43 | 3.4% |
+| `clas_min.cpp` | 191 | 42,376 | 45 | 3.6% |
 | `crvmove.cpp` | 1 | 164 | 0 | 0.0% |
-| `darts.cpp` | 48 | 10,192 | 8 | 1.5% |
+| `darts.cpp` | 48 | 10,192 | 9 | 1.9% |
 | `decode.cpp` | 7 | 956 | 3 | 4.6% |
 | `denlib.cpp` | 22 | 4,588 | 9 | 6.5% |
 | `disp.cpp` | 1 | 2,536 | 0 | 0.0% |
@@ -74,11 +74,11 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `file.cpp` | 26 | 5,616 | 1 | 1.1% |
 | `flare.cpp` | 40 | 5,344 | 27 | 4.3% |
 | `gimmick.cpp` | 2 | 2,336 | 0 | 0.0% |
-| `ikumi.cpp` | 15 | 12,872 | 1 | 1.1% |
+| `ikumi.cpp` | 15 | 12,872 | 2 | 1.4% |
 | `ikumin.cpp` | 38 | 4,880 | 25 | 13.1% |
 | `init.cpp` | 25 | 8,636 | 7 | 1.3% |
 | `lg2save.cpp` | 3 | 392 | 0 | 0.0% |
-| `line.cpp` | 1 | 48 | 0 | 0.0% |
+| `line.cpp` | 1 | 48 | 1 | 100.0% |
 | `main.cpp` | 2 | 628 | 1 | 6.4% |
 | `mapdata.cpp` | 6 | 4,524 | 0 | 0.0% |
 | `memo2.cpp` | 14 | 18,004 | 1 | 0.11% |
@@ -97,36 +97,36 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `noriwin.cpp` | 1 | 2,152 | 0 | 0.0% |
 | `nowloding.cpp` | 1 | 596 | 0 | 0.0% |
 | `object.cpp` | 24 | 7,336 | 7 | 1.7% |
-| `pachislot.cpp` | 165 | 32,008 | 50 | 3.2% |
-| `pchboss.cpp` | 1 | 48 | 0 | 0.0% |
+| `pachislot.cpp` | 165 | 32,008 | 52 | 3.4% |
+| `pchboss.cpp` | 1 | 48 | 1 | 100.0% |
 | `pchevent.cpp` | 107 | 25,632 | 10 | 2.5% |
-| `pchjob0.cpp` | 64 | 27,388 | 11 | 1.6% |
+| `pchjob0.cpp` | 64 | 27,388 | 26 | 4.0% |
 | `pchse.cpp` | 6 | 2,984 | 1 | 3.6% |
 | `pchspplate.cpp` | 2 | 360 | 0 | 0.0% |
-| `pchsysw.cpp` | 68 | 9,384 | 23 | 5.8% |
+| `pchsysw.cpp` | 68 | 9,384 | 24 | 5.9% |
 | `pochilib.cpp` | 1 | 216 | 0 | 0.0% |
 | `pstack.cpp` | 1 | 64 | 0 | 0.0% |
 | `repetition.cpp` | 74 | 12,312 | 14 | 3.0% |
 | `result.cpp` | 3 | 4,288 | 0 | 0.0% |
 | `rouge.cpp` | 12 | 5,404 | 2 | 0.67% |
-| `roulette.cpp` | 73 | 11,740 | 16 | 3.1% |
-| `rsound.cpp` | 23 | 9,648 | 2 | 0.50% |
+| `roulette.cpp` | 73 | 11,740 | 20 | 4.7% |
+| `rsound.cpp` | 23 | 9,648 | 5 | 1.4% |
 | `sammon.cpp` | 31 | 11,392 | 7 | 1.2% |
-| `sarva.cpp` | 1 | 48 | 0 | 0.0% |
+| `sarva.cpp` | 1 | 48 | 1 | 100.0% |
 | `screfct.cpp` | 14 | 13,204 | 3 | 1.5% |
-| `sdiva.cpp` | 1 | 48 | 0 | 0.0% |
+| `sdiva.cpp` | 1 | 48 | 1 | 100.0% |
 | `shikimi.cpp` | 42 | 38,816 | 29 | 8.0% |
-| `shuffle.cpp` | 28 | 4,184 | 7 | 3.9% |
+| `shuffle.cpp` | 28 | 4,184 | 8 | 5.1% |
 | `sky.cpp` | 5 | 2,244 | 1 | 4.1% |
-| `slasteg.cpp` | 1 | 48 | 0 | 0.0% |
+| `slasteg.cpp` | 1 | 48 | 1 | 100.0% |
 | `sprite.cpp` | 16 | 1,848 | 8 | 5.6% |
 | `srenia.cpp` | 1 | 52 | 0 | 0.0% |
-| `srivus.cpp` | 47 | 5,012 | 21 | 16.0% |
+| `srivus.cpp` | 47 | 5,012 | 31 | 25.5% |
 | `sumpochi.cpp` | 1 | 256 | 0 | 0.0% |
 | `th_tex.cpp` | 13 | 3,980 | 4 | 2.1% |
 | `titlemode.cpp` | 1 | 120 | 0 | 0.0% |
 | `window.cpp` | 1 | 2,484 | 0 | 0.0% |
-| `work.cpp` | 36 | 4,400 | 7 | 2.9% |
+| `work.cpp` | 36 | 4,400 | 8 | 3.1% |
 | `yokota.cpp` | 40 | 18,260 | 20 | 11.8% |
 | `yue.cpp` | 56 | 36,396 | 26 | 6.2% |
-| `(not attributed)` | 4212 | 1,336,852 | 1227 | 3.9% |
+| `(not attributed)` | 4212 | 1,336,852 | 1351 | 4.4% |

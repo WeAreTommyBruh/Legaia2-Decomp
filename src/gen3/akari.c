@@ -3,7 +3,13 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
+void func_002DD4CC();
 
+// MATCH func_001E24C8
+void dup_001e24c8(void)
+{
+    func_002DD4CC();
+}
 
 // MATCH func_001E2638
 int akari_001e2638(int a0)

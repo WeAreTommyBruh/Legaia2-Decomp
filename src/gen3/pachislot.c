@@ -5,6 +5,7 @@ typedef int u128 __attribute__((mode(TI)));
 
 extern char D_0043D0A8[];
 extern char D_0043D1A0[];
+void func_0016BFD0();
 void func_0016CC00();
 void func_0016CC58();
 
@@ -20,5 +21,11 @@ void pachislot_00165c80(int a0)
 {
     FIELD(int, a0, 0x30) = (int)D_0043D0A8;
     func_0016CC00(a0);
+}
+
+// MATCH func_0016C048
+void dup_0016c048(void)
+{
+    func_0016BFD0();
 }
 

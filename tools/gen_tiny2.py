@@ -86,9 +86,9 @@ def main():
         count[r["name"]] = count.get(r["name"], 0) + 1
     cands = []
     for r in rows:
-        if count[r["name"]] > 1:
-            continue
         addr, size, name = int(r["address"], 16), int(r["size_bytes"]), r["name"]
+        if count[name] > 1:
+            name = f"dup_{addr:08x}"
         if addr in done or size > 48 or not re.fullmatch(r"[A-Za-z_]\w*", name):
             continue
         if not text["addr"] <= addr < text["addr"] + text["size"]:

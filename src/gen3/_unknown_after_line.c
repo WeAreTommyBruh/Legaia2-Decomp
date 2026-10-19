@@ -7,12 +7,19 @@ extern char D_0043FE40[];
 extern char D_0043FE88[];
 void func_00186F28();
 void func_001896B0();
+void func_002236B8();
 
 // MATCH func_00186F28
 void FUN_00186f28(int a0)
 {
     FIELD(int, a0, 0x844) = (int)D_0043FE88;
     func_001896B0(a0);
+}
+
+// MATCH func_00187198
+void dup_00187198(void)
+{
+    func_002236B8();
 }
 
 // MATCH func_00187E70
