@@ -5,7 +5,8 @@ extern int D_004A13AC, D_004A14D0, D_004A5580, D_004A717C, D_004A71D8;
 extern char D_005F7560[];
 extern char D_0045CE30[];
 extern int D_0603D140[4], D_0603D144[4], D_0603D148[4];
-extern int D_004A1478, D_004A149C, D_004A146C;
+extern int (*D_004A1478)(int);
+extern int D_004A149C, D_004A146C;
 extern int D_002F9800[];
 int DbgPrintf(char *, ...);
 void FUN_0024a138(void);
@@ -44,6 +45,26 @@ extern int D_004A140C;
 char *strcpy(char *, const char *);
 void FUN_00245db8(char *, char *, void *);
 int yokota_0023f108(int);
+
+typedef struct { char pad[32]; float f32, f36, f40; char pad2[64 - 44]; float f64, f68, f72; } P;
+void FUN_00249108(void);
+void thunk_FUN_00231ef0(float, float, float);
+void FUN_00248cf8(int, float);
+void FUN_002489f0(void);
+void FUN_002486f8(float);
+void FUN_002491d8(void);
+extern u64 D_004A12C8;
+extern int D_004A5584;
+extern char D_004A5510[];
+void FUN_002478d0(int);
+void FUN_00247970(int);
+void thunk_FUN_002493d0(int, int, int);
+void FUN_00247b68(float, float);
+void FUN_00247c98(float, float, float);
+void FUN_002479f0(void);
+extern char D_0045CE70[], D_004A5528[], D_004A5530[], D_004A5538[];
+int FUN_0023b5d0(int, int, int, int, int);
+void FUN_00239568(char *, ...);
 
 // MATCH func_0023CFF0
 void yokota_0023cff0(void)
@@ -105,7 +126,7 @@ void yokota_0023efb8(void)
 }
 
 // MATCH func_0023F090
-void yokota_0023f090(int a, int b, int c, int d)
+void yokota_0023f090(int a, int b, int c, int (*d)(int))
 {
     DbgPrintf(D_0045CE30);
     D_0603D140[0] = a;
@@ -153,6 +174,70 @@ int yokota_0023f108(int flags)
     return 0;
   }
   if ((D_004A140C & 8) != 0)
-    yokota_0023f090(100, 100, (int)D_0045CE60, (int)yokota_0023f108);
+    yokota_0023f090(100, 100, (int)D_0045CE60, yokota_0023f108);
   return 0;
+}
+
+// MATCH func_0023FA50
+void yokota_0023fa50(P *p)
+{
+    FUN_00249108();
+    thunk_FUN_00231ef0(p->f32, p->f36, p->f40);
+    FUN_00248cf8(0, p->f64);
+    FUN_00248cf8(1, p->f68);
+    FUN_00248cf8(2, p->f72);
+    FUN_002489f0();
+    FUN_002486f8(1000.0f);
+    FUN_002491d8();
+}
+
+// MATCH func_0023EE88
+void yokota_0023ee88(void)
+{
+    if ((((int)D_004A12C8 ^ 1) & 1) != 0) {
+      if ((D_004A12C8 & 8) != 0)
+        D_004A5584 = D_004A5584 + 1;
+      if ((D_004A12C8 & 2) != 0)
+        D_004A5584 = D_004A5584 + -1;
+    }
+    FUN_00239568(D_004A5510, D_004A5584);
+    FUN_002478d0(0x10);
+    FUN_00247970(4);
+    thunk_FUN_002493d0(0x80, 0x80, 0x80);
+    FUN_00247b68(0.0f, 0.0f);
+    FUN_00247c98(-2000.0f, -2000.0f, 0.0f);
+    FUN_00247b68(1.0f, 0.0f);
+    FUN_00247c98(2000.0f, -2000.0f, 0.0f);
+    FUN_00247b68(0.0f, 1.0f);
+    FUN_00247c98(-2000.0f, 2000.0f, 0.0f);
+    FUN_00247b68(1.0f, 1.0f);
+    FUN_00247c98(2000.0f, 2000.0f, 0.0f);
+    FUN_002479f0();
+}
+
+// MATCH func_0023F1C8
+int yokota_0023f1c8(int a, int b)
+{
+    int ret, col, a2;
+    ret = 0;
+    if (FUN_0023b5d0(a, b, 0x12, 8, 0) != 0) {
+      col = 0x8080;
+      if ((D_004A140C & 8) != 0) {
+        ret = 2;
+        DbgPrintf(D_004A5528);
+      }
+    } else
+      col = 0x808080;
+    a2 = a + 0x3c;
+    FUN_00239568(D_0045CE70, col, a, b);
+    if (FUN_0023b5d0(a2, b, 0x2a, 8, 0) != 0) {
+      col = 0x8080;
+      if ((D_004A140C & 8) != 0) {
+        ret = 3;
+        DbgPrintf(D_004A5530);
+      }
+    } else
+      col = 0x808080;
+    FUN_00239568(D_004A5538, col, a2, b);
+    return ret;
 }
