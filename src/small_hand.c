@@ -1039,3 +1039,13 @@ typedef struct { char p[12]; void *vt; char p2[128]; int w; } O_001832D8;
 extern char D_0043E4A8[]; void func_00131588_001832D8(int) __asm__("func_00131588"); void func_00185168(void *, int);
 // MATCH func_001832D8
 void screfct_001832d8(O_001832D8 *o, int f) { o->vt = D_0043E4A8; if (o->w != 0) func_00131588_001832D8(o->w); func_00185168(o, f); }
+
+typedef struct { char *a, *b, *c, *d, *e, *f; } O_00192D80;
+extern char D_002F0900[], D_002F1200[], D_002F2D00[], D_002F2D80[], D_002F1B00[], D_002F2400[];
+// MATCH func_00192D80
+void FUN_00192d80(O_00192D80 *o) { o->a = D_002F0900; o->b = D_002F1200; o->c = D_002F2D00; o->d = D_002F2D80; o->e = D_002F1B00; o->f = D_002F2400; }
+
+typedef struct { int a, b; } O_0018C4C8;
+void func_00131588_0018C4C8(int) __asm__("func_00131588");
+// MATCH func_0018C4C8
+void denlib_0018c4c8(O_0018C4C8 *o) { if (o->a != 0) { func_00131588_0018C4C8(o->a); } o->a = 0; if (o->b != 0) { func_00131588_0018C4C8(o->b); } o->b = 0; }
