@@ -488,3 +488,49 @@ void nayuwin2_001af7b8(O_001AF7B8 *o, int a, int v, int b) { if (a < 0 || o->n <
 typedef struct { char p[76]; int n; char p2[280]; char *q; } O_001AF7F0;
 // MATCH func_001AF7F0
 void nayuwin2_001af7f0(O_001AF7F0 *o, int a, int v) { if (a < 0 || o->n < a) return; { char *r = o->q + a * 256; *(int *)(r + 32) = v; } }
+
+extern int *D_004A4670; extern char D_004555D8[]; void func_002119E0(void *, void *);
+// MATCH func_00211A20
+int FUN_00211a20(void) { func_002119E0(&D_004A4670, D_004555D8); if ((unsigned)(int)(D_004A4670) < 2) return 0; return *D_004A4670; }
+
+extern int *D_004A4674; extern char D_004555F8[]; void func_002119E0(void *, void *);
+// MATCH func_00211AC8
+int FUN_00211ac8(void) { func_002119E0(&D_004A4674, D_004555F8); if ((unsigned)(int)(D_004A4674) < 2) return 0; return *D_004A4674; }
+
+typedef struct { char p[8]; int n; int *q; } O_00211C68;
+// MATCH func_00211C68
+int FUN_00211c68(O_00211C68 *o, int a) { if (a < 0 || o->n < a) return 0; return o->q[a]; }
+
+extern long long D_004A12D8; typedef struct { char p[8]; int w; } O_00215A28;
+// MATCH func_00215A28
+int FUN_00215a28(O_00215A28 *o) { if (D_004A12D8 & 0x200840) o->w = 0; return 1; }
+
+extern long long D_004A12D8; typedef struct { char p[4]; int *a; int w; } O_00215A48; extern int D_003C2F80[];
+// MATCH func_00215A48
+int FUN_00215a48(O_00215A48 *o) { if (D_004A12D8 & 0x800) { int *p = D_003C2F80; o->a = p; o->w = p[1]; } return 1; }
+
+extern int D_004A1510, D_004A12A4, D_004A4ABC; extern char D_004A4AD8[]; void func_002144F0(void); void func_002A43E8(void *, int);
+// MATCH func_00216010
+void FUN_00216010(void) { func_002144F0(); D_004A1510 = 1; D_004A12A4 = 14; D_004A4ABC = 0; func_002A43E8(D_004A4AD8, 0); }
+
+void func_0029FE00(void *, int, int, float, float, float);
+// MATCH func_00218470
+void FUN_00218470(void *a, float *v, int c, int d) { func_0029FE00(a, c, d, v[0], v[1], v[2]); }
+
+typedef struct { char p[36]; int w; } O_00219800; int func_00196FF8(void *);
+// MATCH func_00219800
+int FUN_00219800(O_00219800 *o) { if (func_00196FF8(o)) return 1; return (unsigned)(o->w - 1) < 2; }
+
+typedef struct { char p[4976]; int w; } O_0021AE58; void func_00254990(int);
+// MATCH func_0021AE58
+void FUN_0021ae58(O_0021AE58 *o) { if (o->w >= 0) func_00254990(o->w); }
+
+typedef struct { char p[4976]; int w; } O_0021AE78; void func_00254E38(int);
+// MATCH func_0021AE78
+void FUN_0021ae78(O_0021AE78 *o) { if (o->w >= 0) func_00254E38(o->w); }
+
+// MATCH func_00219130
+char *FUN_00219130(char *p) { while (*p != 10) p++; return p + 1; }
+
+// MATCH func_00219168
+void FUN_00219168(char *p) { while (*p != 10) p++; *p = 0; }
