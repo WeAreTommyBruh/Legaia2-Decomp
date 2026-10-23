@@ -267,3 +267,45 @@ void FUN_0010f230(void) { if (D_004A1214 != 0) func_00100420(D_00315E00, D_00342
 typedef struct { char pad[4816]; unsigned f; char p2[652]; } P_001296B0; extern P_001296B0 *D_004A1A20;
 // MATCH func_001296B0
 void battle_001296b0(void) { P_001296B0 *p = D_004A1A20; int i; for (i = 0; i < 20; i++) { p->f &= 0xfeffffff; p++; } }
+
+// MATCH func_001296E8
+void battle_001296e8(void) { char *p = (char *)D_004A1A20; int i; for (i = 0; i < 20; i++) { *(int *)(p+4816) &= -33; *(int*)(p+4984)=0; *(int*)(p+5408)=0; *(int*)(p+5396)=0; *(int*)(p+5392)=0; *(int*)(p+5388)=0; p += 5472; } }
+
+typedef struct { char pad[208]; float x; } O_001541C8;
+void func_00154170(float);
+// MATCH func_001541C8
+void FUN_001541c8(O_001541C8 *o, float a) { func_00154170(a - o->x); o->x = a; }
+
+void func_0018D048(void *);
+void func_0018CDE0(void *);
+// MATCH func_00154890
+void FUN_00154890(char *a) { func_0018D048(a); func_0018D048(a + 16); func_0018D048(a + 32); func_0018CDE0(a + 64); }
+
+typedef struct { void *p; } O_0015AE28;
+int func_0015D430(void *, int, int);
+// MATCH func_0015AE28
+int FUN_0015ae28(O_0015AE28 *o, int b) { void *p = o->p; int r = 0; if (p) r = func_0015D430(p, b, 0); return r; }
+
+typedef struct { void *p; } O_0015AE50;
+int func_0015D430(void *, int, int);
+// MATCH func_0015AE50
+int FUN_0015ae50(O_0015AE50 *o, int b) { void *p = o->p; int r = 0; if (p) r = func_0015D430(p, b, 1); return r; }
+
+typedef struct { void *p; } O_0015AE78;
+int func_0015D530(void *);
+// MATCH func_0015AE78
+int FUN_0015ae78(O_0015AE78 *o) { void *p = o->p; int r = 0; if (p) r = func_0015D530(p); return r; }
+
+void func_0029C980_b(void *, int, int, float, float, float) __asm__("func_0029C980");
+// MATCH func_0015DF20
+void FUN_0015df20(char *a, float *v) { func_0029C980_b(a + 128, 0, 0, v[0], v[1], v[2]); }
+
+typedef struct { char pad[32]; unsigned char lo, hi; } O_001630E0;
+void *func_00163080_p(void) __asm__("func_00163080");
+// MATCH func_001630E0
+int FUN_001630e0(void) { O_001630E0 *o = func_00163080_p(); if (o == 0) return 0; return o->lo | (o->hi << 8); }
+
+typedef struct { char pad[34]; unsigned char lo, hi; } O_00163118;
+void *func_00163080_p(void) __asm__("func_00163080");
+// MATCH func_00163118
+int FUN_00163118(void) { O_00163118 *o = func_00163080_p(); if (o == 0) return 0; return o->lo | (o->hi << 8); }

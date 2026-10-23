@@ -23,3 +23,7 @@ void FUN_001809d0(S_001809D0 *s) { s->n++; func_001809F8(s); }
 void func_00155D40(float, float, float, float, float, float);
 // MATCH func_00155D18
 void sky_00155d18(float a, float b, float c, float d) { func_00155D40(a, b, c, d, 1.0f, 1.0f); }
+
+void func_0015A730(int, int, int, int, int);
+// MATCH func_0015A868
+void FUN_0015a868(int a, int b, int c, int d) { func_0015A730(a, b, c, d, 1); }
