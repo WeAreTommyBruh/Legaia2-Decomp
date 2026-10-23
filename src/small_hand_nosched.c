@@ -12,3 +12,7 @@ int akari_001e2588(O_001E2588 *o) { return (int)o->f >= o->n; }
 
 // MATCH func_0022D080
 float FUN_0022d080(float a, float b, float c) { return __builtin_fabsf(a - b) / __builtin_fabsf(b - c); }
+
+typedef struct { char p[56]; unsigned char a, b, c, d; char p2[8]; float f1; float f2; } O_00201CE0;
+// MATCH func_00201CE0
+void sprite_00201ce0(O_00201CE0 *o) { o->d = 127; o->f2 = 1.0f; o->a = 127; o->b = 127; o->c = 127; o->f1 = 1.0f; }
