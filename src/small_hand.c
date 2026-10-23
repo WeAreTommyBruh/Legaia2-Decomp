@@ -1519,3 +1519,35 @@ e3->a12 = 0;
 e3->a32 = 1;
 e3->a0 = e3->a4;
 }
+
+typedef struct { char pad[372]; unsigned short a[1200]; unsigned char b[1200]; } T_250c00_00250C00;
+extern T_250c00_00250C00 D_003FEBA8_00250C00 __asm__("D_003FEBA8");
+// MATCH func_00250C00
+int FUN_00250c00(int x) { int n; for (n = 0; n < 1200; n++) { if (D_003FEBA8_00250C00.a[n] == x) { if (x >= 301) return D_003FEBA8_00250C00.b[n]; if (D_003FEBA8_00250C00.b[n] != 0) return 1; } } return 0; }
+
+typedef struct { char pad[372]; unsigned short a[1200]; unsigned char b[1200]; } T_250ab0_00250AB0;
+extern unsigned short D_004A598E; extern unsigned short D_00401028[]; extern T_250ab0_00250AB0 D_003FEBA8_00250AB0 __asm__("D_003FEBA8");
+// MATCH func_00250AB0
+unsigned FUN_00250ab0(unsigned i) { if (i < D_004A598E) return D_003FEBA8_00250AB0.a[D_00401028[i]]; return 0; }
+
+typedef struct { char pad[372]; unsigned short a[1200]; unsigned char b[1200]; } T_251e08_00251E08;
+extern unsigned short D_004A598E_00251E08 __asm__("D_004A598E"); extern unsigned short D_00401028_00251E08[] __asm__("D_00401028"); extern T_251e08_00251E08 D_003FEBA8_00251E08 __asm__("D_003FEBA8");
+int func_00251220(unsigned);
+// MATCH func_00251E08
+int FUN_00251e08(unsigned i) { if (i < D_004A598E_00251E08) return func_00251220(D_003FEBA8_00251E08.a[D_00401028_00251E08[i]]); return 0; }
+
+typedef struct { char pad[8]; int a8; char pad1[132]; int a144; char pad2[192]; int a340; char pad3[50]; char b394; char pad4[17]; int a412; } S_245e10_00245E10;
+extern int D_004A7204;
+void func_002461E0(void *);
+// MATCH func_00245E10
+S_245e10_00245E10 *FUN_00245e10(S_245e10_00245E10 *s) { int n = D_004A7204; s->a144 = 0; n++; s->a412 = 0; s->a8 = 0; s->a340 = 0; D_004A7204 = n; func_002461E0(s); s->b394 = 0; return s; }
+
+typedef struct { char pad[372]; unsigned short a[1200]; unsigned char b[1200]; } T_250a68_00250A68;
+extern unsigned short D_004A598E_00250A68 __asm__("D_004A598E"); extern T_250a68_00250A68 D_003FEBA8_00250A68 __asm__("D_003FEBA8");
+int func_0024F380(unsigned);
+// MATCH func_00250A68
+int FUN_00250a68(unsigned i) { unsigned r; if (i < D_004A598E_00250A68) r = D_003FEBA8_00250A68.a[i]; else r = 0; return func_0024F380(r); }
+
+typedef struct { char pad[4816]; unsigned a4816; char pad2[412]; long l5232; } S_21a938_0021A938;
+// MATCH func_0021A938
+int FUN_0021a938(S_21a938_0021A938 *s) { if ((s->a4816 & 0x20800) || (s->l5232 & 0x0010171c00000000L)) return 0; return 1; }
