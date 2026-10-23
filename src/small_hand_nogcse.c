@@ -17,3 +17,7 @@ void FUN_00298448(void) { if (D_004A681C_00298448 != 0) { D_004A681C_00298448 = 
 extern int D_003FEBA8_00294220[] __asm__("D_003FEBA8");
 // MATCH func_00294220
 int FUN_00294220(int a) { D_003FEBA8_00294220[1] += a; if (D_003FEBA8_00294220[1] < 0) D_003FEBA8_00294220[1] = 0; if (D_003FEBA8_00294220[1] > 999999) D_003FEBA8_00294220[1] = 999999; return D_003FEBA8_00294220[1]; }
+
+typedef struct { char p[76]; int n; char p2[280]; char *q; } O_001AE438;
+// MATCH func_001AE438
+void nayuwin2_001ae438(O_001AE438 *o) { int i; for (i = 0; i < o->n; i++) { o->q[i * 256 + 254] = 0; *(int *)(o->q + i * 256 + 40) = -1; } }
