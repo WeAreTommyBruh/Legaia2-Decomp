@@ -90,6 +90,8 @@ Sony SDK, C library and kernel stubs are after `shikimi.cpp` (roughly `0x002b900
 
 ## Matching notes
 
+This is a matching decompilation in progress: a function counts as done only when its C compiles byte-identical to the original; everything else is rebuilt from the original assembly.
+
 - A C file picks its build with header lines: `// compiler: 990721-r5900` (990721 cc1 plus `tools/r5900_short_loops.py`, then the 991111-01 assembler) and `// cflags: ...` (extra gcc flags such as `-fno-gcse`, `-fexceptions`, `-fno-schedule-insns`, `-fno-thread-jumps`). The game's C++ files were built with exceptions on, so a call at the end of a function stays a `jal`.
 - `// MATCH func_XXXXXXXX` goes on its own line directly above the definition; the first identifier before `(` on the next line is taken as the function's C name, so prototypes must not share that line.
 - `PROGRESS.md` and `report/report.json` (from `tools/progress.py` and `tools/report.py`) must be regenerated and committed with every push.
