@@ -1422,3 +1422,100 @@ typedef struct { char pad[12]; VT_1844d8_001844D8 *vt; } O_1844d8_001844D8;
 typedef struct { O_1844d8_001844D8 *o; } S_1844d8_001844D8;
 // MATCH func_001844D8
 int FUN_001844d8(S_1844d8_001844D8 *s) { O_1844d8_001844D8 *p = s->o; return p ? p->vt->fn((char *)p + p->vt->adj) : 0; }
+
+typedef struct { int a0, a4, a8, a12, a16, a20, a24, a28, a32; } E_1f75c8_001F75C8;
+typedef struct { char pad[32]; E_1f75c8_001F75C8 e0, e1; } S_1f75c8_001F75C8;
+// MATCH func_001F75C8
+void ikumin_001f75c8(S_1f75c8_001F75C8 *s, int a, int b) { E_1f75c8_001F75C8 *x = &s->e0; E_1f75c8_001F75C8 *y = &s->e1;
+x->a0 = 0;
+x->a12 = 0;
+x->a4 = a;
+x->a8 = a;
+x->a16 = 0;
+x->a20 = 0;
+x->a28 = 0;
+x->a32 = 1;
+x->a0 = a;
+y->a0 = 0;
+y->a12 = 0;
+y->a32 = 1;
+x->a24 = 0;
+y->a4 = b;
+y->a8 = b;
+y->a16 = 0;
+y->a20 = 0;
+y->a28 = 0;
+y->a0 = b;
+y->a24 = 0;
+}
+
+typedef struct { int a0, a4, a8, a12, a16, a20, a24, a28, a32; } E_1f7628_001F7628;
+typedef struct { char pad[104]; E_1f7628_001F7628 e0, e1; } S_1f7628_001F7628;
+// MATCH func_001F7628
+void ikumin_001f7628(S_1f7628_001F7628 *s, int a, int b) { E_1f7628_001F7628 *x = &s->e0; E_1f7628_001F7628 *y = &s->e1;
+x->a0 = 0;
+x->a12 = 0;
+x->a4 = a;
+x->a8 = a;
+x->a16 = 0;
+x->a20 = 0;
+x->a28 = 0;
+x->a32 = 1;
+x->a0 = a;
+y->a0 = 0;
+y->a12 = 0;
+y->a32 = 1;
+x->a24 = 0;
+y->a4 = b;
+y->a8 = b;
+y->a16 = 0;
+y->a20 = 0;
+y->a28 = 0;
+y->a0 = b;
+y->a24 = 0;
+}
+
+typedef struct { int a0, a4, a8, a12, a16, a20, a24, a28, a32; } E_1f6d80_001F6D80;
+typedef struct { char pad[176]; E_1f6d80_001F6D80 e0, e1; } S_1f6d80_001F6D80;
+// MATCH func_001F6D80
+void FUN_001f6d80(S_1f6d80_001F6D80 *s, int a, int b) { E_1f6d80_001F6D80 *x = &s->e0; E_1f6d80_001F6D80 *y = &s->e1;
+x->a0 = 0;
+x->a12 = 0;
+x->a4 = a;
+x->a8 = a;
+x->a16 = 0;
+x->a20 = 0;
+x->a28 = 0;
+x->a32 = 1;
+x->a0 = a;
+y->a0 = 0;
+y->a12 = 0;
+y->a32 = 1;
+x->a24 = 0;
+y->a4 = b;
+y->a8 = b;
+y->a16 = 0;
+y->a20 = 0;
+y->a28 = 0;
+y->a0 = b;
+y->a24 = 0;
+}
+
+typedef struct { int a0, a4, a8, a12, a16, a20, a24, a28, a32; } E_1f7220_001F7220;
+typedef struct { char pad[104]; E_1f7220_001F7220 e[4]; } S_1f7220_001F7220;
+// MATCH func_001F7220
+void ikumin_001f7220(S_1f7220_001F7220 *s) { E_1f7220_001F7220 *e0 = &s->e[0], *e1 = &s->e[1], *e2 = &s->e[2], *e3 = &s->e[3];
+*(int *)((char *)s + 20) = 0;
+e0->a32 = 1;
+e0->a12 = 0;
+e0->a0 = e0->a4;
+e1->a32 = 1;
+e1->a12 = 0;
+e1->a0 = e1->a4;
+e2->a32 = 1;
+e2->a12 = 0;
+e2->a0 = e2->a4;
+e3->a12 = 0;
+e3->a32 = 1;
+e3->a0 = e3->a4;
+}
