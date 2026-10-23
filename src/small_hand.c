@@ -1619,3 +1619,25 @@ void *akari_001e23b8(void *s) {
 (*(int *)((char *)s + 88)) = 0;
 (*(unsigned char *)((char *)s + 0)) = 0;
 return s; }
+
+typedef struct { int a0, a4, a8; char *a12; } R_2e6b08_002E6B08;
+// MATCH func_002E6B08
+void FUN_002e6b08(R_2e6b08_002E6B08 *s) { char *p; s->a4 = s->a4 + 1; p = s->a12 + 1; s->a12 = p; if (p == (char *)s + (s->a0 + 16)) s->a12 = (char *)s + 16; }
+
+typedef struct { int a0, a4; char *a8; } R_2e6b48_002E6B48;
+// MATCH func_002E6B48
+void FUN_002e6b48(R_2e6b48_002E6B48 *s) { char *p; s->a4 = s->a4 - 1; p = s->a8 + 1; s->a8 = p; if (p == (char *)s + (s->a0 + 16)) s->a8 = (char *)s + 16; }
+
+typedef struct { short adj; short p; int pad[0]; } X_155840_00155840;
+typedef struct { char pad[32]; short adj; short p2; void (*fn)(void *, float *); } VT_155840_00155840;
+typedef struct { char pad[52]; VT_155840_00155840 *vt; } S_155840_00155840;
+// MATCH func_00155840
+void FUN_00155840(S_155840_00155840 *s, float a, float b, float c) { float v[4]; v[0] = a; v[1] = b; v[2] = c; v[3] = 1.0f; s->vt->fn((char *)s + s->vt->adj, v); }
+
+typedef struct { char pad[8]; short adj; short p; void (*fn)(void *, int); } VT_164500_00164500;
+typedef struct { char pad[104]; VT_164500_00164500 *vt; } O_164500_00164500;
+typedef struct { O_164500_00164500 *o; void *vt; } S_164500_00164500;
+extern char D_0043C7D8[];
+void func_001645A0(void *); void func_00108B80_00164500(void *) __asm__("func_00108B80");
+// MATCH func_00164500
+void FUN_00164500(S_164500_00164500 *s, int fl) { O_164500_00164500 *p; s->vt = D_0043C7D8; func_001645A0(s); p = s->o; if (p != 0) p->vt->fn((char *)p + p->vt->adj, 3); if (fl & 1) func_00108B80_00164500(s); }
