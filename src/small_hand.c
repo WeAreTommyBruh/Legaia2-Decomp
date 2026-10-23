@@ -1589,3 +1589,33 @@ s->a20 = 0;
 s->a16 = 0;
 s->a12 = 0;
 } }
+
+extern char D_0043D098[];
+// MATCH func_00166730
+void *pachislot_00166730(void *s, int a) {
+(*(int *)((char *)s + 4)) = -1;
+(*(int *)((char *)s + 8)) = -1;
+(*(int *)((char *)s + 12)) = 0;
+(*(int *)((char *)s + 32)) = (int)D_0043D098;
+(*(int *)((char *)s + 16)) = 0;
+(*(int *)((char *)s + 0)) = a;
+(*(int *)((char *)s + 24)) = 0;
+(*(int *)((char *)s + 20)) = -1;
+(*(int *)((char *)s + 28)) = 0;
+return s; }
+
+extern char D_0044BCF8[];
+// MATCH func_001E23B8
+void *akari_001e23b8(void *s) {
+(*(int *)((char *)s + 100)) = (int)D_0044BCF8;
+(*(float *)((char *)s + 72)) = 1.0f;
+(*(unsigned char *)((char *)s + 78)) = 1;
+(*(int *)((char *)s + 68)) = 0;
+(*(unsigned char *)((char *)s + 76)) = 0;
+(*(unsigned char *)((char *)s + 77)) = 0;
+(*(unsigned char *)((char *)s + 79)) = 0;
+(*(int *)((char *)s + 80)) = 0;
+(*(int *)((char *)s + 84)) = 0;
+(*(int *)((char *)s + 88)) = 0;
+(*(unsigned char *)((char *)s + 0)) = 0;
+return s; }

@@ -508,6 +508,9 @@ PASSES = (
     ("991111-01", "991111-01", ()),
     ("990721", "990721", ()),
     ("991111-01-nogcse", "991111-01", ("-fno-gcse",)),
+    ("991111-01-nosched", "991111-01", ("-fno-schedule-insns",)),
+    ("990721-r5900", "990721-r5900", ("-fno-thread-jumps",)),
+    ("991111-01-nosched-nogcse", "991111-01", ("-fno-schedule-insns", "-fno-gcse")),
 )
 
 
@@ -660,7 +663,7 @@ def main(argv):
         if missing:
             todo.append((j, missing))
     print(f"trying {len(todo)} of {len(jobs)} functions (the rest known from {CACHE})")
-    with concurrent.futures.ProcessPoolExecutor(os.cpu_count()) as pool:
+    with concurrent.futures.ProcessPoolExecutor(int(os.environ.get("GG_JOBS", os.cpu_count()))) as pool:
         for key, results in pool.map(try_one, todo, chunksize=8):
             cache.setdefault(key, {}).update(results)
     save_cache(cache, {j[-1] for j in jobs})
