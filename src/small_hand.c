@@ -861,3 +861,51 @@ typedef struct { char p[384]; int w[16]; } P_002D5568;
 P_002D5568 *func_002CFFB0(void);
 // MATCH func_002D5568
 int FUN_002d5568(unsigned a) { int r = 0; if (a < 16) r = func_002CFFB0()->w[a]; return r; }
+
+typedef struct { char c[16]; } V16_0012E500;
+typedef struct { char p[0]; V16_0012E500 v; } N_0012E500;
+N_0012E500 *func_0012D9D8_0012E500(int, int) __asm__("func_0012D9D8");
+// MATCH func_0012E500
+int pchsysw_0012e500(int a, int b, V16_0012E500 *d) { N_0012E500 *n = func_0012D9D8_0012E500(a, b); if (n == 0) return 0; *d = n->v; return 1; }
+
+typedef struct { char c[16]; } V16_0012E558;
+typedef struct { char p[16]; V16_0012E558 v; } N_0012E558;
+N_0012E558 *func_0012D9D8_0012E558(int, int) __asm__("func_0012D9D8");
+// MATCH func_0012E558
+int pchsysw_0012e558(int a, int b, V16_0012E558 *d) { N_0012E558 *n = func_0012D9D8_0012E558(a, b); if (n == 0) return 0; *d = n->v; return 1; }
+
+typedef struct { char c[16]; } V16_0012E5B0;
+typedef struct { char p[32]; V16_0012E5B0 v; } N_0012E5B0;
+N_0012E5B0 *func_0012D9D8_0012E5B0(int, int) __asm__("func_0012D9D8");
+// MATCH func_0012E5B0
+int pchsysw_0012e5b0(int a, int b, V16_0012E5B0 *d) { N_0012E5B0 *n = func_0012D9D8_0012E5B0(a, b); if (n == 0) return 0; *d = n->v; return 1; }
+
+typedef struct { int a, b, c, d; } O_0012EF68;
+void func_0012DF68(int, int);
+// MATCH func_0012EF68
+void pchsysw_0012ef68(O_0012EF68 *o, int x) { func_0012DF68(o->a, x); func_0012DF68(o->b, x); func_0012DF68(o->c, x); func_0012DF68(o->d, x); }
+
+typedef struct { int a, b, c, d; } O_0012F440;
+void func_0012E2A8(int, float);
+// MATCH func_0012F440
+void pchsysw_0012f440(O_0012F440 *o, float f) { func_0012E2A8(o->a, f); func_0012E2A8(o->b, f); func_0012E2A8(o->c, f); func_0012E2A8(o->d, f); }
+
+typedef struct { int a, b, c, d; } O_0012F3D0;
+void func_0012E228(int, int, float);
+// MATCH func_0012F3D0
+void pchsysw_0012f3d0(O_0012F3D0 *o, int x, float f) { func_0012E228(o->a, x, f); func_0012E228(o->b, x, f); func_0012E228(o->c, x, f); func_0012E228(o->d, x, f); }
+
+typedef struct { int a, p; } O_0012F650;
+void func_00131588(void *); void func_00108B80_0012F650(void *) __asm__("func_00108B80");
+// MATCH func_0012F650
+void pchsysw_0012f650(O_0012F650 *o, int f) { if (o->p != 0) func_00131588(o->p); if (f & 1) func_00108B80_0012F650(o); }
+
+typedef struct N_0012D4F0 { char p[24]; struct N_0012D4F0 *next; } N_0012D4F0;
+typedef struct { int n; int b; N_0012D4F0 *h; } O_0012D4F0;
+// MATCH func_0012D4F0
+N_0012D4F0 *FUN_0012d4f0(O_0012D4F0 *o, int a) { N_0012D4F0 *p; if (a < 0 || a >= o->n) return 0; p = o->h; if (a > 0) { do { p = p->next; } while (--a != 0); } return p; }
+
+typedef struct N_0012D9D8 { char p[60]; struct N_0012D9D8 *next; } N_0012D9D8;
+typedef struct { int n; int b; N_0012D9D8 *h; } O_0012D9D8;
+// MATCH func_0012D9D8
+N_0012D9D8 *pchsysw_0012d9d8(O_0012D9D8 *o, int a) { N_0012D9D8 *p; if (a < 0 || a >= o->n) return 0; p = o->h; if (a > 0) { do { p = p->next; } while (--a != 0); } return p; }
