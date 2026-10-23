@@ -690,3 +690,11 @@ void pchevent_0020d2b8(int a) { if (a != 0 && D_004A1444 == 0 && (D_004A140C & 8
 extern int D_004A45E4, D_004A4960; void func_0020B978(int, int);
 // MATCH func_0020F0E0
 int pchevent_0020f0e0(int a) { if (a & 8) { func_0020B978(D_004A45E4, D_004A4960); return -1; } return 0; }
+
+extern char D_003215D0[]; typedef struct { long long a, b, c, d; } T_00192C08; void func_00191CE8(void *, void *);
+// MATCH func_00192C08
+int FUN_00192c08(int x, char *d) { T_00192C08 t; func_00191CE8(D_003215D0, &t); *(long long *)(d + 8) = t.a; *(long long *)(d + 16) = t.b; return 1; }
+
+typedef struct { char p[12]; volatile int w; } O_00194A48;
+// MATCH func_00194A48
+void FUN_00194a48(O_00194A48 *o) { if (o->w > 0) o->w = o->w - 1; }

@@ -16,3 +16,7 @@ float FUN_0022d080(float a, float b, float c) { return __builtin_fabsf(a - b) / 
 typedef struct { char p[56]; unsigned char a, b, c, d; char p2[8]; float f1; float f2; } O_00201CE0;
 // MATCH func_00201CE0
 void sprite_00201ce0(O_00201CE0 *o) { o->d = 127; o->f2 = 1.0f; o->a = 127; o->b = 127; o->c = 127; o->f1 = 1.0f; }
+
+typedef struct { int a, b, c, d, e; } O_001948A0;
+// MATCH func_001948A0
+void FUN_001948a0(O_001948A0 *o, int a, char *p, int n) { o->d = 0; o->a = a; o->c = 0; o->b = (int)p; o->e = n; if (n > 0) { do { *(int *)p = 0; p += 0x4ce40; } while (--n != 0); } }
