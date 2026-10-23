@@ -309,3 +309,11 @@ typedef struct { char pad[34]; unsigned char lo, hi; } O_00163118;
 void *func_00163080_p(void) __asm__("func_00163080");
 // MATCH func_00163118
 int FUN_00163118(void) { O_00163118 *o = func_00163080_p(); if (o == 0) return 0; return o->lo | (o->hi << 8); }
+
+typedef struct { char pad[192]; float v[4]; } O_00154248;
+void func_00154550(void *);
+// MATCH func_00154248
+void FUN_00154248(O_00154248 *o) { float *p = o->v; o->v[0] = 0; p[1] = 0; p[2] = 0; p[3] = 1.0f; func_00154550(o); }
+
+// MATCH func_00161200
+int FUN_00161200(void *a, unsigned char *p) { int r = p[0]; r += p[1] << 8; r += p[2] << 16; r += p[3] << 24; return r; }
