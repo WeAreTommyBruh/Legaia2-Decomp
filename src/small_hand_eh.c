@@ -72,3 +72,12 @@ void FUN_002ccc40(int a) { func_002CCF20(a, 0, 0, 4, D_0062B8D8_002CCC40); }
 extern char D_0062B8D8_002CCBA8[] __asm__("D_0062B8D8"); extern int D_00427DB0[]; void func_002CCF20(int, int, int, int, void *);
 // MATCH func_002CCBA8
 void FUN_002ccba8(int a, int b, int c) { D_00427DB0[0] = 0; func_002CCF20(a, b, c, 5, D_0062B8D8_002CCBA8); }
+
+void func_00220820(int, int, int, int, float);
+// MATCH func_002207E8
+void FUN_002207e8(int a, int b, int c) { func_00220820(0, a, b, c, 1.0f); }
+
+extern char D_0049F708[];
+void func_002ED680(int, void *, int, int);
+// MATCH func_002ED7A8
+void FUN_002ed7a8(int a, int b) { func_002ED680(a, D_0049F708, b, 1); }

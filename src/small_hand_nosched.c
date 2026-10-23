@@ -71,3 +71,15 @@ void FUN_002cf350(W_002CF350 *w, u128 v) { u128 *p = w->cur; *p = v; w->cur = p 
 typedef struct { u128 *cur; char p[16]; u128 *last; } W_002CF6F0;
 // MATCH func_002CF6F0
 void FUN_002cf6f0(W_002CF6F0 *w, u128 v) { u128 *p = w->cur; *p = v; w->cur = p + 1; w->last = p; }
+
+typedef struct { char pad[28]; int a28; int a32; int a36; } S_2a4990_002A4990;
+extern int D_004A6598, D_004A659C;
+typedef struct { int a, b, c, d; } V_2a4990_002A4990;
+V_2a4990_002A4990 func_002A4570(int);
+// MATCH func_002A4990
+void clas_min_002a4990(S_2a4990_002A4990 *s) { V_2a4990_002A4990 t = func_002A4570(s->a28); D_004A659C = s->a36; D_004A6598 = s->a32; }
+
+typedef struct { char pad[20]; char sub[20]; int a40; int a44; } S_2a6498_002A6498;
+void func_0029CFB8(void *);
+// MATCH func_002A6498
+void FUN_002a6498(S_2a6498_002A6498 *s) { func_0029CFB8(s); func_0029CFB8(s->sub); s->a40 = 0; s->a44 = 0; }

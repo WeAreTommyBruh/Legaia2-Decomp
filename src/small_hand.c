@@ -1150,3 +1150,151 @@ void FUN_002c9d00(unsigned i, unsigned char *d) { if (i < 8) func_002DD4CC_002C9
 extern int D_00426320[]; extern unsigned char D_0049DF50_002C9DF0[] __asm__("D_0049DF50"); void func_002DD4CC_002C9DF0(void *, int) __asm__("func_002DD4CC");
 // MATCH func_002C9DF0
 void FUN_002c9df0(unsigned i, unsigned char *d) { if (i < 4) func_002DD4CC_002C9DF0(d, D_00426320[i]); else *d = D_0049DF50_002C9DF0[0]; }
+
+// MATCH func_00163080
+char *FUN_00163080(int *p, int i) { if (p == 0) return 0; if (i < 0) return 0; if (i >= p[0]) return 0; return (char *)p + p[i + 1]; }
+
+typedef struct { char pad[80]; short adj; short p2; void (*fn)(void *); } VT_1760f8_001760F8;
+typedef struct { char pad[896]; VT_1760f8_001760F8 *vt; } O_1760f8_001760F8;
+extern O_1760f8_001760F8 *D_004A6F50;
+// MATCH func_001760F8
+void repetition_001760f8(void) { O_1760f8_001760F8 *o = D_004A6F50; o->vt->fn((char *)o + o->vt->adj); }
+
+typedef struct { char pad[40]; int v; } S_15ad98_0015AD98;
+// MATCH func_0015AD98
+int FUN_0015ad98(S_15ad98_0015AD98 **p) { S_15ad98_0015AD98 *q = *p; if (q == 0 || q->v == 0) return 0; return 1; }
+
+typedef struct { char pad[44]; int v; } S_15adc0_0015ADC0;
+// MATCH func_0015ADC0
+int FUN_0015adc0(S_15adc0_0015ADC0 **p) { S_15adc0_0015ADC0 *q = *p; if (q == 0 || q->v == 0) return 0; return 1; }
+
+typedef struct { int n; char *e; } L_12fbe8_0012FBE8;
+// MATCH func_0012FBE8
+int FUN_0012fbe8(L_12fbe8_0012FBE8 *l, int i) { int n = l->n; if (i >= n || *(int *)(l->e + i * 64 + 16) == 0) return n * 2; return *(int *)(l->e + i * 64 + 52); }
+
+typedef struct { char pad[24]; int a; int b; } S_16f508_0016F508;
+// MATCH func_0016F508
+void darts_0016f508(S_16f508_0016F508 *s, int n) { s->a += n; if (s->a > 99999999) s->a = 99999999; if (s->a > s->b) s->b = s->a; }
+
+typedef struct { int n; char *e; } L_1301e0_001301E0;
+// MATCH func_001301E0
+int FUN_001301e0(L_1301e0_001301E0 *l, int i) { if (i >= l->n || *(int *)(l->e + i * 64 + 16) == 0) return 0; return *(int *)(l->e + i * 64 + 16); }
+
+void *func_002056A8(int, int, int);
+// MATCH func_00205778
+void pchjob0_00205778(int a, int b, int c, int d) { int *p = func_002056A8(a, b, c); if (p != 0) *p = d; }
+
+void *func_002056A8(int, int, int);
+// MATCH func_002057A8
+void pchjob0_002057a8(int a, int b, int c, int d) { int *p = func_002056A8(a, b, c); if (p != 0) p[1] = d; }
+
+// MATCH func_0020BCC0
+char *pchevent_0020bcc0(char *s) { char *p = s; while (*p != 0) { unsigned char c = *p; if ((unsigned char)(c - 97) < 26) *p = c - 32; p++; } return s; }
+
+extern unsigned D_004A69FC_002A2118 __asm__("D_004A69FC"); extern char D_00424A98[];
+void func_002DD4CC_002A2118(void *) __asm__("func_002DD4CC"); void func_002DD718(void *);
+// MATCH func_002A2118
+void clas_min_002a2118(void) { D_004A69FC_002A2118 |= 0x40; func_002DD4CC_002A2118(D_00424A98); func_002DD718(D_00424A98); }
+
+extern char D_00424D98[]; extern int D_004A14E0;
+void func_002A2240(void); void func_0018B668(void *, int);
+// MATCH func_002A3928
+void clas_min_002a3928(void) { func_002A2240(); func_0018B668(D_00424D98, D_004A14E0); }
+
+// MATCH func_0022D750
+int FUN_0022d750(int *b, int i) { unsigned char *e = (unsigned char *)b + b[i + 1]; int v = *(unsigned short *)(e + 2); if (((e[1] ^ 1) & 1) != 0) return v; return (v >> 1) + 1; }
+
+typedef struct { int a0; char pad[20]; int a24; } S_2a4800_002A4800;
+void func_002BEB90(int, int);
+// MATCH func_002A4800
+void clas_min_002a4800(S_2a4800_002A4800 *s) { s->a24 = 0; if (s->a0 != 0) func_002BEB90(s->a0, 3); s->a0 = 0; }
+
+typedef struct { char pad[48]; int a48; int pad1; int a56; int pad2; int a64; int pad3; int a72; } S_2a64d0_002A64D0;
+void func_0029D010_002A64D0(void *, int, float) __asm__("func_0029D010");
+// MATCH func_002A64D0
+void FUN_002a64d0(S_2a64d0_002A64D0 *s, int a, int b, int c) { s->a72 = c; s->a56 = 0; s->a64 = 0; s->a48 = 0; func_0029D010_002A64D0(s, 0, (float)a); }
+
+typedef struct { char pad[20]; char sub[1]; char pad1[31]; int a52; int pad2; int a60; int pad3; int a68; int a72; } S_2a64f8_002A64F8;
+void func_0029D010_002A64F8(void *, int, float) __asm__("func_0029D010");
+// MATCH func_002A64F8
+void FUN_002a64f8(S_2a64f8_002A64F8 *s, int a, int b, int c) { s->a72 = c; s->a60 = 0; s->a68 = 0; s->a52 = 0; func_0029D010_002A64F8(s->sub, 0, (float)a); }
+
+typedef struct { char pad[240]; char a240[64]; char a304[1]; char pad2[1583]; int k; } S_2a7aa0_002A7AA0;
+// MATCH func_002A7AA0
+char *FUN_002a7aa0(S_2a7aa0_002A7AA0 *s) { int k = s->k; if (k == 1) return s->a304; if (k == 2) return s->a240; if (k == 4) return s->a304; return 0; }
+
+extern char D_00425E22[]; extern char D_0049B968[];
+int func_002DD36C(void *, void *);
+// MATCH func_002AF418
+char *FUN_002af418(void) { if (func_002DD36C(D_00425E22, D_0049B968) == 0) return D_00425E22 - 148; return D_00425E22; }
+
+// MATCH func_002BC8F8
+float FUN_002bc8f8(float a, float b) { if (a > 0.0f) { if (a > b) a = b; } else { b = -b; if (a < b) a = b; } return a; }
+
+typedef struct { char pad[12]; float a, b, c; } S_2bec78_002BEC78;
+void func_002A74F8(void *); void func_002A71F8(void *);
+// MATCH func_002BEC78
+void FUN_002bec78(S_2bec78_002BEC78 *s, float x, float y, float z) { s->a = x; s->b = y; s->c = z; func_002A74F8(s); func_002A71F8(s); }
+
+typedef struct { char pad[64]; int a64; } S_2c2b28_002C2B28;
+void func_002C3620(int, int, int);
+// MATCH func_002C2B28
+void FUN_002c2b28(S_2c2b28_002C2B28 *s, int a, int n) { func_002C3620(s->a64, a, ((n + 19) / 16) * 16); }
+
+// MATCH func_002C5C38
+void FUN_002c5c38(int a) { unsigned *p = (unsigned *)0x10002010; *p = (*p & 0xff7fffff) | (a << 23); }
+
+extern unsigned D_00426280[];
+typedef struct { char pad[2072]; unsigned v; } S_2c6e20_002C6E20;
+// MATCH func_002C6E20
+void FUN_002c6e20(S_2c6e20_002C6E20 *s, unsigned b) { *(volatile unsigned *)0x10002000 = b; s->v = D_00426280[b >> 28]; }
+
+typedef struct { char pad[30]; unsigned short h; } S_2d46b0_002D46B0;
+void *func_002CFF20(unsigned);
+// MATCH func_002D46B0
+int FUN_002d46b0(unsigned n) { int r = -1; if (n < 48) r = ((S_2d46b0_002D46B0 *)func_002CFF20(n))->h; return r; }
+
+typedef struct { char pad[81]; unsigned char b; } S_2d4fe0_002D4FE0;
+void *func_002CFF08(unsigned);
+// MATCH func_002D4FE0
+int FUN_002d4fe0(unsigned n) { if (n < 48) { S_2d4fe0_002D4FE0 *p = (S_2d4fe0_002D4FE0 *)func_002CFF08(n); if (p->b == 3) p->b = 0; } return -1; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D5448
+int FUN_002d5448(long a) { if ((a & 0xff000000) == 0) func_002D04C0(75, (int)a, 0, 0); return 0; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D5488
+int FUN_002d5488(long a) { if ((a & 0xff000000) == 0) func_002D04C0(76, (int)a, 0, 0); return 0; }
+
+int func_002DA4E0(int, int, int);
+// MATCH func_002DA588
+int FUN_002da588(int a, int b, int c, int d) { if (func_002DA4E0(a, b, c) == 0) d = 0; return d; }
+
+long func_002DDD90(char *, char **, int);
+// MATCH func_002DB920
+int FUN_002db920(char *a) { return func_002DDD90(a, 0, 10); }
+
+int func_002E5CB0(int); void func_002E5D20(void);
+// MATCH func_002EDB08
+int FUN_002edb08(void) { if (func_002E5CB0(4) & 0x40000) { func_002E5D20(); return 1; } return 0; }
+
+void func_002EE200(int); void func_002E54C0(int);
+// MATCH func_002EE2C0
+void FUN_002ee2c0(int a) { func_002EE200(a); func_002E54C0(a); }
+
+void func_002E5CD0(int, void *);
+// MATCH func_002E6970
+void FUN_002e6970(int a, signed char b) { struct { int a, b; } t; t.a = a; t.b = b; func_002E5CD0(3, &t); }
+
+void func_002E5CD0(int, void *);
+// MATCH func_002E69C8
+void FUN_002e69c8(int a, int b, unsigned short c) { struct { int a, b, c; } t; t.a = a; t.b = b; t.c = c; func_002E5CD0(-5, &t); }
+
+void func_002E5CD0(int, void *);
+// MATCH func_002E6A00
+void FUN_002e6a00(int a, int b, unsigned short c) { struct { int a, b, c; } t; t.a = a; t.b = b; t.c = c; func_002E5CD0(-6, &t); }
+
+void func_002E5CD0(int, void *);
+// MATCH func_002E6A38
+void FUN_002e6a38(int a, signed char b) { struct { int a, b; } t; t.a = a; t.b = b; func_002E5CD0(-7, &t); }
