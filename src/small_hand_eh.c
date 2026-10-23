@@ -56,3 +56,7 @@ void FUN_00256260(void) { if (D_004A12A4 == 11) func_002562F8(); else func_00259
 void func_00291DF0(int, int, int, int, int, int, int);
 // MATCH func_00291DC0
 void FUN_00291dc0(int a, int b, int c, signed char d, signed char e, int f) { func_00291DF0(a, b, c, d, e, f, 0); }
+
+void func_002C1CF0(int, int, int, int, int);
+// MATCH func_002C1FE8
+void FUN_002c1fe8(int a, int b, int c) { func_002C1CF0(a, b, c, 0, -1); }

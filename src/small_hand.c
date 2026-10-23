@@ -809,3 +809,24 @@ typedef struct { char c[8]; } V8_00294BD0;
 typedef struct { char p[56]; int w; char p2[16]; V8_00294BD0 a; V8_00294BD0 b; } O_00294BD0;
 // MATCH func_00294BD0
 int battleslot_00294bd0(O_00294BD0 *o) { if (o->w-- <= 0) { o->w = 0; o->a = o->b; } return -1; }
+
+typedef struct { char p[496]; int w; } O_0029F850;
+// MATCH func_0029F850
+void clas_min_0029f850(int a, O_0029F850 *o) { o->w &= -8193; }
+
+extern int D_00425510_002A1958[] __asm__("D_00425510"); extern char D_00343028_002A1958[] __asm__("D_00343028"); void func_0010E820(void *, int);
+// MATCH func_002A1958
+void clas_min_002a1958(void) { if ((D_00425510_002A1958[0] & 0x10000000) == 0) func_0010E820(D_00343028_002A1958, 102); }
+
+extern int D_004A69FC_002A2158 __asm__("D_004A69FC"); typedef struct { char p[12]; int w; } O_002A2158;
+// MATCH func_002A2158
+void clas_min_002a2158(O_002A2158 *o, int v) { D_004A69FC_002A2158 |= 0x40; o->w = v; }
+
+extern int D_004A69FC_002A3148 __asm__("D_004A69FC"); typedef struct { char p[28]; int w; } O_002A3148; void func_00126B20(void);
+// MATCH func_002A3148
+void clas_min_002a3148(O_002A3148 *o, int v) { o->w = v; if ((D_004A69FC_002A3148 & 0x20) == 0) { D_004A69FC_002A3148 |= 0xa0; func_00126B20(); } }
+
+typedef struct { char p[44]; int w; } O_002A3908;
+extern char D_00621320[]; void func_00131160(void *, int);
+// MATCH func_002A3908
+void clas_min_002a3908(O_002A3908 *o) { if (o->w != 0) func_00131160(D_00621320, o->w); }

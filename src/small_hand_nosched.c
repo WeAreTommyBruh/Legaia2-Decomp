@@ -20,3 +20,17 @@ void sprite_00201ce0(O_00201CE0 *o) { o->d = 127; o->f2 = 1.0f; o->a = 127; o->b
 typedef struct { int a, b, c, d, e; } O_001948A0;
 // MATCH func_001948A0
 void FUN_001948a0(O_001948A0 *o, int a, char *p, int n) { o->d = 0; o->a = a; o->c = 0; o->b = (int)p; o->e = n; if (n > 0) { do { *(int *)p = 0; p += 0x4ce40; } while (--n != 0); } }
+
+typedef struct { int a, b, c, d; } O_0029C3C8;
+extern int D_004A6980, D_004A6984, D_004A6988;
+// MATCH func_0029C3C8
+void clas_min_0029c3c8(O_0029C3C8 *o) { o->c = 0; o->d = 1; o->a = 0; o->b = 0; D_004A6980 = 0; D_004A6984 = 0; D_004A6988 = 0; }
+
+typedef struct { char p[516]; float a; char p2[16]; float b; char p3[16]; float c; } O_0029FF38;
+// MATCH func_0029FF38
+void clas_min_0029ff38(O_0029FF38 *o) { o->c = 128.0f; o->a = 128.0f; o->b = 128.0f; }
+
+typedef struct { char p[112]; int a; long long b; } P_002C2DE8;
+typedef struct { char p[64]; P_002C2DE8 *q; } O_002C2DE8;
+// MATCH func_002C2DE8
+void FUN_002c2de8(O_002C2DE8 *o) { P_002C2DE8 *p = o->q; p->b = 0; p->a = 0; }
