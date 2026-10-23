@@ -1,8 +1,6 @@
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation 
 Legaia 2: Duel Saga (PAL, SLES-50891) is now being decompiled using ghidra and claude code. This is for preserving and educational purposes.
 
-The project is a **matching decompilation in progress**: functions are rewritten in C that compiles (ee-gcc 2.9-ee-991111-01, `-O2 -G8`) to exactly the original bytes, and the rest are still linked from the original assembly so the rebuilt executable is always byte-identical. Current numbers are in `PROGRESS.md`.
-
 # Setup
 Open your terminal and clone the repo.
 
