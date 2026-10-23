@@ -476,3 +476,15 @@ void FUN_001e42e0(unsigned char *o, unsigned char a, unsigned char b, unsigned c
 extern char D_004A380A; typedef struct { int p; int a, b; } O_001E4330;
 // MATCH func_001E4330
 void FUN_001e4330(O_001E4330 *o, int a, int b) { if (D_004A380A != 0) { o->a = a; o->b = b; } }
+
+typedef struct { char p[76]; int n; char p2[280]; char *q; } O_001AF0F8;
+// MATCH func_001AF0F8
+int nayuwin2_001af0f8(O_001AF0F8 *o, int a, int b) { if (a < 0 || o->n < a) return 0; { char *r = o->q; r += a * 256; r += b * 4; return *(int *)(r + 40); } }
+
+typedef struct { char p[76]; int n; char p2[280]; char *q; } O_001AF7B8;
+// MATCH func_001AF7B8
+void nayuwin2_001af7b8(O_001AF7B8 *o, int a, int v, int b) { if (a < 0 || o->n < a) return; { char *r = o->q; r += a * 256; r += b * 4; *(int *)(r + 40) = v; } }
+
+typedef struct { char p[76]; int n; char p2[280]; char *q; } O_001AF7F0;
+// MATCH func_001AF7F0
+void nayuwin2_001af7f0(O_001AF7F0 *o, int a, int v) { if (a < 0 || o->n < a) return; { char *r = o->q + a * 256; *(int *)(r + 32) = v; } }
