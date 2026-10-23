@@ -19,3 +19,11 @@ int roulette_00172780(void)
 {
     return func_001714A0(MemAllocDbg(64, D_0043D5B8, 1775));
 }
+
+extern char D_0043D5B8[];
+void * func_00171EE8();
+// MATCH func_001727E8
+void *roulette_001727e8(int a)
+{
+    return func_00171EE8(MemAllocDbg(124, D_0043D5B8, 1784), a);
+}

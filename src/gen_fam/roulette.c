@@ -26,3 +26,16 @@ int roulette_001715e0(S_001715E0 *s)
     }
     return 0;
 }
+
+typedef struct { char p[8]; short adj; char p2[2]; void (*fn)(char *, int); } VT_001727B0;
+typedef struct { char pad[60]; VT_001727B0 *vt; } S_001727B0;
+
+// MATCH func_001727B0
+void roulette_001727b0(S_001727B0 *s)
+{
+    if (s != 0) {
+        VT_001727B0 *v = s->vt;
+
+        v->fn((char *)s + v->adj, 3);
+    }
+}

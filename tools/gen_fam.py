@@ -170,7 +170,22 @@ def fam_copy16_ret(t, name):
     body = f"D *{name}(D *d, S *s)\n{{\n    d->v = s->v;\n    return d;\n}}\n"
     return src, [], body
 
-FAMILIES = [fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
+
+def fam_vdelete(t, name):
+    """if (s) s->vt->fn((char *)s + s->vt->adj, K);   (a virtual call through the object's table)"""
+    g = match([r"addiu \$29, \$29, -16", r"daddu \$6, \$4, \$0", r"beq \$6, \$0, \.L\w+", r"sd \$31, 0\(\$29\)", r"lw \$2, (\d+)\(\$6\)", r"addiu \$5, \$0, (\d+)",
+               r"lh \$4, (\d+)\(\$2\)", r"lw \$3, (\d+)\(\$2\)", r"jalr \$31, \$3", r"addu \$4, \$6, \$4", r"ld \$31, 0\(\$29\)", r"jr \$31", r"addiu \$29, \$29, 16"], t)
+    if not g:
+        return None
+    vo, k, ao, fo = int(g[0]), int(g[1]), int(g[2]), int(g[3])
+    if fo < ao + 2:
+        return None
+    pad = f"char p[{ao}]; short adj; char p2[{fo - ao - 2}]; void (*fn)(char *, int);"
+    src = f"typedef struct {{ {pad} }} VT;\ntypedef struct {{ char pad[{vo}]; VT *vt; }} S;\n"
+    body = f"void {name}(S *s)\n{{\n    if (s != 0) {{\n        VT *v = s->vt;\n\n        v->fn((char *)s + v->adj, {k});\n    }}\n}}\n"
+    return src, [], body
+
+FAMILIES = [fam_vdelete, fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
 
 
 def main():
@@ -229,6 +244,7 @@ def main():
                 text_ = re.sub(r"\bS\b", "S_" + sfx, text_)
                 text_ = re.sub(r"\bItem\b", "Item_" + sfx, text_)
                 text_ = re.sub(r"\bV8\b", "V8_" + sfx, text_)
+                text_ = re.sub(r"\bVT\b", "VT_" + sfx, text_)
                 text_ = re.sub(r"\bD\b", "D_" + sfx, text_)
                 f.write("\n" + text_)
     print(tried, "candidates,", len(found), "matched")
