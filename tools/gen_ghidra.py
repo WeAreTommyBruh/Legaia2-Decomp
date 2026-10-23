@@ -674,7 +674,7 @@ def main(argv):
             found.append(tuple(m[:-1]) + (tuple(m[-1]),))
     if os.environ.get("GG_NEW"):
         have = set()
-        for path in glob.glob(os.path.join(OUTDIR, "*.c")):
+        for path in glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True):
             have |= {int(a, 16) for a in re.findall(r"MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
         found = [f for f in found if f[0] not in have and f[0] not in taken]
         print(f"{len(found)} new matches")
