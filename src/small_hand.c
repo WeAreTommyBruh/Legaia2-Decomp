@@ -460,3 +460,19 @@ void FUN_00197e58(void *a) { if (D_004A3864 & 0x10000) func_001118F8(a); }
 extern char *D_0036CE50[];
 // MATCH func_0019B6C0
 int EfbCommandAllowed(int a, int b, int c) { char *p = D_0036CE50[c]; return p[b - 1] == 0x31 ? 1 : -1; }
+
+void func_00254CE0(int, int); void func_00255008(int, int);
+// MATCH func_001B4BE8
+void FUN_001b4be8(int x, signed char a, signed char b) { int d = b - a; if (d < 0) func_00255008(x, -d); else func_00254CE0(x, d); }
+
+void func_00254D70(int, int); void func_00255098(int, int);
+// MATCH func_001B4C18
+void FUN_001b4c18(int x, signed char a, signed char b) { int d = b - a; if (d < 0) func_00255098(x, -d); else func_00254D70(x, d); }
+
+extern char D_004A380A;
+// MATCH func_001E42E0
+void FUN_001e42e0(unsigned char *o, unsigned char a, unsigned char b, unsigned char c) { if (D_004A380A != 0) { o[0] = a; o[1] = b; o[2] = c; } }
+
+extern char D_004A380A; typedef struct { int p; int a, b; } O_001E4330;
+// MATCH func_001E4330
+void FUN_001e4330(O_001E4330 *o, int a, int b) { if (D_004A380A != 0) { o->a = a; o->b = b; } }
