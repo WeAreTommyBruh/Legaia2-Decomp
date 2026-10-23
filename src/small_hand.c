@@ -240,3 +240,12 @@ extern V8_0016A780 D_004A2EE8[2];
 int func_00168AB8(void *);
 // MATCH func_0016A780
 int pachislot_0016a780(S_0016A780 *s) { func_00168AB8(s); s->v = D_004A2EE8[0]; return 0; }
+
+// MATCH func_00165F08
+void pachislot_00165f08(S_00165D78 *s) { if (func_00164A00(s) != 0) s->v = D_004A2CF8[0]; }
+
+// MATCH func_00166188
+void pachislot_00166188(S_00165D78 *s) { if (func_00164A00(s) != 0) s->v = D_004A2CF8[0]; }
+
+// MATCH func_00166388
+void pachislot_00166388(S_00165D78 *s) { if (func_00164A00(s) != 0) s->v = D_004A2CF8[0]; }
