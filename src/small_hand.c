@@ -88,12 +88,12 @@ int DbgPrintf(char *, ...);
 void ReleaseDrawNowLoading(void) { DbgPrintf(D_0042E838); D_004A1214 = 0; }
 
 typedef struct { char pad[128]; int n; char p[8]; int v; } S_001565E8;
-void func_001562F8(S_001565E8 *);
+void func_001562F8(void *);
 // MATCH func_001565E8
 void FUN_001565e8(S_001565E8 *s, int i) { if (i < 0) i = 0; if (i >= s->n) i = s->n - 1; s->v = i; func_001562F8(s); }
 
 typedef struct { char pad[222]; short n; char p[8]; int v; } S_00156D70;
-void func_00156A78(S_00156D70 *);
+void func_00156A78(void *);
 // MATCH func_00156D70
 void FUN_00156d70(S_00156D70 *s, int i) { if (i < 0) i = 0; if (i >= s->n) i = s->n - 1; s->v = i; func_00156A78(s); }
 
@@ -132,7 +132,7 @@ void *func_0012D9D8(void);
 // MATCH func_0012E630
 float pchsysw_0012e630(void) { S_0012E630 *s = func_0012D9D8(); if (s == 0) return 0.0f; return s->v; }
 
-void func_0012E658(int, float *);
+void func_0012E658(int, void *);
 typedef struct { char pad[12]; int a; } S_0012F4D0;
 // MATCH func_0012F4D0
 float pchsysw_0012f4d0(S_0012F4D0 *s) { float v[4]; func_0012E658(s->a, v); return v[0]; }
@@ -142,7 +142,7 @@ extern int D_004A140C, D_004A253C;
 void FUN_0013d5d8(int a) { if (a != 0 && (D_004A140C & 0x200) != 0) D_004A253C++; }
 
 typedef struct { float a, b, c; } V_0015DF00;
-void func_0029C980(char *, float, float, float, int, int);
+void func_0029C980(void *, float, float, float, int, int);
 // MATCH func_0015DF00
 void FUN_0015df00(char *s, V_0015DF00 *v) { func_0029C980(s + 176, v->a, v->b, v->c, 0, 0); }
 
@@ -158,3 +158,71 @@ void FUN_0015a8e8(int *p, int a, int b, int c) { int v[2]; func_0015D788(*p, a, 
 void func_0015D8B0(int, int, int, int, int, int);
 // MATCH func_0015A948
 void FUN_0015a948(int *p, int a, int b, int c, int d) { int v[4]; func_0015D8B0(*p, a, b, c, d, (int)v); }
+
+// MATCH func_0010A268
+int FUN_0010a268(int *p, int v) { int o = *p; if (o & 8) return o; *p = v; return v; }
+
+extern int D_00343028[];
+void func_002D4058(int);
+// MATCH func_0010A288
+void FUN_0010a288(int a, int b) { if ((D_00343028[0] & 8) == 0) func_002D4058(b); }
+
+extern int D_004A1610;
+extern char D_00321640[];
+int func_001911F0(void *);
+// MATCH func_00114360
+int FUN_00114360(void) { if (D_004A1610 != 0) return func_001911F0(D_00321640); return 1; }
+
+extern float D_0049FCE8;
+// MATCH func_0011BC60
+int battle_0011bc60(float a, float b) { if (__builtin_fabsf(a - b) > D_0049FCE8) return 1; return 0; }
+
+extern char D_004308F8[];
+int DbgPrintf(char *, ...);
+void func_0011D588(int, int);
+// MATCH func_001230E0
+void SetCard(int a) { DbgPrintf(D_004308F8); func_0011D588(a, -1); }
+
+typedef struct { int pad; int a; char pad2[1180]; int b; } P_00127450;
+extern P_00127450 *D_004A1A3C;
+// MATCH func_00127450
+int battle_00127450(void) { P_00127450 *p = D_004A1A3C; if (p == 0) return 0; if (p->b != 0) return 0; return !(p->a < 100); }
+
+extern int D_0034366C[];
+void func_001297A0(int, int, int, int, int, int);
+// MATCH func_0012D038
+void FUN_0012d038(void) { if (D_0034366C[0] != 0) func_001297A0(0, 2, 0, 1, 0, 0); else func_001297A0(0, 2, 0, 0, 0, 0); }
+
+typedef struct { char pad[16]; float f; } S_00153CB0;
+void func_0018ED30(void *);
+void func_001544F0(void *);
+// MATCH func_00153CB0
+void FUN_00153cb0(S_00153CB0 *s, float x) { s->f = x; func_0018ED30(&s->f); func_001544F0(s); }
+
+extern char D_0053F980[], D_0053FD30[];
+void func_00181128(void *, int);
+void func_002A39F8(void *, int);
+// MATCH func_0012D2E0
+void FUN_0012d2e0(void) { func_00181128(D_0053F980, 2); func_002A39F8(D_0053FD30, 2); }
+
+typedef struct { char pad[16]; float f; float g; } S_00153CE0;
+void func_0018ED30(void *);
+void func_001544F0(void *);
+// MATCH func_00153CE0
+void FUN_00153ce0(S_00153CE0 *s, float x) { s->g = x; func_0018ED30(&s->f); func_001544F0(s); }
+
+typedef struct { char pad[16]; float f; float g; float h; } S_00153D10;
+void func_0018ED30(void *);
+void func_001544F0(void *);
+// MATCH func_00153D10
+void FUN_00153d10(S_00153D10 *s, float x) { s->h = x; func_0018ED30(&s->f); func_001544F0(s); }
+
+typedef struct { char pad[16]; int p; char p2[36]; int v; char p3[4]; } It_00130150;
+typedef struct { int n; It_00130150 *a; } S_00130150;
+// MATCH func_00130150
+int FUN_00130150(S_00130150 *s, int i) { if (i >= s->n) return 0; if (s->a[i].p == 0) return 0; return s->a[i].v; }
+
+typedef struct { float x, y, z; char pad[4]; int p; char p2[44]; } It_0012F708;
+typedef struct { int n; It_0012F708 *a; } S_0012F708;
+// MATCH func_0012F708
+void pchsysw_0012f708(S_0012F708 *s, int i, float x, float y, float z) { if (i >= s->n) return; if (s->a[i].p == 0) return; s->a[i].x = x; s->a[i].y = y; s->a[i].z = z; }
