@@ -769,3 +769,11 @@ int FUN_00252048(int a, int b, int c) { return (func_00251FC8(b, c) >> a) & 1; }
 int func_00254040(int);
 // MATCH func_00254000
 int FUN_00254000(int a) { if (func_00254040(a) >= 99) return 0; return 99 - func_00254040(a); }
+
+typedef struct { int a, b; } O_00244450;
+// MATCH func_00244450
+int object_00244450(O_00244450 *o) { if ((unsigned)(o->a - 27649) < 10239 && (unsigned)(o->b - 30977) < 3583) return 1; return 0; }
+
+typedef struct { char p[148]; int w[8]; } T_0025DCE0; extern T_0025DCE0 D_003FEBA8;
+// MATCH func_0025DCE0
+int FUN_0025dce0(int a) { return (D_003FEBA8.w[a / 32] >> (a & 31)) & 1; }
