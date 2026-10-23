@@ -1138,3 +1138,15 @@ void clas_min_002a1ad0(char *o) { int i; int *p = (int *)(o + 260); for (i = 0; 
 
 // MATCH func_0029C398
 int clas_min_0029c398(int x, unsigned char *p, int i) { int j = (i / 4) * 4; return p[j] == 44; }
+
+typedef struct { long long *p; } W_002CF410;
+// MATCH func_002CF410
+void FUN_002cf410(W_002CF410 *w, unsigned a, long long b) { long long *p = w->p; *p = b; p++; *p = (long long)a; p++; w->p = p; }
+
+extern int D_00426300[]; extern unsigned char D_0049DF50[]; void func_002DD4CC_002C9D00(void *, int) __asm__("func_002DD4CC");
+// MATCH func_002C9D00
+void FUN_002c9d00(unsigned i, unsigned char *d) { if (i < 8) func_002DD4CC_002C9D00(d, D_00426300[i]); else *d = D_0049DF50[0]; }
+
+extern int D_00426320[]; extern unsigned char D_0049DF50_002C9DF0[] __asm__("D_0049DF50"); void func_002DD4CC_002C9DF0(void *, int) __asm__("func_002DD4CC");
+// MATCH func_002C9DF0
+void FUN_002c9df0(unsigned i, unsigned char *d) { if (i < 4) func_002DD4CC_002C9DF0(d, D_00426320[i]); else *d = D_0049DF50_002C9DF0[0]; }

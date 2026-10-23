@@ -62,3 +62,12 @@ typedef struct { char p[32]; int a; char p2[76]; int b; } T_00222A80;
 extern T_00222A80 D_00326F90;
 // MATCH func_00222A80
 int FUN_00222a80(void) { int a = D_00326F90.a; int b = D_00326F90.b; if (b - 1 == a) return 2; return b - 2 == a; }
+
+typedef int u128 __attribute__((mode(TI)));
+typedef struct { u128 *cur; char p[8]; u128 *last; } W_002CF350;
+// MATCH func_002CF350
+void FUN_002cf350(W_002CF350 *w, u128 v) { u128 *p = w->cur; *p = v; w->cur = p + 1; w->last = p; }
+
+typedef struct { u128 *cur; char p[16]; u128 *last; } W_002CF6F0;
+// MATCH func_002CF6F0
+void FUN_002cf6f0(W_002CF6F0 *w, u128 v) { u128 *p = w->cur; *p = v; w->cur = p + 1; w->last = p; }
