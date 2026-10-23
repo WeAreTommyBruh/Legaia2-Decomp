@@ -1049,3 +1049,15 @@ typedef struct { int a, b; } O_0018C4C8;
 void func_00131588_0018C4C8(int) __asm__("func_00131588");
 // MATCH func_0018C4C8
 void denlib_0018c4c8(O_0018C4C8 *o) { if (o->a != 0) { func_00131588_0018C4C8(o->a); } o->a = 0; if (o->b != 0) { func_00131588_0018C4C8(o->b); } o->b = 0; }
+
+typedef struct { float x, y, z, w; } V4_001262D0;
+typedef struct { char p[64]; V4_001262D0 v1; V4_001262D0 v2; char p2[16]; int i; char pa[4]; int j, k; } O_001262D0;
+static inline void set_001262D0(V4_001262D0 *v, float x, float y, float z) { v->x = x; v->y = y; v->z = z; v->w = 1.0f; }
+// MATCH func_001262D0
+void battle_001262d0(O_001262D0 *o, float a, float b, float c, int i, int j, int k, float d, float e, float f) { o->i = i; o->j = j; o->k = k; set_001262D0(&o->v1, a, b, c); set_001262D0(&o->v2, d, e, f); }
+
+typedef struct { float x, y, z, w; } V4_00126288;
+typedef struct { char p[64]; V4_00126288 v1; V4_00126288 v2; char p2[16]; int i; char pa[4]; int j, k; char pb[4]; float g; int m; } O_00126288;
+static inline void set_00126288(V4_00126288 *v, float x, float y, float z) { v->x = x; v->y = y; v->z = z; v->w = 1.0f; }
+// MATCH func_00126288
+void battle_00126288(O_00126288 *o, float a, float b, float c, int i, int j, int k, float d, float e, float f, float g, int m) { set_00126288(&o->v1, a, b, c); set_00126288(&o->v2, d, e, f); o->i = i; o->j = j; o->k = k; o->m = m; o->g = g; }
