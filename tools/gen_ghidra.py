@@ -672,14 +672,21 @@ def main(argv):
         m = match_of(cache.get(j[-1], {}))
         if m:
             found.append(tuple(m[:-1]) + (tuple(m[-1]),))
+    if os.environ.get("GG_NEW"):
+        have = set()
+        for path in glob.glob(os.path.join(OUTDIR, "*.c")):
+            have |= {int(a, 16) for a in re.findall(r"MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
+        found = [f for f in found if f[0] not in have and f[0] not in taken]
+        print(f"{len(found)} new matches")
     write_files(found)
 
 
 def write_files(found):
     """Writes src/ghidra/ from the matches (addr, name, group, text, externs, decls, flags)."""
 
-    for old in glob.glob(os.path.join(OUTDIR, "*.c")):
-        os.remove(old)
+    if not os.environ.get("GG_NEW"):  # GG_NEW: only add files (matches not in src/ghidra yet)
+        for old in glob.glob(os.path.join(OUTDIR, "*.c")):
+            os.remove(old)
     os.makedirs(OUTDIR, exist_ok=True)
     files = {}
     for addr, name, group, text, externs, decls, flags in sorted(found):
@@ -687,7 +694,8 @@ def write_files(found):
         # (`// compiler:` line) are kept apart
         compiler = next((f[9:] for f in flags if f.startswith("compiler=")), None)
         cflags = tuple(f for f in flags if not f.startswith("compiler="))
-        base = (re.sub(r"[^A-Za-z0-9_]", "_", group) + ("_eh" if cflags else "") +
+        base = (("n_" if os.environ.get("GG_NEW") else "") + re.sub(r"[^A-Za-z0-9_]", "_", group) +
+                (("_eh" if cflags == ("-fexceptions",) else "_" + "_".join(c.lstrip("-").replace("-", "") for c in cflags)) if cflags else "") +
                 (f"_{compiler}" if compiler else ""))
         n = 0
         while True:  # one file per group unless declarations clash

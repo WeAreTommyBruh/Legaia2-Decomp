@@ -1641,3 +1641,81 @@ extern char D_0043C7D8[];
 void func_001645A0(void *); void func_00108B80_00164500(void *) __asm__("func_00108B80");
 // MATCH func_00164500
 void FUN_00164500(S_164500_00164500 *s, int fl) { O_164500_00164500 *p; s->vt = D_0043C7D8; func_001645A0(s); p = s->o; if (p != 0) p->vt->fn((char *)p + p->vt->adj, 3); if (fl & 1) func_00108B80_00164500(s); }
+
+// MATCH func_00171FF8
+void roulette_00171ff8(char *s, int *src) { int i; int *d = (int *)(s + 68); for (i = 0; i < 12; i++) { int v = src[i]; if (v < 1) v = 1; if (v > 23) v = 23; d[i] = v; } }
+
+typedef struct { int a0, a4, a8, a12, a16, a20, a24, a28, a32; } E_1f6d18_001F6D18;
+typedef struct { char pad[104]; E_1f6d18_001F6D18 e0, e1; } S_1f6d18_001F6D18;
+// MATCH func_001F6D18
+void FUN_001f6d18(S_1f6d18_001F6D18 *s, int a, int b) { E_1f6d18_001F6D18 *x = &s->e0; E_1f6d18_001F6D18 *y = &s->e1;
+x->a0 = 0;
+x->a4 = a;
+x->a28 = 0;
+x->a8 = a;
+x->a16 = 0;
+x->a20 = 0;
+x->a32 = 1;
+x->a12 = 0;
+y->a0 = 0;
+x->a0 = a;
+y->a4 = b;
+y->a8 = b;
+y->a16 = 0;
+y->a20 = 0;
+y->a12 = 0;
+y->a28 = 0;
+y->a32 = 1;
+y->a0 = b;
+x->a24 = 0;
+x->a28 = 0;
+y->a24 = 0;
+y->a28 = 0;
+}
+
+typedef struct { int a0, a4, a8, a12, a16, a20; } S_2a4548_002A4548;
+extern S_2a4548_002A4548 D_00314CC8;
+// MATCH func_002A4548
+void clas_min_002a4548(void) { S_2a4548_002A4548 *p = &D_00314CC8; D_00314CC8.a0 = -1;
+p->a4 = -1;
+p->a8 = -1;
+p->a12 = -1;
+p->a16 = -1;
+p->a20 = -1;
+}
+
+typedef struct { int a0, a4, a8, a12; } S_2a45c8_002A45C8;
+extern S_2a45c8_002A45C8 D_00314D08;
+// MATCH func_002A45C8
+void clas_min_002a45c8(void) { S_2a45c8_002A45C8 *p = &D_00314D08; D_00314D08.a0 = 0;
+p->a4 = -1;
+p->a8 = -1;
+p->a12 = -1;
+}
+
+typedef struct { int a0, a4, a8, a12, a16; float f20, f24; int a28, a32, a36, a40, a44, a48, a52; unsigned char b56, b57, b58, b59; int a60, a64; float f68, f72; int a76; } S_201b08_00201B08;
+extern char D_00454088[];
+// MATCH func_00201B08
+S_201b08_00201B08 *FUN_00201b08(S_201b08_00201B08 *s) {
+s->a0 = 0;
+s->a4 = 0;
+s->a8 = 0;
+s->a12 = 0;
+s->a16 = 0;
+s->a76 = (int)D_00454088;
+s->f20 = 1.0f;
+s->f24 = 1.0f;
+s->a28 = 0;
+s->a32 = 0;
+s->a44 = 0;
+s->a48 = 0;
+s->a52 = 0;
+s->b56 = 127;
+s->b57 = 127;
+s->b58 = 127;
+s->a60 = 0;
+s->a64 = 0;
+s->b59 = 127;
+s->f68 = 1.0f;
+s->f72 = 1.0f;
+return s; }
