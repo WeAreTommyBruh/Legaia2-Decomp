@@ -1551,3 +1551,41 @@ int FUN_00250a68(unsigned i) { unsigned r; if (i < D_004A598E_00250A68) r = D_00
 typedef struct { char pad[4816]; unsigned a4816; char pad2[412]; long l5232; } S_21a938_0021A938;
 // MATCH func_0021A938
 int FUN_0021a938(S_21a938_0021A938 *s) { if ((s->a4816 & 0x20800) || (s->l5232 & 0x0010171c00000000L)) return 0; return 1; }
+
+typedef struct { char pad[22]; short h; int a24[3]; int a36[3]; } S_29b978_0029B978;
+// MATCH func_0029B978
+void FUN_0029b978(S_29b978_0029B978 *s, int a, int b) { int i = s->h; int n = (unsigned short)s->h + 1; s->a36[i] = a; s->a24[i] = b; s->h = n; if ((short)n >= 3) s->h = 0; }
+
+typedef struct { char pad[68]; int a68; } P_2d38a0_002D38A0;
+extern char D_00631A80[];
+void *func_002CFF38(void); int func_002E8B18(void *);
+// MATCH func_002D38A0
+int FUN_002d38a0(void) { int r = 0; if (((P_2d38a0_002D38A0 *)func_002CFF38())->a68 != 0) r = func_002E8B18(D_00631A80); return r; }
+
+extern int D_0040D610[]; extern char D_0047CC50[];
+int func_0025AE60(int);
+// MATCH func_0025B1C0
+void *FUN_0025b1c0(int a, int b) { if (func_0025AE60(a) >= 0) return (void *)D_0040D610[b - 1]; return D_0047CC50; }
+
+extern int D_0040D8B8[]; extern char D_0047CC50_0025B210[] __asm__("D_0047CC50");
+int func_0025AE60(int);
+// MATCH func_0025B210
+void *FUN_0025b210(int a, int b) { if (func_0025AE60(a) >= 0) return (void *)D_0040D8B8[b - 1]; return D_0047CC50_0025B210; }
+
+typedef struct { char pad[8]; short adj; short p2; void (*fn)(void *, int); } VT_2a63e8_002A63E8;
+typedef struct { char pad[56]; VT_2a63e8_002A63E8 *vt; } O_2a63e8_002A63E8;
+typedef struct { O_2a63e8_002A63E8 *o; int a4; } S_2a63e8_002A63E8;
+// MATCH func_002A63E8
+void FUN_002a63e8(S_2a63e8_002A63E8 *s) { O_2a63e8_002A63E8 *p; s->a4 = 0; p = s->o; if (p != 0) { p->vt->fn((char *)p + p->vt->adj, 3); s->o = 0; } }
+
+typedef struct { int a0, a4, a8, a12, a16, a20; } S_29b5c0_0029B5C0;
+extern S_29b5c0_0029B5C0 D_00620058; extern int D_00425518[];
+// MATCH func_0029B5C0
+void FUN_0029b5c0(int x, int b) { S_29b5c0_0029B5C0 *s = &D_00620058; if (s->a4 != 0 || (D_00425518[0] & 0x10)) {
+s->a0 = 1;
+s->a4 = b;
+s->a8 = 0;
+s->a20 = 0;
+s->a16 = 0;
+s->a12 = 0;
+} }
