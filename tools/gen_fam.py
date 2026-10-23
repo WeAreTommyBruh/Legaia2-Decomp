@@ -185,7 +185,52 @@ def fam_vdelete(t, name):
     body = f"void {name}(S *s)\n{{\n    if (s != 0) {{\n        VT *v = s->vt;\n\n        v->fn((char *)s + v->adj, {k});\n    }}\n}}\n"
     return src, [], body
 
-FAMILIES = [fam_vdelete, fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
+
+import struct as _st
+
+
+def _f(hi):
+    return _st.unpack("<f", _st.pack("<I", int(hi, 16) << 16))[0]
+
+
+def fam_hermite(t, name):
+    """the slopes of a cubic segment: two outputs from (p0, p1, d, t)"""
+    pats = [r"mtc1 \$0, \$f0", r"lwc1 \$f7, (\d+)\(\$4\)", r"c\.eq\.s \$f7, \$f0", r"nop", r"bc1fl \.L\w+", r"lwc1 \$f1, (\d+)\(\$4\)", r"swc1 \$f0, (\d+)\(\$4\)", r"jr \$31", r"swc1 \$f0, (\d+)\(\$4\)",
+            r"mul\.s \$f6, \$f7, \$f7", r"lwc1 \$f0, (\d+)\(\$4\)", r"lwc1 \$f2, (\d+)\(\$4\)", r"add\.s \$f3, \$f1, \$f1", r"lui \$1, (0x[0-9a-f]+)", r"mtc1 \$1, \$f4", r"sub\.s \$f2, \$f2, \$f0",
+            r"lui \$1, (0x[0-9a-f]+)", r"mtc1 \$1, \$f5", r"mul\.s \$f1, \$f1, \$f4", r"lui \$1, (0x[0-9a-f]+)", r"mtc1 \$1, \$f0", r"sub\.s \$f3, \$f3, \$f5", r"mul\.s \$f0, \$f2, \$f0",
+            r"sub\.s \$f1, \$f1, \$f5", r"mul\.s \$f0, \$f0, \$f3", r"mul\.s \$f2, \$f2, \$f1", r"nop", r"nop", r"div\.s \$f0, \$f0, \$f6", r"nop", r"nop", r"div\.s \$f2, \$f2, \$f7",
+            r"swc1 \$f0, (\d+)\(\$4\)", r"jr \$31", r"swc1 \$f2, (\d+)\(\$4\)"]
+    g = match(pats, t)
+    if not g:
+        return None
+    d, tt, c0, c1, p0, p1, k1, k2, k3, o0, o1 = int(g[0]), int(g[1]), int(g[2]), int(g[3]), int(g[4]), int(g[5]), g[6], g[7], g[8], int(g[9]), int(g[10])
+    if (c0, c1) != (o1, o0):
+        return None
+    F = lambda off: f"FIELD(float, s, {off})"
+    k1f, k2f, k3f = _f(k1), _f(k2), _f(k3)
+    body = (f"void {name}(void *s)\n{{\n    float d = {F(d)};\n    float t;\n    float dd;\n    float dp;\n\n"
+            f"    if (d == 0.0f) {{\n        {F(o0)} = 0.0f;\n        {F(o1)} = 0.0f;\n        return;\n    }}\n"
+            f"    t = {F(tt)};\n    dd = d * d;\n    dp = {F(p1)} - {F(p0)};\n"
+            f"    {F(o0)} = (dp * {k3f!r}f * (t + t - {k2f!r}f)) / dd;\n    {F(o1)} = (dp * (t * {k1f!r}f - {k2f!r}f)) / d;\n}}\n")
+    return "", [], body
+
+
+def fam_poly2(t, name):
+    """o = t * (a * t + b) + c, or the constant d when a and b are both 0"""
+    g = match([r"mtc1 \$0, \$f1", r"lwc1 \$f0, (\d+)\(\$4\)", r"c\.eq\.s \$f0, \$f1", r"nop", r"bc1fl \.L\w+", r"lwc1 \$f3, (\d+)\(\$4\)", r"lwc1 \$f0, (\d+)\(\$4\)", r"c\.eq\.s \$f0, \$f1", r"nop",
+               r"bc1f \.L\w+", r"mov\.s \$f3, \$f0", r"lwc1 \$f0, (\d+)\(\$4\)", r"jr \$31", r"swc1 \$f0, (\d+)\(\$4\)", r"lwc1 \$f0, (\d+)\(\$4\)", r"lwc1 \$f1, (\d+)\(\$4\)", r"lwc1 \$f2, (\d+)\(\$4\)",
+               r"mul\.s \$f1, \$f1, \$f0", r"add\.s \$f1, \$f1, \$f3", r"mul\.s \$f0, \$f0, \$f1", r"add\.s \$f0, \$f0, \$f2", r"jr \$31", r"swc1 \$f0, (\d+)\(\$4\)"], t)
+    if not g:
+        return None
+    a, b1, b2, dd, o1, tt, a2, c, o2 = [int(x) for x in g]
+    if a != a2 or b1 != b2 or o1 != o2:
+        return None
+    F = lambda off: f"FIELD(float, s, {off})"
+    body = (f"void {name}(void *s)\n{{\n    float b;\n    float t;\n\n    if ({F(a)} == 0.0f && {F(b1)} == 0.0f) {{\n        {F(o1)} = {F(dd)};\n        return;\n    }}\n"
+            f"    b = {F(b1)};\n    t = {F(tt)};\n    {F(o1)} = t * ({F(a)} * t + b) + {F(c)};\n}}\n")
+    return "", [], body
+
+FAMILIES = [fam_poly2, fam_hermite, fam_vdelete, fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
 
 
 def main():
@@ -207,7 +252,7 @@ def main():
         addr, size, name = int(r["address"], 16), int(r["size_bytes"]), r["name"]
         if count[name] > 1:
             name = f"dup_{addr:08x}"
-        if addr in done or size > 128 or not re.fullmatch(r"[A-Za-z_]\w*", name):
+        if addr in done or size > 200 or not re.fullmatch(r"[A-Za-z_]\w*", name):
             continue
         ws = struct.unpack_from(f"<{size // 4}I", code, addr - text["addr"])
         ins = [ee_disasm.decode(w, addr + 4 * i) for i, w in enumerate(ws)]
@@ -221,24 +266,26 @@ def main():
             tried += 1
             typedefs, ex, body = res
             src = typedefs + "\n".join(ex) + "\n" + body
-            for extra in ([], ["-fexceptions"], ["-fno-gcse"]):
-                if compile_check([(addr, name, src, [])], "991111-01", extra):
-                    found[addr] = (name, typedefs, ex, body, r["group"] or "none", tuple(extra))
+            for comp, extra in (("991111-01", []), ("991111-01", ["-fexceptions"]), ("991111-01", ["-fno-gcse"]), ("990721-r5900", ["-fno-thread-jumps"])):
+                if compile_check([(addr, name, src, [])], comp, extra):
+                    found[addr] = (name, typedefs, ex, body, r["group"] or "none", tuple(extra), comp)
                     break
     os.makedirs(OUT, exist_ok=True)
     for old in glob.glob(os.path.join(OUT, "*.c")):
         os.remove(old)
     groups = {}
     for a, v in found.items():
-        groups.setdefault((v[4], v[5]), []).append((a, v))
-    for (g, extra), fl in groups.items():
-        tag = re.sub(r"[^A-Za-z0-9_]", "_", g) + ("_" + "".join(e.strip("-").replace("-", "") for e in extra) if extra else "")
+        groups.setdefault((v[4], v[5], v[6]), []).append((a, v))
+    for (g, extra, comp), fl in groups.items():
+        tag = re.sub(r"[^A-Za-z0-9_]", "_", g) + ("_990721" if comp != "991111-01" else "") + ("_" + "".join(e.strip("-").replace("-", "") for e in extra) if extra else "")
         with open(os.path.join(OUT, tag + ".c"), "w") as f:
             f.write(f"/* {g}: small functions found by instruction shape, generated by tools/gen_fam.py. */\n")
+            if comp != "991111-01":
+                f.write(f"// compiler: {comp}\n")
             if extra:
                 f.write(f"// cflags: {' '.join(extra)}\n")
             f.write('#include "../common.h"\n')
-            for a, (name, typedefs, ex, body, g_, e) in sorted(fl):
+            for a, (name, typedefs, ex, body, g_, e, c_) in sorted(fl):
                 sfx = f"{a:08X}"
                 text_ = typedefs + "\n".join(ex) + f"\n// MATCH func_{a:08X}\n" + body
                 text_ = re.sub(r"\bS\b", "S_" + sfx, text_)

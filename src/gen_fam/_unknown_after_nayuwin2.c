@@ -23,6 +23,27 @@ void FUN_001b7980(S_001B7980 *s, float x)
     func_00108C20(s);
 }
 
+
+// MATCH func_001B7A98
+void FUN_001b7a98(void *s)
+{
+    float d = FIELD(float, s, 12);
+    float t;
+    float dd;
+    float dp;
+
+    if (d == 0.0f) {
+        FIELD(float, s, 32) = 0.0f;
+        FIELD(float, s, 36) = 0.0f;
+        return;
+    }
+    t = FIELD(float, s, 16);
+    dd = d * d;
+    dp = FIELD(float, s, 8) - FIELD(float, s, 4);
+    FIELD(float, s, 32) = (dp * -2.0f * (t + t - 1.0f)) / dd;
+    FIELD(float, s, 36) = (dp * (t * 4.0f - 1.0f)) / d;
+}
+
 typedef struct { char pad[4]; float v; } S_001C79B8;
 void func_00108C80(void *);
 void func_00108C20(void *);
@@ -32,4 +53,25 @@ void FUN_001c79b8(S_001C79B8 *s, float x)
     s->v = x;
     func_00108C80(s);
     func_00108C20(s);
+}
+
+
+// MATCH func_001C7AD0
+void FUN_001c7ad0(void *s)
+{
+    float d = FIELD(float, s, 12);
+    float t;
+    float dd;
+    float dp;
+
+    if (d == 0.0f) {
+        FIELD(float, s, 32) = 0.0f;
+        FIELD(float, s, 36) = 0.0f;
+        return;
+    }
+    t = FIELD(float, s, 16);
+    dd = d * d;
+    dp = FIELD(float, s, 8) - FIELD(float, s, 4);
+    FIELD(float, s, 32) = (dp * -2.0f * (t + t - 1.0f)) / dd;
+    FIELD(float, s, 36) = (dp * (t * 4.0f - 1.0f)) / d;
 }
