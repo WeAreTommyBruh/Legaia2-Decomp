@@ -271,7 +271,19 @@ def fam_dtor2(t, name):
     body = f"void {name}(void *p, int flags)\n{{\n    {g[0]}(p, {g[1]});\n    if (flags & 1)\n        {g[2]}(p);\n}}\n"
     return "", ex, body
 
-FAMILIES = [fam_addclamp, fam_dtor2, fam_dma, fam_poly2, fam_hermite, fam_vdelete, fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
+
+def fam_counter(t, name):
+    """if (D) { D++; if (D == K) f(); if (D >= M) D = 0; }"""
+    g = match([r"addiu \$29, \$29, -16", r"lw \$2, (-?\d+)\(\$28\)", r"beq \$2, \$0, \.L\w+", r"sd \$31, 0\(\$29\)", r"addiu \$2, \$2, 1", r"addiu \$3, \$0, (\d+)", r"bne \$2, \$3, \.L\w+", r"sw \$2, (-?\d+)\(\$28\)",
+               r"jal (func_\w+)", r"nop", r"lw \$2, (-?\d+)\(\$28\)", r"slti \$2, \$2, (\d+)", r"beql \$2, \$0, \.L\w+", r"sw \$0, (-?\d+)\(\$28\)", r"ld \$31, 0\(\$29\)", r"jr \$31", r"addiu \$29, \$29, 16"], t)
+    if not g or not (g[0] == g[2] == g[4] == g[6]):
+        return None
+    sym = f"D_{0x4A7C70 + int(g[0]):08X}"
+    ex = [f"extern int {sym};", f"void {g[3]}(void);"]
+    body = f"void {name}(void)\n{{\n    if ({sym} != 0) {{\n        {sym} = {sym} + 1;\n        if ({sym} == {g[1]})\n            {g[3]}();\n        if ({sym} >= {g[5]})\n            {sym} = 0;\n    }}\n}}\n"
+    return "", ex, body
+
+FAMILIES = [fam_counter, fam_addclamp, fam_dtor2, fam_dma, fam_poly2, fam_hermite, fam_vdelete, fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
 
 
 def main():
