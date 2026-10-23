@@ -83,3 +83,6 @@ typedef struct { char pad[20]; char sub[20]; int a40; int a44; } S_2a6498_002A64
 void func_0029CFB8(void *);
 // MATCH func_002A6498
 void FUN_002a6498(S_2a6498_002A6498 *s) { func_0029CFB8(s); func_0029CFB8(s->sub); s->a40 = 0; s->a44 = 0; }
+
+// MATCH func_00203520
+void FUN_00203520(float *v) { float z = 0.0f; __asm__("" : "+f"(z)); v[0] = z; v[3] = 1.0f; v[2] = z; v[1] = z; }

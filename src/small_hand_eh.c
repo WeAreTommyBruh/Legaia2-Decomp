@@ -32,10 +32,6 @@ void func_002380C0(int, int, int, int, int, int, int);
 // MATCH func_00238070
 void FUN_00238070(int a, int b, int c, int d, int e, int f) { func_002380C0(a, b, c, d, e, f, 1); }
 
-void func_0010B1A8(int, int, int, int, int, int);
-// OFF func_0010B188
-void rsound_0010b188(int a, int b, int c, int d, int e) { func_0010B1A8(a, b, c, d, e, -1); }
-
 void func_002207E8(float);
 // MATCH func_002207C0
 void FUN_002207c0(void) { func_002207E8(1.0f); }
