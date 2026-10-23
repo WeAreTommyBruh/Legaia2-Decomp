@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 4.8498263,
+  "fuzzy_match_percent": 4.860309,
   "total_code": "2022408",
-  "matched_code": "94880",
-  "matched_code_percent": 4.6914372,
+  "matched_code": "95092",
+  "matched_code_percent": 4.70192,
   "total_data": "1768056",
   "matched_data": "136",
   "matched_data_percent": 0.0076920637,
   "total_functions": 6254,
-  "matched_functions": 2178,
-  "matched_functions_percent": 34.825714,
+  "matched_functions": 2182,
+  "matched_functions_percent": 34.88967,
   "total_units": 155
  },
  "units": [
@@ -838,11 +838,11 @@
     "total_code": "17284",
     "total_functions": 82,
     "total_units": 1,
-    "fuzzy_match_percent": 4.721129368201805,
-    "matched_code": "816",
-    "matched_code_percent": 4.721129368201805,
-    "matched_functions": 35,
-    "matched_functions_percent": 42.68292682926829,
+    "fuzzy_match_percent": 5.253413561675538,
+    "matched_code": "908",
+    "matched_code_percent": 5.253413561675538,
+    "matched_functions": 37,
+    "matched_functions_percent": 45.1219512195122,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -861,7 +861,7 @@
      "name": ".text",
      "metadata": {},
      "size": "17432",
-     "fuzzy_match_percent": 4.956402019274897
+     "fuzzy_match_percent": 5.507113354749885
     }
    ],
    "functions": [
@@ -998,364 +998,366 @@
      "address": "6840"
     },
     {
-     "name": "FUN_0010f230",
-     "size": "52",
-     "metadata": {},
-     "address": "6976"
-    },
-    {
      "name": "FUN_0010f268",
      "size": "136",
      "metadata": {},
-     "address": "7032"
+     "address": "6976"
     },
     {
      "name": "FUN_0010f2f0",
      "size": "28",
      "metadata": {},
-     "address": "7168"
+     "address": "7112"
     },
     {
      "name": "FUN_0010f310",
      "size": "80",
      "metadata": {},
-     "address": "7200"
+     "address": "7144"
     },
     {
      "name": "FUN_0010f360",
      "size": "88",
      "metadata": {},
-     "address": "7280"
+     "address": "7224"
     },
     {
      "name": "FUN_0010f3b8",
      "size": "40",
      "metadata": {},
-     "address": "7368"
+     "address": "7312"
     },
     {
      "name": "FUN_0010f3e0",
      "size": "68",
      "metadata": {},
-     "address": "7408"
+     "address": "7352"
     },
     {
      "name": "FUN_0010f428",
      "size": "988",
      "metadata": {},
-     "address": "7480"
+     "address": "7424"
     },
     {
      "name": "FUN_0010f808",
      "size": "344",
      "metadata": {},
-     "address": "8472"
+     "address": "8416"
     },
     {
      "name": "FUN_0010f960",
      "size": "608",
      "metadata": {},
-     "address": "8816"
+     "address": "8760"
     },
     {
      "name": "FUN_0010fbc0",
      "size": "532",
      "metadata": {},
-     "address": "9424"
+     "address": "9368"
     },
     {
      "name": "FUN_0010fdd8",
      "size": "80",
      "metadata": {},
-     "address": "9960"
+     "address": "9904"
     },
     {
      "name": "FUN_0010fe28",
      "size": "136",
      "metadata": {},
-     "address": "10040"
+     "address": "9984"
     },
     {
      "name": "FUN_0010ff28",
      "size": "96",
      "metadata": {},
-     "address": "10176"
+     "address": "10120"
     },
     {
      "name": "FUN_0010ff88",
      "size": "128",
      "metadata": {},
-     "address": "10272"
+     "address": "10216"
     },
     {
      "name": "FUN_00110008",
      "size": "116",
      "metadata": {},
-     "address": "10400"
+     "address": "10344"
     },
     {
      "name": "FUN_001100b8",
      "size": "52",
      "metadata": {},
-     "address": "10520"
+     "address": "10464"
     },
     {
      "name": "FUN_001100f0",
      "size": "416",
      "metadata": {},
-     "address": "10576"
+     "address": "10520"
     },
     {
      "name": "FUN_00110290",
      "size": "512",
      "metadata": {},
-     "address": "10992"
+     "address": "10936"
     },
     {
      "name": "FUN_00110490",
      "size": "3292",
      "metadata": {},
-     "address": "11504"
+     "address": "11448"
     },
     {
      "name": "FUN_00111170",
      "size": "612",
      "metadata": {},
-     "address": "14800"
-    },
-    {
-     "name": "FUN_001113d8",
-     "size": "40",
-     "metadata": {},
-     "address": "15416"
+     "address": "14744"
     },
     {
      "name": "SyncCheck",
      "size": "172",
      "metadata": {},
-     "address": "15456"
+     "address": "15360"
     },
     {
      "name": "FUN_00111520",
      "size": "844",
      "metadata": {},
-     "address": "15632"
+     "address": "15536"
     },
     {
      "name": "DbgPrintf",
      "size": "84",
      "metadata": {},
-     "address": "16480"
+     "address": "16384"
     },
     {
      "name": "FUN_0010e240",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16568"
+     "address": "16472"
     },
     {
      "name": "FUN_0010f038",
      "size": "24",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16584"
+     "address": "16488"
     },
     {
      "name": "FUN_001114e8",
      "size": "20",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16608"
+     "address": "16512"
     },
     {
      "name": "FUN_001118d0",
      "size": "20",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16632"
+     "address": "16536"
     },
     {
      "name": "FUN_0010f0d8",
      "size": "92",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16656"
+     "address": "16560"
     },
     {
      "name": "FUN_0010f138",
      "size": "140",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16752"
+     "address": "16656"
     },
     {
      "name": "FUN_0010f1c8",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16896"
+     "address": "16800"
     },
     {
      "name": "FUN_0010f1d8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16912"
+     "address": "16816"
     },
     {
      "name": "FUN_00110098",
      "size": "32",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16920"
+     "address": "16824"
     },
     {
      "name": "FUN_001114b0",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16952"
+     "address": "16856"
     },
     {
      "name": "FUN_001114b8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16960"
+     "address": "16864"
     },
     {
      "name": "FUN_001114c0",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16968"
+     "address": "16872"
     },
     {
      "name": "FUN_001114c8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16976"
+     "address": "16880"
     },
     {
      "name": "FUN_001114d0",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16984"
+     "address": "16888"
     },
     {
      "name": "FUN_001114d8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "16992"
+     "address": "16896"
     },
     {
      "name": "FUN_001114e0",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17000"
+     "address": "16904"
     },
     {
      "name": "FUN_00111500",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17008"
+     "address": "16912"
     },
     {
      "name": "FUN_00111510",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17024"
+     "address": "16928"
     },
     {
      "name": "FUN_00111518",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17032"
+     "address": "16936"
     },
     {
      "name": "FUN_00111870",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17040"
+     "address": "16944"
     },
     {
      "name": "FUN_00111878",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17048"
+     "address": "16952"
     },
     {
      "name": "FUN_00111890",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17056"
+     "address": "16960"
     },
     {
      "name": "FUN_00111898",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17064"
+     "address": "16968"
     },
     {
      "name": "FUN_001118a0",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17072"
+     "address": "16976"
     },
     {
      "name": "FUN_001118c0",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17080"
+     "address": "16984"
     },
     {
      "name": "FUN_00111950",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17096"
+     "address": "17000"
     },
     {
      "name": "FUN_00111958",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17104"
+     "address": "17008"
     },
     {
      "name": "SetDrawNowLoading",
      "size": "40",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17120"
+     "address": "17024"
     },
     {
      "name": "ReleaseDrawNowLoading",
      "size": "36",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17160"
+     "address": "17064"
+    },
+    {
+     "name": "FUN_0010f230",
+     "size": "52",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "17104"
     },
     {
      "name": "FUN_00110080",
      "size": "24",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "17200"
+     "address": "17160"
+    },
+    {
+     "name": "FUN_001113d8",
+     "size": "40",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "17184"
     },
     {
      "name": "FUN_001118a8",
@@ -2181,11 +2183,11 @@
     "total_code": "88704",
     "total_functions": 206,
     "total_units": 1,
-    "fuzzy_match_percent": 2.250180375180375,
-    "matched_code": "1996",
-    "matched_code_percent": 2.250180375180375,
-    "matched_functions": 73,
-    "matched_functions_percent": 35.43689320388349,
+    "fuzzy_match_percent": 2.3088023088023086,
+    "matched_code": "2048",
+    "matched_code_percent": 2.3088023088023086,
+    "matched_functions": 74,
+    "matched_functions_percent": 35.922330097087375,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -2204,7 +2206,7 @@
      "name": ".text",
      "metadata": {},
      "size": "89088",
-     "fuzzy_match_percent": 2.34375
+     "fuzzy_match_percent": 2.406609195402299
     }
    ],
    "functions": [
@@ -2797,634 +2799,635 @@
      "address": "73248"
     },
     {
-     "name": "battle_001296b0",
-     "size": "52",
-     "metadata": {},
-     "address": "73640"
-    },
-    {
      "name": "battle_001296e8",
      "size": "68",
      "metadata": {},
-     "address": "73696"
+     "address": "73640"
     },
     {
      "name": "battle_00129730",
      "size": "108",
      "metadata": {},
-     "address": "73768"
+     "address": "73712"
     },
     {
      "name": "battle_001297c0",
      "size": "296",
      "metadata": {},
-     "address": "73880"
+     "address": "73824"
     },
     {
      "name": "battle_001298e8",
      "size": "336",
      "metadata": {},
-     "address": "74176"
+     "address": "74120"
     },
     {
      "name": "battle_00129a38",
      "size": "196",
      "metadata": {},
-     "address": "74512"
+     "address": "74456"
     },
     {
      "name": "battle_00129b78",
      "size": "76",
      "metadata": {},
-     "address": "74712"
+     "address": "74656"
     },
     {
      "name": "battle_00129be8",
      "size": "492",
      "metadata": {},
-     "address": "74792"
+     "address": "74736"
     },
     {
      "name": "battle_00129e10",
      "size": "100",
      "metadata": {},
-     "address": "75288"
+     "address": "75232"
     },
     {
      "name": "battle_00129e80",
      "size": "700",
      "metadata": {},
-     "address": "75392"
+     "address": "75336"
     },
     {
      "name": "battle_0012a140",
      "size": "120",
      "metadata": {},
-     "address": "76096"
+     "address": "76040"
     },
     {
      "name": "battle_0012a1b8",
      "size": "1312",
      "metadata": {},
-     "address": "76216"
+     "address": "76160"
     },
     {
      "name": "battle_0012a6e0",
      "size": "276",
      "metadata": {},
-     "address": "77528"
+     "address": "77472"
     },
     {
      "name": "battle_0012a7f8",
      "size": "100",
      "metadata": {},
-     "address": "77808"
+     "address": "77752"
     },
     {
      "name": "battle_0012a860",
      "size": "212",
      "metadata": {},
-     "address": "77912"
+     "address": "77856"
     },
     {
      "name": "battle_0012a958",
      "size": "192",
      "metadata": {},
-     "address": "78128"
+     "address": "78072"
     },
     {
      "name": "battle_0012aa18",
      "size": "460",
      "metadata": {},
-     "address": "78320"
+     "address": "78264"
     },
     {
      "name": "battle_0012ac10",
      "size": "140",
      "metadata": {},
-     "address": "78784"
+     "address": "78728"
     },
     {
      "name": "battle_0012aca0",
      "size": "12",
      "metadata": {},
-     "address": "78928"
+     "address": "78872"
     },
     {
      "name": "battle_0012acb0",
      "size": "316",
      "metadata": {},
-     "address": "78944"
+     "address": "78888"
     },
     {
      "name": "battle_0012af88",
      "size": "36",
      "metadata": {},
-     "address": "79264"
+     "address": "79208"
     },
     {
      "name": "battle_0012afb0",
      "size": "212",
      "metadata": {},
-     "address": "79304"
+     "address": "79248"
     },
     {
      "name": "battle_0012b088",
      "size": "416",
      "metadata": {},
-     "address": "79520"
+     "address": "79464"
     },
     {
      "name": "battle_0012b228",
      "size": "2512",
      "metadata": {},
-     "address": "79936"
+     "address": "79880"
     },
     {
      "name": "battle_0012bbf8",
      "size": "1500",
      "metadata": {},
-     "address": "82448"
+     "address": "82392"
     },
     {
      "name": "battle_0012c1f0",
      "size": "592",
      "metadata": {},
-     "address": "83952"
+     "address": "83896"
     },
     {
      "name": "battle_0012c448",
      "size": "76",
      "metadata": {},
-     "address": "84544"
+     "address": "84488"
     },
     {
      "name": "battle_0012c498",
      "size": "872",
      "metadata": {},
-     "address": "84624"
+     "address": "84568"
     },
     {
      "name": "battle_0012c808",
      "size": "272",
      "metadata": {},
-     "address": "85496"
+     "address": "85440"
     },
     {
      "name": "battle_0012c918",
      "size": "64",
      "metadata": {},
-     "address": "85768"
+     "address": "85712"
     },
     {
      "name": "battle_0012c9b0",
      "size": "260",
      "metadata": {},
-     "address": "85832"
+     "address": "85776"
     },
     {
      "name": "ClearPlayerCamera",
      "size": "104",
      "metadata": {},
-     "address": "86096"
+     "address": "86040"
     },
     {
      "name": "battle_0012cb20",
      "size": "200",
      "metadata": {},
-     "address": "86200"
+     "address": "86144"
     },
     {
      "name": "battle_0012cbe8",
      "size": "312",
      "metadata": {},
-     "address": "86400"
+     "address": "86344"
     },
     {
      "name": "battle_0012cd20",
      "size": "288",
      "metadata": {},
-     "address": "86712"
+     "address": "86656"
     },
     {
      "name": "battle_00118700",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87000"
+     "address": "86944"
     },
     {
      "name": "battle_00119378",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87008"
+     "address": "86952"
     },
     {
      "name": "battle_0011ae70",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87016"
+     "address": "86960"
     },
     {
      "name": "battle_0011b860",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87024"
+     "address": "86968"
     },
     {
      "name": "battle_00122708",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87032"
+     "address": "86976"
     },
     {
      "name": "battle_001254c8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87040"
+     "address": "86984"
     },
     {
      "name": "battle_00126270",
      "size": "16",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87048"
+     "address": "86992"
     },
     {
      "name": "battle_00126280",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87064"
+     "address": "87008"
     },
     {
      "name": "battle_00126810",
      "size": "28",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87072"
+     "address": "87016"
     },
     {
      "name": "battle_00126830",
      "size": "20",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87104"
+     "address": "87048"
     },
     {
      "name": "battle_00126a98",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87128"
+     "address": "87072"
     },
     {
      "name": "battle_00127060",
      "size": "28",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87136"
+     "address": "87080"
     },
     {
      "name": "battle_001270e8",
      "size": "20",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87168"
+     "address": "87112"
     },
     {
      "name": "battle_00127210",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87192"
+     "address": "87136"
     },
     {
      "name": "battle_00127480",
      "size": "20",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87200"
+     "address": "87144"
     },
     {
      "name": "battle_001275b8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87224"
+     "address": "87168"
     },
     {
      "name": "battle_00127bb0",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87232"
+     "address": "87176"
     },
     {
      "name": "battle_00127f00",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87240"
+     "address": "87184"
     },
     {
      "name": "battle_00127f18",
      "size": "20",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87248"
+     "address": "87192"
     },
     {
      "name": "battle_00127f68",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87272"
+     "address": "87216"
     },
     {
      "name": "battle_00128020",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87280"
+     "address": "87224"
     },
     {
      "name": "battle_00128028",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87288"
+     "address": "87232"
     },
     {
      "name": "battle_00128e60",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87296"
+     "address": "87240"
     },
     {
      "name": "battle_00128e68",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87304"
+     "address": "87248"
     },
     {
      "name": "battle_001297a0",
      "size": "28",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87312"
+     "address": "87256"
     },
     {
      "name": "battle_00129b00",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87344"
+     "address": "87288"
     },
     {
      "name": "battle_00129bc8",
      "size": "32",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87352"
+     "address": "87296"
     },
     {
      "name": "battle_00129dd8",
      "size": "16",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87384"
+     "address": "87328"
     },
     {
      "name": "battle_00129e78",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87400"
+     "address": "87344"
     },
     {
      "name": "thunk_FUN_001100b8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87408"
+     "address": "87352"
     },
     {
      "name": "battle_0012a948",
      "size": "16",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87416"
+     "address": "87360"
     },
     {
      "name": "battle_0012abe8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87432"
+     "address": "87376"
     },
     {
      "name": "battle_0012abf0",
      "size": "16",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87440"
+     "address": "87384"
     },
     {
      "name": "battle_0012ac00",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87456"
+     "address": "87400"
     },
     {
      "name": "battle_0012ac08",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87464"
+     "address": "87408"
     },
     {
      "name": "battle_0012c1d8",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87472"
+     "address": "87416"
     },
     {
      "name": "battle_0012c1e8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87488"
+     "address": "87432"
     },
     {
      "name": "battle_0012c440",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87496"
+     "address": "87440"
     },
     {
      "name": "battle_0012c800",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87504"
+     "address": "87448"
     },
     {
      "name": "battle_0012c958",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87512"
+     "address": "87456"
     },
     {
      "name": "battle_0012c9a8",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87520"
+     "address": "87464"
     },
     {
      "name": "battle_00119340",
      "size": "52",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87528"
+     "address": "87472"
     },
     {
      "name": "battle_0011db78",
      "size": "52",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87584"
+     "address": "87528"
     },
     {
      "name": "battle_00122118",
      "size": "32",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87640"
+     "address": "87584"
     },
     {
      "name": "battle_00126310",
      "size": "76",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87672"
+     "address": "87616"
     },
     {
      "name": "battle_001275f0",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87752"
+     "address": "87696"
     },
     {
      "name": "battle_00127f08",
      "size": "16",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87768"
+     "address": "87712"
     },
     {
      "name": "battle_00127f30",
      "size": "52",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87784"
+     "address": "87728"
     },
     {
      "name": "battle_00127fc8",
      "size": "32",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87840"
+     "address": "87784"
     },
     {
      "name": "battle_00129650",
      "size": "96",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87872"
+     "address": "87816"
     },
     {
      "name": "battle_00129b08",
      "size": "40",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "87968"
+     "address": "87912"
     },
     {
      "name": "battle_0012a938",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88008"
+     "address": "87952"
     },
     {
      "name": "battle_0012ae30",
      "size": "40",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88024"
+     "address": "87968"
     },
     {
      "name": "battle_0012aef0",
      "size": "72",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88064"
+     "address": "88008"
     },
     {
      "name": "battle_0012af38",
      "size": "60",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88136"
+     "address": "88080"
     },
     {
      "name": "battle_0012c960",
      "size": "68",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88200"
+     "address": "88144"
     },
     {
      "name": "battle_0011bc60",
      "size": "40",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88272"
+     "address": "88216"
     },
     {
      "name": "SetCard",
      "size": "52",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88312"
+     "address": "88256"
     },
     {
      "name": "battle_00127450",
      "size": "44",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88368"
+     "address": "88312"
     },
     {
      "name": "battle_00127ee8",
      "size": "24",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "88416"
+     "address": "88360"
+    },
+    {
+     "name": "battle_001296b0",
+     "size": "52",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "88384"
     },
     {
      "name": "battle_00126038",
@@ -3530,11 +3533,11 @@
     "total_code": "1964",
     "total_functions": 24,
     "total_units": 1,
-    "fuzzy_match_percent": 21.792260692464357,
-    "matched_code": "428",
-    "matched_code_percent": 21.792260692464357,
-    "matched_functions": 13,
-    "matched_functions_percent": 54.166666666666664,
+    "fuzzy_match_percent": 25.254582484725052,
+    "matched_code": "496",
+    "matched_code_percent": 25.254582484725052,
+    "matched_functions": 14,
+    "matched_functions_percent": 58.333333333333336,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -3553,7 +3556,7 @@
      "name": ".text",
      "metadata": {},
      "size": "2032",
-     "fuzzy_match_percent": 22.834645669291337
+     "fuzzy_match_percent": 26.37795275590551
     }
    ],
    "functions": [
@@ -3576,94 +3579,95 @@
      "address": "312"
     },
     {
-     "name": "FUN_0012d078",
-     "size": "68",
-     "metadata": {},
-     "address": "440"
-    },
-    {
      "name": "FUN_0012d0c0",
      "size": "72",
      "metadata": {},
-     "address": "512"
+     "address": "440"
     },
     {
      "name": "FUN_0012d108",
      "size": "304",
      "metadata": {},
-     "address": "584"
+     "address": "512"
     },
     {
      "name": "FUN_0012d248",
      "size": "148",
      "metadata": {},
-     "address": "888"
+     "address": "816"
     },
     {
      "name": "FUN_0012d310",
      "size": "116",
      "metadata": {},
-     "address": "1040"
+     "address": "968"
     },
     {
      "name": "FUN_0012d498",
      "size": "84",
      "metadata": {},
-     "address": "1160"
+     "address": "1088"
     },
     {
      "name": "FUN_0012d4f0",
      "size": "76",
      "metadata": {},
-     "address": "1248"
+     "address": "1176"
     },
     {
      "name": "FUN_0012d540",
      "size": "236",
      "metadata": {},
-     "address": "1328"
+     "address": "1256"
     },
     {
      "name": "FUN_0012cf78",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1568"
+     "address": "1496"
     },
     {
      "name": "FUN_0012cf88",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1584"
+     "address": "1512"
     },
     {
      "name": "FUN_0012d018",
      "size": "28",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1600"
+     "address": "1528"
     },
     {
      "name": "FUN_0012d238",
      "size": "8",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1632"
+     "address": "1560"
     },
     {
      "name": "FUN_0012d388",
      "size": "12",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1648"
+     "address": "1576"
     },
     {
      "name": "FUN_0012d038",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1664"
+     "address": "1592"
+    },
+    {
+     "name": "FUN_0012d078",
+     "size": "68",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "1656"
     },
     {
      "name": "FUN_0012d2e0",
@@ -45764,16 +45768,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 4.9451165,
+    "fuzzy_match_percent": 4.9527173,
     "total_code": "684140",
-    "matched_code": "31444",
-    "matched_code_percent": 4.5961356,
+    "matched_code": "31496",
+    "matched_code_percent": 4.603736,
     "total_data": "8",
     "matched_data": "8",
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 748,
-    "matched_functions_percent": 36.630753,
+    "matched_functions": 749,
+    "matched_functions_percent": 36.679726,
     "total_units": 77
    }
   },
@@ -45781,16 +45785,16 @@
    "id": "other",
    "name": "Other code (SDK, libraries, unattributed)",
    "measures": {
-    "fuzzy_match_percent": 4.801113,
+    "fuzzy_match_percent": 4.813069,
     "total_code": "1338268",
-    "matched_code": "63436",
-    "matched_code_percent": 4.7401567,
+    "matched_code": "63596",
+    "matched_code_percent": 4.7521124,
     "total_data": "1768048",
     "matched_data": "128",
     "matched_data_percent": 0.007239622,
     "total_functions": 4212,
-    "matched_functions": 1430,
-    "matched_functions_percent": 33.95062,
+    "matched_functions": 1433,
+    "matched_functions_percent": 34.021843,
     "total_units": 78
    }
   }
