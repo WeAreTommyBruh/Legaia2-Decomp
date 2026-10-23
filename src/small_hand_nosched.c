@@ -39,3 +39,17 @@ typedef struct { char p[148]; int a, b, c; } P_002C2C30;
 typedef struct { char p[64]; P_002C2C30 *q; } O_002C2C30;
 // MATCH func_002C2C30
 void FUN_002c2c30(O_002C2C30 *o, int a, int b, int c) { P_002C2C30 *p = o->q; p->c = c; p->a = a; p->b = b; }
+
+typedef struct { int a, b, c, d, e; } O_002C3720;
+// MATCH func_002C3720
+int FUN_002c3720(O_002C3720 *o, int x, int y) { o->d = x >> 4; o->e = y >> 4; o->b = x; o->c = y; return 1; }
+
+typedef struct { int a, b, c, d; } N_002DA520;
+extern char D_0049E7B0_002DA520[] __asm__("D_0049E7B0");
+// MATCH func_002DA520
+void FUN_002da520(N_002DA520 *n, int a, int b, int c) { if (n != 0) { n->d = c; n->a = a; n->b = (int)D_0049E7B0_002DA520; n->c = b; } }
+
+typedef struct { int a, b, c, d; } N_002DB0E0;
+extern char D_0049E998[];
+// MATCH func_002DB0E0
+void FUN_002db0e0(N_002DB0E0 *n, int a, int b, int c) { if (n != 0) { n->d = b; n->a = a; n->b = (int)D_0049E998; n->c = c; } }

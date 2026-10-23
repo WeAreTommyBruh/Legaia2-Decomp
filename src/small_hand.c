@@ -843,3 +843,13 @@ typedef struct { char p[112]; int a; long long b; } P_002C2DD0;
 typedef struct { char p[64]; P_002C2DD0 *q; } O_002C2DD0;
 // MATCH func_002C2DD0
 void FUN_002c2dd0(O_002C2DD0 *o, long long v) { o->q->a = 1; o->q->b = v; }
+
+extern char D_0062F600[];
+// MATCH func_002CFFC0
+char *FUN_002cffc0(int a, int b) { return D_0062F600 + (a << 12) + (b << 4); }
+
+// MATCH func_002CADD8
+int FUN_002cadd8(void) { int *p = (int *)0x10003820; __asm__("" : "+r"(p)); return *p; }
+
+// MATCH func_002CED60
+int FUN_002ced60(int a) { int *p = (int *)0x1000e060; __asm__("" : "+r"(p)); { int r = *p; *p = a; return r; } }
