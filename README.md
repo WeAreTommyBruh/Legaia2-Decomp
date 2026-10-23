@@ -1,11 +1,15 @@
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation 
+
+[![Code](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp.svg?mode=shield&label=Code&measure=matched_code_percent)](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp)
+[![Functions](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp.svg?mode=shield&label=Functions&measure=matched_functions)](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp)
+
 Legaia 2: Duel Saga (PAL, SLES-50891) is now being decompiled using ghidra and claude code. This is for preserving and educational purposes.
 
 # Setup
 Open your terminal and clone the repo.
 
 ```bash
-git clone https://github.com/WeAreTommyBruh/Legaia2Decomp.git
+git clone https://github.com/WeAreTommyBruh/Legaia2-Decomp.git
 ```
 
 - For the rebuild and progress tools you also need clang and ld.lld (LLVM, with the MIPS target) and the game's compiler, ee-gcc 2.9-ee-991111-01, from decomp.me's compiler archive. It is a 32-bit Linux program, so on 64-bit Debian/Ubuntu you may need `libc6:i386`.
