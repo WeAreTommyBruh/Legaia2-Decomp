@@ -230,7 +230,48 @@ def fam_poly2(t, name):
             f"    b = {F(b1)};\n    t = {F(tt)};\n    {F(o1)} = t * ({F(a)} * t + b) + {F(c)};\n}}\n")
     return "", [], body
 
-FAMILIES = [fam_poly2, fam_hermite, fam_vdelete, fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
+
+def fam_dma(t, name):
+    """starts a DMA channel: sets and clears a bit of the control register around the write"""
+    pats = [r"addiu \$29, \$29, -32", r"sd \$16, 0\(\$29\)", r"sd \$31, 16\(\$29\)", r"jal (func_\w+)", r"daddu \$16, \$4, \$0", r"lui \$5, 0x1000", r"lui \$7, 0x1", r"ori \$5, \$5, (0x[0-9a-f]+)",
+            r"lui \$6, 0x1000", r"lw \$2, 0\(\$5\)", r"ori \$6, \$6, (0x[0-9a-f]+)", r"lui \$3, 0x1000", r"lui \$4, 0xfffe", r"or \$2, \$2, \$7", r"ori \$3, \$3, (0x[0-9a-f]+)", r"sw \$2, 0\(\$6\)",
+            r"ori \$4, \$4, 0xffff", r"sw \$16, 0\(\$3\)", r"ld \$31, 16\(\$29\)", r"lw \$2, 0\(\$5\)", r"ld \$16, 0\(\$29\)", r"and \$2, \$2, \$4", r"sw \$2, 0\(\$6\)", r"j (func_\w+)", r"addiu \$29, \$29, 32"]
+    g = match(pats, t)
+    if not g:
+        return None
+    f1, ra, rb, rc, f2 = g
+    ex = [f"void {f1}();", f"void {f2}();"]
+    body = (f"void {name}(int a)\n{{\n    {f1}();\n    *(volatile int *)0x1000{int(rb, 16):04x} = *(volatile int *)0x1000{int(ra, 16):04x} | 0x10000;\n"
+            f"    *(volatile int *)0x1000{int(rc, 16):04x} = a;\n    *(volatile int *)0x1000{int(rb, 16):04x} = *(volatile int *)0x1000{int(ra, 16):04x} & 0xfffeffff;\n    {f2}();\n}}\n")
+    return "", ex, body
+
+
+def fam_addclamp(t, name):
+    """D.f += b; if (D.f < 0) D.f = 0;   (D is an absolute structure)"""
+    g = match([r"lui \$3, (0x[0-9a-f]+)", r"addiu \$3, \$3, (-?\d+)", r"lw \$2, (\d+)\(\$3\)", r"addu \$2, \$2, \$5", r"bgez \$2, \.L\w+", r"sw \$2, (\d+)\(\$3\)", r"sw \$0, (\d+)\(\$3\)", r"jr \$31", r"nop"], t)
+    if not g or not (g[2] == g[3] == g[4]):
+        return None
+    base = (int(g[0], 16) << 16) + int(g[1])
+    off = int(g[2])
+    if off % 4:
+        return None
+    ex = [f"extern int D_{base:08X}[];"]
+    body = f"void {name}(int a, int b)\n{{\n    D_{base:08X}[{off // 4}] = D_{base:08X}[{off // 4}] + b;\n    if (D_{base:08X}[{off // 4}] < 0)\n        D_{base:08X}[{off // 4}] = 0;\n}}\n"
+    return "", ex, body
+
+
+def fam_dtor2(t, name):
+    """callee(p, K); if (flags & 1) delete-helper(p)"""
+    g = match([r"addiu \$29, \$29, -48", r"sd \$17, 16\(\$29\)", r"sd \$16, 0\(\$29\)", r"daddu \$17, \$4, \$0", r"daddu \$16, \$5, \$0", r"sd \$31, 32\(\$29\)", r"jal (func_\w+)", r"addiu \$5, \$0, (\d+)",
+               r"andi \$16, \$16, 0x1", r"beq \$16, \$0, \.L\w+", r"ld \$31, 32\(\$29\)", r"daddu \$4, \$17, \$0", r"ld \$17, 16\(\$29\)", r"ld \$16, 0\(\$29\)", r"j (func_\w+)", r"addiu \$29, \$29, 48",
+               r"ld \$17, 16\(\$29\)", r"ld \$16, 0\(\$29\)", r"jr \$31", r"addiu \$29, \$29, 48"], t)
+    if not g:
+        return None
+    ex = [f"void {g[0]}(void *, int);", f"void {g[2]}(void *);"]
+    body = f"void {name}(void *p, int flags)\n{{\n    {g[0]}(p, {g[1]});\n    if (flags & 1)\n        {g[2]}(p);\n}}\n"
+    return "", ex, body
+
+FAMILIES = [fam_addclamp, fam_dtor2, fam_dma, fam_poly2, fam_hermite, fam_vdelete, fam_copy16_ret, fam_setf_call2, fam_call_and, fam_ptr_call, fam_zero_arg, fam_countdown, fam_flagcall, fam_top_call, fam_top_setbit, fam_top_cond]
 
 
 def main():
