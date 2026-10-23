@@ -1719,3 +1719,12 @@ s->b59 = 127;
 s->f68 = 1.0f;
 s->f72 = 1.0f;
 return s; }
+
+extern int D_004257DC[], D_00425510[];
+// MATCH func_0029B670
+void FUN_0029b670(int a, int b) { D_004257DC[0] = b; D_00425510[2] |= 8; }
+
+typedef struct { int n; int a[1]; } S_204f30_00204F30;
+void func_002044D8(int, int, int, int, int, int, void *); void func_00204A78(void);
+// MATCH func_00204F30
+void pchjob0_00204f30(S_204f30_00204F30 *s, int a, int b, int c, int d, int e) { if (s->n > 0) func_002044D8(s->a[s->n - 1], a, b, c, d, e, func_00204A78); }
