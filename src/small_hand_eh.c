@@ -52,3 +52,7 @@ void FUN_0024d490(O_0024D490 *a, O_0024D490 *b) { func_0022F5A0(b->x - a->x, b->
 extern int D_004A12A4; void func_002562F8(void); void func_002594B0(void);
 // MATCH func_00256260
 void FUN_00256260(void) { if (D_004A12A4 == 11) func_002562F8(); else func_002594B0(); }
+
+void func_00291DF0(int, int, int, int, int, int, int);
+// MATCH func_00291DC0
+void FUN_00291dc0(int a, int b, int c, signed char d, signed char e, int f) { func_00291DF0(a, b, c, d, e, f, 0); }

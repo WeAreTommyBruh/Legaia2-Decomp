@@ -777,3 +777,21 @@ int object_00244450(O_00244450 *o) { if ((unsigned)(o->a - 27649) < 10239 && (un
 typedef struct { char p[148]; int w[8]; } T_0025DCE0; extern T_0025DCE0 D_003FEBA8;
 // MATCH func_0025DCE0
 int FUN_0025dce0(int a) { return (D_003FEBA8.w[a / 32] >> (a & 31)) & 1; }
+
+typedef struct { char p[200]; int w; } G_0029B720;
+extern G_0029B720 D_00425710_0029B720 __asm__("D_00425710");
+// MATCH func_0029B720
+void FUN_0029b720(int a, int b) { D_00425710_0029B720.w += b; if (D_00425710_0029B720.w < 0) D_00425710_0029B720.w = 0; if (D_00425710_0029B720.w > 100) D_00425710_0029B720.w = 100; }
+
+typedef struct { char p[128]; int w; } G_0029B850;
+extern G_0029B850 D_00425710_0029B850 __asm__("D_00425710");
+// MATCH func_0029B850
+void FUN_0029b850(int a, int b) { D_00425710_0029B850.w += b; if (D_00425710_0029B850.w < 0) D_00425710_0029B850.w = 0; if (D_00425710_0029B850.w > 99999) D_00425710_0029B850.w = 99999; }
+
+typedef struct { char p[468]; int w; } O_002978C8;
+// MATCH func_002978C8
+int FUN_002978c8(O_002978C8 *o) { if (o == 0) return 0; return o->w != 0; }
+
+extern int D_0041EEA8_00294FA8[] __asm__("D_0041EEA8"); int func_00164CD8(int);
+// MATCH func_00294FA8
+int battleslot_00294fa8(int a) { return D_0041EEA8_00294FA8[func_00164CD8(a) - 1]; }
