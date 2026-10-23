@@ -396,3 +396,19 @@ void srivus_00187f10(O_00187F10 *o) { func_00187028(o); func_00186F40(o, D_00339
 void func_0018D160(void *);
 // MATCH func_0018D1B8
 void FUN_0018d1b8(char *o) { func_0018D160(o); func_0018D160(o + 16); func_0018D160(o + 32); func_0018D160(o + 48); }
+
+float func_0018EAF8(void);
+// MATCH func_00179098
+int FUN_00179098(float a, float b) { if (func_0018EAF8() <= a + b) return 1; return 0; }
+
+void func_0018C4C8(void *); void func_0018CA90(void *, void *);
+// MATCH func_0018C588
+void denlib_0018c588(void *a, void *b) { func_0018C4C8(a); func_0018CA90(a, b); }
+
+void func_00154428(void *); void func_0018EB98(void *, void *);
+// MATCH func_001544B8
+void FUN_001544b8(char *a, char *b) { func_00154428(a); func_0018EB98(b, a + 128); }
+
+typedef struct { void *p; } O_00184560; int func_00180BB0(void *);
+// MATCH func_00184560
+int FUN_00184560(O_00184560 *o) { return o->p ? func_00180BB0(o->p) : 0; }
