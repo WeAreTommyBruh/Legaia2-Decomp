@@ -735,3 +735,37 @@ void FUN_00229800(O_00229800 *o) { if (o->k == 1) { D_004A1504 = 0; D_004A1508 =
 typedef struct { char p[4812]; int w; } O_0021AEC0;
 // MATCH func_0021AEC0
 int FUN_0021aec0(O_0021AEC0 *o) { int v = o->w; if (v != 100 && (v ^ 0x65) != 0) return 0; return 1; }
+
+extern char D_003D7058[]; void func_002454A8(void *, void *, void *);
+// MATCH func_00245578
+void FUN_00245578(void *a, void *b) { func_002454A8(D_003D7058, a, b); }
+
+extern float D_005F76C0[3];
+// MATCH func_002478E0
+void FUN_002478e0(float a, float b, float c) { D_005F76C0[0] = a; D_005F76C0[1] = b; D_005F76C0[2] = c; }
+
+// MATCH func_00249E18
+void FUN_00249e18(float *v, float a, float b, float c) { v[0] = a; v[1] = b; v[2] = c; }
+
+void func_00247C98(float, float, float);
+// MATCH func_00247E30
+void FUN_00247e30(float *v) { func_00247C98(v[0], v[1], v[2]); }
+
+// MATCH func_0025E4C0
+void FUN_0025e4c0(float *o, float a) { o[0] = a; o[1] = 1.0f; }
+
+int func_00251F88(int);
+// MATCH func_00251FE8
+int FUN_00251fe8(int a, int b) { return (func_00251F88(b) >> a) & 1; }
+
+int func_00251FA8(int);
+// MATCH func_00252018
+int FUN_00252018(int a, int b) { return (func_00251FA8(b) >> a) & 1; }
+
+int func_00251FC8(int, int);
+// MATCH func_00252048
+int FUN_00252048(int a, int b, int c) { return (func_00251FC8(b, c) >> a) & 1; }
+
+int func_00254040(int);
+// MATCH func_00254000
+int FUN_00254000(int a) { if (func_00254040(a) >= 99) return 0; return 99 - func_00254040(a); }

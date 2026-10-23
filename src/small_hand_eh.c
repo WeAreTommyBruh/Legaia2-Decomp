@@ -39,3 +39,16 @@ void rsound_0010b188(int a, int b, int c, int d, int e) { func_0010B1A8(a, b, c,
 void func_002207E8(float);
 // MATCH func_002207C0
 void FUN_002207c0(void) { func_002207E8(1.0f); }
+
+extern int D_004A7240, D_004A7244; void func_0024BD78(int, int, int, int, int, int);
+// MATCH func_0024BD50
+void init_0024bd50(int a, int b, int c, int d, int e, int f, int g) { D_004A7240 = f; D_004A7244 = g; func_0024BD78(a, b, c, d, e, 0); }
+
+void func_0022F5A0(float, float);
+typedef struct { char p[128]; float x; char p2[4]; float y; } O_0024D490;
+// MATCH func_0024D490
+void FUN_0024d490(O_0024D490 *a, O_0024D490 *b) { func_0022F5A0(b->x - a->x, b->y - a->y); }
+
+extern int D_004A12A4; void func_002562F8(void); void func_002594B0(void);
+// MATCH func_00256260
+void FUN_00256260(void) { if (D_004A12A4 == 11) func_002562F8(); else func_002594B0(); }
