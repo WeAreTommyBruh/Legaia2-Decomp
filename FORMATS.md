@@ -32,7 +32,11 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/gen_tiny.py` | Writes C for tiny functions from their instructions (`src/gen/`), keeping exact matches |
 | `tools/gen_ghidra.py` | Keeps Ghidra's decompilation of functions where it already matches (`src/ghidra/`; run after `gen_tiny.py`) |
 | `tools/perm_setup.py` | Sets up a [decomp-permuter](https://github.com/simonlindholm/decomp-permuter) directory for one function (`build/perm/`), scored with `tools/perm_objdump.py` (no MIPS binutils needed) |
-| `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`) |
+| `tools/gen_tiny2.py`, `tools/gen_tiny3.py` | Generate tiny functions with statement permutations, 64/128-bit and float variants (`src/gen2/`, `src/gen3/`) |
+| `tools/gen_new.py` | `new T` wrappers: `MemAllocDbg(size, file, line)` plus constructor (`src/gen_new/`) |
+| `tools/gen_static.py` | Function-local static accessors (`src/gen_static/`) |
+| `tools/gen_fam.py` | Exact-shape families (counters, clamps, DMA starts, polynomial helpers, virtual-delete thunks...) tried under several compiler settings (`src/gen_fam/`) |
+| `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`). `small_hand*.c` hold hand-matched small functions, one file per setting (`// cflags:` line: none, `-fexceptions`, `-fno-gcse`, `-fno-schedule-insns`, `-O1`) |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
 one file per function under `decomp/src/<source file>/`, `functions.csv`), `fs/`,
@@ -83,6 +87,13 @@ battle-script opcode list (`docs/`), ~7,700 textures (`png/`), ~3 GB of WAV audi
 Functions with no known source file are grouped as `_unknown_after_<file>`: they sit in memory
 after `<file>`, so they belong to it or to a file that never calls the debug allocator. The
 Sony SDK, C library and kernel stubs are after `shikimi.cpp` (roughly `0x002b9000` onward).
+
+## Matching notes
+
+- A C file picks its build with header lines: `// compiler: 990721-r5900` (990721 cc1 plus `tools/r5900_short_loops.py`, then the 991111-01 assembler) and `// cflags: ...` (extra gcc flags such as `-fno-gcse`, `-fexceptions`, `-fno-schedule-insns`, `-fno-thread-jumps`). The game's C++ files were built with exceptions on, so a call at the end of a function stays a `jal`.
+- `// MATCH func_XXXXXXXX` goes on its own line directly above the definition; the first identifier before `(` on the next line is taken as the function's C name, so prototypes must not share that line.
+- `PROGRESS.md` and `report/report.json` (from `tools/progress.py` and `tools/report.py`) must be regenerated and committed with every push.
+- Frequent shapes that needed tricks (volatile members, register-pinned MMIO addresses, float zeros via an empty `asm`, store order = struct field order, inline vector setters) are listed in `handoff.md`, section 6.
 
 ## Disc file system
 
