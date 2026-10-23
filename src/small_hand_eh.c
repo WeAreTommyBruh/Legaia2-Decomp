@@ -27,3 +27,7 @@ void sky_00155d18(float a, float b, float c, float d) { func_00155D40(a, b, c, d
 void func_0015A730(int, int, int, int, int);
 // MATCH func_0015A868
 void FUN_0015a868(int a, int b, int c, int d) { func_0015A730(a, b, c, d, 1); }
+
+void func_002380C0(int, int, int, int, int, int, int);
+// MATCH func_00238070
+void FUN_00238070(int a, int b, int c, int d, int e, int f) { func_002380C0(a, b, c, d, e, f, 1); }
