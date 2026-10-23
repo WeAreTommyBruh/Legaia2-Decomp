@@ -853,3 +853,11 @@ int FUN_002cadd8(void) { int *p = (int *)0x10003820; __asm__("" : "+r"(p)); retu
 
 // MATCH func_002CED60
 int FUN_002ced60(int a) { int *p = (int *)0x1000e060; __asm__("" : "+r"(p)); { int r = *p; *p = a; return r; } }
+
+// MATCH func_002CE9E8
+unsigned FUN_002ce9e8(unsigned a) { unsigned r = a; if ((a >> 28) == 7) { r = a & 0xfffffff; r |= 0x80000000; } return r; }
+
+typedef struct { char p[384]; int w[16]; } P_002D5568;
+P_002D5568 *func_002CFFB0(void);
+// MATCH func_002D5568
+int FUN_002d5568(unsigned a) { int r = 0; if (a < 16) r = func_002CFFB0()->w[a]; return r; }
