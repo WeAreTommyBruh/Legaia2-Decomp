@@ -979,3 +979,32 @@ typedef struct { char p[360]; int a, b; char p2[132]; int w; char p3[40]; V8_001
 extern V8_001692B0 D_004A2E58[2];
 // MATCH func_001692B0
 int pachislot_001692b0(O_001692B0 *o) { o->w = o->w + 8; if (o->w >= 128) { o->w = 128; o->b = o->b + o->a; o->v = D_004A2E58[0]; } return 0; }
+
+typedef struct { char c[8]; } V8_00171610;
+typedef struct { char p[56]; short adj; short pad; void (*fn)(void *); } VT_00171610;
+typedef struct { int w; char p[40]; V8_00171610 v; char p2[8]; VT_00171610 *vt; } O_00171610;
+extern V8_00171610 D_004A3108[2];
+// MATCH func_00171610
+int roulette_00171610(O_00171610 *o) { o->w = 13107; o->vt->fn((char *)o + o->vt->adj); o->v = D_004A3108[0]; return 0; }
+
+typedef struct { char c[8]; } V8_0016FB80;
+typedef struct { char p[84]; int w; char p2[48]; V8_0016FB80 a; V8_0016FB80 b; } O_0016FB80;
+int func_00170940(void *); void func_00170AE0(void *);
+// MATCH func_0016FB80
+int roulette_0016fb80(O_0016FB80 *o) { int r = func_00170940(o); o->w = o->w - 8; if (o->w < 161) { o->w = 160; if (r != 0) { func_00170AE0(o); o->a = o->b; } } return 0; }
+
+typedef struct { char c[8]; } V8_0016FBE8;
+typedef struct { char p[84]; int w; char p2[48]; V8_0016FBE8 a; V8_0016FBE8 b; } O_0016FBE8;
+int func_00170940(void *); void func_00170AE0(void *);
+// MATCH func_0016FBE8
+int roulette_0016fbe8(O_0016FBE8 *o) { int r = func_00170940(o); o->w = o->w + 8; if (o->w >= 640) { o->w = 640; if (r != 0) { func_00170AE0(o); o->a = o->b; } } return 0; }
+
+typedef struct { char p[44]; int n; char p2[44]; int f; } O_0016E208;
+void func_0016E510(void *);
+// MATCH func_0016E208
+int darts_0016e208(O_0016E208 *o) { func_0016E510(o); if (o->n++ & 0x20) o->f = 0; else o->f = 1; return 1; }
+
+typedef struct { char p[44]; int n; char p2[40]; int f; int g; } O_0016E258;
+void func_0016E510(void *);
+// MATCH func_0016E258
+int darts_0016e258(O_0016E258 *o) { func_0016E510(o); o->g = 0; if (o->n++ & 0x20) o->f = 0; else o->f = 1; return 1; }
