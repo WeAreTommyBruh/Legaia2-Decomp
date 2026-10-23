@@ -534,3 +534,11 @@ char *FUN_00219130(char *p) { while (*p != 10) p++; return p + 1; }
 
 // MATCH func_00219168
 void FUN_00219168(char *p) { while (*p != 10) p++; *p = 0; }
+
+typedef struct { char p[4976]; int w; } O_0021A8F8; void func_00254990(int);
+// MATCH func_0021A8F8
+void FUN_0021a8f8(O_0021A8F8 *o) { if (o->w >= 0) func_00254990(o->w); o->w = -1; }
+
+typedef struct { char p[4816]; unsigned w; } O_0021AE30;
+// MATCH func_0021AE30
+int FUN_0021ae30(O_0021AE30 *o, int a) { if (!(o->w & 0x40000000)) return 0; return a < 7; }
