@@ -412,3 +412,7 @@ void FUN_001544b8(char *a, char *b) { func_00154428(a); func_0018EB98(b, a + 128
 typedef struct { void *p; } O_00184560; int func_00180BB0(void *);
 // MATCH func_00184560
 int FUN_00184560(O_00184560 *o) { return o->p ? func_00180BB0(o->p) : 0; }
+
+typedef struct { char p[112]; char *q; char p2[216]; void *vt; } O_00172A60; extern char D_0043E020[]; void func_00108B80(void);
+// MATCH func_00172A60
+void FUN_00172a60(O_00172A60 *o, int f) { o->vt = D_0043E020; *(float *)(o->q + 200) = 1.0f; if (f & 1) func_00108B80(); }
