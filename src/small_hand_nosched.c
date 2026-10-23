@@ -53,3 +53,7 @@ typedef struct { int a, b, c, d; } N_002DB0E0;
 extern char D_0049E998[];
 // MATCH func_002DB0E0
 void FUN_002db0e0(N_002DB0E0 *n, int a, int b, int c) { if (n != 0) { n->d = b; n->a = a; n->b = (int)D_0049E998; n->c = c; } }
+
+extern int D_004A1444, D_004A140C; extern float D_003C0F30[3];
+// MATCH func_0020CB58
+int pchevent_0020cb58(int a) { if (a != 0 && D_004A1444 == 0 && (D_004A140C & 8)) { float z = 0.0f; __asm__("" : "+f"(z)); D_003C0F30[0] = z; D_003C0F30[1] = z; D_003C0F30[2] = z; } return 0; }

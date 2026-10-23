@@ -909,3 +909,19 @@ typedef struct N_0012D9D8 { char p[60]; struct N_0012D9D8 *next; } N_0012D9D8;
 typedef struct { int n; int b; N_0012D9D8 *h; } O_0012D9D8;
 // MATCH func_0012D9D8
 N_0012D9D8 *pchsysw_0012d9d8(O_0012D9D8 *o, int a) { N_0012D9D8 *p; if (a < 0 || a >= o->n) return 0; p = o->h; if (a > 0) { do { p = p->next; } while (--a != 0); } return p; }
+
+void func_0029FDE8(float, float, float, float, float, float);
+// MATCH func_002BEE90
+void FUN_002bee90(float a, float b, float c) { func_0029FDE8(a, b, c, 0.0f, 0.0f, 0.0f); }
+
+void func_0029FDE8(float, float, float, float, float, float);
+// MATCH func_002BEE78
+void FUN_002bee78(float a) { func_0029FDE8(a, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f); }
+
+void func_002BEE90(void *, int, int, int, float, float, float);
+// MATCH func_002BEE38
+void FUN_002bee38(void *s, float a, int b) { func_002BEE90(s, 15, b, 0, 0.0f, a, 0.0f); }
+
+void func_002BEE90(void *, int, int, int, float, float, float);
+// MATCH func_002BEE58
+void FUN_002bee58(void *s) { func_002BEE90(s, 44, 0, 0, 0.0f, 0.0f, 0.0f); }
