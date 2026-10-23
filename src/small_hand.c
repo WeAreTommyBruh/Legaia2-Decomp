@@ -226,3 +226,17 @@ typedef struct { float x, y, z; char pad[4]; int p; char p2[44]; } It_0012F708;
 typedef struct { int n; It_0012F708 *a; } S_0012F708;
 // MATCH func_0012F708
 void pchsysw_0012f708(S_0012F708 *s, int i, float x, float y, float z) { if (i >= s->n) return; if (s->a[i].p == 0) return; s->a[i].x = x; s->a[i].y = y; s->a[i].z = z; }
+
+typedef struct { char c[8]; } V8_00165D78;
+typedef struct { char pad[68]; V8_00165D78 v; } S_00165D78;
+extern V8_00165D78 D_004A2CF8[2];
+int func_00164A00(void *);
+// MATCH func_00165D78
+void pachislot_00165d78(S_00165D78 *s) { if (func_00164A00(s) != 0) s->v = D_004A2CF8[0]; }
+
+typedef struct { char c[8]; } V8_0016A780;
+typedef struct { char pad[544]; V8_0016A780 v; } S_0016A780;
+extern V8_0016A780 D_004A2EE8[2];
+int func_00168AB8(void *);
+// MATCH func_0016A780
+int pachislot_0016a780(S_0016A780 *s) { func_00168AB8(s); s->v = D_004A2EE8[0]; return 0; }
