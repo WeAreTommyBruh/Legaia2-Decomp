@@ -795,3 +795,17 @@ int FUN_002978c8(O_002978C8 *o) { if (o == 0) return 0; return o->w != 0; }
 extern int D_0041EEA8_00294FA8[] __asm__("D_0041EEA8"); int func_00164CD8(int);
 // MATCH func_00294FA8
 int battleslot_00294fa8(int a) { return D_0041EEA8_00294FA8[func_00164CD8(a) - 1]; }
+
+typedef struct { char p[124]; int a, b, c, d; } G_0029B6C8;
+extern G_0029B6C8 D_00620070;
+// MATCH func_0029B6C8
+void FUN_0029b6c8(void) { if (D_00620070.a == 28) { D_00620070.c = 1; D_00620070.d = 0; D_00620070.b = 0; D_00620070.a = 11; } }
+
+extern int D_003FEBA8_00294260[] __asm__("D_003FEBA8"); int func_00294220(int);
+// MATCH func_00294260
+int FUN_00294260(int x) { D_003FEBA8_00294260[1] = 0; func_00294220(x); return D_003FEBA8_00294260[1]; }
+
+typedef struct { char c[8]; } V8_00294BD0;
+typedef struct { char p[56]; int w; char p2[16]; V8_00294BD0 a; V8_00294BD0 b; } O_00294BD0;
+// MATCH func_00294BD0
+int battleslot_00294bd0(O_00294BD0 *o) { if (o->w-- <= 0) { o->w = 0; o->a = o->b; } return -1; }
