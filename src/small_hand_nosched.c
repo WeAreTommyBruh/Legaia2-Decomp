@@ -34,3 +34,8 @@ typedef struct { char p[112]; int a; long long b; } P_002C2DE8;
 typedef struct { char p[64]; P_002C2DE8 *q; } O_002C2DE8;
 // MATCH func_002C2DE8
 void FUN_002c2de8(O_002C2DE8 *o) { P_002C2DE8 *p = o->q; p->b = 0; p->a = 0; }
+
+typedef struct { char p[148]; int a, b, c; } P_002C2C30;
+typedef struct { char p[64]; P_002C2C30 *q; } O_002C2C30;
+// MATCH func_002C2C30
+void FUN_002c2c30(O_002C2C30 *o, int a, int b, int c) { P_002C2C30 *p = o->q; p->c = c; p->a = a; p->b = b; }

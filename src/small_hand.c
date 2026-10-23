@@ -830,3 +830,16 @@ typedef struct { char p[44]; int w; } O_002A3908;
 extern char D_00621320[]; void func_00131160(void *, int);
 // MATCH func_002A3908
 void clas_min_002a3908(O_002A3908 *o) { if (o->w != 0) func_00131160(D_00621320, o->w); }
+
+extern int D_004A697C;
+// MATCH func_0029C3F0
+void clas_min_0029c3f0(int *o, int v) { int t = D_004A697C; *o = v; D_004A697C = t + 1; }
+
+extern unsigned D_00425510_002A4518[] __asm__("D_00425510");
+// MATCH func_002A4518
+void clas_min_002a4518(void) { D_00425510_002A4518[1] &= 0xffffdfff; D_00425510_002A4518[1] &= 0xffffbfff; }
+
+typedef struct { char p[112]; int a; long long b; } P_002C2DD0;
+typedef struct { char p[64]; P_002C2DD0 *q; } O_002C2DD0;
+// MATCH func_002C2DD0
+void FUN_002c2dd0(O_002C2DD0 *o, long long v) { o->q->a = 1; o->q->b = v; }
