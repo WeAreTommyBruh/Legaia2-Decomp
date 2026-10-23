@@ -416,3 +416,47 @@ int FUN_00184560(O_00184560 *o) { return o->p ? func_00180BB0(o->p) : 0; }
 typedef struct { char p[112]; char *q; char p2[216]; void *vt; } O_00172A60; extern char D_0043E020[]; void func_00108B80(void);
 // MATCH func_00172A60
 void FUN_00172a60(O_00172A60 *o, int f) { o->vt = D_0043E020; *(float *)(o->q + 200) = 1.0f; if (f & 1) func_00108B80(); }
+
+typedef struct { char p[36]; int a[4]; } O_001AF0C0;
+// MATCH func_001AF0C0
+int nayuwin2_001af0c0(O_001AF0C0 *o, unsigned i) { if (i < 4) return o->a[i]; return 0; }
+
+extern int D_004A3C60; void func_002A6110(void *, int);
+// MATCH func_001C7980
+void FUN_001c7980(void) { func_002A6110(&D_004A3C60, 2); }
+
+extern int D_004A3C60; void func_002A6100(void *);
+// MATCH func_001C7990
+void FUN_001c7990(void) { func_002A6100(&D_004A3C60); }
+
+extern char D_004A380A; typedef struct { char p[296]; int v; } O_001E2660;
+// MATCH func_001E2660
+void akari_001e2660(int a, O_001E2660 *p, int v) { if (D_004A380A != 0) p->v = v; }
+
+extern char D_004A380A; typedef struct { char p[824]; int v; } O_001E42A0;
+// MATCH func_001E42A0
+void FUN_001e42a0(int a, O_001E42A0 *p, int v) { if (D_004A380A != 0) { if (p != 0) p->v = v; } }
+
+extern char D_004A380A; typedef struct { char p[828]; int v; } O_001E42C0;
+// MATCH func_001E42C0
+void FUN_001e42c0(int a, O_001E42C0 *p, int v) { if (D_004A380A != 0) { if (p != 0) p->v = v; } }
+
+extern char D_004A380A; typedef struct { char p[832]; int v; } O_001E4308;
+// MATCH func_001E4308
+void FUN_001e4308(int a, O_001E4308 *p, unsigned v) { if (D_004A380A != 0) { if (p != 0) { if (v < 256) p->v = v; } } }
+
+typedef struct { char p[120]; int v; } O_001E8D08;
+// MATCH func_001E8D08
+int yue_001e8d08(O_001E8D08 *o, int a) { if (a < 2) return 0; o->v = a; return 1; }
+
+typedef struct { char p[252]; unsigned char *src; int n; } O_001F60F0;
+// MATCH func_001F60F0
+void FUN_001f60f0(O_001F60F0 *o, unsigned char *dst) { int i; for (i = 0; i < o->n; i++) dst[i] = o->src[i]; }
+
+extern int D_004A3864; void func_001118F8(void *);
+// MATCH func_00197E58
+void FUN_00197e58(void *a) { if (D_004A3864 & 0x10000) func_001118F8(a); }
+
+extern char *D_0036CE50[];
+// MATCH func_0019B6C0
+int EfbCommandAllowed(int a, int b, int c) { char *p = D_0036CE50[c]; return p[b - 1] == 0x31 ? 1 : -1; }
