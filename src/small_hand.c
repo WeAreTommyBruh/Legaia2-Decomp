@@ -596,3 +596,7 @@ int FUN_00116ff8(int a) { if (a == 0) return 0; if ((D_004A140C & 8) == 0) retur
 
 // MATCH func_001171B8
 void FUN_001171b8(char *p, int v, int n) { signed char c = v; while (n != 0) { *p = c; n--; p++; } }
+
+int func_001128E0(void *); int func_001129A0(void *, int);
+// MATCH func_00112A90
+int FUN_00112a90(void *o) { int r = func_001128E0(o); if (r >= 0) return func_001129A0(o, r); return 0; }
