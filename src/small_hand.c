@@ -337,3 +337,18 @@ int FUN_0016f7f0(void) { if (D_004A12D8 & 0x8000) { D_004A3070 = 0; return 1; } 
 extern long long D_004A12D8; void func_002DC804(void *, int, int);
 // MATCH func_0016ADC8
 int pachislot_0016adc8(char *s) { if (D_004A12D8 & 0x200040) func_002DC804(s + 560, 0, 8); return 0; }
+
+typedef struct { char p[44]; int a; char p2[40]; int b, c; } O_0016E1D0;
+void func_0016E510(void *);
+// MATCH func_0016E1D0
+int darts_0016e1d0(O_0016E1D0 *o) { func_0016E510(o); o->b = 0; o->c = 0; o->a = 0; return 1; }
+
+typedef struct { char pad[20]; int a, b; char p2[16]; int c, d; } O_0016F898;
+extern long long D_004A12D8;
+// MATCH func_0016F898
+int FUN_0016f898(O_0016F898 *o) { if (D_004A12D8 & 0x8000) { o->a = 213; o->b = 112; return 1; } if (D_004A12D8 & 0x2000) { o->c = 0; o->d = 0; return 1; } return 0; }
+
+typedef struct { char pad[20]; int a, b; char p2[16]; int c, d; } O_0016F8E0;
+extern long long D_004A12D8;
+// MATCH func_0016F8E0
+int FUN_0016f8e0(O_0016F8E0 *o) { if (D_004A12D8 & 0x8000) { o->c = 0; o->d = 0; return 1; } if (D_004A12D8 & 0x2000) { o->a = 213; o->b = 112; return 1; } return 0; }
