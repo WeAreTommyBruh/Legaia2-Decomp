@@ -1375,3 +1375,50 @@ v->w = w;
 }
 // MATCH func_0015EC08
 void flare_0015ec08(S_15ec08_0015EC08 *s, int x, int y, int z) { set_15ec08_0015EC08(&s->v, x, y, z, 128); }
+
+typedef struct { char pad[24]; short adj; short p2; void (*fn)(void *, int); } VT_184518_00184518;
+typedef struct { char pad[12]; VT_184518_00184518 *vt; } O_184518_00184518;
+typedef struct { O_184518_00184518 *o; } S_184518_00184518;
+// MATCH func_00184518
+void FUN_00184518(S_184518_00184518 *s) { O_184518_00184518 *p = s->o; if (p != 0) p->vt->fn((char *)p + p->vt->adj, 3); s->o = 0; }
+
+typedef struct { float x, y, z, w; } V_154038_00154038;
+typedef struct { char pad[192]; V_154038_00154038 v; } S_154038_00154038;
+void func_00153B38(void *); void func_00154550(void *);
+static inline void set_154038_00154038(V_154038_00154038 *v, float x, float y, float z, float w) { v->x = x; v->y = y; v->z = z; v->w = w; }
+// MATCH func_00154038
+void FUN_00154038(S_154038_00154038 *s, float a, float b, float c, float d) { set_154038_00154038(&s->v, a, b, c, d); func_00153B38(&s->v); func_00154550(s); }
+
+typedef struct { float x, y, z, w; } V_156570_00156570;
+typedef struct { char pad[96]; V_156570_00156570 v; float f112; } S_156570_00156570;
+static inline void set_156570_00156570(V_156570_00156570 *v, float x, float y, float z, float w) { v->x = x; v->y = y; v->z = z; v->w = w; }
+// MATCH func_00156570
+void FUN_00156570(S_156570_00156570 *s, float f, int a, int b, int c) { s->f112 = f; set_156570_00156570(&s->v, (float)a, (float)b, (float)c, 1.0f); }
+
+typedef struct { float x, y, z, w; } V_156b20_00156B20;
+typedef struct { char pad[176]; V_156b20_00156B20 v; } S_156b20_00156B20;
+static inline void set_156b20_00156B20(V_156b20_00156B20 *v, float x, float y, float z, float w) { v->x = x; v->y = y; v->z = z; v->w = w; }
+// MATCH func_00156B20
+void FUN_00156b20(S_156b20_00156B20 *s, int a, int b, int c) { set_156b20_00156B20(&s->v, (float)a, (float)b, (float)c, 128.0f); }
+
+typedef struct { float x, y, z, w; } V_156cf8_00156CF8;
+typedef struct { char pad[192]; V_156cf8_00156CF8 v; float f208; } S_156cf8_00156CF8;
+static inline void set_156cf8_00156CF8(V_156cf8_00156CF8 *v, float x, float y, float z, float w) { v->x = x; v->y = y; v->z = z; v->w = w; }
+// MATCH func_00156CF8
+void FUN_00156cf8(S_156cf8_00156CF8 *s, float f, int a, int b, int c) { s->f208 = f; set_156cf8_00156CF8(&s->v, (float)a, (float)b, (float)c, 1.0f); }
+
+int func_001114B0(void);
+extern int D_004A14F8;
+// MATCH func_00128030
+int battle_00128030(void) { if (func_001114B0()) return 1; return D_004A14F8; }
+
+typedef struct { char pad[360]; char *a360; } G_108b20_00108B20;
+extern G_108b20_00108B20 *D_0036CB78[];
+// MATCH func_00108B20
+void FUN_00108b20(void) { short m = -2; char *p = D_0036CB78[0]->a360; int i; for (i = 11; i >= 0; i--) { *(short *)(p + 250) = m; *(short *)(p + 3322) = m; p += 256; } }
+
+typedef struct { char pad[32]; short adj; short p2; int (*fn)(void *); } VT_1844d8_001844D8;
+typedef struct { char pad[12]; VT_1844d8_001844D8 *vt; } O_1844d8_001844D8;
+typedef struct { O_1844d8_001844D8 *o; } S_1844d8_001844D8;
+// MATCH func_001844D8
+int FUN_001844d8(S_1844d8_001844D8 *s) { O_1844d8_001844D8 *p = s->o; return p ? p->vt->fn((char *)p + p->vt->adj) : 0; }
