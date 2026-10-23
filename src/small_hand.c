@@ -1061,3 +1061,21 @@ typedef struct { char p[64]; V4_00126288 v1; V4_00126288 v2; char p2[16]; int i;
 static inline void set_00126288(V4_00126288 *v, float x, float y, float z) { v->x = x; v->y = y; v->z = z; v->w = 1.0f; }
 // MATCH func_00126288
 void battle_00126288(O_00126288 *o, float a, float b, float c, int i, int j, int k, float d, float e, float f, float g, int m) { set_00126288(&o->v1, a, b, c); set_00126288(&o->v2, d, e, f); o->i = i; o->j = j; o->k = k; o->m = m; o->g = g; }
+
+typedef int u128 __attribute__((mode(TI)));
+// MATCH func_0018EB78
+void FUN_0018eb78(u128 *d, u128 *s) { *d = *s; }
+
+void func_00192928(void *, void *, void *, void *, void *);
+// MATCH func_001929C0
+int FUN_001929c0(void *s) { int v[4]; func_00192928(s, v, v + 1, v + 2, v + 3); return v[1] + v[3]; }
+
+typedef struct { char p[64]; int col; char p2[12]; unsigned fl; } O_0016F828;
+extern long long D_004A12D8_0016F828 __asm__("D_004A12D8");
+// MATCH func_0016F828
+int FUN_0016f828(O_0016F828 *o) { int r; if (o->fl & 0x10) o->col = 0x808080; else o->col = 0xffffff; r = 1; if ((D_004A12D8_0016F828 & 0xa000) == 0) r = 0; return r; }
+
+typedef struct { char p[64]; int col; char p2[12]; unsigned fl; } O_0016F860;
+extern long long D_004A12D8_0016F860 __asm__("D_004A12D8");
+// MATCH func_0016F860
+int FUN_0016f860(O_0016F860 *o) { int r; if (o->fl & 0x10) o->col = 0xffffff; else o->col = 0x808080; r = 1; if ((D_004A12D8_0016F860 & 0xa000) == 0) r = 0; return r; }
