@@ -925,3 +925,18 @@ void FUN_002bee38(void *s, float a, int b) { func_002BEE90(s, 15, b, 0, 0.0f, a,
 void func_002BEE90(void *, int, int, int, float, float, float);
 // MATCH func_002BEE58
 void FUN_002bee58(void *s) { func_002BEE90(s, 44, 0, 0, 0.0f, 0.0f, 0.0f); }
+
+extern float D_004A04B4; typedef struct { char p[16]; float a, b, c; } O_002197D0;
+// MATCH func_002197D0
+void FUN_002197d0(O_002197D0 *o, float x, float y, float z) { float a = x - D_004A04B4; float b = y - D_004A04B4; o->c = z; o->a = a; o->b = b; if (a < 0.0f) o->a = 0.0f; }
+
+typedef struct { char p[16]; int *q; char p2[12]; int i; } O_0016EE38;
+extern char D_0041EFB0[]; void func_00153EB8(void *, int); void func_00153D80(void *, float, float, float);
+// MATCH func_0016EE38
+void darts_0016ee38(O_0016EE38 *o) { func_00153EB8(D_0041EFB0, o->q[o->i] + 32); func_00153D80(D_0041EFB0, 0.0f, -1.0f, 0.0f); }
+
+typedef struct { char p[16]; int *q; char p2[12]; int i; } O_0016EE90;
+typedef struct { char p[12]; float f; } G_0016EE90;
+extern G_0016EE90 D_0041EFB0_0016EE90 __asm__("D_0041EFB0"); void func_0018EB78(void *, int); void func_00153D80(void *, float, float, float);
+// MATCH func_0016EE90
+void darts_0016ee90(O_0016EE90 *o) { func_0018EB78(&D_0041EFB0_0016EE90, o->q[o->i] + 32); D_0041EFB0_0016EE90.f = 1.0f; func_00153D80(&D_0041EFB0_0016EE90, 0.0f, -1.0f, 0.0f); }
