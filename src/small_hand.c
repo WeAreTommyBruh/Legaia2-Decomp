@@ -1079,3 +1079,15 @@ typedef struct { char p[64]; int col; char p2[12]; unsigned fl; } O_0016F860;
 extern long long D_004A12D8_0016F860 __asm__("D_004A12D8");
 // MATCH func_0016F860
 int FUN_0016f860(O_0016F860 *o) { int r; if (o->fl & 0x10) o->col = 0xffffff; else o->col = 0x808080; r = 1; if ((D_004A12D8_0016F860 & 0xa000) == 0) r = 0; return r; }
+
+// MATCH func_002191A0
+void FUN_002191a0(char *d, char *s) { if (s != 0) { while (*s != 10 && *s != 0) { *d++ = *s++; } } *d = 0; }
+
+typedef struct { int n; int tbl[1]; } T_0021B5B8;
+typedef struct { char p[152]; T_0021B5B8 *t; char p2[32]; short i; } O_0021B5B8;
+// MATCH func_0021B5B8
+unsigned FUN_0021b5b8(O_0021B5B8 *o) { T_0021B5B8 *p = o->t; int i; if (p == 0) return 0; i = o->i; if (i < 0) return 0; if ((unsigned)(p->n - 1) < (unsigned)i) return 0; return *(unsigned short *)((char *)p + *(int *)((char *)p + i * 4 + 4) + 2); }
+
+extern int D_004A1A54; extern int *D_004A6FBC;
+// MATCH func_0021DD18
+int FUN_0021dd18(void) { int *p; if (D_004A1A54 != 0) return 0; p = D_004A6FBC; return (p[-4] & 0x10000000) > 0; }

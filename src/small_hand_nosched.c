@@ -57,3 +57,8 @@ void FUN_002db0e0(N_002DB0E0 *n, int a, int b, int c) { if (n != 0) { n->d = b; 
 extern int D_004A1444, D_004A140C; extern float D_003C0F30[3];
 // MATCH func_0020CB58
 int pchevent_0020cb58(int a) { if (a != 0 && D_004A1444 == 0 && (D_004A140C & 8)) { float z = 0.0f; __asm__("" : "+f"(z)); D_003C0F30[0] = z; D_003C0F30[1] = z; D_003C0F30[2] = z; } return 0; }
+
+typedef struct { char p[32]; int a; char p2[76]; int b; } T_00222A80;
+extern T_00222A80 D_00326F90;
+// MATCH func_00222A80
+int FUN_00222a80(void) { int a = D_00326F90.a; int b = D_00326F90.b; if (b - 1 == a) return 2; return b - 2 == a; }
