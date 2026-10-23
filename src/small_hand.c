@@ -565,3 +565,34 @@ void FUN_0023a238(void) { D_004A1280 = 16; D_004A1288 = 8; D_004A1294 = D_003296
 extern int D_004A71A8; extern char D_0045CF30[]; void func_00246DB8(int); void func_001118F8(void *);
 // MATCH func_002414D0
 void FUN_002414d0(void) { if (D_004A71A8 != 0) func_00246DB8(D_004A71A8); D_004A71A8 = 0; func_001118F8(D_0045CF30); }
+
+int func_002CEA48(void *);
+// MATCH func_00100680
+void FUN_00100680(int *a, void *b) { *a = func_002CEA48(b); }
+
+void func_00108B80(void);
+// MATCH func_001006F0
+void FUN_001006f0(int a, int b) { if (b & 1) func_00108B80(); }
+
+void func_00108B80(void);
+// MATCH func_001098C8
+void FUN_001098c8(int a, int b) { if (b & 1) func_00108B80(); }
+
+extern int D_00343028[]; extern int D_004A3850; void func_0010ED80(void *);
+// MATCH func_0010F000
+void FUN_0010f000(void) { if (((D_00343028[0]) & 8) == 0 && D_004A3850 != 2) func_0010ED80(D_00343028); }
+
+void func_0024AD58(int, int, int, int); void func_00111170(int);
+// MATCH func_0010F3B8
+void FUN_0010f3b8(int a, int b, int c) { func_0024AD58(a, b, c, 128); func_00111170(0); func_00111170(0); }
+
+extern long long D_00319260[64];
+// MATCH func_001100B8
+void FUN_001100b8(void) { int i; for (i = 63; i >= 0; i--) D_00319260[i] = 0; }
+
+extern int D_004A140C, D_004A6E1C; void func_001265D0(int);
+// MATCH func_00116FF8
+int FUN_00116ff8(int a) { if (a == 0) return 0; if ((D_004A140C & 8) == 0) return 0; func_001265D0(D_004A6E1C); return 0; }
+
+// MATCH func_001171B8
+void FUN_001171b8(char *p, int v, int n) { signed char c = v; while (n != 0) { *p = c; n--; p++; } }
