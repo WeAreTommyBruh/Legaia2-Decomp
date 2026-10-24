@@ -664,8 +664,11 @@ def main(argv):
             todo.append((j, missing))
     print(f"trying {len(todo)} of {len(jobs)} functions (the rest known from {CACHE})")
     with concurrent.futures.ProcessPoolExecutor(int(os.environ.get("GG_JOBS", os.cpu_count()))) as pool:
-        for key, results in pool.map(try_one, todo, chunksize=8):
+        keep = {j[-1] for j in jobs}
+        for n, (key, results) in enumerate(pool.map(try_one, todo, chunksize=8)):
             cache.setdefault(key, {}).update(results)
+            if n % 40 == 39:  # a long run survives being killed
+                save_cache(cache, keep)
     save_cache(cache, {j[-1] for j in jobs})
     found = []
     for j in jobs:

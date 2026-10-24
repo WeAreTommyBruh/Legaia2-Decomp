@@ -31,3 +31,9 @@ typedef struct N_1645a0_001645A0 { char pad[92]; struct N_1645a0_001645A0 *next;
 typedef struct { N_1645a0_001645A0 *head; } S_1645a0_001645A0;
 // MATCH func_001645A0
 void FUN_001645a0(S_1645a0_001645A0 *s) { N_1645a0_001645A0 *n = s->head->next; while (n != s->head) { N_1645a0_001645A0 *nx; nx = n->next; if (n != 0) n->vt->fn((char *)n + n->vt->adj, 3); n = nx; } }
+
+typedef struct { int a0, a4, a8; } E_0021EAB0;
+typedef struct { char pad[7240]; E_0021EAB0 e[32]; int n; } S_0021EAB0;
+void func_0021EB20(void *, int, int, int);
+// MATCH func_0021EAB0
+void batread_0021eab0(S_0021EAB0 *s) { int i; for (i = 0; i < s->n; i++) func_0021EB20(s, s->e[i].a4, s->e[i].a8, s->e[i].a0); }
