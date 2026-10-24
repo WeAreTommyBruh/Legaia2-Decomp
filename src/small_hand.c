@@ -2656,3 +2656,19 @@ typedef void __attribute__((noreturn)) (*F_2d8148)(void); extern F_2d8148 D_0042
 // MATCH func_002D8148
 void FUN_002d8148(void) { D_00427EF4_002D8148[0](); }
 
+
+void func_002E7000(int);
+// MATCH func_002E70E8
+void FUN_002e70e8(int c) { if (c == 10) { func_002E7000(13); func_002E7000(10); } else func_002E7000(c); }
+
+extern char D_0045BE60[]; void *func_00162130(int, void *, int); int func_0022A198(void *);
+// MATCH func_0022BDE0
+int srenia_0022bde0(void) { return func_0022A198(func_00162130(0x92380, D_0045BE60, 1089)); }
+
+int func_002DD36C_002DA4E0(int, int) __asm__("func_002DD36C");
+// MATCH func_002DA4E0
+int FUN_002da4e0(int *a, int *b) { int r = 0; if (b == a || func_002DD36C_002DA4E0(*a, *b) == 0) r = 1; return r; }
+
+extern int D_00427DCC_002CD240[] __asm__("D_00427DCC"); int func_002E58B0(int);
+// MATCH func_002CD240
+int FUN_002cd240(void) { if (D_00427DCC_002CD240[0] >= 0) { func_002E58B0(D_00427DCC_002CD240[0]); D_00427DCC_002CD240[0] = -1; } return 1; }
