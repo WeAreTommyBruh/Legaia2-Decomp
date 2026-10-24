@@ -2863,3 +2863,45 @@ typedef struct { R_0020F588 *w0; } Q_0020F588;
 Q_0020F588 *func_0020BBD8_0020F588(int) __asm__("func_0020BBD8");
 // MATCH func_0020F588
 int pchevent_0020f588(int f) { char buf[512]; Q_0020F588 *p; if (f & 8) { if (D_004A45E8_0020F588 >= 0) { p = func_0020BBD8_0020F588(D_004A45E8_0020F588); if (p != 0) { func_002DCE40_0020F588(buf, D_004551B8, D_004A6F78_0020F588[D_004A45E8_0020F588], (double)(p->w0->f68 * 180.0f / D_004A0450)); func_0020B858(D_004A45E4_0020F588, buf); D_004A4960_0020F588++; } } } return 0; }
+
+typedef struct { char p[8]; int w8; } M_0020C3C0;
+extern M_0020C3C0 *D_004A45E4_0020C3C0 __asm__("D_004A45E4"); extern int D_004A1444_0020C3C0 __asm__("D_004A1444"), D_004A140C_0020C3C0 __asm__("D_004A140C"); int func_0020B660(M_0020C3C0 *);
+// MATCH func_0020C3C0
+int pchevent_0020c3c0(int on) { if (on) { if (D_004A1444_0020C3C0 == 0) { if (D_004A140C_0020C3C0 & 8) { if (D_004A45E4_0020C3C0 != 0) { if (D_004A45E4_0020C3C0->w8 > 0) func_0020B660(D_004A45E4_0020C3C0); } } } } return 0; }
+
+typedef struct { char p[8]; int w8; } M_0020C330;
+extern M_0020C330 *D_004A45E4_0020C330 __asm__("D_004A45E4"); extern int D_004A1444_0020C330 __asm__("D_004A1444"), D_004A140C_0020C330 __asm__("D_004A140C"), D_004A1430, D_004A1434, D_004A4604; extern char D_00454FF8[], D_00455008[]; int func_00239568(char *, int, int, int); int func_0020BA70(M_0020C330 *, char *);
+// MATCH func_0020C330
+int pchevent_0020c330(int on) { if (D_004A45E4_0020C330 != 0) func_00239568(D_00454FF8, D_004A1430 + 16, D_004A1434 + 6, D_004A45E4_0020C330->w8); if (on) { if (D_004A1444_0020C330 == 0 && (D_004A140C_0020C330 & 8) && D_004A45E4_0020C330 != 0 && D_004A45E4_0020C330->w8 > 0) { func_0020BA70(D_004A45E4_0020C330, D_00455008); D_004A4604 = 0; } } return 0; }
+
+extern int D_004A4624_0020C5C8 __asm__("D_004A4624"), D_004A1444_0020C5C8 __asm__("D_004A1444"), D_004A140C_0020C5C8 __asm__("D_004A140C"); extern char D_0041EFB0_0020C5C8[] __asm__("D_0041EFB0"); int func_0012EE30(int, char *, float, float);
+// MATCH func_0020C5C8
+int pchevent_0020c5c8(int on) { if (on && D_004A1444_0020C5C8 == 0 && (D_004A140C_0020C5C8 & 8) && D_004A4624_0020C5C8 != 0) func_0012EE30(D_004A4624_0020C5C8, D_0041EFB0_0020C5C8, 120.0f, 1.0f); return 0; }
+
+typedef struct { char p[24]; unsigned w24; } R_0020C2A8;
+typedef struct { R_0020C2A8 *w0; } Q_0020C2A8;
+extern int D_004A1444_0020C2A8 __asm__("D_004A1444"), D_004A140C_0020C2A8 __asm__("D_004A140C"), D_004A45E8_0020C2A8 __asm__("D_004A45E8"), D_004A45F4; Q_0020C2A8 *func_0020BBD8_0020C2A8(int) __asm__("func_0020BBD8");
+// MATCH func_0020C2A8
+int pchevent_0020c2a8(int on) { Q_0020C2A8 *p; R_0020C2A8 *q; if (on) { if (D_004A1444_0020C2A8 == 0 && (D_004A140C_0020C2A8 & 8)) { if (D_004A45E8_0020C2A8 >= 0) { p = func_0020BBD8_0020C2A8(D_004A45E8_0020C2A8); if (p != 0) { q = p->w0; if (q != 0) { if (D_004A45F4 != 0) q->w24 |= 0x10000000; else q->w24 &= ~0x10000000; } } } } } return 0; }
+
+typedef struct { char p[209]; char b209; } R_0020C180;
+typedef struct { R_0020C180 *w0; } Q_0020C180;
+extern int D_004A45E8_0020C180 __asm__("D_004A45E8"); extern float D_004A4600; Q_0020C180 *func_0020BBD8_0020C180(int) __asm__("func_0020BBD8");
+// MATCH func_0020C180
+int pchevent_0020c180(void) { if (D_004A45E8_0020C180 >= 0) { Q_0020C180 *p = func_0020BBD8_0020C180(D_004A45E8_0020C180); if (p != 0) { R_0020C180 *q = p->w0; if (q != 0) q->b209 = (int)(D_004A4600 * 128.0f); } } return 0; }
+
+typedef struct { char p[64]; float f64, f68, f72; } R_0020C048;
+typedef struct { R_0020C048 *w0; } Q_0020C048;
+extern int D_004A45E8_0020C048 __asm__("D_004A45E8"); extern float D_004A0410; extern float D_003C0F10[]; Q_0020C048 *func_0020BBD8_0020C048(int) __asm__("func_0020BBD8");
+// MATCH func_0020C048
+int pchevent_0020c048(void) { if (D_004A45E8_0020C048 >= 0) { Q_0020C048 *p = func_0020BBD8_0020C048(D_004A45E8_0020C048); if (p != 0) { R_0020C048 *q = p->w0; q->f64 = D_003C0F10[0] * D_004A0410 / 180.0f; q->f68 = D_003C0F10[1] * D_004A0410 / 180.0f; q->f72 = D_003C0F10[2] * D_004A0410 / 180.0f; } } return 0; }
+
+typedef struct { char p[12]; float f12; } R_0020C0D8;
+typedef struct { char p[464]; R_0020C0D8 *w464; } Q_0020C0D8;
+extern int D_004A45E8_0020C0D8 __asm__("D_004A45E8"); extern float D_004A45F8, D_004A0414; Q_0020C0D8 *func_0020BBD8_0020C0D8(int) __asm__("func_0020BBD8");
+// MATCH func_0020C0D8
+int pchevent_0020c0d8(void) { if (D_004A45E8_0020C0D8 >= 0) { Q_0020C0D8 *p = func_0020BBD8_0020C0D8(D_004A45E8_0020C0D8); if (p != 0) { R_0020C0D8 *q = p->w464; if (q != 0) q->f12 = D_004A45F8 * D_004A0414 / 180.0f; } } return 0; }
+
+extern volatile int D_004A1444_0020D2E0 __asm__("D_004A1444"), D_004A140C_0020D2E0 __asm__("D_004A140C"); extern int D_004A46AC_0020D2E0 __asm__("D_004A46AC"), D_004A45E8_x; extern int D_004A46BC_0020D2E0 __asm__("D_004A46BC"); int func_002128C8(int, int); int func_00212C18(int, int, int);
+// MATCH func_0020D2E0
+void pchevent_0020d2e0(int on) { int i, n; if (on) { if (D_004A1444_0020D2E0 == 0 && (D_004A140C_0020D2E0 & 8) && D_004A46AC_0020D2E0 != 0 && D_004A46BC_0020D2E0 >= 0) { n = func_002128C8(D_004A46AC_0020D2E0, D_004A46BC_0020D2E0); for (i = 0; i < n; i++) func_00212C18(D_004A46AC_0020D2E0, D_004A46BC_0020D2E0, i); } } }

@@ -106,3 +106,9 @@ typedef struct { char pad[4]; int a4; int a8; } F_t_002DDDC8;
 int func_002E1FB0(int, void *);
 // MATCH func_002DDDC8
 int FUN_002dddc8(int x, F_t_002DDDC8 *fp) { int r; if (fp->a8 == 0) { fp->a4 = 0; return 0; } r = func_002E1FB0(x, fp); fp->a4 = 0; fp->a8 = 0; return r; }
+
+typedef struct { char p[112]; float f112, f116, f120; } R_0020C138;
+typedef struct { R_0020C138 *w0; } Q_0020C138;
+extern int D_004A45E8; extern float D_004A45FC; Q_0020C138 *func_0020BBD8(int);
+// MATCH func_0020C138
+int pchevent_0020c138(void) { if (D_004A45E8 >= 0) { Q_0020C138 *p = func_0020BBD8(D_004A45E8); if (p != 0) { R_0020C138 *q = p->w0; if (q != 0) { q->f112 = D_004A45FC; q->f120 = D_004A45FC; q->f116 = D_004A45FC; } } } return 0; }
