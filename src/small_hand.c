@@ -3063,3 +3063,12 @@ void func_0016FAB0(void *);
 
 // MATCH func_0016FA70
 void roulette_0016fa70(O_0016FA70 *o) { func_0016FAB0(o); o->w80 = 12; o->w96 = 0; o->w88 = 0; o->w92 = 0; o->w116 = 1; }
+
+typedef struct { char p[124]; int a, b, c, d; } G_0029B690;
+extern G_0029B690 D_00620070_0029B690 __asm__("D_00620070");
+// MATCH func_0029B690
+void FUN_0029b690(void) { if (D_00620070_0029B690.a == 11) { int vc = 76; int va = 28; int vb = 1; D_00620070_0029B690.a = va; D_00620070_0029B690.b = vb; D_00620070_0029B690.c = vc; D_00620070_0029B690.d = 0; } }
+
+extern int D_00425510_0029B758[] __asm__("D_00425510"); extern int D_00425710_0029B758[] __asm__("D_00425710");
+// MATCH func_0029B758
+void FUN_0029b758(int a, int b) { D_00425510_0029B758[2] |= 0x80; D_00425710_0029B758[49] += b; if (D_00425710_0029B758[49] < 0) D_00425710_0029B758[49] = 0; }
