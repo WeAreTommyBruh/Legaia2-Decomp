@@ -2919,3 +2919,26 @@ int pchevent_0020fb88(int f) { char buf[512]; char *s; if (f & 8) { if (D_004A46
 extern int D_004A1444_00210188 __asm__("D_004A1444"); extern int D_004A49DC, D_004A49D8, D_004A49E0, D_004A49D0; extern int D_00329640[];
 // MATCH func_00210188
 void pchevent_00210188(int on) { if (on && D_004A1444_00210188 == 0) D_00329640[D_004A49D0] = D_004A49D8 | (D_004A49DC << 8) | (D_004A49E0 << 16); }
+
+extern int D_003244F0[];
+// MATCH func_0024E098
+int FUN_0024e098(int a) { if (a == D_003244F0[10] || a == D_003244F0[11]) return 1; return 0; }
+
+typedef struct { unsigned w0, w4, w8; } O_00191698;
+// MATCH func_00191698
+unsigned FUN_00191698(O_00191698 *o, unsigned a) { unsigned v = ((o->w8 << 4) + o->w4 + 16) & 0xfffffff; if (a == v) return 0; return (a - o->w0) >> 11; }
+
+typedef struct { int w0; int w4; } O_0029BB50;
+int func_0029B9F0(O_0029BB50 *);
+// MATCH func_0029BB50
+int FUN_0029bb50(O_0029BB50 *o) { int r = func_0029B9F0(o); int v = o->w4 & 1; if (v != 0) { if (r == 1) return 1; } return 0; }
+
+typedef struct { char p[12]; short h12, h14; } T_002982D8;
+extern T_002982D8 D_003D6EE0; extern int D_004A140C_002982D8 __asm__("D_004A140C");
+// MATCH func_002982D8
+int FUN_002982d8(int a) { if (a == 0) return 0; if (a & 2) return 0; if (D_004A140C_002982D8 & 8) { D_003D6EE0.h12 = 12; D_003D6EE0.h14 = 48; } return 0; }
+
+typedef struct { int w0; int w4; } O_0029BB90;
+int func_0029B9F0_0029BB90(O_0029BB90 *) __asm__("func_0029B9F0");
+// MATCH func_0029BB90
+int FUN_0029bb90(O_0029BB90 *o) { int r = func_0029B9F0_0029BB90(o); int v = o->w4 & 2; if (v != 0) { if (r == 1) return 1; } return 0; }
