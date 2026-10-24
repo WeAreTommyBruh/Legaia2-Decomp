@@ -3051,3 +3051,9 @@ void clas_min_002a1b08(char *b, int x) { int i; int *p = (int *)(b + 264); for (
 
 // MATCH func_00101148
 void memo2_00101148(char *o) { int i; char *a = o; char *b = o + 2440; for (i = 0; i < 12; i++) { *(int *)(b - 4) = -2; *(int *)b = 0; *(unsigned short *)(a + 1364) |= 0x80; a += 64; b += 128; } o[1340] = 0; o[4502] = -1; o[4503] = -1; }
+
+// MATCH func_0018DA70
+void FUN_0018da70(unsigned char *d, unsigned char *a, unsigned char *b, float t) { int i; for (i = 255; i >= 0; i--) { d[3] = a[3]; d[0] = a[0] + (int)((b[0] - a[0]) * t); d[1] = a[1] + (int)((b[1] - a[1]) * t); d[2] = a[2] + (int)((b[2] - a[2]) * t); a += 4; b += 4; d += 4; } }
+
+// MATCH func_0018D9A8
+void FUN_0018d9a8(unsigned char *d, unsigned char *a, unsigned char *b, float t) { int i; float u = 1.0f - t; for (i = 255; i >= 0; i--) { d[3] = a[3]; d[0] = (int)(a[0] * u + b[0] * t); d[1] = (int)(a[1] * u + b[1] * t); d[2] = (int)(a[2] * u + b[2] * t); a += 4; b += 4; d += 4; } }
