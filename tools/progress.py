@@ -36,6 +36,19 @@ def main(argv):
     out = argv[1] if len(argv) > 1 else os.path.join(ROOT, "PROGRESS.md")
     with open(os.path.join(ROOT, "decomp", "functions.csv")) as f:
         funcs = list(csv.DictReader(f))
+    # sizes as tools/report.py measures them (address span to the next function, without the
+    # alignment padding); the Ghidra sizes in functions.csv overlap or miss for some functions
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import asm_build, report
+    elf = asm_build.Elf(open(asm_build.EXE, "rb").read())
+    text = elf.section(".text")
+    code = elf.data[text["off"]:text["off"] + text["size"]]
+    starts = sorted(f[0] for f in asm_build.functions() if text["addr"] <= f[0] < text["addr"] + text["size"])
+    ends = dict(zip(starts, starts[1:] + [text["addr"] + text["size"]]))
+    for r in funcs:
+        a = int(r["address"], 16)
+        if a in ends:
+            r["size_bytes"] = str(report.padded_end(code, text["addr"], a, ends[a]) - a)
     matched = set()
     for path in glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True):
         matched |= {int(a, 16) for a in re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
