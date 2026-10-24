@@ -25,7 +25,7 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/efp_tool.py` | Lists / unpacks `.efp` effect packs and decodes `.efb` effects |
 | `tools/pss_demux.py` | Splits `PALMOVIE.PSS` into MPEG-2 video (`.m2v`) and WAV audio |
 | `tools/ee_disasm.py` | Small R5900 disassembler producing clang-compatible assembly |
-| `tools/asm_build.py` | Splits `.text` into assembly per source file, rebuilds the executable with clang/ld.lld and checks it is byte-identical |
+| `tools/asm_build.py` | Splits `.text` into assembly per source file, rebuilds the executables with clang/ld.lld and checks it is byte-identical |
 | `tools/progress.py` | Writes `PROGRESS.md` (progress, including byte-identical functions) |
 | `tools/report.py` | Writes the objdiff progress report `report/report.json` (for ByteMatch / decomp.dev; uploaded by `.github/workflows/progress.yml` as `SLES_508.91_report`) |
 | `tools/match.py` | Compiles C with ee-gcc 2.9-ee-991111-01 and compares one function with the original |
