@@ -2,8 +2,6 @@
 
 Thanks for your interest in the Legaia 2: Duel Saga (PAL, SLES-50891) decompilation.
 
-**Please ask permission before contributing.** Contact the maintainer on Discord ([@wearetommybruh](https://discord.com/users/1560770063240405115)) before you start work or open a pull request. This keeps people from matching the same functions twice.
-
 ## What this project is
 
 A *matching* decompilation: the goal is C that compiles to exactly the original bytes with the game's compiler (ee-gcc 2.9-ee-991111-01, `-O2 -G8`). A function counts as done only when its C compiles byte-identical. Everything else is still built from the original assembly, so the rebuilt executable is always byte-identical.
