@@ -2672,3 +2672,49 @@ int FUN_002da4e0(int *a, int *b) { int r = 0; if (b == a || func_002DD36C_002DA4
 extern int D_00427DCC_002CD240[] __asm__("D_00427DCC"); int func_002E58B0(int);
 // MATCH func_002CD240
 int FUN_002cd240(void) { if (D_00427DCC_002CD240[0] >= 0) { func_002E58B0(D_00427DCC_002CD240[0]); D_00427DCC_002CD240[0] = -1; } return 1; }
+
+extern int D_00632854[]; extern int D_0042988C[]; int func_002E6450(int); int func_002E55D0(int, int);
+// MATCH func_002E7C98
+void FUN_002e7c98(void) { func_002E6450(5); func_002E55D0(5, D_00632854[0]); D_0042988C[0] = 0; }
+
+typedef struct { int w0; int p[7]; int w32; } Q_002CEED0;
+void func_002CE8F0(void *);
+// MATCH func_002CEED0
+void FUN_002ceed0(Q_002CEED0 *o) { int v; func_002CE8F0(o); v = o->w0; o->w32 = 0; v &= ~0xc; v |= 4; v &= ~1; v |= 0x100; o->w0 = v; }
+
+typedef struct { int w0; int p[7]; int w32; int p2[3]; unsigned w48; } Q_002CED78;
+int func_002CE9E8(int); void func_002CE8F0_002CED78(Q_002CED78 *) __asm__("func_002CE8F0");
+// MATCH func_002CED78
+void FUN_002ced78(Q_002CED78 *o, int a) { int r = func_002CE9E8(a); func_002CE8F0_002CED78(o); if (o->w48 != 0xffffffff) o->w48 = r; o->w32 = 0; o->w0 = (o->w0 & ~0xc) | 0x105; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D5220
+int FUN_002d5220(unsigned long long a) { int r = -1; if ((a & 0xff000000) == 0) { func_002D04C0(66, (int)(a & 0xffffff), (int)((a >> 24) & 0xffffff), 0); r = 0; } return r; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D5280
+int FUN_002d5280(unsigned long long a) { int r = -1; if ((a & 0xff000000) == 0) { func_002D04C0(67, (int)(a & 0xffffff), (int)((a >> 24) & 0xffffff), 0); r = 0; } return r; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D5380
+int FUN_002d5380(int *a) { int r = -1; if ((unsigned)a[2] <= 0x1fffff && (unsigned)a[3] <= 0x1fffff && a[0] >= 0 && a[0] < 16) { func_002D04C0(72, (a[0] << 24) | a[1], a[2], a[3]); r = 0; } return r; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D55B0
+int FUN_002d55b0(unsigned a, unsigned long long b, int c) { int r = -1; if (a < 2 && (unsigned)c <= 0x1fffff && (b & 0xff000000) == 0) { func_002D04C0(79, (int)b, c, a); r = 0; } return r; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D5518
+void FUN_002d5518(unsigned long long a, int b, int c) { if ((unsigned)b > 32767) return; if (c < 0) return; if (c > 32767) return; if (a & 0xff000000) return; func_002D04C0(74, (int)a, b, c); }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D5120
+int FUN_002d5120(unsigned long long a, unsigned b, int c) { int r = -1; if (b < 16384 && c >= 0 && c < 16384 && (a & 0xff000000) == 0) { func_002D04C0(64, (int)(a & 0xffffff), (int)((a >> 24) & 0xffffff), (b << 16) | c); r = 0; } return r; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D51A8
+int FUN_002d51a8(unsigned long long a, int b) { int r = -1; if ((a & 0xff000000) == 0 && b >= 0 && b <= 192000) { func_002D04C0(65, (int)(a & 0xffffff), (int)((a >> 24) & 0xffffff), b); r = 0; } return r; }
+
+void func_002D04C0(int, int, int, int);
+// MATCH func_002D1F48
+int SndVoiceSetPitch(int x, int a1, int a2, int a3, int a4, int a5, int a6) { int hi = (a1 << 24) | a4; int lo = ((a3 & 0xff) << 8) | (a2 << 16); func_002D04C0(4, x, hi | lo, (a5 << 24) | a6); return 0; }
