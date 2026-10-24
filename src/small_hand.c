@@ -2803,3 +2803,12 @@ static inline int iszero__002D9340(FP_002D9340 *x) { return x->cls == 2; }
 void func_002D89B0(void *, void *);
 // MATCH func_002D9340
 unsigned FUN_002d9340(float arg) { FP_002D9340 a; unsigned tmp; func_002D89B0(&arg, &a); if (iszero__002D9340(&a)) return 0; if (isnan__002D9340(&a)) return 0; if (a.sign) return 0; if (isinf__002D9340(&a)) return 0xffffffff; if (a.exp < 0) return 0; if (a.exp > 31) return 0xffffffff; if (a.exp > 30) tmp = a.ll << (a.exp - 30); else tmp = a.ll >> (30 - a.exp); return tmp; }
+
+typedef struct { char c[12]; } V12_002CA668;
+extern int D_0062B5C0_002CA668[] __asm__("D_0062B5C0"); extern char D_0062B380_002CA668[] __asm__("D_0062B380"); int func_002E8928_002CA668(void *, int, int, void *, int, void *, int, int, int) __asm__("func_002E8928"); void func_002C9D38(int, int, int);
+// MATCH func_002CA668
+int FUN_002ca668(int a, int b, V12_002CA668 *c) { int r; int v; D_0062B5C0_002CA668[0] = 11; D_0062B5C0_002CA668[1] = a; D_0062B5C0_002CA668[2] = b; *(V12_002CA668 *)&D_0062B5C0_002CA668[3] = *c; r = func_002E8928_002CA668(D_0062B380_002CA668, 1, 0, D_0062B5C0_002CA668, 128, D_0062B5C0_002CA668, 128, 0, 0); if (r < 0) return 0; v = D_0062B5C0_002CA668[7]; if (v == 1) func_002C9D38(a, b, 2); return D_0062B5C0_002CA668[7]; }
+
+void func_0012F2D8(); void func_0012F2E0(int, int, char *); void func_0012F2E8(int, int, char *); void func_0012F2F0(int, int, float);
+// MATCH func_0012F270
+void pchsysw_0012f270(int a, int b, char *c) { func_0012F2D8(); func_0012F2E0(a, b, c + 16); func_0012F2E8(a, b, c + 32); func_0012F2F0(a, b, *(float *)(c + 208)); }
