@@ -3032,3 +3032,22 @@ typedef struct { char p[48]; void *vt; int a; int b; int c; } O_164d30_00164D30;
 extern char D_0043D280[]; int func_00164890(void *);
 // MATCH func_00164D30
 void *pachislot_00164d30(O_164d30_00164D30 *o) { func_00164890(o); o->c = -1; o->vt = D_0043D280; o->a = 0; o->b = 0; return o; }
+
+extern int D_004A72F4, D_004A72F0; extern char D_00621320_002A2020[] __asm__("D_00621320"), D_0062AB20[], D_0041EF80[]; void func_0015A570(char *, int);
+// MATCH func_002A2020
+void clas_min_002a2020(void) { unsigned i; D_004A72F4 = 0; D_004A72F0 = 0; for (i = 0; i < 512; i++) D_00621320_002A2020[i] = 0; for (i = 0; i < 16; i++) D_0062AB20[i] = 0; func_0015A570(D_0041EF80, 0); }
+
+typedef struct { char p[168]; struct { char p[28]; unsigned w28; } *w168; } R; typedef struct { char p[4800]; R *w4800; char p2[12]; unsigned w4816; char p3[648]; } E_0027C3E0; extern E_0027C3E0 *D_004A1A20_0027C3E0 __asm__("D_004A1A20"); extern int D_004A6634;
+// MATCH func_0027C3E0
+void FUN_0027c3e0(void) { int i; E_0027C3E0 *e = D_004A1A20_0027C3E0; for (i = 0; i < 4; i++) { if (e->w4816 & 0x60000000) e->w4800->w168->w28 |= 0x100; e = (E_0027C3E0 *)((char *)e + 5472); } D_004A6634 = 1; }
+
+typedef struct { char p[40]; int w40, w44; char p2[4]; int w52, w56, w60; } E_00186AC0;
+typedef struct { E_00186AC0 e[64]; int w4096; float f4100, f4104; int w4108, w4112, w4116, w4120, w4124, w4128, w4132; } O_00186AC0;
+// MATCH func_00186AC0
+void FUN_00186ac0(O_00186AC0 *o) { int i; E_00186AC0 *e; o->w4108 = 0; o->f4100 = 32.0f; o->f4104 = 32.0f; o->w4112 = 0; o->w4116 = 0; o->w4120 = 0; o->w4124 = 0; o->w4128 = 0; o->w4132 = 0; o->w4096 = 0; e = o->e; for (i = 63; i >= 0; i--) { e->w40 = 0; e->w52 = 0; e->w44 = 0; e->w56 = 0; e->w60 = 0; e++; } }
+
+// MATCH func_002A1B08
+void clas_min_002a1b08(char *b, int x) { int i; int *p = (int *)(b + 264); for (i = 0; i < 5; i++) { if (*p == x) { p[-2] = 0; *p = 0; p[-1] = -1; } p += 68; } }
+
+// MATCH func_00101148
+void memo2_00101148(char *o) { int i; char *a = o; char *b = o + 2440; for (i = 0; i < 12; i++) { *(int *)(b - 4) = -2; *(int *)b = 0; *(unsigned short *)(a + 1364) |= 0x80; a += 64; b += 128; } o[1340] = 0; o[4502] = -1; o[4503] = -1; }
