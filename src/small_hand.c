@@ -2718,3 +2718,39 @@ int FUN_002d51a8(unsigned long long a, int b) { int r = -1; if ((a & 0xff000000)
 void func_002D04C0(int, int, int, int);
 // MATCH func_002D1F48
 int SndVoiceSetPitch(int x, int a1, int a2, int a3, int a4, int a5, int a6) { int hi = (a1 << 24) | a4; int lo = ((a3 & 0xff) << 8) | (a2 << 16); func_002D04C0(4, x, hi | lo, (a5 << 24) | a6); return 0; }
+
+typedef struct { volatile unsigned w0; char p[60]; int w64; int w68; int w72; } Ch_002D4D98;
+void *func_002CFF20_002D4D98(int) __asm__("func_002CFF20");
+// MATCH func_002D4D98
+void FUN_002d4d98(unsigned ch, int v) { if (ch < 48 && v >= 0 && v < 16384) { Ch_002D4D98 *p = func_002CFF20_002D4D98(ch); p->w0 |= 0x2000; p->w64 = v; p->w0 |= 0x400; p->w0 &= ~0x2000; } }
+
+typedef struct { volatile unsigned w0; char p[60]; int w64; int w68; int w72; } Ch_002D4CF8;
+void *func_002CFF20_002D4CF8(int) __asm__("func_002CFF20");
+// MATCH func_002D4CF8
+void FUN_002d4cf8(unsigned ch, int v, int w) { if (ch < 48 && v >= -4096 && v <= 4096 && w >= -4096 && w <= 4096) { Ch_002D4CF8 *p = func_002CFF20_002D4CF8(ch); p->w0 |= 0x2000; p->w68 = v; p->w72 = w; p->w0 |= 0x800; p->w0 &= ~0x2000; } }
+
+typedef struct { volatile unsigned w0; char w4[80]; } Ch_002D3F58;
+void *func_002CFF20_002D3F58(int) __asm__("func_002CFF20"); void func_002DC804(void *, int, int);
+// MATCH func_002D3F58
+int FUN_002d3f58(unsigned ch) { int r = -1; if (ch < 48) { Ch_002D3F58 *p = func_002CFF20_002D3F58(ch); p->w0 |= 0x2000; if ((p->w0 & 3) == 1) { func_002DC804(p->w4, 0, 80); r = 0; p->w0 = 0; } p->w0 &= ~0x2000; } return r; }
+
+typedef struct { volatile unsigned w0; char p[44]; int w48; int w52; int w56; int w60; } Ch_002D41C0;
+void *func_002CFF20_002D41C0(int) __asm__("func_002CFF20");
+// MATCH func_002D41C0
+int FUN_002d41c0(unsigned ch, int v, unsigned w) { int r = -1; if (ch < 48 && v >= 0 && v < 128) { Ch_002D41C0 *p = func_002CFF20_002D41C0(ch); p->w0 |= 0x2000; if (w == 0xffff) { r = p->w52; p->w48 = w; p->w52 = v; } else { p->w56 = w; r = 0; p->w60 = v; } p->w0 |= 0x200; p->w0 &= ~0x2000; } return r; }
+
+typedef struct { volatile unsigned w0; } Ch_002D46E0;
+void *func_002CFF20_002D46E0(int) __asm__("func_002CFF20");
+// MATCH func_002D46E0
+int FUN_002d46e0(unsigned ch) { int r = -1; if (ch < 48) { Ch_002D46E0 *p = func_002CFF20_002D46E0(ch); p->w0 |= 0x2000; if (p->w0 & 1) { r = ((int)p->w0 >> 1) & 1; if (p->w0 & 0x20) r |= 2; } p->w0 &= ~0x2000; } return r; }
+
+typedef struct { int w0; int w4; char p[70]; unsigned short h78; } O_002D2320;
+typedef struct { char p[8]; unsigned char *w8; char p2[4]; unsigned char *w16; } Pp_002D2320;
+void *func_002CFFA0(void);
+// MATCH func_002D2320
+void FUN_002d2320(O_002D2320 *o) { if (o->w0 & 2) { Pp_002D2320 *p = func_002CFFA0(); *(p->w8 + (o->h78 << 4) + 18) = p->w16[1]; *(p->w8 + (o->h78 << 4) + 26) = 64; *(p->w8 + (o->h78 << 4) + 27) = 64; } o->w4 += 2; }
+
+typedef struct { int w0; unsigned char *w4; } Pp_002D1EC0;
+void *func_002CFFA0(void);
+// MATCH func_002D1EC0
+int FUN_002d1ec0(int a, int idx, int c) { Pp_002D1EC0 *p = func_002CFFA0(); unsigned char *q; if (a == 255) a = 1; else { int t; q = p->w4 + idx * 16; p->w4 = q; if (c < q[0]) a = 0; else { t = q[1] < c; a = t ^ 1; } p->w4 = q - idx * 16; } return a; }
