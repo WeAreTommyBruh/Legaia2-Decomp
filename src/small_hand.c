@@ -1948,3 +1948,37 @@ int FUN_002d3b28(int a, int *b, int c) { int r = func_002D3B98(b, c); if (r != -
 int func_002E5790(void); void func_002E5620(int, void *, int); void func_002E57C0(void); void func_002CDA58(void);
 // MATCH func_002CDA80
 void FUN_002cda80(unsigned a) { func_002E5620(a & 0xffff, func_002CDA58, func_002E5790()); func_002E57C0(); }
+
+extern int D_00314D08_002786A0[] __asm__("D_00314D08"); extern char D_00419D18[];
+// MATCH func_002786A0
+int FUN_002786a0(int a) { char *b = D_00419D18; int *p = D_00314D08_002786A0; char *q; int i = 0; q = b + 56; do { i++; if (*p == a) return *(int *)q; q += 176; p++; } while (i < 3); return 1; }
+
+extern int D_00314D08_00278600[] __asm__("D_00314D08"); extern int D_004A66D0;
+// MATCH func_00278600
+int FUN_00278600(int a) { int i = 0; int *p = D_00314D08_00278600; do { if (*p == a) { if (D_004A66D0 == i) return 1; return 0; } i++; p++; } while (i < 3); return -1; }
+
+void func_002D7580(void *, void *); long func_002D7450_002D8088(void *) __asm__("func_002D7450");
+// MATCH func_002D8088
+long FUN_002d8088(long a) { int x[8]; func_002D7580(&a, x); x[1] = x[1] == 0; return func_002D7450_002D8088(x); }
+
+void func_002D89B0(void *, void *); float func_002D88A0_002D93D8(void *) __asm__("func_002D88A0");
+// MATCH func_002D93D8
+float FUN_002d93d8(float a) { int x[4]; func_002D89B0(&a, x); x[1] = x[1] == 0; return func_002D88A0_002D93D8(x); }
+
+long func_002D7450_002D80C0(void *) __asm__("func_002D7450");
+// MATCH func_002D80C0
+long __make_dp(int cls, int sign, int exp, long frac) { struct { int c, s, e, p; long f; } x; x.c = cls; x.s = sign; x.e = exp; x.f = frac; return func_002D7450_002D80C0(&x); }
+
+float func_002D88A0_002D9410(void *) __asm__("func_002D88A0");
+// MATCH func_002D9410
+float FUN_002d9410(int cls, int sign, int exp, int frac) { int x[4]; x[0] = cls; x[1] = sign; x[2] = exp; x[3] = frac; return func_002D88A0_002D9410(x); }
+
+// MATCH func_002D94C8
+unsigned char *FUN_002d94c8(unsigned char *p, int *val) { unsigned shift = 0; unsigned char byte; int result = 0; do { byte = *p++; result |= (int)(byte & 0x7f) << shift; shift += 7; } while (byte & 0x80); if (shift < 32 && (byte & 0x40) != 0) result |= -(1 << shift); *val = result; return p; }
+
+void func_002D89B0(void *, void *); long func_002D80C0(int, int, int, long);
+// MATCH func_002D9440
+long __extendsfdf2(float a) { int x[4]; func_002D89B0(&a, x); return func_002D80C0(x[0], x[1], x[2], (unsigned long)(unsigned)x[3] << 30); }
+
+// MATCH func_002D9480
+unsigned char *FUN_002d9480(unsigned char *p, unsigned *val) { unsigned shift = 0; unsigned char byte; unsigned result; byte = *p++; result = byte & 0x7f; while (byte & 0x80) { byte = *p++; shift += 7; result |= (unsigned)(byte & 0x7f) << shift; } *val = result; return p; }
