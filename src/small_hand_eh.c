@@ -104,3 +104,7 @@ void FUN_002e7ed0(int a, int b, int c, int d, int e, int f) { func_002E7D58(a, 1
 void func_002E7D58(int, int, int, int, int, int, int);
 // MATCH func_002E7E90
 void FUN_002e7e90(int a, int b, int c, int d, int e, int f) { func_002E7D58(a, 0, b, c, d, e, f); }
+
+int func_002DBC48(void); void func_002D8148(void) __attribute__((noreturn));
+// MATCH func_002D8228
+void FUN_002d8228(void) { if (func_002DBC48() == 0) func_002D8148(); }

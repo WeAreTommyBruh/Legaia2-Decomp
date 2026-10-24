@@ -2631,3 +2631,28 @@ void sprite_00201d08(S_201d08_00201D08 *s, int a) { if (s->w16 != 0) func_001335
 extern char D_00454D80[]; extern int D_004A45E4_002105E8 __asm__("D_004A45E4"), D_004A46A8, D_004A46AC, D_004A6B14, D_004A4648, D_004A4660, D_004A4614, D_004A4664, D_004A4668, D_004A466C, D_004A4624, D_004A4628, D_004A4670_2105E8 __asm__("D_004A4670"), D_004A4674_2105E8 __asm__("D_004A4674"), D_004A4678; void *func_00162130(int, void *, int); int func_0020B508(void *, int);
 // MATCH func_002105E8
 void pchevent_002105e8(void) { D_004A45E4_002105E8 = func_0020B508(func_00162130(20, D_00454D80, 2687), 8); D_004A46A8 = 0; D_004A46AC = 0; D_004A6B14 = 0; D_004A4648 = 0; D_004A4660 = 0; D_004A4614 = 0; D_004A4664 = 0; D_004A4668 = 0; D_004A466C = 0; D_004A4624 = 0; D_004A4628 = 0; D_004A4670_2105E8 = 0; D_004A4674_2105E8 = 0; D_004A4678 = 0; }
+
+typedef struct { char c[8]; } V8_00169278;
+typedef struct { char pad[500]; int n; char pad2[40]; V8_00169278 a; } Q_00169278;
+extern V8_00169278 D_004A2E50_00169278[2] __asm__("D_004A2E50");
+// MATCH func_00169278
+int pachislot_00169278(Q_00169278 *o) { o->n -= 8; if (o->n < 0) { o->n = 0; o->a = D_004A2E50_00169278[0]; } return 0; }
+
+typedef struct { int a0, a4, a8, a12, a16, a20; } S_29b598_0029B598;
+extern S_29b598_0029B598 D_00620058_0029B598 __asm__("D_00620058");
+// MATCH func_0029B598
+void FUN_0029b598(int a, int b) { S_29b598_0029B598 *p = &D_00620058_0029B598; D_00620058_0029B598.a0 = 1; p->a4 = b;p->a8 = 0;p->a20 = 0;p->a16 = 0;p->a12 = 0; }
+
+void func_00127000(int, int, int, int, int, int, int, int, int);
+// MATCH func_00126FA8
+void battle_00126fa8(int a, int b, int c, int d, int e, int f) { func_00127000(0, a, b, c, d, e, f, 0, 0x808080); }
+
+typedef struct { char p[104]; void *vt; int b; int c; } O_16f560_0016F560;
+extern char D_0043D4C0[]; int func_00163D88(void *, int, int);
+// MATCH func_0016F560
+void *darts_0016f560(O_16f560_0016F560 *o, int b, int c, int d, int e) { func_00163D88(o, d, e); o->b = b; o->vt = D_0043D4C0; o->c = c; return o; }
+
+typedef void __attribute__((noreturn)) (*F_2d8148)(void); extern F_2d8148 D_00427EF4_002D8148[] __asm__("D_00427EF4");
+// MATCH func_002D8148
+void FUN_002d8148(void) { D_00427EF4_002D8148[0](); }
+
