@@ -10,20 +10,20 @@ This is a matching decompilation in progress: the goal is C that compiles to exa
 |---|---|---|
 | 1 | Identify the original compiler | Done: **ee-gcc 2.9-ee-991111-01**, `-O2 -G8`, confirmed by functions that compile byte-identical (see below) |
 | 2 | Rebuild the executable from assembly | Done: rebuilt executable is **byte-identical** to the original |
-| 3 | Match functions in C | In progress: 2684 of 6254 functions (6.5% of code) compile to the original bytes and are built from C |
+| 3 | Match functions in C | In progress: 2699 of 6254 functions (6.5% of code) compile to the original bytes and are built from C |
 
 ## Overall
 
 | | Count | Share | |
 |---|---:|---:|---|
-| Functions matched in C | 2684 / 6254 | 42.9% | `#############.................` |
-| ... written by hand | 1114 | | |
+| Functions matched in C | 2699 / 6254 | 43.2% | `#############.................` |
+| ... written by hand | 1129 | | |
 | ... generated from instruction patterns (`tools/gen_tiny.py`) | 758 | | |
 | ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 812 | | |
-| Code bytes matched in C | 130,712 / 2,019,536 | 6.5% | `##............................` |
+| Code bytes matched in C | 131,960 / 2,019,536 | 6.5% | `##............................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
-| .text words disassembled as instructions | 467,804 / 475,707 | 98.3% | `##############################` |
+| .text words disassembled as instructions | 467,492 / 475,395 | 98.3% | `##############################` |
 
 Functions with a source file come from the game's `__FILE__` debug strings; real names are the descriptive and library names given in `ghidra/scripts/NameFunctions.java`. The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, VU0 macro mode), written as `.word` because clang cannot assemble them.
 
@@ -62,7 +62,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `battuto.cpp` | 1 | 280 | 0 | 0.0% |
 | `bwin.cpp` | 1 | 44 | 1 | 100.0% |
 | `cam_min.cpp` | 5 | 2,584 | 2 | 4.0% |
-| `clas_min.cpp` | 191 | 42,376 | 70 | 6.2% |
+| `clas_min.cpp` | 191 | 42,376 | 71 | 6.4% |
 | `crvmove.cpp` | 1 | 164 | 0 | 0.0% |
 | `darts.cpp` | 48 | 10,192 | 19 | 9.6% |
 | `decode.cpp` | 7 | 956 | 3 | 4.6% |
@@ -97,19 +97,19 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `noriwin.cpp` | 1 | 2,152 | 0 | 0.0% |
 | `nowloding.cpp` | 1 | 596 | 0 | 0.0% |
 | `object.cpp` | 24 | 7,336 | 9 | 2.5% |
-| `pachislot.cpp` | 165 | 32,008 | 73 | 8.4% |
+| `pachislot.cpp` | 165 | 32,008 | 74 | 8.6% |
 | `pchboss.cpp` | 1 | 48 | 1 | 100.0% |
-| `pchevent.cpp` | 107 | 25,632 | 15 | 3.3% |
+| `pchevent.cpp` | 107 | 25,632 | 16 | 3.8% |
 | `pchjob0.cpp` | 64 | 27,388 | 30 | 4.6% |
 | `pchse.cpp` | 6 | 2,984 | 1 | 3.6% |
 | `pchspplate.cpp` | 2 | 360 | 1 | 34.4% |
 | `pchsysw.cpp` | 68 | 9,384 | 36 | 15.2% |
 | `pochilib.cpp` | 1 | 216 | 0 | 0.0% |
 | `pstack.cpp` | 1 | 64 | 1 | 100.0% |
-| `repetition.cpp` | 74 | 12,312 | 22 | 7.8% |
+| `repetition.cpp` | 74 | 12,312 | 23 | 8.7% |
 | `result.cpp` | 3 | 4,288 | 0 | 0.0% |
 | `rouge.cpp` | 12 | 5,404 | 3 | 1.3% |
-| `roulette.cpp` | 73 | 11,740 | 35 | 15.5% |
+| `roulette.cpp` | 73 | 11,740 | 37 | 17.0% |
 | `rsound.cpp` | 23 | 9,648 | 6 | 1.7% |
 | `sammon.cpp` | 31 | 11,392 | 8 | 1.3% |
 | `sarva.cpp` | 1 | 48 | 1 | 100.0% |
@@ -119,7 +119,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `shuffle.cpp` | 28 | 4,184 | 8 | 5.1% |
 | `sky.cpp` | 5 | 2,244 | 2 | 5.7% |
 | `slasteg.cpp` | 1 | 48 | 1 | 100.0% |
-| `sprite.cpp` | 16 | 1,848 | 10 | 14.1% |
+| `sprite.cpp` | 16 | 1,848 | 11 | 18.6% |
 | `srenia.cpp` | 1 | 52 | 0 | 0.0% |
 | `srivus.cpp` | 47 | 5,012 | 36 | 32.7% |
 | `sumpochi.cpp` | 1 | 256 | 0 | 0.0% |
@@ -129,4 +129,4 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `work.cpp` | 36 | 4,400 | 19 | 21.3% |
 | `yokota.cpp` | 40 | 18,260 | 20 | 11.8% |
 | `yue.cpp` | 56 | 36,396 | 27 | 6.2% |
-| `(not attributed)` | 4212 | 1,336,852 | 1796 | 6.7% |
+| `(not attributed)` | 4212 | 1,336,852 | 1804 | 6.7% |

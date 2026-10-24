@@ -96,3 +96,11 @@ extern int D_00427DB0_002CCED8[] __asm__("D_00427DB0"); extern int D_00426350_00
 void func_002E7940(void *); void func_002CCF20(int, int, int, int, void *);
 // MATCH func_002CCED8
 void sceCdStStat(void) { if (D_00426350_002CCED8[0] > 0) func_002E7940(D_0049E268); func_002CCF20(0, 0, 0, 6, D_0062B8D8_002CCED8); }
+
+void func_002E7D58(int, int, int, int, int, int, int);
+// MATCH func_002E7ED0
+void FUN_002e7ed0(int a, int b, int c, int d, int e, int f) { func_002E7D58(a, 1, b, c, d, e, f); }
+
+void func_002E7D58(int, int, int, int, int, int, int);
+// MATCH func_002E7E90
+void FUN_002e7e90(int a, int b, int c, int d, int e, int f) { func_002E7D58(a, 0, b, c, d, e, f); }
