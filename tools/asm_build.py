@@ -58,7 +58,7 @@ ASFLAGS = ["-target", "mipsel-unknown-none", "-mcpu=mips4", "-mabi=32", "-modd-s
            "-mno-abicalls", "-fno-pic", "-c"]
 HEADER = ".set noreorder\n.set noat\n.set nomacro\n"
 EE_CC = os.environ.get("EE_CC", os.path.expanduser("~/tools/ee-gcc2.9-991111-01/bin/ee-gcc"))
-CFLAGS = ["-O2", "-G8", "-ffunction-sections"]
+CFLAGS = ["-O2", "-G8", "-ffunction-sections", "-DFUNCSEC"]
 C_DATA = (".data", ".rodata", ".bss", ".sdata", ".sbss", ".lit4", ".lit8")
 # a C file can ask for more flags with a `// cflags: ...` line; only
 # -fexceptions is used: the game's C++ files were built with exceptions on,
