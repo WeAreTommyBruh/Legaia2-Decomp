@@ -2112,3 +2112,33 @@ extern int D_0042992C_002ECAD0[] __asm__("D_0042992C"); extern int D_00635640_00
 int func_002E8928(void *, int, int, int, int, void *, int, int, int);
 // MATCH func_002ECAD0
 unsigned FUN_002ecad0(void) { int r; if (D_0042992C_002ECAD0[0] < 0) return 0; r = func_002E8928(D_00635600_002ECAD0, 7, 0, 0, 0, D_00635640_002ECAD0, 4, 0, 0); if (r < 0) return 0xffffffff; return D_00635640_002ECAD0[0]; }
+
+typedef struct { char pad[32]; float f32, f36, f40, f44; float g48, g52, g56, g60; } S_00153DE0;
+void func_0018ED30(void *); void func_0018ED08(void *); void func_001544F0(void *);
+// MATCH func_00153DE0
+void FUN_00153de0(S_00153DE0 *s, float x) { s->f32 = x; func_0018ED30(&s->f32); *(u128 *)&s->g48 = *(u128 *)&s->f32; s->g52 = -s->f36; func_001544F0(s); }
+
+typedef struct { char pad[32]; float f32, f36, f40, f44; float g48, g52, g56, g60; } S_00153E28;
+void func_0018ED30(void *); void func_0018ED08(void *); void func_001544F0(void *);
+// MATCH func_00153E28
+void FUN_00153e28(S_00153E28 *s, float x) { s->f36 = x; func_0018ED30(&s->f32); *(u128 *)&s->g48 = *(u128 *)&s->f32; s->g52 = -s->f36; func_001544F0(s); }
+
+typedef struct { char pad[32]; float f32, f36, f40, f44; float g48, g52, g56, g60; } S_00153E70;
+void func_0018ED30(void *); void func_0018ED08(void *); void func_001544F0(void *);
+// MATCH func_00153E70
+void FUN_00153e70(S_00153E70 *s, float x) { s->f40 = x; func_0018ED30(&s->f32); *(u128 *)&s->g48 = *(u128 *)&s->f32; s->g52 = -s->f36; func_001544F0(s); }
+
+typedef struct { char pad[32]; float f32, f36, f40, f44; float g48, g52, g56, g60; } S_00153D40;
+void func_0018ED30(void *); void func_0018ED08(void *); void func_001544F0(void *);
+// MATCH func_00153D40
+void FUN_00153d40(S_00153D40 *s) { func_0018ED08(&s->f32); *(u128 *)&s->g48 = *(u128 *)&s->f32; s->g52 = -s->f36; func_001544F0(s); }
+
+typedef struct { float x, y, z, w; } V4_00153D80;
+typedef struct { char pad[32]; V4_00153D80 a; V4_00153D80 b; } S_00153D80;
+void func_0018ED30(void *); void func_001544F0(void *);
+static inline void set_153d80_00153D80(V4_00153D80 *v, float x, float y, float z, float w) { v->x = x; v->y = y; v->z = z; v->w = w; }
+// MATCH func_00153D80
+void FUN_00153d80(S_00153D80 *s, float x, float y, float z) { set_153d80_00153D80(&s->a, x, y, z, 1.0f); func_0018ED30(&s->a); *(u128 *)&s->b = *(u128 *)&s->a; s->b.y = -s->a.y; func_001544F0(s); }
+
+// MATCH func_0018EBC0
+u128 *FUN_0018ebc0(u128 *d, u128 *s, unsigned n) { while (n--) *d++ = *s++; return d; }
