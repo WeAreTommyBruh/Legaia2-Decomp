@@ -3014,3 +3014,21 @@ typedef struct { char p[64]; V4_001563A0 v1; V4_001563A0 v2; } O_001563A0;
 static inline void set_001563A0(V4_001563A0 *v, int x, int y, int z) { v->x = x; v->y = y; v->z = z; v->w = 128.0f; }
 // MATCH func_001563A0
 void FUN_001563a0(O_001563A0 *o, int a, int b, int c, int d, int e, int f) { set_001563A0(&o->v1, a, b, c); set_001563A0(&o->v2, d, e, f); }
+
+typedef struct { char p[4]; int w4; char p1[8]; int w16; int *w20; int *w24; char p2[4]; signed char b32; } O_002034A0;
+// MATCH func_002034A0
+int FUN_002034a0(O_002034A0 *o, int idx, int *out) { if (o->b32 != 1 || idx < 0 || o->w4 - 1 < idx) return 0; if (out != 0) *out = o->w20[idx]; return o->w16 + o->w24[idx]; }
+
+typedef struct { char p[48]; void *vt; char p2[12]; int a; int b; char p3[4]; int c; } O_1658f8_001658F8;
+extern char D_0043D1A0[]; int func_00164D30(void *);
+// MATCH func_001658F8
+void *pachislot_001658f8(O_1658f8_001658F8 *o) { func_00164D30(o); o->c = -1; o->vt = D_0043D1A0; o->a = 0; o->b = 0; return o; }
+
+extern int D_00631AB0[]; extern int D_00631AC0[]; extern int D_00631AC8[]; int func_002DC804_002D63F8(void *, int, int) __asm__("func_002DC804");
+// MATCH func_002D63F8
+int *FUN_002d63f8(void) { if (D_00631AC0[0] == 0) { D_00631AC0[0] = 1; func_002DC804_002D63F8(D_00631AB0, 0, 16); D_00631AB0[1] = (int)D_00631AC8; } return D_00631AB0; }
+
+typedef struct { char p[48]; void *vt; int a; int b; int c; } O_164d30_00164D30;
+extern char D_0043D280[]; int func_00164890(void *);
+// MATCH func_00164D30
+void *pachislot_00164d30(O_164d30_00164D30 *o) { func_00164890(o); o->c = -1; o->vt = D_0043D280; o->a = 0; o->b = 0; return o; }

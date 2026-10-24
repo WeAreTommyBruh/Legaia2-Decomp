@@ -115,3 +115,7 @@ int pchevent_0020c138(void) { if (D_004A45E8 >= 0) { Q_0020C138 *p = func_0020BB
 
 // MATCH func_0022D420
 void FUN_0022d420(float *d, float *s) { int i, j; for (i = 0; i < 4; i++) for (j = 0; j < 4; j++) d[i * 4 + j] = s[i * 4 + j]; }
+
+extern int D_00402930[]; extern char D_0040E070[]; int func_002A4F30(void *); int func_00202840(void *);
+// MATCH func_002943B0
+void FUN_002943b0(void) { int *p = D_00402930; func_002A4F30(D_00402930); p[32] = 1; p[39] = 70; p[40] = 0; p[31] = 0; p[33] = 0; p[34] = 0; p[35] = 0; p[36] = 0; p[37] = 0; p[38] = 0; func_00202840(D_0040E070); }
