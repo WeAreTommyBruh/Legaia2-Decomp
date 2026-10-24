@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in the Legaia 2: Duel Saga (PAL, SLES-50891) decompilation.
+Thanks so much for your interest in the Legaia 2: Duel Saga (PAL, SLES-50891) decompilation.
 
 ## What this project is
 
