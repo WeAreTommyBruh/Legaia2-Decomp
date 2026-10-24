@@ -36,7 +36,7 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/gen_new.py` | `new T` wrappers: `MemAllocDbg(size, file, line)` plus constructor (`src/gen_new/`) |
 | `tools/gen_static.py` | Function-local static accessors (`src/gen_static/`) |
 | `tools/gen_fam.py` | Exact-shape families (counters, clamps, DMA starts, polynomial helpers, virtual-delete thunks...) tried under several compiler settings (`src/gen_fam/`) |
-| `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`). `small_hand*.c` hold hand-matched small functions, one file per setting (`// compiler:` / `// cflags:` lines: none, `-fexceptions`, `-fno-gcse`, `-fno-schedule-insns` and combinations, 990721-r5900, `-O1`). `wip/*.c` holds near-miss drafts (`// WIP func_XXXXXXXX`): they are compiled by `tools/report.py` for the partial-match figures but are not part of the build |
+| `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`). `small_hand*.c` hold hand-matched small functions, one file per setting (`// compiler:` / `// cflags:` lines: none, `-fexceptions`, `-fno-gcse`, `-fno-schedule-insns` and combinations, 990721-r5900, `-O1`). `src/asm_stubs.c` holds the ~170 functions that are hand-written assembly in the original (libkernel syscall stubs, cop0 / `ei` / `di` helpers) as file-scope `__asm__`; they count as matched but are not C. `wip/*.c` holds near-miss drafts (`// WIP func_XXXXXXXX`, with the number of differing words in the comment line above): they are compiled by `tools/report.py` for the partial-match figures but are not part of the build |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
 one file per function under `decomp/src/<source file>/`, `functions.csv`), `fs/`,
@@ -92,10 +92,11 @@ Sony SDK, C library and kernel stubs are after `shikimi.cpp` (roughly `0x002b900
 
 This is a matching decompilation in progress: a function counts as done only when its C compiles byte-identical to the original; everything else is rebuilt from the original assembly.
 
-- A C file picks its build with header lines: `// compiler: 990721-r5900` (990721 cc1 plus `tools/r5900_short_loops.py`, then the 991111-01 assembler) and `// cflags: ...` (extra gcc flags such as `-fno-gcse`, `-fexceptions`, `-fno-schedule-insns`, `-fno-thread-jumps`). The game's C++ files were built with exceptions on, so a call at the end of a function stays a `jal`.
+- A C file picks its build with header lines: `// compiler: 990721-r5900` (990721 cc1 plus `tools/r5900_short_loops.py`, then the 991111-01 assembler) and `// cflags: ...` (extra gcc flags such as `-fno-gcse`, `-fexceptions`, `-fno-schedule-insns`, `-fno-schedule-insns2`, `-fno-thread-jumps`, `-fno-omit-frame-pointer`, `-O1`). `tools/asm_build.py` also defines `FUNCSEC` so that file-scope assembly lands in a `.text.<name>` section; `tools/report.py` compiles without it. The game's C++ files were built with exceptions on, so a call at the end of a function stays a `jal`.
 - `// MATCH func_XXXXXXXX` goes on its own line directly above the definition; the first identifier before `(` on the next line is taken as the function's C name, so prototypes must not share that line.
 - `PROGRESS.md` and `report/report.json` (from `tools/progress.py` and `tools/report.py`) must be regenerated and committed with every push.
-- Frequent shapes that needed tricks (volatile members, register-pinned MMIO addresses, float zeros via an empty `asm`, store order = struct field order, inline vector setters) are listed in `handoff.md`, section 6.
+- Frequent shapes that needed tricks (volatile members, register-pinned MMIO addresses, float zeros via an empty `asm`, store order = struct field order, inline vector setters, `int`-returning callee declarations, `noreturn` tails, unsigned loop counters) are listed in `handoff.md`, sections 6-8.
+- A compile that is shorter or longer than the original function is not a match (the scorer counts missing words). Some `functions.csv` sizes overlap the next function by a few bytes; trailing `nop` padding is ignored.
 
 ## Disc file system
 

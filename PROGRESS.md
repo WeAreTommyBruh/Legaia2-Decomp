@@ -17,9 +17,10 @@ This is a matching decompilation in progress: the goal is C that compiles to exa
 | | Count | Share | |
 |---|---:|---:|---|
 | Functions matched in C | 2988 / 6254 | 47.8% | `##############................` |
-| ... written by hand | 1417 | | |
+| ... written by hand | 1249 | | |
 | ... generated from instruction patterns (`tools/gen_tiny.py`) | 758 | | |
 | ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 813 | | |
+| ... assembly in the original, reproduced as file-scope asm (`src/asm_stubs.c`) | 168 | | |
 | Code bytes matched in C | 145,988 / 2,019,536 | 7.2% | `##............................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
@@ -34,7 +35,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
   - ee-gcc 2.96 saves registers in 8-byte stack slots; the game uses 16-byte slots (about 2,500 functions show this), so it is ruled out.
   - ee-gcc 2.9-ee-990721 and 2.9-ee-991111 put a `nop` between `mtc1` and `cvt.s.w` that the game does not have.
   - ee-gcc 2.9-ee-991111-01 (and 991111a, which reports the same version) reproduce every matched function. The build uses 991111-01.
-- Not every file was built the same way. Some match only with the older ee-gcc 2.9-ee-990721 (no global CSE), some only with 991111-01 and `-fno-gcse`; such C files carry a `// compiler: 990721` or `// cflags: -fno-gcse` line. A few functions still point to a build that is not in the archive (a `cvt.s.w` in a call's delay slot).
+- Not every file was built the same way. Some match only with the older ee-gcc 2.9-ee-990721 (no global CSE), some only with 991111-01 and `-fno-gcse`; such C files carry a `// compiler: 990721` or `// cflags: -fno-gcse` line. Others need the scheduler passes off (`-fno-schedule-insns`, `-fno-schedule-insns2`) or a frame pointer (`-fno-omit-frame-pointer`). A few functions still point to a build that is not in the archive (a `cvt.s.w` in a call's delay slot).
 - The game's C++ files were built with exceptions on (`-fexceptions`): a call at the end of a function stays a `jal` instead of becoming a tail call (`j`). Generated files that need it carry a `// cflags: -fexceptions` line.
 - Flags: `-O2 -G8`. Float constants are loaded gp-relative from `.lit4` and the gp value (0x4a7c70) comes from `.reginfo`.
 
@@ -42,6 +43,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 
 - `src/*.c` holds the functions rewritten in C. A matched function has a `// MATCH func_XXXXXXXX` comment just before it; one that compiles but does not match yet stays under `#ifdef NONMATCHING`, and the build uses the original assembly.
 - `src/gen/` is written by `tools/gen_tiny.py`: tiny functions (empty functions, constants, field and global getters/setters, short wrappers that end in a tail call) translated from their instructions; only exact matches are kept.
+- `src/asm_stubs.c` holds functions that are hand-written assembly in the original (syscall stubs, cop0 / `ei` / `di` helpers). They are reproduced instruction for instruction as file-scope assembly: they count as matched, but they are not C.
 - `src/ghidra/` is written by `tools/gen_ghidra.py`: Ghidra's own decompilation, with only types and global names adjusted, for the functions where it already compiles to the original bytes. It reads like Ghidra output and is meant to be cleaned up by hand.
 - Every check resolves relocations to the real addresses (functions, `D_XXXXXXXX` globals, gp-relative offsets), so a call or global access to the wrong place counts as a difference.
 - `python3 tools/report.py` writes the objdiff report `report/report.json` that ByteMatch reads.
