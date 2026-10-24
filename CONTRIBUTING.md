@@ -88,7 +88,3 @@ Once you have the maintainer's go-ahead and your change builds:
 ## AI assistance
 
 This project is heavily AI-assisted and every result is checked by the maintainer. If you use AI tools, you remain responsible for what you submit: verify it matches, contains no game assets or text, and follows the rules above.
-
-## Questions
-
-Ask on Discord (see above) or open an issue.
