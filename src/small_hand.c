@@ -2754,3 +2754,52 @@ typedef struct { int w0; unsigned char *w4; } Pp_002D1EC0;
 void *func_002CFFA0(void);
 // MATCH func_002D1EC0
 int FUN_002d1ec0(int a, int idx, int c) { Pp_002D1EC0 *p = func_002CFFA0(); unsigned char *q; if (a == 255) a = 1; else { int t; q = p->w4 + idx * 16; p->w4 = q; if (c < q[0]) a = 0; else { t = q[1] < c; a = t ^ 1; } p->w4 = q - idx * 16; } return a; }
+
+typedef struct { int w0; int p[3]; unsigned w16; int p2[3]; int w32; } Q_002CEDE0;
+int func_002CE9E8(int); void func_002CE8F0_002CEDE0(Q_002CEDE0 *) __asm__("func_002CE8F0");
+// MATCH func_002CEDE0
+void FUN_002cede0(Q_002CEDE0 *o, int a, int b) { int r = func_002CE9E8(a); func_002CE8F0_002CEDE0(o); if (o->w16 != 0xffffffff) o->w16 = r; o->w32 = b; o->w0 = (o->w0 & ~0xc) | 0x101; }
+
+typedef struct { int w0; int p[3]; unsigned w16; int p2[3]; int w32; } Q_002CEE58;
+int func_002CE9E8(int); void func_002CE8F0_002CEE58(Q_002CEE58 *) __asm__("func_002CE8F0");
+// MATCH func_002CEE58
+void FUN_002cee58(Q_002CEE58 *o, int a, int b) { int r = func_002CE9E8(a); func_002CE8F0_002CEE58(o); if (o->w16 != 0xffffffff) o->w16 = r; o->w32 = b; o->w0 = (o->w0 & ~0xc) | 0x109; }
+
+typedef struct { int w0; int p[3]; unsigned w16; int p2[3]; int w32; } Q_002CEF98;
+int func_002CE9E8(int); void func_002CE8F0_002CEF98(Q_002CEF98 *) __asm__("func_002CE8F0");
+// MATCH func_002CEF98
+void FUN_002cef98(Q_002CEF98 *o, int a, int b) { int r = func_002CE9E8(a); func_002CE8F0_002CEF98(o); if (o->w16 != 0xffffffff) o->w16 = r; o->w32 = b; o->w0 = (((o->w0 & ~0xc) | 8) & ~1) | 0x100; }
+
+typedef struct { volatile unsigned w0; } Q_002CE8F0;
+extern char D_0049E348[]; void func_002E7940_002CE8F0(char *) __asm__("func_002E7940"); void func_002CF088(Q_002CE8F0 *);
+// MATCH func_002CE8F0
+void FUN_002ce8f0(Q_002CE8F0 *o) { int n = 0x1000000; while (o->w0 & 0x100) { n--; if (n < 0) { func_002E7940_002CE8F0(D_0049E348); func_002CF088(o); } } }
+
+typedef struct { int p[4]; volatile unsigned w16; } Q_002CE960;
+extern char D_0049E348_002CE960[] __asm__("D_0049E348"); void func_002E7940_002CE960(char *) __asm__("func_002E7940"); void func_002CF088_002CE960(Q_002CE960 *) __asm__("func_002CF088");
+// MATCH func_002CE960
+void FUN_002ce960(Q_002CE960 *o, unsigned b, int c) { int n = c ? c : 0x1000000; while (o->w16 < b) { n--; if (n < 0) { func_002E7940_002CE960(D_0049E348_002CE960); func_002CF088_002CE960(o); } } }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FP_002D7F50;
+static inline int isnan__002D7F50(FP_002D7F50 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf__002D7F50(FP_002D7F50 *x) { return x->cls == 4; }
+static inline int iszero__002D7F50(FP_002D7F50 *x) { return x->cls == 2; }
+void func_002D7580(void *, void *);
+// MATCH func_002D7F50
+int __fixdfsi(double arg) { FP_002D7F50 a; unsigned long long tmp; func_002D7580(&arg, &a); if (iszero__002D7F50(&a)) return 0; if (isnan__002D7F50(&a)) return 0; if (isinf__002D7F50(&a)) return a.sign ? 0x80000000 : 0x7fffffff; if (a.exp < 0) return 0; if (a.exp > 30) return a.sign ? 0x80000000 : 0x7fffffff; tmp = a.ll >> (60 - a.exp); return a.sign ? -(int)tmp : (int)tmp; }
+
+typedef struct { int cls; int sign; int exp; unsigned ll; } FP_002D92B0;
+static inline int isnan__002D92B0(FP_002D92B0 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf__002D92B0(FP_002D92B0 *x) { return x->cls == 4; }
+static inline int iszero__002D92B0(FP_002D92B0 *x) { return x->cls == 2; }
+void func_002D89B0(void *, void *);
+// MATCH func_002D92B0
+int FUN_002d92b0(float arg) { FP_002D92B0 a; unsigned tmp; func_002D89B0(&arg, &a); if (iszero__002D92B0(&a)) return 0; if (isnan__002D92B0(&a)) return 0; if (isinf__002D92B0(&a)) return a.sign ? 0x80000000 : 0x7fffffff; if (a.exp < 0) return 0; if (a.exp > 30) return a.sign ? 0x80000000 : 0x7fffffff; tmp = a.ll >> (30 - a.exp); return a.sign ? -(int)tmp : (int)tmp; }
+
+typedef struct { int cls; int sign; int exp; unsigned ll; } FP_002D9340;
+static inline int isnan__002D9340(FP_002D9340 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf__002D9340(FP_002D9340 *x) { return x->cls == 4; }
+static inline int iszero__002D9340(FP_002D9340 *x) { return x->cls == 2; }
+void func_002D89B0(void *, void *);
+// MATCH func_002D9340
+unsigned FUN_002d9340(float arg) { FP_002D9340 a; unsigned tmp; func_002D89B0(&arg, &a); if (iszero__002D9340(&a)) return 0; if (isnan__002D9340(&a)) return 0; if (a.sign) return 0; if (isinf__002D9340(&a)) return 0xffffffff; if (a.exp < 0) return 0; if (a.exp > 31) return 0xffffffff; if (a.exp > 30) tmp = a.ll << (a.exp - 30); else tmp = a.ll >> (30 - a.exp); return tmp; }
