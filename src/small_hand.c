@@ -2388,3 +2388,33 @@ extern int D_006355C0[]; extern int D_00429918[];
 void func_002E95B0(int); void func_002E96B8(void); int func_002EDC50(void); void func_002EDC98(void); void func_002E95E0(void);
 // MATCH func_002E95F0
 int FUN_002e95f0(int a, int b) { int old; int r; int *p = D_006355C0; func_002E95B0(27); if (D_00429918[0] == 0) func_002E96B8(); r = func_002EDC50(); old = D_006355C0[0]; p[1] = b; D_006355C0[0] = a; if (r != 0) func_002EDC98(); func_002E95E0(); return old; }
+
+int func_002EDC50(void); int func_002EDC98_002E6380(void) __asm__("func_002EDC98"); int func_002E55F0(int);
+// MATCH func_002E6380
+int FUN_002e6380(int x) { int st; int r; __asm__ volatile("mfc0 %0, $12" : "=r"(st)); st &= 0x10000; if (st) func_002EDC50(); r = func_002E55F0(x); __asm__ volatile("sync"); if (st) func_002EDC98_002E6380(); return r; }
+
+typedef char *va_list;
+void func_002396B8(int, va_list);
+// MATCH func_00239568
+void FUN_00239568(int a, ...) { va_list ap; ap = (va_list)__builtin_next_arg(a) - 56; func_002396B8(a, ap); }
+
+void func_002E7318(int, va_list);
+// MATCH func_002E7908
+void FUN_002e7908(int a, ...) { va_list ap; ap = (va_list)__builtin_next_arg(a) - 56; func_002E7318(a, ap); }
+
+int func_002EDC50(void); int func_002EDC98_002E63E8(void) __asm__("func_002EDC98"); int func_002E55E0(int);
+// MATCH func_002E63E8
+int FUN_002e63e8(int x) { int st; int r; __asm__ volatile("mfc0 %0, $12" : "=r"(st)); st &= 0x10000; if (st) func_002EDC50(); r = func_002E55E0(x); __asm__ volatile("sync"); if (st) func_002EDC98_002E63E8(); return r; }
+
+int func_002EDC50(void); int func_002EDC98_002E6450(void) __asm__("func_002EDC98"); int func_002E5610(int);
+// MATCH func_002E6450
+int FUN_002e6450(int x) { int st; int r; __asm__ volatile("mfc0 %0, $12" : "=r"(st)); st &= 0x10000; if (st) func_002EDC50(); r = func_002E5610(x); __asm__ volatile("sync"); if (st) func_002EDC98_002E6450(); return r; }
+
+int func_002EDC50(void); int func_002EDC98_002E64B8(void) __asm__("func_002EDC98"); int func_002E5600(int);
+// MATCH func_002E64B8
+int FUN_002e64b8(int x) { int st; int r; __asm__ volatile("mfc0 %0, $12" : "=r"(st)); st &= 0x10000; if (st) func_002EDC50(); r = func_002E5600(x); __asm__ volatile("sync"); if (st) func_002EDC98_002E64B8(); return r; }
+
+extern int D_004A13E8;
+void func_002396B8(int, va_list);
+// MATCH func_002393E0
+void FUN_002393e0(int a, int b, ...) { va_list ap; D_004A13E8 = a; ap = (va_list)__builtin_next_arg(b) - 48; func_002396B8(b, ap); D_004A13E8 = 0; }
