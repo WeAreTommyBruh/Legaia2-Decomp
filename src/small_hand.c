@@ -2967,3 +2967,50 @@ void FUN_002a86f0(char *o, float x) { func_0015EC38(o + 432, -0.25f); func_0015E
 void func_0015EB38(char *); void func_0015EB30(char *, float);
 // MATCH func_002A8788
 void FUN_002a8788(char *o, float a, float b) { func_0015EB38(o + 432); func_0015EB30(o + 432, b); }
+
+extern char **D_004A6F44; extern char D_004A2C28[], D_004A2C30[]; int func_00161E58(char *, char *);
+// MATCH func_001620A8
+int FUN_001620a8(void) { int r = func_00161E58(*D_004A6F44 + 128, D_004A2C28); if (r) return r; return func_00161E58(*D_004A6F44, D_004A2C30); }
+
+extern float D_0049FE18; extern char D_0053FD00[]; int func_0012C1E8(void *); float func_0015A9A8(char *, float, void *);
+// MATCH func_00127498
+float battle_00127498(void *o) { float r = 0.0f; if (func_0012C1E8(o)) r = func_0015A9A8(D_0053FD00, D_0049FE18, o); return r; }
+
+extern int D_00343028_0010EF68[] __asm__("D_00343028"); extern int D_004A3850_0010EF68 __asm__("D_004A3850"); int func_0010AF68(int, int, int, int);
+// MATCH func_0010EF68
+int FUN_0010ef68(int a, int b, int c) { if ((D_00343028_0010EF68[0] & 8) || D_004A3850_0010EF68 == 2) return 1; return func_0010AF68(a, 901, b, c); }
+
+extern int D_00343028_0010EFB0[] __asm__("D_00343028"); extern int D_004A3850_0010EFB0 __asm__("D_004A3850"); int func_0010C2D0(int, int, int, int, int);
+// MATCH func_0010EFB0
+int FUN_0010efb0(int a, int b, int c, int d) { if ((D_00343028_0010EFB0[0] & 8) || D_004A3850_0010EFB0 == 2) return 0; return func_0010C2D0(a, 901, b, c, d); }
+
+int func_00161200(int, unsigned char *);
+// MATCH func_00161230
+unsigned char *FUN_00161230(int a, unsigned char *p) { int fl = p[3] & 1; p += 8; if (fl) p += func_00161200(a, p) * 4 + 4; return p; }
+
+typedef struct { float x, y, z, w; } V4_00154268;
+static inline void set_00154268(V4_00154268 *v, float x, float y, float z) { v->x = x; v->y = y; v->z = z; v->w = 1.0f; }
+void func_00153520(V4_00154268 *, V4_00154268 *); void func_001535B8(char *, char *, V4_00154268 *); void func_00154550_00154268(char *) __asm__("func_00154550");
+// MATCH func_00154268
+void FUN_00154268(char *o) { V4_00154268 m; V4_00154268 v; set_00154268(&v, 1.0f, 0.0f, 0.0f); func_00153520(&m, &v); func_001535B8(o + 192, o + 192, &m); func_00154550_00154268(o); }
+
+typedef struct { float x, y, z, w; } V4_001542C8;
+static inline void set_001542C8(V4_001542C8 *v, float x, float y, float z) { v->x = x; v->y = y; v->z = z; v->w = 1.0f; }
+void func_00153520_001542C8(V4_001542C8 *, V4_001542C8 *) __asm__("func_00153520"); void func_001535B8_001542C8(char *, char *, V4_001542C8 *) __asm__("func_001535B8"); void func_00154550_001542C8(char *) __asm__("func_00154550");
+// MATCH func_001542C8
+void FUN_001542c8(char *o) { V4_001542C8 m; V4_001542C8 v; set_001542C8(&v, 0.0f, 1.0f, 0.0f); func_00153520_001542C8(&m, &v); func_001535B8_001542C8(o + 192, o + 192, &m); func_00154550_001542C8(o); }
+
+typedef struct { float x, y, z, w; } V4_00154328;
+static inline void set_00154328(V4_00154328 *v, float x, float y, float z) { v->x = x; v->y = y; v->z = z; v->w = 1.0f; }
+void func_00153520_00154328(V4_00154328 *, V4_00154328 *) __asm__("func_00153520"); void func_001535B8_00154328(char *, char *, V4_00154328 *) __asm__("func_001535B8"); void func_00154550_00154328(char *) __asm__("func_00154550");
+// MATCH func_00154328
+void FUN_00154328(char *o) { V4_00154328 m; V4_00154328 v; set_00154328(&v, 0.0f, 0.0f, 1.0f); func_00153520_00154328(&m, &v); func_001535B8_00154328(o + 192, o + 192, &m); func_00154550_00154328(o); }
+
+// MATCH func_00249DB8
+void FUN_00249db8(short *d, float *s) { d[0] = (int)(s[0] * 4096.0f); d[1] = (int)(s[1] * 4096.0f); d[2] = (int)(s[2] * 4096.0f); d[3] = (int)(s[3] * 4096.0f); }
+
+typedef struct { float x, y, z, w; } V4_001563A0;
+typedef struct { char p[64]; V4_001563A0 v1; V4_001563A0 v2; } O_001563A0;
+static inline void set_001563A0(V4_001563A0 *v, int x, int y, int z) { v->x = x; v->y = y; v->z = z; v->w = 128.0f; }
+// MATCH func_001563A0
+void FUN_001563a0(O_001563A0 *o, int a, int b, int c, int d, int e, int f) { set_001563A0(&o->v1, a, b, c); set_001563A0(&o->v2, d, e, f); }

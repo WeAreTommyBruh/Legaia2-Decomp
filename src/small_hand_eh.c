@@ -108,3 +108,10 @@ void FUN_002e7e90(int a, int b, int c, int d, int e, int f) { func_002E7D58(a, 0
 int func_002DBC48(void); void func_002D8148(void) __attribute__((noreturn));
 // MATCH func_002D8228
 void FUN_002d8228(void) { if (func_002DBC48() == 0) func_002D8148(); }
+
+typedef struct { char p[4]; int w4; } Q_002BAF58;
+typedef struct { char p[576]; Q_002BAF58 *w576; } R_002BAF58;
+typedef struct { char p[216]; R_002BAF58 *w216; } O_002BAF58;
+void func_002ADCC8(Q_002BAF58 *, O_002BAF58 *); void func_002AE0C8(Q_002BAF58 *, O_002BAF58 *);
+// MATCH func_002BAF58
+void FUN_002baf58(O_002BAF58 *o) { Q_002BAF58 *q = o->w216->w576; if (q != 0) { switch (q->w4) { case 0: func_002ADCC8(q, o); break; case 1: func_002AE0C8(q, o); break; } } }
