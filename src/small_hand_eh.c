@@ -77,3 +77,7 @@ extern char D_0049F708[];
 void func_002ED680(int, void *, int, int);
 // MATCH func_002ED7A8
 void FUN_002ed7a8(int a, int b) { func_002ED680(a, D_0049F708, b, 1); }
+
+void func_002ED680_002ED788(int, int, int, int) __asm__("func_002ED680");
+// MATCH func_002ED788
+void FUN_002ed788(int a, int b, int c) { func_002ED680_002ED788(a, b, c, 1); }
