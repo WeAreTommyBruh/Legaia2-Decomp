@@ -2905,3 +2905,17 @@ int pchevent_0020c0d8(void) { if (D_004A45E8_0020C0D8 >= 0) { Q_0020C0D8 *p = fu
 extern volatile int D_004A1444_0020D2E0 __asm__("D_004A1444"), D_004A140C_0020D2E0 __asm__("D_004A140C"); extern int D_004A46AC_0020D2E0 __asm__("D_004A46AC"), D_004A45E8_x; extern int D_004A46BC_0020D2E0 __asm__("D_004A46BC"); int func_002128C8(int, int); int func_00212C18(int, int, int);
 // MATCH func_0020D2E0
 void pchevent_0020d2e0(int on) { int i, n; if (on) { if (D_004A1444_0020D2E0 == 0 && (D_004A140C_0020D2E0 & 8) && D_004A46AC_0020D2E0 != 0 && D_004A46BC_0020D2E0 >= 0) { n = func_002128C8(D_004A46AC_0020D2E0, D_004A46BC_0020D2E0); for (i = 0; i < n; i++) func_00212C18(D_004A46AC_0020D2E0, D_004A46BC_0020D2E0, i); } } }
+
+extern int D_004A45E4_0020F970 __asm__("D_004A45E4"), D_004A4960_0020F970 __asm__("D_004A4960"); int func_002DCE40_0020F970(char *, char *, ...) __asm__("func_002DCE40"); int func_0020B858(int, char *);
+extern int D_004A4614_0020F970 __asm__("D_004A4614"), D_004A4618_0020F970 __asm__("D_004A4618"), D_004A4658_0020F970 __asm__("D_004A4658"); extern char D_00455260[], D_004A48D8_0020F970[] __asm__("D_004A48D8"), D_004A4790_0020F970[] __asm__("D_004A4790"); extern float D_003C0F20[]; char *func_00160C70(int, char *, int);
+// MATCH func_0020F970
+int pchevent_0020f970(int f) { char buf[512]; char *s; if (f & 8) { if (D_004A4614_0020F970 > 0 && D_004A4618_0020F970 >= 0) s = func_00160C70(D_004A4658_0020F970, D_004A48D8_0020F970, D_004A4618_0020F970); else s = D_004A4790_0020F970; func_002DCE40_0020F970(buf, D_00455260, s, (double)D_003C0F20[0], (double)D_003C0F20[1], (double)D_003C0F20[2]); func_0020B858(D_004A45E4_0020F970, buf); D_004A4960_0020F970++; } return 0; }
+
+extern int D_004A45E4_0020FB88 __asm__("D_004A45E4"), D_004A4960_0020FB88 __asm__("D_004A4960"); int func_002DCE40_0020FB88(char *, char *, ...) __asm__("func_002DCE40"); int func_0020B858(int, char *);
+extern int D_004A4614_0020FB88 __asm__("D_004A4614"), D_004A4618_0020FB88 __asm__("D_004A4618"), D_004A4658_0020FB88 __asm__("D_004A4658"); extern char D_004552A8[], D_004A48D8_0020FB88[] __asm__("D_004A48D8"), D_004A4790_0020FB88[] __asm__("D_004A4790"); extern float D_003C0F30[]; char *func_00160C70(int, char *, int);
+// MATCH func_0020FB88
+int pchevent_0020fb88(int f) { char buf[512]; char *s; if (f & 8) { if (D_004A4614_0020FB88 > 0 && D_004A4618_0020FB88 >= 0) s = func_00160C70(D_004A4658_0020FB88, D_004A48D8_0020FB88, D_004A4618_0020FB88); else s = D_004A4790_0020FB88; func_002DCE40_0020FB88(buf, D_004552A8, s, (double)D_003C0F30[0], (double)D_003C0F30[1], (double)D_003C0F30[2]); func_0020B858(D_004A45E4_0020FB88, buf); D_004A4960_0020FB88++; } return 0; }
+
+extern int D_004A1444_00210188 __asm__("D_004A1444"); extern int D_004A49DC, D_004A49D8, D_004A49E0, D_004A49D0; extern int D_00329640[];
+// MATCH func_00210188
+void pchevent_00210188(int on) { if (on && D_004A1444_00210188 == 0) D_00329640[D_004A49D0] = D_004A49D8 | (D_004A49DC << 8) | (D_004A49E0 << 16); }
