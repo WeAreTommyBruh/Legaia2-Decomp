@@ -48,7 +48,7 @@ python3 tools/report.py
 This decompilation project is heavily ai assisted. I check everything one by one to make sure there is nothing wrong.
 
 # Contributing
-Please ask me permission to contribute. My discord is [@wearetommybruh](https://discord.com/users/1560770063240405115)
+Any help will be welcome. Please read [CONTRIBUTING.md](https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/main/CONTRIBUTING.md) for more details.
 
 # Legal
 This repository contains no game files: no disc image, executable, graphics, audio, text or other assets, and nothing extracted from them. It holds only tools, documentation and C reconstructed from analysing the game's code (written by hand, or generated with Ghidra and checked against the original). You will have to provide your own Legaia 2: Duel Saga (PAL, SLES-50891) disc image.
