@@ -68,9 +68,19 @@ Useful techniques (struct-pointer parameters, `volatile` flag words, `int`-retur
 - Watch for duplicate symbols: a stale `// OFF func_X` or an already-matched function in another file causes a link error.
 - Keep commits focused and describe what matched (for example "Match 12 more pchevent debug-print functions").
 
+## Submitting a pull request
+
+Once you have the maintainer's go-ahead and your change builds:
+
+1. **Fork and branch.** Fork the repository on GitHub, then create a branch in your fork for your work (one topic per branch, for example one file or one family of functions).
+2. **Push to your fork.** Push that new branch to your own GitHub fork, not to the original repository.
+3. **Open the pull request.** Open the original project's repository on GitHub. After a push, GitHub usually shows a yellow banner offering **Compare & pull request**; click it. (If the banner is gone, use the Pull requests tab and choose *New pull request*, then pick your fork and branch.)
+4. **Explain what you did.** In the description, say which functions you matched and which files they are in. If you used an outside tool such as decomp.me to work something out, mention it and link the scratch if that helps. Confirm that `python3 tools/asm_build.py all` prints `MATCH` on your machine, and that you regenerated `PROGRESS.md` and `report/report.json`.
+5. **Wait for review.** The maintainer will read your pull request and may ask you to change names, structure or types before it is merged into `main`. Reply on the PR and push follow-up commits to the same branch; they are added to the pull request automatically.
+
 ## Git etiquette
 
-- Work from `main`; if a push is rejected, `git pull --rebase origin main`, rebuild, and push again.
+- Contributors work on a branch in their own fork (see above). The maintainer works on `main`; if a push is rejected, `git pull --rebase origin main`, rebuild, and push again.
 - **Never force-push.**
 - Ask before anything large or outward-facing: downloading tools or data, changing repository visibility, renaming the repository.
 - Keep CPU-heavy jobs (compiler sweeps, permuter runs) modest so shared machines stay usable.
