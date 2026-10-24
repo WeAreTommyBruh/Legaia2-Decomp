@@ -119,3 +119,7 @@ void FUN_0022d420(float *d, float *s) { int i, j; for (i = 0; i < 4; i++) for (j
 extern int D_00402930[]; extern char D_0040E070[]; int func_002A4F30(void *); int func_00202840(void *);
 // MATCH func_002943B0
 void FUN_002943b0(void) { int *p = D_00402930; func_002A4F30(D_00402930); p[32] = 1; p[39] = 70; p[40] = 0; p[31] = 0; p[33] = 0; p[34] = 0; p[35] = 0; p[36] = 0; p[37] = 0; p[38] = 0; func_00202840(D_0040E070); }
+
+extern volatile int D_004A3790; extern volatile int D_004A1634; extern int D_004A3794; int func_002C02A0(int);
+// MATCH func_00195248
+void FUN_00195248(int a) { while (func_002C02A0(0) == a); D_004A3790 = 1; D_004A1634 = 0; D_004A3794 = 0; }

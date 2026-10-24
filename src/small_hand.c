@@ -3057,3 +3057,9 @@ void FUN_0018da70(unsigned char *d, unsigned char *a, unsigned char *b, float t)
 
 // MATCH func_0018D9A8
 void FUN_0018d9a8(unsigned char *d, unsigned char *a, unsigned char *b, float t) { int i; float u = 1.0f - t; for (i = 255; i >= 0; i--) { d[3] = a[3]; d[0] = (int)(a[0] * u + b[0] * t); d[1] = (int)(a[1] * u + b[1] * t); d[2] = (int)(a[2] * u + b[2] * t); a += 4; b += 4; d += 4; } }
+
+typedef struct { char p[80]; int w80; char p2[4]; int w88; int w92; int w96; char p3[16]; int w116; } O_0016FA70;
+void func_0016FAB0(void *);
+
+// MATCH func_0016FA70
+void roulette_0016fa70(O_0016FA70 *o) { func_0016FAB0(o); o->w80 = 12; o->w96 = 0; o->w88 = 0; o->w92 = 0; o->w116 = 1; }

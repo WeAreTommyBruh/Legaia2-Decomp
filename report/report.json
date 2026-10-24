@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 7.6484327,
+  "fuzzy_match_percent": 7.6488523,
   "total_code": "2022408",
-  "matched_code": "145956",
-  "matched_code_percent": 7.2169414,
+  "matched_code": "146080",
+  "matched_code_percent": 7.2230725,
   "total_data": "1768056",
   "matched_data": "136",
   "matched_data_percent": 0.0076920637,
   "total_functions": 6254,
-  "matched_functions": 2988,
-  "matched_functions_percent": 47.777424,
+  "matched_functions": 2990,
+  "matched_functions_percent": 47.809402,
   "total_units": 155
  },
  "units": [
@@ -10678,11 +10678,11 @@
     "total_code": "11740",
     "total_functions": 73,
     "total_units": 1,
-    "fuzzy_match_percent": 17.5427597955707,
-    "matched_code": "1996",
-    "matched_code_percent": 17.001703577512778,
-    "matched_functions": 37,
-    "matched_functions_percent": 50.68493150684932,
+    "fuzzy_match_percent": 17.546848381601365,
+    "matched_code": "2060",
+    "matched_code_percent": 17.546848381601365,
+    "matched_functions": 38,
+    "matched_functions_percent": 52.054794520547944,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -10701,7 +10701,7 @@
      "name": ".text",
      "metadata": {},
      "size": "11824",
-     "fuzzy_match_percent": 17.790257104194858
+     "fuzzy_match_percent": 17.794316644113668
     }
    ],
    "functions": [
@@ -10713,109 +10713,109 @@
      "address": "0"
     },
     {
+     "name": "roulette_0016fa70",
+     "size": "64",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "120"
+    },
+    {
      "name": "roulette_0016fb20",
      "size": "96",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "120"
+     "address": "184"
     },
     {
      "name": "roulette_0016fb80",
      "size": "100",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "216"
+     "address": "280"
     },
     {
      "name": "roulette_0016fbe8",
      "size": "100",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "320"
+     "address": "384"
     },
     {
      "name": "roulette_00170358",
      "size": "88",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "424"
+     "address": "488"
     },
     {
      "name": "roulette_00170468",
      "size": "60",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "512"
+     "address": "576"
     },
     {
      "name": "roulette_001704a8",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "576"
+     "address": "640"
     },
     {
      "name": "roulette_00171548",
      "size": "128",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "640"
+     "address": "704"
     },
     {
      "name": "roulette_00171610",
      "size": "88",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "768"
+     "address": "832"
     },
     {
      "name": "roulette_00171668",
      "size": "124",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "856"
+     "address": "920"
     },
     {
      "name": "roulette_001716e8",
      "size": "92",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "984"
+     "address": "1048"
     },
     {
      "name": "roulette_00171ad0",
      "size": "24",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1080"
+     "address": "1144"
     },
     {
      "name": "roulette_00171ff8",
      "size": "72",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1104"
+     "address": "1168"
     },
     {
      "name": "roulette_00172148",
      "size": "124",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1176"
+     "address": "1240"
     },
     {
      "name": "roulette_00172388",
      "size": "48",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1304"
-    },
-    {
-     "name": "roulette_0016fa70",
-     "size": "64",
-     "fuzzy_match_percent": 99.25,
-     "metadata": {},
-     "address": "1352"
+     "address": "1368"
     },
     {
      "name": "roulette_0016fab0",
@@ -16731,11 +16731,11 @@
     "total_code": "3084",
     "total_functions": 12,
     "total_units": 1,
-    "fuzzy_match_percent": 4.020752217898833,
-    "matched_code": "72",
-    "matched_code_percent": 2.3346303501945527,
-    "matched_functions": 2,
-    "matched_functions_percent": 16.666666666666668,
+    "fuzzy_match_percent": 4.280155642023346,
+    "matched_code": "132",
+    "matched_code_percent": 4.280155642023346,
+    "matched_functions": 3,
+    "matched_functions_percent": 25.0,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -16754,7 +16754,7 @@
      "name": ".text",
      "metadata": {},
      "size": "3120",
-     "fuzzy_match_percent": 4.341880287179487
+     "fuzzy_match_percent": 4.615384615384615
     }
    ],
    "functions": [
@@ -16815,7 +16815,7 @@
     {
      "name": "FUN_00195248",
      "size": "60",
-     "fuzzy_match_percent": 86.666664,
+     "fuzzy_match_percent": 100.0,
      "metadata": {},
      "address": "2976"
     },
@@ -46699,16 +46699,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 7.2774343,
+    "fuzzy_match_percent": 7.2775044,
     "total_code": "684140",
-    "matched_code": "45904",
-    "matched_code_percent": 6.7097383,
+    "matched_code": "45968",
+    "matched_code_percent": 6.7190924,
     "total_data": "8",
     "matched_data": "8",
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 934,
-    "matched_functions_percent": 45.73947,
+    "matched_functions": 935,
+    "matched_functions_percent": 45.788445,
     "total_units": 77
    }
   },
@@ -46716,16 +46716,16 @@
    "id": "other",
    "name": "Other code (SDK, libraries, unattributed)",
    "measures": {
-    "fuzzy_match_percent": 7.8380923,
+    "fuzzy_match_percent": 7.83869,
     "total_code": "1338268",
-    "matched_code": "100052",
-    "matched_code_percent": 7.4762306,
+    "matched_code": "100112",
+    "matched_code_percent": 7.480714,
     "total_data": "1768048",
     "matched_data": "128",
     "matched_data_percent": 0.007239622,
     "total_functions": 4212,
-    "matched_functions": 2054,
-    "matched_functions_percent": 48.765434,
+    "matched_functions": 2055,
+    "matched_functions_percent": 48.789173,
     "total_units": 78
    }
   }
