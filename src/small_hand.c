@@ -2418,3 +2418,39 @@ extern int D_004A13E8;
 void func_002396B8(int, va_list);
 // MATCH func_002393E0
 void FUN_002393e0(int a, int b, ...) { va_list ap; D_004A13E8 = a; ap = (va_list)__builtin_next_arg(b) - 48; func_002396B8(b, ap); D_004A13E8 = 0; }
+
+typedef struct { char pad[8]; int a8; } S_2dc8d8_002DC8D8;
+void func_002DDF40(void *, int, int, va_list);
+// MATCH func_002DC8D8
+void FUN_002dc8d8(S_2dc8d8_002DC8D8 *s, int b, ...) { va_list ap; ap = (va_list)__builtin_next_arg(b) - 48; func_002DDF40(s, s->a8, b, ap); }
+
+struct Q_2dc918_002DC918; typedef struct R_2dc918_002DC918 { char pad[8]; struct Q_2dc918_002DC918 *p; } R_2dc918_002DC918; typedef struct Q_2dc918_002DC918 { char pad[84]; R_2dc918_002DC918 *r; } Q_2dc918_002DC918;
+extern R_2dc918_002DC918 *D_004293F4[];
+void func_002DDEC8(void *, void *, va_list);
+// MATCH func_002DC918
+void printf(char *fmt, ...) { va_list ap; R_2dc918_002DC918 *r; ap = (va_list)__builtin_next_arg(fmt) - 56; r = D_004293F4[0]; r->p->r = r; func_002DDEC8(r->p, fmt, ap); }
+
+extern int D_00429888[];
+void func_002E7318_002E7940(char *, va_list) __asm__("func_002E7318"); void func_002E7038(void);
+// MATCH func_002E7940
+void FUN_002e7940(char *fmt, ...) { va_list ap; int old; ap = (va_list)__builtin_next_arg(fmt) - 56; old = D_00429888[0]; D_00429888[0] = (int)func_002E7038; func_002E7318_002E7940(fmt, ap); D_00429888[0] = old; }
+
+int func_001114B0(void); int func_002E02F8(char *, va_list);
+// MATCH func_001118F8
+int DbgPrintf(char *fmt, ...) { va_list ap; if (func_001114B0() != 0) return 0; ap = (va_list)__builtin_next_arg(fmt) - 56; return func_002E02F8(fmt, ap); }
+
+typedef struct { char *p; int r; int w; short flags; short file; char *base; int size; int lbfsize; char pad[56]; void *data; } FILE_t_002DCE40;
+extern void *D_004293F4_002DCE40[] __asm__("D_004293F4");
+int func_002DDEC8_002DCE40(void *, void *, va_list) __asm__("func_002DDEC8");
+// MATCH func_002DCE40
+int sprintf(char *s, char *fmt, ...) { FILE_t_002DCE40 f; va_list ap; int r; ap = (va_list)__builtin_next_arg(fmt) - 48; f.flags = 520; f.base = f.p = s; f.size = f.w = 0x7fffffff; f.data = D_004293F4_002DCE40[0]; r = func_002DDEC8_002DCE40(&f, fmt, ap); *f.p = 0; return r; }
+
+typedef struct { char *p; int r; int w; short flags; short file; char *base; int size; int lbfsize; char pad[56]; void *data; } FILE_t_002DCDD8;
+int func_002DDEC8_002DCDD8(void *, void *, va_list) __asm__("func_002DDEC8");
+// MATCH func_002DCDD8
+int FUN_002dcdd8(void *reent, char *s, char *fmt, ...) { FILE_t_002DCDD8 f; va_list ap; int r; ap = (va_list)__builtin_next_arg(fmt) - 40; f.flags = 520; f.base = f.p = s; f.size = f.w = 0x7fffffff; f.data = reent; r = func_002DDEC8_002DCDD8(&f, fmt, ap); *f.p = 0; return r; }
+
+extern int D_004A1280_002394D0 __asm__("D_004A1280"), D_004A1288, D_004A1298, D_004A7138;
+void func_00249818(int *, int); void func_002396B8(int, va_list);
+// MATCH func_002394D0
+void FUN_002394d0(int a, int b, ...) { int pt[2]; int o1 = D_004A1280_002394D0; int o2 = D_004A1288; va_list ap; func_00249818(pt, a); D_004A1280_002394D0 = ((pt[0] >> 4) - 1728) >> 1; D_004A1288 = (pt[1] >> 4) - 1936; ap = (va_list)__builtin_next_arg(b) - 48; func_002396B8(b, ap); D_004A1280_002394D0 = o1; D_004A1288 = o2; }
