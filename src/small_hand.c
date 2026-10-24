@@ -2490,3 +2490,78 @@ t.base = t.p = buf;
 t.size = t.w = 1024;
 t.lbfsize = 0;
 r = func_002DDEC8_002DDE10(&t, fmt, ap); if (r >= 0) { if (func_002E18F8(&t) != 0) r = -1; } if (t.flags & 0x40) fp->flags |= 0x40; return r; }
+
+typedef struct { char c[8]; } V8_294d50_00294D50;
+typedef struct { char pad[76]; V8_294d50_00294D50 v; } S_294d50_00294D50;
+extern V8_294d50_00294D50 D_004A6790[2];
+int func_00164A00(void *);
+// MATCH func_00294D50
+int battleslot_00294d50(S_294d50_00294D50 *s) { if (func_00164A00(s) != 0) s->v = D_004A6790[0]; return -1; }
+
+typedef struct { char c[8]; } V8_294c68_00294C68;
+typedef struct { char pad[76]; V8_294c68_00294C68 v; } S_294c68_00294C68;
+extern V8_294c68_00294C68 D_004A6780[2];
+int func_00164A20(void *);
+// MATCH func_00294C68
+int battleslot_00294c68(S_294c68_00294C68 *s) { if (func_00164A20(s) != 0) s->v = D_004A6780[0]; return -1; }
+
+typedef struct { char c[8]; } V8_16e190_0016E190;
+typedef struct { char pad[104]; V8_16e190_0016E190 v; } S_16e190_0016E190;
+extern V8_16e190_0016E190 D_004A3030[2];
+int func_0016CF10(void *);
+// MATCH func_0016E190
+int darts_0016e190(S_16e190_0016E190 *s) { func_0016CF10(s); s->v = D_004A3030[0]; return 1; }
+
+typedef struct { char c[8]; } V8_166038_00166038;
+typedef struct { char p[56]; short adj; short pad; void (*fn)(void *); } VT_166038_00166038;
+typedef struct { char p[48]; VT_166038_00166038 *vt; char p2[12]; int w; V8_166038_00166038 v; } O_166038_00166038;
+extern V8_166038_00166038 D_004A2D30[2]; int func_00164A20(void *); void func_00164A38(void *, int);
+// MATCH func_00166038
+void pachislot_00166038(O_166038_00166038 *o) { if (func_00164A20(o)) { o->v = D_004A2D30[0]; func_00164A38(o, 3); o->vt->fn((char *)o + o->vt->adj); o->w = 30; } }
+
+typedef struct { char c[8]; } V8_165d08_00165D08;
+typedef struct { char p[56]; short adj; short pad; void (*fn)(void *); char p2[8]; short adj2; short pad2; int (*fn2)(void *); } VT_165d08_00165D08;
+typedef struct { char p[48]; VT_165d08_00165D08 *vt; int w52; char p2[12]; V8_165d08_00165D08 v; } O_165d08_00165D08;
+extern V8_165d08_00165D08 D_004A2D00[2]; void func_00164A38(void *, int);
+// MATCH func_00165D08
+void pachislot_00165d08(O_165d08_00165D08 *o) { if (o->vt->fn2((char *)o + o->vt->adj2)) { o->v = D_004A2D00[0]; func_00164A38(o, o->w52); o->vt->fn((char *)o + o->vt->adj); } }
+
+typedef struct { char c[8]; } V8_174460_00174460;
+typedef struct { char p[64]; short adj; short pad; int (*fn)(void *); } VT_174460_00174460;
+typedef struct { char p[408]; V8_174460_00174460 d; V8_174460_00174460 s; char p2[472]; VT_174460_00174460 *vt; } O_174460_00174460;
+// MATCH func_00174460
+int repetition_00174460(O_174460_00174460 *o) { if (o->vt->fn((char *)o + o->vt->adj)) o->d = o->s; return 0; }
+
+typedef struct { char c[8]; } V8_172e00_00172E00;
+typedef struct { char p[316]; V8_172e00_00172E00 d; V8_172e00_00172E00 s; } O_172e00_00172E00;
+int func_00172C18(void *, int);
+// MATCH func_00172E00
+int FUN_00172e00(O_172e00_00172E00 *o) { if (func_00172C18(o, 32)) o->d = o->s; return 0; }
+
+typedef struct { char c[8]; } V8_165f48_00165F48;
+typedef struct { char p[56]; short adj; short pad; void (*fn)(void *); char p2[8]; short adj2; short pad2; int (*fn2)(void *); } VT_165f48_00165F48;
+typedef struct { char p[48]; VT_165f48_00165F48 *vt; int w52; char p2[12]; V8_165f48_00165F48 v; } O_165f48_00165F48;
+extern V8_165f48_00165F48 D_004A2D20[2]; void func_00164A38(void *, int);
+// MATCH func_00165F48
+void pachislot_00165f48(O_165f48_00165F48 *o) { if (o->vt->fn2((char *)o + o->vt->adj2)) { o->v = D_004A2D20[0]; func_00164A38(o, 2); o->vt->fn((char *)o + o->vt->adj); } }
+
+typedef struct { char c[8]; } V8_165db8_00165DB8;
+typedef struct { char p[56]; short adj; short pad; void (*fn)(void *); char p2[8]; short adj2; short pad2; int (*fn2)(void *); } VT_165db8_00165DB8;
+typedef struct { char p[48]; VT_165db8_00165DB8 *vt; int w52; char p2[12]; V8_165db8_00165DB8 v; } O_165db8_00165DB8;
+extern V8_165db8_00165DB8 D_004A2D08[2]; void func_00164A38(void *, int);
+// MATCH func_00165DB8
+void pachislot_00165db8(O_165db8_00165DB8 *o) { if (o->vt->fn2((char *)o + o->vt->adj2)) { o->v = D_004A2D08[0]; func_00164A38(o, 2); o->vt->fn((char *)o + o->vt->adj); } }
+
+typedef struct { char c[8]; } V8_172148_00172148;
+typedef struct { char p[48]; short adj; short pad; int (*fn)(void *); } VT_172148_00172148;
+typedef struct { char p[16]; int w; char p2[24]; V8_172148_00172148 a; char p3[8]; VT_172148_00172148 *vt; } O_172148_00172148;
+extern V8_172148_00172148 D_004A3128[2]; void func_00171AB8(void *);
+// MATCH func_00172148
+int roulette_00172148(O_172148_00172148 *o) { int r = o->vt->fn((char *)o + o->vt->adj); o->w = o->w - 8; if (o->w < 161) { o->w = 160; if (r != 0) { func_00171AB8(o); o->a = D_004A3128[0]; } } return 0; }
+
+typedef struct { char c[8]; } V8_171668_00171668;
+typedef struct { char p[48]; short adj; short pad; int (*fn)(void *); } VT_171668_00171668;
+typedef struct { char p[16]; int w; char p2[24]; V8_171668_00171668 a; char p3[8]; VT_171668_00171668 *vt; } O_171668_00171668;
+extern V8_171668_00171668 D_004A3110[2]; void func_00171AB8(void *);
+// MATCH func_00171668
+int roulette_00171668(O_171668_00171668 *o) { int r = o->vt->fn((char *)o + o->vt->adj); o->w = o->w - 8; if (o->w < 161) { o->w = 160; if (r != 0) { func_00171AB8(o); o->a = D_004A3110[0]; } } return 0; }

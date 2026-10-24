@@ -10,20 +10,20 @@ This is a matching decompilation in progress: the goal is C that compiles to exa
 |---|---|---|
 | 1 | Identify the original compiler | Done: **ee-gcc 2.9-ee-991111-01**, `-O2 -G8`, confirmed by functions that compile byte-identical (see below) |
 | 2 | Rebuild the executable from assembly | Done: rebuilt executable is **byte-identical** to the original |
-| 3 | Match functions in C | In progress: 2673 of 6254 functions (6.4% of code) compile to the original bytes and are built from C |
+| 3 | Match functions in C | In progress: 2684 of 6254 functions (6.5% of code) compile to the original bytes and are built from C |
 
 ## Overall
 
 | | Count | Share | |
 |---|---:|---:|---|
-| Functions matched in C | 2673 / 6254 | 42.7% | `#############.................` |
-| ... written by hand | 1103 | | |
+| Functions matched in C | 2684 / 6254 | 42.9% | `#############.................` |
+| ... written by hand | 1114 | | |
 | ... generated from instruction patterns (`tools/gen_tiny.py`) | 758 | | |
 | ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 812 | | |
-| Code bytes matched in C | 129,684 / 2,019,536 | 6.4% | `##............................` |
+| Code bytes matched in C | 130,712 / 2,019,536 | 6.5% | `##............................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
-| .text words disassembled as instructions | 468,061 / 475,964 | 98.3% | `##############################` |
+| .text words disassembled as instructions | 467,804 / 475,707 | 98.3% | `##############################` |
 
 Functions with a source file come from the game's `__FILE__` debug strings; real names are the descriptive and library names given in `ghidra/scripts/NameFunctions.java`. The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, VU0 macro mode), written as `.word` because clang cannot assemble them.
 
@@ -58,13 +58,13 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `arena.cpp` | 1 | 2,296 | 0 | 0.0% |
 | `batread.cpp` | 20 | 7,760 | 4 | 2.2% |
 | `battle.cpp` | 206 | 88,708 | 80 | 2.7% |
-| `battleslot.cpp` | 15 | 1,244 | 8 | 27.0% |
+| `battleslot.cpp` | 15 | 1,244 | 10 | 37.9% |
 | `battuto.cpp` | 1 | 280 | 0 | 0.0% |
 | `bwin.cpp` | 1 | 44 | 1 | 100.0% |
 | `cam_min.cpp` | 5 | 2,584 | 2 | 4.0% |
 | `clas_min.cpp` | 191 | 42,376 | 70 | 6.2% |
 | `crvmove.cpp` | 1 | 164 | 0 | 0.0% |
-| `darts.cpp` | 48 | 10,192 | 18 | 8.9% |
+| `darts.cpp` | 48 | 10,192 | 19 | 9.6% |
 | `decode.cpp` | 7 | 956 | 3 | 4.6% |
 | `denlib.cpp` | 22 | 4,588 | 11 | 9.4% |
 | `disp.cpp` | 1 | 2,536 | 0 | 0.0% |
@@ -97,7 +97,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `noriwin.cpp` | 1 | 2,152 | 0 | 0.0% |
 | `nowloding.cpp` | 1 | 596 | 0 | 0.0% |
 | `object.cpp` | 24 | 7,336 | 9 | 2.5% |
-| `pachislot.cpp` | 165 | 32,008 | 69 | 7.1% |
+| `pachislot.cpp` | 165 | 32,008 | 73 | 8.4% |
 | `pchboss.cpp` | 1 | 48 | 1 | 100.0% |
 | `pchevent.cpp` | 107 | 25,632 | 15 | 3.3% |
 | `pchjob0.cpp` | 64 | 27,388 | 30 | 4.6% |
@@ -106,10 +106,10 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `pchsysw.cpp` | 68 | 9,384 | 36 | 15.2% |
 | `pochilib.cpp` | 1 | 216 | 0 | 0.0% |
 | `pstack.cpp` | 1 | 64 | 1 | 100.0% |
-| `repetition.cpp` | 74 | 12,312 | 21 | 7.2% |
+| `repetition.cpp` | 74 | 12,312 | 22 | 7.8% |
 | `result.cpp` | 3 | 4,288 | 0 | 0.0% |
 | `rouge.cpp` | 12 | 5,404 | 3 | 1.3% |
-| `roulette.cpp` | 73 | 11,740 | 33 | 13.4% |
+| `roulette.cpp` | 73 | 11,740 | 35 | 15.5% |
 | `rsound.cpp` | 23 | 9,648 | 6 | 1.7% |
 | `sammon.cpp` | 31 | 11,392 | 8 | 1.3% |
 | `sarva.cpp` | 1 | 48 | 1 | 100.0% |
@@ -129,4 +129,4 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `work.cpp` | 36 | 4,400 | 19 | 21.3% |
 | `yokota.cpp` | 40 | 18,260 | 20 | 11.8% |
 | `yue.cpp` | 56 | 36,396 | 27 | 6.2% |
-| `(not attributed)` | 4212 | 1,336,852 | 1795 | 6.7% |
+| `(not attributed)` | 4212 | 1,336,852 | 1796 | 6.7% |
