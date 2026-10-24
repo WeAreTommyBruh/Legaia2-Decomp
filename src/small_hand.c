@@ -2454,3 +2454,39 @@ extern int D_004A1280_002394D0 __asm__("D_004A1280"), D_004A1288, D_004A1298, D_
 void func_00249818(int *, int); void func_002396B8(int, va_list);
 // MATCH func_002394D0
 void FUN_002394d0(int a, int b, ...) { int pt[2]; int o1 = D_004A1280_002394D0; int o2 = D_004A1288; va_list ap; func_00249818(pt, a); D_004A1280_002394D0 = ((pt[0] >> 4) - 1728) >> 1; D_004A1288 = (pt[1] >> 4) - 1936; ap = (va_list)__builtin_next_arg(b) - 48; func_002396B8(b, ap); D_004A1280_002394D0 = o1; D_004A1288 = o2; }
+
+// MATCH func_002DDAE8
+char *strstr(char *searchee, char *lookfor) { if (*searchee == 0) { if (*lookfor) return 0; return searchee; } while (*searchee) { int i = 0; while (1) { if (lookfor[i] == 0) return searchee; if (lookfor[i] != searchee[i]) break; i++; } searchee++; } return 0; }
+
+extern unsigned char D_0049EA61[];
+// MATCH func_002DD718
+char *strlwr(char *s) { char *p = s; while (*p) { int c = *p; if (D_0049EA61[c] & 1) *p = c + 32; p++; } return s; }
+
+typedef struct { char pad[468]; int *a468; } R_t_002DCA08;
+void *func_002DBED8(void *, int);
+// MATCH func_002DCA08
+int FUN_002dca08(R_t_002DCA08 *r) { int i; if (r->a468 == 0) { r->a468 = func_002DBED8(r, 128); if (r->a468 == 0) return -1; for (i = 31; i >= 0; i--) r->a468[i] = 0; } return 0; }
+
+typedef struct { int errno_; char pad[464]; int *a468; } R_t_002DCA78;
+int func_002DCA08(void *);
+// MATCH func_002DCA78
+unsigned FUN_002dca78(R_t_002DCA78 *r, unsigned n, int fn) { unsigned old; if (n >= 32) { r->errno_ = 22; return 0xffffffff; } if (r->a468 == 0) { if (func_002DCA08(r) != 0) return 0xffffffff; } old = r->a468[n]; r->a468[n] = fn; return old; }
+
+typedef struct R_t R_t; typedef struct { char pad[12]; unsigned short flags; short file; char pad2[64]; int a80; R_t *data; } F_t_002DD028;
+long func_002E2478(R_t *, int, int, int);
+// MATCH func_002DD028
+long FUN_002dd028(F_t_002DD028 *fp, int a, int b) { long r = func_002E2478(fp->data, fp->file, a, b); if (r == -1) fp->flags &= 0xefff; else { fp->a80 = r; fp->flags |= 0x1000; } return r; }
+
+typedef struct F_t_002DDE10 { char *p; int r; int w; unsigned short flags; short file; char *base; int size; int lbfsize; int a28; int pad1; int a36; char pad[44]; void *data; } F_t_002DDE10;
+int func_002DDEC8_002DDE10(F_t_002DDE10 *, char *, char *) __asm__("func_002DDEC8"); int func_002E18F8(F_t_002DDE10 *);
+// MATCH func_002DDE10
+int FUN_002dde10(F_t_002DDE10 *fp, char *fmt, char *ap) { F_t_002DDE10 t; char buf[1024]; int r;
+t.data = fp->data;
+t.flags = fp->flags & 0xfffd;
+t.file = fp->file;
+t.a28 = fp->a28;
+t.a36 = fp->a36;
+t.base = t.p = buf;
+t.size = t.w = 1024;
+t.lbfsize = 0;
+r = func_002DDEC8_002DDE10(&t, fmt, ap); if (r >= 0) { if (func_002E18F8(&t) != 0) r = -1; } if (t.flags & 0x40) fp->flags |= 0x40; return r; }

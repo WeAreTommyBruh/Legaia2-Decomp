@@ -101,3 +101,8 @@ typedef struct { int a0, a4, a8, a12, a16, a20, a24; } G_2e7cd0_002E7CD0;
 extern G_2e7cd0_002E7CD0 D_00632858_002E7CD0 __asm__("D_00632858");
 // MATCH func_002E7CD0
 int FUN_002e7cd0(int a, int b) { int o = D_00632858_002E7CD0.a20; D_00632858_002E7CD0.a24 = b; D_00632858_002E7CD0.a20 = a; return o; }
+
+typedef struct { char pad[4]; int a4; int a8; } F_t_002DDDC8;
+int func_002E1FB0(int, void *);
+// MATCH func_002DDDC8
+int FUN_002dddc8(int x, F_t_002DDDC8 *fp) { int r; if (fp->a8 == 0) { fp->a4 = 0; return 0; } r = func_002E1FB0(x, fp); fp->a4 = 0; fp->a8 = 0; return r; }
