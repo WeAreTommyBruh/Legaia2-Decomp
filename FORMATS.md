@@ -30,13 +30,13 @@ everything locally; `.gitignore` keeps generated files out of git.
 | `tools/report.py` | Writes the objdiff progress report `report/report.json` (for ByteMatch / decomp.dev; uploaded by `.github/workflows/progress.yml` as `SLES_508.91_report`) |
 | `tools/match.py` | Compiles C with ee-gcc 2.9-ee-991111-01 and compares one function with the original |
 | `tools/gen_tiny.py` | Writes C for tiny functions from their instructions (`src/gen/`), keeping exact matches |
-| `tools/gen_ghidra.py` | Keeps Ghidra's decompilation of functions where it already matches (`src/ghidra/`; run after `gen_tiny.py`) |
+| `tools/gen_ghidra.py` | Keeps Ghidra's decompilation of functions where it already matches (`src/ghidra/`; run after `gen_tiny.py`). Tries several compiler settings (plain, `-fexceptions`, `-fno-gcse`, `-fno-schedule-insns`, 990721-r5900 with `-fno-thread-jumps`, ...); `GG_JOBS=N` sets the worker count and `GG_NEW=1` only adds new matches as `src/ghidra/n_*.c` instead of regenerating the directory |
 | `tools/perm_setup.py` | Sets up a [decomp-permuter](https://github.com/simonlindholm/decomp-permuter) directory for one function (`build/perm/`), scored with `tools/perm_objdump.py` (no MIPS binutils needed) |
 | `tools/gen_tiny2.py`, `tools/gen_tiny3.py` | Generate tiny functions with statement permutations, 64/128-bit and float variants (`src/gen2/`, `src/gen3/`) |
 | `tools/gen_new.py` | `new T` wrappers: `MemAllocDbg(size, file, line)` plus constructor (`src/gen_new/`) |
 | `tools/gen_static.py` | Function-local static accessors (`src/gen_static/`) |
 | `tools/gen_fam.py` | Exact-shape families (counters, clamps, DMA starts, polynomial helpers, virtual-delete thunks...) tried under several compiler settings (`src/gen_fam/`) |
-| `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`). `small_hand*.c` hold hand-matched small functions, one file per setting (`// cflags:` line: none, `-fexceptions`, `-fno-gcse`, `-fno-schedule-insns`, `-O1`) |
+| `src/` | Functions rewritten in C that compile to the original bytes (`// MATCH`). `small_hand*.c` hold hand-matched small functions, one file per setting (`// compiler:` / `// cflags:` lines: none, `-fexceptions`, `-fno-gcse`, `-fno-schedule-insns` and combinations, 990721-r5900, `-O1`). `wip/*.c` holds near-miss drafts (`// WIP func_XXXXXXXX`): they are compiled by `tools/report.py` for the partial-match figures but are not part of the build |
 
 Generated locally (ignored by git): `disc/`, `ghidra/Legaia2.gpr`, `decomp/` (C output,
 one file per function under `decomp/src/<source file>/`, `functions.csv`), `fs/`,
