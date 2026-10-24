@@ -112,3 +112,6 @@ typedef struct { R_0020C138 *w0; } Q_0020C138;
 extern int D_004A45E8; extern float D_004A45FC; Q_0020C138 *func_0020BBD8(int);
 // MATCH func_0020C138
 int pchevent_0020c138(void) { if (D_004A45E8 >= 0) { Q_0020C138 *p = func_0020BBD8(D_004A45E8); if (p != 0) { R_0020C138 *q = p->w0; if (q != 0) { q->f112 = D_004A45FC; q->f120 = D_004A45FC; q->f116 = D_004A45FC; } } } return 0; }
+
+// MATCH func_0022D420
+void FUN_0022d420(float *d, float *s) { int i, j; for (i = 0; i < 4; i++) for (j = 0; j < 4; j++) d[i * 4 + j] = s[i * 4 + j]; }

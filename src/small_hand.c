@@ -2942,3 +2942,28 @@ typedef struct { int w0; int w4; } O_0029BB90;
 int func_0029B9F0_0029BB90(O_0029BB90 *) __asm__("func_0029B9F0");
 // MATCH func_0029BB90
 int FUN_0029bb90(O_0029BB90 *o) { int r = func_0029B9F0_0029BB90(o); int v = o->w4 & 2; if (v != 0) { if (r == 1) return 1; } return 0; }
+
+typedef struct { char p[72]; int w72; } O_00192960;
+typedef struct { long long a, b; int c, d; } Q_00192960;
+extern char D_003215D0_00192960[] __asm__("D_003215D0"); void func_00192500(char *, Q_00192960 *);
+// MATCH func_00192960
+void FUN_00192960(O_00192960 *o, long long a, long long b, int c, int d) { Q_00192960 q; q.a = a; q.b = b; q.c = c - o->w72; q.d = d; func_00192500(D_003215D0_00192960, &q); }
+
+typedef struct { int w0, w4, w8; int *w12; char *vt; } O_0020B508;
+extern char D_00455618[], D_00454D80_0020B508[] __asm__("D_00454D80"); int *func_00162130_0020B508(int, char *, int) __asm__("func_00162130");
+// MATCH func_0020B508
+O_0020B508 *pchevent_0020b508(O_0020B508 *o, int n) { int *p, *q; int i; o->vt = D_00455618; o->w4 = n; o->w0 = n; o->w8 = 0; if (n == 0) o->w12 = 0; else { p = func_00162130_0020B508(n * 4, D_00454D80_0020B508, 105); o->w12 = p; if (p != 0) { q = p; i = o->w4; q = p; if (i > 0) { do { *q++ = 0; i--; } while (i != 0); } } } return o; }
+
+typedef struct { char c[8]; } V8_0025E3F8;
+typedef struct { int w0; float f4; int w8, w12, w16, w20, w24, w28, w32; V8_0025E3F8 v36; } O_0025E3F8;
+extern V8_0025E3F8 D_004A59B0[2];
+// MATCH func_0025E3F8
+O_0025E3F8 *FUN_0025e3f8(O_0025E3F8 *o) { o->w0 = 0; o->f4 = 1.0f; o->w8 = 0; o->w12 = 0; o->w16 = 0; o->w20 = 0; o->w24 = 0; o->w28 = 0; o->w32 = 0; o->v36 = D_004A59B0[0]; return o; }
+
+void func_0015EC38(char *, float); void func_0015EB40(char *, float);
+// MATCH func_002A86F0
+void FUN_002a86f0(char *o, float x) { func_0015EC38(o + 432, -0.25f); func_0015EB40(o + 432, x); }
+
+void func_0015EB38(char *); void func_0015EB30(char *, float);
+// MATCH func_002A8788
+void FUN_002a8788(char *o, float a, float b) { func_0015EB38(o + 432); func_0015EB30(o + 432, b); }
