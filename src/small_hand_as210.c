@@ -77,3 +77,13 @@ typedef struct { int w0, w4, w8, w12, w16; char p[16]; V8_0025E4D8 v; } O_0025E4
 extern V8_0025E4D8 D_004A59B0[];
 // MATCH func_0025E4D8
 void FUN_0025e4d8(O_0025E4D8 *o, int x) { o->w8 = x; o->w16 = 0; o->v = D_004A59B0[0]; }
+
+// MATCH func_00192E20
+void FUN_00192e20(unsigned a) { *(volatile unsigned *)0x10009030 = a & 0xfffffff; *(volatile unsigned *)0x10009020 = 0; *(volatile unsigned *)0x10009000 = 325; }
+
+typedef struct { char c[8]; } V8_00177D00;
+typedef struct { char pad[476]; V8_00177D00 v; } O_00177D00;
+extern V8_00177D00 D_004A3338[];
+int func_00177BB0(void *);
+// MATCH func_00177D00
+int shuffle_00177d00(O_00177D00 *o){ o->v = D_004A3338[0]; func_00177BB0(o); return 0; }
