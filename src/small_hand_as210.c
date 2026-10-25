@@ -87,3 +87,12 @@ extern V8_00177D00 D_004A3338[];
 int func_00177BB0(void *);
 // MATCH func_00177D00
 int shuffle_00177d00(O_00177D00 *o){ o->v = D_004A3338[0]; func_00177BB0(o); return 0; }
+
+// MATCH func_0018D8E8
+void FUN_0018d8e8(void) { *(volatile unsigned *)0x10000810 = 0x83; *(volatile unsigned *)0x10000800 = 0; }
+
+// MATCH func_002CACE8
+void FUN_002cace8(void) { *(volatile int *)0x10003810 = 1; *(volatile int *)0x10003820 = 6; }
+
+// MATCH func_002E7000
+int FUN_002e7000(int c) { while (*(volatile unsigned *)0x1000f130 & 0x8000); *(volatile unsigned char *)0x1000f180 = c; return c; }

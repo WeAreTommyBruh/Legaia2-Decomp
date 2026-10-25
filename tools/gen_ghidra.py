@@ -515,6 +515,7 @@ PASSES = (
     ("991111-01-nosched-nosched2", "991111-01", ("-fno-schedule-insns", "-fno-schedule-insns2")),
     ("991111-01-nosched2-nogcse", "991111-01", ("-fno-schedule-insns2", "-fno-gcse")),
     ("990721-r5900-nosched2", "990721-r5900", ("-fno-thread-jumps", "-fno-schedule-insns2")),
+    ("991111-01-as210", "991111-01-as210", ()),
 )
 
 
