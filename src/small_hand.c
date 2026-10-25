@@ -3411,3 +3411,35 @@ typedef struct { char p0[24]; int w24; int w28; char p1[16]; VT_001665C0 *vt; in
 extern V8_001665C0 D_004A2D78[2]; void func_00164D10_001665C0(O_001665C0 *) __asm__("func_00164D10");
 // MATCH func_001665C0
 void pachislot_001665c0(O_001665C0 *o) { if (o->w60 == 0) { o->vt->fn((char *)o + o->vt->adj, 0); o->w24 = -o->w28; o->v = D_004A2D78[0]; func_00164D10_001665C0(o); } }
+
+typedef struct { char c[8]; } V8_0016C720;
+typedef struct { char p0[8]; int w8, w12, w16, w20, w24, w28; char p1[12]; int w44; char p2[8]; V8_0016C720 v; } O_0016C720;
+extern V8_0016C720 D_004A2F60[2];
+// MATCH func_0016C720
+int FUN_0016c720(O_0016C720 *o) { o->w24++; o->w28++; o->w16 = 8 + ((o->w24 & 0x20) >> 5); o->w20 = 14; o->w8 += 6; o->w12 -= 6; if (--o->w44 <= 0) o->v = D_004A2F60[0]; return 0; }
+
+typedef struct { char c[8]; } V8_0016C7A0;
+typedef struct { int w0, w4, w8, w12, w16, w20, w24, w28; char p1[12]; int w44; char p2[8]; V8_0016C7A0 v; } O_0016C7A0;
+extern V8_0016C7A0 D_004A2F60_0016C7A0[2] __asm__("D_004A2F60");
+// MATCH func_0016C7A0
+int FUN_0016c7a0(O_0016C7A0 *o) { o->w28++; o->w24++; o->w16 = 7; o->w20 = 15 + ((o->w28 & 0x20) >> 5); o->w0 -= 6; o->w4 -= 6; if (--o->w44 <= 0) o->v = D_004A2F60_0016C7A0[0]; return 0; }
+
+typedef struct { char c[8]; } V8_0016FC50;
+typedef struct { char p[136]; V8_0016FC50 v; } O_0016FC50;
+extern int D_003355F8[]; extern V8_0016FC50 D_004A3088_0016FC50[2] __asm__("D_004A3088"); int func_00170940_0016FC50(O_0016FC50 *) __asm__("func_00170940"); void func_00170AE0_0016FC50(O_0016FC50 *) __asm__("func_00170AE0"); int func_00170B50(O_0016FC50 *);
+// MATCH func_0016FC50
+int roulette_0016fc50(O_0016FC50 *o) { if (func_00170940_0016FC50(o) != 0) { int k; func_00170AE0_0016FC50(o); k = func_00170B50(o); if ((unsigned)(D_003355F8[k] - 2) >= 2) o->v = D_004A3088_0016FC50[0]; } return 0; }
+
+typedef struct { char c[8]; } V8_0016FCC8;
+typedef struct { char p[136]; V8_0016FCC8 v; } O_0016FCC8;
+extern int D_003355F8_0016FCC8[] __asm__("D_003355F8"); extern V8_0016FCC8 D_004A3088_0016FCC8[2] __asm__("D_004A3088"); int func_00170A40(O_0016FCC8 *); void func_00170AF8(O_0016FCC8 *); int func_00170B50_0016FCC8(O_0016FCC8 *) __asm__("func_00170B50");
+// MATCH func_0016FCC8
+int roulette_0016fcc8(O_0016FCC8 *o) { if (func_00170A40(o) != 0) { int k; func_00170AF8(o); k = func_00170B50_0016FCC8(o); if ((unsigned)(D_003355F8_0016FCC8[k] - 2) >= 2) o->v = D_004A3088_0016FCC8[0]; } return 0; }
+
+int func_00167730(void *, void *, int);
+// MATCH func_00168110
+int pachislot_00168110(char *o, int b) { int r = 0; int i = 0; for (; i < 3; i++) { r = func_00167730(o, o + 124, i + b); if (r) break; } return r; }
+
+int func_00167730(void *, void *, int);
+// MATCH func_001681C8
+int pachislot_001681c8(char *o, int b) { int r = 0; int i = 0; for (; i < 3; i++) { r = func_00167730(o, o + 204, i + b); if (r) break; } return r; }
