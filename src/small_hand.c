@@ -3655,3 +3655,18 @@ typedef struct { char p[16]; unsigned long long *w16; } S_00243688;
 extern S_00243688 D_00314C20; extern unsigned D_004A71E4_00243688 __asm__("D_004A71E4"); void func_00190328_00243688(S_00243688 *) __asm__("func_00190328"); void func_00190420_00243688(S_00243688 *) __asm__("func_00190420");
 // MATCH func_00243688
 void object_00243688(void) { unsigned long long *p; func_00190328_00243688(&D_00314C20); p = D_00314C20.w16; p[0] = 0x2007ff8621343140ULL; p[1] = 6; D_00314C20.w16 = p + 2; D_004A71E4_00243688 = 0xffffffff; func_00190420_00243688(&D_00314C20); }
+
+typedef struct { char pad[16]; short adj; short p; int (*fn)(void *); } VT_00164608;
+typedef struct N_00164608 { char pad[92]; struct N_00164608 *next; char pad2[8]; VT_00164608 *vt; } N_00164608;
+typedef struct { N_00164608 *head; } S_00164608;
+// MATCH func_00164608
+void FUN_00164608(S_00164608 *s) { N_00164608 *n = s->head->next; while (n != s->head) { N_00164608 *nx; nx = n->next; n->vt->fn((char *)n + n->vt->adj); n = nx; } }
+
+typedef struct { char p[8]; short adj; short pad; void (*fn)(void *, int *); } VT_0010F310;
+typedef struct { char p0[8]; int *w8; char p1[12]; VT_0010F310 *vt; } O_0010F310;
+// MATCH func_0010F310
+void FUN_0010f310(O_0010F310 *o) { int *p = o->w8; p[0] = 0x10000000; p[3] = 0x13000000; p[1] = 0; p[2] = 0; o->w8 = p + 4; o->vt->fn((char *)o + o->vt->adj, p + 4); }
+
+extern char D_003D7058_00245590[] __asm__("D_003D7058"), D_005F75B8[]; extern void (*D_004A1478_00245590)(int) __asm__("D_004A1478"); int func_00245518(char *, char *);
+// MATCH func_00245590
+int FUN_00245590(void) { int r = func_00245518(D_003D7058_00245590, D_005F75B8); if (r == 1) D_004A1478_00245590(4); if (r == 2) D_004A1478_00245590(2); return r; }
