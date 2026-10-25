@@ -3936,3 +3936,24 @@ void FUN_002cd728(unsigned p) { P_002CD728 *q = (P_002CD728 *)((unsigned)p | 0x2
 extern int D_0042637C[]; extern int D_0062B644_002CB510[] __asm__("D_0062B644"), D_0062B648_002CB510[] __asm__("D_0062B648"); void func_002CB5C8(void); int func_002EDC50(void); void func_002EDC98(void);
 // MATCH func_002CB510
 int FUN_002cb510(int a, int b) { int r, old; if (D_0042637C[0] < 0) func_002CB5C8(); r = func_002EDC50(); old = D_0062B644_002CB510[0]; D_0062B648_002CB510[0] = b; D_0062B644_002CB510[0] = a; if (r != 0) func_002EDC98(); return old; }
+
+typedef struct { unsigned short h0, h2, h4, h6, h8, h10; } E_00254708;
+extern E_00254708 D_003E3BC0[];
+// MATCH func_00254708
+int FUN_00254708(unsigned a) { E_00254708 *e = D_003E3BC0; E_00254708 *end = e + 29; do { unsigned w = e->h10 - e->h8 + 1; if (a < w) return e->h8 + a; a -= w; e++; } while (e < end); return 0; }
+
+typedef struct { unsigned short h0, h2, h4, h6, h8, h10; } E_00254750;
+extern E_00254750 D_003E3BC0_00254750[] __asm__("D_003E3BC0");
+extern unsigned short D_004A5994;
+// MATCH func_00254750
+unsigned FUN_00254750(void) { E_00254750 *e = D_003E3BC0_00254750; E_00254750 *end = e + 29; D_004A5994 = 0; do { D_004A5994 += e->h10 - e->h8 + 1; e++; } while (e < end); return D_004A5994; }
+
+typedef struct { unsigned short h0, h2, h4, h6, h8, h10; } E_00254938;
+extern E_00254938 D_003E3BC0_00254938[] __asm__("D_003E3BC0");
+// MATCH func_00254938
+int FUN_00254938(unsigned a) { unsigned i = 0; E_00254938 *e = D_003E3BC0_00254938; a &= 0xffff; do { i++; if (a >= e->h8 && a <= e->h10) return 1; e++; } while (i < 29); if (i == 29) return 0; }
+
+typedef struct { int w0, w4, w8; char p[68]; } E_0025A3B0;
+extern E_0025A3B0 D_003EC550[];
+// MATCH func_0025A3B0
+int FUN_0025a3b0(int a) { unsigned i, c = 0; for (i = 0; i < 861; i++) if (D_003EC550[i].w8 == a) c++; return c; }

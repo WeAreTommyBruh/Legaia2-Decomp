@@ -69,3 +69,8 @@ typedef struct N_0029D3D0 { char p[60]; struct N_0029D3D0 *w60; } N_0029D3D0;
 void func_002BF250(N_0029D3D0 *, int);
 // MATCH func_0029D3D0
 void clas_min_0029d3d0(N_0029D3D0 *o) { if (o->w60 != 0) { N_0029D3D0 *p; do { p = o->w60; o->w60 = p->w60; if (p != 0) func_002BF250(p, 3); } while (o->w60 != 0); } }
+
+typedef struct { int w0, w4; int *w8; } S_0024CF68;
+extern char D_0045E028[]; void func_001118F8_0024CF68(char *) __asm__("func_001118F8");
+// MATCH func_0024CF68
+int FUN_0024cf68(S_0024CF68 *s) { if (s->w4 <= 0) func_001118F8_0024CF68(D_0045E028); s->w4--; return s->w8[s->w4]; }
