@@ -3544,3 +3544,11 @@ int FUN_0018b668(char *name, int b) { char buf[256]; int r = -1; switch (D_004A3
 extern int D_004A3850_0018B7C8 __asm__("D_004A3850"); extern char D_004403E8[]; extern char D_004403F8[]; extern char D_00440420[]; extern char D_00440438[]; extern char D_00440448[]; extern char D_00440460[]; void func_001118F8_0018B7C8(char *, char *) __asm__("func_001118F8"); void func_0018A658(char *, char *); int func_0018ACF0(char *, int); int func_0018B020(char *, int); int func_0018AA00(char *, int);
 // MATCH func_0018B7C8
 int LoadFile(char *name, int b) { char buf[256]; int r = -1; switch (D_004A3850_0018B7C8) { case 0: func_001118F8_0018B7C8(D_004403E8, name); r = func_0018AA00(name, b); break; case 1: func_001118F8_0018B7C8(D_004403F8, name); func_0018A658(name, buf); r = func_0018ACF0(buf, b); break; case 2: func_001118F8_0018B7C8(D_00440420, name); func_0018A658(name, buf); r = func_0018B020(buf, b); break; case 3: func_001118F8_0018B7C8(D_00440438, name); func_0018A658(name, buf); r = func_0018ACF0(buf, b); if (r < 0) r = func_0018AA00(buf, b); break; default: func_001118F8_0018B7C8(D_00440448, name); break; } if (r < 0) func_001118F8_0018B7C8(D_00440460, name); return r; }
+
+int func_00167940(char *, int, int, int); int func_00167DD0(char *, int);
+// MATCH func_00167FC0
+int pachislot_00167fc0(char *o, int b) { int r = 0; int a = func_00167940(o, b, 0, 0); int s = func_00167DD0(o, b); if (a == 1 || s == 1) r = 1; else if (a == 3 || s == 3) r = 3; else if (a == 2 || s == 2) r = 2; return r; }
+
+int func_00167B88(char *, int, int, int); int func_00167DD0(char *, int);
+// MATCH func_00168068
+int pachislot_00168068(char *o, int b) { int r = 0; int a = func_00167B88(o, b, 0, 0); int s = func_00167DD0(o, b); if (a == 1 || s == 1) r = 1; else if (a == 3 || s == 3) r = 3; else if (a == 2 || s == 2) r = 2; return r; }
