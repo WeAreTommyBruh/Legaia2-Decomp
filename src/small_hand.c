@@ -3331,3 +3331,36 @@ typedef struct { char p[80]; float f80; char q[24]; float f108; char r[204]; V8_
 extern char D_00335FF0_001733C8[] __asm__("D_00335FF0"), D_00336000_001733C8[] __asm__("D_00336000"); extern V8_001733C8 D_004A3158_001733C8[2] __asm__("D_004A3158"); void func_001734F0_001733C8(X_001733C8 *, float, float) __asm__("func_001734F0"); void func_00172DD0_001733C8(X_001733C8 *) __asm__("func_00172DD0"); void func_00173468_001733C8(X_001733C8 *, char *, char *) __asm__("func_00173468");
 // MATCH func_001733C8
 int FUN_001733c8(X_001733C8 *o) { o->vt->fn((char *)o + o->vt->adj); func_001734F0_001733C8(o, o->f80, 0.0f); if (o->f108 == 30.0f) { func_00172DD0_001733C8(o); o->v = D_004A3158_001733C8[0]; func_00173468_001733C8(o, D_00335FF0_001733C8, D_00336000_001733C8); } return 0; }
+
+typedef struct { char c[8]; } V8_0016D750;
+typedef struct { char p[584]; short adj; short pad; void (*fn)(void *); } VT_0016D750;
+typedef struct { char p[44]; int w44; char q[56]; V8_0016D750 v; char r[472]; short adj; short pad; void (*fn)(void *); } O_0016D750;
+extern V8_0016D750 D_004A2FF8[2]; void func_0016E9B8(O_0016D750 *); void func_0016ED20(O_0016D750 *, int);
+// MATCH func_0016D750
+int darts_0016d750(O_0016D750 *o) { int n = o->w44 + 1; o->w44 = n; if (n == 1) return 10; if (n < 4) return 0; func_0016E9B8(o); func_0016ED20(o, 1); o->fn((char *)o + o->adj); o->v = D_004A2FF8[0]; return 0; }
+
+typedef struct { char c[8]; } V8_0016D7D8;
+typedef struct { char p[584]; short adj; short pad; void (*fn)(void *); } VT_0016D7D8;
+typedef struct { char p[44]; int w44; char q[56]; V8_0016D7D8 v; char r[472]; short adj; short pad; void (*fn)(void *); } O_0016D7D8;
+extern V8_0016D7D8 D_004A3000[2]; void func_0016E9B8_0016D7D8(O_0016D7D8 *) __asm__("func_0016E9B8"); void func_0016ED20_0016D7D8(O_0016D7D8 *, int) __asm__("func_0016ED20");
+// MATCH func_0016D7D8
+int darts_0016d7d8(O_0016D7D8 *o) { int n = o->w44 + 1; o->w44 = n; if (n == 1) return 10; if (n < 4) return 0; func_0016E9B8_0016D7D8(o); func_0016ED20_0016D7D8(o, 2); o->fn((char *)o + o->adj); o->v = D_004A3000[0]; return 0; }
+
+typedef struct { char c[8]; } V8_0016D860;
+typedef struct { char p[584]; short adj; short pad; void (*fn)(void *); } VT_0016D860;
+typedef struct { char p[44]; int w44; char q[56]; V8_0016D860 v; char r[472]; short adj; short pad; void (*fn)(void *); } O_0016D860;
+extern V8_0016D860 D_004A3008[2]; void func_0016E9B8_0016D860(O_0016D860 *) __asm__("func_0016E9B8"); void func_0016ED20_0016D860(O_0016D860 *, int) __asm__("func_0016ED20");
+// MATCH func_0016D860
+int darts_0016d860(O_0016D860 *o) { int n = o->w44 + 1; o->w44 = n; if (n == 1) return 10; if (n < 4) return 0; func_0016E9B8_0016D860(o); func_0016ED20_0016D860(o, 3); o->fn((char *)o + o->adj); o->v = D_004A3008[0]; return 0; }
+
+extern int D_004A129C; extern char D_00440638[]; int func_002DCE40_0018CF98(char *, char *, ...) __asm__("func_002DCE40"); void func_00239568_0018CF98(char *) __asm__("func_00239568");
+// MATCH func_0018CF98
+void FUN_0018cf98(float *o) { char buf[128]; int s = D_004A129C; D_004A129C = 1; func_002DCE40_0018CF98(buf, D_00440638, (double)o[0], (double)o[1], (double)o[2], (double)o[3]); func_00239568_0018CF98(buf); D_004A129C = s; }
+
+extern int D_004A129C_0018D0A8 __asm__("D_004A129C"); extern char D_00440658[]; int func_002DCE40_0018D0A8(char *, char *, ...) __asm__("func_002DCE40"); void func_00239568_0018D0A8(char *) __asm__("func_00239568");
+// MATCH func_0018D0A8
+void FUN_0018d0a8(float *o) { char buf[128]; int s = D_004A129C_0018D0A8; D_004A129C_0018D0A8 = 1; func_002DCE40_0018D0A8(buf, D_00440658, o, (double)o[0], (double)o[1], (double)o[2], (double)o[3]); func_00239568_0018D0A8(buf); D_004A129C_0018D0A8 = s; }
+
+extern int D_004A129C_0023A258 __asm__("D_004A129C"); extern char D_0045C740[]; void func_00239568_0023A258(char *, ...) __asm__("func_00239568");
+// MATCH func_0023A258
+void FUN_0023a258(float *o) { int s = D_004A129C_0023A258; D_004A129C_0023A258 = 1; func_00239568_0023A258(D_0045C740, (double)o[0], (double)o[1], (double)o[2], (double)o[3]); D_004A129C_0023A258 = s; }
