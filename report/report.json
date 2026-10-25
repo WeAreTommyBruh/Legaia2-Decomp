@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 8.38772,
+  "fuzzy_match_percent": 8.395236,
   "total_code": "2022408",
-  "matched_code": "161404",
-  "matched_code_percent": 7.9807835,
+  "matched_code": "161556",
+  "matched_code_percent": 7.9882994,
   "total_data": "1768056",
   "matched_data": "136",
   "matched_data_percent": 0.0076920637,
   "total_functions": 6254,
-  "matched_functions": 3107,
-  "matched_functions_percent": 49.680202,
+  "matched_functions": 3108,
+  "matched_functions_percent": 49.696194,
   "total_units": 155
  },
  "units": [
@@ -8918,11 +8918,11 @@
     "total_code": "32012",
     "total_functions": 165,
     "total_units": 1,
-    "fuzzy_match_percent": 17.560914650755965,
-    "matched_code": "5540",
-    "matched_code_percent": 17.30601024615769,
-    "matched_functions": 97,
-    "matched_functions_percent": 58.78787878787879,
+    "fuzzy_match_percent": 18.0357365925278,
+    "matched_code": "5692",
+    "matched_code_percent": 17.780832187929526,
+    "matched_functions": 98,
+    "matched_functions_percent": 59.39393939393939,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -8941,713 +8941,714 @@
      "name": ".text",
      "metadata": {},
      "size": "32304",
-     "fuzzy_match_percent": 17.856039883605746
+     "fuzzy_match_percent": 18.326569848935115
     }
    ],
    "functions": [
     {
      "name": "pachislot_00164890",
      "size": "152",
+     "fuzzy_match_percent": 100.0,
      "metadata": {},
      "address": "0"
-    },
-    {
-     "name": "func_00164990",
-     "size": "52",
-     "metadata": {},
-     "address": "152"
-    },
-    {
-     "name": "pachislot_001649e0",
-     "size": "28",
-     "metadata": {},
-     "address": "208"
-    },
-    {
-     "name": "pachislot_00164ad0",
-     "size": "224",
-     "metadata": {},
-     "address": "240"
-    },
-    {
-     "name": "pachislot_00164c10",
-     "size": "200",
-     "metadata": {},
-     "address": "464"
-    },
-    {
-     "name": "pachislot_00164dc8",
-     "size": "1708",
-     "metadata": {},
-     "address": "664"
-    },
-    {
-     "name": "pachislot_00165478",
-     "size": "1148",
-     "metadata": {},
-     "address": "2376"
-    },
-    {
-     "name": "pachislot_001659b0",
-     "size": "140",
-     "metadata": {},
-     "address": "3528"
-    },
-    {
-     "name": "pachislot_00165a40",
-     "size": "108",
-     "metadata": {},
-     "address": "3672"
-    },
-    {
-     "name": "pachislot_00165ad8",
-     "size": "328",
-     "metadata": {},
-     "address": "3784"
-    },
-    {
-     "name": "pachislot_00165c20",
-     "size": "92",
-     "metadata": {},
-     "address": "4112"
-    },
-    {
-     "name": "pachislot_001661c8",
-     "size": "244",
-     "metadata": {},
-     "address": "4208"
-    },
-    {
-     "name": "pachislot_001662c0",
-     "size": "104",
-     "metadata": {},
-     "address": "4456"
-    },
-    {
-     "name": "pachislot_00166638",
-     "size": "64",
-     "metadata": {},
-     "address": "4560"
-    },
-    {
-     "name": "pachislot_00166678",
-     "size": "184",
-     "metadata": {},
-     "address": "4624"
-    },
-    {
-     "name": "pachislot_00166790",
-     "size": "2044",
-     "metadata": {},
-     "address": "4808"
-    },
-    {
-     "name": "pachislot_00166f90",
-     "size": "72",
-     "metadata": {},
-     "address": "6856"
-    },
-    {
-     "name": "pachislot_00166fd8",
-     "size": "108",
-     "metadata": {},
-     "address": "6928"
-    },
-    {
-     "name": "pachislot_001670b8",
-     "size": "532",
-     "metadata": {},
-     "address": "7040"
-    },
-    {
-     "name": "pachislot_001672d0",
-     "size": "228",
-     "metadata": {},
-     "address": "7576"
-    },
-    {
-     "name": "pachislot_001673c0",
-     "size": "260",
-     "metadata": {},
-     "address": "7808"
-    },
-    {
-     "name": "pachislot_001674c8",
-     "size": "132",
-     "metadata": {},
-     "address": "8072"
-    },
-    {
-     "name": "pachislot_00167550",
-     "size": "292",
-     "metadata": {},
-     "address": "8208"
-    },
-    {
-     "name": "pachislot_00167678",
-     "size": "180",
-     "metadata": {},
-     "address": "8504"
-    },
-    {
-     "name": "pachislot_00167730",
-     "size": "180",
-     "metadata": {},
-     "address": "8688"
-    },
-    {
-     "name": "pachislot_001677e8",
-     "size": "168",
-     "metadata": {},
-     "address": "8872"
-    },
-    {
-     "name": "pachislot_00167890",
-     "size": "172",
-     "metadata": {},
-     "address": "9040"
-    },
-    {
-     "name": "pachislot_00167940",
-     "size": "580",
-     "metadata": {},
-     "address": "9216"
-    },
-    {
-     "name": "pachislot_00167b88",
-     "size": "580",
-     "metadata": {},
-     "address": "9800"
-    },
-    {
-     "name": "pachislot_00167dd0",
-     "size": "280",
-     "metadata": {},
-     "address": "10384"
-    },
-    {
-     "name": "pachislot_00167ee8",
-     "size": "212",
-     "metadata": {},
-     "address": "10664"
-    },
-    {
-     "name": "pachislot_00168280",
-     "size": "552",
-     "metadata": {},
-     "address": "10880"
-    },
-    {
-     "name": "pachislot_001684a8",
-     "size": "164",
-     "metadata": {},
-     "address": "11432"
-    },
-    {
-     "name": "pachislot_00168550",
-     "size": "164",
-     "metadata": {},
-     "address": "11600"
-    },
-    {
-     "name": "pachislot_001685f8",
-     "size": "164",
-     "metadata": {},
-     "address": "11768"
-    },
-    {
-     "name": "pachislot_00168738",
-     "size": "616",
-     "metadata": {},
-     "address": "11936"
-    },
-    {
-     "name": "pachislot_00168a20",
-     "size": "152",
-     "metadata": {},
-     "address": "12552"
-    },
-    {
-     "name": "pachislot_00168b58",
-     "size": "100",
-     "metadata": {},
-     "address": "12704"
-    },
-    {
-     "name": "pachislot_00168bc0",
-     "size": "128",
-     "metadata": {},
-     "address": "12808"
-    },
-    {
-     "name": "pachislot_00168c40",
-     "size": "140",
-     "metadata": {},
-     "address": "12936"
-    },
-    {
-     "name": "pachislot_00168cd0",
-     "size": "1444",
-     "metadata": {},
-     "address": "13080"
-    },
-    {
-     "name": "pachislot_00169378",
-     "size": "132",
-     "metadata": {},
-     "address": "14528"
-    },
-    {
-     "name": "pachislot_00169400",
-     "size": "208",
-     "metadata": {},
-     "address": "14664"
-    },
-    {
-     "name": "pachislot_001694d0",
-     "size": "144",
-     "metadata": {},
-     "address": "14872"
-    },
-    {
-     "name": "pachislot_00169560",
-     "size": "656",
-     "metadata": {},
-     "address": "15016"
-    },
-    {
-     "name": "pachislot_001697f0",
-     "size": "320",
-     "metadata": {},
-     "address": "15672"
-    },
-    {
-     "name": "pachislot_001699d0",
-     "size": "180",
-     "metadata": {},
-     "address": "15992"
-    },
-    {
-     "name": "pachislot_00169a88",
-     "size": "608",
-     "metadata": {},
-     "address": "16176"
-    },
-    {
-     "name": "pachislot_00169d68",
-     "size": "516",
-     "metadata": {},
-     "address": "16784"
-    },
-    {
-     "name": "pachislot_00169fb0",
-     "size": "440",
-     "metadata": {},
-     "address": "17304"
-    },
-    {
-     "name": "pachislot_0016a168",
-     "size": "380",
-     "metadata": {},
-     "address": "17744"
-    },
-    {
-     "name": "pachislot_0016a2e8",
-     "size": "368",
-     "metadata": {},
-     "address": "18128"
-    },
-    {
-     "name": "pachislot_0016a458",
-     "size": "400",
-     "metadata": {},
-     "address": "18496"
-    },
-    {
-     "name": "pachislot_0016a5e8",
-     "size": "404",
-     "metadata": {},
-     "address": "18896"
-    },
-    {
-     "name": "pachislot_0016a7c0",
-     "size": "328",
-     "metadata": {},
-     "address": "19304"
-    },
-    {
-     "name": "pachislot_0016a908",
-     "size": "624",
-     "metadata": {},
-     "address": "19632"
-    },
-    {
-     "name": "pachislot_0016ac78",
-     "size": "280",
-     "metadata": {},
-     "address": "20256"
-    },
-    {
-     "name": "pachislot_0016ae08",
-     "size": "848",
-     "metadata": {},
-     "address": "20536"
-    },
-    {
-     "name": "pachislot_0016b158",
-     "size": "224",
-     "metadata": {},
-     "address": "21384"
-    },
-    {
-     "name": "pachislot_0016b240",
-     "size": "276",
-     "metadata": {},
-     "address": "21608"
-    },
-    {
-     "name": "pachislot_0016b358",
-     "size": "668",
-     "metadata": {},
-     "address": "21888"
-    },
-    {
-     "name": "pachislot_0016b5f8",
-     "size": "2356",
-     "metadata": {},
-     "address": "22560"
-    },
-    {
-     "name": "pachislot_0016bf38",
-     "size": "152",
-     "metadata": {},
-     "address": "24920"
-    },
-    {
-     "name": "func_0016BFD0",
-     "size": "116",
-     "metadata": {},
-     "address": "25072"
-    },
-    {
-     "name": "pachislot_0016c098",
-     "size": "176",
-     "metadata": {},
-     "address": "25192"
-    },
-    {
-     "name": "pachislot_0016c240",
-     "size": "1152",
-     "metadata": {},
-     "address": "25368"
     },
     {
      "name": "pachislot_00164928",
      "size": "100",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "26520"
+     "address": "152"
     },
     {
      "name": "pachislot_00164a20",
      "size": "20",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "26624"
+     "address": "256"
     },
     {
      "name": "pachislot_00164a48",
      "size": "56",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "26648"
+     "address": "280"
     },
     {
      "name": "pachislot_00164a80",
      "size": "72",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "26704"
+     "address": "336"
     },
     {
      "name": "pachislot_00164bb0",
      "size": "96",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "26776"
+     "address": "408"
     },
     {
      "name": "pachislot_00164d30",
      "size": "68",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "26872"
+     "address": "504"
     },
     {
      "name": "pachislot_001658f8",
      "size": "68",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "26944"
+     "address": "576"
     },
     {
      "name": "pachislot_00165d08",
      "size": "112",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27016"
+     "address": "648"
     },
     {
      "name": "pachislot_00165d78",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27128"
+     "address": "760"
     },
     {
      "name": "pachislot_00165db8",
      "size": "112",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27192"
+     "address": "824"
     },
     {
      "name": "pachislot_00165e28",
      "size": "128",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27304"
+     "address": "936"
     },
     {
      "name": "pachislot_00165ea8",
      "size": "96",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27432"
+     "address": "1064"
     },
     {
      "name": "pachislot_00165f08",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27528"
+     "address": "1160"
     },
     {
      "name": "pachislot_00165f48",
      "size": "112",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27592"
+     "address": "1224"
     },
     {
      "name": "pachislot_00165fb8",
      "size": "128",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27704"
+     "address": "1336"
     },
     {
      "name": "pachislot_00166038",
      "size": "104",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27832"
+     "address": "1464"
     },
     {
      "name": "pachislot_001660a0",
      "size": "136",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "27936"
+     "address": "1568"
     },
     {
      "name": "pachislot_00166128",
      "size": "96",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28072"
+     "address": "1704"
     },
     {
      "name": "pachislot_00166188",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28168"
+     "address": "1800"
     },
     {
      "name": "pachislot_00166328",
      "size": "96",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28232"
+     "address": "1864"
     },
     {
      "name": "pachislot_00166388",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28328"
+     "address": "1960"
     },
     {
      "name": "pachislot_001663e8",
      "size": "108",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28392"
+     "address": "2024"
     },
     {
      "name": "pachislot_00166458",
      "size": "116",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28504"
+     "address": "2136"
     },
     {
      "name": "pachislot_001664d0",
      "size": "116",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28624"
+     "address": "2256"
     },
     {
      "name": "pachislot_00166548",
      "size": "116",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28744"
+     "address": "2376"
     },
     {
      "name": "pachislot_001665c0",
      "size": "120",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28864"
+     "address": "2496"
     },
     {
      "name": "pachislot_00166730",
      "size": "56",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "28984"
+     "address": "2616"
     },
     {
      "name": "pachislot_00167fc0",
      "size": "168",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29040"
+     "address": "2672"
     },
     {
      "name": "pachislot_00168068",
      "size": "168",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29208"
+     "address": "2840"
     },
     {
      "name": "pachislot_00168110",
      "size": "104",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29376"
+     "address": "3008"
     },
     {
      "name": "pachislot_001681c8",
      "size": "104",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29480"
+     "address": "3112"
     },
     {
      "name": "pachislot_00168ac0",
      "size": "152",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29584"
+     "address": "3216"
     },
     {
      "name": "pachislot_00169278",
      "size": "52",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29736"
+     "address": "3368"
     },
     {
      "name": "pachislot_001692b0",
      "size": "80",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29792"
+     "address": "3424"
     },
     {
      "name": "pachislot_00169308",
      "size": "108",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29872"
+     "address": "3504"
     },
     {
      "name": "pachislot_00169930",
      "size": "156",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "29984"
+     "address": "3616"
     },
     {
      "name": "pachislot_00169ce8",
      "size": "124",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "30144"
+     "address": "3776"
     },
     {
      "name": "pachislot_00169f70",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "30272"
+     "address": "3904"
     },
     {
      "name": "pachislot_0016a780",
      "size": "64",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "30336"
+     "address": "3968"
     },
     {
      "name": "pachislot_0016ab78",
      "size": "180",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "30400"
+     "address": "4032"
     },
     {
      "name": "pachislot_0016ac30",
      "size": "72",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "30584"
+     "address": "4216"
     },
     {
      "name": "pachislot_0016ad90",
      "size": "52",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "30656"
+     "address": "4288"
     },
     {
      "name": "pachislot_0016adc8",
      "size": "60",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "30712"
+     "address": "4344"
     },
     {
      "name": "pachislot_0016c1d8",
      "size": "104",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "30776"
+     "address": "4408"
+    },
+    {
+     "name": "func_00164990",
+     "size": "52",
+     "metadata": {},
+     "address": "4512"
+    },
+    {
+     "name": "pachislot_001649e0",
+     "size": "28",
+     "metadata": {},
+     "address": "4568"
+    },
+    {
+     "name": "pachislot_00164ad0",
+     "size": "224",
+     "metadata": {},
+     "address": "4600"
+    },
+    {
+     "name": "pachislot_00164c10",
+     "size": "200",
+     "metadata": {},
+     "address": "4824"
+    },
+    {
+     "name": "pachislot_00164dc8",
+     "size": "1708",
+     "metadata": {},
+     "address": "5024"
+    },
+    {
+     "name": "pachislot_00165478",
+     "size": "1148",
+     "metadata": {},
+     "address": "6736"
+    },
+    {
+     "name": "pachislot_001659b0",
+     "size": "140",
+     "metadata": {},
+     "address": "7888"
+    },
+    {
+     "name": "pachislot_00165a40",
+     "size": "108",
+     "metadata": {},
+     "address": "8032"
+    },
+    {
+     "name": "pachislot_00165ad8",
+     "size": "328",
+     "metadata": {},
+     "address": "8144"
+    },
+    {
+     "name": "pachislot_00165c20",
+     "size": "92",
+     "metadata": {},
+     "address": "8472"
+    },
+    {
+     "name": "pachislot_001661c8",
+     "size": "244",
+     "metadata": {},
+     "address": "8568"
+    },
+    {
+     "name": "pachislot_001662c0",
+     "size": "104",
+     "metadata": {},
+     "address": "8816"
+    },
+    {
+     "name": "pachislot_00166638",
+     "size": "64",
+     "metadata": {},
+     "address": "8920"
+    },
+    {
+     "name": "pachislot_00166678",
+     "size": "184",
+     "metadata": {},
+     "address": "8984"
+    },
+    {
+     "name": "pachislot_00166790",
+     "size": "2044",
+     "metadata": {},
+     "address": "9168"
+    },
+    {
+     "name": "pachislot_00166f90",
+     "size": "72",
+     "metadata": {},
+     "address": "11216"
+    },
+    {
+     "name": "pachislot_00166fd8",
+     "size": "108",
+     "metadata": {},
+     "address": "11288"
+    },
+    {
+     "name": "pachislot_001670b8",
+     "size": "532",
+     "metadata": {},
+     "address": "11400"
+    },
+    {
+     "name": "pachislot_001672d0",
+     "size": "228",
+     "metadata": {},
+     "address": "11936"
+    },
+    {
+     "name": "pachislot_001673c0",
+     "size": "260",
+     "metadata": {},
+     "address": "12168"
+    },
+    {
+     "name": "pachislot_001674c8",
+     "size": "132",
+     "metadata": {},
+     "address": "12432"
+    },
+    {
+     "name": "pachislot_00167550",
+     "size": "292",
+     "metadata": {},
+     "address": "12568"
+    },
+    {
+     "name": "pachislot_00167678",
+     "size": "180",
+     "metadata": {},
+     "address": "12864"
+    },
+    {
+     "name": "pachislot_00167730",
+     "size": "180",
+     "metadata": {},
+     "address": "13048"
+    },
+    {
+     "name": "pachislot_001677e8",
+     "size": "168",
+     "metadata": {},
+     "address": "13232"
+    },
+    {
+     "name": "pachislot_00167890",
+     "size": "172",
+     "metadata": {},
+     "address": "13400"
+    },
+    {
+     "name": "pachislot_00167940",
+     "size": "580",
+     "metadata": {},
+     "address": "13576"
+    },
+    {
+     "name": "pachislot_00167b88",
+     "size": "580",
+     "metadata": {},
+     "address": "14160"
+    },
+    {
+     "name": "pachislot_00167dd0",
+     "size": "280",
+     "metadata": {},
+     "address": "14744"
+    },
+    {
+     "name": "pachislot_00167ee8",
+     "size": "212",
+     "metadata": {},
+     "address": "15024"
+    },
+    {
+     "name": "pachislot_00168280",
+     "size": "552",
+     "metadata": {},
+     "address": "15240"
+    },
+    {
+     "name": "pachislot_001684a8",
+     "size": "164",
+     "metadata": {},
+     "address": "15792"
+    },
+    {
+     "name": "pachislot_00168550",
+     "size": "164",
+     "metadata": {},
+     "address": "15960"
+    },
+    {
+     "name": "pachislot_001685f8",
+     "size": "164",
+     "metadata": {},
+     "address": "16128"
+    },
+    {
+     "name": "pachislot_00168738",
+     "size": "616",
+     "metadata": {},
+     "address": "16296"
+    },
+    {
+     "name": "pachislot_00168a20",
+     "size": "152",
+     "metadata": {},
+     "address": "16912"
+    },
+    {
+     "name": "pachislot_00168b58",
+     "size": "100",
+     "metadata": {},
+     "address": "17064"
+    },
+    {
+     "name": "pachislot_00168bc0",
+     "size": "128",
+     "metadata": {},
+     "address": "17168"
+    },
+    {
+     "name": "pachislot_00168c40",
+     "size": "140",
+     "metadata": {},
+     "address": "17296"
+    },
+    {
+     "name": "pachislot_00168cd0",
+     "size": "1444",
+     "metadata": {},
+     "address": "17440"
+    },
+    {
+     "name": "pachislot_00169378",
+     "size": "132",
+     "metadata": {},
+     "address": "18888"
+    },
+    {
+     "name": "pachislot_00169400",
+     "size": "208",
+     "metadata": {},
+     "address": "19024"
+    },
+    {
+     "name": "pachislot_001694d0",
+     "size": "144",
+     "metadata": {},
+     "address": "19232"
+    },
+    {
+     "name": "pachislot_00169560",
+     "size": "656",
+     "metadata": {},
+     "address": "19376"
+    },
+    {
+     "name": "pachislot_001697f0",
+     "size": "320",
+     "metadata": {},
+     "address": "20032"
+    },
+    {
+     "name": "pachislot_001699d0",
+     "size": "180",
+     "metadata": {},
+     "address": "20352"
+    },
+    {
+     "name": "pachislot_00169a88",
+     "size": "608",
+     "metadata": {},
+     "address": "20536"
+    },
+    {
+     "name": "pachislot_00169d68",
+     "size": "516",
+     "metadata": {},
+     "address": "21144"
+    },
+    {
+     "name": "pachislot_00169fb0",
+     "size": "440",
+     "metadata": {},
+     "address": "21664"
+    },
+    {
+     "name": "pachislot_0016a168",
+     "size": "380",
+     "metadata": {},
+     "address": "22104"
+    },
+    {
+     "name": "pachislot_0016a2e8",
+     "size": "368",
+     "metadata": {},
+     "address": "22488"
+    },
+    {
+     "name": "pachislot_0016a458",
+     "size": "400",
+     "metadata": {},
+     "address": "22856"
+    },
+    {
+     "name": "pachislot_0016a5e8",
+     "size": "404",
+     "metadata": {},
+     "address": "23256"
+    },
+    {
+     "name": "pachislot_0016a7c0",
+     "size": "328",
+     "metadata": {},
+     "address": "23664"
+    },
+    {
+     "name": "pachislot_0016a908",
+     "size": "624",
+     "metadata": {},
+     "address": "23992"
+    },
+    {
+     "name": "pachislot_0016ac78",
+     "size": "280",
+     "metadata": {},
+     "address": "24616"
+    },
+    {
+     "name": "pachislot_0016ae08",
+     "size": "848",
+     "metadata": {},
+     "address": "24896"
+    },
+    {
+     "name": "pachislot_0016b158",
+     "size": "224",
+     "metadata": {},
+     "address": "25744"
+    },
+    {
+     "name": "pachislot_0016b240",
+     "size": "276",
+     "metadata": {},
+     "address": "25968"
+    },
+    {
+     "name": "pachislot_0016b358",
+     "size": "668",
+     "metadata": {},
+     "address": "26248"
+    },
+    {
+     "name": "pachislot_0016b5f8",
+     "size": "2356",
+     "metadata": {},
+     "address": "26920"
+    },
+    {
+     "name": "pachislot_0016bf38",
+     "size": "152",
+     "metadata": {},
+     "address": "29280"
+    },
+    {
+     "name": "func_0016BFD0",
+     "size": "116",
+     "metadata": {},
+     "address": "29432"
+    },
+    {
+     "name": "pachislot_0016c098",
+     "size": "176",
+     "metadata": {},
+     "address": "29552"
+    },
+    {
+     "name": "pachislot_0016c240",
+     "size": "1152",
+     "metadata": {},
+     "address": "29728"
     },
     {
      "name": "pachislot_001649c8",
@@ -10036,6 +10037,7 @@
     }
    ],
    "metadata": {
+    "source_path": "src/small_hand.c",
     "progress_categories": [
      "game"
     ]
@@ -46817,16 +46819,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 8.654123,
+    "fuzzy_match_percent": 8.676341,
     "total_code": "684140",
-    "matched_code": "55436",
-    "matched_code_percent": 8.10302,
+    "matched_code": "55588",
+    "matched_code_percent": 8.125237,
     "total_data": "8",
     "matched_data": "8",
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 1007,
-    "matched_functions_percent": 49.314396,
+    "matched_functions": 1008,
+    "matched_functions_percent": 49.36337,
     "total_units": 77
    }
   },
