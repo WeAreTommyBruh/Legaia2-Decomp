@@ -96,3 +96,34 @@ void FUN_002cace8(void) { *(volatile int *)0x10003810 = 1; *(volatile int *)0x10
 
 // MATCH func_002E7000
 int FUN_002e7000(int c) { while (*(volatile unsigned *)0x1000f130 & 0x8000); *(volatile unsigned char *)0x1000f180 = c; return c; }
+
+// MATCH func_0018EB98
+void FUN_0018eb98(void *d, void *s)
+{
+    __asm__ volatile (
+        "lq $7, 0($5)\n"
+        "lq $6, 16($5)\n"
+        "lq $3, 32($5)\n"
+        "lq $2, 48($5)\n"
+        "sq $7, 0($4)\n"
+        "sq $6, 16($4)\n"
+        "sq $3, 32($4)\n"
+        "sq $2, 48($4)\n"
+    );
+}
+
+typedef struct { volatile unsigned w0; char p[20]; unsigned short h24; } Ch_002D42F0;
+typedef struct { char p[8]; int w8; } Q_002D42F0;
+void *func_002CFF20(int); Q_002D42F0 *func_002CFF48(int);
+// MATCH func_002D42F0
+void FUN_002d42f0(unsigned ch) { if (ch < 48) { Ch_002D42F0 *p = func_002CFF20(ch); p->w0 |= 0x2000; if ((unsigned)(p->h24 - 1) < 127 && (p->w0 & 1)) { if (func_002CFF48(((volatile Ch_002D42F0 *)p)->h24)->w8 != 0) { p->w0 |= 2; p->w0 &= ~0x70; } } p->w0 &= ~0x2000; } }
+
+// MATCH func_002CADB8
+int FUN_002cadb8(unsigned a, unsigned b, unsigned c) { unsigned v = a | (b << 1) | (c << 2); *(volatile unsigned *)0x10003820 = v; return v; }
+
+typedef struct { char p[156]; int a; float b, c, d, e, f, g; int h; } O_001E9260;
+// MATCH func_001E9260
+void yue_001e9260(O_001E9260 *o, float *s) { o->a = (int)s[0]; o->b = s[1]; o->c = s[2]; o->d = s[3]; o->e = s[4]; o->f = s[5]; o->g = s[6]; o->h = (int)s[7]; }
+
+// MATCH func_002C9368
+int FUN_002c9368(unsigned long long *p, int n) { return (int)(*p >> (64 - n)); }
