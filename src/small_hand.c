@@ -3957,3 +3957,12 @@ typedef struct { int w0, w4, w8; char p[68]; } E_0025A3B0;
 extern E_0025A3B0 D_003EC550[];
 // MATCH func_0025A3B0
 int FUN_0025a3b0(int a) { unsigned i, c = 0; for (i = 0; i < 861; i++) if (D_003EC550[i].w8 == a) c++; return c; }
+
+typedef struct { char p[32176]; unsigned w32176; } G_00127F70;
+extern int D_003279A0_00127F70[] __asm__("D_003279A0"); extern G_00127F70 *D_004A1A20_00127F70 __asm__("D_004A1A20"); int func_00127FC8(int);
+// MATCH func_00127F70
+int battle_00127f70(void) { if (D_003279A0_00127F70[0] == 0) return 0; if (func_00127FC8(4) != 0) return 1; if (D_004A1A20_00127F70->w32176 & 0x800) return 0; return func_00127FC8(5) != 0; }
+
+extern int D_004A12A4_00126058 __asm__("D_004A12A4"); extern char D_00343010_00126058[] __asm__("D_00343010"); extern int D_004A1AA8_00126058 __asm__("D_004A1AA8"); int func_001E4700(char *); int func_00196FF8_00126058(void) __asm__("func_00196FF8"); int func_0021F650(int);
+// MATCH func_00126058
+int battle_00126058(void) { if (D_004A12A4_00126058 != 11) return 0; if (func_001E4700(D_00343010_00126058) != 0) return 1; if (func_00196FF8_00126058() != 0) return 1; return func_0021F650(D_004A1AA8_00126058) != 0; }
