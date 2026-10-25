@@ -3928,3 +3928,11 @@ void FUN_002e84a0(O_002E84A0 *o, int b) { P_002E84A0 *p = func_002E8378(b); int 
 int func_002D7E48(int, int); int func_002D78B8(int, int); long long func_002EF470(int);
 // MATCH func_002EF410
 long long FUN_002ef410(int a) { int z = 0; __asm__("" : "+r"(z)); if (func_002D7E48(a, z) < 0) return -func_002EF470(func_002D78B8(z, a)); return func_002EF470(a); }
+
+typedef struct { int n0, n1; unsigned char *d0, *d1; unsigned char s0[64]; unsigned char s1[64]; } P_002CD728;
+// MATCH func_002CD728
+void FUN_002cd728(unsigned p) { P_002CD728 *q = (P_002CD728 *)((unsigned)p | 0x20000000); int i; if (q->n0 != 0) { unsigned char *d = q->d0; for (i = 0; i < q->n0; i++) *d++ = q->s0[i]; } if (q->n1 != 0) { unsigned char *d = q->d1; for (i = 0; i < q->n1; i++) *d++ = q->s1[i]; } }
+
+extern int D_0042637C[]; extern int D_0062B644_002CB510[] __asm__("D_0062B644"), D_0062B648_002CB510[] __asm__("D_0062B648"); void func_002CB5C8(void); int func_002EDC50(void); void func_002EDC98(void);
+// MATCH func_002CB510
+int FUN_002cb510(int a, int b) { int r, old; if (D_0042637C[0] < 0) func_002CB5C8(); r = func_002EDC50(); old = D_0062B644_002CB510[0]; D_0062B648_002CB510[0] = b; D_0062B644_002CB510[0] = a; if (r != 0) func_002EDC98(); return old; }
