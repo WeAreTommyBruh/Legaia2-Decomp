@@ -3904,3 +3904,8 @@ typedef struct { int w0; char p[524]; int w528; char q[8]; unsigned short h540[6
 void func_001AD960(int, int, int, int);
 // MATCH func_002049B0
 void pchjob0_002049b0(O_002049B0 *o, int b) { int i; if (o->w0 != 0) { for (i = 0; i < o->w528; i++) { if (o->h540[i] == b) { func_001AD960(o->w0, i, o->w528, b); break; } } } }
+
+typedef struct { char p[100]; char *w100; char q[744]; void *w848; int w852, w856, w860, w864, w868, w872; } O_001E7F28;
+extern char D_0044CAE8[]; void func_00131588(void *); void func_001E2400(O_001E7F28 *, int);
+// MATCH func_001E7F28
+void yue_001e7f28(O_001E7F28 *o, int a) { o->w100 = D_0044CAE8; if (o->w848) func_00131588(o->w848); o->w848 = 0; o->w852 = 0; o->w856 = 0; o->w860 = 0; o->w864 = 0; o->w868 = 0; o->w872 = 0; func_001E2400(o, a); }
