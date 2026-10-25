@@ -64,3 +64,8 @@ typedef struct { char p[32]; char b32; } O_00202C30;
 extern int D_004A3864; extern char D_00454260[]; int func_00196FF8(void); void func_001118F8_00202C30(char *, int) __asm__("func_001118F8"); void func_00202F88(O_00202C30 *);
 // MATCH func_00202C30
 int eftpack_00202c30(O_00202C30 *o) { if (o->b32 == 0) { int r = func_00196FF8(); o->b32 = 1 - r; if (D_004A3864 & 0x400) func_001118F8_00202C30(D_00454260, o->b32); if (o->b32 != 0) func_00202F88(o); } return o->b32; }
+
+typedef struct N_0029D3D0 { char p[60]; struct N_0029D3D0 *w60; } N_0029D3D0;
+void func_002BF250(N_0029D3D0 *, int);
+// MATCH func_0029D3D0
+void clas_min_0029d3d0(N_0029D3D0 *o) { if (o->w60 != 0) { N_0029D3D0 *p; do { p = o->w60; o->w60 = p->w60; if (p != 0) func_002BF250(p, 3); } while (o->w60 != 0); } }

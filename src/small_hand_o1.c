@@ -29,3 +29,15 @@ typedef struct N_002E8658 { char p[8]; Q_002E8658 *w8; char q[8]; struct N_002E8
 typedef struct { char p[40]; N_002E8658 *w40; } S_002E8658;
 // MATCH func_002E8658
 Q_002E8658 *FUN_002e8658(int a, S_002E8658 *s) { N_002E8658 *n; Q_002E8658 *q; for (n = s->w40; n != 0; n = n->w20) { for (q = n->w8; q != 0; q = q->w56) if (q->w0 == a) return q; } return 0; }
+
+typedef struct { char p[12]; unsigned w12; } P_0029D0B8;
+typedef struct { char p[16]; P_0029D0B8 *w16; } O_0029D0B8;
+void func_0029D378(O_0029D0B8 *); void func_0029D200(O_0029D0B8 *); void func_0029D120(O_0029D0B8 *);
+// MATCH func_0029D0B8
+int clas_min_0029d0b8(O_0029D0B8 *o) { P_0029D0B8 *p = o->w16; unsigned f; if (p == 0) return 0; f = p->w12; if (f & 8) { func_0029D378(o); return 1; } if (f & 1) { func_0029D200(o); return 1; } func_0029D120(o); return 1; }
+
+typedef struct { char p[24]; unsigned w24; } P_0029CA78;
+typedef struct { char p[28]; P_0029CA78 *w28; } O_0029CA78;
+void func_0029CBF0(O_0029CA78 *); void func_0029CD90(O_0029CA78 *, int, int); void func_0029CAF8(O_0029CA78 *);
+// MATCH func_0029CA78
+int clas_min_0029ca78(O_0029CA78 *o, int a) { P_0029CA78 *p = o->w28; unsigned f; if (p == 0) return 0; f = p->w24; if (f & 1) { func_0029CBF0(o); return 1; } if (f & 4) { func_0029CD90(o, a, 10000); return 1; } if (f & 16) { func_0029CD90(o, a, 50000); return 1; } func_0029CAF8(o); return 1; }
