@@ -74,3 +74,7 @@ typedef struct { int w0, w4; int *w8; } S_0024CF68;
 extern char D_0045E028[]; void func_001118F8_0024CF68(char *) __asm__("func_001118F8");
 // MATCH func_0024CF68
 int FUN_0024cf68(S_0024CF68 *s) { if (s->w4 <= 0) func_001118F8_0024CF68(D_0045E028); s->w4--; return s->w8[s->w4]; }
+
+extern int D_004A7138; extern char D_005F6A40[]; void func_00239568(char *);
+// MATCH func_00239660
+void FUN_00239660(void) { int i; for (i = 0; i < D_004A7138; i++) func_00239568(D_005F6A40 + i * 64); }

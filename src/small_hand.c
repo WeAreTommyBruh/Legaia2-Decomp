@@ -3974,3 +3974,8 @@ void battle_00126aa0(void) { void *p = func_00162130_00126AA0(D_004A6D74, D_0042
 extern int D_004A13D4, D_004A6E54, D_004A6D94; extern float D_004A6DAC; extern char D_00431B68[]; void func_001118F8_0012CAB8(char *, int) __asm__("func_001118F8"); void func_0011C068(int, int, float);
 // MATCH func_0012CAB8
 void ClearPlayerCamera(float a) { int old = D_004A13D4; D_004A13D4 = 12; D_004A6E54 = 0; if (a >= 0.0f) D_004A6DAC = a; func_001118F8_0012CAB8(D_00431B68, D_004A6D94); func_0011C068(D_004A6D94, 0, 0.0f); D_004A13D4 = old; }
+
+typedef struct { float f0, f4, f8, f12, f16, f20, f24, f28; } S_001EA630;
+typedef struct { char p[156]; int w156; float f160, f164, f168, f172, f176, f180; int w184; } O_001EA630;
+// MATCH func_001EA630
+void yue_001ea630(O_001EA630 *o, S_001EA630 *s) { float a = (float)o->w156, b = (float)o->w184; s->f0 = a; s->f4 = o->f160; s->f8 = o->f164; s->f12 = o->f168; s->f16 = o->f172; s->f20 = o->f176; s->f24 = o->f180; s->f28 = b; }
