@@ -90,6 +90,11 @@ COMPILERS = {
     "990721": [EE_CC_990721, "-B" + os.path.join(os.path.dirname(os.path.dirname(EE_CC)), "ee", "bin") + "/"],
 }
 COMPILERS["990721-r5900"] = COMPILERS["990721"]
+# 991111-01's compiler with the newer assembler of the 2.96 SDK (2.10-ee-001003):
+# it moves the last store of an unaligned 8-byte copy (sdl/sdr) into the
+# delay slot of the return, which 991111-01's assembler does not
+EE_AS_210_DIR = os.environ.get("EE_AS_210_DIR", os.path.expanduser("~/tools/ee-gcc2.96/ee/bin")) + "/"
+COMPILERS["991111-01-as210"] = [EE_CC, "-B" + EE_AS_210_DIR]
 SHORT_LOOP_FIX = {"990721-r5900"}
 
 
