@@ -3472,3 +3472,59 @@ typedef struct { char p[176]; void *w176; } O_001F7410;
 int func_001F6080(void *); void *func_001F60A8(void *);
 // MATCH func_001F7410
 void *ikumin_001f7410(O_001F7410 *o, int b) { void *p = o->w176; while (func_001F6080(p) != b) { p = func_001F60A8(p); if (p == 0) return 0; } return p; }
+
+typedef struct { char c[8]; } V8_00174E10;
+typedef struct { char p[352]; int w352, w356, w360; char p2[8]; int w372; char q[32]; V8_00174E10 v, v2; } O_00174E10;
+extern unsigned long long D_004A12D8_00174E10 __asm__("D_004A12D8");
+extern char D_00336470[]; extern V8_00174E10 D_004A31C8[2]; extern V8_00174E10 D_004A3228[2];  void func_001749D8_00174E10(O_00174E10 *, char *) __asm__("func_001749D8"); int func_00172958(void); int func_00172978(void); void func_00172D98(O_00174E10 *);
+// MATCH func_00174E10
+int repetition_00174e10(O_00174E10 *o) { func_001749D8_00174E10(o, D_00336470); o->w356 = 2; o->w360 = 2; if (o->w372++ & 0x20) o->w352 = 256; else o->w352 = 258; if (D_004A12D8_00174E10 & 0x200040) { func_00172D98(o); o->v = D_004A31C8[0]; o->v2 = D_004A3228[0]; o->w352 = 0; } return 0; }
+
+typedef struct { char c[8]; } V8_001750D8;
+typedef struct { char p[352]; int w352, w356, w360; char p2[8]; int w372; char q[32]; V8_001750D8 v, v2; } O_001750D8;
+extern unsigned long long D_004A12D8_001750D8 __asm__("D_004A12D8");
+extern char D_00336498[]; extern V8_001750D8 D_004A31C8_001750D8[2] __asm__("D_004A31C8"); extern V8_001750D8 D_004A3250[2];  void func_001749D8_001750D8(O_001750D8 *, char *) __asm__("func_001749D8"); int func_00172958(void); int func_00172978(void); void func_00172D98_001750D8(O_001750D8 *) __asm__("func_00172D98");
+// MATCH func_001750D8
+int repetition_001750d8(O_001750D8 *o) { func_001749D8_001750D8(o, D_00336498); o->w356 = 2; o->w360 = 2; if (o->w372++ & 0x20) o->w352 = 4; else o->w352 = 5; if (D_004A12D8_001750D8 & 0x200040) { func_00172D98_001750D8(o); o->v = D_004A31C8_001750D8[0]; o->v2 = D_004A3250[0]; o->w352 = 0; } return 0; }
+
+typedef struct { char c[8]; } V8_00175578;
+typedef struct { char p[352]; int w352, w356, w360; char p2[8]; int w372; char q[32]; V8_00175578 v, v2; } O_00175578;
+extern unsigned long long D_004A12D8_00175578 __asm__("D_004A12D8");
+extern char D_003364D0[]; extern V8_00175578 D_004A31C8_00175578[2] __asm__("D_004A31C8"); extern V8_00175578 D_004A3288[2];  void func_001749D8_00175578(O_00175578 *, char *) __asm__("func_001749D8"); int func_00172958(void); int func_00172978(void); void func_00172D98_00175578(O_00175578 *) __asm__("func_00172D98");
+// MATCH func_00175578
+int repetition_00175578(O_00175578 *o) { func_001749D8_00175578(o, D_003364D0); o->w356 = 2; o->w360 = 2; if (o->w372++ & 0x20) o->w352 = 256; else o->w352 = 258; { int r = func_00172958(); if (r == 2 && func_00172978() == r) { func_00172D98_00175578(o); o->v = D_004A31C8_00175578[0]; o->v2 = D_004A3288[0]; o->w352 = 0; } } return 0; }
+
+typedef struct { char c[8]; } V8_001759D0;
+typedef struct { char p[352]; int w352, w356, w360; char p2[8]; int w372; char q[32]; V8_001759D0 v, v2; } O_001759D0;
+extern unsigned long long D_004A12D8_001759D0 __asm__("D_004A12D8");
+extern char D_00336508[]; extern V8_001759D0 D_004A31C8_001759D0[2] __asm__("D_004A31C8"); extern V8_001759D0 D_004A32C0[2];  void func_001749D8_001759D0(O_001759D0 *, char *) __asm__("func_001749D8"); int func_00172958(void); int func_00172978(void); void func_00172D98_001759D0(O_001759D0 *) __asm__("func_00172D98");
+// MATCH func_001759D0
+int repetition_001759d0(O_001759D0 *o) { func_001749D8_001759D0(o, D_00336508); o->w356 = 2; o->w360 = 2; if (o->w372++ & 0x20) o->w352 = 4; else o->w352 = 5; { int r = func_00172958(); if (r == 2 && func_00172978() == r) { func_00172D98_001759D0(o); o->v = D_004A31C8_001759D0[0]; o->v2 = D_004A32C0[0]; o->w352 = 0; } } return 0; }
+
+typedef struct { char c[8]; } V8_001752A0;
+typedef struct { char p[352]; int w352, w356, w360; char p2[8]; int w372; char q[32]; V8_001752A0 v, v2; } O_001752A0;
+extern unsigned long long D_004A12D8_001752A0 __asm__("D_004A12D8");
+extern char D_003364B0[]; extern V8_001752A0 D_004A3268[2]; extern V8_001752A0 D_004A3270_001752A0[2] __asm__("D_004A3270");  void func_001749D8_001752A0(O_001752A0 *, char *) __asm__("func_001749D8"); int func_00172958(void); int func_00172978(void); void func_00172D98_001752A0(O_001752A0 *) __asm__("func_00172D98");
+// MATCH func_001752A0
+int repetition_001752a0(O_001752A0 *o) { func_001749D8_001752A0(o, D_003364B0); o->w356 = 4; o->w360 = 4; if (o->w372++ & 0x20) o->w352 = 512; else o->w352 = 514; if (func_00172958() != 4) o->v = D_004A3268[0]; { int r = func_00172958(); if (r == 4 && func_00172978() == r) o->v = D_004A3270_001752A0[0]; } return 0; }
+
+typedef struct { char c[8]; } V8_00175410;
+typedef struct { char p[352]; int w352, w356, w360; char p2[8]; int w372; char q[32]; V8_00175410 v, v2; } O_00175410;
+extern unsigned long long D_004A12D8_00175410 __asm__("D_004A12D8");
+extern char D_003364C0[]; extern V8_00175410 D_004A3278[2]; extern V8_00175410 D_004A3280[2];  void func_001749D8_00175410(O_00175410 *, char *) __asm__("func_001749D8"); int func_00172958(void); int func_00172978(void); void func_00172D98_00175410(O_00175410 *) __asm__("func_00172D98");
+// MATCH func_00175410
+int repetition_00175410(O_00175410 *o) { func_001749D8_00175410(o, D_003364C0); o->w356 = 2; o->w360 = 4; if (o->w372++ & 0x20) o->w352 = 16; else o->w352 = 17; if (func_00172978() != 4) o->v = D_004A3278[0]; if (func_00172958() == 2 && func_00172978() == 4) o->v = D_004A3280[0]; return 0; }
+
+typedef struct { char c[8]; } V8_001743F0;
+typedef struct { char p[64]; short adj; short pad; int (*fn)(void *); } VT_001743F0;
+typedef struct { char p[408]; V8_001743F0 v, v2; char q[456]; float f880, f884; char r[8]; VT_001743F0 *vt; } O_001743F0;
+extern char D_0041EFB0_001743F0[] __asm__("D_0041EFB0"); void func_001545A8(char *, char *, char *, float);
+// MATCH func_001743F0
+int repetition_001743f0(O_001743F0 *o) { o->f880 += o->f884; if (o->f880 >= 1.0f) { o->f880 = 1.0f; o->v = o->v2; } func_001545A8(D_0041EFB0_001743F0, (char *)o + 432, (char *)o + 656, o->f880); return 0; }
+
+typedef struct { char c[8]; } V8_001744B0;
+typedef struct { char p[64]; short adj; short pad; int (*fn)(void *); } VT_001744B0;
+typedef struct { char p[408]; V8_001744B0 v, v2; char q[456]; float f880, f884; char r[8]; VT_001744B0 *vt; } O_001744B0;
+extern char D_0041EFB0_001744B0[] __asm__("D_0041EFB0"); void func_001545A8(char *, char *, char *, float);
+// MATCH func_001744B0
+int repetition_001744b0(O_001744B0 *o) { o->f880 += o->f884; if (o->f880 >= 1.0f) o->f880 = 1.0f; if (o->f880 == 1.0f) { if (o->vt->fn((char *)o + o->vt->adj)) o->v = o->v2; } func_001545A8(D_0041EFB0_001744B0, (char *)o + 432, (char *)o + 656, o->f880); return 0; }
