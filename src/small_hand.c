@@ -3459,3 +3459,16 @@ int FUN_001e40a8(int a, int b, int c) { int r; if (D_004A380A_001E40A8 == 0) ret
 extern char D_004A380A_001E4120 __asm__("D_004A380A"); int func_001E3D98(int); void func_001E3E38(int, int, int); void func_001E3380(int, int, int);
 // MATCH func_001E4120
 int FUN_001e4120(int a, int b, int x, int c) { int r; if (D_004A380A_001E4120 == 0) return 0; r = func_001E3D98(a); if (r == 0) return 0; func_001E3E38(a, r, c); func_001E3380(a, r, 0); return r; }
+
+extern void *D_004A445C; void *func_001F7308(void *); int func_001F7318(void *); int func_001F7410(void *, int);
+// MATCH func_001FDBE0
+int eftedit_001fdbe0(int a, int b) { void *p = D_004A445C; while (func_001F7318(p) != a) { p = func_001F7308(p); if (p == 0) return 0; } return func_001F7410(p, b); }
+
+extern void *D_004A445C_001FDB68 __asm__("D_004A445C"); void *func_001F7308(void *); int func_001F7318(void *); float func_001F7358(void *, int);
+// MATCH func_001FDB68
+float eftedit_001fdb68(int a, int b) { void *p = D_004A445C_001FDB68; while (func_001F7318(p) != a) { p = func_001F7308(p); if (p == 0) return 0.0f; } return func_001F7358(p, b); }
+
+typedef struct { char p[176]; void *w176; } O_001F7410;
+int func_001F6080(void *); void *func_001F60A8(void *);
+// MATCH func_001F7410
+void *ikumin_001f7410(O_001F7410 *o, int b) { void *p = o->w176; while (func_001F6080(p) != b) { p = func_001F60A8(p); if (p == 0) return 0; } return p; }
