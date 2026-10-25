@@ -3979,3 +3979,7 @@ typedef struct { float f0, f4, f8, f12, f16, f20, f24, f28; } S_001EA630;
 typedef struct { char p[156]; int w156; float f160, f164, f168, f172, f176, f180; int w184; } O_001EA630;
 // MATCH func_001EA630
 void yue_001ea630(O_001EA630 *o, S_001EA630 *s) { float a = (float)o->w156, b = (float)o->w184; s->f0 = a; s->f4 = o->f160; s->f8 = o->f164; s->f12 = o->f168; s->f16 = o->f172; s->f20 = o->f176; s->f24 = o->f180; s->f28 = b; }
+
+extern int D_004A7164, D_004A7168, D_004A1418; extern long long D_005F7040[];
+// MATCH func_0023C6C0
+void FUN_0023c6c0(void) { int i; D_004A7168 = D_004A7164 / 32; D_004A7164 = D_004A1418 << 5; for (i = 63; i >= 0; i--) D_005F7040[i] = 0; }
