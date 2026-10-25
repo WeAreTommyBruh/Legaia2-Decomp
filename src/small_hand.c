@@ -3630,3 +3630,28 @@ typedef struct { char p[40]; int w40; char q[16]; char *w60; int w64; char r[52]
 extern char D_0043D658[]; int func_001714A0(O_00171EE8 *); void func_00171980(O_00171EE8 *, int); void func_00171FF8(O_00171EE8 *, int);
 // MATCH func_00171EE8
 O_00171EE8 *roulette_00171ee8(O_00171EE8 *o, int x) { func_001714A0(o); o->w60 = D_0043D658; o->w64 = 250; func_00171980(o, 1); func_00171FF8(o, x); o->w40 = 0; o->w120 = 0; return o; }
+
+typedef struct { char p[16]; unsigned long long *w16; } S_00164BB0;
+extern S_00164BB0 D_00342CD0_00164BB0 __asm__("D_00342CD0"); extern unsigned long long D_00318680[]; void func_00190328(S_00164BB0 *); void func_00190420(S_00164BB0 *);
+// MATCH func_00164BB0
+void pachislot_00164bb0(void) { unsigned long long *p; func_00190328(&D_00342CD0_00164BB0); p = D_00342CD0_00164BB0.w16; p[0] = 5; p[1] = 8; D_00342CD0_00164BB0.w16 = p + 4; p[2] = D_00318680[0]; p[3] = 66; func_00190420(&D_00342CD0_00164BB0); }
+
+typedef struct { char p[16]; unsigned long long *w16; } S_0015A6D0;
+extern S_0015A6D0 D_00342CD0_0015A6D0 __asm__("D_00342CD0"); typedef struct { int w0; } O_0015A6D0; void func_00190328_0015A6D0(S_0015A6D0 *) __asm__("func_00190328"); void func_00190420_0015A6D0(S_0015A6D0 *) __asm__("func_00190420"); void func_001588F8(int);
+// MATCH func_0015A6D0
+void FUN_0015a6d0(O_0015A6D0 *o) { unsigned long long *p; func_00190328_0015A6D0(&D_00342CD0_0015A6D0); p = D_00342CD0_0015A6D0.w16; p[0] = 5; p[1] = 8; D_00342CD0_0015A6D0.w16 = p + 2; func_00190420_0015A6D0(&D_00342CD0_0015A6D0); func_001588F8(o->w0); }
+
+typedef struct { char p[16]; unsigned long long *w16; } S_0024C568;
+void func_0024BF60(int, int, int, int, S_0024C568 *, int); void func_00190328_0024C568(S_0024C568 *) __asm__("func_00190328"); void func_00190420_0024C568(S_0024C568 *) __asm__("func_00190420");
+// MATCH func_0024C568
+int init_0024c568(int a, int b, int c, int d, S_0024C568 *s) { unsigned long long *p; func_0024BF60(a, b, c, d, s, 0); func_00190328_0024C568(s); p = s->w16; p[0] = 0; p[1] = 63; s->w16 = p + 2; func_00190420_0024C568(s); return 0; }
+
+typedef struct { char p[16]; unsigned long long *w16; } S_00243A68;
+extern unsigned long long D_00318680_00243A68[] __asm__("D_00318680"); void func_00190328_00243A68(S_00243A68 *) __asm__("func_00190328"); void func_00190420_00243A68(S_00243A68 *) __asm__("func_00190420");
+// MATCH func_00243A68
+void object_00243a68(int i, S_00243A68 *s) { unsigned long long *p; func_00190328_00243A68(s); p = s->w16; p[0] = D_00318680_00243A68[i]; p[1] = 66; s->w16 = p + 2; func_00190420_00243A68(s); }
+
+typedef struct { char p[16]; unsigned long long *w16; } S_00243688;
+extern S_00243688 D_00314C20; extern unsigned D_004A71E4_00243688 __asm__("D_004A71E4"); void func_00190328_00243688(S_00243688 *) __asm__("func_00190328"); void func_00190420_00243688(S_00243688 *) __asm__("func_00190420");
+// MATCH func_00243688
+void object_00243688(void) { unsigned long long *p; func_00190328_00243688(&D_00314C20); p = D_00314C20.w16; p[0] = 0x2007ff8621343140ULL; p[1] = 6; D_00314C20.w16 = p + 2; D_004A71E4_00243688 = 0xffffffff; func_00190420_00243688(&D_00314C20); }
