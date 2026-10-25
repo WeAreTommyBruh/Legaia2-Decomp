@@ -3,7 +3,13 @@
 
 typedef int u128 __attribute__((mode(TI)));
 
+void func_002A1988();
 
+// MATCH func_00214158
+void dup_00214158(void)
+{
+    func_002A1988();
+}
 
 // MATCH func_00214160
 int FUN_00214160(int a0)

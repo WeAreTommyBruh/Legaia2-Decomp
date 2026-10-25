@@ -25,7 +25,7 @@ ROOT = asm_build.ROOT
 GEN = os.path.join(ROOT, "src", "gen3")
 GP = 0x4A7C70
 COMPILERS = [("991111-01", []), ("990721-r5900", ["-fno-thread-jumps"]), ("991111-01", ["-fexceptions"]),
-             ("991111-01", ["-fno-gcse"])]
+             ("991111-01", ["-fno-gcse"]), ("991111-01-as210", []), ("991111-01-as210", ["-fexceptions"])]
 ITYPE = {"lw": "int", "lh": "s16", "lhu": "u16", "lb": "s8", "lbu": "u8", "ld": "u64", "lq": "u128", "lwc1": "float"}
 STYPE = {"sw": "int", "sh": "s16", "sb": "s8", "sd": "u64", "sq": "u128", "swc1": "float"}
 MEM = re.compile(r"\$(f?\d+), (-?\d+)\(\$(\d+)\)$")
@@ -251,7 +251,7 @@ def main():
     for path in glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True):
         if path.startswith(GEN):
             continue
-        done |= {int(a, 16) for a in re.findall(r"func_([0-9A-Fa-f]{8})", open(path).read())}
+        done |= {int(a, 16) for a in re.findall(r"MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
     count = {}
     for r in rows:
         count[r["name"]] = count.get(r["name"], 0) + 1

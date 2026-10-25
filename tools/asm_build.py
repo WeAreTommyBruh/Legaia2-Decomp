@@ -95,6 +95,8 @@ COMPILERS["990721-r5900"] = COMPILERS["990721"]
 # delay slot of the return, which 991111-01's assembler does not
 EE_AS_210_DIR = os.environ.get("EE_AS_210_DIR", os.path.expanduser("~/tools/ee-gcc2.96/ee/bin")) + "/"
 COMPILERS["991111-01-as210"] = [EE_CC, "-B" + EE_AS_210_DIR]
+COMPILERS["991111"] = [os.path.expanduser("~/tools/ee-gcc2.9-991111/bin/ee-gcc")]
+COMPILERS["991111a"] = [os.path.expanduser("~/tools/ee-gcc2.9-991111a/bin/ee-gcc")]
 SHORT_LOOP_FIX = {"990721-r5900"}
 
 

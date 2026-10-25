@@ -4,6 +4,7 @@
 typedef int u128 __attribute__((mode(TI)));
 
 extern float D_004A2A68[];
+void func_0018EB78();
 
 // MATCH func_00154930
 void FUN_00154930(int a0, int a1)
@@ -35,5 +36,17 @@ int FUN_001551c8(int a0, int a1)
 {
     FIELD(u64, a0, 0x0) = FIELD(u64, a1, 0x0);
     return a0;
+}
+
+// MATCH func_00155988
+void dup_00155988(void)
+{
+    func_0018EB78();
+}
+
+// MATCH func_00155990
+void dup_00155990(void)
+{
+    func_0018EB78();
 }
 
