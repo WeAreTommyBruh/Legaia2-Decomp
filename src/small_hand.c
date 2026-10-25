@@ -3847,3 +3847,22 @@ typedef struct { char p[20]; int w20, w24, w28, w32; } O_0025E510;
 extern char D_00343010_0025E510[] __asm__("D_00343010"); void func_001E3380_0025E510(char *, int, int) __asm__("func_001E3380");
 // MATCH func_0025E510
 void FUN_0025e510(O_0025E510 *o, int b, int c, int d) { o->w24 = c; o->w28 = d; o->w20 = b; o->w32 = 0; func_001E3380_0025E510(D_00343010_0025E510, b, 0); func_001E3380_0025E510(D_00343010_0025E510, c, 0); }
+
+typedef struct { char p[12]; char *w12; char q[136]; void *w152, *w156, *w160; } O_00183C50;
+extern char D_0043E480[]; void func_00131588(void *); void func_00185168_00183C50(O_00183C50 *, int) __asm__("func_00185168");
+// MATCH func_00183C50
+void screfct_00183c50(O_00183C50 *o, int a) { o->w12 = D_0043E480; if (o->w152) func_00131588(o->w152); if (o->w156) func_00131588(o->w156); if (o->w160) func_00131588(o->w160); func_00185168_00183C50(o, a); }
+
+extern char D_004406A8[]; void func_001118F8_0018D2B0(char *, ...) __asm__("func_001118F8");
+// MATCH func_0018D2B0
+void FUN_0018d2b0(char *a, int *p) { if (a != 0) func_001118F8_0018D2B0(a); if (p != 0) func_001118F8_0018D2B0(D_004406A8, p, p[0], p[1], p[2], p[3]); }
+
+extern char D_00440A48[]; void *func_00162130_001909F8(int, char *, int) __asm__("func_00162130"); void func_001908F0(void *, int *, int);
+// MATCH func_001909F8
+void *LzssDecodeAlloc(int *p) { int n = p[0]; void *buf = func_00162130_001909F8((n + 2047) & -2048, D_00440A48, 191); func_001908F0(buf, p, n); return buf; }
+
+typedef struct { int w0, w4, w8, w12, w16, w20; } S_002CB040;
+extern char D_002CB018[]; int func_002E58A0_002CB040(S_002CB040 *) __asm__("func_002E58A0"); void func_002E5620_002CB040(int, char *, int) __asm__("func_002E5620"); void func_002E58E0_002CB040(int) __asm__("func_002E58E0"); void func_002E58B0_002CB040(int) __asm__("func_002E58B0");
+// MATCH func_002CB040
+void FUN_002cb040(unsigned short a) { S_002CB040 s; int r; s.w4 = 1; s.w8 = 0; s.w20 = 0; r = func_002E58A0_002CB040(&s); func_002E5620_002CB040(a, D_002CB018, r); func_002E58E0_002CB040(r); func_002E58B0_002CB040(r); }
+
