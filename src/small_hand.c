@@ -3995,3 +3995,11 @@ float FUN_00179648(int a, int b, int c) { float v0[4]; float v1[4]; float v2[4];
 float func_00178BB8(int, int, int);
 // MATCH func_00178BE8
 int FUN_00178be8(int p, int q, int r, int s) { float x = func_00178BB8(p, r, s); float y = func_00178BB8(q, r, s); if (x == 0.0f && y == 0.0f) return 0; if (x == y) return 1; return -1; }
+
+extern int D_00318C20[]; extern int D_004A126C, D_004A1268; int func_0017FDB0(int, int, int, int);
+// MATCH func_0017FFD0
+int modelpkt_0017ffd0(int a, int b, int c, int d) { int n; D_00318C20[D_004A126C] = a; func_0017FDB0(a, b, c, d); D_004A1268 = n = D_004A126C; D_004A126C = ++n; return n - 1; }
+
+extern int D_00343028_0010BFA0[] __asm__("D_00343028"); extern int D_004A3850_0010BFA0 __asm__("D_004A3850"); extern volatile int D_004A1190;
+// MATCH func_0010BFA0
+int rsound_0010bfa0(void) { if (D_00343028_0010BFA0[0] & 8) return 0; if (D_004A3850_0010BFA0 == 2) return 0; return D_004A1190; }
