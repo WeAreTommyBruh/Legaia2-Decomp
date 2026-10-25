@@ -3966,3 +3966,11 @@ int battle_00127f70(void) { if (D_003279A0_00127F70[0] == 0) return 0; if (func_
 extern int D_004A12A4_00126058 __asm__("D_004A12A4"); extern char D_00343010_00126058[] __asm__("D_00343010"); extern int D_004A1AA8_00126058 __asm__("D_004A1AA8"); int func_001E4700(char *); int func_00196FF8_00126058(void) __asm__("func_00196FF8"); int func_0021F650(int);
 // MATCH func_00126058
 int battle_00126058(void) { if (D_004A12A4_00126058 != 11) return 0; if (func_001E4700(D_00343010_00126058) != 0) return 1; if (func_00196FF8_00126058() != 0) return 1; return func_0021F650(D_004A1AA8_00126058) != 0; }
+
+extern int D_004A6D74, D_004A6D6C, D_004A6D70, D_004A6D68; extern char D_0042FDA0[]; void *func_00162130_00126AA0(int, char *, int) __asm__("func_00162130"); void func_002DC650_00126AA0(void *, int, int) __asm__("func_002DC650");
+// MATCH func_00126AA0
+void battle_00126aa0(void) { void *p = func_00162130_00126AA0(D_004A6D74, D_0042FDA0, 8534); func_002DC650_00126AA0(p, D_004A6D6C, D_004A6D74); D_004A6D6C = (int)p; p = func_00162130_00126AA0(D_004A6D70, D_0042FDA0, 8538); func_002DC650_00126AA0(p, D_004A6D68, D_004A6D70); D_004A6D68 = (int)p; }
+
+extern int D_004A13D4, D_004A6E54, D_004A6D94; extern float D_004A6DAC; extern char D_00431B68[]; void func_001118F8_0012CAB8(char *, int) __asm__("func_001118F8"); void func_0011C068(int, int, float);
+// MATCH func_0012CAB8
+void ClearPlayerCamera(float a) { int old = D_004A13D4; D_004A13D4 = 12; D_004A6E54 = 0; if (a >= 0.0f) D_004A6DAC = a; func_001118F8_0012CAB8(D_00431B68, D_004A6D94); func_0011C068(D_004A6D94, 0, 0.0f); D_004A13D4 = old; }
