@@ -3722,3 +3722,7 @@ typedef struct { P_00164890 *w0; void *w4; int w8, w12; char p1[4]; int w20, w24
 extern char D_0043D2F0_00164890[] __asm__("D_0043D2F0"), D_0043C8C0[]; extern V8_00164890 D_004A2CD0[2]; void *func_00162130_00164890(int, char *, int) __asm__("func_00162130"); void func_001649C8_00164890(O_00164890 *) __asm__("func_001649C8"); void func_00164D10_00164890(O_00164890 *) __asm__("func_00164D10");
 // MATCH func_00164890
 O_00164890 *pachislot_00164890(O_00164890 *o, P_00164890 *p) { o->w12 = 0; o->w20 = 0; o->w24 = 0; o->w28 = p->w16; o->w32 = -1; o->w48 = D_0043D2F0_00164890; o->w0 = p; o->w8 = 0; o->w4 = func_00162130_00164890(p->w20, D_0043C8C0, 466); func_001649C8_00164890(o); func_00164D10_00164890(o); o->v = D_004A2CD0[0]; return o; }
+
+extern void (*D_004A1360)(void); extern void (*D_004A1364)(void); extern int D_004A12A4_0016BFD0 __asm__("D_004A12A4"); extern int D_004A2F24, D_004A2F28; extern char D_0043C8C0_0016BFD0[] __asm__("D_0043C8C0"), D_00334748[]; void func_00110490(void); void func_0016BF38(void); int func_00294210(void); void *func_00162130_0016BFD0(int, char *, int) __asm__("func_00162130"); int func_001670B8(void *, char *, int, int);
+// MATCH func_0016BFD0
+void pachislot_0016bfd0(void) { int r; void *p; D_004A1360 = func_00110490; D_004A12A4_0016BFD0 = 25; D_004A1364 = func_0016BF38; r = func_00294210(); p = func_00162130_0016BFD0(576, D_0043C8C0_0016BFD0, 4241); D_004A2F24 = func_001670B8(p, D_00334748, D_004A2F28, r); }
