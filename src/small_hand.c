@@ -3884,3 +3884,8 @@ void FUN_002cdf50(char *d) { if (d != 0) { unsigned n; if (func_002DD5E0_002CDF5
 int func_002C9420(void *, int); int func_002C9368(void *, int);
 // MATCH func_002C2250
 int FUN_002c2250(void *o) { func_002C9420(o, 56); func_002C9420(o, 40); while (func_002C9368(o, 1) == 1) func_002C9420(o, 24); return 1; }
+
+typedef struct { long long q0; int w8, w12, w16; long long q24; int w32, w36, w40; } O_002C9330;
+void func_002C9388(O_002C9330 *, int);
+// MATCH func_002C9330
+void FUN_002c9330(O_002C9330 *o, int b, int c, int d) { o->w40 = d; o->w8 = b; o->q0 = 0; o->w16 = 0; o->w12 = b; o->q24 = 0; o->w32 = c; o->w36 = c + d; func_002C9388(o, 0); }

@@ -18,3 +18,8 @@ int FUN_002e8b18(P_002E8B18 *p) { S_002E8B18 *q = p->s; if (q == 0 || p->k != q-
 typedef struct { char p[4]; int w4; } O_00166F90;
 // MATCH func_00166F90
 int pachislot_00166f90(O_00166F90 *o, int k) { if (o->w4 == 0) { if (k == 1) return 0; if (k == 2) return 0; } if (o->w4 == 1) { if (k == 3) return 1; } return -1; }
+
+typedef struct { char p[12]; int w12; char q[2120]; void *w2136; } O_002C35C8;
+void func_002C2D58(void *, int *); void func_002C3580(int);
+// MATCH func_002C35C8
+void FUN_002c35c8(O_002C35C8 *o, int b) { int t[2]; if (o->w2136 != 0 && o != 0 && o->w12 != 0) { t[1] = b; t[0] = 0; func_002C2D58(o->w2136, t); } else func_002C3580(b); }
