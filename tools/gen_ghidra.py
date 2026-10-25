@@ -134,10 +134,10 @@ def adapt_prototype(proto, callee, body, variant):
     if counts:
         n = counts.pop()
         params = params[:n] + ["int"] * (n - len(params))
-    if used and ret == "void":
+    if (used or variant == "intret") and ret == "void":
         ret = "int"
     p = f"{ret} {callee}({', '.join(params) or 'void'});"
-    if variant == "int":
+    if variant in ("int", "intret"):
         p = re.sub(r"\bulong\b", "uint", re.sub(r"\blong\b", "int", p))
     return p
 
@@ -202,7 +202,7 @@ def prepare(name, body, protos, variant, dat_types=()):
         if externs.setdefault(sym + "[]", t) != t:
             return None
         defines.append(d)
-    if variant == "int":
+    if variant in ("int", "intret"):
         body = re.sub(r"\bulong\b", "uint", re.sub(r"\blong\b", "int", body))
     if defines:
         body = ("\n".join(defines) + "\n" + body + "\n" +
@@ -539,7 +539,7 @@ def search_with(job, compiler, extra=()):
     flag_sets = [tuple(extra) + f + ((f"compiler={compiler}",) if compiler != "991111-01" else ())
                  for f in flag_choices(addr, size)]
     tried = set()  # options often give the same text (no long to change, no byte to sign)
-    for opts, variant, types in itertools.product(OPTIONS, ("int", "ghidra"), dat_type_choices(body0)):
+    for opts, variant, types in itertools.product(OPTIONS, VARIANTS, dat_type_choices(body0)):
         body, extra = rewrite(body0, opts)
         if opts and body == body0:
             continue
@@ -575,7 +575,11 @@ def search_with(job, compiler, extra=()):
     return None
 
 
-CACHE = os.path.join(ROOT, "build", "gen_ghidra_cache.json")
+# GG_INTRET=1: every void callee is declared int, whether or not the result is used (the callee's
+# return value register then stays live, which changes register choice); separate cache
+INTRET = bool(os.environ.get("GG_INTRET"))
+VARIANTS = ("intret",) if INTRET else ("int", "ghidra")
+CACHE = os.path.join(ROOT, "build", "gen_ghidra_intret_cache.json" if INTRET else "gen_ghidra_cache.json")
 
 
 # bump when a change to the search (rewrites, flags, compilers) can change
