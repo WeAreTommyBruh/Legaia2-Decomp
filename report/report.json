@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 8.137839,
+  "fuzzy_match_percent": 8.207459,
   "total_code": "2022408",
-  "matched_code": "156232",
-  "matched_code_percent": 7.725049,
+  "matched_code": "157640",
+  "matched_code_percent": 7.7946687,
   "total_data": "1768056",
   "matched_data": "136",
   "matched_data_percent": 0.0076920637,
   "total_functions": 6254,
-  "matched_functions": 3071,
-  "matched_functions_percent": 49.104576,
+  "matched_functions": 3075,
+  "matched_functions_percent": 49.168533,
   "total_units": 155
  },
  "units": [
@@ -14618,11 +14618,11 @@
     "total_code": "2980",
     "total_functions": 20,
     "total_units": 1,
-    "fuzzy_match_percent": 8.053691275167786,
-    "matched_code": "240",
-    "matched_code_percent": 8.053691275167786,
-    "matched_functions": 5,
-    "matched_functions_percent": 25.0,
+    "fuzzy_match_percent": 55.30201342281879,
+    "matched_code": "1648",
+    "matched_code_percent": 55.30201342281879,
+    "matched_functions": 9,
+    "matched_functions_percent": 45.0,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -14641,7 +14641,7 @@
      "name": ".text",
      "metadata": {},
      "size": "3008",
-     "fuzzy_match_percent": 8.24468085106383
+     "fuzzy_match_percent": 55.0531914893617
     }
    ],
    "functions": [
@@ -14688,66 +14688,70 @@
      "address": "712"
     },
     {
-     "name": "MallocLoadFileNB",
-     "size": "352",
-     "metadata": {},
-     "address": "824"
-    },
-    {
-     "name": "FUN_0018b508",
-     "size": "352",
-     "metadata": {},
-     "address": "1176"
-    },
-    {
-     "name": "FUN_0018b668",
-     "size": "352",
-     "metadata": {},
-     "address": "1528"
-    },
-    {
-     "name": "LoadFile",
-     "size": "352",
-     "metadata": {},
-     "address": "1880"
-    },
-    {
      "name": "FUN_0018b928",
      "size": "76",
      "metadata": {},
-     "address": "2232"
+     "address": "824"
     },
     {
      "name": "FUN_0018b998",
      "size": "160",
      "metadata": {},
-     "address": "2312"
+     "address": "904"
     },
     {
      "name": "FUN_0018ba38",
      "size": "176",
      "metadata": {},
-     "address": "2472"
+     "address": "1064"
     },
     {
      "name": "FUN_0018bb70",
      "size": "112",
      "metadata": {},
-     "address": "2648"
+     "address": "1240"
     },
     {
      "name": "FileGetSize",
      "size": "80",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "2760"
+     "address": "1352"
     },
     {
      "name": "FUN_0018b978",
      "size": "28",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "2840"
+     "address": "1432"
+    },
+    {
+     "name": "MallocLoadFileNB",
+     "size": "352",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "1464"
+    },
+    {
+     "name": "FUN_0018b508",
+     "size": "352",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "1816"
+    },
+    {
+     "name": "FUN_0018b668",
+     "size": "352",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "2168"
+    },
+    {
+     "name": "LoadFile",
+     "size": "352",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "2520"
     },
     {
      "name": "FUN_0018bae8",
@@ -46800,16 +46804,16 @@
    "id": "other",
    "name": "Other code (SDK, libraries, unattributed)",
    "measures": {
-    "fuzzy_match_percent": 8.088216,
+    "fuzzy_match_percent": 8.193426,
     "total_code": "1338268",
-    "matched_code": "103664",
-    "matched_code_percent": 7.746132,
+    "matched_code": "105072",
+    "matched_code_percent": 7.851342,
     "total_data": "1768048",
     "matched_data": "128",
     "matched_data_percent": 0.007239622,
     "total_functions": 4212,
-    "matched_functions": 2087,
-    "matched_functions_percent": 49.54891,
+    "matched_functions": 2091,
+    "matched_functions_percent": 49.643875,
     "total_units": 78
    }
   }
