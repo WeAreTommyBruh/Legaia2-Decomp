@@ -3443,3 +3443,19 @@ int pachislot_00168110(char *o, int b) { int r = 0; int i = 0; for (; i < 3; i++
 int func_00167730(void *, void *, int);
 // MATCH func_001681C8
 int pachislot_001681c8(char *o, int b) { int r = 0; int i = 0; for (; i < 3; i++) { r = func_00167730(o, o + 204, i + b); if (r) break; } return r; }
+
+extern float D_00419A70[][8];
+// MATCH func_00285908
+int FUN_00285908(char a, char b, int c) { return (int)(D_00419A70[(signed char)a][(signed char)b] * (float)c); }
+
+extern float D_00419B70[][8];
+// MATCH func_00285948
+int FUN_00285948(char a, char b, int c) { return (int)(D_00419B70[(signed char)a][(signed char)b] * (float)c); }
+
+extern char D_004A380A_001E40A8 __asm__("D_004A380A"); int func_001E3CD8(int); void func_001E3E38(int, int, int); void func_001E3380(int, int, int);
+// MATCH func_001E40A8
+int FUN_001e40a8(int a, int b, int c) { int r; if (D_004A380A_001E40A8 == 0) return 0; r = func_001E3CD8(a); if (r == 0) return 0; func_001E3E38(a, r, c); func_001E3380(a, r, 0); return r; }
+
+extern char D_004A380A_001E4120 __asm__("D_004A380A"); int func_001E3D98(int); void func_001E3E38(int, int, int); void func_001E3380(int, int, int);
+// MATCH func_001E4120
+int FUN_001e4120(int a, int b, int x, int c) { int r; if (D_004A380A_001E4120 == 0) return 0; r = func_001E3D98(a); if (r == 0) return 0; func_001E3E38(a, r, c); func_001E3380(a, r, 0); return r; }
