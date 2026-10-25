@@ -3829,3 +3829,21 @@ O_002021C0 *sprite_002021c0(O_002021C0 *o) { func_00201B08(o); o->w76 = D_004540
 extern int D_004A6CA0; extern char *D_004A1A20_00127100 __asm__("D_004A1A20"); extern char D_004312A0[]; int func_001118F8_00127100(char *) __asm__("func_001118F8"); void func_0021A650(char *, int);
 // MATCH func_00127100
 void battle_00127100(void) { int i; int off = 0; func_001118F8_00127100(D_004312A0); D_004A6CA0 = 1; for (i = 0; i < 20; i++) { func_0021A650(D_004A1A20_00127100 + off, i); off += 5472; } }
+
+extern int D_0062B640[]; int func_002CBB80(int); int func_002EDC50(void); void func_002EDC98(void);
+// MATCH func_002CB0A8
+int FUN_002cb0a8(int a) { int r, old; if (func_002CBB80(1)) return 0; r = func_002EDC50(); old = D_0062B640[0]; D_0062B640[0] = a; if (r != 0) func_002EDC98(); return old; }
+
+typedef struct { char p[76]; int w76; char q[56]; int w136; } O_0029FCC0;
+extern float D_004A0D88; void func_0029F948(O_0029FCC0 *); void func_0029F9B8(O_0029FCC0 *, float);
+// MATCH func_0029FCC0
+void clas_min_0029fcc0(O_0029FCC0 *o) { func_0029F948(o); o->w136 = 12000; func_0029F9B8(o, D_004A0D88); o->w76 = (o->w76 & ~4) | 0x800; }
+
+extern char *D_004A1A20_0024CFC8 __asm__("D_004A1A20"); int func_0024D4C0(int, int, int, float);
+// MATCH func_0024CFC8
+int FUN_0024cfc8(void) { int r = 0; int i; for (i = 0; i < 10; i++) { if (func_0024D4C0(i, 0, 2, 1.0f) >= 0) { r = 1; *(unsigned *)(D_004A1A20_0024CFC8 + i * 5472 + 4816) |= 0x80; } } return r; }
+
+typedef struct { char p[20]; int w20, w24, w28, w32; } O_0025E510;
+extern char D_00343010_0025E510[] __asm__("D_00343010"); void func_001E3380_0025E510(char *, int, int) __asm__("func_001E3380");
+// MATCH func_0025E510
+void FUN_0025e510(O_0025E510 *o, int b, int c, int d) { o->w24 = c; o->w28 = d; o->w20 = b; o->w32 = 0; func_001E3380_0025E510(D_00343010_0025E510, b, 0); func_001E3380_0025E510(D_00343010_0025E510, c, 0); }
