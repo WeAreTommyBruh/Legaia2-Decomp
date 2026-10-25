@@ -3909,3 +3909,22 @@ typedef struct { char p[100]; char *w100; char q[744]; void *w848; int w852, w85
 extern char D_0044CAE8[]; void func_00131588(void *); void func_001E2400(O_001E7F28 *, int);
 // MATCH func_001E7F28
 void yue_001e7f28(O_001E7F28 *o, int a) { o->w100 = D_0044CAE8; if (o->w848) func_00131588(o->w848); o->w848 = 0; o->w852 = 0; o->w856 = 0; o->w860 = 0; o->w864 = 0; o->w868 = 0; o->w872 = 0; func_001E2400(o, a); }
+
+typedef struct { char p[16]; char *w16; } P_00247A48;
+extern P_00247A48 *D_004A1524_00247A48 __asm__("D_004A1524");
+// MATCH func_00247A48
+void FUN_00247a48(unsigned a, unsigned long long b) { P_00247A48 *p = D_004A1524_00247A48; char *q = p->w16; *(unsigned long long *)q = b; *(unsigned long long *)(q + 8) = a; p->w16 = q + 16; }
+
+void func_002E5950(unsigned *); void func_002E5940(unsigned *);
+// MATCH func_002EDF80
+int FUN_002edf80(void) { unsigned a[2]; func_002E5950(a); a[1] = (a[0] & 0xffff1fff) | 0x2000; func_002E5940(&a[1]); func_002E5950(&a[1]); func_002E5940(a); return ((a[1] >> 13) & 7) == 0; }
+
+typedef struct { char p[20]; int w20; char q[4]; int w28, w32, w36, w40; } O_002E84A0;
+typedef struct { char p[20]; int w20; char q[4]; int w28, w32; } P_002E84A0;
+P_002E84A0 *func_002E8378(int); void func_002E7ED0(unsigned, P_002E84A0 *, int, int, int, int);
+// MATCH func_002E84A0
+void FUN_002e84a0(O_002E84A0 *o, int b) { P_002E84A0 *p = func_002E8378(b); int x = o->w20, y = o->w28; p->w20 = x; p->w28 = y; p->w32 = 0x8000000c; func_002E7ED0(0x80000008, p, 64, o->w32, o->w36, o->w40); }
+
+int func_002D7E48(int, int); int func_002D78B8(int, int); long long func_002EF470(int);
+// MATCH func_002EF410
+long long FUN_002ef410(int a) { int z = 0; __asm__("" : "+r"(z)); if (func_002D7E48(a, z) < 0) return -func_002EF470(func_002D78B8(z, a)); return func_002EF470(a); }
