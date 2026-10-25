@@ -3983,3 +3983,15 @@ void yue_001ea630(O_001EA630 *o, S_001EA630 *s) { float a = (float)o->w156, b = 
 extern int D_004A7164, D_004A7168, D_004A1418; extern long long D_005F7040[];
 // MATCH func_0023C6C0
 void FUN_0023c6c0(void) { int i; D_004A7168 = D_004A7164 / 32; D_004A7164 = D_004A1418 << 5; for (i = 63; i >= 0; i--) D_005F7040[i] = 0; }
+
+void func_0018F0B0(float *, int, int); float func_0018ECB8(float *, float *); void func_0018EF60(float, int, int, float *);
+// MATCH func_001795A0
+int FUN_001795a0(int a, int b, int c, int d) { float v0[4]; float v1[4]; float n, m; func_0018F0B0(v0, c, b); func_0018F0B0(v1, a, b); n = func_0018ECB8(v1, v0); m = func_0018ECB8(v0, v0); func_0018EF60(n / m, d, b, v0); return 1; }
+
+void func_0018F0B0(float *, int, int); void func_0018EC78_00179648(float *, float *, float *) __asm__("func_0018EC78"); float func_0018EB28(float *);
+// MATCH func_00179648
+float FUN_00179648(int a, int b, int c) { float v0[4]; float v1[4]; float v2[4]; float n, m; func_0018F0B0(v0, c, b); func_0018F0B0(v1, a, b); func_0018EC78_00179648(v2, v1, v0); n = func_0018EB28(v2); m = func_0018EB28(v0); return n / m; }
+
+float func_00178BB8(int, int, int);
+// MATCH func_00178BE8
+int FUN_00178be8(int p, int q, int r, int s) { float x = func_00178BB8(p, r, s); float y = func_00178BB8(q, r, s); if (x == 0.0f && y == 0.0f) return 0; if (x == y) return 1; return -1; }
