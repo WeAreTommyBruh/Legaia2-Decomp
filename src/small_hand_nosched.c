@@ -147,3 +147,8 @@ typedef struct { char p0[4]; int w4, w8, w12, w16, w20, w24, w28; char b32, b33;
 extern int D_004A3864, D_004A384C; extern char D_00454238[]; void func_001118F8(char *);
 // MATCH func_00202BC8
 void eftpack_00202bc8(O_00202BC8 *o) { if (D_004A3864 & 0x400) func_001118F8(D_00454238); o->b33 = 0; o->b32 = 1; o->w28 = 0; o->w4 = 0; o->w8 = 0; o->w12 = 0; o->w16 = 0; o->w20 = 0; o->w24 = 0; D_004A384C = 0; }
+
+typedef struct { char p[52]; void *vt; char q[56]; float f112; int w116, w120; float f124; char r[4]; } O_00154B10;
+extern float D_0049FF68; extern char D_0043B3B8[]; void func_0015EA80(void *, int, int, int, int);
+// MATCH func_00154B10
+O_00154B10 *FUN_00154b10(O_00154B10 *o) { o->w116 = 0; o->w120 = 0; o->f112 = 1.0f; o->f124 = D_0049FF68; o->vt = D_0043B3B8; func_0015EA80((char *)o + 128, 0, 3, 14, 6); return o; }
