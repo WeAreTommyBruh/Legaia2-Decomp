@@ -4230,3 +4230,25 @@ void clas_min_0029fd10(O_0029FD10 *o) { if (o->w76 & 0x800) { o->w136 = 0; func_
 extern int D_00343028_0010C5F0[] __asm__("D_00343028"); extern int D_004A3850_0010C5F0 __asm__("D_004A3850"), D_004A118C_0010C5F0 __asm__("D_004A118C"); extern char *D_004A12B0_0010C5F0 __asm__("D_004A12B0"); extern char D_0042D908[]; void func_001118F8_0010C5F0(char *, ...) __asm__("func_001118F8"); void func_002D4CF8(int, int, int);
 // MATCH func_0010C5F0
 void rsound_0010c5f0(int a, unsigned i, int c, int d) { if (!(D_00343028_0010C5F0[0] & 8) && D_004A3850_0010C5F0 != 2 && i < 48) { if (D_004A118C_0010C5F0 & 0x40) func_001118F8_0010C5F0(D_0042D908, D_004A12B0_0010C5F0); func_002D4CF8(i, c, d); } }
+
+extern int D_00343028_0010D7E8[] __asm__("D_00343028"), D_003436B4[]; extern int D_004A118C_0010D7E8 __asm__("D_004A118C"), D_004A11D8; extern char D_0042DFB8[]; void func_001118F8_0010D7E8(char *, ...) __asm__("func_001118F8"); int func_0010D8A0(int, int);
+// MATCH func_0010D7E8
+int FUN_0010d7e8(int a, int b, int c) { int r; if ((D_00343028_0010D7E8[0] ^ 1) & 1) return 0; if (D_004A118C_0010D7E8 & 1) func_001118F8_0010D7E8(D_0042DFB8, b); D_003436B4[0] = 100; r = func_0010D8A0(a, c); if (r < 0) return r; if ((unsigned)(b - 6) < 58) D_004A11D8 = b; else D_004A11D8 = -1; return r; }
+
+extern int D_00343028_0010DCC8[] __asm__("D_00343028"), D_003436B4_0010DCC8[] __asm__("D_003436B4"); extern int D_004A118C_0010DCC8 __asm__("D_004A118C"), D_004A11D8_0010DCC8 __asm__("D_004A11D8"); extern char D_0042E278[]; void func_001118F8_0010DCC8(char *, ...) __asm__("func_001118F8"); int func_0010DD80(int, int);
+// MATCH func_0010DCC8
+int FUN_0010dcc8(int a, int b, int c) { int r; if ((D_00343028_0010DCC8[0] ^ 1) & 1) return 0; if (D_004A118C_0010DCC8 & 1) func_001118F8_0010DCC8(D_0042E278, b); D_003436B4_0010DCC8[0] = 100; r = func_0010DD80(a, c); if (r < 0) return r; if ((unsigned)(b - 6) < 58) D_004A11D8_0010DCC8 = b; else D_004A11D8_0010DCC8 = -1; return r; }
+
+extern int D_00343028_00109630[] __asm__("D_00343028"); extern int D_004A3850_00109630 __asm__("D_004A3850"), D_004A118C_00109630 __asm__("D_004A118C"); extern volatile int D_004A1190_00109630 __asm__("D_004A1190"); extern char *D_004A12B0_00109630 __asm__("D_004A12B0"); extern char D_0042CBB8[]; void func_001118F8_00109630(char *, ...) __asm__("func_001118F8"); void func_002E57C0(void); int func_002D38A0(void); int func_002D3A98(int); void func_002D3968(void);
+// MATCH func_00109630
+void FUN_00109630(void) { if (!(D_00343028_00109630[0] & 8) && D_004A3850_00109630 != 2) { if (D_004A118C_00109630 & 0x40) func_001118F8_00109630(D_0042CBB8, D_004A12B0_00109630); for (;;) { func_002E57C0(); while (func_002D38A0() != 0) ; if (D_004A1190_00109630 == 0) D_004A1190_00109630 = func_002D3A98(0); func_002D3968(); } } }
+
+typedef struct { char p[4]; int w4, w8; } O_0010AB58;
+extern int D_00343028_0010AB58[] __asm__("D_00343028"); extern int D_004A3850_0010AB58 __asm__("D_004A3850"); int func_0010AC70(int, int, char *, int, char *, int, int);
+// MATCH func_0010AB58
+int FUN_0010ab58(int a, int b, O_0010AB58 *c, int d) { if (D_00343028_0010AB58[0] & 8) return 1; if (D_004A3850_0010AB58 == 2) return 1; if (c == 0) return -1; return func_0010AC70(a, b, (char *)c + 128, c->w4, (char *)c + 128 + c->w4, c->w8, d); }
+
+typedef struct { char p[4]; int w4, w8; } O_0010ABC0;
+extern int D_00343028_0010ABC0[] __asm__("D_00343028"); extern int D_004A3850_0010ABC0 __asm__("D_004A3850"); extern char D_0042CF40[], D_0042CF88[]; void func_001118F8_0010ABC0(char *, ...) __asm__("func_001118F8"); int func_0010B938(int, int, char *, int, char *, int, int);
+// MATCH func_0010ABC0
+int FUN_0010abc0(int a, int b, O_0010ABC0 *c, int d) { char *base, *end; int w4, w8; if (D_00343028_0010ABC0[0] & 8) return 1; if (D_004A3850_0010ABC0 == 2) return 1; if (c == 0) return -1; w4 = c->w4; base = (char *)c + 128; w8 = c->w8; end = (char *)c + (w4 + 128); if ((w4 & 0x7f) || (w8 & 0x7f)) { func_001118F8_0010ABC0(D_0042CF40, w4, w8, base, end, d); func_001118F8_0010ABC0(D_0042CF88); return -15; } return func_0010B938(a, b, base, w4, end, w8, d); }
