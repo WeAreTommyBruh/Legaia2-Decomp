@@ -127,3 +127,39 @@ void yue_001e9260(O_001E9260 *o, float *s) { o->a = (int)s[0]; o->b = s[1]; o->c
 
 // MATCH func_002C9368
 int FUN_002c9368(unsigned long long *p, int n) { return (int)(*p >> (64 - n)); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F3D8(int, int, float *);
+// MATCH func_0018F790
+void FUN_0018f790(int a, int b, float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[5] = c; m[6] = s; m[9] = -s; m[10] = c; func_0018F3D8(a, b, (float *)m); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F3D8(int, int, float *);
+// MATCH func_0018F818
+void FUN_0018f818(int a, float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[5] = c; m[6] = s; m[9] = -s; m[10] = c; func_0018F3D8(a, a, (float *)m); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F520(float *);
+// MATCH func_0018F898
+void FUN_0018f898(float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[5] = c; m[6] = s; m[9] = -s; m[10] = c; func_0018F520((float *)m); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F3D8(int, int, float *);
+// MATCH func_0018F900
+void FUN_0018f900(int a, int b, float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[0] = c; m[2] = -s; m[8] = s; m[10] = c; func_0018F3D8(a, b, (float *)m); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F3D8(int, int, float *);
+// MATCH func_0018F988
+void FUN_0018f988(int a, float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[0] = c; m[2] = -s; m[8] = s; m[10] = c; func_0018F3D8(a, a, (float *)m); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F520(float *);
+// MATCH func_0018FA08
+void FUN_0018fa08(float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[0] = c; m[2] = -s; m[8] = s; m[10] = c; func_0018F520((float *)m); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F3D8(int, int, float *);
+// MATCH func_0018FA70
+void FUN_0018fa70(int a, int b, float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[0] = c; m[1] = s; m[4] = -s; m[5] = c; func_0018F3D8(a, b, (float *)m); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F3D8(int, int, float *);
+// MATCH func_0018FAF8
+void FUN_0018faf8(int a, float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[0] = c; m[1] = s; m[4] = -s; m[5] = c; func_0018F3D8(a, a, (float *)m); }
+
+float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F520(float *);
+// MATCH func_0018FB78
+void FUN_0018fb78(float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[0] = c; m[1] = s; m[4] = -s; m[5] = c; func_0018F520((float *)m); }

@@ -4003,3 +4003,43 @@ int modelpkt_0017ffd0(int a, int b, int c, int d) { int n; D_00318C20[D_004A126C
 extern int D_00343028_0010BFA0[] __asm__("D_00343028"); extern int D_004A3850_0010BFA0 __asm__("D_004A3850"); extern volatile int D_004A1190;
 // MATCH func_0010BFA0
 int rsound_0010bfa0(void) { if (D_00343028_0010BFA0[0] & 8) return 0; if (D_004A3850_0010BFA0 == 2) return 0; return D_004A1190; }
+
+float func_0015FB58(int, float); void func_0018EC58_002499C0(float *) __asm__("func_0018EC58");
+// MATCH func_002499C0
+void FUN_002499c0(float *m, float ang) { float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58_002499C0(m); *(volatile float *)(m + 5) = c; *(volatile float *)(m + 6) = s; *(volatile float *)(m + 9) = -s; *(volatile float *)(m + 10) = c; }
+
+float func_0015FB58(int, float); void func_0018EC58_00249A30(float *) __asm__("func_0018EC58");
+// MATCH func_00249A30
+void FUN_00249a30(volatile float *m, float ang) { float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58_00249A30((float *)m); m[0] = c; m[2] = -s; m[8] = s; m[10] = c; }
+
+float func_0015FB58(int, float); void func_0018EC58_00249AA0(float *) __asm__("func_0018EC58");
+// MATCH func_00249AA0
+void FUN_00249aa0(volatile float *m, float ang) { float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58_00249AA0((float *)m); m[0] = c; m[1] = s; m[4] = -s; m[5] = c; }
+
+extern float D_00319760[]; void func_0018EC58_00249B10(float *) __asm__("func_0018EC58");
+// MATCH func_00249B10
+void FUN_00249b10(volatile float *m, int ang) { int i = ang & 0xfff; float c = D_00319760[i + 1024]; float s = D_00319760[i]; func_0018EC58_00249B10((float *)m); m[5] = c; m[6] = s; m[9] = -s; m[10] = c; }
+
+extern float D_00319760_00249B80[] __asm__("D_00319760"); void func_0018EC58_00249B80(float *) __asm__("func_0018EC58");
+// MATCH func_00249B80
+void FUN_00249b80(volatile float *m, int ang) { int i = ang & 0xfff; float c = D_00319760_00249B80[i + 1024]; float s = D_00319760_00249B80[i]; func_0018EC58_00249B80((float *)m); m[0] = c; m[2] = -s; m[8] = s; m[10] = c; }
+
+extern float D_00319760_00249BF0[] __asm__("D_00319760"); void func_0018EC58_00249BF0(float *) __asm__("func_0018EC58");
+// MATCH func_00249BF0
+void FUN_00249bf0(volatile float *m, int ang) { int i = ang & 0xfff; float c = D_00319760_00249BF0[i + 1024]; float s = D_00319760_00249BF0[i]; func_0018EC58_00249BF0((float *)m); m[0] = c; m[1] = s; m[4] = -s; m[5] = c; }
+
+extern char D_0042D8E8[]; extern int D_00343028_0010C570[] __asm__("D_00343028"); extern int D_004A3850_0010C570 __asm__("D_004A3850"), D_004A118C; extern char *D_004A12B0_0010C570 __asm__("D_004A12B0"); void func_001118F8_0010C570(char *, ...) __asm__("func_001118F8"); void func_002D4D98(int, int);
+// MATCH func_0010C570
+void rsound_0010c570(int a, int b, int c) { if (!(D_00343028_0010C570[0] & 8) && D_004A3850_0010C570 != 2) { if (D_004A118C & 0x40) func_001118F8_0010C570(D_0042D8E8, D_004A12B0_0010C570); func_002D4D98(b, c); } }
+
+extern char D_0042E448[]; extern int D_00343028_0010E250[] __asm__("D_00343028"); extern int D_004A3850_0010E250 __asm__("D_004A3850"), D_004A118C_0010E250 __asm__("D_004A118C"); extern char *D_004A12B0_0010E250 __asm__("D_004A12B0"); void func_001118F8_0010E250(char *, ...) __asm__("func_001118F8"); void func_002D51A8(int, int);
+// MATCH func_0010E250
+void FUN_0010e250(int a, int b) { if (!(D_00343028_0010E250[0] & 8) && D_004A3850_0010E250 != 2) { if (D_004A118C_0010E250 & 0x40) func_001118F8_0010E250(D_0042E448, D_004A12B0_0010E250); func_002D51A8(3, b); } }
+
+extern char D_0042E4D0[]; extern int D_00343028_0010E428[] __asm__("D_00343028"); extern int D_004A3850_0010E428 __asm__("D_004A3850"), D_004A118C_0010E428 __asm__("D_004A118C"); extern char *D_004A12B0_0010E428 __asm__("D_004A12B0"); void func_001118F8_0010E428(char *, ...) __asm__("func_001118F8"); void func_0010E2C0(int, int); void func_002D5280(int); void func_002D50E0(int); void func_002D5038(void);
+// MATCH func_0010E428
+void FUN_0010e428(int a) { if (!(D_00343028_0010E428[0] & 8) && D_004A3850_0010E428 != 2) { if (D_004A118C_0010E428 & 0x40) func_001118F8_0010E428(D_0042E4D0, D_004A12B0_0010E428); func_0010E2C0(a, 0); func_002D5280(3); func_002D50E0(0); func_002D50E0(1); func_002D5038(); } }
+
+extern char D_0042CD90[]; extern int D_004A118C_00109C68 __asm__("D_004A118C"); extern char *D_004A12B0_00109C68 __asm__("D_004A12B0"); void func_001118F8_00109C68(char *, ...) __asm__("func_001118F8"); void func_002D3FE0(int, int); void func_002D3FF8(int, int); void func_002D4010(int, int, int);
+// MATCH func_00109C68
+int FUN_00109c68(void) { if (D_004A118C_00109C68 & 0x40) func_001118F8_00109C68(D_0042CD90, D_004A12B0_00109C68); func_002D3FE0(0, 0x1fffff); func_002D3FE0(1, 0x1dffff); func_002D3FF8(0, 260); func_002D3FF8(1, 260); func_002D4010(0, 32767, 32767); func_002D4010(1, 32767, 32767); return 1; }
