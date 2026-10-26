@@ -4283,3 +4283,39 @@ int memo2_00100d50(char *o, int idx) { char buf[32]; int i = 0; char *p; func_00
 extern char D_0042EC08[], D_0042EC18[], D_004DDE00[]; extern int D_004A6BB0, D_004A6B9C; void func_001118F8_0010FE28(char *, ...) __asm__("func_001118F8"); int func_00196FF8_0010FE28(void) __asm__("func_00196FF8"); void func_002DD4CC_0010FE28(char *, char *) __asm__("func_002DD4CC");
 // MATCH func_0010FE28
 int FUN_0010fe28(char *name, int v) { func_001118F8_0010FE28(D_0042EC08, name); while (func_00196FF8_0010FE28() != 0) func_001118F8_0010FE28(D_0042EC18, D_004DDE00, name); func_002DD4CC_0010FE28(D_004DDE00, name); D_004A6BB0 = v; D_004A6B9C = 0; return 1; }
+
+typedef struct { int w0; char p[4]; short h8, h10, h12, h14; char q[10]; short h26, h28; char r[38]; int w68, w72; char s[22]; short h98; char t[28]; } X_00127080;
+extern X_00127080 D_00327AA0[]; extern float D_0049FE14; void func_00235028(X_00127080 *, float);
+// MATCH func_00127080
+void battle_00127080(int i, int a, int b, int c) { if (i < 6) { X_00127080 *o = &D_00327AA0[i]; o->h8 = b; o->h10 = c; o->h12 = b; o->h14 = c; o->h26 = b; o->h28 = c; o->w0 = 11; o->h98 = a; o->w72 = 0; o->w68 = 1; func_00235028(o, D_0049FE14); } }
+
+typedef struct { char p[144]; char *t; } Q29_0029EDA0;
+typedef struct { char p[60]; int i; } P29_0029EDA0;
+void func_002BD8F8(void);
+// 6 words differ
+// WIP func_0029EDA0
+// MATCH func_0029EDA0
+void clas_min_0029eda0(P29_0029EDA0 *p, Q29_0029EDA0 *q, int i)
+{
+  char *new_var;
+  p->i = i;
+  new_var = q->t + (i * 4);
+  *((void **) (new_var + 1024)) = (void *) func_002BD8F8;
+}
+
+typedef struct { int *w0; int w4; int w8; int w12; } Pk_002CF4B0;
+int func_002CF458(void *);
+// 2 words differ
+// WIP func_002CF4B0
+// MATCH func_002CF4B0
+void FUN_002cf4b0(Pk_002CF4B0 *o, int x)
+{
+  int r = func_002CF458(o);
+  int *p = o->w0;
+  o->w8 = r;
+  *(p++) = x | 0x10000000;
+ do { } while (0);
+  o->w12 = 0;
+  o->w0 = p + 1;
+  *p = 0;
+}
