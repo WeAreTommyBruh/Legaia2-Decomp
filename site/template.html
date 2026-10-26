@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legaia 2 Decompilation</title>
+<meta name="description" content="A matching decompilation of Legaia 2: Duel Saga (PAL, SLES-50891) for the PlayStation 2.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;600&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{
+  /* background */
+  --bg-top:#EC352E; --bg-bottom:#4E1F27; --bg-end:#24090F;
+  /* primary UI blues: light -> dark */
+  --blue-1:#3C8FCD; --blue-2:#2E4C88;
+  --blue-text:#2F74B0;      /* blue-1 darkened a little so white text keeps 4.5:1 */
+  --blue-hover-a:#55A6E3; --blue-hover-b:#3A5FA6;   /* lighter, for hover / focus */
+  --blue-press-a:#2E4C88; --blue-press-b:#223869;   /* darker, for pressed / deep surfaces */
+  /* accents */
+  --gold-1:#F2C40E; --gold-2:#EDB202;
+  /* borders */
+  --brown-1:#2A130B; --brown-2:#372B1D;
+  --text:#FFFFFF; --muted:#F7DCD6; --ink:#2A130B;
+  --serif:'Cinzel','Trajan Pro',Georgia,serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;color:var(--text);font:16px/1.65 'Noto Sans',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  background:linear-gradient(135deg,var(--bg-top) 0%,var(--bg-bottom) 62%,var(--bg-end) 100%) fixed;min-height:100vh}
+a{color:#fff;text-decoration:underline;text-decoration-color:var(--gold-1);text-underline-offset:3px}
+a:hover{color:var(--gold-1)}
+:focus-visible{outline:3px solid var(--gold-1);outline-offset:2px;border-radius:4px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+p{margin:.5em 0 1em}
+.label{color:var(--muted);font-size:14px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px}
+code{background:rgba(42,19,11,.75);padding:1px 6px;border-radius:5px;color:#fff}
+
+/* ---------- navigation (tabs) ---------- */
+nav{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,var(--brown-2),var(--brown-1));border-bottom:2px solid var(--brown-1);box-shadow:0 3px 0 var(--brown-2),0 8px 20px rgba(0,0,0,.35)}
+nav .wrap{display:flex;align-items:stretch;gap:4px;height:52px;overflow-x:auto;white-space:nowrap}
+nav b{font-family:var(--serif);letter-spacing:.08em;display:flex;align-items:center;margin-right:auto;padding-right:16px;color:#fff}
+nav a{display:flex;align-items:center;padding:0 14px;color:#fff;text-decoration:none;font-family:var(--serif);font-size:13px;letter-spacing:.06em;border-bottom:3px solid transparent;transition:background .12s}
+nav a:hover{background:linear-gradient(180deg,var(--blue-hover-a),var(--blue-hover-b));color:#fff}
+nav a:active{background:linear-gradient(180deg,var(--blue-press-a),var(--blue-press-b))}
+nav a[aria-current="true"]{border-bottom-color:var(--gold-1);background:linear-gradient(180deg,var(--blue-1),var(--blue-2))}
+nav a[aria-disabled="true"]{opacity:.45;pointer-events:none}
+
+/* ---------- hero ---------- */
+header.hero{padding:56px 0 30px}
+.eyebrow{display:inline-block;font-family:var(--serif);font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:#fff;background:rgba(42,19,11,.55);border:1px solid var(--brown-2);border-radius:4px;padding:4px 12px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.lead{font-size:20px;max-width:680px;margin:18px 0 0;color:#fff;text-shadow:0 1px 3px rgba(42,19,11,.7)}
+.lead .tag{display:inline-block;margin-right:8px;font-family:var(--serif);font-size:12px;letter-spacing:.16em;color:var(--ink);background:linear-gradient(180deg,var(--gold-1),var(--gold-2));border:1px solid var(--brown-1);border-radius:4px;padding:1px 8px;text-shadow:none;vertical-align:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hero-grid{display:grid;grid-template-columns:1fr minmax(240px,340px);gap:28px;align-items:center}
+.char{margin:0;justify-self:center}
+.char img{display:block;width:100%;max-width:340px;height:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.55))}
+@media (max-width:760px){.hero-grid{grid-template-columns:1fr}.char{max-width:260px;justify-self:start}}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;min-height:44px;border-radius:6px;border:2px solid var(--brown-1);cursor:pointer;
+  font-family:var(--serif);font-size:14px;letter-spacing:.08em;text-decoration:none;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55);
+  background:linear-gradient(180deg,var(--blue-1),var(--blue-2));box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 0 1px var(--brown-2),0 3px 8px rgba(0,0,0,.35);transition:filter .1s,transform .05s}
+.btn:hover{background:linear-gradient(180deg,var(--blue-hover-a),var(--blue-hover-b));color:#fff}
+.btn:active{background:linear-gradient(180deg,var(--blue-press-a),var(--blue-press-b));transform:translateY(1px);box-shadow:inset 0 2px 5px rgba(0,0,0,.5),0 0 0 1px var(--brown-2)}
+.btn.primary{background:linear-gradient(180deg,var(--gold-1),var(--gold-2));color:var(--ink);text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.btn.primary:hover{filter:brightness(1.08);background:linear-gradient(180deg,var(--gold-1),var(--gold-2));color:var(--ink)}
+.btn.primary:active{filter:brightness(.92)}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;filter:grayscale(.5);pointer-events:none}
+.btn[aria-pressed="true"],.btn.selected{outline:2px solid var(--gold-1);outline-offset:1px}
+
+/* ---------- sections ---------- */
+section{padding:44px 0;position:relative}
+section::before{content:'';position:absolute;left:50%;top:0;transform:translateX(-50%);width:min(980px,calc(100% - 32px));height:2px;background:linear-gradient(90deg,transparent,var(--brown-2),var(--brown-1),var(--brown-2),transparent)}
+section::after{content:'';position:absolute;left:50%;top:-5px;width:10px;height:10px;transform:translateX(-50%) rotate(45deg);background:linear-gradient(135deg,var(--gold-1),var(--gold-2));border:1px solid var(--brown-1)}
+h2{font-family:var(--serif);font-size:26px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 14px;color:#fff;text-shadow:2px 2px 0 rgba(42,19,11,.7)}
+h3{font-family:var(--serif);font-size:16px;letter-spacing:.12em;margin:22px 0 6px;color:#fff;text-shadow:1px 1px 0 rgba(42,19,11,.7)}
+h3::before{content:'';display:inline-block;width:8px;height:8px;margin-right:9px;transform:rotate(45deg);background:var(--gold-1);border:1px solid var(--brown-1)}
+
+/* ---------- cards / panels ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.card,.panel{background:linear-gradient(180deg,var(--blue-text),var(--blue-2));border:2px solid var(--brown-1);border-radius:8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 0 0 1px var(--brown-2),0 8px 20px rgba(0,0,0,.35);padding:16px}
+.card .label{color:#EAF3FF}
+.stat{font-family:var(--serif);font-size:42px;font-weight:700;line-height:1.1;color:var(--gold-1);text-shadow:0 2px 0 var(--brown-1)}
+.stat small{font-size:17px;color:#fff;font-weight:400;font-family:'Noto Sans',sans-serif;text-shadow:none}
+
+/* ---------- progress bars ---------- */
+.bar{height:12px;background:var(--brown-1);border:1px solid var(--brown-2);border-radius:99px;overflow:hidden;margin-top:12px;box-shadow:inset 0 2px 3px rgba(0,0,0,.5)}
+.bar i{display:block;height:100%;min-width:2px;background:linear-gradient(180deg,var(--gold-1),var(--gold-2));border-radius:99px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
+
+/* ---------- badges / pills ---------- */
+.pill{display:inline-block;font-family:var(--serif);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:99px;margin-left:6px;vertical-align:1px;border:1px solid var(--brown-1);color:#fff;background:linear-gradient(180deg,var(--blue-1),var(--blue-2))}
+.pill.ok{color:var(--ink);background:linear-gradient(180deg,var(--gold-1),var(--gold-2))}
+
+/* ---------- milestone steps ---------- */
+.steps{counter-reset:s;margin:0;padding:0;list-style:none;overflow:hidden;background:linear-gradient(180deg,var(--blue-text),var(--blue-2));border:2px solid var(--brown-1);border-radius:8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 0 0 1px var(--brown-2),0 8px 20px rgba(0,0,0,.35)}
+.steps li{counter-increment:s;position:relative;padding:16px 16px 16px 66px;min-width:0;overflow-wrap:anywhere;border-bottom:2px solid var(--brown-1);box-shadow:0 1px 0 rgba(255,255,255,.12)}
+.steps li:last-child{border-bottom:none;box-shadow:none}
+.steps li::before{content:'';position:absolute;left:22px;top:20px;width:26px;height:26px;transform:rotate(45deg);border-radius:4px;background:linear-gradient(135deg,var(--gold-1),var(--gold-2));border:1px solid var(--brown-1);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.steps li::after{content:counter(s);position:absolute;left:22px;top:20px;width:26px;height:26px;display:grid;place-items:center;color:var(--ink);font-weight:700;font-size:14px;line-height:1}
+.steps b{display:block;font-family:var(--serif);letter-spacing:.06em}
+
+/* ---------- tables ---------- */
+.scroll{overflow-x:auto;border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:linear-gradient(180deg,var(--blue-text),var(--blue-2));border:2px solid var(--brown-1);border-radius:8px;overflow:hidden}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--brown-2);vertical-align:top}
+th{background:linear-gradient(180deg,var(--brown-2),var(--brown-1));color:#fff;font-family:var(--serif);letter-spacing:.08em;font-size:12px}
+tbody tr:hover{background:rgba(85,166,227,.35)}
+tbody tr[aria-selected="true"]{background:rgba(242,196,14,.28);box-shadow:inset 3px 0 0 var(--gold-1)}
+tr:last-child td{border-bottom:none}
+th[data-k]{cursor:pointer;user-select:none}
+th[data-k]:hover{background:linear-gradient(180deg,var(--blue-hover-a),var(--blue-hover-b))}
+th.sorted::after{content:" ↓";color:var(--gold-1)} th.sorted.asc::after{content:" ↑"}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+td.barcol{width:26%;min-width:90px}
+td.barcol .bar{margin:0;height:8px}
+#units td:first-child{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px}
+
+/* ---------- code ---------- */
+pre{background:var(--brown-1);border:2px solid var(--brown-2);border-left:4px solid var(--gold-2);border-radius:6px;padding:14px;overflow-x:auto;margin:10px 0 18px;color:#fff}
+pre code{background:none;padding:0}
+.note{border-left:4px solid var(--gold-1);background:rgba(42,19,11,.7);padding:10px 14px;border-radius:0 8px 8px 0;color:#fff}
+
+/* ---------- forms ---------- */
+.toolbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:10px 0}
+input[type=search],input[type=text]{min-height:42px;padding:8px 12px;min-width:200px;font:inherit;color:#fff;background:var(--brown-1);border:2px solid var(--brown-2);border-radius:6px}
+input[type=search]::placeholder{color:#D9BDB6}
+input[type=search]:hover{border-color:var(--blue-1)}
+input[type=search]:focus{border-color:var(--gold-1);outline:none;box-shadow:0 0 0 3px rgba(242,196,14,.35)}
+input:disabled{opacity:.5;cursor:not-allowed}
+label{display:flex;gap:7px;align-items:center;font-size:14px;color:#fff;cursor:pointer}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--gold-1);cursor:pointer}
+details.tbl{margin:10px 0 16px}
+details.tbl summary{cursor:pointer;display:inline-block;padding:8px 14px;border-radius:6px;font-family:var(--serif);font-size:13px;letter-spacing:.08em;margin-bottom:10px;background:linear-gradient(180deg,var(--blue-1),var(--blue-2));border:2px solid var(--brown-1);text-shadow:0 1px 2px rgba(0,0,0,.5)}
+details.tbl summary:hover{background:linear-gradient(180deg,var(--blue-hover-a),var(--blue-hover-b))}
+details.tbl[open] summary{outline:2px solid var(--gold-1);outline-offset:1px}
+
+/* ---------- treemap ---------- */
+.treemap{position:relative;width:100%;height:560px;background:var(--brown-1);border:2px solid var(--brown-1);box-shadow:0 0 0 1px var(--brown-2),0 8px 20px rgba(0,0,0,.35);border-radius:6px;overflow:hidden}
+.treemap .c{position:absolute;overflow:hidden;cursor:pointer;border:1px solid var(--brown-1);transition:filter .1s}
+.treemap .c:hover{filter:brightness(1.25);z-index:2}
+.treemap .c:active{filter:brightness(.85)}
+.treemap .c:focus-visible{outline:3px solid var(--gold-1);outline-offset:-3px;z-index:3}
+.treemap .c.sel{outline:3px solid var(--gold-1);outline-offset:-3px;z-index:3}
+.treemap .c b{position:absolute;left:0;bottom:0;width:100%;pointer-events:none;background:linear-gradient(180deg,rgba(242,196,14,.85),rgba(237,178,2,.85))}
+.treemap .c span{position:absolute;left:5px;top:3px;right:3px;font:11px/1.2 ui-monospace,Menlo,Consolas,monospace;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--brown-1);color:#fff;border:2px solid var(--brown-2);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.4;max-width:260px;box-shadow:0 6px 18px rgba(0,0,0,.5)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin:8px 0 14px;color:#fff}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px;border:1px solid var(--brown-1)}
+
+/* ---------- modal ---------- */
+dialog{padding:0;border:none;background:none;color:#fff;max-width:min(460px,calc(100% - 32px));width:100%}
+dialog::backdrop{background:rgba(42,19,11,.7);backdrop-filter:blur(2px)}
+.modal{background:linear-gradient(180deg,var(--blue-text),var(--blue-2));border:3px solid var(--brown-1);border-radius:10px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),0 0 0 2px var(--brown-2),0 18px 40px rgba(0,0,0,.6);padding:18px}
+.modal h3{margin:0 0 8px;font-size:18px}
+.modal h3::before{display:none}
+.modal .row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--brown-2);padding:6px 0}
+.modal .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+
+footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:13px;letter-spacing:.08em;color:#fff;background:linear-gradient(180deg,var(--brown-2),var(--brown-1));border-top:3px solid var(--brown-1)}
+@media (max-width:560px){ nav .wrap{gap:0} header.hero{padding-top:36px} .treemap{height:480px} .lead{font-size:18px} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav aria-label="Sections"><div class="wrap">
+  <b>Legaia 2 Decomp</b>
+  <a href="#progress">Progress</a><a href="#milestones">Milestones</a><a href="#tools">Format tools</a><a href="#setup">Setup</a><a href="#about">About</a><a href="#help">Help</a><a href="#legal">Legal</a>
+</div></nav>
+
+<header class="hero"><div class="wrap hero-grid">
+  <div class="hero-text">
+    <div class="eyebrow">Matching decompilation · PlayStation 2</div>
+    <h1 class="sr">Legaia 2: Duel Saga decompilation</h1>
+    <p class="lead"><span class="tag">PAL · SLES-50891</span>This is an ongoing effort to reverse engineer Legaia 2: Duel Saga (PAL).</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/WeAreTommyBruh/Legaia2-Decomp">View on GitHub</a>
+    </div>
+  </div>
+  <figure class="char">
+    <img src="{{LANG}}" alt="Lang, the main character of Legaia 2: Duel Saga" width="354" height="389">
+  </figure>
+</div></header>
+
+<main>
+<section id="progress"><div class="wrap">
+  <h2>Progress</h2>
+  <p>How much of the game is decompiled, and every unit. A function counts only when its C compiles to the original bytes. Numbers come from the project's report, generated {{DATE}}.</p>
+  <div class="grid">
+    <div class="card"><div class="stat">{{CODE_PCT}}<small>%</small></div><div class="label">of the game's code decompiled</div>
+      <div class="bar" role="progressbar" aria-valuenow="{{CODE_PCT}}" aria-valuemin="0" aria-valuemax="100" aria-label="Code matched"><i style="width:{{CODE_PCT_W}}%"></i></div>
+      <div class="label" style="margin-top:8px">{{CODE_MATCHED}} of {{CODE_TOTAL}} bytes</div></div>
+    <div class="card"><div class="stat">{{FN_MATCHED}}<small> / {{FN_TOTAL}}</small></div><div class="label">functions matched ({{FN_PCT}}%)</div>
+      <div class="bar" role="progressbar" aria-valuenow="{{FN_PCT}}" aria-valuemin="0" aria-valuemax="100" aria-label="Functions matched"><i style="width:{{FN_PCT_W}}%"></i></div></div>
+    <div class="card"><div class="stat">{{UNITS_TOUCHED}}<small> / {{UNITS_TOTAL}}</small></div><div class="label">units with at least one matched function</div>
+      <div class="bar" role="progressbar" aria-valuenow="{{UNITS_W}}" aria-valuemin="0" aria-valuemax="100" aria-label="Units started"><i style="width:{{UNITS_W}}%"></i></div></div>
+  </div>
+
+  <h3>Units</h3>
+  <p class="label">Each rectangle is one unit (a source file of the original game, or a block of code between known files). Its area is the unit's code size; the colour is how much of it is matched. Hover for details, click or press Enter for the full card.</p>
+  <div id="tm" class="treemap" role="group" aria-label="Treemap of units by code size and match percentage"></div>
+  <div id="tip" class="tip" hidden></div>
+  <div class="legend"><span><i style="background:#372B1D"></i> 0%</span><span><i style="background:#2E4C88"></i> low</span><span><i style="background:#3C8FCD"></i> higher</span><span><i style="background:linear-gradient(180deg,#F2C40E,#EDB202)"></i> matched part of a unit / 100%</span></div>
+  <details class="tbl">
+    <summary>Show as a table</summary>
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="Filter units…" aria-label="Filter units">
+      <label><input id="hide" type="checkbox"> hide units with 0%</label>
+      <label><input id="named" type="checkbox"> hide <code>_unknown</code> blocks</label>
+      <span id="count" class="label"></span>
+    </div>
+    <div class="scroll"><table id="units">
+      <thead><tr><th data-k="name">Unit</th><th data-k="fn" class="num">Functions</th><th data-k="bytes" class="num">Matched bytes</th><th data-k="pct" class="num sorted">Matched</th><th class="barcol"></th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </details>
+</div></section>
+
+<section id="milestones"><div class="wrap">
+  <h2>Milestones</h2>
+  <ol class="steps">
+    <li><b>Identify the compiler <span class="pill ok">done</span></b>The game's code was built with <code>ee-gcc 2.9-ee-991111-01</code>, <code>-O2 -G8</code>. Hundreds of functions compile byte-identical with it.</li>
+    <li><b>Rebuild the executable from assembly <span class="pill ok">done</span></b>The whole <code>.text</code> is split per source file and reassembled; the result matches the original byte for byte.</li>
+    <li><b>Match functions in C <span class="pill">in progress</span></b>Each function is rewritten until it compiles to the same bytes, then switched over from assembly to C.</li>
+  </ol>
+</div></section>
+
+<section id="tools"><div class="wrap">
+  <h2>Format tools</h2>
+  <p>Besides the code, the repository contains Python tools that read the game's data from your own disc image. None of the game's files are included.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Tool</th><th>What it does</th></tr></thead>
+    <tbody>
+    <tr><td><code>fs_tool.py</code></td><td>List and extract the game's archive straight from the ISO</td></tr>
+    <tr><td><code>lzss.py</code></td><td>Decompress <code>.lzs</code> files and archives</td></tr>
+    <tr><td><code>pac_tool.py</code></td><td>Split <code>.pac</code> map packages into chunks</td></tr>
+    <tr><td><code>tex_tool.py</code></td><td>Convert texture sets to PNG</td></tr>
+    <tr><td><code>tmd_tool.py</code></td><td>Convert <code>.tmd</code> models to Wavefront OBJ</td></tr>
+    <tr><td><code>adpcm.py</code>, <code>sq2mid.py</code></td><td>Audio streams to WAV; music sequences to MIDI</td></tr>
+    <tr><td><code>battle_script.py</code></td><td>Battle script opcode reference and disassembler</td></tr>
+    <tr><td><code>mov_tool.py</code>, <code>efp_tool.py</code>, <code>msg_tool.py</code></td><td>Animation clips, effect packs, message containers</td></tr>
+    <tr><td><code>pss_demux.py</code></td><td>Split the movie file into video and audio</td></tr>
+    </tbody>
+  </table></div>
+  <p>Details and format notes: <a href="https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/main/FORMATS.md">FORMATS.md</a>.</p>
+</div></section>
+
+<section id="setup"><div class="wrap">
+  <h2>Setup</h2>
+  <h3>Linux</h3>
+<pre><code>git clone https://github.com/WeAreTommyBruh/Legaia2-Decomp.git
+mkdir -p ~/tools/ee-gcc2.9-991111-01
+curl -L https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111-01.tar.xz \
+  | tar xJ -C ~/tools/ee-gcc2.9-991111-01
+
+# put SLES_50891.ISO in the repository root, then:
+python3 tools/asm_build.py all     # rebuild + byte-identical check
+python3 tools/progress.py          # PROGRESS.md
+python3 tools/report.py            # report/report.json</code></pre>
+  <h3>Windows</h3>
+  <p>You need to install <a href="https://github.com/microsoft/WSL">WSL</a> with Ubuntu or Debian, then follow the Linux steps.</p>
+</div></section>
+
+<section id="about"><div class="wrap">
+  <h2>About</h2>
+  <div class="card">
+    <p style="margin-top:0">This decompilation project is heavily AI assisted. I check everything one by one to make sure there is nothing wrong.</p>
+    <p style="margin-bottom:0">The project was made by <a href="https://github.com/WeAreTommyBruh">WeAreTommyBruh</a>.</p>
+    <div class="cta"><a class="btn" href="https://github.com/WeAreTommyBruh">GitHub profile</a></div>
+  </div>
+</div></section>
+
+<section id="help"><div class="wrap">
+  <h2>Want to help?</h2>
+  <p>Read <a href="https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> for details.</p>
+  <div class="cta"><a class="btn primary" href="https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/main/CONTRIBUTING.md">Contributing guide</a></div>
+</div></section>
+
+<section id="legal"><div class="wrap">
+  <h2>Legal</h2>
+  <div class="note">The repo contains no game assets. You will need to provide your own Legaia 2: Duel Saga (PAL) disc image.<br>The character artwork on this page belongs to its respective owners.</div>
+</div></section>
+</main>
+
+<footer><div class="wrap">Legaia 2 Decompilation · by <a href="https://github.com/WeAreTommyBruh">WeAreTommyBruh</a> · progress generated {{DATE}} · <a href="https://github.com/WeAreTommyBruh/Legaia2-Decomp">Repository</a></div></footer>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <div class="modal">
+    <h3 id="dlg-title">Unit</h3>
+    <div class="bar" role="progressbar" id="dlg-bar" aria-valuemin="0" aria-valuemax="100" aria-label="Unit matched"><i style="width:0"></i></div>
+    <div class="row"><span>Matched</span><b id="dlg-pct"></b></div>
+    <div class="row"><span>Code bytes</span><b id="dlg-bytes"></b></div>
+    <div class="row"><span>Functions</span><b id="dlg-fn"></b></div>
+    <div class="actions">
+      <button class="btn primary" id="dlg-close" type="button">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+var UNITS={{UNITS_JSON}};
+(function(){
+  var tm=document.getElementById('tm'), tip=document.getElementById('tip'), dlg=document.getElementById('dlg'), selected=null;
+  var data=UNITS.filter(function(u){return u.total>0;}).sort(function(a,b){return b.total-a.total;});
+  function col(p){
+    if(p<=0) return '#372B1D';
+    if(p>=99.9) return '#F2C40E';
+    var k=Math.min(1,Math.sqrt(p/100)*1.15), a=[46,76,136], b=[60,143,205];   /* #2E4C88 -> #3C8FCD */
+    return 'rgb('+a.map(function(x,i){return Math.round(x+(b[i]-x)*k);}).join(',')+')';
+  }
+  function worst(row,side,scale){var s=0,mx=0,mn=1e18;row.forEach(function(r){var v=r.total*scale;s+=v;if(v>mx)mx=v;if(v<mn)mn=v;});var s2=s*s,w2=side*side;return Math.max(w2*mx/s2,s2/(w2*mn));}
+  function layout(items,x,y,w,h){
+    var out=[],total=items.reduce(function(s,i){return s+i.total;},0),scale=w*h/total,rest=items.slice();
+    while(rest.length){
+      var side=Math.min(w,h),row=[rest[0]],i=1;
+      while(i<rest.length){var nr=row.concat([rest[i]]); if(worst(nr,side,scale)<=worst(row,side,scale)){row=nr;i++;}else break;}
+      var area=row.reduce(function(s,r){return s+r.total*scale;},0);
+      if(w>=h){var rw=area/h,yy=y;row.forEach(function(r){var rh=r.total*scale/rw;out.push({u:r,x:x,y:yy,w:rw,h:rh});yy+=rh;});x+=rw;w-=rw;}
+      else{var rh2=area/w,xx=x;row.forEach(function(r){var rw2=r.total*scale/rh2;out.push({u:r,x:xx,y:y,w:rw2,h:rh2});xx+=rw2;});y+=rh2;h-=rh2;}
+      rest=rest.slice(row.length);
+    }
+    return out;
+  }
+  function openUnit(u){
+    selected=u.name;
+    document.getElementById('dlg-title').textContent=u.name;
+    document.getElementById('dlg-pct').textContent=u.pct.toFixed(1)+'%';
+    document.getElementById('dlg-bytes').textContent=u.bytes.toLocaleString()+' / '+u.total.toLocaleString();
+    document.getElementById('dlg-fn').textContent=u.mfn+' / '+u.fn;
+    var bar=document.getElementById('dlg-bar'); bar.setAttribute('aria-valuenow',u.pct.toFixed(1)); bar.firstElementChild.style.width=u.pct+'%';
+    mark(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+  }
+  function mark(){tm.querySelectorAll('.c').forEach(function(c){c.classList.toggle('sel',c.dataset.n===selected);});
+    document.querySelectorAll('#units tbody tr').forEach(function(r){r.setAttribute('aria-selected',r.dataset.n===selected?'true':'false');});}
+  document.getElementById('dlg-close').addEventListener('click',function(){dlg.close?dlg.close():dlg.removeAttribute('open');});
+  dlg.addEventListener('click',function(e){if(e.target===dlg) dlg.close();});
+  function draw(){
+    var W=tm.clientWidth,H=tm.clientHeight; tm.innerHTML='';
+    layout(data,0,0,W,H).forEach(function(c){
+      var d=document.createElement('div'); d.className='c'; d.dataset.n=c.u.name; d.tabIndex=0; d.setAttribute('role','button');
+      d.setAttribute('aria-label',c.u.name+', '+c.u.pct.toFixed(1)+' percent matched');
+      d.style.cssText='left:'+c.x+'px;top:'+c.y+'px;width:'+c.w+'px;height:'+c.h+'px;background:'+col(c.u.pct);
+      if(c.u.pct>0&&c.u.pct<99.9){var b=document.createElement('b'); b.style.height=Math.max(2,c.u.pct)+'%'; d.appendChild(b);}
+      if(c.w>70&&c.h>18){var s=document.createElement('span'); s.textContent=c.u.name; if(c.u.pct>=99.9) s.style.color='#2A130B',s.style.textShadow='none'; d.appendChild(s);}
+      d.addEventListener('mousemove',function(e){
+        tip.hidden=false;
+        tip.innerHTML='<b>'+c.u.name+'</b><br>'+c.u.pct.toFixed(1)+'% matched<br>'+c.u.bytes.toLocaleString()+' / '+c.u.total.toLocaleString()+' bytes<br>'+c.u.mfn+' / '+c.u.fn+' functions';
+        var x=e.clientX+14,y=e.clientY+14; if(x+270>innerWidth) x=e.clientX-274; if(y+110>innerHeight) y=e.clientY-110;
+        tip.style.left=x+'px'; tip.style.top=y+'px';
+      });
+      d.addEventListener('mouseleave',function(){tip.hidden=true;});
+      d.addEventListener('click',function(){openUnit(c.u);});
+      d.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openUnit(c.u);}});
+      tm.appendChild(d);
+    });
+    mark();
+  }
+  draw(); var t; addEventListener('resize',function(){clearTimeout(t);t=setTimeout(draw,80);});
+
+  /* table */
+  var tb=document.querySelector('#units tbody'), q=document.getElementById('q'), hide=document.getElementById('hide'), named=document.getElementById('named'), cnt=document.getElementById('count');
+  var key='pct', asc=false;
+  function drawTable(){
+    var s=q.value.trim().toLowerCase();
+    var rows=UNITS.filter(function(u){
+      if(u.total<=0) return false;
+      if(s && u.name.toLowerCase().indexOf(s)<0) return false;
+      if(hide.checked && u.pct===0) return false;
+      if(named.checked && u.name.indexOf('_unknown')===0) return false;
+      return true;
+    });
+    rows.sort(function(a,b){var x=a[key],y=b[key]; var r=(typeof x==='string')?x.localeCompare(y):x-y; if(r===0) r=b.bytes-a.bytes; return asc?r:-r;});
+    tb.innerHTML=rows.map(function(u){
+      return '<tr data-n="'+u.name+'" tabindex="0"><td>'+u.name+'</td><td class="num">'+u.mfn+' / '+u.fn+'</td><td class="num">'+u.bytes.toLocaleString()+' / '+u.total.toLocaleString()+'</td><td class="num">'+u.pct.toFixed(1)+'%</td><td class="barcol"><div class="bar"><i style="width:'+u.pct+'%"></i></div></td></tr>';
+    }).join('');
+    tb.querySelectorAll('tr').forEach(function(r,i){
+      var u=rows[i];
+      r.addEventListener('click',function(){openUnit(u);});
+      r.addEventListener('keydown',function(e){if(e.key==='Enter'){openUnit(u);}});
+    });
+    cnt.textContent=rows.length+' units'; mark();
+  }
+  document.querySelectorAll('#units th[data-k]').forEach(function(th){
+    th.addEventListener('click',function(){
+      var k=th.getAttribute('data-k'); if(k===key) asc=!asc; else {key=k; asc=(k==='name');}
+      document.querySelectorAll('#units th').forEach(function(x){x.classList.remove('sorted','asc');});
+      th.classList.add('sorted'); if(asc) th.classList.add('asc'); drawTable();
+    });
+  });
+  [q,hide,named].forEach(function(e){e.addEventListener('input',drawTable);});
+  drawTable();
+
+  /* navigation: mark the tab of the section in view */
+  var links=[].slice.call(document.querySelectorAll('nav a[href^="#"]'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){links.forEach(function(a){a.setAttribute('aria-current',a.getAttribute('href')==='#'+e.target.id?'true':'false');});}
+    });},{rootMargin:'-45% 0px -50% 0px'});
+    document.querySelectorAll('main section').forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+</body>
+</html>
