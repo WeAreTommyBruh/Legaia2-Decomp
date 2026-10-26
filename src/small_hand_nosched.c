@@ -162,3 +162,7 @@ typedef struct { float a, b, c, d, e, f, g; int pad; int h; } E_001D8368;
 typedef struct { char p[224]; E_001D8368 e; } O_001D8368;
 // MATCH func_001D8368
 void nayuki_001d8368(O_001D8368 *o, float x) {  if (-1.0f < x) { float z = 0.0f; E_001D8368 *p = &o->e; p->d = z; __asm__("" : "+f"(z)); p->b = x; p->c = x; p->f = z; p->e = z; p->g = z; o->e.a = x; p->h = 1;  }  }
+
+extern char D_0045D4F0[]; void func_002444C0(void); void func_001621F8(int, char *, int);
+// MATCH func_00246368
+void work_00246368(int *o) { if (o[36]) { func_002444C0(); func_001621F8(o[36], D_0045D4F0, 223); o[36] = 0; } if (o[85]) { func_001621F8(o[85], D_0045D4F0, 227); o[85] = 0; } if (o[96]) func_001621F8(o[96], D_0045D4F0, 232); if (o[97]) func_001621F8(o[97], D_0045D4F0, 235); o[97] = 0; o[96] = 0; }

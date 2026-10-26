@@ -110,3 +110,11 @@ int FUN_0023c728(char *d, char *s) { while (*d++); d--; while (*s) *d++ = *s++; 
 int func_001659A8(void *);
 // MATCH func_00165A40
 int pachislot_00165a40(int *o, int k) { int i; int *t; if (func_001659A8(o)) return 0; i = o[18] + k; t = (int *)o[0]; if (i < 0) i += t[5]; if (i >= t[5]) i -= t[5]; return ((char *)o[1])[i]; }
+
+int func_002DD36C(void *, void *);
+// MATCH func_002469A0
+int work_002469a0(char *o, char *key) { int n, i; if (*(int *)(o + 152) == 0) return -1; if (key == 0) return -1; n = **(int **)(o + 152); for (i = 0; i < n; i++) { char *t = *(char **)(o + 152); if (func_002DD36C(key, t + ((int *)t)[i + 1] + 8) == 0) return i; } return -1; }
+
+extern char *D_004A1A20; extern char D_00431C68[]; void func_001118F8_0012D248(char *, ...) __asm__("func_001118F8");
+// MATCH func_0012D248
+void FUN_0012d248(void) { int i, off = 0; for (i = 0; i < 20; i++) { char *e = (char *)(off + (int)D_004A1A20); int *p, *q; off += 5472; p = *(int **)(e + 5424); if (p) { *(int *)(e + 5364) = p[17]; func_001118F8_0012D248(D_00431C68, i, p[17]); } else { q = *(int **)(e + 5380); if (q) *(int *)(e + 5364) = q[17]; } } }

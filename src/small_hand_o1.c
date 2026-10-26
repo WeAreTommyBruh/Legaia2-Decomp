@@ -62,3 +62,6 @@ void FUN_001947a8(int a, int k, int p, int q, int r) { switch (k) { case 0: func
 void func_0018A658(char *, char *); char *func_002DD1DC(char *, int); char *func_0018A708(char *);
 // MATCH func_0018B1F8
 int FUN_0018b1f8(char *name) { char buf[256]; char *p, *e; if (name == 0) return -1; func_0018A658(name, buf); p = func_002DD1DC(buf, 58); if (p == 0) p = buf; else p++; e = func_0018A708(p); if (e == 0) return -1; return ((unsigned short *)e)[5] << 11; }
+
+// MATCH func_001577C0
+void FUN_001577c0(float *a, float *b) { for (;;) { int n; if (b[74] <= a[74]) { n = ((int *)a)[75]; if (n == 0) { ((int *)a)[75] = (int)b; return; } } else { n = ((int *)a)[76]; if (n == 0) { ((int *)a)[76] = (int)b; return; } } a = (float *)n; } }
