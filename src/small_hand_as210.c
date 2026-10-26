@@ -163,3 +163,9 @@ void FUN_0018faf8(int a, float ang) { volatile float m[16]; float c = func_0015F
 float func_0015FB58(int, float); void func_0018EC58(float *); void func_0018F520(float *);
 // MATCH func_0018FB78
 void FUN_0018fb78(float ang) { volatile float m[16]; float c = func_0015FB58(1, ang); float s = func_0015FB58(0, ang); func_0018EC58((float *)m); m[0] = c; m[1] = s; m[4] = -s; m[5] = c; func_0018F520((float *)m); }
+
+typedef struct { char p[60]; int w60; volatile unsigned w64; } Pp_002D04C0;
+typedef struct { int w0; int w4; int w8; int w12; } Qq_002D04C0;
+void *func_002CFF38(void); Qq_002D04C0 *func_002CFFC0(int, unsigned);
+// MATCH func_002D04C0
+int SndVoiceSetParam(int a, int b, int c, int d) { Pp_002D04C0 *p = func_002CFF38(); Qq_002D04C0 *q = func_002CFFC0(p->w60, p->w64); if (p->w64 >= 255) return -1; q->w0 = a; q->w4 = b; q->w8 = c; q->w12 = d; p->w64++; return p->w64; }

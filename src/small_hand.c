@@ -4186,3 +4186,33 @@ typedef struct { float a, b, c, d, e, f, g; int pad; int h; } E_001E94E0;
 typedef struct { char p[404]; E_001E94E0 e1, e2, e3; } O_001E94E0;
 // MATCH func_001E94E0
 void yue_001e94e0(O_001E94E0 *o, float x, float y, float w) { float z = 0.0f; E_001E94E0 *p1 = &o->e1, *p2 = &o->e2, *p3 = &o->e3; p1->b = x; p1->d = z; p1->c = x; p1->f = z; p1->e = z; p1->g = z; p1->h = 1; o->e1.a = x; p2->d = z; p2->b = y; p2->c = y; p2->f = z; p2->e = z; p2->g = z; o->e2.a = y; p3->b = w; p3->c = w; p3->f = z; p3->e = z; p3->g = z; p3->d = z; p2->h = 1; o->e3.a = w; p3->h = 1; }
+
+typedef struct { char p0[184]; int w184; char p1[28]; void *w216; char p2[60]; float f280, f284; } O_00217FF8;
+extern char D_003C30C0[]; O_00217FF8 *func_00246D88(char *);
+// MATCH func_00217FF8
+O_00217FF8 *FUN_00217ff8(int a, int b, float *v, int n, float f) { O_00217FF8 *p = func_00246D88(D_003C30C0); if (p) { p->f280 = *v; p->f284 = f; p->w184 = n; p->w216 = v; } return p; }
+
+typedef struct { char p0[184]; int w184; char p1[28]; void *w216; char p2[60]; float f280, f284; } O_002180E0;
+extern char D_003C30D0[]; O_002180E0 *func_00246D88_002180E0(char *) __asm__("func_00246D88");
+// MATCH func_002180E0
+O_002180E0 *FUN_002180e0(int a, int b, int *v, int n, float f) { O_002180E0 *p = func_00246D88_002180E0(D_003C30D0); if (p) { p->w216 = v; p->f280 = (float)*v; p->f284 = f; p->w184 = n; } return p; }
+
+typedef struct { char p0[184]; int w184; char p1[28]; void *w216; char p2[60]; float f280, f284; } O_002181D0;
+extern char D_003C30E0[]; O_002181D0 *func_00246D88_002181D0(char *) __asm__("func_00246D88");
+// MATCH func_002181D0
+O_002181D0 *FUN_002181d0(int a, int b, unsigned char *v, int n, float f) { O_002181D0 *p = func_00246D88_002181D0(D_003C30E0); if (p) { p->w216 = v; p->f280 = (float)*v; p->f284 = f; p->w184 = n; } return p; }
+
+typedef struct { char p0[184]; int w184; char p1[28]; void *w216; char p2[60]; float f280, f284; char p3[108]; int w396; } O_002182F0;
+extern char D_003C30F0[]; O_002182F0 *func_00246D88_002182F0(char *) __asm__("func_00246D88"); int func_00228310(int, int);
+// MATCH func_002182F0
+O_002182F0 *FUN_002182f0(int a, int b, int c, float f, int n) { O_002182F0 *p = func_00246D88_002182F0(D_003C30F0); if (p) {
+p->w216 = (void *)a;
+p->w396 = c;
+p->f280 = (float)func_00228310(a, c);
+p->f284 = f;
+p->w184 = n; } return p; }
+
+extern char D_0043FED0[], D_0043FE88[];
+int func_00202840(void *);
+// MATCH func_00186EC8
+void *FUN_00186ec8(void *s) {  (*(int *)((char *)s + 2116)) = (int)D_0043FED0; func_00202840((char *)s + 24); (*(int *)((char *)s + 2128)) = -1; (*(int *)((char *)s + 2116)) = (int)D_0043FE88; (*(int *)((char *)s + 2132)) = -1; (*(int *)((char *)s + 2136)) = 0; (*(int *)((char *)s + 2140)) = 0; (*(int *)((char *)s + 2144)) = 0; (*(int *)((char *)s + 2148)) = 0; return s; }
