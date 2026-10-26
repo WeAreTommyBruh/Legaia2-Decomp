@@ -4267,3 +4267,7 @@ typedef struct { char p[1484]; float f1484; char q[40]; float f1528; } O_0010A2B
 extern int D_00343028_0010A2B0[] __asm__("D_00343028"); extern int D_004A118C_0010A2B0 __asm__("D_004A118C"); extern char *D_004A12B0_0010A2B0 __asm__("D_004A12B0"); extern char D_0042CE50[]; void func_001118F8_0010A2B0(char *, ...) __asm__("func_001118F8"); void func_00108B98(float *, float, float, float, float, float);
 // MATCH func_0010A2B0
 void FUN_0010a2b0(O_0010A2B0 *o, int a, int b, int c, int d, int mode) { if (D_00343028_0010A2B0[0] & 8) return; if (D_00343028_0010A2B0[0] & 0x10) return; if (D_004A118C_0010A2B0 & 0x40) func_001118F8_0010A2B0(D_0042CE50, D_004A12B0_0010A2B0); if (mode == 1) { if (a < 0) func_00108B98(&o->f1528, o->f1528, (float)b, (float)c, 0.5f, (float)d); else func_00108B98(&o->f1528, (float)a, (float)b, (float)c, 0.5f, (float)d); return; } if (a < 0) func_00108B98(&o->f1484, o->f1484, (float)b, (float)c, 0.5f, (float)d); else func_00108B98(&o->f1484, (float)a, (float)b, (float)c, 0.5f, (float)d); }
+
+extern char D_0049A700_002A3950[] __asm__("D_0049A700"); void *func_00162130_002A3950(int, char *, int) __asm__("func_00162130");
+// MATCH func_002A3950
+void *PacChunkCopy(int *src, unsigned n) { int *dst = func_00162130_002A3950(n, D_0049A700_002A3950, 3668); unsigned i; unsigned cnt = n >> 2; for (i = 0; i < cnt; i++) dst[i] = src[i]; return dst; }
