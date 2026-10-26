@@ -4319,3 +4319,20 @@ void FUN_002cf4b0(Pk_002CF4B0 *o, int x)
   o->w0 = p + 1;
   *p = 0;
 }
+
+typedef struct { int *w0; int w4; int w8; int w12; } Pk_002CF610;
+int func_002CF458(void *);
+// 2 words differ
+// WIP func_002CF610
+// MATCH func_002CF610
+void FUN_002cf610(Pk_002CF610 *o, int x)
+{
+  int r = func_002CF458(o);
+  int *p = o->w0;
+  o->w8 = r;
+  *(p++) = x | 0x70000000;
+ do { } while (0);
+  o->w12 = 0;
+  o->w0 = p + 1;
+  *p = 0;
+}
