@@ -10,21 +10,21 @@ This is a matching decompilation in progress: the goal is C that compiles to exa
 |---|---|---|
 | 1 | Identify the original compiler | Done: **ee-gcc 2.9-ee-991111-01**, `-O2 -G8`, confirmed by functions that compile byte-identical (see below) |
 | 2 | Rebuild the executable from assembly | Done: rebuilt executable is **byte-identical** to the original |
-| 3 | Match functions in C | In progress: 3259 of 6254 functions (8.7% of code) compile to the original bytes and are built from C |
+| 3 | Match functions in C | In progress: 3263 of 6254 functions (8.7% of code) compile to the original bytes and are built from C |
 
 ## Overall
 
 | | Count | Share | |
 |---|---:|---:|---|
-| Functions matched in C | 3259 / 6254 | 52.1% | `################..............` |
-| ... written by hand | 1520 | | |
+| Functions matched in C | 3263 / 6254 | 52.2% | `################..............` |
+| ... written by hand | 1522 | | |
 | ... generated from instruction patterns (`tools/gen_tiny.py`) | 758 | | |
-| ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 813 | | |
+| ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 815 | | |
 | ... assembly in the original, reproduced as file-scope asm (`src/asm_stubs.c`) | 168 | | |
-| Code bytes matched in C | 176,164 / 2,022,456 | 8.7% | `###...........................` |
+| Code bytes matched in C | 176,600 / 2,022,456 | 8.7% | `###...........................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
-| .text words disassembled as instructions | 456,626 / 464,352 | 98.3% | `##############################` |
+| .text words disassembled as instructions | 456,517 / 464,243 | 98.3% | `##############################` |
 
 Functions with a source file come from the game's `__FILE__` debug strings; real names are the descriptive and library names given in `ghidra/scripts/NameFunctions.java`. The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, VU0 macro mode), written as `.word` because clang cannot assemble them.
 
@@ -92,7 +92,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `mp_disp.cpp` | 1 | 624 | 0 | 0.0% |
 | `multi.cpp` | 2 | 816 | 0 | 0.0% |
 | `nayuini2.cpp` | 1 | 200 | 0 | 0.0% |
-| `nayuki.cpp` | 98 | 30,000 | 73 | 9.5% |
+| `nayuki.cpp` | 98 | 30,000 | 74 | 9.9% |
 | `nayuwin2.cpp` | 78 | 18,136 | 45 | 4.7% |
 | `nori.cpp` | 64 | 48,292 | 26 | 9.0% |
 | `noribs.cpp` | 3 | 1,328 | 0 | 0.0% |
@@ -131,4 +131,4 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `work.cpp` | 36 | 4,416 | 19 | 21.2% |
 | `yokota.cpp` | 40 | 18,252 | 20 | 11.7% |
 | `yue.cpp` | 56 | 36,396 | 35 | 8.6% |
-| `(not attributed)` | 4212 | 1,338,292 | 2190 | 8.6% |
+| `(not attributed)` | 4212 | 1,338,292 | 2193 | 8.6% |
