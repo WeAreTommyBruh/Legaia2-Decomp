@@ -25,7 +25,7 @@ from match import compare
 ROOT = asm_build.ROOT
 GEN2 = os.path.join(ROOT, "src", "gen2")
 COMPILERS = [("991111-01", []), ("990721-r5900", ["-fno-thread-jumps"]), ("991111-01", ["-fexceptions"]),
-             ("991111-01", ["-fno-gcse"])]
+             ("991111-01", ["-fno-gcse"]), ("991111-01-as210", []), ("991111-01-as210", ["-fexceptions"])]
 
 
 def variants(src):
@@ -80,7 +80,7 @@ def main():
     for path in glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True):
         if path.startswith(GEN2):
             continue
-        done |= {int(a, 16) for a in re.findall(r"func_([0-9A-Fa-f]{8})", open(path).read())}
+        done |= {int(a, 16) for a in re.findall(r"MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
     count = {}
     for r in rows:
         count[r["name"]] = count.get(r["name"], 0) + 1

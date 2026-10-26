@@ -101,7 +101,7 @@ def main():
     for path in glob.glob(os.path.join(ROOT, "src", "**", "*.c"), recursive=True):
         if path.startswith(OUT):
             continue
-        done |= {int(a, 16) for a in re.findall(r"func_([0-9A-Fa-f]{8})", open(path).read())}
+        done |= {int(a, 16) for a in re.findall(r"MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
     count = {}
     for r in rows:
         count[r["name"]] = count.get(r["name"], 0) + 1
