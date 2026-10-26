@@ -78,3 +78,12 @@ int FUN_0024cf68(S_0024CF68 *s) { if (s->w4 <= 0) func_001118F8_0024CF68(D_0045E
 extern int D_004A7138; extern char D_005F6A40[]; void func_00239568(char *);
 // MATCH func_00239660
 void FUN_00239660(void) { int i; for (i = 0; i < D_004A7138; i++) func_00239568(D_005F6A40 + i * 64); }
+
+typedef struct { int w0; int w4; int *w8; } O_0024CEE8;
+extern char D_0045E018[]; void func_001118F8_0024CEE8(char *) __asm__("func_001118F8");
+// MATCH func_0024CEE8
+int FUN_0024cee8(O_0024CEE8 *o, int v) { if (o->w4 < 0) func_001118F8_0024CEE8(D_0045E018); if (o->w4 >= o->w0) func_001118F8_0024CEE8(D_0045E018); return o->w8[o->w4++] = v, o->w4 - 1; }
+
+extern int D_00343028[]; extern int D_004A3850, D_004A118C; extern char *D_004A12B0; extern char D_0042D8A0[], D_0042D8C0[]; extern int D_002F95F0[], D_002F96B0[]; void func_001118F8_0010C4C0(char *, ...) __asm__("func_001118F8"); void func_002D4B20(int);
+// MATCH func_0010C4C0
+void rsound_0010c4c0(int a, unsigned i) { if (!(D_00343028[0] & 8) && D_004A3850 != 2 && i < 48) { if (D_004A118C & 0x40) func_001118F8_0010C4C0(D_0042D8A0, D_004A12B0); if (D_004A118C & 1) func_001118F8_0010C4C0(D_0042D8C0, i); func_002D4B20(i); D_002F95F0[i] = -1; D_002F96B0[i] = -1; } }
