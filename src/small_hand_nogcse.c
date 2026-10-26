@@ -91,3 +91,15 @@ void rsound_0010c4c0(int a, unsigned i) { if (!(D_00343028[0] & 8) && D_004A3850
 extern int D_00343028_0010D570[] __asm__("D_00343028"); extern int D_004A3850_0010D570 __asm__("D_004A3850"), D_004A118C_0010D570 __asm__("D_004A118C"); extern char *D_004A12B0_0010D570 __asm__("D_004A12B0"); extern char D_0042DF10[], D_0042DF28[]; void func_001118F8_0010D570(char *, ...) __asm__("func_001118F8"); int func_002D3B28(int, int, int); int func_002D3DF0(int, int);
 // MATCH func_0010D570
 int FUN_0010d570(int a, int b, int c, int d, int e, int *p9, int *p10) { int r; if ((D_00343028_0010D570[0] & 8) || D_004A3850_0010D570 == 2) return 0; if (D_004A118C_0010D570 & 1) func_001118F8_0010D570(D_0042DF10, b, c, d, e); if (D_004A118C_0010D570 & 0x40) func_001118F8_0010D570(D_0042DF28, D_004A12B0_0010D570); r = func_002D3B28(b, c, e); *p9 = r; *p10 = func_002D3DF0(r, d); return 1; }
+
+typedef struct { char p[40]; short h40, h42; char q[4]; } E_0015DE00;
+typedef struct { char p[28]; E_0015DE00 *w28; int w32; } O_0015DE00;
+int func_0015DAC8(E_0015DE00 *, int);
+// MATCH func_0015DE00
+E_0015DE00 *FUN_0015de00(O_0015DE00 *o, int k, int x) { int i; E_0015DE00 *e = o->w28; for (i = 0; i < o->w32; i++, e++) { if (e->h40 == k && func_0015DAC8(e, x) != 0) return e; } return 0; }
+
+typedef struct { char p[16]; char q[24]; short h40, h42; char r[4]; } E_0015DBA8;
+typedef struct { char p[28]; E_0015DBA8 *w28; int w32; } O_0015DBA8;
+int func_0015DAC8_0015DBA8(E_0015DBA8 *, int) __asm__("func_0015DAC8");
+// MATCH func_0015DBA8
+char *FUN_0015dba8(O_0015DBA8 *o, int k, int x) { int i; int best = -1; char *res = 0; E_0015DBA8 *e = o->w28; for (i = 0; i < o->w32; i++, e++) { if (e->h40 == k && func_0015DAC8_0015DBA8(e, x) != 0 && e->h42 >= best) { best = e->h42; res = e->p + 16; } } return res; }

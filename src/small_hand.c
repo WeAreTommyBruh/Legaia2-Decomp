@@ -4271,3 +4271,7 @@ void FUN_0010a2b0(O_0010A2B0 *o, int a, int b, int c, int d, int mode) { if (D_0
 extern char D_0049A700_002A3950[] __asm__("D_0049A700"); void *func_00162130_002A3950(int, char *, int) __asm__("func_00162130");
 // MATCH func_002A3950
 void *PacChunkCopy(int *src, unsigned n) { int *dst = func_00162130_002A3950(n, D_0049A700_002A3950, 3668); unsigned i; unsigned cnt = n >> 2; for (i = 0; i < cnt; i++) dst[i] = src[i]; return dst; }
+
+extern char D_0049D3B0[], D_0049D3D0[]; int func_00295098(int); void func_002DC918(char *, ...); int func_002DBC48(int);
+// MATCH func_002BF640
+unsigned FullAllocAndFree(int a) { int r = func_00295098(a); unsigned n; func_002DC918(D_0049D3B0, r); n = ((unsigned)(func_002DBC48(a + 128) + 127) >> 7) << 7; func_002DC918(D_0049D3D0, n, a); return n; }
