@@ -4275,3 +4275,11 @@ void *PacChunkCopy(int *src, unsigned n) { int *dst = func_00162130_002A3950(n, 
 extern char D_0049D3B0[], D_0049D3D0[]; int func_00295098(int); void func_002DC918(char *, ...); int func_002DBC48(int);
 // MATCH func_002BF640
 unsigned FullAllocAndFree(int a) { int r = func_00295098(a); unsigned n; func_002DC918(D_0049D3B0, r); n = ((unsigned)(func_002DBC48(a + 128) + 127) >> 7) << 7; func_002DC918(D_0049D3D0, n, a); return n; }
+
+extern char D_004A1138[]; extern int D_004A10B0; extern char *D_002F8300[]; int func_002DCE40_00100D50(char *, char *, ...) __asm__("func_002DCE40"); int func_002DD4B0(char *, char *);
+// MATCH func_00100D50
+int memo2_00100d50(char *o, int idx) { char buf[32]; int i = 0; char *p; func_002DCE40_00100D50(buf, D_004A1138, D_004A10B0, D_002F8300[idx]); p = o + 1376; do { if (func_002DD4B0(p, buf) == 0) return i; i++; p += 64; } while (i < 12); return -1; }
+
+extern char D_0042EC08[], D_0042EC18[], D_004DDE00[]; extern int D_004A6BB0, D_004A6B9C; void func_001118F8_0010FE28(char *, ...) __asm__("func_001118F8"); int func_00196FF8_0010FE28(void) __asm__("func_00196FF8"); void func_002DD4CC_0010FE28(char *, char *) __asm__("func_002DD4CC");
+// MATCH func_0010FE28
+int FUN_0010fe28(char *name, int v) { func_001118F8_0010FE28(D_0042EC08, name); while (func_00196FF8_0010FE28() != 0) func_001118F8_0010FE28(D_0042EC18, D_004DDE00, name); func_002DD4CC_0010FE28(D_004DDE00, name); D_004A6BB0 = v; D_004A6B9C = 0; return 1; }
