@@ -4144,3 +4144,45 @@ typedef struct { char p[52]; int w52; char q[200]; } A_001E4700;
 extern A_001E4700 D_00346780[], D_0035A780[];
 // MATCH func_001E4700
 int FUN_001e4700(void) { int i; for (i = 0; i < 291; i++) { if (D_00346780[i].w52 > 0) return 1; } for (i = 0; i < 75; i++) { if (D_0035A780[i].w52 > 0) return 1; } return 0; }
+
+typedef struct { char p0[24]; int w24; char p1[4]; float f32, f36, f40; char p2[20]; float f64, f68, f72; } O_001890A0;
+void func_00249108_001890A0(void) __asm__("func_00249108"); void func_00249100(float, float, float); void func_00248E00(float, float, float); void func_002489F0(void); void func_002468F0(O_001890A0 *); void func_00246550(O_001890A0 *); void func_002491D8(void);
+// MATCH func_001890A0
+void srivus_001890a0(O_001890A0 *o) { if (o->w24 & 0x4000000) { o->w24 |= 0x100; func_00249108_001890A0(); func_00249100(o->f32, o->f36, o->f40); func_00248E00(o->f64, o->f68, o->f72); func_002489F0(); func_002468F0(o); func_00246550(o); func_002491D8(); } }
+
+typedef struct { char p0[24]; int w24; char p1[4]; float f32, f36, f40; char p2[20]; float f64, f68, f72; } O_002299C0;
+void func_00249108_002299C0(void) __asm__("func_00249108"); void func_00249100(float, float, float); void func_00248E00(float, float, float); void func_002489F0(void); void func_00246550_002299C0(O_002299C0 *) __asm__("func_00246550"); void func_002491D8(void);
+// MATCH func_002299C0
+void FUN_002299c0(O_002299C0 *o) { if (o->w24 & 0x4000000) { o->w24 |= 0x100; func_00249108_002299C0(); func_00249100(o->f32, o->f36, o->f40); func_00248E00(o->f64, o->f68, o->f72); func_002489F0(); func_00246550_002299C0(o); func_002491D8(); } }
+
+typedef struct { char p0[24]; int w24; } O_00229CD8;
+typedef struct { char p0[32]; float f32, f36, f40; char p2[20]; float f64, f68, f72; } P_00229CD8;
+typedef struct { char p[324]; int w324; char q[4]; P_00229CD8 *w332; } G_00229CD8;
+extern G_00229CD8 *D_004A1A3C_00229CD8 __asm__("D_004A1A3C"); void func_00249108_00229CD8(void) __asm__("func_00249108"); void func_00249100(float, float, float); void func_00248E00(float, float, float); void func_002491D8(void);
+// MATCH func_00229CD8
+void FUN_00229cd8(O_00229CD8 *o) { if (o->w24 & 0x4000000) { G_00229CD8 *g = D_004A1A3C_00229CD8; P_00229CD8 *p = 0; if (g->w324 > 0) p = g->w332; func_00249108_00229CD8(); func_00249100(p->f32, p->f36, p->f40); func_00248E00(p->f64, p->f68, p->f72); func_002491D8(); } }
+
+typedef struct { float a, b, c, d, e, f, g; int pad; int h; } E_001E9468;
+typedef struct { char p[296]; E_001E9468 e1, e2, e3; } O_001E9468;
+// MATCH func_001E9468
+void yue_001e9468(O_001E9468 *o, float x, float y, float w) { float z = 0.0f; E_001E9468 *p1 = &o->e1, *p2 = &o->e2, *p3 = &o->e3; p1->b = x; p1->d = z; p1->c = x; p1->f = z; p1->e = z; p1->g = z; p1->h = 1; o->e1.a = x; p2->d = z; p2->b = y; p2->c = y; p2->f = z; p2->e = z; p2->g = z; o->e2.a = y; p3->b = w; p3->c = w; p3->f = z; p3->e = z; p3->g = z; p3->d = z; p2->h = 1; o->e3.a = w; p3->h = 1; }
+
+typedef struct { float a, b, c, d, e, f, g; int pad; int h; } E_001E9558;
+typedef struct { char p[512]; E_001E9558 e1, e2, e3; } O_001E9558;
+// MATCH func_001E9558
+void yue_001e9558(O_001E9558 *o, float x, float y, float w) { float z = 0.0f; E_001E9558 *p1 = &o->e1, *p2 = &o->e2, *p3 = &o->e3; p1->b = x; p1->d = z; p1->c = x; p1->f = z; p1->e = z; p1->g = z; p1->h = 1; o->e1.a = x; p2->d = z; p2->b = y; p2->c = y; p2->f = z; p2->e = z; p2->g = z; o->e2.a = y; p3->b = w; p3->c = w; p3->f = z; p3->e = z; p3->g = z; p3->d = z; p2->h = 1; o->e3.a = w; p3->h = 1; }
+
+typedef struct { float a, b, c, d, e, f, g; int pad; int h; } E_001E9798;
+typedef struct { char p[620]; E_001E9798 e1, e2, e3; } O_001E9798;
+// MATCH func_001E9798
+void yue_001e9798(O_001E9798 *o, float x, float y, float w) { float z = 0.0f; E_001E9798 *p1 = &o->e1, *p2 = &o->e2, *p3 = &o->e3; p1->b = x; p1->d = z; p1->c = x; p1->f = z; p1->e = z; p1->g = z; p1->h = 1; o->e1.a = x; p2->d = z; p2->b = y; p2->c = y; p2->f = z; p2->e = z; p2->g = z; o->e2.a = y; p3->b = w; p3->c = w; p3->f = z; p3->e = z; p3->g = z; p3->d = z; p2->h = 1; o->e3.a = w; p3->h = 1; }
+
+typedef struct { float a, b, c, d, e, f, g; int pad; int h; } E_001E99D8;
+typedef struct { char p[728]; E_001E99D8 e1, e2, e3; } O_001E99D8;
+// MATCH func_001E99D8
+void yue_001e99d8(O_001E99D8 *o, float x, float y, float w) { float z = 0.0f; E_001E99D8 *p1 = &o->e1, *p2 = &o->e2, *p3 = &o->e3; p1->b = x; p1->d = z; p1->c = x; p1->f = z; p1->e = z; p1->g = z; p1->h = 1; o->e1.a = x; p2->d = z; p2->b = y; p2->c = y; p2->f = z; p2->e = z; p2->g = z; o->e2.a = y; p3->b = w; p3->c = w; p3->f = z; p3->e = z; p3->g = z; p3->d = z; p2->h = 1; o->e3.a = w; p3->h = 1; }
+
+typedef struct { float a, b, c, d, e, f, g; int pad; int h; } E_001E94E0;
+typedef struct { char p[404]; E_001E94E0 e1, e2, e3; } O_001E94E0;
+// MATCH func_001E94E0
+void yue_001e94e0(O_001E94E0 *o, float x, float y, float w) { float z = 0.0f; E_001E94E0 *p1 = &o->e1, *p2 = &o->e2, *p3 = &o->e3; p1->b = x; p1->d = z; p1->c = x; p1->f = z; p1->e = z; p1->g = z; p1->h = 1; o->e1.a = x; p2->d = z; p2->b = y; p2->c = y; p2->f = z; p2->e = z; p2->g = z; o->e2.a = y; p3->b = w; p3->c = w; p3->f = z; p3->e = z; p3->g = z; p3->d = z; p2->h = 1; o->e3.a = w; p3->h = 1; }
