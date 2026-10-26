@@ -4105,3 +4105,42 @@ void FUN_001b4610(int a, int b) { if (b >= 0) { if (a == 1 && D_00343654[0] == 0
 extern int D_00343654_001B4690[] __asm__("D_00343654"); extern char D_00343650_001B4690[] __asm__("D_00343650"); void func_001B4738(int, int, int, int);
 // MATCH func_001B4690
 void FUN_001b4690(int a, int b) { if (b >= 0) { if (a == 1 && D_00343654_001B4690[0] == 0) { func_001B4738(2, 1, b, 0); return; } if (a == 0 && D_00343650_001B4690[0] == 1) func_001B4738(2, 2, b, 0); } }
+
+typedef struct { int w0, w4, w8; char p0[12]; int w24; char p1[36]; int w64; char p2[4]; long long l72; int w80, w84; } O_00191E78;
+int func_002E58A0_00191E78(int *) __asm__("func_002E58A0"); void func_00191EF0(O_00191E78 *);
+// MATCH func_00191E78
+int FUN_00191e78(O_00191E78 *o, int a, unsigned b, int c, int d, int e) { int t[8]; b &= 0xfffffff; b |= 0x20000000;
+o->w0 = a;
+o->w4 = b;
+o->w24 = c << 11;
+o->w80 = d;
+o->w84 = e;
+t[2] = 1;
+t[1] = 1;
+o->w8 = c; o->w64 = func_002E58A0_00191E78(t); func_00191EF0(o); o->l72 = 0; return 1; }
+
+typedef struct { int a, b, c, d, e, f, g, pad, h; } E_001F7970;
+typedef struct { char p[32]; E_001F7970 s[4]; } O_001F7970;
+static inline void in_001F7970(O_001F7970 *o, int i) { E_001F7970 *e = &o->s[i]; e->h = 1; e->d = 0; o->s[i].a = e->b; }
+// MATCH func_001F7970
+void ikumin_001f7970(O_001F7970 *o) { in_001F7970(o, 0); in_001F7970(o, 1); in_001F7970(o, 2); in_001F7970(o, 3); }
+
+typedef struct { char p[300]; int n; int a[1]; } O_001E4198;
+extern char D_004A380A_001E4198 __asm__("D_004A380A"); void func_001DFEE0(int, float);
+// MATCH func_001E4198
+void FUN_001e4198(int a, O_001E4198 *o, float f) { int i; int *q; if (D_004A380A_001E4198 != 0 && o != 0) { if (o->n > 0) { q = o->a; i = o->n; do { if (q[64] == 2) func_001DFEE0(q[0], f); i--; q++; } while (i != 0); } } }
+
+typedef struct { char p[300]; int n; int a[1]; } O_001E4350;
+extern char D_004A380A_001E4350 __asm__("D_004A380A"); void func_001D8F60(int, int);
+// MATCH func_001E4350
+void FUN_001e4350(int a, O_001E4350 *o, int b) { int i; int *q; if (D_004A380A_001E4350 != 0 && o != 0) { if (o->n > 0) { q = o->a; i = o->n; do { if (q[64] == 1) func_001D8F60(q[0], b); i--; q++; } while (i != 0); } } }
+
+typedef struct { int w0; } O_001E4218;
+extern char D_004A380A_001E4218 __asm__("D_004A380A"); int func_002D9440(float); void func_001E48E0(int, int, int, int, int);
+// MATCH func_001E4218
+void FUN_001e4218(int a, O_001E4218 *o, float *v) { int x, y, z; if (D_004A380A_001E4218 != 0) { x = func_002D9440(v[0]); y = func_002D9440(v[1]); z = func_002D9440(v[2]); func_001E48E0(9, o->w0, x, y, z); } }
+
+typedef struct { char p[52]; int w52; char q[200]; } A_001E4700;
+extern A_001E4700 D_00346780[], D_0035A780[];
+// MATCH func_001E4700
+int FUN_001e4700(void) { int i; for (i = 0; i < 291; i++) { if (D_00346780[i].w52 > 0) return 1; } for (i = 0; i < 75; i++) { if (D_0035A780[i].w52 > 0) return 1; } return 0; }
