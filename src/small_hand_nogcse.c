@@ -103,3 +103,10 @@ typedef struct { char p[28]; E_0015DBA8 *w28; int w32; } O_0015DBA8;
 int func_0015DAC8_0015DBA8(E_0015DBA8 *, int) __asm__("func_0015DAC8");
 // MATCH func_0015DBA8
 char *FUN_0015dba8(O_0015DBA8 *o, int k, int x) { int i; int best = -1; char *res = 0; E_0015DBA8 *e = o->w28; for (i = 0; i < o->w32; i++, e++) { if (e->h40 == k && func_0015DAC8_0015DBA8(e, x) != 0 && e->h42 >= best) { best = e->h42; res = e->p + 16; } } return res; }
+
+// MATCH func_0023C728
+int FUN_0023c728(char *d, char *s) { while (*d++); d--; while (*s) *d++ = *s++; *d = 0; return 1; }
+
+int func_001659A8(void *);
+// MATCH func_00165A40
+int pachislot_00165a40(int *o, int k) { int i; int *t; if (func_001659A8(o)) return 0; i = o[18] + k; t = (int *)o[0]; if (i < 0) i += t[5]; if (i >= t[5]) i -= t[5]; return ((char *)o[1])[i]; }

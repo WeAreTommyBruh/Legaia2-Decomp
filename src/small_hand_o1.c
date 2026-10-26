@@ -50,3 +50,15 @@ int FUN_0025d0f0(int a) { E_0025D0F0 *p = D_003E2010; E_0025D0F0 *e = p + 253; d
 extern unsigned short D_004A5990, D_004A5992; void func_002552B8(void);
 // MATCH func_00255278
 void FUN_00255278(unsigned a) { if (a < 9) { if (a == 7) D_004A5992 = D_004A5990; if (a == 8) D_004A5990 = D_004A5992; else D_004A5990 = a; func_002552B8(); } }
+
+typedef struct N_001624E0 { int a[3]; struct N_001624E0 *n; } N_001624E0;
+// MATCH func_001624E0
+N_001624E0 *FUN_001624e0(char *o) { N_001624E0 *p = *(N_001624E0 **)(o + 56); if (p != 0 && p->n != 0) { do { p = p->n; } while (p->n != 0); } return p; }
+
+void func_00192EB0(int, int, int, int); void func_00193590(int, int, int, int); void func_00193D28(int, int, int, int);
+// MATCH func_001947A8
+void FUN_001947a8(int a, int k, int p, int q, int r) { switch (k) { case 0: func_00192EB0(a, p, q, r); break; case 2: func_00193590(a, p, q, r); break; case 1: func_00193D28(a, p, q, r); break; } }
+
+void func_0018A658(char *, char *); char *func_002DD1DC(char *, int); char *func_0018A708(char *);
+// MATCH func_0018B1F8
+int FUN_0018b1f8(char *name) { char buf[256]; char *p, *e; if (name == 0) return -1; func_0018A658(name, buf); p = func_002DD1DC(buf, 58); if (p == 0) p = buf; else p++; e = func_0018A708(p); if (e == 0) return -1; return ((unsigned short *)e)[5] << 11; }
