@@ -10,21 +10,21 @@ This is a matching decompilation in progress: the goal is C that compiles to exa
 |---|---|---|
 | 1 | Identify the original compiler | Done: **ee-gcc 2.9-ee-991111-01**, `-O2 -G8`, confirmed by functions that compile byte-identical (see below) |
 | 2 | Rebuild the executable from assembly | Done: rebuilt executable is **byte-identical** to the original |
-| 3 | Match functions in C | In progress: 3483 of 6254 functions (10.4% of code) compile to the original bytes and are built from C |
+| 3 | Match functions in C | In progress: 3498 of 6254 functions (10.5% of code) compile to the original bytes and are built from C |
 
 ## Overall
 
 | | Count | Share | |
 |---|---:|---:|---|
-| Functions matched in C | 3483 / 6254 | 55.7% | `#################.............` |
-| ... written by hand | 1737 | | |
+| Functions matched in C | 3498 / 6254 | 55.9% | `#################.............` |
+| ... written by hand | 1752 | | |
 | ... generated from instruction patterns (`tools/gen_tiny.py`) | 758 | | |
 | ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | 820 | | |
 | ... assembly in the original, reproduced as file-scope asm (`src/asm_stubs.c`) | 168 | | |
-| Code bytes matched in C | 210,316 / 2,022,456 | 10.4% | `###...........................` |
+| Code bytes matched in C | 213,204 / 2,022,456 | 10.5% | `###...........................` |
 | Functions with a source file | 2042 / 6254 | 32.7% | `##########....................` |
 | Functions with a real name | 263 / 6254 | 4.2% | `#.............................` |
-| .text words disassembled as instructions | 448,099 / 455,814 | 98.3% | `#############################.` |
+| .text words disassembled as instructions | 447,377 / 455,092 | 98.3% | `#############################.` |
 
 Functions with a source file come from the game's `__FILE__` debug strings; real names are the descriptive and library names given in `ghidra/scripts/NameFunctions.java`. The remaining .text words are EE-only instructions (128-bit loads/stores, multimedia, VU0 macro mode), written as `.word` because clang cannot assemble them.
 
@@ -55,7 +55,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | Source file | Functions | Code bytes | Matched | Matched bytes |
 |---|---:|---:|---:|---:|
 | `abeshi.cpp` | 19 | 5,112 | 12 | 12.6% |
-| `akari.cpp` | 48 | 7,472 | 31 | 15.0% |
+| `akari.cpp` | 48 | 7,472 | 36 | 30.7% |
 | `anime.cpp` | 1 | 2,160 | 0 | 0.0% |
 | `arena.cpp` | 1 | 2,296 | 0 | 0.0% |
 | `batread.cpp` | 20 | 7,768 | 8 | 9.1% |
@@ -74,7 +74,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `eftedsb.cpp` | 1 | 14,532 | 0 | 0.0% |
 | `eftpack.cpp` | 9 | 2,416 | 5 | 22.8% |
 | `file.cpp` | 26 | 5,620 | 9 | 23.7% |
-| `flare.cpp` | 40 | 5,368 | 29 | 5.6% |
+| `flare.cpp` | 40 | 5,368 | 30 | 8.5% |
 | `gimmick.cpp` | 2 | 2,336 | 0 | 0.0% |
 | `ikumi.cpp` | 15 | 12,872 | 3 | 1.7% |
 | `ikumin.cpp` | 38 | 4,892 | 30 | 22.5% |
@@ -101,7 +101,7 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `object.cpp` | 24 | 7,336 | 11 | 5.3% |
 | `pachislot.cpp` | 165 | 32,012 | 121 | 26.8% |
 | `pchboss.cpp` | 1 | 48 | 1 | 100.0% |
-| `pchevent.cpp` | 107 | 25,644 | 46 | 17.9% |
+| `pchevent.cpp` | 107 | 25,644 | 47 | 18.5% |
 | `pchjob0.cpp` | 64 | 27,404 | 36 | 7.3% |
 | `pchse.cpp` | 6 | 2,984 | 1 | 3.6% |
 | `pchspplate.cpp` | 2 | 360 | 1 | 34.4% |
@@ -131,4 +131,4 @@ Functions with a source file come from the game's `__FILE__` debug strings; real
 | `work.cpp` | 36 | 4,416 | 21 | 28.4% |
 | `yokota.cpp` | 40 | 18,252 | 20 | 11.7% |
 | `yue.cpp` | 56 | 36,396 | 36 | 9.0% |
-| `(not attributed)` | 4212 | 1,338,292 | 2331 | 10.2% |
+| `(not attributed)` | 4212 | 1,338,292 | 2339 | 10.3% |
