@@ -179,3 +179,13 @@ p[3] = 128.0f;}
 
 // MATCH func_00156408
 void FUN_00156408(char *o, unsigned c, unsigned d) { float r = (float)(c & 0xff); float g = (float)((c >> 8) & 0xff); float b = (float)((c >> 16) & 0xff); float *p = (float *)(o + 64); float r2; float g2; float b2; float *q; *(float *)(o + 64) = r; p[1] = g; p[2] = b; p[3] = 128.0f; r2 = (float)(d & 0xff); g2 = (float)((d >> 8) & 0xff); b2 = (float)((d >> 16) & 0xff); q = (float *)(o + 80); *(float *)(o + 80) = r2; q[1] = g2; q[2] = b2; q[3] = 128.0f; }
+
+extern int D_00426440[]; extern volatile int D_00426394[]; extern volatile int D_00426370[]; extern volatile int D_00426368[]; extern char D_00427510[];
+int func_002CBAE8(void); int func_002CB978(int); void func_002E8038(void *, int); void func_002CB108(void); void func_002E58C0(int);
+int func_002E8928(void *, int, int, void *, int, int, int, void *, void *);
+// MATCH func_002CC6D8
+int FUN_002cc6d8(int a) { int *p = D_00426440; if (func_002CBAE8() == 6) return 0; if (func_002CB978(9) == 0) return 0; D_00426440[0] = a; func_002E8038(p, 4); D_00426394[0] = 4; D_00426370[0] = 1; if (func_002E8928(D_00427510, 5, 1, p, 4, 0, 0, (void *)func_002CB108, D_00426394) < 0) { D_00426394[0] = 0; D_00426370[0] = 0; func_002E58C0(D_00426368[0]); return 0; } return 1; }
+
+unsigned func_002CADE8(void);
+// MATCH func_002CAE38
+int FUN_002cae38(int *o) { unsigned v = *(volatile unsigned *)0x10003840; if (func_002CADE8() >= 2) return 0; o[0] = *(volatile int *)0x10003900; o[1] = *(volatile int *)0x10003910; o[2] = *(volatile int *)0x10003920; o[3] = *(volatile int *)0x10003930; o[4] = *(volatile int *)0x10003940; o[5] = *(volatile int *)0x10003950; o[6] = *(volatile int *)0x10003960; o[7] = *(volatile int *)0x10003970; o[8] = *(volatile int *)0x10003870; o[9] = *(volatile int *)0x10003880; o[10] = *(volatile int *)0x10003800; ((short *)o)[22] = *(volatile int *)0x100038d0; ((short *)o)[23] = *(volatile int *)0x10003890; ((short *)o)[24] = *(volatile int *)0x10003830; ((short *)o)[25] = *(volatile int *)0x10003860; ((char *)o)[52] = *(volatile int *)0x10003820; ((char *)o)[53] = v; ((char *)o)[54] = v >> 8; ((char *)o)[55] = *(volatile int *)0x10003850; return 1; }

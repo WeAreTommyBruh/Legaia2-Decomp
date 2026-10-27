@@ -214,3 +214,7 @@ typedef struct { char p0[88]; int w88; int w92; char p1[4]; float f100; float f1
 void func_00172C00(void *, int); void func_00172E40(void *); void func_00172BE8(void *, int); void func_00173BE0(void *);
 // MATCH func_00173CA0
 int FUN_00173ca0(O_173ca0_00173CA0 *o) { o->vt->fn60((char *)o + o->vt->adj56, 1); func_00172C00(o, 4); o->vt->fn36((char *)o + o->vt->adj32); o->w108 = 0; if (o->w92 == 0) { o->w112->f200 = 1.0f; if (o->w124 != 0) { func_00172E40(o); return 0; } } if (o->w92 > 0) { if (o->w344 != 0 && o->w352 != o->w348) { func_00173BE0(o); return 0; } if (o->w88 == 1) { o->vt->fn60((char *)o + o->vt->adj56, 2); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3160_00173CA0[0]; } else if (o->w88 == 2) { o->vt->fn60((char *)o + o->vt->adj56, 3); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3168_00173CA0[0]; } } return 0; }
+
+int func_0015CFB0(int, int);
+// MATCH func_0015D530
+int FUN_0015d530(int *o, int a) { int i; int **p; func_0015CFB0(o[0], a); p = (int **)o[3]; for (i = 0; i < o[4]; i++) { char *e = (char *)*p; if (*(short *)(e + 284) != 0) if (*(short *)(e + 286) != 0) func_0015CFB0((int)e, a); p++; } return 0; }
