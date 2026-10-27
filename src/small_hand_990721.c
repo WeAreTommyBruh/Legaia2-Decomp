@@ -37,3 +37,10 @@ void battle_00121980(int a, int step) { func_0012AEA8(8); do { if (D_004A6DA4 < 
 extern char D_0044B678[], D_0044B4A0[]; void func_00133528(int, char *, int); void func_001E2400(void *, int);
 // MATCH func_001DFC78
 void mizuki_001dfc78(int *o, int a) { o[25] = (int)D_0044B678; if (o[36] != 0) func_00133528(o[36], D_0044B4A0, 154); if (o[22] != 0) func_00133528(o[22], D_0044B4A0, 155); if (o[21] != 0) { if (o[57] != 0) func_00133528(o[21], D_0044B4A0, 156); } o[22] = 0; o[36] = 0; o[21] = 0; func_001E2400(o, a); }
+
+extern char D_00314C20[]; void func_00190328(char *); void func_00190420(char *);
+// MATCH func_00164668
+void FUN_00164668(int *o) { int *p; int *nx; func_00190328(D_00314C20); p = (int *)((int *)o[0])[23]; if (p != (int *)o[0]) do { int *vt = (int *)p[26]; nx = (int *)p[23]; ((void (*)(int))*(int *)((char *)vt + 28))((int)p + *(short *)((char *)vt + 24)); p = nx; } while (p != (int *)o[0]); func_00190420(D_00314C20); }
+
+// MATCH func_00166FD8
+int pachislot_00166fd8(int *o, int k) { if (o[2] == 0 && k == 4) return 0; if (o[2] == 1 && k == 5) return 1; if (o[2] == 2 && k == 6) return 2; if (o[2] == 3 && k == 7) return 3; return -1; }

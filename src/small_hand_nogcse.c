@@ -142,3 +142,75 @@ int FUN_0010e1a0(int *o, int x) { if ((D_00343028_0010E1A0[0] & 8) || D_004A3850
 extern char D_00454CB8[]; void func_0020B4B8(char *, int); void func_00131588(char *); void func_00108B80(char *);
 // MATCH func_00205600
 void pchjob0_00205600(char *o, int flag) { char *a; char *p; *(int *)(o + 32) = (int)D_00454CB8; a = *(char **)(o + 28); if (a != 0) { p = a + (((int *)a)[-4] << 3); if (a != p) { do { p -= 8; func_0020B4B8(p, 0); } while (*(char **)(o + 28) != p); } func_00131588(*(char **)(o + 28) - 16); } if (flag & 1) func_00108B80(o); }
+
+int func_0015C398(int, void *, float);
+// MATCH func_0015C7F0
+int FUN_0015c7f0(int *o, float *q, float r, float s) { float v[4]; int i; int *p; v[0] = q[0]; v[1] = q[1] - s; v[2] = q[2]; v[3] = q[3]; if (func_0015C398(o[0], v, r)) return 1; p = (int *)o[3]; for (i = 0; i < o[4]; i++, p++) { char *e = (char *)*p; if (*(short *)(e + 284) != 0 && *(short *)(e + 286) != 0) if (func_0015C398((int)e, v, r)) return 1; } return 0; }
+
+extern char D_004A2BD8[2]; extern char D_004A2BE8[3]; char *func_00161230(char *, char *);
+// MATCH func_00160620
+int FUN_00160620(char *o, char *k) { char *r; char *q; int bad; if (*(char **)o == 0 || (*(char **)o)[0] != D_004A2BD8[0] || (*(char **)o)[1] != D_004A2BD8[1]) bad = 1; else bad = 0; if (bad) r = 0; else { for (q = *(char **)o + 8; !(q[0] == D_004A2BE8[0] && q[1] == D_004A2BE8[1] && q[2] == D_004A2BE8[2]); q = func_00161230(o, q)) { if (q[0] == k[0] && q[1] == k[1] && q[2] == k[2]) { r = q; goto done; } } r = 0; } done: if (r == 0) return 0; return r[3]; }
+
+extern char D_004A2BD8_001610F8[2] __asm__("D_004A2BD8"); extern char D_004A2BE8_001610F8[3] __asm__("D_004A2BE8"); char *func_00161230(char *, char *); int func_00161200(char *, char *);
+// MATCH func_001610F8
+char *FUN_001610f8(char *o, char *k) { int bad; char *r; char *q; if (*(char **)o == 0 || (*(char **)o)[0] != D_004A2BD8_001610F8[0] || (*(char **)o)[1] != D_004A2BD8_001610F8[1]) bad = 1; else bad = 0; if (bad) r = 0; else { for (q = *(char **)o + 8; !(q[0] == D_004A2BE8_001610F8[0] && q[1] == D_004A2BE8_001610F8[1] && q[2] == D_004A2BE8_001610F8[2]); q = func_00161230(o, q)) { if (q[0] == k[0] && q[1] == k[1] && q[2] == k[2]) { r = q; goto done; } } r = 0; } done: if (r == 0) return 0; if ((((unsigned char *)r)[3] ^ 1) & 1) return 0; return r + 12; }
+
+typedef struct { char c[8]; } V8_00173008;
+extern V8_00173008 D_004A3170[3];
+typedef struct { char p[32]; short adj32; short pad32; void (*fn36)(void *); char p2[16]; short adj56; short pad56; void (*fn60)(void *, int); } VT_173008_00173008;
+typedef struct { char p[200]; float f200; } T2_173008_00173008;
+typedef struct { char p0[88]; int w88; int w92; char p1[4]; float f100; float f104; int w108; T2_173008_00173008 *w112; char p2[8]; int w124; char p3[188]; V8_00173008 v316; char p4[8]; VT_173008_00173008 *vt; } O_173008_00173008;
+void func_00172C00(void *, int); void func_00172E40(void *); void func_00172BE8(void *, int);
+// MATCH func_00173008
+int FUN_00173008(O_173008_00173008 *o) { o->vt->fn60((char *)o + o->vt->adj56, 1); func_00172C00(o, 4); o->w88 = 2; o->vt->fn36((char *)o + o->vt->adj32); o->w108 = 0; if (o->w92 == 0) { o->w112->f200 = 1.0f; if (o->w124 != 0) { func_00172E40(o); return 0; } } if (o->w92 > 0) { o->vt->fn60((char *)o + o->vt->adj56, 3); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3170[0]; } return 0; }
+
+typedef struct { char c[8]; } V8_001730F8;
+extern V8_001730F8 D_004A3178[3];
+typedef struct { char p[32]; short adj32; short pad32; void (*fn36)(void *); char p2[16]; short adj56; short pad56; void (*fn60)(void *, int); } VT_1730f8_001730F8;
+typedef struct { char p[200]; float f200; } T2_1730f8_001730F8;
+typedef struct { char p0[88]; int w88; int w92; char p1[4]; float f100; float f104; int w108; T2_1730f8_001730F8 *w112; char p2[8]; int w124; char p3[188]; V8_001730F8 v316; char p4[8]; VT_1730f8_001730F8 *vt; } O_1730f8_001730F8;
+void func_00172C00(void *, int); void func_00172E40(void *); void func_00172BE8(void *, int);
+// MATCH func_001730F8
+int FUN_001730f8(O_1730f8_001730F8 *o) { o->vt->fn60((char *)o + o->vt->adj56, 1); func_00172C00(o, 4); o->w88 = 1; o->vt->fn36((char *)o + o->vt->adj32); o->w108 = 0; if (o->w92 == 0) { o->w112->f200 = 1.0f; if (o->w124 != 0) { func_00172E40(o); return 0; } } if (o->w92 > 0) { o->vt->fn60((char *)o + o->vt->adj56, 2); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3178[0]; } return 0; }
+
+typedef struct { char c[8]; } V8_00172EB8;
+extern V8_00172EB8 D_004A3160[3]; extern V8_00172EB8 D_004A3168[3];
+typedef struct { char p[32]; short adj32; short pad32; void (*fn36)(void *); char p2[16]; short adj56; short pad56; void (*fn60)(void *, int); } VT_172eb8_00172EB8;
+typedef struct { char p[200]; float f200; } T2_172eb8_00172EB8;
+typedef struct { char p0[88]; int w88; int w92; char p1[4]; float f100; float f104; int w108; T2_172eb8_00172EB8 *w112; char p2[8]; int w124; char p3[188]; V8_00172EB8 v316; char p4[8]; VT_172eb8_00172EB8 *vt; } O_172eb8_00172EB8;
+void func_00172C00(void *, int); void func_00172E40(void *); void func_00172BE8(void *, int);
+// MATCH func_00172EB8
+int FUN_00172eb8(O_172eb8_00172EB8 *o) { o->vt->fn60((char *)o + o->vt->adj56, 1); func_00172C00(o, 4); o->vt->fn36((char *)o + o->vt->adj32); o->w108 = 0; if (o->w92 == 0) { o->w112->f200 = 1.0f; if (o->w124 != 0) { func_00172E40(o); return 0; } } if (o->w92 > 0) { if (o->w88 == 1) { o->vt->fn60((char *)o + o->vt->adj56, 2); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3160[0]; } else if (o->w88 == 2) { o->vt->fn60((char *)o + o->vt->adj56, 3); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3168[0]; } } return 0; }
+
+typedef struct { char p[56]; short adj56; short pad56; void (*fn60)(void *); char p2[16]; short adj80; short pad80; void (*fn84)(void *, int); } VT_1659b0_001659B0;
+typedef struct { char p[20]; int w20; } B_1659b0_001659B0;
+typedef struct { B_1659b0_001659B0 *base; char p0[6]; short h10; char p1[36]; VT_1659b0_001659B0 *vt; char p2[12]; int w64; char p3[4]; int w72; } O_1659b0_001659B0;
+// MATCH func_001659B0
+int pachislot_001659b0(O_1659b0_001659B0 *o, int a) { int v; a++; v = o->h10 + a; if (v < 0) v += o->base->w20; if (v >= o->base->w20) v -= o->base->w20; o->w72 = v; o->vt->fn84((char *)o + o->vt->adj80, v); o->vt->fn60((char *)o + o->vt->adj56); o->w64 = 0; return 1; }
+
+typedef struct { char c[8]; } V8_00173E20;
+extern V8_00173E20 D_004A3170_00173E20[3] __asm__("D_004A3170");
+typedef struct { char p[32]; short adj32; short pad32; void (*fn36)(void *); char p2[16]; short adj56; short pad56; void (*fn60)(void *, int); } VT_173e20_00173E20;
+typedef struct { char p[200]; float f200; } T2_173e20_00173E20;
+typedef struct { char p0[88]; int w88; int w92; char p1[4]; float f100; float f104; int w108; T2_173e20_00173E20 *w112; char p2[8]; int w124; char p3[188]; V8_00173E20 v316; char p4[8]; VT_173e20_00173E20 *vt; char p5[8]; int w344; int w348; int w352; } O_173e20_00173E20;
+void func_00172C00(void *, int); void func_00172E40(void *); void func_00172BE8(void *, int); void func_00173BE0(void *);
+// MATCH func_00173E20
+int FUN_00173e20(O_173e20_00173E20 *o) { o->vt->fn60((char *)o + o->vt->adj56, 1); func_00172C00(o, 4); o->w88 = 2; o->vt->fn36((char *)o + o->vt->adj32); o->w108 = 0; if (o->w92 == 0) { o->w112->f200 = 1.0f; if (o->w124 != 0) { func_00172E40(o); return 0; } } if (o->w92 > 0) { if (o->w344 != 0 && o->w352 != o->w348) { func_00173BE0(o); return 0; } o->vt->fn60((char *)o + o->vt->adj56, 3); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3170_00173E20[0]; } return 0; }
+
+typedef struct { char c[8]; } V8_00173F38;
+extern V8_00173F38 D_004A3178_00173F38[3] __asm__("D_004A3178");
+typedef struct { char p[32]; short adj32; short pad32; void (*fn36)(void *); char p2[16]; short adj56; short pad56; void (*fn60)(void *, int); } VT_173f38_00173F38;
+typedef struct { char p[200]; float f200; } T2_173f38_00173F38;
+typedef struct { char p0[88]; int w88; int w92; char p1[4]; float f100; float f104; int w108; T2_173f38_00173F38 *w112; char p2[8]; int w124; char p3[188]; V8_00173F38 v316; char p4[8]; VT_173f38_00173F38 *vt; char p5[8]; int w344; int w348; int w352; } O_173f38_00173F38;
+void func_00172C00(void *, int); void func_00172E40(void *); void func_00172BE8(void *, int); void func_00173BE0(void *);
+// MATCH func_00173F38
+int FUN_00173f38(O_173f38_00173F38 *o) { o->vt->fn60((char *)o + o->vt->adj56, 1); func_00172C00(o, 4); o->w88 = 1; o->vt->fn36((char *)o + o->vt->adj32); o->w108 = 0; if (o->w92 == 0) { o->w112->f200 = 1.0f; if (o->w124 != 0) { func_00172E40(o); return 0; } } if (o->w92 > 0) { if (o->w344 != 0 && o->w352 != o->w348) { func_00173BE0(o); return 0; } o->vt->fn60((char *)o + o->vt->adj56, 2); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3178_00173F38[0]; } return 0; }
+
+typedef struct { char c[8]; } V8_00173CA0;
+extern V8_00173CA0 D_004A3160_00173CA0[3] __asm__("D_004A3160"); extern V8_00173CA0 D_004A3168_00173CA0[3] __asm__("D_004A3168");
+typedef struct { char p[32]; short adj32; short pad32; void (*fn36)(void *); char p2[16]; short adj56; short pad56; void (*fn60)(void *, int); } VT_173ca0_00173CA0;
+typedef struct { char p[200]; float f200; } T2_173ca0_00173CA0;
+typedef struct { char p0[88]; int w88; int w92; char p1[4]; float f100; float f104; int w108; T2_173ca0_00173CA0 *w112; char p2[8]; int w124; char p3[188]; V8_00173CA0 v316; char p4[8]; VT_173ca0_00173CA0 *vt; char p5[8]; int w344; int w348; int w352; } O_173ca0_00173CA0;
+void func_00172C00(void *, int); void func_00172E40(void *); void func_00172BE8(void *, int); void func_00173BE0(void *);
+// MATCH func_00173CA0
+int FUN_00173ca0(O_173ca0_00173CA0 *o) { o->vt->fn60((char *)o + o->vt->adj56, 1); func_00172C00(o, 4); o->vt->fn36((char *)o + o->vt->adj32); o->w108 = 0; if (o->w92 == 0) { o->w112->f200 = 1.0f; if (o->w124 != 0) { func_00172E40(o); return 0; } } if (o->w92 > 0) { if (o->w344 != 0 && o->w352 != o->w348) { func_00173BE0(o); return 0; } if (o->w88 == 1) { o->vt->fn60((char *)o + o->vt->adj56, 2); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3160_00173CA0[0]; } else if (o->w88 == 2) { o->vt->fn60((char *)o + o->vt->adj56, 3); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3168_00173CA0[0]; } } return 0; }

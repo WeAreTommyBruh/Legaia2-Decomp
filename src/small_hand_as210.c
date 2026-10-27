@@ -169,3 +169,13 @@ typedef struct { int w0; int w4; int w8; int w12; } Qq_002D04C0;
 void *func_002CFF38(void); Qq_002D04C0 *func_002CFFC0(int, unsigned);
 // MATCH func_002D04C0
 int SndVoiceSetParam(int a, int b, int c, int d) { Pp_002D04C0 *p = func_002CFF38(); Qq_002D04C0 *q = func_002CFFC0(p->w60, p->w64); if (p->w64 >= 255) return -1; q->w0 = a; q->w4 = b; q->w8 = c; q->w12 = d; p->w64++; return p->w64; }
+
+// MATCH func_00156B58
+void FUN_00156b58(char *o, unsigned c) { float r = (float)(c & 0xff); float g = (float)((c >> 8) & 0xff); float b = (float)((c >> 16) & 0xff); float *p = (float *)(o + 176); 
+*(float *)(o + 176) = r;
+p[1] = g;
+p[2] = b;
+p[3] = 128.0f;}
+
+// MATCH func_00156408
+void FUN_00156408(char *o, unsigned c, unsigned d) { float r = (float)(c & 0xff); float g = (float)((c >> 8) & 0xff); float b = (float)((c >> 16) & 0xff); float *p = (float *)(o + 64); float r2; float g2; float b2; float *q; *(float *)(o + 64) = r; p[1] = g; p[2] = b; p[3] = 128.0f; r2 = (float)(d & 0xff); g2 = (float)((d >> 8) & 0xff); b2 = (float)((d >> 16) & 0xff); q = (float *)(o + 80); *(float *)(o + 80) = r2; q[1] = g2; q[2] = b2; q[3] = 128.0f; }
