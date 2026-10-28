@@ -19,7 +19,7 @@ mkdir -p ~/tools/ee-gcc2.9-991111-01
 curl -L https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111-01.tar.xz \
   | tar xJ -C ~/tools/ee-gcc2.9-991111-01
 ```
-The compiler is a 32-bit linux executable. On 64-bit systems you need to install the install the 32-bit runtime libraries.
+The compiler is a 32-bit linux executable. On 64-bit systems you need to install the the 32-bit runtime libraries.
 ```bash
 sudo dpkg --add-architecture i386
 sudo [package manager] update
