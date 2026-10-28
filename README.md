@@ -14,7 +14,8 @@ You can get EE-GCC 2.9-ee-991111-01 through decomp.me
 
 ```bash
 mkdir -p ~/tools/ee-gcc2.9-991111-01
-
+```
+```bash
 curl -L https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111-01.tar.xz \
   | tar xJ -C ~/tools/ee-gcc2.9-991111-01
 ```
