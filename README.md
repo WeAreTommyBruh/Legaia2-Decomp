@@ -2,12 +2,12 @@
   <img src="https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/29e6bfa6fd988cf3c49323602c1fc3d83d9a5562/logo.png" alt="Alt Text" width="500">
 </p>
 
+[![Code](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp.svg?mode=shield&label=Code&measure=matched_code_percent)](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp)
+[![Functions](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp.svg?mode=shield&label=Functions&measure=matched_functions)](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp)
+
 
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation
 This project aims to rebuild Legaia 2 code into readable C source code. The goal of this project is a byte-for-byte decomp that can reproduce the games executable.
-
-[![Code](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp.svg?mode=shield&label=Code&measure=matched_code_percent)](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp)
-[![Functions](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp.svg?mode=shield&label=Functions&measure=matched_functions)](https://bytematch.dev/WeAreTommyBruh/Legaia2-Decomp)
 
 # Setup
 
