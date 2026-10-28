@@ -1,5 +1,5 @@
 <p align="center">
-  ![Alt Text](https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/29e6bfa6fd988cf3c49323602c1fc3d83d9a5562/logo.png)
+  <img src="https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/29e6bfa6fd988cf3c49323602c1fc3d83d9a5562/logo.png" alt="Alt Text" width="500">
 </p>
 
 
