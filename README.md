@@ -1,3 +1,5 @@
+![image](https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/e964a542ba000312c3a757b8fec6e4f42241c3ce/logo.png)
+
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation
 This project aims to rebuild Legaia 2 code into readable C source code. The goal of this project is a byte-for-byte decomp that can reproduce the games executable.
 
