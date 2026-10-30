@@ -127,3 +127,8 @@ int akari_001e2678(int a, int *b) {
 
 // MATCH func_002A1DF8
 int clas_min_002a1df8(char *o, int key) { char *p; if (key == -1) return *(int *)(o + 1616) == 0; p = *(char **)(o + 1616); while (p != 0) { if (*(int *)(p + 260) == key) break; p = *(char **)(p + 256); } return p == 0; }
+
+extern int D_004A14CC; extern char D_00440530[];
+int func_0024C568(void *); unsigned long long func_001118F8(char *, ...);
+// MATCH func_0018BB70
+int FUN_0018bb70(int *a, int b, int c, int d, int e, int idx) { if ((unsigned)a & 0xf) D_004A14CC++; if (idx >= 0) { if ((unsigned)idx < (unsigned)a[0]) { if (func_0024C568((char *)a + (a[idx + 1] << 2)) < 0) func_001118F8(D_00440530); } } return -1; }

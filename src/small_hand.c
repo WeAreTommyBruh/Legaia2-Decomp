@@ -6305,3 +6305,15 @@ extern char D_0043FED0_0022A198[] __asm__("D_0043FED0"), D_0045BE70[];
 void func_00202840_0022A198(void *) __asm__("func_00202840"); void func_00229828(void *);
 // MATCH func_0022A198
 char *FUN_0022a198(char *o) { char *p; int i; *(int *)(o + 2116) = (int)D_0043FED0_0022A198; p = o + 2176; func_00202840_0022A198(o + 24); *(int *)(o + 2116) = (int)D_0045BE70; *(int *)(o + 2128) = -1; *(int *)(o + 2132) = -1; *(int *)(o + 2136) = 0; *(int *)(o + 2140) = 0; *(int *)(o + 2144) = 0; *(int *)(o + 2148) = 0; for (i = 47; i != -1; i--) { func_00229828(p); p += 12432; } *(int *)(o + 2160) = 0; return o; }
+
+int func_002E58E0(int); int func_002E58C0(int); void func_00191740(int); void func_001916D8(int);
+// MATCH func_00192168
+int FUN_00192168(int *o) { func_002E58E0(o[16]); o[17] = 0; func_00191740(5); o[7] = *(volatile unsigned *)0x1000b410; o[8] = *(volatile unsigned *)0x1000b430; o[9] = *(volatile unsigned *)0x1000b420; o[10] = *(volatile unsigned *)0x1000b400; while (*(volatile unsigned *)0x10002010 & 0xf0) ; func_001916D8(0); o[11] = *(volatile unsigned *)0x1000b010; o[12] = *(volatile unsigned *)0x1000b020; o[13] = *(volatile unsigned *)0x1000b000; o[14] = *(volatile unsigned *)0x10002020; o[15] = *(volatile unsigned *)0x10002010; func_002E58C0(o[16]); return 1; }
+
+typedef struct { short a, b, v; } E_0025BA90;
+extern E_0025BA90 D_003FD930[];
+// MATCH func_0025BA90
+int FUN_0025ba90(int a, int b, int c) { int i, lo, hi; if (a < b) { lo = a; hi = b; } else { lo = b; hi = a; } i = 0; while (D_003FD930[i].a != -1) { if (lo == D_003FD930[i].a && hi == D_003FD930[i].b) return D_003FD930[i].v; i++; } return c; }
+
+// MATCH func_002D9880
+int FUN_002d9880(char *p) { int off, n, t; off = *(int *)p; n = 0; if (off != 0) { for (;;) { if (*(int *)(p + 4) != 0) { if (*(int *)(p + 8) != 0) n++; } t = *(int *)(p + off + 4); p = p + off + 4; if (t == 0) break; off = t; } } return n; }
