@@ -6230,3 +6230,51 @@ int pachislot_001697f0(char *o) {
     }
     return 0;
 }
+
+// MATCH func_00173980
+void FUN_00173980(char *o) {
+    int idx, d, dl;
+    long e;
+    void (*fn)(void *);
+    idx = *(short *)(o + 318);
+    if (idx > 0) {
+        long *vt = *(long **)(o + *(short *)(o + 320));
+        e = vt[idx - 1];
+        fn = (void (*)(void *))(e >> 32);
+    } else fn = *(void (**)(void *))(o + 320);
+    dl = *(short *)(o + 316);
+    d = idx > 0 ? (short)e + dl : dl;
+    fn(o + d);
+}
+
+typedef struct { char c[8]; } V8_00176AC8;
+extern V8_00176AC8 D_004A31D0[3];
+int func_00172CF0(void *); void func_00174050(void *); void func_00172CB0(void *); void func_00172CF8(void *); void func_00175ED8(void);
+// MATCH func_00176AC8
+int repetition_00176ac8(char *o) {
+    int idx, d, dl, r;
+    long e;
+    int (*fn)(void *);
+    if (*(short *)(o + 368) >= 500) {
+        if (func_00172CF0(o) >= func_00172CF0(o + 912)) func_00174050(o + 912);
+    }
+    idx = *(short *)(o + 890);
+    if (idx > 0) {
+        long *vt = *(long **)(o + *(short *)(o + 892));
+        e = vt[idx - 1];
+        fn = (int (*)(void *))(e >> 32);
+    } else fn = *(int (**)(void *))(o + 892);
+    dl = *(short *)(o + 888);
+    d = idx > 0 ? (short)e + dl : dl;
+    r = fn(o + d);
+    if (r != 0) {
+        func_00172CB0(o);
+        func_00172CB0(o + 912);
+        *(V8_00176AC8 *)(o + 408) = D_004A31D0[0];
+        if (*(short *)(o + 890) == -1 && *(int *)(o + 892) == (int)func_00175ED8) {
+            func_00172CF8(o);
+            func_00172CF8(o + 912);
+        }
+    }
+    return 0;
+}
