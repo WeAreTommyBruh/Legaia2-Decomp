@@ -103,6 +103,30 @@ h3::before{content:'';display:inline-block;width:8px;height:8px;margin-right:9px
 .bar{height:12px;background:var(--brown-1);border:1px solid var(--brown-2);border-radius:99px;overflow:hidden;margin-top:12px;box-shadow:inset 0 2px 3px rgba(0,0,0,.5)}
 .bar i{display:block;height:100%;min-width:2px;background:linear-gradient(180deg,var(--gold-1),var(--gold-2));border-radius:99px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
 
+/* ---------- badges, categories, commits ---------- */
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px;padding:0;list-style:none}
+.badge{display:inline-flex;border:1px solid var(--brown-1);border-radius:5px;overflow:hidden;font-size:13px;line-height:1;box-shadow:0 2px 4px rgba(0,0,0,.35)}
+.badge span{padding:6px 9px}
+.badge .k{background:linear-gradient(180deg,var(--brown-2),var(--brown-1));color:#fff;font-family:var(--serif);letter-spacing:.06em;font-size:12px}
+.badge .v{background:linear-gradient(180deg,var(--gold-1),var(--gold-2));color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.badge.blue .v{background:linear-gradient(180deg,var(--blue-1),var(--blue-2));color:#fff}
+.panel h3{margin-top:0}
+.panel h3 small{font-family:'Noto Sans',sans-serif;letter-spacing:0;font-size:13px;font-weight:400;color:#EAF3FF;margin-left:6px}
+.cat+.cat{margin-top:14px}
+.cat .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.cat .pct{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;color:var(--gold-1)}
+.cat .bar{margin-top:6px}
+.cat .label{margin-top:4px}
+.two{align-items:start;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:14px}
+.commits{list-style:none;margin:0;padding:0}
+.commits li{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:9px 0;border-bottom:1px solid var(--brown-2)}
+.commits li:last-child{border-bottom:none;padding-bottom:0}
+.commits a.h{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--gold-1);text-decoration:none}
+.commits a.h:hover{text-decoration:underline}
+.commits .m{overflow-wrap:anywhere}
+.commits .d{grid-column:2;font-size:13px;color:#EAF3FF}
+.dots{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;margin-top:10px}
+.dots i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;border:1px solid var(--brown-1);vertical-align:-1px}
 /* ---------- stacked breakdown ---------- */
 .stack{display:flex;height:16px;border:1px solid var(--brown-2);border-radius:99px;overflow:hidden;background:var(--brown-1);box-shadow:inset 0 2px 3px rgba(0,0,0,.5);margin:12px 0 10px}
 .stack i{display:block;height:100%;min-width:3px}
@@ -209,7 +233,6 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
     </ul>
     <div class="cta">
       <a class="btn primary" href="https://github.com/WeAreTommyBruh/Legaia2-Decomp">View on GitHub</a>
-      <a class="btn" href="#progress">See the progress</a>
     </div>
   </div>
   <figure class="char">
@@ -221,14 +244,24 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
 <section id="progress"><div class="wrap">
   <h2>Progress</h2>
   <p>How much of the game is decompiled, and every unit. A function counts only when its C compiles to the original bytes. Numbers come from the project's report, generated {{DATE}}.</p>
+  <ul class="badges" aria-label="Progress badges">{{BADGES_HTML}}</ul>
   <div class="grid">
     <div class="card"><div class="stat">{{CODE_PCT}}<small>%</small></div><div class="label">of the game's code decompiled</div>
       <div class="bar" role="progressbar" aria-valuenow="{{CODE_PCT}}" aria-valuemin="0" aria-valuemax="100" aria-label="Code matched"><i style="width:{{CODE_PCT_W}}%"></i></div>
       <div class="label" style="margin-top:8px">{{CODE_MATCHED}} of {{CODE_TOTAL}} bytes</div></div>
     <div class="card"><div class="stat">{{FN_MATCHED}}<small> / {{FN_TOTAL}}</small></div><div class="label">functions matched ({{FN_PCT}}%)</div>
       <div class="bar" role="progressbar" aria-valuenow="{{FN_PCT}}" aria-valuemin="0" aria-valuemax="100" aria-label="Functions matched"><i style="width:{{FN_PCT_W}}%"></i></div></div>
-    <div class="card"><div class="stat">{{UNITS_TOUCHED}}<small> / {{UNITS_TOTAL}}</small></div><div class="label">units with at least one matched function</div>
-      <div class="bar" role="progressbar" aria-valuenow="{{UNITS_W}}" aria-valuemin="0" aria-valuemax="100" aria-label="Units started"><i style="width:{{UNITS_W}}%"></i></div></div>
+    <div class="card"><div class="stat">{{FUZZY_PCT}}<small>%</small></div><div class="label">fuzzy match (partial matches count too)</div>
+      <div class="bar" role="progressbar" aria-valuenow="{{FUZZY_PCT}}" aria-valuemin="0" aria-valuemax="100" aria-label="Fuzzy match"><i style="width:{{FUZZY_PCT}}%"></i></div>
+      <div class="label" style="margin-top:8px">near-miss drafts score by how many instructions already agree</div></div>
+    <div class="card"><div class="stat">{{DATA_PCT}}<small>%</small></div><div class="label">of the data decompiled ({{DATA_TOTAL}} bytes)</div>
+      <div class="bar" role="progressbar" aria-valuenow="{{DATA_PCT_NUM}}" aria-valuemin="0" aria-valuemax="100" aria-label="Data matched"><i style="width:{{DATA_W}}%"></i></div>
+      <div class="dots"><span><i style="background:var(--gold-1)"></i><b>{{DATA_DONE}}</b> done</span><span><i style="background:var(--brown-1)"></i><b>{{DATA_TODO}}</b> to do</span></div></div>
+  </div>
+
+  <div class="two">
+    <div class="panel"><h3>Categories <small>{{CAT_COUNT}}</small></h3>{{CATS_HTML}}</div>
+    <div class="panel"><h3>Recent commits</h3><ul class="commits">{{COMMITS_HTML}}</ul></div>
   </div>
 
   <h3>How the matches were made</h3>

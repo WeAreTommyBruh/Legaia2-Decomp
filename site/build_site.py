@@ -39,6 +39,42 @@ vals["UNITS_JSON"] = json.dumps(units, separators=(",", ":"))
 vals["UNITS_TOUCHED"] = str(touched); vals["UNITS_TOTAL"] = str(len(units)); vals["UNITS_W"] = f"{100*touched/len(units):.1f}"
 import base64
 vals["LANG"] = "data:image/png;base64," + base64.b64encode(open(os.path.join(here, "assets", "lang.png"), "rb").read()).decode()
+
+import html, subprocess
+full = json.load(open(os.path.join(here, "..", "report", "report.json")))
+fz = float(m.get("fuzzy_match_percent", 0))
+vals["FUZZY_PCT"] = f"{fz:.2f}"
+td, md = int(m.get("total_data", 0)), int(m.get("matched_data", 0))
+dp = 100 * md / td if td else 0
+vals["DATA_PCT"] = "<0.01" if 0 < dp < 0.01 else f"{dp:.2f}"
+vals["DATA_PCT_NUM"] = f"{dp:.4f}"; vals["DATA_W"] = f"{max(dp, 0.4):.2f}"
+vals["DATA_DONE"] = f"{md:,}"; vals["DATA_TODO"] = f"{td - md:,}"; vals["DATA_TOTAL"] = f"{td:,}"
+cats = []
+for c in full.get("categories", []):
+    cm = c["measures"]; p = float(cm.get("matched_code_percent", 0))
+    cats.append(f'<div class="cat"><div class="top"><span>{html.escape(c["name"])}</span><span class="pct">{p:.2f}%</span></div>'
+                f'<div class="bar" role="progressbar" aria-valuenow="{p:.2f}" aria-valuemin="0" aria-valuemax="100" aria-label="{html.escape(c["name"])}"><i style="width:{p:.2f}%"></i></div>'
+                f'<div class="label">{int(cm.get("matched_functions", 0)):,} of {int(cm.get("total_functions", 0)):,} functions, '
+                f'{int(cm.get("matched_code", 0)):,} of {int(cm.get("total_code", 0)):,} bytes</div></div>')
+vals["CATS_HTML"] = "".join(cats); vals["CAT_COUNT"] = str(len(cats))
+def commits(n=6):
+    try:
+        out = subprocess.run(["git", "-C", os.path.join(here, ".."), "log", f"-n{n}", "--format=%H%x1f%cs%x1f%s"], capture_output=True, text=True, check=True).stdout
+    except Exception:
+        return '<li><span class="m">History is not available in this build.</span></li>'
+    rows = []
+    for line in out.strip().split("\n"):
+        h, d, subj = line.split("\x1f", 2)
+        rows.append(f'<li><a class="h" href="https://github.com/WeAreTommyBruh/Legaia2-Decomp/commit/{h}">{h[:7]}</a>'
+                    f'<span class="m">{html.escape(subj)}</span><span class="d">{d}</span></li>')
+    return "".join(rows)
+vals["COMMITS_HTML"] = commits()
+def badge(k, v, cls=""):
+    return f'<li class="badge {cls}"><span class="k">{k}</span><span class="v">{v}</span></li>'
+vals["BADGES_HTML"] = "".join([
+    badge("CODE", f'{code_pct:.2f}%'), badge("FUNCTIONS", f'{fn_pct:.1f}%'),
+    badge("FUZZY", f'{fz:.2f}%', "blue"), badge("DATA", f'{vals["DATA_PCT"]}%', "blue"),
+    badge("UNITS", f'{touched} / {len(units)}', "blue")])
 for k, v in vals.items():
     t = t.replace("{{" + k + "}}", v)
 assert "{{" not in t

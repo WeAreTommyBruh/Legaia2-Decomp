@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 30
       - run: python3 site/build_site.py
       - run: mkdir _site && cp site/index.html _site/index.html && cp -r site/assets _site/assets && rm -f _site/assets/lang.jpg
       - uses: actions/configure-pages@v5

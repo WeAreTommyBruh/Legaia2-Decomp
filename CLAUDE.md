@@ -75,6 +75,9 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
   the third unsigned; list pops like `t = L.v[L.n--]` and pointer-reusing `a = (char *)*(int *)(...)` fixed register naming (24a190, 223500).
   Hardware/kernel code: `__asm__ volatile("sync")`, `".word 0x42000038"` (ei), `"mfc0 %0, $12"`, `"cache 0x10, 0(%0)"` inside normal C matched whole
   functions (2e60f0, 2e5d30, 1096c0); volatile on the gp scalars they touch stops delay-slot hoisting (10f268).
+- Website (`site/template.html` + `site/build_site.py`, deployed by `.github/workflows/pages.yml`, which checks out 30 commits for the history): the progress
+  section shows badges, cards for code / functions / fuzzy match / data, the categories panel and the recent commits, all filled from `report/report.json`
+  and `git log`; no "See the progress" button in the hero (the user asked to remove it). The user asked to stop matching functions after commit 15baa16.
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
