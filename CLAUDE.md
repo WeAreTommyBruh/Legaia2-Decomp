@@ -6,10 +6,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Current progress (session 14 in progress, last push below)
 
-- 3587 / 6254 functions matched (57.4%); 228,536 / 2,022,408 code bytes = **11.30%** (user goal for session 14: 11.54%).
+- 3613 / 6254 functions matched (57.8%); 233,676 / 2,022,408 code bytes = **11.55%** (user goal for session 14: 11.54%).
   - 1752 written by hand, 758 generated from instruction patterns (`tools/gen_tiny.py`), 820 Ghidra output that
     already matches (`tools/gen_ghidra.py`), 168 hand-written assembly reproduced as file-scope asm in `src/asm_stubs.c`.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3587 / 11.30% (session 14, in progress).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3613 / 11.55% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
@@ -40,9 +40,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Session 14 workflow and new tricks
 
-- Parallel workers: forks each take an address window (0x100000-0x16ffff, 0x170000-0x1effff, 0x1f0000-0x25ffff, 0x260000-0x2fffff), write
-  `build/work/spec_wK_NN.txt`, score with `BO=bo_wK_NN.json python3 batch.py`, and touch nothing else. The main session merges the `bo_*.json`
-  files into `batch_out.json`, runs `dedupe.py`, `emit.py`, `fixemit.py`, then `asm_build.py all` (must print MATCH), `tools/report.py`, commits and pushes.
+- Session 14 first used parallel forked workers (address windows, then technique-based) that wrote `build/work/spec_wK_NN.txt` and
+  `bo_wK_NN.json`; the main session merged the `bo_*.json` files into `batch_out.json` and ran `dedupe.py`, `emit.py`, `fixemit.py`, then
+  `asm_build.py all` (must print MATCH), `tools/report.py`, commit and push. **The user has since ruled out agents, workers and subagents:
+  do the matching yourself in this session** (the same spec/batch/emit flow works single-handed).
 - Member-function-pointer calls (`ld -8` + `dsra32`) match with a hand-expanded ptmf: two separate `idx > 0` tests, one for the function and
   one for the delta (`fn = (void (*)(void *))(e >> 32); d = idx > 0 ? (short)e + dl : dl; fn(o + d);`). Untried: 171ae8 1723e8 173980 175f58 176ac8 176e10 17fc20 204a78 214fa8.
 - Overlapping `lw`/`lh` fields reloaded after a store need a union. A pointer in a callee-saved reg may need a `static inline` helper taking `float *v`.
@@ -53,6 +54,8 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Rules
 
+- **Do not use agents, workers or subagents** (no Agent tool, no forks, no background workers) for matching or anything else in this
+  project; work directly in the main session. (User instruction, session 14.)
 - **Every push includes a refreshed `report/report.json`** (run `python3 tools/report.py`). `tools/progress.py` now writes
   `build/PROGRESS.md` (git-ignored) as a local summary only; `PROGRESS.md` is no longer committed.
   `build/work/commit.sh "msg" files...` checks the build says MATCH, regenerates the reports, commits and pushes.

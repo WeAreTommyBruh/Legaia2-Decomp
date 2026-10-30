@@ -210,3 +210,8 @@ extern volatile int D_00426394_002CC7A8[] __asm__("D_00426394"); extern volatile
 int func_002CBAE8(void); int func_002CB978(int); int func_002E8928_002CC7A8(char *, int, int, int, int, int, int, void *, int *) __asm__("func_002E8928"); void func_002E58C0(int); void func_002CB108(void);
 // MATCH func_002CC7A8
 int FUN_002cc7a8(void) { if (func_002CBAE8() == 6) return 0; if (func_002CB978(10) == 0) return 0; D_00426394_002CC7A8[0] = 5; D_00426370_002CC7A8[0] = 1; if (func_002E8928_002CC7A8(D_00427510_002CC7A8, 6, 1, 0, 0, 0, 0, func_002CB108, D_00426394_002CC7A8) < 0) { D_00426394_002CC7A8[0] = 0; D_00426370_002CC7A8[0] = 0; func_002E58C0(D_00426368_002CC7A8[0]); return 0; } return 1; }
+
+extern volatile int D_00426354[], D_00426394_002CB478[] __asm__("D_00426394"), D_00426360[], D_00426368_002CB478[] __asm__("D_00426368"), D_0042636C[];
+void func_002E58C0(int); int func_002E58B0(int); int func_002EDC50(void); void func_002E7D30(int); void func_002EDC98(void);
+// MATCH func_002CB478
+void FUN_002cb478(void) { int r; if (D_00426354[0]) { D_00426394_002CB478[0] = -1; func_002E58C0(D_00426360[0]); } func_002E58B0(D_00426368_002CB478[0]); func_002E58B0(D_0042636C[0]); func_002E58B0(D_00426360[0]); r = func_002EDC50(); func_002E7D30(0x80000012); if (r) func_002EDC98(); }

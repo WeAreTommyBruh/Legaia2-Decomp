@@ -81,3 +81,38 @@ void FUN_0018d550(float *p, float *q)
 
   func_001118F8_0018D550(D_004A3688);
 }
+
+typedef struct { char p[20]; int w20; } P_00294598;
+typedef union { int w; struct { unsigned short a; short b; } s; } U;
+typedef struct { P_00294598 *p; int pad4; U u; int w12; char pad16[24]; short d40; short i42; short v44; short v46; } O_00294598;
+extern long D_004A12C8; extern long D_004A12D8; extern long D_004A12E0; extern char D_00343028_00294598[] __asm__("D_00343028");
+int func_001114B0(void); void func_00164C10(O_00294598 *); void func_0010C2B0(char *, int, int, int, int, int, int);
+// MATCH func_00294598
+void FUN_00294598(O_00294598 *o) { int idx; void (*fn)(void *); int d; int dl; long e; if (func_001114B0() != 0) { func_00164C10(o); } else if ((D_004A12C8 & 4) != 0) { o->u.s.a = 0xffff; o->w12 = o->u.s.b; if (((D_004A12D8 | D_004A12E0) & 0x1000) != 0) o->u.s.b = (unsigned short)o->u.s.b - 1; if (((D_004A12D8 | D_004A12E0) & 0x4000) != 0) o->u.s.b = (unsigned short)o->u.s.b + 1; if (o->u.s.b < 0) o->u.s.b = (unsigned short)o->u.s.b + *(unsigned short *)&o->p->w20; if (o->u.s.b >= o->p->w20) o->u.s.b = (unsigned short)o->u.s.b - *(unsigned short *)&o->p->w20; idx = o->i42; if (idx > 0) { long *vt = *(long **)((char *)o + o->v44); e = vt[idx - 1]; fn = (void (*)(void *))(e >> 32); } else fn = *(void (**)(void *))&o->v44; dl = o->d40; d = idx > 0 ? (short)e + dl : dl; fn((char *)o + d); } else { func_00164C10(o); } if (o->w12 != o->u.s.b) func_0010C2B0(D_00343028_00294598, 120, 13, 1, 0, 1, 0); }
+
+typedef struct { short delta; short index; union { int (*fn)(void *, int); short voff; } u_00168280;
+} PMF;
+extern char D_0043CCF0[]; extern char D_0043CD00[]; extern char D_0043CD10[]; extern int D_00334830[];
+void func_001118F8_00168280() __asm__("func_001118F8");
+#define PMFCALL(res, a) { int idx = f.index; int (*fn)(void *, int); long e; int dl; int d; if (idx > 0) { long *vt = *(long **)(o + f.u_00168280.voff); e = vt[idx - 1]; fn = (int (*)(void *, int))(e >> 32); } else fn = f.u_00168280.fn; dl = f.delta; d = idx > 0 ? (short)e + dl : dl; res = fn(o + d, a); }
+// MATCH func_00168280
+int pachislot_00168280(char *o, PMF f) { int i, k, r, a, b, c; i = 0; do { PMFCALL(r, i) if (r != 1) break; i++; } while (i < 6); if (i >= 6) return 0; func_001118F8_00168280(D_0043CCF0, i); a = -1; b = -1; c = -1; for (k = 5; i < k; k--) { PMFCALL(r, k) func_001118F8_00168280(D_0043CD00, k, D_00334830[r]); if (r == 2) a = k; if (r == 3) b = k; if (r == 4) c = k; } if (b >= 0) i = b; else if (a >= 0) i = a; else if (c >= 0) i = c; func_001118F8_00168280(D_0043CD10, i, a, b); return i; }
+
+typedef struct { char p[8]; int w8; char q[4]; char *w16; int *w20; int *w24; char *w28; signed char b32; } O__002033C0;
+int func_002DD4B0(void *, void *);
+// MATCH func_002033C0
+char *FUN_002033c0(O__002033C0 *o, char *key, int *out)
+{
+    int i, off;
+    if (out != 0) *out = 0;
+    if (o->b32 == 1) {
+        off = 0;
+        for (i = 0; i < o->w8; i++, off += 16) {
+            if (func_002DD4B0(key, o->w28 + off) == 0) {
+                if (out != 0) *out = o->w20[i];
+                return o->w16 + o->w24[i];
+            }
+        }
+    }
+    return 0;
+}
