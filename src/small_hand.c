@@ -6477,3 +6477,14 @@ void FUN_00194808(int *o, unsigned a, unsigned b, unsigned c, unsigned d, unsign
 
 // MATCH func_00247490
 void FUN_00247490(char *o, int v) { int i; *(short *)o = v; *(int *)(o + 4) |= 1; *(int *)(o + 12) = 0; i = (short)v; if (i >= 0) { char *t = *(char **)(o + (i << 2) + 48); *(int *)(t + 52) |= 0x40; } }
+
+extern int D_003B7048[], D_0036CAB0_001F1DA0[] __asm__("D_0036CAB0"), D_003B6DB8[];
+int func_001AD548(void *, void *, void *);
+// MATCH func_001F1DA0
+int FUN_001f1da0(void) { int r, i; int *q; char *a, *b; int st[4]; b = (char *)D_003B7048; q = D_0036CAB0_001F1DA0; i = 3; a = (char *)D_003B6DB8; do { r = func_001AD548(a, b, st); *q = r; q = q + 1; b = b + st[0] * 0xe8; a = a + 0xa4; i = i - 1; } while (-1 < i); return D_0036CAB0_001F1DA0[0]; }
+
+// MATCH func_002CF458
+int *FUN_002cf458(int *o) { int *w; int *p; w = (int *)o[2]; for (p = (int *)*o; ((unsigned)p & 0xc) != 0; p++) *p = 0; if (w != 0) *w = *w - 1 + (((int)p - (int)w) >> 4); *o = (int)p; o[2] = 0; return p; }
+
+// MATCH func_002CF158
+int *FUN_002cf158(int *o) { int *w; int *p; w = (int *)o[2]; for (p = (int *)*o; ((unsigned)p & 0xc) != 0; p++) *p = 0; if (w != 0) *w = *w - 1 + (((int)p - (int)w) >> 4); *o = (int)p; o[2] = 0; return p; }
