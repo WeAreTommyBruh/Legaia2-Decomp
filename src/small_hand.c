@@ -6593,3 +6593,11 @@ char *clas_min_002a0098(void) { int x; x = func_002A0020(); if (x < D_004A69A8) 
 extern int D_004A69A8_002A00E0 __asm__("D_004A69A8"); extern char D_005F9640_002A00E0[] __asm__("D_005F9640"); int func_002A0020(void); int func_0029C878(int, int);
 // MATCH func_002A00E0
 char *clas_min_002a00e0(void) { int x; x = func_0029C878(func_002A0020(), 0); if (x < D_004A69A8_002A00E0) return D_005F9640_002A00E0 + x * 608; return 0; }
+
+extern int D_004A1A20_00125340 __asm__("D_004A1A20"); extern char D_00430D80[]; unsigned long long func_001118F8_00125340(char *, ...) __asm__("func_001118F8");
+// MATCH func_00125340
+void NextTargetMotion(int a) { char *e; func_001118F8_00125340(D_00430D80); e = (char *)(a * 5472 + D_004A1A20_00125340); *(unsigned *)(e + 4816) = *(unsigned *)(e + 4816) | 0x20; }
+
+extern int D_004A1A20_001227B8 __asm__("D_004A1A20"); extern int D_004A6D94_001227B8 __asm__("D_004A6D94"); int func_00290818(void);
+// MATCH func_001227B8
+int battle_001227b8(void) { if (func_00290818() != 0) return 1; return *(int *)(D_004A6D94_001227B8 * 5472 + D_004A1A20_001227B8 + 4836) == 13; }
