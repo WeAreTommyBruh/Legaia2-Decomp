@@ -132,3 +132,11 @@ extern int D_004A14CC; extern char D_00440530[];
 int func_0024C568(void *); unsigned long long func_001118F8(char *, ...);
 // MATCH func_0018BB70
 int FUN_0018bb70(int *a, int b, int c, int d, int e, int idx) { if ((unsigned)a & 0xf) D_004A14CC++; if (idx >= 0) { if ((unsigned)idx < (unsigned)a[0]) { if (func_0024C568((char *)a + (a[idx + 1] << 2)) < 0) func_001118F8(D_00440530); } } return -1; }
+
+void func_002E58D0(int);
+// MATCH func_002CB018
+void FUN_002cb018(int a, int b, int c) { func_002E58D0(c); __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); }
+
+void func_002E6750(int);
+// MATCH func_002CDA58
+void FUN_002cda58(int a, int b, int c) { func_002E6750(c); __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); }
