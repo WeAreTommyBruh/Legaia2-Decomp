@@ -147,3 +147,23 @@ void FUN_002975b8(void) { if (D_004A683C & 2) { unsigned long u; long *q; char *
 void func_002C3200(void *, int, int); void func_002C30A0(void *, int, int);
 // MATCH func_002C31B8
 void FUN_002c31b8(char *o, int b, int c) { if (*(int *)(*(char **)(o + 64) + 372) != 3) func_002C3200(o, b, c); else func_002C30A0(o, b, c); }
+
+typedef struct { char p[6680]; unsigned short a, b, c, d; } E9_00250EF0;
+extern char D_003FEBA8[]; int func_00250E90(int);
+// MATCH func_00250EF0
+void FUN_00250ef0(int i) { func_00250E90(((E9_00250EF0 *)(D_003FEBA8 + i * 472))->a); }
+
+typedef struct { char p[6680]; unsigned short a, b, c, d; } E9_00250F20;
+extern char D_003FEBA8_00250F20[] __asm__("D_003FEBA8"); int func_00250E90(int);
+// MATCH func_00250F20
+void FUN_00250f20(int i) { func_00250E90(((E9_00250F20 *)(D_003FEBA8_00250F20 + i * 472))->b); }
+
+typedef struct { char p[6680]; unsigned short a, b, c, d; } E9_00250F50;
+extern char D_003FEBA8_00250F50[] __asm__("D_003FEBA8"); int func_00250E90(int);
+// MATCH func_00250F50
+void FUN_00250f50(int i) { func_00250E90(((E9_00250F50 *)(D_003FEBA8_00250F50 + i * 472))->c); }
+
+typedef struct { char p[6680]; unsigned short a, b, c, d; } E9_00250F80;
+extern char D_003FEBA8_00250F80[] __asm__("D_003FEBA8"); int func_00250E90(int);
+// MATCH func_00250F80
+void FUN_00250f80(int i) { func_00250E90(((E9_00250F80 *)(D_003FEBA8_00250F80 + i * 472))->d); }

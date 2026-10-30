@@ -6,10 +6,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Current progress (session 14 in progress, last push below)
 
-- 3642 / 6254 functions matched (58.2%); 237,764 / 2,022,408 code bytes = **11.76%** (user goal for session 14: 12.01%; 11.54% was reached first).
+- 3657 / 6254 functions matched (58.5%); 239,096 / 2,022,408 code bytes = **11.82%** (user goal for session 14: 12.01%; 11.54% was reached first).
   - 1752 written by hand, 758 generated from instruction patterns (`tools/gen_tiny.py`), 820 Ghidra output that
     already matches (`tools/gen_ghidra.py`), 168 hand-written assembly reproduced as file-scope asm in `src/asm_stubs.c`.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3642 / 11.76% (session 14, in progress).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3657 / 11.82% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
@@ -56,6 +56,12 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
   passed through (`f(char *o, int b, int c)` calling `g(o, b, c)`) put `o` in `$7` (2c31b8, needs -fexceptions); a constant held in a local before a
   call goes to a callee-saved reg (2c3458); statement order `v = *p; p++; f(v); i--;` fixed delay-slot order (18d4a8, 990721-r5900 -fno-thread-jumps);
   list unlink `for (; p != 0; p = p[5]) { if (p[5] == n) {...; break;} }`; a `key == -1` early return then one loop (2a1df8).
+- `build/work/ggnear.py K N MAXSIZE` (best Ghidra variant per unmatched function, `ggnear_K.json`) + `ggshow.py ADDR` (score it and write `w_<addr>.txt`)
+  finds near misses whose diff is small; hand-fix them: Ghidra's `0x3f000000` float constants -> `0.5f`; offsets in `lb`/`lhu` mean the field types (signed vs
+  unsigned); `ld`/`lq` mean `long long`/`u128` (`typedef int u128 __attribute__((mode(TI)))`); a 2-word diff with `addiu` vs `ori` constants means the
+  number is an address (use a `D_` array); `divu` means unsigned operands; array-of-struct getters/setters match with `E *e = &D[idx]; return e->f;`
+  (a plain `D[idx].f` gives a different `mult` operand order); struct stride 472 with a field beyond it: `((E *)(D + i * 472))->f`. Write callee names in
+  specs with UPPERCASE hex (`func_00254F48`): lowercase hex is an undefined symbol at link time.
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
