@@ -140,3 +140,7 @@ void FUN_002cb018(int a, int b, int c) { func_002E58D0(c); __asm__ volatile("syn
 void func_002E6750(int);
 // MATCH func_002CDA58
 void FUN_002cda58(int a, int b, int c) { func_002E6750(c); __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); }
+
+extern int D_004A6F60;
+// MATCH func_001899D8
+int FUN_001899d8(int a) { D_004A6F60 = D_004A6F60 + 1; __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return a; }

@@ -6536,3 +6536,16 @@ long long FUN_002e5dc0(void) { volatile int flag; volatile long long out; int r;
 typedef struct { void (*fn)(int); int arg; } CB9688_002E9688;
 // MATCH func_002E9688
 void FUN_002e9688(int a, CB9688_002E9688 *c) { if (c->fn != 0) c->fn(c->arg); __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); }
+
+extern int D_004A14D4;
+// MATCH func_0010F2F0
+int FUN_0010f2f0(int a) { D_004A14D4 = *(volatile int *)0x10000000; __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return a; }
+
+typedef struct { unsigned len; unsigned addr; } DM_002C8FD8;
+// MATCH func_002C8FD8
+int FUN_002c8fd8(int a, DM_002C8FD8 *p) { *(volatile int *)0x1000e010 = 16; if (p->len == 0) return 1; if (p->len > 0xffff) { *(volatile unsigned *)0x1000b410 = p->addr; *(volatile unsigned *)0x1000b420 = 0xffff; *(volatile unsigned *)0x1000b400 = 257; p->addr = (p->addr + 0xffff0) & 0xfffffff; p->len = p->len - 0xffff; } else { *(volatile unsigned *)0x1000b410 = p->addr; *(volatile unsigned *)0x1000b420 = p->len; *(volatile unsigned *)0x1000b400 = 257; p->len = 0; } __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return 0; }
+
+extern volatile unsigned D_004A6BB8_0010F268 __asm__("D_004A6BB8"); extern int D_004A6BD8; extern volatile int D_004A6BCC_0010F268 __asm__("D_004A6BCC"); extern volatile int D_004A1210; extern volatile int D_004A1558; extern volatile int D_004A120C;
+void func_002E58D0(int); void func_002E5840(int);
+// MATCH func_0010F268
+int FUN_0010f268(int a) { D_004A6BB8_0010F268 = D_004A6BB8_0010F268 + 1; if (D_004A6BB8_0010F268 > 0xfffffff) { D_004A6BD8 = 0; D_004A6BB8_0010F268 = 1; } D_004A6BCC_0010F268 = 1; if (D_004A1210 > 0) { func_002E58D0(D_004A1558); func_002E5840(D_004A1210); } (void)D_004A120C; __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return a; }
