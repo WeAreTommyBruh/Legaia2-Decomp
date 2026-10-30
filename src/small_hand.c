@@ -6439,3 +6439,30 @@ typedef struct { char p[6777]; unsigned char f; } E10_0025B7F0;
 extern char D_003FEBA8_0025B7F0[] __asm__("D_003FEBA8");
 // MATCH func_0025B7F0
 int FUN_0025b7f0(unsigned n) { int v; if (9 < n) return -1; if ((int)n < 5) return ((E10_0025B7F0 *)(D_003FEBA8_0025B7F0 + (int)n * 472))->f; v = 2; if (n != 5) v = 0; return v; }
+
+extern unsigned D_004A6B40_002B9250 __asm__("D_004A6B40"); extern char D_0041EF40[], D_004A6A18[];
+int func_00160C70_002B9250(int, char *, int) __asm__("func_00160C70"); int func_002B3F10(int, void *, void *); void func_002A0190(void *); void func_002BEEA0(void *);
+// MATCH func_002B9250
+void FUN_002b9250(char *p) { char *q; int u; q = *(char **)(p + 0xd8); if ((D_004A6B40_002B9250 & 8) == 0) { u = func_00160C70_002B9250((int)D_0041EF40, D_004A6A18, *(int *)(q + 0x1e8)); func_002B3F10(u, q, q + 0x1ec); } *(int *)(q + 0x1f0) = 0x15002; func_002A0190(q); func_002BEEA0(q); }
+
+extern char D_003FEBA8_002547F0[] __asm__("D_003FEBA8");
+// MATCH func_002547F0
+int FUN_002547f0(int idx) { int n, k; char *q; unsigned short *p; unsigned short v; n = 0; k = 15; q = D_003FEBA8_002547F0; q += 6680; p = (unsigned short *)(q + idx * 472); do { v = *p; p++; k--; if (v != 0) n++; } while (k >= 0); return n; }
+
+extern float D_003D4728[]; extern char D_004A5400[];
+int func_00239568_0023AA20(void *, int) __asm__("func_00239568");
+// MATCH func_0023AA20
+void FUN_0023aa20(char *o, int n) { if (n < 8) { *(int *)(o + 0x20) = n; *(float *)(o + 0x14) = D_003D4728[n]; } else { func_00239568_0023AA20(D_004A5400, n); if (n == 8) *(unsigned short *)(o + 0x10) ^= 8; if (n == 9) *(unsigned short *)(o + 0x10) ^= 0x100; } }
+
+extern int D_004A3798; extern char D_00321300_00195210[] __asm__("D_00321300");
+void func_00194A48(int);
+// MATCH func_00195210
+int FUN_00195210(void) { if (D_004A3798 != 0) { func_00194A48((int)D_00321300_00195210); D_004A3798 = 0; } __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return 0; }
+
+extern unsigned D_004A13D8;
+// MATCH func_0024C640
+unsigned init_0024c640(void) { unsigned u, v; u = D_004A13D8 + (D_004A13D8 * 5 + 1); v = ((u >> 16) + (u << 16)) | (((u & 0xff00) >> 8) + ((u & 0xff) << 8)); D_004A13D8 = v; return v; }
+
+extern char D_003E3D20_002785A0[] __asm__("D_003E3D20");
+// MATCH func_002785A0
+int FUN_002785a0(unsigned idx) { int n, k; char *q; short *p; short v; if (4 < idx) return -1; n = 0; k = 15; q = D_003E3D20_002785A0; q += 10; p = (short *)(q + (idx << 4) * 20); do { v = *p; p += 10; k--; if (v != 0) n++; } while (k >= 0); return n; }
