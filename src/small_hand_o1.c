@@ -124,3 +124,6 @@ int akari_001e2678(int a, int *b) {
     for (p = D_004A3838; p != 0; p = (int *)p[1]) if (p == b) return 1;
     return 0;
 }
+
+// MATCH func_002A1DF8
+int clas_min_002a1df8(char *o, int key) { char *p; if (key == -1) return *(int *)(o + 1616) == 0; p = *(char **)(o + 1616); while (p != 0) { if (*(int *)(p + 260) == key) break; p = *(char **)(p + 256); } return p == 0; }

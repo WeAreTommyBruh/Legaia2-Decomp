@@ -6278,3 +6278,20 @@ int repetition_00176ac8(char *o) {
     }
     return 0;
 }
+
+extern int D_00634200[];
+int func_002EDC50(void); int func_002EDC98_002E8D58(void) __asm__("func_002EDC98");
+// MATCH func_002E8D58
+int *FUN_002e8d58(int *n) { int *p; func_002EDC50(); p = (int *)D_00634200[10];
+if (p == n) D_00634200[10] = p[5]; else { for (; p != 0; p = (int *)p[5]) { if ((int *)p[5] == n) { p[5] = n[5]; break; } } } func_002EDC98_002E8D58(); return p; }
+
+typedef struct { char c[8]; } V8_001714A0;
+typedef struct { int w0, w4, w8, w12, w16, w20, w24; char p[4]; int w32; int w36; int w40; V8_001714A0 v; char p2[8]; int w60; } O5_001714A0;
+extern V8_001714A0 D_004A3100[3]; extern char D_0043D6A0_001714A0[] __asm__("D_0043D6A0"), D_0043D580_001714A0[] __asm__("D_0043D580"), D_0043D598_001714A0[] __asm__("D_0043D598");
+int func_001644A0(void *); void func_002971C0(int, int); int func_0018B3A8(char *, int); void func_001118F8_001714A0(char *) __asm__("func_001118F8");
+// MATCH func_001714A0
+O5_001714A0 *roulette_001714a0(O5_001714A0 *o) { o->w0 = 0; o->w4 = 0; o->w8 = 0; o->w12 = 0; o->w20 = 0; o->w24 = 0; o->w60 = (int)D_0043D6A0_001714A0; o->w16 = 640; func_001644A0((char *)o + 28); o->v = D_004A3100[0]; func_002971C0(0, 0); o->w40 = 0; o->w36 = func_0018B3A8(D_0043D580_001714A0, 0); if (o->w36 == 0) func_001118F8_001714A0(D_0043D598_001714A0); return o; }
+
+void func_002C5C38(int);
+// MATCH func_002C3458
+void FUN_002c3458(char *o) { int c = 0x70000000; func_002C5C38(1); *(int *)(o + 1424) = c; *(int *)(o + 1428) = 0x70001800; *(int *)(o + 1744) = 0x70001b00; *(int *)(o + 1748) = 0x70003300; *(int *)(o + 2064) = 0; }

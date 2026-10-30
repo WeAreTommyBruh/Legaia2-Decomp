@@ -6,10 +6,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Current progress (session 14 in progress, last push below)
 
-- 3615 / 6254 functions matched (57.8%); 234,096 / 2,022,408 code bytes = **11.58%** (user goal for session 14: 11.54%).
+- 3622 / 6254 functions matched (57.9%); 234,976 / 2,022,408 code bytes = **11.62%** (user goal for session 14: 12.01%; 11.54% was reached first).
   - 1752 written by hand, 758 generated from instruction patterns (`tools/gen_tiny.py`), 820 Ghidra output that
     already matches (`tools/gen_ghidra.py`), 168 hand-written assembly reproduced as file-scope asm in `src/asm_stubs.c`.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3615 / 11.58% (session 14, in progress).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3622 / 11.62% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
@@ -50,6 +50,12 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 - GS-packet functions (`sd` constants + `func_00190328`/`func_00190420` calls) are tractable (2975b8, 2a53b0 matched); more at 24bd78 247970 2436f8.
 - Separate base variable (`q = SYM; p = q + 8`) stops `-25104 + 8` folding into one `addiu`; one unsigned counter `for (i = 63; (int)i >= 0; i--)`
   for two loops; `p != 0 && n != 0` plus one post-loop `if (p == 0) return 0` for a shared fail block; copy newlib's variable names for newlib code.
+- Write spec functions on ONE line (or `{` on the signature line and no line starting with a letter inside): `emit.py` puts `// MATCH` before the
+  first line that starts with a letter after the prototype, which broke 2e8d58 once.
+- Sibling tricks that worked (session 14, solo): callee `int` instead of `void` on one of 3 callees (1714a0, 2e8d58); unused extra params that are
+  passed through (`f(char *o, int b, int c)` calling `g(o, b, c)`) put `o` in `$7` (2c31b8, needs -fexceptions); a constant held in a local before a
+  call goes to a callee-saved reg (2c3458); statement order `v = *p; p++; f(v); i--;` fixed delay-slot order (18d4a8, 990721-r5900 -fno-thread-jumps);
+  list unlink `for (; p != 0; p = p[5]) { if (p[5] == n) {...; break;} }`; a `key == -1` early return then one loop (2a1df8).
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
