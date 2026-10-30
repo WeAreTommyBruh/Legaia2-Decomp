@@ -6470,3 +6470,10 @@ int FUN_002785a0(unsigned idx) { int n, k; char *q; short *p; short v; if (4 < i
 void func_002CF960(int); void func_002CF8F8(int);
 // MATCH func_002CF9C8
 void FUN_002cf9c8(unsigned *o) { func_002CF960(1); o[0] = *(volatile unsigned *)0x1000b410; o[1] = *(volatile unsigned *)0x1000b430; o[2] = *(volatile unsigned *)0x1000b420; o[3] = *(volatile unsigned *)0x1000b400; while (*(volatile unsigned *)0x10002010 & 0xf0) ; func_002CF8F8(0); o[4] = *(volatile unsigned *)0x1000b010; o[5] = *(volatile unsigned *)0x1000b020; o[6] = *(volatile unsigned *)0x1000b000; o[7] = *(volatile unsigned *)0x10002020; o[8] = *(volatile unsigned *)0x10002010; }
+
+void func_002CF508(void *, unsigned, unsigned, unsigned, unsigned, unsigned);
+// MATCH func_00194808
+void FUN_00194808(int *o, unsigned a, unsigned b, unsigned c, unsigned d, unsigned e) { func_002CF508(o, a & 0xfffffff, d / e, 0, (b << 24) | ((d << 16) | (c | 0x4000)), 0); }
+
+// MATCH func_00247490
+void FUN_00247490(char *o, int v) { int i; *(short *)o = v; *(int *)(o + 4) |= 1; *(int *)(o + 12) = 0; i = (short)v; if (i >= 0) { char *t = *(char **)(o + (i << 2) + 48); *(int *)(t + 52) |= 0x40; } }

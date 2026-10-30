@@ -215,3 +215,8 @@ extern volatile int D_00426354[], D_00426394_002CB478[] __asm__("D_00426394"), D
 void func_002E58C0(int); int func_002E58B0(int); int func_002EDC50(void); void func_002E7D30(int); void func_002EDC98(void);
 // MATCH func_002CB478
 void FUN_002cb478(void) { int r; if (D_00426354[0]) { D_00426394_002CB478[0] = -1; func_002E58C0(D_00426360[0]); } func_002E58B0(D_00426368_002CB478[0]); func_002E58B0(D_0042636C[0]); func_002E58B0(D_00426360[0]); r = func_002EDC50(); func_002E7D30(0x80000012); if (r) func_002EDC98(); }
+
+typedef struct { char p[32]; unsigned short a, b; char q[36]; } E13_00294290;
+extern E13_00294290 D_003FDFA0[];
+// MATCH func_00294290
+int FUN_00294290(int idx) { E13_00294290 *e = &D_003FDFA0[idx]; return e->b * 100 / e->a; }
