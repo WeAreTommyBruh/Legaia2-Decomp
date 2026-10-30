@@ -169,3 +169,8 @@ void work_00246368(int *o) { if (o[36]) { func_002444C0(); func_001621F8(o[36], 
 
 // MATCH func_002C2D30
 int FUN_002c2d30(char *o, int i, int a, int b) { char *base = *(char **)(o + 64); char *b12 = base + 12; int off = i * 8; char *e = base + off; char *q = b12 + off; int old; *(int *)(e + 16) = b; old = *(int *)q; *(int *)q = a; return old; }
+
+extern char D_0049F288[], D_0049F278[];
+int func_002DD36C(void *, void *);
+// MATCH func_002E2388
+char *FUN_002e2388(int *o, int a, char *s) { if (s != 0) { if (func_002DD36C(s, D_0049F288) != 0 && func_002DD36C(s, D_0049F278) != 0) return 0; o[13] = (int)s; o[12] = a; } return D_0049F288; }

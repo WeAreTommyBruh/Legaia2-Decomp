@@ -138,3 +138,8 @@ extern char D_0043B3A0_00154F28[] __asm__("D_0043B3A0"); void func_0012D398(void
 void *func_002DB188(int, void *, int, void *, void *, void *);
 // MATCH func_00154F28
 int FUN_00154f28(char *o, char *p) { void *r; if (p == 0) return 0; r = func_002DB188(*(int *)(*(char **)(p + 52) + 4), (void *)func_001558F8, 1, p + **(short **)(p + 52), (void *)func_0012D398, p); if (r != 0) return func_00154D20(o, r); r = func_002DB188(*(int *)(*(char **)(p + 52) + 4), (void *)func_001557E0, 1, p + **(short **)(p + 52), (void *)func_0012D398, p); if (r != 0) return func_00154DB8(o, r); func_001118F8_00154F28(D_0043B3A0_00154F28); }
+
+extern int D_004A683C; extern char D_00342CD0[];
+void func_00190328(char *); void func_00190420(char *);
+// MATCH func_002975B8
+void FUN_002975b8(void) { if (D_004A683C & 2) { unsigned long u; long *q; char *p = D_00342CD0; func_00190328(p); q = *(long **)(p + 16); q[0] = 68; q[1] = 66; q[2] = (u << 32) | 0x60000000; q[3] = 1; q[4] = 70; q[5] = 0; q[6] = 0x00FFFFF079006C00L; q[7] = 5; q[8] = 0x00FFFFF087009400L; q[9] = 5; *(long **)(p + 16) = q + 10; func_00190420(p); } }

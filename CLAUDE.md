@@ -4,15 +4,16 @@ Repo: WeAreTommyBruh/Legaia2-Decomp, branch `main`. A function counts as done on
 byte-identical to the original (compiler: ee-gcc 2.9-ee-991111-01, `-O2 -G8`). Every other function is rebuilt
 from the original assembly, so `python3 tools/asm_build.py all` must always print `MATCH`.
 
-## Current progress (end of session 13, 2026-10-27)
+## Current progress (session 14 in progress, last push below)
 
-- 3498 / 6254 functions matched (55.9%); 213,204 / 2,022,456 code bytes = **10.54%**.
+- 3562 / 6254 functions matched (57.0%); 222,788 / 2,022,408 code bytes = **11.02%** (user goal for session 14: 11.54%).
   - 1752 written by hand, 758 generated from instruction patterns (`tools/gen_tiny.py`), 820 Ghidra output that
     already matches (`tools/gen_ghidra.py`), 168 hand-written assembly reproduced as file-scope asm in `src/asm_stubs.c`.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3562 / 11.02% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
+- Every push refreshes `report/report.json` and `report/recomp.json` (an identical copy: `cp report/report.json report/recomp.json`) and the numbers above.
 - `report/report.json` is what the live ByteMatch badges and the website read; the numbers only move when it is refreshed and pushed.
 
 ## Where the project stands
@@ -36,6 +37,19 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
   - Statement-order search (`perm.py`, hill climbing) and decomp-permuter (~7% of near misses solve).
   - `991111-01-as210` (newer assembler) explains the `sdr` in the `jr` delay slot functions and `lui/ori/sw` hardware-register code.
   - Hardware-register code is mechanical: `*(volatile unsigned *)0x1000b010 = ...` in asm order.
+
+## Session 14 workflow and new tricks
+
+- Parallel workers: forks each take an address window (0x100000-0x16ffff, 0x170000-0x1effff, 0x1f0000-0x25ffff, 0x260000-0x2fffff), write
+  `build/work/spec_wK_NN.txt`, score with `BO=bo_wK_NN.json python3 batch.py`, and touch nothing else. The main session merges the `bo_*.json`
+  files into `batch_out.json`, runs `dedupe.py`, `emit.py`, `fixemit.py`, then `asm_build.py all` (must print MATCH), `tools/report.py`, commits and pushes.
+- Member-function-pointer calls (`ld -8` + `dsra32`) match with a hand-expanded ptmf: two separate `idx > 0` tests, one for the function and
+  one for the delta (`fn = (void (*)(void *))(e >> 32); d = idx > 0 ? (short)e + dl : dl; fn(o + d);`). Untried: 171ae8 1723e8 173980 175f58 176ac8 176e10 17fc20 204a78 214fa8.
+- Overlapping `lw`/`lh` fields reloaded after a store need a union. A pointer in a callee-saved reg may need a `static inline` helper taking `float *v`.
+- GS-packet functions (`sd` constants + `func_00190328`/`func_00190420` calls) are tractable (2975b8, 2a53b0 matched); more at 24bd78 247970 2436f8.
+- Separate base variable (`q = SYM; p = q + 8`) stops `-25104 + 8` folding into one `addiu`; one unsigned counter `for (i = 63; (int)i >= 0; i--)`
+  for two loops; `p != 0 && n != 0` plus one post-loop `if (p == 0) return 0` for a shared fail block; copy newlib's variable names for newlib code.
+- csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
 

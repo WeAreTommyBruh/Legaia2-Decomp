@@ -65,3 +65,54 @@ int FUN_0018b1f8(char *name) { char buf[256]; char *p, *e; if (name == 0) return
 
 // MATCH func_001577C0
 void FUN_001577c0(float *a, float *b) { for (;;) { int n; if (b[74] <= a[74]) { n = ((int *)a)[75]; if (n == 0) { ((int *)a)[75] = (int)b; return; } } else { n = ((int *)a)[76]; if (n == 0) { ((int *)a)[76] = (int)b; return; } } a = (float *)n; } }
+
+typedef struct N__00212C18 { struct N__00212C18 *next; int w4, w8, w12; struct N__00212C18 *w16; } N__00212C18;
+typedef struct { int w0; int w4; N__00212C18 *w8; } O__00212C18;
+void func_0010E820(int, int);
+// MATCH func_00212C18
+int FUN_00212c18(O__00212C18 *o, int n, int m)
+{
+    N__00212C18 *p, *q;
+    int i;
+    p = o->w8;
+    i = 0;
+    if (p == 0) return 0;
+    if (n != 0) {
+        do {
+            p = p->next;
+            if (p == 0) break;
+            i++;
+        } while (i != n);
+    }
+    if (p == 0) return 0;
+    q = p->w16;
+    i = 0;
+    if (q == 0) return 0;
+    if (m != 0) {
+        do {
+            q = q->next;
+            if (q == 0) break;
+            i++;
+        } while (i != m);
+    }
+    if (q == 0) return 0;
+    func_0010E820(o->w0, 103);
+    return 1;
+}
+
+typedef struct { char c[33]; } S33__002224A8;
+extern char D_00459CF0[]; extern char D_00321060[]; extern int D_00326F90[];
+// MATCH func_002224A8
+void FUN_002224a8(int a, int b, int c, int d)
+{
+    if (a != 0) {
+        *(S33__002224A8 *)D_00321060 = *(S33__002224A8 *)D_00459CF0;
+    }
+    D_00326F90[0] = a;
+    D_00326F90[3] = c;
+    D_00326F90[8] = d;
+    D_00326F90[13] = 0;
+}
+
+// MATCH func_002A43A8
+int clas_min_002a43a8(int *p, int n) { int i; for (i = 0; i < n && p != 0; i++) p = (int *)p[0]; if (p == 0) return -1; return p[1]; }

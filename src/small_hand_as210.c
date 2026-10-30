@@ -193,3 +193,20 @@ int FUN_002cae38(int *o) { unsigned v = *(volatile unsigned *)0x10003840; if (fu
 int func_002EDC50(void); void func_002EDC98(void); void func_002C2D58(int, int *); void func_002C6E50(char *); void func_002C6E20(char *, int);
 // MATCH func_002C3BF0
 void FUN_002c3bf0(char *o, int a, unsigned b) { int st[8]; int r; st[0] = 2; func_002C2D58(*(int *)(o + 2136), st); func_002C6E50(o); *(volatile int *)0x10002000 = 0; func_002C6E50(o); r = func_002EDC50(); *(volatile unsigned *)0x1000b410 = b & 0x0fffffff; *(volatile int *)0x1000b420 = 4; *(volatile int *)0x1000b400 = 257; if (r != 0) func_002EDC98(); func_002C6E20(o, a); func_002C6E50(o); st[0] = 3; func_002C2D58(*(int *)(o + 2136), st); }
+
+typedef struct { char c[8]; } V8_00164AD0;
+typedef struct { char p[20]; int w20; } P_00164AD0;
+typedef struct { P_00164AD0 *p; char pad4[4]; short s8; short s10; int w12; int w16; int w20; int w24; char pad28[4]; int w32; char pad36[4]; V8_00164AD0 v40; } O_00164AD0;
+extern V8_00164AD0 D_004A2CD0_00164AD0[3] __asm__("D_004A2CD0");
+// MATCH func_00164AD0
+void pachislot_00164ad0(O_00164AD0 *o) { int x; if (o->w24 >= 0) { if (o->w12 == o->s10) return; if (o->w16 != o->s10) return; if (o->w20 > 0) { o->w20--; return; } o->s8 = 0; o->w32 = -1; o->w24 = 0; o->v40 = D_004A2CD0_00164AD0[0]; return; } x = o->w16 - 1; if (x < 0) x += o->p->w20; if (o->w12 == o->s10) return; if (x != o->s10) return; if (o->w20 > 0) { o->w20--; return; } o->w32 = -1; o->s10 = (unsigned short)o->w16; o->s8 = 0; o->w24 = 0; o->v40 = D_004A2CD0_00164AD0[0]; }
+
+extern volatile int D_00426394_002CC858[] __asm__("D_00426394"); extern volatile int D_00426370_002CC858[] __asm__("D_00426370"); extern volatile int D_00426368_002CC858[] __asm__("D_00426368"); extern char D_00427510_002CC858[] __asm__("D_00427510");
+int func_002CBAE8(void); int func_002CB978(int); int func_002E8928_002CC858(char *, int, int, int, int, int, int, void *, int *) __asm__("func_002E8928"); void func_002E58C0(int); void func_002CB108(void);
+// MATCH func_002CC858
+int FUN_002cc858(void) { if (func_002CBAE8() == 6) return 0; if (func_002CB978(11) == 0) return 0; D_00426394_002CC858[0] = 6; D_00426370_002CC858[0] = 1; if (func_002E8928_002CC858(D_00427510_002CC858, 7, 1, 0, 0, 0, 0, func_002CB108, D_00426394_002CC858) < 0) { D_00426394_002CC858[0] = 0; D_00426370_002CC858[0] = 0; func_002E58C0(D_00426368_002CC858[0]); return 0; } return 1; }
+
+extern volatile int D_00426394_002CC7A8[] __asm__("D_00426394"); extern volatile int D_00426370_002CC7A8[] __asm__("D_00426370"); extern volatile int D_00426368_002CC7A8[] __asm__("D_00426368"); extern char D_00427510_002CC7A8[] __asm__("D_00427510");
+int func_002CBAE8(void); int func_002CB978(int); int func_002E8928_002CC7A8(char *, int, int, int, int, int, int, void *, int *) __asm__("func_002E8928"); void func_002E58C0(int); void func_002CB108(void);
+// MATCH func_002CC7A8
+int FUN_002cc7a8(void) { if (func_002CBAE8() == 6) return 0; if (func_002CB978(10) == 0) return 0; D_00426394_002CC7A8[0] = 5; D_00426370_002CC7A8[0] = 1; if (func_002E8928_002CC7A8(D_00427510_002CC7A8, 6, 1, 0, 0, 0, 0, func_002CB108, D_00426394_002CC7A8) < 0) { D_00426394_002CC7A8[0] = 0; D_00426370_002CC7A8[0] = 0; func_002E58C0(D_00426368_002CC7A8[0]); return 0; } return 1; }

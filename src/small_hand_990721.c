@@ -44,3 +44,13 @@ void FUN_00164668(int *o) { int *p; int *nx; func_00190328(D_00314C20); p = (int
 
 // MATCH func_00166FD8
 int pachislot_00166fd8(int *o, int k) { if (o[2] == 0 && k == 4) return 0; if (o[2] == 1 && k == 5) return 1; if (o[2] == 2 && k == 6) return 2; if (o[2] == 3 && k == 7) return 3; return -1; }
+
+typedef struct { char p[5216]; int a; int b; int c; int d; char q[240]; } E_00126798;
+extern E_00126798 *D_004A1A20; extern int D_003279A0[];
+// MATCH func_00126798
+void battle_00126798(void) { int i; for (i = 0; i < 10; i++) { if (D_003279A0[i] != 0) { if (D_004A1A20[i].c <= D_004A1A20[i].a) D_004A1A20[i].c = D_004A1A20[i].a; if (D_004A1A20[i].b >= D_004A1A20[i].d) D_004A1A20[i].d = D_004A1A20[i].b; } } }
+
+extern char D_0053FD00[]; extern int D_004A6DD0, D_004A6D00, D_004A6D04, D_004A6D08;
+int func_0012C1E8(void); int func_0015ADE8(char *, int); int func_0015AE08(char *, int); int func_001565B0(int, int, int); int func_00156408(int, int, int); int func_00156D38(int, int, int); int func_00156B58(int, int);
+// MATCH func_00118638
+void battle_00118638(void) { int h; if (func_0012C1E8() == 0) return; h = func_0015ADE8(D_0053FD00, 0); if (h != 0) { if (D_004A6DD0 == 0) func_001565B0(h, 8768, 15760); if (D_004A6D00 != 0) func_00156408(h, D_004A6D04, D_004A6D08); } h = func_0015AE08(D_0053FD00, 0); if (h != 0) { if (D_004A6DD0 == 0) func_00156D38(h, 9792, 15768); if (D_004A6D00 != 0) func_00156B58(h, D_004A6D04); } D_004A6DD0 = 1; }
