@@ -6466,3 +6466,7 @@ unsigned init_0024c640(void) { unsigned u, v; u = D_004A13D8 + (D_004A13D8 * 5 +
 extern char D_003E3D20_002785A0[] __asm__("D_003E3D20");
 // MATCH func_002785A0
 int FUN_002785a0(unsigned idx) { int n, k; char *q; short *p; short v; if (4 < idx) return -1; n = 0; k = 15; q = D_003E3D20_002785A0; q += 10; p = (short *)(q + (idx << 4) * 20); do { v = *p; p += 10; k--; if (v != 0) n++; } while (k >= 0); return n; }
+
+void func_002CF960(int); void func_002CF8F8(int);
+// MATCH func_002CF9C8
+void FUN_002cf9c8(unsigned *o) { func_002CF960(1); o[0] = *(volatile unsigned *)0x1000b410; o[1] = *(volatile unsigned *)0x1000b430; o[2] = *(volatile unsigned *)0x1000b420; o[3] = *(volatile unsigned *)0x1000b400; while (*(volatile unsigned *)0x10002010 & 0xf0) ; func_002CF8F8(0); o[4] = *(volatile unsigned *)0x1000b010; o[5] = *(volatile unsigned *)0x1000b020; o[6] = *(volatile unsigned *)0x1000b000; o[7] = *(volatile unsigned *)0x10002020; o[8] = *(volatile unsigned *)0x10002010; }
