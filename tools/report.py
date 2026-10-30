@@ -230,8 +230,15 @@ def merge_groups(rep):
             else:
                 d["fuzzy_match_percent"] = 100.0
             sections.append(d)
+        # the first sub-unit may be a leftover or a draft unit without a source file: take the path from the
+        # sub-unit that has one and the most matched code
+        meta = dict(us[0]["metadata"])
+        withsrc = [u for u in us if u["metadata"].get("source_path")]
+        if withsrc:
+            best = max(withsrc, key=lambda u: num(u["measures"], "matched_code"))
+            meta["source_path"] = best["metadata"]["source_path"]
         units.append({"name": name, "measures": out, "sections": sections, "functions": funcs,
-                      "metadata": us[0]["metadata"]})
+                      "metadata": meta})
     rep["units"] = units
     rep["measures"]["total_units"] = len(units)
     for c in rep["categories"]:

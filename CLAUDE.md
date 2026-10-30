@@ -62,6 +62,15 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
   number is an address (use a `D_` array); `divu` means unsigned operands; array-of-struct getters/setters match with `E *e = &D[idx]; return e->f;`
   (a plain `D[idx].f` gives a different `mult` operand order); struct stride 472 with a field beyond it: `((E *)(D + i * 472))->f`. Write callee names in
   specs with UPPERCASE hex (`func_00254F48`): lowercase hex is an undefined symbol at link time.
+- decomp-permuter is the best tool for 2-10 word near misses (about 1 in 3 solved in 90-100 s): write the current best source to `build/work/w/<addr>.c`
+  (`ggshow.py ADDR` does it for ggnear candidates), run `python3 permw.py SECS ADDR...` from `build/work` (detached with `setsid nohup`, one at a
+  time), copy `build/perm/<addr>/output-0-1/source.c` into a spec as ONE line and re-score it with `batch.py`: a "HIT" is not always real (20d248 was a
+  false positive: the permuter's objdump hid a `lw`/`li` order swap).
+- `build/work/ggscan.py MAXBAD LO HI` re-scores every ggnear candidate with the real checker; ignore candidates whose real score differs a lot from `bad`
+  (the 0x1364c8..0x137a18 family: ggnear said 3, real diff 37-94). `blockperm.py ADDR...` permutes runs of simple statements in a ggnear text.
+- Report units carry `metadata.source_path` (the repo file with the most matched code of that group). `merge_groups` in `tools/report.py` used to take
+  the metadata of the group's first sub-unit, which lost the path for ~36% of matched functions (battle, nori, rsound, ...); it now picks the sub-unit
+  with a path and the most matched code, so every unit with matched code links to an existing file.
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
