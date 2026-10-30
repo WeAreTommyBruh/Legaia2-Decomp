@@ -397,6 +397,9 @@ def main(argv):
     m = rep.get("measures", {})
     print(f"wrote {os.path.relpath(out_json, ROOT)}: {m.get('matched_functions', 0)} / "
           f"{m.get('total_functions', 0)} functions, {float(m.get('matched_code_percent', 0)):.2f}% of code")
+    if os.path.abspath(out_json) == os.path.join(ROOT, "report", "report.json"):  # README badges
+        import badges
+        badges.main(["badges.py", out_json])
 
 
 if __name__ == "__main__":

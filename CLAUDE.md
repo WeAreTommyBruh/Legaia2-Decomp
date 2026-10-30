@@ -78,6 +78,8 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 - Website (`site/template.html` + `site/build_site.py`, deployed by `.github/workflows/pages.yml`, which checks out 30 commits for the history): the progress
   section shows badges, cards for code / functions / fuzzy match / data, the categories panel and the recent commits, all filled from `report/report.json`
   and `git log`; no "See the progress" button in the hero (the user asked to remove it). The user asked to stop matching functions after commit 15baa16.
+- README badges are SVG files in `badges/` drawn by `tools/badges.py` in the website's style; `tools/report.py` regenerates them whenever it writes
+  `report/report.json`, so commit `badges/*.svg` together with the report.
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
