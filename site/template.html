@@ -112,19 +112,21 @@ h3::before{content:'';display:inline-block;width:8px;height:8px;margin-right:9px
 .badge.blue .v{background:linear-gradient(180deg,var(--blue-1),var(--blue-2));color:#fff}
 .panel h3{margin-top:0}
 .panel h3 small{font-family:'Noto Sans',sans-serif;letter-spacing:0;font-size:13px;font-weight:400;color:#EAF3FF;margin-left:6px}
-.cat+.cat{margin-top:14px}
 .cat .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
 .cat .pct{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;color:var(--gold-1)}
 .cat .bar{margin-top:6px}
 .cat .label{margin-top:4px}
-.two{align-items:start;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:14px}
+.stackp{display:grid;gap:14px;margin-top:14px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px 32px}
+.cat+.cat{margin-top:0}
 .commits{list-style:none;margin:0;padding:0}
-.commits li{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:9px 0;border-bottom:1px solid var(--brown-2)}
+.commits li{display:grid;grid-template-columns:auto 1fr auto;gap:2px 16px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--brown-2)}
 .commits li:last-child{border-bottom:none;padding-bottom:0}
 .commits a.h{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--gold-1);text-decoration:none}
 .commits a.h:hover{text-decoration:underline}
 .commits .m{overflow-wrap:anywhere}
-.commits .d{grid-column:2;font-size:13px;color:#EAF3FF}
+.commits .d{font-size:13px;color:#EAF3FF;white-space:nowrap}
+@media (max-width:640px){.commits li{grid-template-columns:auto 1fr}.commits .d{grid-column:2}}
 .dots{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;margin-top:10px}
 .dots i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;border:1px solid var(--brown-1);vertical-align:-1px}
 /* ---------- stacked breakdown ---------- */
@@ -259,8 +261,8 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
       <div class="dots"><span><i style="background:var(--gold-1)"></i><b>{{DATA_DONE}}</b> done</span><span><i style="background:var(--brown-1)"></i><b>{{DATA_TODO}}</b> to do</span></div></div>
   </div>
 
-  <div class="two">
-    <div class="panel"><h3>Categories <small>{{CAT_COUNT}}</small></h3>{{CATS_HTML}}</div>
+  <div class="stackp">
+    <div class="panel"><h3>Categories <small>{{CAT_COUNT}}</small></h3><div class="cats">{{CATS_HTML}}</div></div>
     <div class="panel"><h3>Recent commits</h3><ul class="commits">{{COMMITS_HTML}}</ul></div>
   </div>
 
