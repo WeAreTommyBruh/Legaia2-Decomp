@@ -6488,3 +6488,20 @@ int *FUN_002cf458(int *o) { int *w; int *p; w = (int *)o[2]; for (p = (int *)*o;
 
 // MATCH func_002CF158
 int *FUN_002cf158(int *o) { int *w; int *p; w = (int *)o[2]; for (p = (int *)*o; ((unsigned)p & 0xc) != 0; p++) *p = 0; if (w != 0) *w = *w - 1 + (((int)p - (int)w) >> 4); *o = (int)p; o[2] = 0; return p; }
+
+extern int D_004A1A20_0021A280 __asm__("D_004A1A20");
+// MATCH func_0021A280
+void FUN_0021a280(int a, int b, int c, int d) { char *base; char *e; base = (char *) ((a * 5472) + D_004A1A20_0021A280); e = (char *) ((b * 156) + (*((int *) (base + 5456)))); do { *((int *) e) = d; *((int *) (e + 4)) = c; *((int *) (e + 76)) = 0; *((int *) (e + 80)) = 0; *((int *) (e + 88)) = 0; } while (0); }
+
+int func_00223620_002288C0(int, int) __asm__("func_00223620");
+static inline int inl_2288c0_002288C0(int a, int b) { return (a + b) + 0x28; }
+// MATCH func_002288C0
+int sammon_002288c0(char *o, int k) { int r; int off; if (k < 0x1f) { do { r = func_00223620_002288C0((int)o, k); if (r != 0) return *(int *)inl_2288c0_002288C0(k * 0x38, *(int *)(o + 0x810)); off = off + 0x38; k = k + 1; } while (k < 0x1f); } return 0; }
+
+// MATCH func_002E8378
+int FUN_002e8378(char *o) { int new_var; int i; i = (*((int *) (o + 0x24))) % (*((int *) (o + 0x18))); new_var = i * 0x40; *((int *) (o + 0x24)) = i + 1; return (*((int *) (o + 0x14))) + new_var; }
+
+typedef struct { char p[158]; unsigned char f; char q[17]; } E12_00255988;
+extern E12_00255988 D_00419D18_00255988[] __asm__("D_00419D18");
+// MATCH func_00255988
+int FUN_00255988(unsigned n) { unsigned char new_var; E12_00255988 *e; if (0x14 < n) { return -1; } new_var = 8; e = &D_00419D18_00255988[n]; return new_var < e->f; }
