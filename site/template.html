@@ -4,7 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Legaia 2 Decompilation</title>
-<meta name="description" content="A matching decompilation of Legaia 2: Duel Saga (PAL, SLES-50891) for the PlayStation 2.">
+<meta name="description" content="A matching decompilation of Legaia 2: Duel Saga (PAL, SLES-50891) for the PlayStation 2. {{CODE_PCT}}% of the game's code is rebuilt as C that compiles to the original bytes.">
+<meta name="theme-color" content="#2A130B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 16 16 30 2 16Z' fill='%23F2C40E' stroke='%232A130B' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://wearetommybruh.github.io/Legaia2-Decomp/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Legaia 2 Decompilation">
+<meta property="og:description" content="{{CODE_PCT}}% of Legaia 2: Duel Saga (PAL) rebuilt as C that compiles to the original bytes. {{FN_MATCHED}} of {{FN_TOTAL}} functions matched.">
+<meta property="og:url" content="https://wearetommybruh.github.io/Legaia2-Decomp/">
+<meta property="og:image" content="https://wearetommybruh.github.io/Legaia2-Decomp/assets/lang.png">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;600&display=swap" media="print" onload="this.media='all'">
 <style>
@@ -36,6 +45,8 @@ p{margin:.5em 0 1em}
 code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px}
 code{background:rgba(42,19,11,.75);padding:1px 6px;border-radius:5px;color:#fff}
 
+.skip{position:absolute;left:12px;top:-60px;z-index:30;background:var(--gold-1);color:var(--ink);padding:8px 14px;border-radius:0 0 6px 6px;font-family:var(--serif);font-size:13px;text-decoration:none}
+.skip:focus{top:0}
 /* ---------- navigation (tabs) ---------- */
 nav{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,var(--brown-2),var(--brown-1));border-bottom:2px solid var(--brown-1);box-shadow:0 3px 0 var(--brown-2),0 8px 20px rgba(0,0,0,.35)}
 nav .wrap{display:flex;align-items:stretch;gap:4px;height:52px;overflow-x:auto;white-space:nowrap}
@@ -57,6 +68,9 @@ header.hero{padding:56px 0 30px}
 .char img{display:block;width:100%;max-width:340px;height:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.55))}
 @media (max-width:760px){.hero-grid{grid-template-columns:1fr}.char{max-width:260px;justify-self:start}}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 0;padding:0;list-style:none}
+.chips li{font-size:14px;color:#fff;background:rgba(42,19,11,.6);border:1px solid var(--brown-2);border-radius:99px;padding:4px 14px}
+.chips b{font-family:var(--serif);color:var(--gold-1);letter-spacing:.04em}
 
 /* ---------- buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;min-height:44px;border-radius:6px;border:2px solid var(--brown-1);cursor:pointer;
@@ -89,6 +103,15 @@ h3::before{content:'';display:inline-block;width:8px;height:8px;margin-right:9px
 .bar{height:12px;background:var(--brown-1);border:1px solid var(--brown-2);border-radius:99px;overflow:hidden;margin-top:12px;box-shadow:inset 0 2px 3px rgba(0,0,0,.5)}
 .bar i{display:block;height:100%;min-width:2px;background:linear-gradient(180deg,var(--gold-1),var(--gold-2));border-radius:99px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
 
+/* ---------- stacked breakdown ---------- */
+.stack{display:flex;height:16px;border:1px solid var(--brown-2);border-radius:99px;overflow:hidden;background:var(--brown-1);box-shadow:inset 0 2px 3px rgba(0,0,0,.5);margin:12px 0 10px}
+.stack i{display:block;height:100%;min-width:3px}
+.stack i+i{border-left:1px solid var(--brown-1)}
+.key{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 18px;margin:0;padding:0;list-style:none;font-size:14px}
+.key li{display:flex;gap:8px;align-items:baseline}
+.key i{flex:none;width:12px;height:12px;border-radius:3px;border:1px solid var(--brown-1);transform:translateY(1px)}
+.key b{font-variant-numeric:tabular-nums}
+.k0{background:var(--gold-1)}.k1{background:#F7E27A}.k2{background:var(--blue-1)}.k3{background:#B9C7E8}
 /* ---------- badges / pills ---------- */
 .pill{display:inline-block;font-family:var(--serif);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:99px;margin-left:6px;vertical-align:1px;border:1px solid var(--brown-1);color:#fff;background:linear-gradient(180deg,var(--blue-1),var(--blue-2))}
 .pill.ok{color:var(--ink);background:linear-gradient(180deg,var(--gold-1),var(--gold-2))}
@@ -110,6 +133,8 @@ tbody tr:hover{background:rgba(85,166,227,.35)}
 tbody tr[aria-selected="true"]{background:rgba(242,196,14,.28);box-shadow:inset 3px 0 0 var(--gold-1)}
 tr:last-child td{border-bottom:none}
 th[data-k]{cursor:pointer;user-select:none}
+#units tbody tr{cursor:pointer}
+#units tbody tr:focus-visible{outline:3px solid var(--gold-1);outline-offset:-3px}
 th[data-k]:hover{background:linear-gradient(180deg,var(--blue-hover-a),var(--blue-hover-b))}
 th.sorted::after{content:" ↓";color:var(--gold-1)} th.sorted.asc::after{content:" ↑"}
 .num{text-align:right;font-variant-numeric:tabular-nums}
@@ -155,15 +180,18 @@ dialog::backdrop{background:rgba(42,19,11,.7);backdrop-filter:blur(2px)}
 .modal{background:linear-gradient(180deg,var(--blue-text),var(--blue-2));border:3px solid var(--brown-1);border-radius:10px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),0 0 0 2px var(--brown-2),0 18px 40px rgba(0,0,0,.6);padding:18px}
 .modal h3{margin:0 0 8px;font-size:18px}
 .modal h3::before{display:none}
+.modal .sub{margin:0 0 10px;font-size:14px;color:#EAF3FF}
 .modal .row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--brown-2);padding:6px 0}
 .modal .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
 
 footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:13px;letter-spacing:.08em;color:#fff;background:linear-gradient(180deg,var(--brown-2),var(--brown-1));border-top:3px solid var(--brown-1)}
+@media (max-width:480px){ nav b{display:none} }
 @media (max-width:560px){ nav .wrap{gap:0} header.hero{padding-top:36px} .treemap{height:480px} .lead{font-size:18px} }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<a class="skip" href="#progress">Skip to content</a>
 <nav aria-label="Sections"><div class="wrap">
   <b>Legaia 2 Decomp</b>
   <a href="#progress">Progress</a><a href="#milestones">Milestones</a><a href="#tools">Format tools</a><a href="#setup">Setup</a><a href="#about">About</a><a href="#help">Help</a><a href="#legal">Legal</a>
@@ -173,9 +201,15 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
   <div class="hero-text">
     <div class="eyebrow">Matching decompilation · PlayStation 2</div>
     <h1 class="sr">Legaia 2: Duel Saga decompilation</h1>
-    <p class="lead"><span class="tag">PAL · SLES-50891</span>This is an ongoing effort to reverse engineer Legaia 2: Duel Saga (PAL).</p>
+    <p class="lead"><span class="tag">PAL · SLES-50891</span>An ongoing effort to rebuild Legaia 2: Duel Saga as readable C that compiles to the original game's exact bytes.</p>
+    <ul class="chips" aria-label="Current progress">
+      <li><b>{{CODE_PCT}}%</b> of the code</li>
+      <li><b>{{FN_MATCHED}}</b> functions matched</li>
+      <li>executable rebuilds <b>byte-identical</b></li>
+    </ul>
     <div class="cta">
       <a class="btn primary" href="https://github.com/WeAreTommyBruh/Legaia2-Decomp">View on GitHub</a>
+      <a class="btn" href="#progress">See the progress</a>
     </div>
   </div>
   <figure class="char">
@@ -183,7 +217,7 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
   </figure>
 </div></header>
 
-<main>
+<main id="top">
 <section id="progress"><div class="wrap">
   <h2>Progress</h2>
   <p>How much of the game is decompiled, and every unit. A function counts only when its C compiles to the original bytes. Numbers come from the project's report, generated {{DATE}}.</p>
@@ -196,6 +230,18 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
     <div class="card"><div class="stat">{{UNITS_TOUCHED}}<small> / {{UNITS_TOTAL}}</small></div><div class="label">units with at least one matched function</div>
       <div class="bar" role="progressbar" aria-valuenow="{{UNITS_W}}" aria-valuemin="0" aria-valuemax="100" aria-label="Units started"><i style="width:{{UNITS_W}}%"></i></div></div>
   </div>
+
+  <h3>How the matches were made</h3>
+  <p class="label">Matched functions by origin. The assembly stubs are routines that are hand-written assembly in the original (syscall and coprocessor-0 helpers), reproduced instruction for instruction; they count as matched but are not C.</p>
+  <div class="stack" role="img" aria-label="Matched functions by origin: {{K0_N}} hand-written C, {{K1_N}} generated from instruction patterns, {{K2_N}} Ghidra output, {{K3_N}} assembly stubs">
+    <i class="k0" style="width:{{K0_W}}%"></i><i class="k1" style="width:{{K1_W}}%"></i><i class="k2" style="width:{{K2_W}}%"></i><i class="k3" style="width:{{K3_W}}%"></i>
+  </div>
+  <ul class="key">
+    <li><i class="k0"></i><span><b>{{K0_N}}</b> hand-written C</span></li>
+    <li><i class="k1"></i><span><b>{{K1_N}}</b> generated from instruction patterns</span></li>
+    <li><i class="k2"></i><span><b>{{K2_N}}</b> Ghidra output that already matches</span></li>
+    <li><i class="k3"></i><span><b>{{K3_N}}</b> assembly stubs</span></li>
+  </ul>
 
   <h3>Units</h3>
   <p class="label">Each rectangle is one unit (a source file of the original game, or a block of code between known files). Its area is the unit's code size; the colour is how much of it is matched. Hover for details, click or press Enter for the full card.</p>
@@ -220,9 +266,9 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
 <section id="milestones"><div class="wrap">
   <h2>Milestones</h2>
   <ol class="steps">
-    <li><b>Identify the compiler <span class="pill ok">done</span></b>The game's code was built with <code>ee-gcc 2.9-ee-991111-01</code>, <code>-O2 -G8</code>. Hundreds of functions compile byte-identical with it.</li>
+    <li><b>Identify the compiler <span class="pill ok">done</span></b>The game's code was built with <code>ee-gcc 2.9-ee-991111-01</code>, <code>-O2 -G8</code>. {{FN_MATCHED}} functions now compile byte-identical with it.</li>
     <li><b>Rebuild the executable from assembly <span class="pill ok">done</span></b>The whole <code>.text</code> is split per source file and reassembled; the result matches the original byte for byte.</li>
-    <li><b>Match functions in C <span class="pill">in progress</span></b>Each function is rewritten until it compiles to the same bytes, then switched over from assembly to C.</li>
+    <li><b>Match functions in C <span class="pill">in progress</span></b>Each function is rewritten until it compiles to the same bytes, then switched over from assembly to C. Right now {{CODE_PCT}}% of the code and {{FN_PCT}}% of the functions are done.</li>
   </ol>
 </div></section>
 
@@ -248,24 +294,28 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
 
 <section id="setup"><div class="wrap">
   <h2>Setup</h2>
+  <p>You need Python 3, Clang, LLD (<code>ld.lld</code>), the game's compiler <code>ee-gcc 2.9-ee-991111-01</code> (from decomp.me's compiler archive) and your own Legaia 2: Duel Saga (PAL) disc image.</p>
   <h3>Linux</h3>
 <pre><code>git clone https://github.com/WeAreTommyBruh/Legaia2-Decomp.git
 mkdir -p ~/tools/ee-gcc2.9-991111-01
 curl -L https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111-01.tar.xz \
-  | tar xJ -C ~/tools/ee-gcc2.9-991111-01
-
-# put SLES_50891.ISO in the repository root, then:
-python3 tools/asm_build.py all     # rebuild + byte-identical check
-python3 tools/progress.py          # build/PROGRESS.md (local summary)
-python3 tools/report.py            # report/report.json</code></pre>
+  | tar xJ -C ~/tools/ee-gcc2.9-991111-01</code></pre>
+  <p>The compiler is a 32-bit Linux program. On a 64-bit system install the 32-bit runtime libraries first (Debian/Ubuntu shown):</p>
+<pre><code>sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install libc6:i386</code></pre>
+  <p>Then put the disc image in the repository root as <code>SLES_50891.ISO</code> and rebuild the executable:</p>
+<pre><code>python3 tools/asm_build.py all     # rebuild + byte-identical check; the last line must say MATCH
+python3 tools/report.py            # report/report.json, the numbers on this page</code></pre>
   <h3>Windows</h3>
-  <p>You need to install <a href="https://github.com/microsoft/WSL">WSL</a> with Ubuntu or Debian, then follow the Linux steps.</p>
+  <p>Install <a href="https://github.com/microsoft/WSL">WSL</a> (<code>wsl --install</code>) with Ubuntu or Debian, then follow the Linux steps.</p>
 </div></section>
 
 <section id="about"><div class="wrap">
   <h2>About</h2>
   <div class="card">
-    <p style="margin-top:0">This decompilation project is heavily AI assisted. I check everything one by one to make sure there is nothing wrong.</p>
+    <p style="margin-top:0">This project is written almost entirely by AI. I check nearly everything myself to make sure there is nothing wrong.</p>
+    <p>Reverse engineering and matching decompilation take a long time: expect many months, possibly a year. There is no rush, so the project will be finished when it is finished.</p>
     <p style="margin-bottom:0">The project was made by <a href="https://github.com/WeAreTommyBruh">WeAreTommyBruh</a>.</p>
     <div class="cta"><a class="btn" href="https://github.com/WeAreTommyBruh">GitHub profile</a></div>
   </div>
@@ -279,7 +329,7 @@ python3 tools/report.py            # report/report.json</code></pre>
 
 <section id="legal"><div class="wrap">
   <h2>Legal</h2>
-  <div class="note">The repo contains no game assets. You will need to provide your own Legaia 2: Duel Saga (PAL) disc image.<br>The character artwork on this page belongs to its respective owners.</div>
+  <div class="note">The repository contains no game assets: no disc image, executable, graphics, audio or text, and nothing extracted from them. You need to provide your own Legaia 2: Duel Saga (PAL) disc image.<br>This project is not affiliated with or endorsed by the game's original developers or publisher. The character artwork on this page belongs to its respective owners.</div>
 </div></section>
 </main>
 
@@ -288,6 +338,7 @@ python3 tools/report.py            # report/report.json</code></pre>
 <dialog id="dlg" aria-labelledby="dlg-title">
   <div class="modal">
     <h3 id="dlg-title">Unit</h3>
+    <p class="sub" id="dlg-sub" hidden></p>
     <div class="bar" role="progressbar" id="dlg-bar" aria-valuemin="0" aria-valuemax="100" aria-label="Unit matched"><i style="width:0"></i></div>
     <div class="row"><span>Matched</span><b id="dlg-pct"></b></div>
     <div class="row"><span>Code bytes</span><b id="dlg-bytes"></b></div>
@@ -303,6 +354,8 @@ var UNITS={{UNITS_JSON}};
 (function(){
   var tm=document.getElementById('tm'), tip=document.getElementById('tip'), dlg=document.getElementById('dlg'), selected=null;
   var data=UNITS.filter(function(u){return u.total>0;}).sort(function(a,b){return b.total-a.total;});
+  function pretty(n){return n.indexOf('_unknown_after_')===0?'\u21b3 '+n.slice(15):(n==='_unknown_start'?'\u21b3 start':n);}
+  function explain(n){return n.indexOf('_unknown_after_')===0?'Code between known source files, right after '+n.slice(15)+'.':(n==='_unknown_start'?'Code before the first known source file.':'');}
   function col(p){
     if(p<=0) return '#372B1D';
     if(p>=99.9) return '#F2C40E';
@@ -325,6 +378,7 @@ var UNITS={{UNITS_JSON}};
   function openUnit(u){
     selected=u.name;
     document.getElementById('dlg-title').textContent=u.name;
+    var sub=document.getElementById('dlg-sub'); sub.textContent=explain(u.name); sub.hidden=!sub.textContent;
     document.getElementById('dlg-pct').textContent=u.pct.toFixed(1)+'%';
     document.getElementById('dlg-bytes').textContent=u.bytes.toLocaleString()+' / '+u.total.toLocaleString();
     document.getElementById('dlg-fn').textContent=u.mfn+' / '+u.fn;
@@ -342,10 +396,10 @@ var UNITS={{UNITS_JSON}};
       d.setAttribute('aria-label',c.u.name+', '+c.u.pct.toFixed(1)+' percent matched');
       d.style.cssText='left:'+c.x+'px;top:'+c.y+'px;width:'+c.w+'px;height:'+c.h+'px;background:'+col(c.u.pct);
       if(c.u.pct>0&&c.u.pct<99.9){var b=document.createElement('b'); b.style.height=Math.max(2,c.u.pct)+'%'; d.appendChild(b);}
-      if(c.w>70&&c.h>18){var s=document.createElement('span'); s.textContent=c.u.name; if(c.u.pct>=99.9) s.style.color='#2A130B',s.style.textShadow='none'; d.appendChild(s);}
+      if(c.w>46&&c.h>18){var s=document.createElement('span'); s.textContent=pretty(c.u.name)+(c.w>110&&c.h>34?'  '+c.u.pct.toFixed(0)+'%':''); if(c.u.pct>=99.9) s.style.color='#2A130B',s.style.textShadow='none'; d.appendChild(s);}
       d.addEventListener('mousemove',function(e){
         tip.hidden=false;
-        tip.innerHTML='<b>'+c.u.name+'</b><br>'+c.u.pct.toFixed(1)+'% matched<br>'+c.u.bytes.toLocaleString()+' / '+c.u.total.toLocaleString()+' bytes<br>'+c.u.mfn+' / '+c.u.fn+' functions';
+        tip.innerHTML='<b>'+c.u.name+'</b><br>'+(explain(c.u.name)?'<span style="opacity:.85">'+explain(c.u.name)+'</span><br>':'')+c.u.pct.toFixed(1)+'% matched<br>'+c.u.bytes.toLocaleString()+' / '+c.u.total.toLocaleString()+' bytes<br>'+c.u.mfn+' / '+c.u.fn+' functions';
         var x=e.clientX+14,y=e.clientY+14; if(x+270>innerWidth) x=e.clientX-274; if(y+110>innerHeight) y=e.clientY-110;
         tip.style.left=x+'px'; tip.style.top=y+'px';
       });

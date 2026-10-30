@@ -11,6 +11,24 @@ vals = {
     "FN_MATCHED": f"{int(m['matched_functions']):,}", "FN_TOTAL": f"{int(m['total_functions']):,}",
     "FN_PCT": f"{fn_pct:.1f}", "FN_PCT_W": f"{fn_pct:.1f}",
 }
+
+import re, glob
+def match_counts():
+    """Matched functions by origin, counted from the // MATCH markers in src/ (CI has the checkout)."""
+    root = os.path.join(here, "..", "src")
+    c = {"hand": 0, "gen": 0, "ghidra": 0, "asm": 0}
+    for path in glob.glob(os.path.join(root, "**", "*.c"), recursive=True):
+        rel = os.path.relpath(path, root).replace(os.sep, "/")
+        n = len(set(re.findall(r"MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())))
+        if rel == "asm_stubs.c": c["asm"] += n
+        elif rel.startswith("ghidra/"): c["ghidra"] += n
+        elif rel.startswith("gen"): c["gen"] += n
+        else: c["hand"] += n
+    return c
+mc = match_counts()
+tot = sum(mc.values()) or 1
+for i, k in enumerate(("hand", "gen", "ghidra", "asm")):
+    vals[f"K{i}_N"] = f"{mc[k]:,}"; vals[f"K{i}_W"] = f"{100*mc[k]/tot:.2f}"
 units = []
 for u in json.load(open(os.path.join(here, "..", "report", "report.json")))["units"]:
     um = u["measures"]
