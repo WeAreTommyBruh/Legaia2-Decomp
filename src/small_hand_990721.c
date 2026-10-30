@@ -54,3 +54,30 @@ extern char D_0053FD00[]; extern int D_004A6DD0, D_004A6D00, D_004A6D04, D_004A6
 int func_0012C1E8(void); int func_0015ADE8(char *, int); int func_0015AE08(char *, int); int func_001565B0(int, int, int); int func_00156408(int, int, int); int func_00156D38(int, int, int); int func_00156B58(int, int);
 // MATCH func_00118638
 void battle_00118638(void) { int h; if (func_0012C1E8() == 0) return; h = func_0015ADE8(D_0053FD00, 0); if (h != 0) { if (D_004A6DD0 == 0) func_001565B0(h, 8768, 15760); if (D_004A6D00 != 0) func_00156408(h, D_004A6D04, D_004A6D08); } h = func_0015AE08(D_0053FD00, 0); if (h != 0) { if (D_004A6DD0 == 0) func_00156D38(h, 9792, 15768); if (D_004A6D00 != 0) func_00156B58(h, D_004A6D04); } D_004A6DD0 = 1; }
+
+extern char D_004A3698[];
+extern char D_004A36A8[];
+extern char D_004A3688[];
+unsigned long long func_001118F8_0018D550(char *, ...) __asm__("func_001118F8");
+// MATCH func_0018D550
+void FUN_0018d550(float *p, float *q)
+{
+  int i;
+  float v;
+  while (p < q)
+  {
+    func_001118F8_0018D550(D_004A3698, p);
+    i = 3;
+    do
+    {
+      v = *p;
+      i--;
+      p++;
+      func_001118F8_0018D550(D_004A36A8, (double) v);
+    }
+    while (i >= 0);
+    func_001118F8_0018D550(D_004A3688);
+  }
+
+  func_001118F8_0018D550(D_004A3688);
+}

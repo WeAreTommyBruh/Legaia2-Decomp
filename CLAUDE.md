@@ -6,10 +6,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Current progress (session 14 in progress, last push below)
 
-- 3562 / 6254 functions matched (57.0%); 222,788 / 2,022,408 code bytes = **11.02%** (user goal for session 14: 11.54%).
+- 3587 / 6254 functions matched (57.4%); 228,536 / 2,022,408 code bytes = **11.30%** (user goal for session 14: 11.54%).
   - 1752 written by hand, 758 generated from instruction patterns (`tools/gen_tiny.py`), 820 Ghidra output that
     already matches (`tools/gen_ghidra.py`), 168 hand-written assembly reproduced as file-scope asm in `src/asm_stubs.c`.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3562 / 11.02% (session 14, in progress).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3587 / 11.30% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.

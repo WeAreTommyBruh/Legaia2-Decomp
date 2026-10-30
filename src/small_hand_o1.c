@@ -116,3 +116,11 @@ void FUN_002224a8(int a, int b, int c, int d)
 
 // MATCH func_002A43A8
 int clas_min_002a43a8(int *p, int n) { int i; for (i = 0; i < n && p != 0; i++) p = (int *)p[0]; if (p == 0) return -1; return p[1]; }
+
+extern int *D_004A3838;
+// MATCH func_001E2678
+int akari_001e2678(int a, int *b) {
+    int *p;
+    for (p = D_004A3838; p != 0; p = (int *)p[1]) if (p == b) return 1;
+    return 0;
+}

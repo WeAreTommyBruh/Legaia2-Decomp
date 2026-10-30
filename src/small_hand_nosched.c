@@ -174,3 +174,32 @@ extern char D_0049F288[], D_0049F278[];
 int func_002DD36C(void *, void *);
 // MATCH func_002E2388
 char *FUN_002e2388(int *o, int a, char *s) { if (s != 0) { if (func_002DD36C(s, D_0049F288) != 0 && func_002DD36C(s, D_0049F278) != 0) return 0; o[13] = (int)s; o[12] = a; } return D_0049F288; }
+
+extern char D_00341288[];
+extern char D_003412F8[];
+extern char D_0043F6E8[];
+extern int D_002F9804[];
+void func_00187028(void *);
+void func_00186F40(void *, void *, int, int);
+char *func_00246CE0(int, void (*)(void), void (*)(void), int);
+void func_00189078(void);
+void func_001890A0(void);
+// MATCH func_00189128
+void srivus_00189128(char *o)
+{
+  char *r;
+  int f;
+  func_00187028(o);
+  func_00186F40(o, D_00341288, 40, 43);
+  if ((*((int *) (o + 1780))) == 42)
+  {
+    f = D_002F9804[0];
+    *((char **) (o + 1224)) = D_0043F6E8;
+    r = func_00246CE0(f, func_00189078, func_001890A0, 0);
+    f = *((int *) (r + 192));
+    *((char **) (o + 1036)) = r;
+    *((char **) (o + 1040)) = D_003412F8;
+    *((char **) (r + 412)) = (0, D_003412F8);
+    *((int *) (r + 192)) = f | 2;
+  }
+}
