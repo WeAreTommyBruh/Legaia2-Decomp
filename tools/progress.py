@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Writes PROGRESS.md: how far the decompilation has come.
+"""Writes build/PROGRESS.md: how far the decompilation has come.
 
 Reads decomp/functions.csv (Ghidra export), asm/*.s (tools/asm_build.py
 split), build/SLES_508.91 (asm_build.py build) and src/ (functions rewritten
 in C; a matched function is marked with a `// MATCH func_XXXXXXXX` comment
 just before it). The file lists only counts, sizes and source file names.
 
-Usage: progress.py [OUT.md]       (default PROGRESS.md)
+Usage: progress.py [OUT.md]       (default build/PROGRESS.md, which is not tracked by git)
 """
 
 import collections
@@ -33,7 +33,8 @@ def bar(a, b, width=30):
 
 
 def main(argv):
-    out = argv[1] if len(argv) > 1 else os.path.join(ROOT, "PROGRESS.md")
+    out = argv[1] if len(argv) > 1 else os.path.join(ROOT, "build", "PROGRESS.md")
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     with open(os.path.join(ROOT, "decomp", "functions.csv")) as f:
         funcs = list(csv.DictReader(f))
     # sizes as tools/report.py measures them (address span to the next function, without the

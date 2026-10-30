@@ -22,11 +22,11 @@ python3 tools/progress.py
 python3 tools/report.py
 ```
 
-More background on the pipeline, formats and file layout is in [FORMATS.md](FORMATS.md); current numbers are in [PROGRESS.md](PROGRESS.md); tips, techniques and open problems are in [handoff.md](handoff.md).
+Project notes (current numbers, rules, techniques and open problems) are in [CLAUDE.md](CLAUDE.md); file format details are in the docstring at the top of each script in `tools/`.
 
 ## Matching a function
 
-1. Pick an unmatched function (see `decomp/functions.csv`, `PROGRESS.md`, or the near-misses in `wip/`).
+1. Pick an unmatched function (see `decomp/functions.csv`, the open work list in `CLAUDE.md`, or the near-misses in `wip/`).
 2. Read its assembly and Ghidra output, write C, and compare:
 
    ```bash
@@ -52,19 +52,19 @@ A too-short or too-long compile is not a match: the word count must equal the or
 
 If a draft is close but not exact, add it as `wip/<address>.c` with `// WIP func_XXXXXXXX` (include `../src/common.h`). `tools/report.py` compiles these for partial-match figures; they are not part of the build. When one matches, move it to `src/` with `// MATCH` and delete the wip file.
 
-Useful techniques (struct-pointer parameters, `volatile` flag words, `int`-returning callee declarations, `noreturn` tails, statement-order permutations, compiler flag sweeps) are collected in `handoff.md`.
+Useful techniques (struct-pointer parameters, `volatile` flag words, `int`-returning callee declarations, `noreturn` tails, statement-order permutations, compiler flag sweeps) are collected in `CLAUDE.md`.
 
 ## Before every commit / push
 
 - `python3 tools/asm_build.py all` prints `MATCH`.
-- Regenerate and commit **both** progress files together with your change:
+- Regenerate and commit the progress report together with your change:
 
   ```bash
-  python3 tools/progress.py    # PROGRESS.md
+  python3 tools/progress.py    # build/PROGRESS.md, local summary only (not committed)
   python3 tools/report.py      # report/report.json (read by ByteMatch)
   ```
 
-  Every push needs a refreshed `PROGRESS.md` and `report/report.json`; the live ByteMatch badges in the README only move when `report.json` is pushed.
+  Every push needs a refreshed `report/report.json`; the live ByteMatch badges in the README only move when `report.json` is pushed.
 - Watch for duplicate symbols: a stale `// OFF func_X` or an already-matched function in another file causes a link error.
 - Keep commits focused and describe what matched (for example "Match 12 more pchevent debug-print functions").
 
@@ -75,7 +75,7 @@ Once you have the maintainer's go-ahead and your change builds:
 1. **Fork and branch.** Fork the repository on GitHub, then create a branch in your fork for your work (one topic per branch, for example one file or one family of functions).
 2. **Push to your fork.** Push that new branch to your own GitHub fork, not to the original repository.
 3. **Open the pull request.** Open the original project's repository on GitHub. After a push, GitHub usually shows a yellow banner offering **Compare & pull request**; click it. (If the banner is gone, use the Pull requests tab and choose *New pull request*, then pick your fork and branch.)
-4. **Explain what you did.** In the description, say which functions you matched and which files they are in. If you used an outside tool such as decomp.me to work something out, mention it and link the scratch if that helps. Confirm that `python3 tools/asm_build.py all` prints `MATCH` on your machine, and that you regenerated `PROGRESS.md` and `report/report.json`.
+4. **Explain what you did.** In the description, say which functions you matched and which files they are in. If you used an outside tool such as decomp.me to work something out, mention it and link the scratch if that helps. Confirm that `python3 tools/asm_build.py all` prints `MATCH` on your machine, and that you regenerated `report/report.json`.
 5. **Wait for review.** The maintainer will read your pull request and may ask you to change names, structure or types before it is merged into `main`. Reply on the PR and push follow-up commits to the same branch; they are added to the pull request automatically.
 
 ## Git etiquette

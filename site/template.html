@@ -243,7 +243,7 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
     <tr><td><code>pss_demux.py</code></td><td>Split the movie file into video and audio</td></tr>
     </tbody>
   </table></div>
-  <p>Details and format notes: <a href="https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/main/FORMATS.md">FORMATS.md</a>.</p>
+  <p>Format notes are in the docstring at the top of each tool in <a href="https://github.com/WeAreTommyBruh/Legaia2-Decomp/tree/main/tools">tools/</a>.</p>
 </div></section>
 
 <section id="setup"><div class="wrap">
@@ -256,7 +256,7 @@ curl -L https://github.com/decompme/compilers/releases/download/compilers/ee-gcc
 
 # put SLES_50891.ISO in the repository root, then:
 python3 tools/asm_build.py all     # rebuild + byte-identical check
-python3 tools/progress.py          # PROGRESS.md
+python3 tools/progress.py          # build/PROGRESS.md (local summary)
 python3 tools/report.py            # report/report.json</code></pre>
   <h3>Windows</h3>
   <p>You need to install <a href="https://github.com/microsoft/WSL">WSL</a> with Ubuntu or Debian, then follow the Linux steps.</p>
