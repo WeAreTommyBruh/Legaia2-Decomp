@@ -6295,3 +6295,13 @@ O5_001714A0 *roulette_001714a0(O5_001714A0 *o) { o->w0 = 0; o->w4 = 0; o->w8 = 0
 void func_002C5C38(int);
 // MATCH func_002C3458
 void FUN_002c3458(char *o) { int c = 0x70000000; func_002C5C38(1); *(int *)(o + 1424) = c; *(int *)(o + 1428) = 0x70001800; *(int *)(o + 1744) = 0x70001b00; *(int *)(o + 1748) = 0x70003300; *(int *)(o + 2064) = 0; }
+
+extern char D_00342CD0_0022CF58[] __asm__("D_00342CD0");
+void func_002478D0(int); void func_00243A68(int, char *); void func_0022C650(void *); void func_0022CB58(void *);
+// MATCH func_0022CF58
+void th_tex_0022cf58(char *o) { int s; if (*(int *)(o + 12372) == 0) return; func_002478D0(16); func_002478D0(256); func_002478D0(64); func_002478D0(8); func_00243A68(1, D_00342CD0_0022CF58); s = *(int *)(o + 12356); switch (s) { case 0: case 1: func_0022C650(o); break; case 2: func_0022CB58(o); break; } }
+
+extern char D_0043FED0_0022A198[] __asm__("D_0043FED0"), D_0045BE70[];
+void func_00202840_0022A198(void *) __asm__("func_00202840"); void func_00229828(void *);
+// MATCH func_0022A198
+char *FUN_0022a198(char *o) { char *p; int i; *(int *)(o + 2116) = (int)D_0043FED0_0022A198; p = o + 2176; func_00202840_0022A198(o + 24); *(int *)(o + 2116) = (int)D_0045BE70; *(int *)(o + 2128) = -1; *(int *)(o + 2132) = -1; *(int *)(o + 2136) = 0; *(int *)(o + 2140) = 0; *(int *)(o + 2144) = 0; *(int *)(o + 2148) = 0; for (i = 47; i != -1; i--) { func_00229828(p); p += 12432; } *(int *)(o + 2160) = 0; return o; }
