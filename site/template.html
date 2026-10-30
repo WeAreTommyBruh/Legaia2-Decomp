@@ -232,15 +232,14 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
   </div>
 
   <h3>How the matches were made</h3>
-  <p class="label">Matched functions by origin. The assembly stubs are routines that are hand-written assembly in the original (syscall and coprocessor-0 helpers), reproduced instruction for instruction; they count as matched but are not C.</p>
-  <div class="stack" role="img" aria-label="Matched functions by origin: {{K0_N}} hand-written C, {{K1_N}} generated from instruction patterns, {{K2_N}} Ghidra output, {{K3_N}} assembly stubs">
-    <i class="k0" style="width:{{K0_W}}%"></i><i class="k1" style="width:{{K1_W}}%"></i><i class="k2" style="width:{{K2_W}}%"></i><i class="k3" style="width:{{K3_W}}%"></i>
+  <p class="label">Matched functions by origin. Every one is C that compiles to the original bytes.</p>
+  <div class="stack" role="img" aria-label="Matched functions by origin: {{K0_N}} hand-written C, {{K1_N}} generated from instruction patterns, {{K2_N}} Ghidra output">
+    <i class="k0" style="width:{{K0_W}}%"></i><i class="k1" style="width:{{K1_W}}%"></i><i class="k2" style="width:{{K2_W}}%"></i>
   </div>
   <ul class="key">
     <li><i class="k0"></i><span><b>{{K0_N}}</b> hand-written C</span></li>
     <li><i class="k1"></i><span><b>{{K1_N}}</b> generated from instruction patterns</span></li>
     <li><i class="k2"></i><span><b>{{K2_N}}</b> Ghidra output that already matches</span></li>
-    <li><i class="k3"></i><span><b>{{K3_N}}</b> assembly stubs</span></li>
   </ul>
 
   <h3>Units</h3>

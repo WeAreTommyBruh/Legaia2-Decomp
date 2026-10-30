@@ -6,10 +6,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Current progress (session 14 in progress, last push below)
 
-- 3674 / 6254 functions matched (58.7%); 240,656 / 2,022,408 code bytes = **11.90%** (user goal for session 14: 12.01%; 11.54% was reached first).
-  - 1752 written by hand, 758 generated from instruction patterns (`tools/gen_tiny.py`), 820 Ghidra output that
-    already matches (`tools/gen_ghidra.py`), 168 hand-written assembly reproduced as file-scope asm in `src/asm_stubs.c`.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3674 / 11.90% (session 14, in progress).
+- 3506 / 6254 functions matched (56.1%); 237,916 / 2,022,408 code bytes = **11.76%** (user goal for session 14: 12.01%; 11.54% was reached first).
+  - Written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), and Ghidra output that already
+    matches (`tools/gen_ghidra.py`). Everything counted is C.
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3506 / 11.76% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
@@ -23,7 +23,7 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
   `990721` / `991111-01-as210` and `// cflags: ...` (`-fno-gcse`, `-fexceptions`, `-fno-schedule-insns`,
   `-fno-schedule-insns2`, `-fno-thread-jumps`, `-fno-omit-frame-pointer`, `-O1`). `src/small_hand*.c` is one file per setting.
 - Layout: `src/` matched C (`// MATCH func_XXXXXXXX` on its own line above the definition; prototypes never share that line),
-  `src/gen*/` and `src/ghidra/` generated matches, `src/asm_stubs.c`, `wip/*.c` near-miss drafts (`// WIP func_XXXXXXXX`,
+  `src/gen*/` and `src/ghidra/` generated matches, `wip/*.c` near-miss drafts (`// WIP func_XXXXXXXX`,
   compiled only by `tools/report.py` for partial-match figures, not part of the build), `tools/` format tools and builders,
   `site/` project website (GitHub Pages, rebuilt from `report/report.json`).
 - Tools: `tools/match.py src/FILE.c NAME ADDRESS` compares one function word by word; `tools/asm_build.py all` rebuilds and
@@ -81,8 +81,9 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
   `build/PROGRESS.md` (git-ignored) as a local summary only; `PROGRESS.md` is no longer committed.
   `build/work/commit.sh "msg" files...` checks the build says MATCH, regenerates the reports, commits and pushes.
   If a push is rejected: `git pull --rebase origin main`, rebuild, push again.
-- **Keep C only for new matches**: the user declined adding the libvu0 vector routines (0x18eaa0-0x18f..., ~124 functions, ~6,300 bytes of SDK hand
-  assembly) to `src/asm_stubs.c`; the existing 168 stubs stay, but do not add more.
+- **No assembly stubs.** A function counts as matched only when C compiles to its bytes. `src/asm_stubs.c` (168 hand-written-assembly functions
+  reproduced as file-scope asm) was removed at the user's request (session 14); those functions are built from the original assembly again. The libvu0
+  routines (0x18eaa0-0x18f..., ~124 functions) must not be added either.
 - **Never force-push.** (Session 12 and 13: the user allowed one only if unavoidable; it was not needed.)
 - Commit to `main`. Ask before downloads or any visibility change.
 - No copyrighted assets: only tools, docs and C in the repo; game data stays git-ignored. Do not print game text in chat.

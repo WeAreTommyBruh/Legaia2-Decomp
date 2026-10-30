@@ -65,10 +65,6 @@ def main(argv):
             out |= {int(a, 16) for a in re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})", open(path).read())}
         return out
     generated, from_ghidra = marked("gen"), marked("ghidra")
-    asm_stubs = set()  # hand-written assembly in the original, reproduced as file-scope asm
-    p_asm = os.path.join(ROOT, "src", "asm_stubs.c")
-    if os.path.exists(p_asm):
-        asm_stubs = {int(a, 16) for a in re.findall(r"//\s*MATCH\s+func_([0-9A-Fa-f]{8})", open(p_asm).read())}
     m_size = sum(int(r["size_bytes"]) for r in m_funcs)
 
     words = instr = 0
@@ -112,11 +108,9 @@ def main(argv):
     L.append("\n## Overall\n\n")
     L.append("| | Count | Share | |\n|---|---:|---:|---|\n")
     L.append(f"| Functions matched in C | {len(m_funcs)} / {total} | {pct(len(m_funcs), total)} | {bar(len(m_funcs), total)} |\n")
-    L.append(f"| ... written by hand | {len(matched - generated - from_ghidra - asm_stubs)} | | |\n")
+    L.append(f"| ... written by hand | {len(matched - generated - from_ghidra)} | | |\n")
     L.append(f"| ... generated from instruction patterns (`tools/gen_tiny.py`) | {len(generated)} | | |\n")
     L.append(f"| ... Ghidra's decompilation, already matching (`tools/gen_ghidra.py`) | {len(from_ghidra)} | | |\n")
-    if asm_stubs:
-        L.append(f"| ... assembly in the original, reproduced as file-scope asm (`src/asm_stubs.c`) | {len(asm_stubs)} | | |\n")
     L.append(f"| Code bytes matched in C | {m_size:,} / {size:,} | {pct(m_size, size)} | {bar(m_size, size)} |\n")
     L.append(f"| Functions with a source file | {len(attributed)} / {total} | {pct(len(attributed), total)} | {bar(len(attributed), total)} |\n")
     L.append(f"| Functions with a real name | {len(named)} / {total} | {pct(len(named), total)} | {bar(len(named), total)} |\n")
@@ -158,9 +152,6 @@ def main(argv):
              "constants, field and global getters/setters, short wrappers that end in a tail call) "
              "translated from their instructions; only "
              "exact matches are kept.\n")
-    L.append("- `src/asm_stubs.c` holds functions that are hand-written assembly in the original (syscall "
-             "stubs, cop0 / `ei` / `di` helpers). They are reproduced instruction for instruction as "
-             "file-scope assembly: they count as matched, but they are not C.\n")
     L.append("- `src/ghidra/` is written by `tools/gen_ghidra.py`: Ghidra's own decompilation, with "
              "only types and global names adjusted, for the functions where it already compiles to "
              "the original bytes. It reads like Ghidra output and is meant to be cleaned up by hand.\n")
