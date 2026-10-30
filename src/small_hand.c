@@ -6560,3 +6560,36 @@ void FUN_00238000(int a) { char *e; int v; e = (char *)(a * 5472 + D_004A1A20_00
 typedef struct { int *w0; } PkW_002CF8C8;
 // MATCH func_002CF8C8
 void FUN_002cf8c8(PkW_002CF8C8 *o, int a, long long b) { int *p; p = o->w0; *(p++) = (int)b; p[0] = (int)(b >> 32); o->w0 = p + 3; p[1] = a; p[2] = 0; }
+
+typedef struct { int n; int pad[3]; int *v[1]; } L24_0024A190;
+extern L24_0024A190 D_002F9800_0024A190 __asm__("D_002F9800");
+// MATCH func_0024A190
+int *FUN_0024a190(void) { int *t; t = D_002F9800_0024A190.v[D_002F9800_0024A190.n--]; t[0] = 0; t[1] = (int)t; t[4] = (int)t; return t; }
+
+typedef struct { char p0[2]; short s2; char p4[39]; signed char c43; char p44[2]; short s46; signed char f48; signed char f49; char p50[30]; } E6_0021A9E0;
+extern E6_0021A9E0 D_003210E0_0021A9E0[] __asm__("D_003210E0");
+// MATCH func_0021A9E0
+int FUN_0021a9e0(char *o) { E6_0021A9E0 *e; if ((*(unsigned *)(o + 4816) & 0x40000000) == 0) return 0; if (*(int *)(o + 4964) >= 7) return 0; e = &D_003210E0_0021A9E0[*(int *)(o + 4964)]; return e->c43; }
+
+typedef struct { int w0, w4, w8, w12, w16; } E18_002558F8;
+extern E18_002558F8 D_003E3D20_002558F8[] __asm__("D_003E3D20"); extern char D_0047B0E0[];
+// MATCH func_002558F8
+int FUN_002558f8(unsigned a, int b) { if (a >= 10 || b < 0 || (unsigned)b >= 94) return (int)D_0047B0E0; return D_003E3D20_002558F8[b].w0; }
+
+typedef struct { int w0, w4, w8, w12, w16; } E18_00255940;
+extern E18_00255940 D_003E3D20_00255940[] __asm__("D_003E3D20"); extern char D_0047B0F0[];
+// MATCH func_00255940
+int FUN_00255940(unsigned a, int b) { if (a >= 10 || b < 0 || (unsigned)b >= 94) return (int)D_0047B0F0; return D_003E3D20_00255940[b].w4; }
+
+typedef struct { int w0, w4, w8, w12, w16; } E18_00255C08;
+extern E18_00255C08 D_003E3D20_00255C08[] __asm__("D_003E3D20");
+// MATCH func_00255C08
+int FUN_00255c08(unsigned a, int b) { if (a >= 10 || b < 0 || (unsigned)b >= 94) return -1; return D_003E3D20_00255C08[b].w16; }
+
+extern int D_004A69A8; extern char D_005F9640[]; int func_002A0020(void);
+// MATCH func_002A0098
+char *clas_min_002a0098(void) { int x; x = func_002A0020(); if (x < D_004A69A8) return D_005F9640 + x * 608; return 0; }
+
+extern int D_004A69A8_002A00E0 __asm__("D_004A69A8"); extern char D_005F9640_002A00E0[] __asm__("D_005F9640"); int func_002A0020(void); int func_0029C878(int, int);
+// MATCH func_002A00E0
+char *clas_min_002a00e0(void) { int x; x = func_0029C878(func_002A0020(), 0); if (x < D_004A69A8_002A00E0) return D_005F9640_002A00E0 + x * 608; return 0; }

@@ -6,10 +6,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Current progress (session 14 in progress, last push below)
 
-- 3524 / 6254 functions matched (56.3%); 239,580 / 2,022,408 code bytes = **11.85%** (user goal for session 14: 12.01%; 11.54% was reached first).
+- 3531 / 6254 functions matched (56.5%); 240,048 / 2,022,408 code bytes = **11.87%** (user goal for session 14: 12.01%; 11.54% was reached first).
   - Written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), and Ghidra output that already
     matches (`tools/gen_ghidra.py`). Everything counted is C.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3524 / 11.85% (session 14, in progress).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3531 / 11.87% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
@@ -71,6 +71,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 - Report units carry `metadata.source_path` (the repo file with the most matched code of that group). `merge_groups` in `tools/report.py` used to take
   the metadata of the group's first sub-unit, which lost the path for ~36% of matched functions (battle, nori, rsound, ...); it now picks the sub-unit
   with a path and the most matched code, so every unit with matched code links to an existing file.
+- Bound-checked table getters (`if (a >= 10 || b < 0 || (unsigned)b >= 94) return DEFAULT; return T[b].f;`) need the three tests as one `||` chain with
+  the third unsigned; list pops like `t = L.v[L.n--]` and pointer-reusing `a = (char *)*(int *)(...)` fixed register naming (24a190, 223500).
+  Hardware/kernel code: `__asm__ volatile("sync")`, `".word 0x42000038"` (ei), `"mfc0 %0, $12"`, `"cache 0x10, 0(%0)"` inside normal C matched whole
+  functions (2e60f0, 2e5d30, 1096c0); volatile on the gp scalars they touch stops delay-slot hoisting (10f268).
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
