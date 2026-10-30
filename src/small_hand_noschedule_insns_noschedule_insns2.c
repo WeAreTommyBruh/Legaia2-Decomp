@@ -18,3 +18,7 @@ void FUN_0025ac10(void) { int p = (int)D_00400498; do { *(short *)((char *)p + 2
 extern char D_00400498_0025AC90[] __asm__("D_00400498"); int func_00127210(void); void func_0025ADB8(void); void func_002523A0(void);
 // MATCH func_0025AC90
 void FUN_0025ac90(void) { int p; if (func_00127210() == 0) { p = (int)D_00400498_0025AC90; do { short *s = (short *)p; if (s[135]) s[135]--; if (s[136]) s[136]--; if (s[137]) s[137]--; if (s[138]) s[138]--; if (s[139]) s[139]--; if (s[140]) s[140]--; if (s[141]) s[141]--; if (s[142]) s[142]--; if (s[143]) s[143]--; if (s[144]) s[144]--; if (s[145]) s[145]--; p += 472; } while (p < (int)D_00400498_0025AC90 + 2360); } func_0025ADB8(); func_002523A0(); }
+
+extern int D_004A1A3C;
+// MATCH func_00127430
+int battle_00127430(void) { int *new_var; int r = 0; if (D_004A1A3C != 0) { r = 1; } if (D_004A1A3C) { new_var = &r; return *new_var; } else { return r; } }

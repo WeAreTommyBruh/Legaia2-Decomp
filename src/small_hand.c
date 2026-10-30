@@ -6549,3 +6549,14 @@ extern volatile unsigned D_004A6BB8_0010F268 __asm__("D_004A6BB8"); extern int D
 void func_002E58D0(int); void func_002E5840(int);
 // MATCH func_0010F268
 int FUN_0010f268(int a) { D_004A6BB8_0010F268 = D_004A6BB8_0010F268 + 1; if (D_004A6BB8_0010F268 > 0xfffffff) { D_004A6BD8 = 0; D_004A6BB8_0010F268 = 1; } D_004A6BCC_0010F268 = 1; if (D_004A1210 > 0) { func_002E58D0(D_004A1558); func_002E5840(D_004A1210); } (void)D_004A120C; __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return a; }
+
+// MATCH func_00223500
+int FUN_00223500(char *a, int b, unsigned c) { char *e; int x; e = a + b * 8; if (c >= *(unsigned *)(e + 4)) return 0; x = *(short *)(a + 2) * c; a = (char *)*(int *)(e + 8); return (int)a + x; }
+
+extern int D_004A1A20_00238000 __asm__("D_004A1A20");
+// MATCH func_00238000
+void FUN_00238000(int a) { char *e; int v; e = (char *)(a * 5472 + D_004A1A20_00238000); v = *(int *)(*(int *)(e + 5188) + 8); if (v < *(int *)(e + 5388)) *(int *)(e + 5388) = v; }
+
+typedef struct { int *w0; } PkW_002CF8C8;
+// MATCH func_002CF8C8
+void FUN_002cf8c8(PkW_002CF8C8 *o, int a, long long b) { int *p; p = o->w0; *(p++) = (int)b; p[0] = (int)(b >> 32); o->w0 = p + 3; p[1] = a; p[2] = 0; }
