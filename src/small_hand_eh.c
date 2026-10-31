@@ -167,3 +167,7 @@ typedef struct { char p[6680]; unsigned short a, b, c, d; } E9_00250F80;
 extern char D_003FEBA8_00250F80[] __asm__("D_003FEBA8"); int func_00250E90(int);
 // MATCH func_00250F80
 void FUN_00250f80(int i) { func_00250E90(((E9_00250F80 *)(D_003FEBA8_00250F80 + i * 472))->d); }
+
+int func_002C2F30(int);
+// MATCH func_002C2BE0
+void FUN_002c2be0(int p, unsigned q, int r, int s) { int e; e = *(int *)(p + 0x40); *(int *)(e + 0xe0) = s << 4; *(unsigned *)(e + 0xd8) = q & 0xfffffff | 0x20000000; *(int *)(e + 0xe4) = r * s; *(int *)(e + 0xdc) = r << 4; *(int *)(e + 0xb0) = 0; func_002C2F30(p); }

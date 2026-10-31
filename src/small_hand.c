@@ -6868,3 +6868,34 @@ void FUN_002d4c50(int a) { volatile unsigned *p; unsigned i; unsigned v; i = 0; 
 int func_002E9950(char *, int); int func_002E9D58(int, int, int); int func_002E9BD8_001954B0(int) __asm__("func_002E9BD8");
 // MATCH func_001954B0
 int FUN_001954b0(char *name, int *out) { int h; int r; h = func_002E9950(name, 1); if (h < 0) return h; r = func_002E9D58(h, 0, 2); *out = r; if (r < 0 || func_002E9D58(h, 0, 0) < 0) { func_002E9BD8_001954B0(h); return -1; } return h; }
+
+void func_00192B80(void); void func_00192B88(void); void func_00192BB8(void); void func_00192BE0(void); void func_00192C08(void);
+void func_002C2918(); int func_002C2D30(int, int, void (*)(void), int);
+void func_001925F0(int); int func_00191E78(int, int, int, int, int, int);
+// MATCH func_001925F8
+int FUN_001925f8(int a, int b, int c, int d, int e, int f, int g, int h) { func_002C2918(a, b, c); func_002C2D30(a, 0, func_00192B80, 0); func_002C2D30(a, 1, func_00192B88, 0); func_002C2D30(a, 2, func_00192BB8, 0); func_002C2D30(a, 3, func_00192BE0, 0); func_002C2D30(a, 5, func_00192C08, 0); func_001925F0(a); func_00191E78(a + 0x48, d, e, f, g, h); return 1; }
+
+int func_00213548(int, int, int, int); int func_002138A0(int, int, int, int, int);
+// MATCH func_002132E0
+int FUN_002132e0(int a, int b, int c, int d, int e, int f) { int r; r = 0; if (func_00213548(a, b, c, d) != 0) r = func_002138A0(a, b, c, d, f) != 0; return r; }
+
+int func_00213548(int, int, int, int); int func_002139B8(int, int, int, int, int, int, int);
+// MATCH func_00213368
+int FUN_00213368(int a, int b, int c, int d, int e, int f, int g, int h) { int r; r = 0; if (func_00213548(a, b, c, d) != 0) r = func_002139B8(a, b, c, d, f, g, h) != 0; return r; }
+
+extern char D_003FEBA8_0025D4B0[] __asm__("D_003FEBA8");
+int func_0025D128(int, int);
+// MATCH func_0025D4B0
+int FUN_0025d4b0(int a, int b) { char **new_var2; unsigned char *p; int i; int n; int r; char *new_var; char *q; if (b < 0) { q = D_003FEBA8_0025D4B0; *((short *) ((q + (a * 472)) + 6676)) = 0; return 1; } p = (unsigned char *)func_0025D128(a, 5); n = 0; i = 99; new_var = D_003FEBA8_0025D4B0 + (a * 472); q = new_var; do { i--; new_var2 = &q; if ((*p) == b) { *((short *) ((*new_var2) + 6676)) = b; n++; } p += 2; } while (i >= 0); r = -1; if (n != 0) { r = 0; } return r; }
+
+extern char D_003FEBA8_0025D550[] __asm__("D_003FEBA8");
+int func_0025D128(int, int);
+// MATCH func_0025D550
+int FUN_0025d550(int a, int b) { char **new_var2; unsigned char *p; int i; int n; int r; char *new_var; char *q; if (b < 0) { q = D_003FEBA8_0025D550; *((short *) ((q + (a * 472)) + 6678)) = 0; return 1; } p = (unsigned char *)func_0025D128(a, 9); n = 0; i = 99; new_var = D_003FEBA8_0025D550 + (a * 472); q = new_var; do { i--; new_var2 = &q; if ((*p) == b) { *((short *) ((*new_var2) + 6678)) = b; n++; } p += 2; } while (i >= 0); r = -1; if (n != 0) { r = 0; } return r; }
+
+extern char D_0042B138[]; extern char D_0042B150[]; extern char D_0042B118[]; extern char D_0042B0A0[];
+int func_0018B508_00100DD8(char *, int *) __asm__("func_0018B508"); int func_002CD428_00100DD8(int, int, char *, int) __asm__("func_002CD428"); int func_002CD598(int);
+int func_002CD8D8(int, int, int); int func_002CDAC8(int, int, int); int func_002CDFD8(int, int, int, int);
+void func_00133528(int, void *, int);
+// MATCH func_00100DD8
+void memo2_00100dd8(char *o) { int i; int r; int t; int buf[4]; i = 0; r = func_0018B508_00100DD8(D_0042B138, buf); buf[0] = 0x13166; do { t = func_002CDFD8(i, 0, *(int *)(o + 4), 0); if (t == 0) { func_002CDAC8(0, 0, (int)(o + 0x508)); func_002CD428_00100DD8(i, 0, D_0042B150, 0x203); func_002CDAC8(0, 0, (int)(o + 0x530)); func_002CD8D8(*(int *)(o + 0x530), (int)(o + 0xc0), 0x3c4); func_002CDAC8(0, 0, 0); func_002CD598(*(int *)(o + 0x530)); func_002CDAC8(0, 0, 0); func_002CD428_00100DD8(i, 0, D_0042B118, 0x203); func_002CDAC8(0, 0, 0); func_002CD8D8(*(int *)(o + 0x530), r, buf[0]); func_002CDAC8(0, 0, 0); func_002CD598(*(int *)(o + 0x530)); func_002CDAC8(0, 0, 0); } i++; } while (i < 2); func_00133528(r, D_0042B0A0, 0xf3); }
