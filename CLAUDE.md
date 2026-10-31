@@ -4,12 +4,12 @@ Repo: WeAreTommyBruh/Legaia2-Decomp, branch `main`. A function counts as done on
 byte-identical to the original (compiler: ee-gcc 2.9-ee-991111-01, `-O2 -G8`). Every other function is rebuilt
 from the original assembly, so `python3 tools/asm_build.py all` must always print `MATCH`.
 
-## Current progress (session 14 in progress, goal 12.30%)
+## Current progress (session 14, goal 12.30% reached)
 
-- 3576 / 6254 functions matched (57.2%); 248,120 / 2,022,408 code bytes = **12.27%** (user goal for session 14: 12.01%; 11.54% was reached first).
+- 3579 / 6254 functions matched (57.2%); 248,764 / 2,022,408 code bytes = **12.30%** (user goals for session 14: 12.01%, then 12.30%; both reached).
   - Written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), and Ghidra output that already
     matches (`tools/gen_ghidra.py`). Everything counted is C.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3576 / 12.27% (session 14, in progress).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3579 / 12.30% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
@@ -77,7 +77,7 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
   functions (2e60f0, 2e5d30, 1096c0); volatile on the gp scalars they touch stops delay-slot hoisting (10f268).
 - Website (`site/template.html` + `site/build_site.py`, deployed by `.github/workflows/pages.yml`, which checks out 30 commits for the history): the progress
   section shows badges, cards for code / functions / fuzzy match / data, the categories panel and the recent commits, all filled from `report/report.json`
-  and `git log`; no "See the progress" button in the hero (the user asked to remove it). Matching resumed afterwards: the user's latest goal is 12.30% code share.
+  and `git log`; no "See the progress" button in the hero (the user asked to remove it). Matching resumed afterwards for the 12.30% goal (reached at 3579 functions); stop again unless the user sets a new target.
 - README badges are SVG files in `badges/` drawn by `tools/badges.py` in the website's style; `tools/report.py` regenerates them whenever it writes
   `report/report.json`, so commit `badges/*.svg` together with the report.
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
