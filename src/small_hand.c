@@ -6899,3 +6899,16 @@ int func_002CD8D8(int, int, int); int func_002CDAC8(int, int, int); int func_002
 void func_00133528(int, void *, int);
 // MATCH func_00100DD8
 void memo2_00100dd8(char *o) { int i; int r; int t; int buf[4]; i = 0; r = func_0018B508_00100DD8(D_0042B138, buf); buf[0] = 0x13166; do { t = func_002CDFD8(i, 0, *(int *)(o + 4), 0); if (t == 0) { func_002CDAC8(0, 0, (int)(o + 0x508)); func_002CD428_00100DD8(i, 0, D_0042B150, 0x203); func_002CDAC8(0, 0, (int)(o + 0x530)); func_002CD8D8(*(int *)(o + 0x530), (int)(o + 0xc0), 0x3c4); func_002CDAC8(0, 0, 0); func_002CD598(*(int *)(o + 0x530)); func_002CDAC8(0, 0, 0); func_002CD428_00100DD8(i, 0, D_0042B118, 0x203); func_002CDAC8(0, 0, 0); func_002CD8D8(*(int *)(o + 0x530), r, buf[0]); func_002CDAC8(0, 0, 0); func_002CD598(*(int *)(o + 0x530)); func_002CDAC8(0, 0, 0); } i++; } while (i < 2); func_00133528(r, D_0042B0A0, 0xf3); }
+
+extern int D_004A163C; extern char D_005AB300[];
+int func_001915A0(int, int, int); void func_00191618(int); void func_002D5350(void);
+int func_002D5380(int *); void func_002D5430(int);
+void *memset(void *, int, unsigned);
+// MATCH func_00190EB0
+int FUN_00190eb0(int *o, int a, int b, int c) { int buf[4]; int d; int e; d = D_004A163C; o[15] = b; o[18] = c; o[0] = 0; o[11] = 0; o[13] = 0; o[14] = 0; o[16] = 0; o[21] = 0; o[19] = 0; o[20] = 0; o[17] = d; e = d + c; D_004A163C = e; o[12] = a; o[22] = e; D_004A163C = e + 0x800; memset(D_005AB300, 0, 0x800); func_001915A0(o[22], (int)D_005AB300, 0x800); func_002D5350(); buf[0] = 0; buf[1] = 0x10400; buf[3] = c; buf[2] = o[17]; func_002D5380(buf); buf[1] = 0x10400; buf[3] = c; buf[0] = 1; buf[2] = o[17] + 0x200; func_002D5380(buf); func_002D5430(8); func_00191618(0x3fff); return 1; }
+
+extern int D_004A1434_002988A0 __asm__("D_004A1434"); extern unsigned D_004A148C_002988A0 __asm__("D_004A148C"); extern int D_004A1430_002988A0 __asm__("D_004A1430"); extern unsigned D_004A5430;
+void func_002BEC58(float, float, float, void *);
+void func_0023B8A0(unsigned, int, int, int, int, unsigned);
+// MATCH func_002988A0
+void FUN_002988a0(float *v, int *a, int *b) { float c[10]; int x; int y; int w; unsigned col; unsigned k; int p, q, r; c[0] = 0; c[1] = 0; c[2] = 0; c[3] = 0; c[4] = 0; c[5] = 0; c[6] = 0; c[7] = 0; c[8] = 0; c[9] = 0; func_002BEC58(v[0], 1.0f, 1.0f, c); col = ((int)(c[3] * 15.0f) << 20) | ((int)(c[4] * 15.0f) << 12) | ((int)(c[5] * 15.0f) << 4); a[8] = col; a[7] = col; func_002BEC58(v[0], 1.0f, v[2], c); b[7] = 0xf0f0f0; x = D_004A1430_002988A0 + (118 >> D_004A148C_002988A0); w = 24 >> D_004A148C_002988A0; b[8] = ((int)(c[3] * 15.0f) << 20) | ((int)(c[4] * 15.0f) << 12) | ((int)(c[5] * 15.0f) << 4); y = D_004A1434_002988A0; func_002BEC58(v[0], v[1], v[2], c); q = (int)(c[4] * 255.0f); p = (int)(c[3] * 255.0f); r = (int)(c[5] * 255.0f); k = r | (q << 8) | (p << 16); func_0023B8A0(D_004A5430, x, y, w, w, 0); func_0023B8A0(D_004A5430, x + 4, y + 4, w - 8, w - 8, k); }

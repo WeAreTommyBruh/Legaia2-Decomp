@@ -220,3 +220,7 @@ typedef struct { char p[32]; unsigned short a, b; char q[36]; } E13_00294290;
 extern E13_00294290 D_003FDFA0[];
 // MATCH func_00294290
 int FUN_00294290(int idx) { E13_00294290 *e = &D_003FDFA0[idx]; return e->b * 100 / e->a; }
+
+int func_002C7318(int, int);
+// MATCH func_002C7850
+void FUN_002c7850(int o) { int v; int t; *(int *)(o + 0x164) = func_002C7318(o, 4); *(int *)(o + 0x168) = func_002C7318(o, 4); *(int *)(o + 0x16c) = func_002C7318(o, 4); *(int *)(o + 0x170) = func_002C7318(o, 4); v = func_002C7318(o, 2); *(volatile unsigned *)0x10002010 = (*(volatile unsigned *)0x10002010 & 0xfffcffff) | (v << 16); t = func_002C7318(o, 2); *(int *)(o + 0x174) = t; if (*(int *)(o + 0xd4) == 0) *(int *)(o + 0xd4) = t; *(int *)(o + 0x178) = func_002C7318(o, 1); *(int *)(o + 0x17c) = func_002C7318(o, 1); *(int *)(o + 0x180) = func_002C7318(o, 1); v = func_002C7318(o, 1); *(volatile unsigned *)0x10002010 = (*(volatile unsigned *)0x10002010 & 0xffbfffff) | (v << 22); v = func_002C7318(o, 1); *(volatile unsigned *)0x10002010 = (*(volatile unsigned *)0x10002010 & 0xffdfffff) | (v << 21); v = func_002C7318(o, 1); *(volatile unsigned *)0x10002010 = (*(volatile unsigned *)0x10002010 & 0xffefffff) | (v << 20); *(int *)(o + 0x184) = func_002C7318(o, 1); func_002C7318(o, 1); *(int *)(o + 0x188) = func_002C7318(o, 1); if (func_002C7318(o, 1) != 0) { func_002C7318(o, 1); func_002C7318(o, 3); func_002C7318(o, 1); func_002C7318(o, 7); func_002C7318(o, 8); } }
