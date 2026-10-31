@@ -6689,3 +6689,31 @@ void FUN_002156b8(int *o) { int d; int *p; int nv; int u; p = (int *) o[1]; d = 
 void func_00214A68_00215768(int *, int, int, int) __asm__("func_00214A68"); void func_00214680(int *);
 // MATCH func_00215768
 void FUN_00215768(int *o) { int d; int *p; int nv; int u; unsigned w; p = (int *) o[1]; d = p[1]; nv = (o[2] * 0x78) / d; u = p[0]; w = 0x78 - nv; o[3] = w | (w * 0x100) | (w * 0x10000) | 0x80000000; func_00214A68_00215768(o, u, 0, 0); func_00214680(o); }
+
+extern char D_00621120[]; extern unsigned char D_00621320_002BB650[] __asm__("D_00621320"); void func_00242F40(unsigned char *); void func_002445F0(int); void func_0023FE68(int, int);
+// MATCH func_002BB650
+void FUN_002bb650(int *param_1) { int new_var; param_1[0x7c] = param_1[0x7c] & 0xff7fffff; *((unsigned *) ((*param_1) + 0x18)) = (*((unsigned *) ((*param_1) + 0x18))) & 0xfffffffd; if ((&D_00621120[0])[param_1[0x79]] != '\0') { func_00242F40((&D_00621320_002BB650[0]) + (param_1[0x79] * 0x4c)); (&D_00621120[0])[param_1[0x79]] = 0; } func_002445F0(*param_1); if (9999 < (*((short *) ((*param_1) + 0xac)))) { new_var = *param_1; func_0023FE68(new_var, 0); return; } return; }
+
+extern float D_0049FE4C;
+// MATCH func_0012A140
+int battle_0012a140(int o) { float f; float g; int r; f = *(float *)(o + 0x58); if (f < 4000.0f) { g = f; if (g < 0.0f) { g = 0.0f; } g = g * 128.0f * D_0049FE4C; r = (int)g; } else { r = 0x80; } if (r < 0) { r = 0; } if (0x80 < r) { r = 0x80; } return r & 0xf0; }
+
+typedef struct { signed char a, b; char pad[6]; } T8_00177D38;
+extern T8_00177D38 D_00336680[]; extern float D_004A00CC;
+// MATCH func_00177D38
+int shuffle_00177d38(char *o) { T8_00177D38 *t; char *p; char *q; float v; float lim; t = &D_00336680[*(int *)(o + 396)]; lim = D_004A00CC; p = o + t->a * 96; q = o + t->b * 96; *(float *)(p + 56) = *(float *)(p + 56) + *(float *)(o + 404); *(float *)(q + 56) = *(float *)(q + 56) + *(float *)(o + 404); *(float *)(p + 24) = *(float *)(p + 24) - *(float *)(o + 404); v = *(float *)(q + 24) - *(float *)(o + 404); *(float *)(q + 24) = v; if (v <= lim) return 1; return 0; }
+
+typedef struct { signed char a, b; char pad[6]; } T8_00177DC8;
+extern T8_00177DC8 D_00336680_00177DC8[] __asm__("D_00336680"); extern float D_004A00D0;
+// MATCH func_00177DC8
+int shuffle_00177dc8(char *o) { T8_00177DC8 *t; char *p; char *q; float v; float lim; t = &D_00336680_00177DC8[*(int *)(o + 396)]; lim = D_004A00D0; p = o + t->a * 96; q = o + t->b * 96; *(float *)(p + 56) = *(float *)(p + 56) - *(float *)(o + 404); *(float *)(q + 56) = *(float *)(q + 56) - *(float *)(o + 404); *(float *)(p + 24) = *(float *)(p + 24) + *(float *)(o + 404); v = *(float *)(q + 24) + *(float *)(o + 404); *(float *)(q + 24) = v; if (lim <= v) return 1; return 0; }
+
+typedef struct { signed char a, b; char pad[6]; } T8_00177E58;
+extern T8_00177E58 D_00336680_00177E58[] __asm__("D_00336680"); extern float D_004A00D4;
+// MATCH func_00177E58
+int shuffle_00177e58(char *o) { T8_00177E58 *t; char *p; char *q; float v; float lim; t = &D_00336680_00177E58[*(int *)(o + 396)]; lim = D_004A00D4; p = o + t->a * 96; q = o + t->b * 96; *(float *)(p + 52) = *(float *)(p + 52) + *(float *)(o + 404); *(float *)(q + 52) = *(float *)(q + 52) + *(float *)(o + 404); *(float *)(p + 20) = *(float *)(p + 20) - *(float *)(o + 404); v = *(float *)(q + 20) - *(float *)(o + 404); *(float *)(q + 20) = v; if (lim <= *(float *)(q + 52)) return 1; return 0; }
+
+typedef struct { signed char a, b; char pad[6]; } T8_00177EF0;
+extern T8_00177EF0 D_00336680_00177EF0[] __asm__("D_00336680"); extern float D_004A00D8;
+// MATCH func_00177EF0
+int shuffle_00177ef0(char *o) { T8_00177EF0 *t; char *p; char *q; float v; float lim; t = &D_00336680_00177EF0[*(int *)(o + 396)]; lim = D_004A00D8; p = o + t->a * 96; q = o + t->b * 96; *(float *)(p + 52) = *(float *)(p + 52) - *(float *)(o + 404); *(float *)(q + 52) = *(float *)(q + 52) - *(float *)(o + 404); *(float *)(p + 20) = *(float *)(p + 20) + *(float *)(o + 404); v = *(float *)(q + 20) + *(float *)(o + 404); *(float *)(q + 20) = v; if (*(float *)(q + 52) <= lim) return 1; return 0; }
