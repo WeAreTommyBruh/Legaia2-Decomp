@@ -582,3 +582,7 @@ void yue_001e9fb0(float a, float b, float c, float d, char *o, int i, int k) { i
 
 // MATCH func_001EA068
 void yue_001ea068(float a, float b, float c, float d, char *o, int i, int k) { int *p; int *q; float f; if (i <= *(int *)(o + 0x7c) && i >= 0) { p = (int *)(i * 0x24 + *(int *)(o + 0x364)); if (k < 3) p[7] = k; q = p; ((float *)q)[1] = a; ((float *)q)[2] = b; if (!(d < 0.0f) && !(c < 0.0f)) { q[8] = 1; ((float *)q)[5] = d; f = (d + c) - d; ((float *)q)[4] = d + c; if (f != 0.0f) { ((float *)q)[6] = (b - a) / f; } else { ((float *)q)[6] = 0.0f; } q[8] = 1; ((float *)q)[0] = ((float *)q)[1]; q[3] = 0; } } }
+
+extern unsigned D_004A6FC4;
+// MATCH func_0021EFE0
+void batread_0021efe0(char *o) { int i; int *q; char *p; *(int *)(o + 0x1bf0) = 0; *(int *)(o + 0x1bec) = 0; *(int *)(o + 0x1bf4) = 0; q = (int *)(o + 0x1ba8); for (i = 15; i >= 0; i--) { *q = 0; q--; } p = o + 0x1200; do { if (*p == 8) *p = 0; p++; } while ((int)p < (int)(o + 0x1240)); D_004A6FC4 = 0; }
