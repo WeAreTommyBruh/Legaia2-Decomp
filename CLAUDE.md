@@ -6,10 +6,10 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 
 ## Current progress (session 14 in progress, goal 12.30%)
 
-- 3539 / 6254 functions matched (56.6%); 241,344 / 2,022,408 code bytes = **11.93%** (user goal for session 14: 12.01%; 11.54% was reached first).
+- 3552 / 6254 functions matched (56.8%); 244,244 / 2,022,408 code bytes = **12.08%** (user goal for session 14: 12.01%; 11.54% was reached first).
   - Written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), and Ghidra output that already
     matches (`tools/gen_ghidra.py`). Everything counted is C.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3539 / 11.93% (session 14, in progress).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3552 / 12.08% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
@@ -154,3 +154,4 @@ adding compiler settings, and a posed model export in `tmd_tool.py` (apply the f
 - Memory notes for this project live in `~/.claude/projects/-home-tommy-src-Legaia-2-Decomp/memory/`.
 
 - 136650 family (session 14): `[A][B][C][D]` multi-dim arrays of `volatile` structs (`extern E36 D_056C48E0[][256][8][32]`, gp ints as indexes, `e = &D[A][B][C][D]`) matched 136650, 1366e8, 136768 with the permuter's `int z = 0; e->s0 = z; ... n = e; n->s36 = 0` idiom; 1364c8 (three loops over the same table), 137298/137330/1367c8 (4-short entries with two address forms) are still open (see `fam_gp.txt` in build/work for the 19-function list). 2c6cd0 needed `if (x != 0 && y != 0) v = f(); else v = 0;` (true case first).
+- Same-shape families (session 14 end): `yue_001e9c18` + 6 siblings (`-fno-gcse`, second pointer `q = p`, int `k`), the nayuwin2 slot loaders 1aa160/1aa270/1aa420/1a19b8/1aa050/1a9f20 (array-of-struct bases `B164 D_..[]`/`B232 D_..[]`, madd), found by grouping unmatched functions by opcode signature (`sigs` snippet in the session notes: group by mnemonic tuple, sort by total bytes). Remaining identical-shape pairs: 167940/167b88, 2ece08/2ed010, 1e43d0/1e4568, 127bb8/127d50, 20cb90/20cd08, 2cb978/2cbc90, 276b50/276dd4, 137dc8/137ed8 (slot finder: do-while loops get closest, ~65 words off).
