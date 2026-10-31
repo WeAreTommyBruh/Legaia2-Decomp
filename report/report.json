@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 12.833185,
+  "fuzzy_match_percent": 12.844854,
   "total_code": "2022408",
-  "matched_code": "253908",
-  "matched_code_percent": 12.554736,
+  "matched_code": "254144",
+  "matched_code_percent": 12.566405,
   "total_data": "1768056",
   "matched_data": "136",
   "matched_data_percent": 0.0076920637,
   "total_functions": 6254,
-  "matched_functions": 3611,
-  "matched_functions_percent": 57.739048,
+  "matched_functions": 3612,
+  "matched_functions_percent": 57.755035,
   "total_units": 155
  },
  "units": [
@@ -26034,33 +26034,33 @@
   {
    "name": "pchspplate",
    "measures": {
+    "fuzzy_match_percent": 100.0,
     "total_code": "360",
-    "total_functions": 2,
-    "total_units": 1,
-    "fuzzy_match_percent": 34.44444444444444,
-    "matched_code": "124",
-    "matched_code_percent": 34.44444444444444,
-    "matched_functions": 1,
-    "matched_functions_percent": 50.0,
+    "matched_code": "360",
+    "matched_code_percent": 100.0,
     "matched_data_percent": 100.0,
-    "complete_data_percent": 100.0
+    "total_functions": 2,
+    "matched_functions": 2,
+    "matched_functions_percent": 100.0,
+    "complete_data_percent": 100.0,
+    "total_units": 1
    },
    "sections": [
     {
      "name": ".bss",
-     "metadata": {},
-     "fuzzy_match_percent": 100.0
+     "fuzzy_match_percent": 100.0,
+     "metadata": {}
     },
     {
      "name": ".data",
-     "metadata": {},
-     "fuzzy_match_percent": 100.0
+     "fuzzy_match_percent": 100.0,
+     "metadata": {}
     },
     {
      "name": ".text",
-     "metadata": {},
      "size": "368",
-     "fuzzy_match_percent": 34.78260869565217
+     "fuzzy_match_percent": 100.0,
+     "metadata": {}
     }
    ],
    "functions": [
@@ -26074,6 +26074,7 @@
     {
      "name": "pchspplate_00216938",
      "size": "236",
+     "fuzzy_match_percent": 100.0,
      "metadata": {},
      "address": "128"
     }
@@ -47400,16 +47401,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 13.722823,
+    "fuzzy_match_percent": 13.7573185,
     "total_code": "684140",
-    "matched_code": "90944",
-    "matched_code_percent": 13.293186,
+    "matched_code": "91180",
+    "matched_code_percent": 13.3276825,
     "total_data": "8",
     "matched_data": "8",
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 1246,
-    "matched_functions_percent": 61.01861,
+    "matched_functions": 1247,
+    "matched_functions_percent": 61.06758,
     "total_units": 77
    }
   },

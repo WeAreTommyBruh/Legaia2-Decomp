@@ -6912,3 +6912,9 @@ void func_002BEC58(float, float, float, void *);
 void func_0023B8A0(unsigned, int, int, int, int, unsigned);
 // MATCH func_002988A0
 void FUN_002988a0(float *v, int *a, int *b) { float c[10]; int x; int y; int w; unsigned col; unsigned k; int p, q, r; c[0] = 0; c[1] = 0; c[2] = 0; c[3] = 0; c[4] = 0; c[5] = 0; c[6] = 0; c[7] = 0; c[8] = 0; c[9] = 0; func_002BEC58(v[0], 1.0f, 1.0f, c); col = ((int)(c[3] * 15.0f) << 20) | ((int)(c[4] * 15.0f) << 12) | ((int)(c[5] * 15.0f) << 4); a[8] = col; a[7] = col; func_002BEC58(v[0], 1.0f, v[2], c); b[7] = 0xf0f0f0; x = D_004A1430_002988A0 + (118 >> D_004A148C_002988A0); w = 24 >> D_004A148C_002988A0; b[8] = ((int)(c[3] * 15.0f) << 20) | ((int)(c[4] * 15.0f) << 12) | ((int)(c[5] * 15.0f) << 4); y = D_004A1434_002988A0; func_002BEC58(v[0], v[1], v[2], c); q = (int)(c[4] * 255.0f); p = (int)(c[3] * 255.0f); r = (int)(c[5] * 255.0f); k = r | (q << 8) | (p << 16); func_0023B8A0(D_004A5430, x, y, w, w, 0); func_0023B8A0(D_004A5430, x + 4, y + 4, w - 8, w - 8, k); }
+
+extern char D_00455A38_00216938[] __asm__("D_00455A38");
+int func_00162130_00216938(int, char *, int) __asm__("func_00162130"); int func_00216398(int, int, int, int, int, int);
+void func_00216420(int, int); void func_00216428(int, int, int, int, int, int);
+// MATCH func_00216938
+int pchspplate_00216938(int *o, int p2, int p3, int p4, int p5, int p6, int p7, int p8, int p9, int p10, int p11) { int r; r = func_00216398(func_00162130_00216938(56, D_00455A38_00216938, 211), p2, p3, p4, p5, p6); if (r != 0) { func_00216420(r, o[2]); o[2] = r; func_00216428(r, p7, p8, p9, p10, p11); o[0] = o[0] + 1; } return r; }
