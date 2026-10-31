@@ -4,12 +4,12 @@ Repo: WeAreTommyBruh/Legaia2-Decomp, branch `main`. A function counts as done on
 byte-identical to the original (compiler: ee-gcc 2.9-ee-991111-01, `-O2 -G8`). Every other function is rebuilt
 from the original assembly, so `python3 tools/asm_build.py all` must always print `MATCH`.
 
-## Current progress (session 14 in progress, last push below)
+## Current progress (session 14 in progress, goal 12.30%)
 
-- 3533 / 6254 functions matched (56.5%); 240,188 / 2,022,408 code bytes = **11.88%** (user goal for session 14: 12.01%; 11.54% was reached first).
+- 3539 / 6254 functions matched (56.6%); 241,344 / 2,022,408 code bytes = **11.93%** (user goal for session 14: 12.01%; 11.54% was reached first).
   - Written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), and Ghidra output that already
     matches (`tools/gen_ghidra.py`). Everything counted is C.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3533 / 11.88% (session 14, in progress).
+- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3539 / 11.93% (session 14, in progress).
 - Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
@@ -77,7 +77,7 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
   functions (2e60f0, 2e5d30, 1096c0); volatile on the gp scalars they touch stops delay-slot hoisting (10f268).
 - Website (`site/template.html` + `site/build_site.py`, deployed by `.github/workflows/pages.yml`, which checks out 30 commits for the history): the progress
   section shows badges, cards for code / functions / fuzzy match / data, the categories panel and the recent commits, all filled from `report/report.json`
-  and `git log`; no "See the progress" button in the hero (the user asked to remove it). The user asked to stop matching functions after commit 15baa16.
+  and `git log`; no "See the progress" button in the hero (the user asked to remove it). Matching resumed afterwards: the user's latest goal is 12.30% code share.
 - README badges are SVG files in `badges/` drawn by `tools/badges.py` in the website's style; `tools/report.py` regenerates them whenever it writes
   `report/report.json`, so commit `badges/*.svg` together with the report.
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
@@ -152,3 +152,5 @@ adding compiler settings, and a posed model export in `tmd_tool.py` (apply the f
 - The scratch Python venv with Pillow/numpy used for image work is `/tmp/claude-1000/imgvenv` (not part of the repo).
 - README badges and the clone URL point at WeAreTommyBruh/Legaia2-Decomp; update them if the repo is renamed.
 - Memory notes for this project live in `~/.claude/projects/-home-tommy-src-Legaia-2-Decomp/memory/`.
+
+- 136650 family (session 14): `[A][B][C][D]` multi-dim arrays of `volatile` structs (`extern E36 D_056C48E0[][256][8][32]`, gp ints as indexes, `e = &D[A][B][C][D]`) matched 136650, 1366e8, 136768 with the permuter's `int z = 0; e->s0 = z; ... n = e; n->s36 = 0` idiom; 1364c8 (three loops over the same table), 137298/137330/1367c8 (4-short entries with two address forms) are still open (see `fam_gp.txt` in build/work for the 19-function list). 2c6cd0 needed `if (x != 0 && y != 0) v = f(); else v = 0;` (true case first).
