@@ -21,7 +21,7 @@ from the original assembly, so `python3 tools/asm_build.py all` must always prin
 - Steps 1 and 2 are done (compiler identified, executable rebuilt byte-identical). Step 3, matching functions in C, is in progress.
 - Not every file was built the same way. A C file picks its build with header lines: `// compiler: 990721-r5900` /
   `990721` / `991111-01-as210` and `// cflags: ...` (`-fno-gcse`, `-fexceptions`, `-fno-schedule-insns`,
-  `-fno-schedule-insns2`, `-fno-thread-jumps`, `-fno-omit-frame-pointer`, `-O1`). `src/small_hand*.c` is one file per setting.
+  `-fno-schedule-insns2`, `-fno-thread-jumps`, `-fno-omit-frame-pointer`, `-O1`). Hand-matched small functions live in `src/units/<report unit>[_variant].c` (one file per report unit and compile setting, so every report unit has its own source file; `tiny_hand*.c` stay in `src/`). `tools/emit.py`-style tools (`build/work/emit.py`) still append to `src/small_hand*.c`: run `python3 tools/split_units.py` afterwards (it appends the new blocks to the unit files and deletes the small_hand files), then `asm_build.py all`.
 - Layout: `src/` matched C (`// MATCH func_XXXXXXXX` on its own line above the definition; prototypes never share that line),
   `src/gen*/` and `src/ghidra/` generated matches, `wip/*.c` near-miss drafts (`// WIP func_XXXXXXXX`,
   compiled only by `tools/report.py` for partial-match figures, not part of the build), `tools/` format tools and builders,
