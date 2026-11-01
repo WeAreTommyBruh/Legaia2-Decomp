@@ -1346,3 +1346,14 @@ void *func_002E82B0_2E8500(char *) __asm__("func_002E82B0"); void func_002E8358_
 // MATCH func_002E8500
 int FUN_002e8500(int *p, int a, int b, int c, unsigned fl) { int *n; S_2e8500_002E8500 s; int sema; int rr; int v; n = func_002E82B0_2E8500(D_00634200_002E8500); if (n == 0) return -1; v = n[6]; *p = (int)n; p[1] = v; n[8] = a; n[9] = b; n[10] = c; n[5] = (int)n; n[7] = (int)p; if ((fl & 1) == 0) { s.a[2] = 0; s.a[1] = 1; sema = func_002E58A0_2E8500(&s); p[2] = sema; if (sema < 0) { func_002E8358_2E8500(n); return -3; } rr = func_002E7E90_2E8500(0x8000000c, n, 64, 0, 0, 0); if (rr == 0) { func_002E8358_2E8500(n); func_002E58B0_2E8500(p[2]); return -2; } func_002E58E0_2E8500(p[2]); func_002E58B0_2E8500(p[2]); return 0; } p[2] = -1; rr = func_002E7E90_2E8500(0x8000000c, n, 64, 0, 0, 0); if (rr == 0) { func_002E8358_2E8500(n); return -2; } return 0; }
 
+typedef struct { int a; char name[256]; } R_2ec900_002EC900;
+extern int D_0042992C_2EC900[] __asm__("D_0042992C"); extern char D_00635600_2EC900[] __asm__("D_00635600"); extern R_2ec900_002EC900 D_006356C0_2EC900 __asm__("D_006356C0"); extern char D_00635640_2EC900[] __asm__("D_00635640");
+int func_002E8928_2EC900(void *, int, int, void *, int, void *, int, int, int) __asm__("func_002E8928");
+// MATCH func_002EC900
+int FUN_002ec900(char *name, int b) { int i; int r; if (D_0042992C_2EC900[0] < 0) return 0; i = 0; if ((D_006356C0_2EC900.name[0] = name[0]) != 0) { while (++i < 252) { if ((D_006356C0_2EC900.name[i] = name[i]) == 0) break; } } if (i == 252) { i = 251; D_006356C0_2EC900.name[251] = 0; } D_006356C0_2EC900.a = b; D_006356C0_2EC900.name[251] = 0; r = func_002E8928_2EC900(D_00635600_2EC900, 3, 0, &D_006356C0_2EC900, i + 5, D_00635640_2EC900, 4, 0, 0); if (r >= 0) return *(int *)D_00635640_2EC900; return -1; }
+
+extern int *D_00634200_2E8B58[] __asm__("D_00634200");
+volatile short func_002EDC50_2E8B58(void) __asm__("func_002EDC50"); void func_002EDC98_2E8B58(void) __asm__("func_002EDC98");
+// MATCH func_002E8B58
+void FUN_002e8b58(int *n, int v) { int *h; int *p; int *q; int *t; func_002EDC50_2E8B58(); *n = v; n[1] = 0; h = D_00634200_2E8B58[10]; n[2] = 0; n[3] = 0; n[4] = 0; n[5] = 0; if (h == 0) D_00634200_2E8B58[10] = n; else { p = h; q = (int *)p[5]; if (q != 0) { do { p = q; t = (int *)p[5]; q = t; } while (t != 0); } p[5] = (int)n; } func_002EDC98_2E8B58(); }
+
