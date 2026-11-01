@@ -4,7 +4,7 @@ Thanks so much for your interest in the Legaia 2: Duel Saga (PAL, SLES-50891) de
 
 ## What this project is
 
-A *matching* decompilation: the goal is C that compiles to exactly the original bytes with the game's compiler (ee-gcc 2.9-ee-991111-01, `-O2 -G8`). A function counts as done only when its C compiles byte-identical. Everything else is still built from the original assembly, so the rebuilt executable is always byte-identical.
+A *matching* decompilation: the goal is C that compiles to exactly the original bytes with the game's compiler (ee-gcc 2.9-ee-991111-01, `-O2 -G8`). A function counts as done only when its C compiles byte-identical. Functions that are not matched yet are carried over from the original executable, so the rebuilt executable is always byte-identical.
 
 ## Legal rules (non-negotiable)
 
@@ -27,7 +27,7 @@ Project notes (current numbers, rules, techniques and open problems) are in [CLA
 ## Matching a function
 
 1. Pick an unmatched function (see `decomp/functions.csv`, the open work list in `CLAUDE.md`, or the near-misses in `wip/`).
-2. Read its assembly and Ghidra output, write C, and compare:
+2. Read its Ghidra output, write C, and compare:
 
    ```bash
    python3 tools/match.py src/FILE.c NAME ADDRESS

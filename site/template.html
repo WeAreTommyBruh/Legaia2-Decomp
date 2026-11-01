@@ -227,7 +227,7 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
   <div class="hero-text">
     <div class="eyebrow">Matching decompilation · PlayStation 2</div>
     <h1 class="sr">Legaia 2: Duel Saga decompilation</h1>
-    <p class="lead"><span class="tag">PAL · SLES-50891</span>An ongoing effort to rebuild Legaia 2: Duel Saga as readable C and ASM that compiles to the original game's exact bytes.</p>
+    <p class="lead"><span class="tag">PAL · SLES-50891</span>An ongoing effort to rebuild Legaia 2: Duel Saga as readable C that compiles to the original game's exact bytes.</p>
     <ul class="chips" aria-label="Current progress">
       <li><b>{{CODE_PCT}}%</b> of the code</li>
       <li><b>{{FN_MATCHED}}</b> functions matched</li>
@@ -301,8 +301,8 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
   <h2>Milestones</h2>
   <ol class="steps">
     <li><b>Identify the compiler <span class="pill ok">done</span></b>The game's code was built with <code>ee-gcc 2.9-ee-991111-01</code>, <code>-O2 -G8</code>. {{FN_MATCHED}} functions now compile byte-identical with it.</li>
-    <li><b>Rebuild the executable from assembly <span class="pill ok">done</span></b>The whole <code>.text</code> is split per source file and reassembled; the result matches the original byte for byte.</li>
-    <li><b>Match functions in C <span class="pill">in progress</span></b>Each function is rewritten until it compiles to the same bytes, then switched over from assembly to C. Right now {{CODE_PCT}}% of the code and {{FN_PCT}}% of the functions are done.</li>
+    <li><b>Rebuild the executable <span class="pill ok">done</span></b>The whole <code>.text</code> is split per source file and rebuilt; the result matches the original byte for byte.</li>
+    <li><b>Match functions in C <span class="pill">in progress</span></b>Each function is rewritten until it compiles to the same bytes, then switched over to C. Right now {{CODE_PCT}}% of the code and {{FN_PCT}}% of the functions are done.</li>
   </ol>
 </div></section>
 
@@ -318,7 +318,7 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
     <tr><td><code>tex_tool.py</code></td><td>Convert texture sets to PNG</td></tr>
     <tr><td><code>tmd_tool.py</code></td><td>Convert <code>.tmd</code> models to Wavefront OBJ</td></tr>
     <tr><td><code>adpcm.py</code>, <code>sq2mid.py</code></td><td>Audio streams to WAV; music sequences to MIDI</td></tr>
-    <tr><td><code>battle_script.py</code></td><td>Battle script opcode reference and disassembler</td></tr>
+    <tr><td><code>battle_script.py</code></td><td>Battle script opcode reference and viewer</td></tr>
     <tr><td><code>mov_tool.py</code>, <code>efp_tool.py</code>, <code>msg_tool.py</code></td><td>Animation clips, effect packs, message containers</td></tr>
     <tr><td><code>pss_demux.py</code></td><td>Split the movie file into video and audio</td></tr>
     </tbody>
