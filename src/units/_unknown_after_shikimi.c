@@ -1185,3 +1185,15 @@ int FUN_002ca258(int a, int b, char *src) { int r; int i; char *rec; char *q; if
 void *func_002CFF20_002D4C50(int) __asm__("func_002CFF20"); void func_002D4B20(unsigned);
 // MATCH func_002D4C50
 void FUN_002d4c50(int a) { volatile unsigned *p; unsigned i; unsigned v; i = 0; p = func_002CFF20_002D4C50(0); do { v = i | (a << 15); i++; *p = *p | 0x2000; if ((*p & 5) == 4) func_002D4B20(v); *p = *p & 0xffffdfff; p = p + 21; } while ((int)i < 48); }
+
+void func_0029D010_002BECB0(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_002BECB0
+void FUN_002becb0(char *o, int p, float a, float b) { func_0029D010_002BECB0(o + 80, a, 0, p); func_0029D010_002BECB0(o + 120, b, 0, p); }
+
+void func_0029D010_002BED60(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_002BED60
+void FUN_002bed60(char *o, int b, float x, float y, float z) { func_0029D010_002BED60(o, x, 0, b); func_0029D010_002BED60(o + 20, y, 0, b); func_0029D010_002BED60(o + 40, z, 0, b); }
+
+void func_0029D010_002BED08(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_002BED08
+void FUN_002bed08(char *o, int p, float a, float b) { func_0029D010_002BED08(o + 60, a, 0, p); func_0029D010_002BED08(o + 100, b, 0, p); }

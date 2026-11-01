@@ -380,3 +380,10 @@ int pachislot_001697f0(char *o) {
     }
     return 0;
 }
+
+typedef struct { char pad[12]; int a12; char pad2[36]; int a52; } S_165ca0_00165CA0;
+extern char D_0043C8D0[];
+int func_001118F8(void *, int);
+// MATCH func_00165CA0
+int pachislot_00165ca0(S_165ca0_00165CA0 *s, int b) { int r = func_001118F8(D_0043C8D0, b); s->a52 = b; s->a12 = -1; return r; }
+

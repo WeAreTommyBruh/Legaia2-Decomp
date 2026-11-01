@@ -185,3 +185,18 @@ char *clas_min_002a0098(void) { int x; x = func_002A0020(); if (x < D_004A69A8) 
 extern int D_004A69A8_002A00E0 __asm__("D_004A69A8"); extern char D_005F9640_002A00E0[] __asm__("D_005F9640"); int func_002A0020(void); int func_0029C878(int, int);
 // MATCH func_002A00E0
 char *clas_min_002a00e0(void) { int x; x = func_0029C878(func_002A0020(), 0); if (x < D_004A69A8_002A00E0) return D_005F9640_002A00E0 + x * 608; return 0; }
+
+void func_0029D010_0029FEC0(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_0029FEC0
+void clas_min_0029fec0(char *o, int b, float x, float y, float z) { func_0029D010_0029FEC0(o + 516, x, 0, b); func_0029D010_0029FEC0(o + 536, y, 0, b); func_0029D010_0029FEC0(o + 556, z, 0, b); }
+
+void func_0029D010_0029FF50(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_0029FF50
+void clas_min_0029ff50(char *o, int i, int c, int d, float f) { func_0029D010_0029FF50(o + (i * 20 + 304), f, c, d); }
+
+int func_0015AD98(char *); int func_0015ADC0(char *); char *func_0015ADE8(char *, int); char *func_0015AE08(char *, int);
+void func_001563A0(char *, int, int, int, int, int, int); void func_00156B20(char *, int, int, int);
+void func_0029D010_002A0D88(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_002A0D88
+void clas_min_002a0d88(int *o, int x, int y, int z, int e, char *h) { if (func_0015AD98(h) > 0) func_001563A0(func_0015ADE8(h, 0), o[6], o[7], o[8], o[6], o[7], o[8]); if (func_0015ADC0(h) > 0) func_00156B20(func_0015AE08(h, 0), o[6], o[7], o[8]); o[6] = x; o[7] = y; o[8] = z; o[0] = 0; func_0029D010_002A0D88((char *)o, 1.0f, 0, e); }
+

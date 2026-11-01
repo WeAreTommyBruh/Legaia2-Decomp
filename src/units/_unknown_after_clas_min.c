@@ -40,3 +40,19 @@ void FUN_002a8788(char *o, float a, float b) { func_0015EB38(o + 432); func_0015
 extern char D_0041F1D0[], D_00342D00_002A8A38[] __asm__("D_00342D00"), D_004254F0[]; void func_002A7AD8(int, char *); void func_00154C00(char *, char *); void func_00155000(char *);
 // MATCH func_002A8A38
 void FUN_002a8a38(void) { int p = (int)D_0041F1D0; do { func_002A7AD8(p, D_00342D00_002A8A38); p += 1968; } while (p < (int)D_0041F1D0 + 7872); func_00154C00(D_00342D00_002A8A38, D_004254F0); func_00155000(D_00342D00_002A8A38); }
+
+void func_0029D010_002A8228(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_002A8228
+void FUN_002a8228(float a, float b, float c, char *o, int m, int n) { if (m == 0) { if (n == 0) { *(float *)(o + 1928) = a; *(float *)(o + 40) = a; *(float *)(o + 1932) = b; *(float *)(o + 60) = b; *(float *)(o + 1936) = c; *(float *)(o + 80) = c; } else if (n > 0) { func_0029D010_002A8228(o + 40, a, 8, n); func_0029D010_002A8228(o + 60, b, 8, n); func_0029D010_002A8228(o + 80, c, 8, n); } } else if (m > 0) { func_0029D010_002A8228(o + 40, a, 0, m); func_0029D010_002A8228(o + 60, b, 0, m); func_0029D010_002A8228(o + 80, c, 0, m); } }
+
+void func_0029D010_002A8358(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_002A8358
+void FUN_002a8358(float a, float b, float c, char *o, int m, int n) { if (m == 0) { if (n == 0) { *(float *)(o + 1940) = a; *(float *)(o + 100) = a; *(float *)(o + 1944) = b; *(float *)(o + 120) = b; *(float *)(o + 1948) = c; *(float *)(o + 140) = c; } else if (n > 0) { func_0029D010_002A8358(o + 100, a, 8, n); func_0029D010_002A8358(o + 120, b, 8, n); func_0029D010_002A8358(o + 140, c, 8, n); } } else if (m > 0) { func_0029D010_002A8358(o + 100, a, 0, m); func_0029D010_002A8358(o + 120, b, 0, m); func_0029D010_002A8358(o + 140, c, 0, m); } }
+
+void func_0029D010_002A8488(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_002A8488
+void FUN_002a8488(float a, float b, float c, float d, char *o, int m, int n) { if (m == 0) { if (n == 0) { *(float *)(o + 1904) = a; *(float *)(o + 160) = a; *(float *)(o + 1908) = b; *(float *)(o + 180) = b; *(float *)(o + 1912) = c; *(float *)(o + 200) = c; *(float *)(o + 1916) = d; *(float *)(o + 220) = d; } else if (n > 0) { func_0029D010_002A8488(o + 160, a, 8, n); func_0029D010_002A8488(o + 180, b, 8, n); func_0029D010_002A8488(o + 200, c, 8, n); func_0029D010_002A8488(o + 220, d, 8, n); } } else if (m > 0) { func_0029D010_002A8488(o + 160, a, 0, m); func_0029D010_002A8488(o + 180, b, 0, m); func_0029D010_002A8488(o + 200, c, 0, m); func_0029D010_002A8488(o + 220, d, 0, m); } }
+
+void func_0029D010_002A8600(void *, float, int, int) __asm__("func_0029D010");
+// MATCH func_002A8600
+void FUN_002a8600(float a, float b, char *o, int m, int n) { if (m == 0) { if (n == 0) { *(float *)(o + 1920) = a; *(float *)(o + 0) = a; *(float *)(o + 1924) = b; *(float *)(o + 20) = b; } else if (n > 0) { func_0029D010_002A8600(o, a, 8, n); func_0029D010_002A8600(o + 20, b, 8, n); } } else if (m > 0) { func_0029D010_002A8600(o, a, 0, m); func_0029D010_002A8600(o + 20, b, 0, m); } }

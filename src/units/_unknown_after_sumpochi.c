@@ -81,3 +81,8 @@ void FUN_00217e90(void *a, B__00217E90 *b, int off)
             b->w188 = i + off;
     }
 }
+
+typedef struct N__002175E0 { int f0; struct N__002175E0 *next; int f8, fc, f10; float *f14; } N__002175E0;
+typedef struct { char p[2156]; N__002175E0 *head; } H__002175E0;
+// MATCH func_002175E0
+N__002175E0 *FUN_002175e0(H__002175E0 *o, int a, int b, int c) { N__002175E0 *p = o->head; while (p != 0) { if (p->f8 == a && p->f10 >= 0 && p->fc == b && (int)*p->f14 == c) break; p = p->next; } return p; }

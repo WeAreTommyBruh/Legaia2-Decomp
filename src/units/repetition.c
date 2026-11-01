@@ -306,3 +306,13 @@ int repetition_00176ac8(char *o) {
     }
     return 0;
 }
+
+typedef struct { int w0; unsigned w4; } N_1749e0_001749E0;
+typedef struct { char p[372]; int w372; char p2[48]; N_1749e0_001749E0 *w424; } O_1749e0_001749E0;
+extern int D_004A1278;
+int func_001AB8F0_1749E0(int, int, int, int, int, int, int, int, int, int) __asm__("func_001AB8F0");
+int func_00239568_1749E0(int, int, int) __asm__("func_00239568");
+int func_00130C58_1749E0(float, int, int, int, int) __asm__("func_00130C58");
+// MATCH func_001749E0
+void repetition_001749e0(O_1749e0_001749E0 *o) { if (o->w424 != 0) { func_001AB8F0_1749E0(2, 0x20, 0x10, 0x100, 0x30, 1, 0x80, 0x60, 0x60, 0x60); func_00239568_1749E0(o->w424->w0, 40, 24); if (o->w424->w4 & 1) func_00130C58_1749E0(1.0f, 0x93, 0x10c, 0x30, 0x80); if (o->w424->w4 & 2) func_00130C58_1749E0(1.0f, 0x92, 0x10, o->w372 * D_004A1278 + 0x18, 0x80); o->w424 = 0; } }
+

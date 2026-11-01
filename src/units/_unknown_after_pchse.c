@@ -98,3 +98,8 @@ int FUN_002132e0(int a, int b, int c, int d, int e, int f) { int r; r = 0; if (f
 int func_00213548(int, int, int, int); int func_002139B8(int, int, int, int, int, int, int);
 // MATCH func_00213368
 int FUN_00213368(int a, int b, int c, int d, int e, int f, int g, int h) { int r; r = 0; if (func_00213548(a, b, c, d) != 0) r = func_002139B8(a, b, c, d, f, g, h) != 0; return r; }
+
+int func_00213088(int, int); char *func_00212F00(int, int);
+// MATCH func_00213258
+int MotBoneName(int a, int b, int c) { char *p; int r; int t; if (func_00213088(a, b) == 0) { t = c * 0x30 + 0x68; r = a + t; } else { p = func_00212F00(a, b); { int u = *(int *)(p + 0x34); int v = *(int *)(p + 0x38); int k = c * 0x18; r = (int)p + v + *(unsigned short *)(p + u + k); } } return r; }
+
