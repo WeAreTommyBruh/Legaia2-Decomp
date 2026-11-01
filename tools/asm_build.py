@@ -97,6 +97,8 @@ EE_AS_210_DIR = os.environ.get("EE_AS_210_DIR", os.path.expanduser("~/tools/ee-g
 COMPILERS["991111-01-as210"] = [EE_CC, "-B" + EE_AS_210_DIR]
 COMPILERS["991111"] = [os.path.expanduser("~/tools/ee-gcc2.9-991111/bin/ee-gcc")]
 COMPILERS["991111a"] = [os.path.expanduser("~/tools/ee-gcc2.9-991111a/bin/ee-gcc")]
+COMPILERS["296"] = [os.path.expanduser("~/tools/ee-gcc2.96/bin/ee-gcc")]
+COMPILERS["296-as210"] = [os.path.expanduser("~/tools/ee-gcc2.96/bin/ee-gcc"), "-B" + EE_AS_210_DIR]
 SHORT_LOOP_FIX = {"990721-r5900"}
 
 
