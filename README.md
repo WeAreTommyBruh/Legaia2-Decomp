@@ -59,5 +59,5 @@ Any help will be welcome. Please read [CONTRIBUTING.md](https://github.com/WeAre
 This project contains no game assets of Legaia 2: Duel Saga. I will not provide any copies of the game. 
 This project is not affiliated with or endorsed by the game's original developers or publisher.
 
-# How Long Will This Take?
+# How Long Is This Gonna Take?
 Reverse engineering and matching decompilation are time-consuming processes. Depending on how complex the game is and my use with ai this will take many months to complete, Possibly a year. I am not in a rush to finish this so this project will be finished when it's finished.
