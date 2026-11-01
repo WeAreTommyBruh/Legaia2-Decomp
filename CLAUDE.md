@@ -4,9 +4,9 @@ Repo: WeAreTommyBruh/Legaia2-Decomp, branch `main`. A function counts as done on
 byte-identical to the original (compiler: ee-gcc 2.9-ee-991111-01, `-O2 -G8`). Every other function is rebuilt
 from the original assembly, so `python3 tools/asm_build.py all` must always print `MATCH`.
 
-## Current progress (session 15: 12.57%, goal 12.70% not reached)
+## Current progress (session 15 end: 12.59%; goals 12.70%, 12.75%, 13.00%, 13.30% not reached)
 
-- 3612 / 6254 functions matched (57.8%); **12.57%** of code (session 15 goal was 12.70%; stopped at the user's request, about 0.13% short). Session 14 ended at 3579 / 12.30%.
+- 3613 / 6254 functions matched (57.8%); **12.59%** of code. Session 15 went 3579 -> 3613 (12.30% -> 12.59%); each higher goal the user set afterwards (12.70, 12.75, 13.00, 13.30) was out of reach: hand-matching yielded about one function per ten tool calls once the easy near misses were gone. Next session: spend time on long permuter runs for the 2-13 word near misses below before drafting new functions.
   - Written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), and Ghidra output that already
     matches (`tools/gen_ghidra.py`). Everything counted is C.
 - History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3579 / 12.30% (session 14, in progress).
@@ -133,8 +133,7 @@ Near misses (words off), from sessions 12 and 13:
   213410, 161868, 2128c8, 130ad8, 2682e0, 260428, 269fc8, 265c30, 2d8438, the 2cf* packet builders.
 - Shikimi: 29 / 42 matched; user said "don't do the big functions" (2afa58, 2b0100, 2b12c8, 2b1e68, 2b2900, 2b34d8, 2b3f10, 2b8650).
 
-Hardware-register functions not yet tried: 2c3620 (sync + 64-bit packing), 2c8bb0, 2c6ef8, 2c6fa8, 2c7120, 2c7228, 2c7318,
-191ef0, 192168, 2bf6a8, 2bfec0, 2c0978.
+Hardware-register functions not yet tried: 2c3620 (sync + 64-bit packing), 2c8bb0, 192168, 2bf6a8, 2bfec0, 2c0978. Drafted but not matched (IPU/DMA, compiler `991111-01-as210`): 2c6fa8 (~50 words, register numbering), 2c7120, 2c7228, 2c7318, 191ef0 (46).
 
 Candidate chunk lists: `build/work/mkchunks.py ADDRHEX` regenerates `build/work/ch/c###.txt` (unmatched 60-450 byte functions).
 Chunks 000-020 (addresses up to 0x187068) were read in session 12; continue from `ch021`.
@@ -167,3 +166,11 @@ adding compiler settings, and a posed model export in `tmd_tool.py` (apply the f
 - `volatile unsigned *` for MMIO read-modify-write; IPU/DMA code (2c7850, 2c6ef8) matches with compiler `991111-01-as210`; `if (c++ > 5000)` gives the `daddu` copy of the counter.
 - Floats: callees taking floats need real `float` prototypes (21b468); GS packets with `long *q` stores (see clas_min_002a53b0).
 - Near misses left (all in `build/work/w/`, 1-6 words off): 2cf1b0/2cf2c0 (2, wip draft), 1d8250/20ddf8/20fd88/177348/247a48/165ca0/2d37c0/2cf4b0/2cf610 (2), 2b32a8 (2, 536 bytes), 2b8ee8 (2, 872 bytes, two swapped `lui`), 1949e0 (2), 2d3628 (3), 215ac8 (4), 213258 (5), 2c7318/2c7228/2c7120 (IPU, as210), 113ec8 (2, 990721-r5900), 167940/167b88 (18 each, 580 bytes, 990721-r5900, final `movn` vs branch), 137dc8/127bb8 (far). WIP files in `wip/` may already be matched: check before spending time.
+
+## Session 15 end: workflow notes and open drafts
+
+- Hand-match loop that worked: `build/work/show.sh ADDR...` (raw Ghidra from `decomp/src/` plus the asm) -> write `w/<addr>.c` (D_ symbols for data, gp offsets: symbol = 0x4A7C70 + offset, struct arrays, pass-through args) -> `python3 autofix.py ADDR [secs]` (best compiler config, then `stperm2.py` and `stmove.py` statement search) -> `permw.py` via `pq.sh` for what is left -> `tospec.py`, `batch.py`, `emit.py` -> `python3 tools/split_units.py` -> `asm_build.py all` -> `tools/progress.py`, `tools/report.py`, `cp report/report.json report/recomp.json`, commit, push.
+- `wip/*.c` can already be matched; `wipscan.py` scores them under every compiler config, `prepwip.py ADDR...` copies the best config into `w/`.
+- Rebuild rule after a split: `tools/split_units.py` appends to `src/units/<unit>[_variant].c`; the unit is the `group` column of `decomp/functions.csv`.
+- Drafts left in `build/work/w/` with their distance (words): 2cea70 (4, as210), 1266f8 (10, `-fno-gcse`, permuter was stopped), 23b7c0 (13), 2499c0/249a30/249aa0 (2-4, float matrix writers, only the `ld $31` slot differs), 2d3628 (3), 2b8ee8 (2, 872 bytes), 2b32a8 (2, 536 bytes), 167940/167b88 (18, `movn` vs branch), 203f40 (42, wants hoisted array bases), 129a38 (42, original uses `movz`/`movn` for `a != 0 && f() != 0`), 2a4840 (29, `-fno-gcse`), 2a4020 (45).
+- Ghidra-variant searches over never-examined functions (`ggone2.py`, `ggone3.py`) and over the sibling-shape list (`sigs7.py`) gave nothing new: best candidates were 39-45 words off.
