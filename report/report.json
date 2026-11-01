@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 12.985874,
+  "fuzzy_match_percent": 12.992994,
   "total_code": "2022408",
-  "matched_code": "257056",
-  "matched_code_percent": 12.710392,
+  "matched_code": "257200",
+  "matched_code_percent": 12.717512,
   "total_data": "1768056",
   "matched_data": "136",
   "matched_data_percent": 0.0076920637,
   "total_functions": 6254,
-  "matched_functions": 3628,
-  "matched_functions_percent": 58.01087,
+  "matched_functions": 3629,
+  "matched_functions_percent": 58.026863,
   "total_units": 155
  },
  "units": [
@@ -4780,11 +4780,11 @@
     "total_code": "392",
     "total_functions": 3,
     "total_units": 1,
-    "fuzzy_match_percent": 25.510204081632654,
-    "matched_code": "100",
-    "matched_code_percent": 25.510204081632654,
-    "matched_functions": 1,
-    "matched_functions_percent": 33.333333333333336,
+    "fuzzy_match_percent": 62.244897959183675,
+    "matched_code": "244",
+    "matched_code_percent": 62.244897959183675,
+    "matched_functions": 2,
+    "matched_functions_percent": 66.66666666666667,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -4803,7 +4803,7 @@
      "name": ".text",
      "metadata": {},
      "size": "400",
-     "fuzzy_match_percent": 26.0
+     "fuzzy_match_percent": 62.0
     }
    ],
    "functions": [
@@ -4815,16 +4815,17 @@
      "address": "0"
     },
     {
-     "name": "lg2save_00133720",
-     "size": "148",
+     "name": "lg2save_001337b8",
+     "size": "144",
+     "fuzzy_match_percent": 100.0,
      "metadata": {},
      "address": "104"
     },
     {
-     "name": "lg2save_001337b8",
-     "size": "144",
+     "name": "lg2save_00133720",
+     "size": "148",
      "metadata": {},
-     "address": "256"
+     "address": "248"
     }
    ],
    "metadata": {
@@ -47416,16 +47417,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 13.844436,
+    "fuzzy_match_percent": 13.865483,
     "total_code": "684140",
-    "matched_code": "91836",
-    "matched_code_percent": 13.423568,
+    "matched_code": "91980",
+    "matched_code_percent": 13.444616,
     "total_data": "8",
     "matched_data": "8",
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 1252,
-    "matched_functions_percent": 61.31244,
+    "matched_functions": 1253,
+    "matched_functions_percent": 61.36141,
     "total_units": 77
    }
   },
