@@ -50,7 +50,7 @@ wsl --install
 ```
 
 # AI Usage
-This project is obviously entirely ai. I check mostly everything to make sure there is nothing wrong.
+This project is obviously entirely ai.
 
 # Contributing
 Any help will be welcome. Please read [CONTRIBUTING.md](https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/main/CONTRIBUTING.md) for more details.
