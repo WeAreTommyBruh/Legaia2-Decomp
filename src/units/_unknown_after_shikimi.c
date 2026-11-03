@@ -1418,3 +1418,486 @@ typedef int u128 __attribute__((mode(TI)));
 // MATCH func_002CAFB8
 int FUN_002cafb8(u128 *p, int n) { int i, k; i = 0; k = n - 1; if (n != 0) { do { if ((R(0x10003800) & 0x10000000) != 0) return i; *(u128 *)0x10004000 = *p; i++; p++; k--; } while (k != -1); } return i; }
 
+// MATCH func_002BF950
+int FUN_002bf950(void) { register int n __asm__("$3") = 128; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5490
+int ResetEE(void) { register int n __asm__("$3") = 1; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E54A0
+int SetGsCrt(void) { register int n __asm__("$3") = 2; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E54B0
+int RFU003(void) { register int n __asm__("$3") = 3; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E54C0
+int _Exit(void) { register int n __asm__("$3") = 4; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E54D0
+int RFU005_ResumeIntrDispatch(void) { register int n __asm__("$3") = 5; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E54E0
+int _LoadExecPS2(void) { register int n __asm__("$3") = 6; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E54F0
+int _ExecPS2(void) { register int n __asm__("$3") = 7; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5500
+int RFU008_ResumeT3IntrDispatch(void) { register int n __asm__("$3") = 8; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5510
+int RFU009(void) { register int n __asm__("$3") = 9; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5520
+int AddSbusIntcHandler(void) { register int n __asm__("$3") = 10; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5530
+int RemoveSbusIntcHandler(void) { register int n __asm__("$3") = 11; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5540
+int Interrupt2Iop(void) { register int n __asm__("$3") = 12; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5550
+int SetVTLBRefillHandler(void) { register int n __asm__("$3") = 13; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5560
+int SetVCommonHandler(void) { register int n __asm__("$3") = 14; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5570
+int SetVInterruptHandler(void) { register int n __asm__("$3") = 15; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5580
+int AddIntcHandler_2E5580(void) { register int n __asm__("$3") = 16; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5590
+int AddIntcHandler_2E5590(void) { register int n __asm__("$3") = 16; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E55A0
+int RemoveIntcHandler(void) { register int n __asm__("$3") = 17; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E55B0
+int AddDmacHandler_2E55B0(void) { register int n __asm__("$3") = 18; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E55C0
+int AddDmacHandler_2E55C0(void) { register int n __asm__("$3") = 18; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E55D0
+int RemoveDmacHandler(void) { register int n __asm__("$3") = 19; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E55E0
+int _EnableIntc(void) { register int n __asm__("$3") = 20; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E55F0
+int _DisableIntc(void) { register int n __asm__("$3") = 21; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5600
+int _EnableDmac(void) { register int n __asm__("$3") = 22; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5610
+int _DisableDmac(void) { register int n __asm__("$3") = 23; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5620
+int SetAlarm(void) { register int n __asm__("$3") = 252; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5630
+int ReleaseAlarm(void) { register int n __asm__("$3") = 253; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5640
+int _iEnableIntc(void) { register int n __asm__("$3") = -26; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5650
+int _iDisableIntc(void) { register int n __asm__("$3") = -27; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5660
+int _iEnableDmac(void) { register int n __asm__("$3") = -28; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5670
+int _iDisableDmac(void) { register int n __asm__("$3") = -29; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5680
+int iSetAlarm(void) { register int n __asm__("$3") = -254; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5690
+int iReleaseAlarm(void) { register int n __asm__("$3") = -255; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E56A0
+int CreateThread(void) { register int n __asm__("$3") = 32; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E56B0
+int DeleteThread(void) { register int n __asm__("$3") = 33; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E56C0
+int _StartThread(void) { register int n __asm__("$3") = 34; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E56D0
+int ExitThread(void) { register int n __asm__("$3") = 35; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E56E0
+int ExitDeleteThread(void) { register int n __asm__("$3") = 36; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E56F0
+int TerminateThread(void) { register int n __asm__("$3") = 37; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5700
+int iTerminateThread(void) { register int n __asm__("$3") = -38; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5710
+int DisableDispatchThread(void) { register int n __asm__("$3") = 39; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5720
+int EnableDispatchThread(void) { register int n __asm__("$3") = 40; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5730
+int ChangeThreadPriority(void) { register int n __asm__("$3") = 41; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5740
+int iChangeThreadPriority(void) { register int n __asm__("$3") = -42; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5750
+int RotateThreadReadyQueue(void) { register int n __asm__("$3") = 43; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5760
+int _iRotateThreadReadyQueue(void) { register int n __asm__("$3") = -44; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5770
+int ReleaseWaitThread(void) { register int n __asm__("$3") = 45; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5780
+int iReleaseWaitThread(void) { register int n __asm__("$3") = -46; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5790
+int GetThreadId(void) { register int n __asm__("$3") = 47; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E57A0
+int ReferThreadStatus(void) { register int n __asm__("$3") = 48; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E57B0
+int iReferThreadStatus(void) { register int n __asm__("$3") = -49; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E57C0
+int SleepThread(void) { register int n __asm__("$3") = 50; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E57D0
+int WakeupThread(void) { register int n __asm__("$3") = 51; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E57E0
+int _iWakeupThread(void) { register int n __asm__("$3") = -52; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E57F0
+int CancelWakeupThread(void) { register int n __asm__("$3") = 53; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5800
+int iCancelWakeupThread(void) { register int n __asm__("$3") = -54; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5810
+int SuspendThread(void) { register int n __asm__("$3") = 55; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5820
+int _iSuspendThread(void) { register int n __asm__("$3") = -56; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5830
+int ResumeThread(void) { register int n __asm__("$3") = 57; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5840
+int iResumeThread(void) { register int n __asm__("$3") = -58; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5850
+int JoinThread(void) { register int n __asm__("$3") = 59; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5860
+int RFU060_SetupThread(void) { register int n __asm__("$3") = 60; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5870
+int RFU061_SetupHeap(void) { register int n __asm__("$3") = 61; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5880
+int EndOfHeap(void) { register int n __asm__("$3") = 62; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5890
+int RFU063(void) { register int n __asm__("$3") = 63; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E58A0
+int CreateSema(void) { register int n __asm__("$3") = 64; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E58B0
+int DeleteSema(void) { register int n __asm__("$3") = 65; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E58C0
+int SignalSema(void) { register int n __asm__("$3") = 66; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E58D0
+int iSignalSema(void) { register int n __asm__("$3") = -67; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E58E0
+int WaitSema(void) { register int n __asm__("$3") = 68; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E58F0
+int PollSema(void) { register int n __asm__("$3") = 69; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5900
+int iPollSema(void) { register int n __asm__("$3") = -70; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5910
+int ReferSemaStatus(void) { register int n __asm__("$3") = 71; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5920
+int iReferSemaStatus(void) { register int n __asm__("$3") = -72; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5930
+int RFU073(void) { register int n __asm__("$3") = 73; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5940
+int SetOsdConfigParam(void) { register int n __asm__("$3") = 74; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5950
+int GetOsdConfigParam(void) { register int n __asm__("$3") = 75; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5960
+int GetGsHParam(void) { register int n __asm__("$3") = 76; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5970
+int GetGsVParam(void) { register int n __asm__("$3") = 77; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5980
+int SetGsHParam(void) { register int n __asm__("$3") = 78; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5990
+int SetGsVParam(void) { register int n __asm__("$3") = 79; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E59A0
+int RFU080_CreateEventFlag(void) { register int n __asm__("$3") = 80; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E59B0
+int RFU081_DeleteEventFlag(void) { register int n __asm__("$3") = 81; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E59C0
+int RFU082_SetEventFlag(void) { register int n __asm__("$3") = 82; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E59D0
+int RFU083_iSetEventFlag(void) { register int n __asm__("$3") = -83; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E59E0
+int RFU084_ClearEventFlag(void) { register int n __asm__("$3") = 84; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E59F0
+int RFU085_iClearEventFlag_2E59F0(void) { register int n __asm__("$3") = -85; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A00
+int RFU086_WaitEvnetFlag_2E5A00(void) { register int n __asm__("$3") = 86; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A10
+int RFU087_PollEvnetFlag_2E5A10(void) { register int n __asm__("$3") = 87; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A20
+int RFU088_iPollEvnetFlag_2E5A20(void) { register int n __asm__("$3") = -88; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A30
+int RFU089_ReferEventFlagStatus_2E5A30(void) { register int n __asm__("$3") = 89; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A40
+int RFU090_iReferEventFlagStatus(void) { register int n __asm__("$3") = -90; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A50
+int RFU091_2E5A50(void) { register int n __asm__("$3") = 91; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A60
+int EnableIntcHandler(void) { register int n __asm__("$3") = 92; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A70
+int iEnableIntcHandler(void) { register int n __asm__("$3") = -92; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A80
+int DisableIntcHandler(void) { register int n __asm__("$3") = 93; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5A90
+int iDisableIntcHandler(void) { register int n __asm__("$3") = -93; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5AA0
+int EnableDmacHandler(void) { register int n __asm__("$3") = 94; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5AB0
+int iEnableDmacHandler(void) { register int n __asm__("$3") = -94; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5AC0
+int DisableDmacHandler(void) { register int n __asm__("$3") = 95; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5AD0
+int iDisableDmacHandler(void) { register int n __asm__("$3") = -95; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5AE0
+int KSeg0(void) { register int n __asm__("$3") = 96; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5AF0
+int EnableCache(void) { register int n __asm__("$3") = 97; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B00
+int DisableCache(void) { register int n __asm__("$3") = 98; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B10
+int GetCop0(void) { register int n __asm__("$3") = 99; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B20
+int FlushCache(void) { register int n __asm__("$3") = 100; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B30
+int CpuConfig(void) { register int n __asm__("$3") = 102; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B40
+int iGetCop0(void) { register int n __asm__("$3") = -103; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B50
+int iFlushCache(void) { register int n __asm__("$3") = -104; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B60
+int iCpuConfig(void) { register int n __asm__("$3") = -106; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B70
+int sceSifStopDma(void) { register int n __asm__("$3") = 107; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B80
+int SetCPUTimerHandler(void) { register int n __asm__("$3") = 108; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5B90
+int SetCPUTimer(void) { register int n __asm__("$3") = 109; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5BA0
+int SetOsdConfigParam2(void) { register int n __asm__("$3") = 110; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5BB0
+int GetOsdConfigParam2(void) { register int n __asm__("$3") = 111; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5BC0
+int GsGetIMR(void) { register int n __asm__("$3") = 112; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5BD0
+int iGsGetIMR(void) { register int n __asm__("$3") = -112; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5BE0
+int GsPutIMR(void) { register int n __asm__("$3") = 113; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5BF0
+int iGsPutIMR(void) { register int n __asm__("$3") = -113; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C00
+int SetPgifHandler(void) { register int n __asm__("$3") = 114; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C10
+int SetVSyncFlag(void) { register int n __asm__("$3") = 115; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C20
+int RFU116_SetSyscall_2E5C20(void) { register int n __asm__("$3") = 116; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C30
+int _print(void) { register int n __asm__("$3") = 117; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C40
+int sceSifDmaStat(void) { register int n __asm__("$3") = 118; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C50
+int isceSifDmaStat(void) { register int n __asm__("$3") = -118; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C60
+int sceSifSetDma(void) { register int n __asm__("$3") = 119; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C70
+int isceSifSetDma(void) { register int n __asm__("$3") = -119; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C80
+int sceSifSetDChain(void) { register int n __asm__("$3") = 120; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5C90
+int isceSifSetDChain(void) { register int n __asm__("$3") = -120; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5CA0
+int sceSifSetReg(void) { register int n __asm__("$3") = 121; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5CB0
+int sceSifGetReg(void) { register int n __asm__("$3") = 122; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5CC0
+int _ExecOSD(void) { register int n __asm__("$3") = 123; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5CD0
+int Deci2Call(void) { register int n __asm__("$3") = 124; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5CE0
+int PSMode(void) { register int n __asm__("$3") = 125; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5CF0
+int MachineType(void) { register int n __asm__("$3") = 126; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5D00
+int GetMemorySize(void) { register int n __asm__("$3") = 127; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002E5D10
+int _InitTLB(void) { register int n __asm__("$3") = 130; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EDCF8
+int FUN_002edcf8(void) { register int n __asm__("$3") = 90; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EDD80
+int FUN_002edd80(void) { register int n __asm__("$3") = 131; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EDEC8
+int RFU116_SetSyscall_2EDEC8(void) { register int n __asm__("$3") = 116; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EDF18
+int RFU116_SetSyscall_2EDF18(void) { register int n __asm__("$3") = 116; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EDF28
+int FUN_002edf28(void) { register int n __asm__("$3") = 90; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EDF70
+int RFU091_2EDF70(void) { register int n __asm__("$3") = 91; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE098
+int FUN_002ee098(void) { register int n __asm__("$3") = 90; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE0D8
+int RFU116_SetSyscall_2EE0D8(void) { register int n __asm__("$3") = 116; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE338
+int RFU116_SetSyscall_2EE338(void) { register int n __asm__("$3") = 116; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE348
+int FUN_002ee348(void) { register int n __asm__("$3") = 90; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE390
+int RFU091_2EE390(void) { register int n __asm__("$3") = 91; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE560
+int FUN_002ee560(void) { register int n __asm__("$3") = 90; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE5A8
+int RFU091_2EE5A8(void) { register int n __asm__("$3") = 91; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE5B8
+int RFU116_SetSyscall_2EE5B8(void) { register int n __asm__("$3") = 116; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE690
+int FUN_002ee690(void) { register int n __asm__("$3") = 85; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE6A0
+int RFU085_iClearEventFlag_2EE6A0(void) { register int n __asm__("$3") = -85; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE6B0
+int RFU086_WaitEvnetFlag_2EE6B0(void) { register int n __asm__("$3") = 86; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE6F0
+int FUN_002ee6f0(void) { register int n __asm__("$3") = -86; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE700
+int RFU087_PollEvnetFlag_2EE700(void) { register int n __asm__("$3") = 87; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE710
+int FUN_002ee710(void) { register int n __asm__("$3") = -87; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE720
+int FUN_002ee720(void) { register int n __asm__("$3") = 88; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE730
+int RFU088_iPollEvnetFlag_2EE730(void) { register int n __asm__("$3") = -88; __asm__ volatile("syscall" : : "r"(n)); }
+
+// MATCH func_002EE740
+int RFU089_ReferEventFlagStatus_2EE740(void) { register int n __asm__("$3") = 89; __asm__ volatile("syscall" : : "r"(n)); }
+
