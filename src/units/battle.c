@@ -116,3 +116,13 @@ extern int D_004A6DFC_12AC10 __asm__("D_004A6DFC"), D_004A6C50_12AC10 __asm__("D
 void func_00124A48_12AC10(int, float, float, float, float) __asm__("func_00124A48"); void func_0011E0B0_12AC10(int, float, float) __asm__("func_0011E0B0"); void func_0012A7F8_12AC10(int, float) __asm__("func_0012A7F8");
 // MATCH func_0012AC10
 void battle_0012ac10(void) { D_004A6C50_12AC10 = 1; D_004A6DFC_12AC10 = 1; func_00124A48_12AC10(10844, 10.0f, 0.0f, 0.0f, 0.0f); if (D_004A6D98_12AC10 < 0) func_0011E0B0_12AC10(300, 0.0f, 10.0f); else func_0011E0B0_12AC10(300, 0.0f, 10.0f); func_0012A7F8_12AC10(1, -1.0f); }
+
+extern int D_004A1A20_11D840 __asm__("D_004A1A20"); extern char D_004305B0_11D840[] __asm__("D_004305B0"); int func_001118F8_11D840(char *, ...) __asm__("func_001118F8");
+// MATCH func_0011D840
+int battle_0011d840(int a) { int i = 0; unsigned *p = *(unsigned **)(a * 0x1560 + D_004A1A20_11D840 + 0x1550); do { if ((*p & 0x102) != 0) return 1; if ((*p & 1) != 0) return 0; i = i + 1; p = p + 39; } while (i < 256); func_001118F8_11D840(D_004305B0_11D840); return 0; }
+
+extern int D_004A6E24_122710 __asm__("D_004A6E24"), D_004A6DC8_122710 __asm__("D_004A6DC8"), D_004A6DCC_122710 __asm__("D_004A6DCC"), D_004A6D94_122710 __asm__("D_004A6D94"), D_004A6D9C_122710 __asm__("D_004A6D9C"), D_004A1A20_122710 __asm__("D_004A1A20"), D_004A6CF0_122710 __asm__("D_004A6CF0"); extern char D_004307E8_122710[] __asm__("D_004307E8"), D_004307F8_122710[] __asm__("D_004307F8"), D_00430818_122710[] __asm__("D_00430818");
+void func_00239568_122710(char *, int, int) __asm__("func_00239568"); int func_0011DB78_122710(int) __asm__("func_0011DB78"); int func_001118F8_122710(char *, ...) __asm__("func_001118F8"); void func_0012AEA8_122710(int) __asm__("func_0012AEA8"); int func_0012ACB0_122710(int) __asm__("func_0012ACB0");
+// MATCH func_00122710
+void battle_00122710(void) { int a, q; if (D_004A6E24_122710 != 0) { func_00239568_122710(D_004307E8_122710, D_004A6DC8_122710, D_004A6DCC_122710); func_00239568_122710(D_004307F8_122710, D_004A6D94_122710, D_004A6D9C_122710); } a = D_004A6D94_122710; q = a * 0x1560 + D_004A1A20_122710; if (*(int *)(q + 0x12e4) != 13) *(unsigned *)(q + 0x12d0) = *(unsigned *)(q + 0x12d0) | 2; if (func_0011DB78_122710(a) == 0) { func_001118F8_122710(D_00430818_122710); func_0012AEA8_122710(12); } func_0012ACB0_122710(0); D_004A6CF0_122710 = D_004A6CF0_122710 + 1; }
+

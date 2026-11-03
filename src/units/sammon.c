@@ -55,3 +55,12 @@ int func_00223620_002288C0(int, int) __asm__("func_00223620");
 static inline int inl_2288c0_002288C0(int a, int b) { return (a + b) + 0x28; }
 // MATCH func_002288C0
 int sammon_002288c0(char *o, int k) { int r; int off; if (k < 0x1f) { do { r = func_00223620_002288C0((int)o, k); if (r != 0) return *(int *)inl_2288c0_002288C0(k * 0x38, *(int *)(o + 0x810)); off = off + 0x38; k = k + 1; } while (k < 0x1f); } return 0; }
+
+extern int D_004A1A20_228310 __asm__("D_004A1A20");
+// MATCH func_00228310
+int sammon_00228310(char *o, int i) { return *(int *)(*(short *)(*(int *)(o + (i << 2) + 0x14c) + 0xae) * 0x1560 + D_004A1A20_228310 + 0x14e4); }
+
+extern int D_004A1A20_002282E8 __asm__("D_004A1A20");
+// MATCH func_002282E8
+void sammon_002282e8(char *o, int i, int v) { *(int *)(*(short *)(*(int *)(o + (i << 2) + 0x14c) + 0xae) * 0x1560 + D_004A1A20_002282E8 + 0x14e4) = v; }
+
