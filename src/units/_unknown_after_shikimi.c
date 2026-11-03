@@ -1913,3 +1913,7 @@ extern unsigned D_0042987C_2E5FA0[] __asm__("D_0042987C"); unsigned func_002E588
 // MATCH func_002E5FA0
 unsigned FUN_002e5fa0(int n) { unsigned s, v, e, nb, ret; int *p; __asm__ volatile("mfc0 %0, $12" : "=r"(s)); s = s & 0x10000; if (s != 0) { do { __asm__ volatile(".word 0x42000039"); __asm__ volatile(".word 0x0000040f"); __asm__ volatile("mfc0 %0, $12" : "=r"(v)); } while ((v & 0x10000) != 0); } nb = D_0042987C_2E5FA0[0] + n; e = func_002E5880_2E5FA0(); if (e < nb) { p = func_002DB948_2E5FA0(); *p = 12; if (s != 0) __asm__ volatile(".word 0x42000038"); return -1; } ret = D_0042987C_2E5FA0[0]; D_0042987C_2E5FA0[0] = nb; if (s != 0) __asm__ volatile(".word 0x42000038"); return ret; }
 
+extern int D_00429884_2E7038[] __asm__("D_00429884"); extern char D_00632700_2E7038[] __asm__("D_00632700"); void func_002E6AB8_2E7038(char *) __asm__("func_002E6AB8");
+// MATCH func_002E7038
+void FUN_002e7038(int c) { int n; n = D_00429884_2E7038[0]; if (125 < n) { D_00429884_2E7038[0] = 0; D_00632700_2E7038[127] = 0; func_002E6AB8_2E7038(D_00632700_2E7038); n = D_00429884_2E7038[0]; } if (c != 10) { D_00429884_2E7038[0] = n + 1; D_00632700_2E7038[n] = c; return; } D_00429884_2E7038[0] = 0; D_00632700_2E7038[n] = 10; D_00632700_2E7038[n + 1] = 0; func_002E6AB8_2E7038(D_00632700_2E7038); }
+
