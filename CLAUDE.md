@@ -2,236 +2,213 @@
 
 Repo: WeAreTommyBruh/Legaia2-Decomp, branch `main`. A function counts as done only when its C compiles
 byte-identical to the original (compiler: ee-gcc 2.9-ee-991111-01, `-O2 -G8`). Every other function is rebuilt
-from the original assembly, so `python3 tools/asm_build.py all` must always print `MATCH`.
+from the original code, so `python3 tools/asm_build.py all` must always print `MATCH`.
 
-## Current progress (session 18: 13.61%, 3930 / 6254 functions; goals 13.51 reached, 13.81 not reached)
+## Current progress
 
-- Session 16: 3613 -> 3629 functions, 12.59% -> 12.72% (16 functions, +2,552 bytes). After 12.70% the user asked for 13.01%: not reached in session 16, reached in session 17 (see the end of this file); automated callee return-type flips (`build/work/retype.py`, found 1337b8), float-arg reordering (`argperm.py`), pass-through knobs (`knob.py` over 162 near misses) and a permuter queue found nothing else. Open leads: the 2e9xxx-2ec5xx CD-file family (copy loop tests `(char)c` via `sll 24` after `lbu`), the pchevent debug-print family (20f640 needs the float load before the table-base load), 167940/167b88 (r7/n register swap), 2b8ee8 (two `lui` swapped). Tricks that paid: (1) callee prototype with the real ARGUMENT ORDER (`func_0029D010(char *, float, int, int)`, pointer before float, instead of Ghidra's `(float, ptr, ..)`) fixed the arg-setup scheduling for ~12 callers (2becb0 family, 2a8228/2a8358/2a8488/2a8600, 29ff50, 2a0d88); (2) `int` return on one callee (1749e0: `int func_001AB8F0`); (3) natural source order instead of a permuter-shuffled one (1f7970 style); (4) hidden extra pass-through args to give a frame (235680 needs 11 int params); (5) `while (p != 0) { if (cond) break; p = p->next; } return p;` for the find loop (2175e0); (6) 165ca0 needed `f(D, b)` pass-through of `b`. decomp-permuter hit 0 of 9 near misses this session. Callee prototypes that clash inside a shared `src/units/*.c` file need `name_ADDR(...) __asm__("name")` aliases.
-- 3613 / 6254 functions matched (57.8%) at session 15 end; **12.59%** of code. Session 15 went 3579 -> 3613 (12.30% -> 12.59%); each higher goal the user set afterwards (12.70, 12.75, 13.00, 13.30) was out of reach: hand-matching yielded about one function per ten tool calls once the easy near misses were gone. Next session: spend time on long permuter runs for the 2-13 word near misses below before drafting new functions.
-  - Written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), and Ghidra output that already
-    matches (`tools/gen_ghidra.py`). Everything counted is C.
-- History: 3297 / 9.00% (session 8) -> 3421 / 9.81% (sessions 9-11) -> 3462 / 10.21% (session 12) -> 3498 / 10.54% (session 13) -> 3579 / 12.30% (session 14, in progress).
-- Functions with a source file: 2042 / 6254 (32.7%); with a real name: 263 (4.2%); `.text` words disassembled: 98.3%.
+- **13.67% of code, 3941 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
+- Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
+  request for 100 more functions (11 matched, 89 short). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
+- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941).
+- Matched code is written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), or Ghidra output that already
+  matches (`tools/gen_ghidra.py`). Everything counted is C, except the libvu0 routines (file-scope asm in `src/vu0_asm.c`).
+- Functions with a source file: 2042 / 6254; with a real name: 263; `.text` words disassembled: 98.3%.
 - Biggest source files by matched share: `repetition.cpp` 50%, `pachislot.cpp` 27% (121 functions), `roulette.cpp` 31%,
   `pchsysw.cpp` 37%, `srivus.cpp` 38%. Biggest unmatched: `battle.cpp` (4% of 88 KB), `nori.cpp`, `yue.cpp`, `clas_min.cpp`, `shikimi.cpp`.
-- Every push refreshes `report/report.json` and `report/recomp.json` (an identical copy: `cp report/report.json report/recomp.json`) and the numbers above.
-- `report/report.json` is what the live ByteMatch badges and the website read; the numbers only move when it is refreshed and pushed.
+- Every push refreshes `report/report.json` and `report/recomp.json` (an identical copy: `cp report/report.json report/recomp.json`), plus `badges/*.svg`.
+  `report/report.json` is what the badges and the website read; the numbers only move when it is refreshed and pushed.
+- **Where the game's code lives:** the executable's `.text` is all the main-CPU code. All 379 `.lzs` and 310 `.pac` files (815 MB decompressed), every other archive
+  file and the root files were scanned for MIPS return/prologue patterns and VU NOP words: no extra EE code or VU microcode exists. The only other code is IOP modules
+  (4 `.irx` in the archive, 6 in `IRX.PAC`, 15 in `IOPRP250.IMG`; a separate CPU, not part of this project). `jr $ra` look-alikes in `.pam`/`.tmd`/`.lzs` are polygon
+  records (`80595959 03e00008 ...`). The executable's own `.data` holds about 30 MIPS functions at 0x4299d4-0x42ab98 (kernel-patch code copied to 0x80074000 by 2edfe8);
+  they are not in the percentage.
 
-## Where the project stands
+## Layout and build
 
 - Steps 1 and 2 are done (compiler identified, executable rebuilt byte-identical). Step 3, matching functions in C, is in progress.
-- Not every file was built the same way. A C file picks its build with header lines: `// compiler: 990721-r5900` /
-  `990721` / `991111-01-as210` and `// cflags: ...` (`-fno-gcse`, `-fexceptions`, `-fno-schedule-insns`,
-  `-fno-schedule-insns2`, `-fno-thread-jumps`, `-fno-omit-frame-pointer`, `-O1`). Hand-matched small functions live in `src/units/<report unit>[_variant].c` (one file per report unit and compile setting, so every report unit has its own source file; `tiny_hand*.c` stay in `src/`). `tools/emit.py`-style tools (`build/work/emit.py`) still append to `src/small_hand*.c`: run `python3 tools/split_units.py` afterwards (it appends the new blocks to the unit files and deletes the small_hand files), then `asm_build.py all`.
-- Layout: `src/` matched C (`// MATCH func_XXXXXXXX` on its own line above the definition; prototypes never share that line),
-  `src/gen*/` and `src/ghidra/` generated matches, `wip/*.c` near-miss drafts (`// WIP func_XXXXXXXX`,
-  compiled only by `tools/report.py` for partial-match figures, not part of the build), `tools/` format tools and builders,
-  `site/` project website (GitHub Pages, rebuilt from `report/report.json`).
-- Tools: `tools/match.py src/FILE.c NAME ADDRESS` compares one function word by word; `tools/asm_build.py all` rebuilds and
-  checks; `tools/progress.py` and `tools/report.py` write the progress figures; `tools/perm_setup.py` sets up decomp-permuter.
-- Techniques that paid off (details were in the old handoff and are in the memory notes):
-  - Callee return types are the biggest cheap knob: declare a callee `int` instead of `void`, or copy its matched definition's type.
-  - Typed vtable structs (`o->vt->fn60((char *)o + o->vt->adj56, 1)`) instead of raw casts.
-  - `volatile` for flag words and output pointers (stops hoisting and CSE; fixes most scheduler-order near misses).
-  - Separate loop counter (`i = n`), typed struct pointer for a callee-saved base, hidden pass-through parameters when an argument is copied into `$8`.
-  - Sibling-shape search: copy matched C onto unmatched functions with the same mnemonic sequence.
-  - Statement-order search (`perm.py`, hill climbing) and decomp-permuter (~7% of near misses solve).
-  - `991111-01-as210` (newer assembler) explains the `sdr` in the `jr` delay slot functions and `lui/ori/sw` hardware-register code.
-  - Hardware-register code is mechanical: `*(volatile unsigned *)0x1000b010 = ...` in asm order.
-
-## Session 14 workflow and new tricks
-
-- Session 14 first used parallel forked workers (address windows, then technique-based) that wrote `build/work/spec_wK_NN.txt` and
-  `bo_wK_NN.json`; the main session merged the `bo_*.json` files into `batch_out.json` and ran `dedupe.py`, `emit.py`, `fixemit.py`, then
-  `asm_build.py all` (must print MATCH), `tools/report.py`, commit and push. **The user has since ruled out agents, workers and subagents:
-  do the matching yourself in this session** (the same spec/batch/emit flow works single-handed).
-- Member-function-pointer calls (`ld -8` + `dsra32`) match with a hand-expanded ptmf: two separate `idx > 0` tests, one for the function and
-  one for the delta (`fn = (void (*)(void *))(e >> 32); d = idx > 0 ? (short)e + dl : dl; fn(o + d);`). Untried: 171ae8 1723e8 173980 175f58 176ac8 176e10 17fc20 204a78 214fa8.
-- Overlapping `lw`/`lh` fields reloaded after a store need a union. A pointer in a callee-saved reg may need a `static inline` helper taking `float *v`.
-- GS-packet functions (`sd` constants + `func_00190328`/`func_00190420` calls) are tractable (2975b8, 2a53b0 matched); more at 24bd78 247970 2436f8.
-- Separate base variable (`q = SYM; p = q + 8`) stops `-25104 + 8` folding into one `addiu`; one unsigned counter `for (i = 63; (int)i >= 0; i--)`
-  for two loops; `p != 0 && n != 0` plus one post-loop `if (p == 0) return 0` for a shared fail block; copy newlib's variable names for newlib code.
-- Write spec functions on ONE line (or `{` on the signature line and no line starting with a letter inside): `emit.py` puts `// MATCH` before the
-  first line that starts with a letter after the prototype, which broke 2e8d58 once.
-- Sibling tricks that worked (session 14, solo): callee `int` instead of `void` on one of 3 callees (1714a0, 2e8d58); unused extra params that are
-  passed through (`f(char *o, int b, int c)` calling `g(o, b, c)`) put `o` in `$7` (2c31b8, needs -fexceptions); a constant held in a local before a
-  call goes to a callee-saved reg (2c3458); statement order `v = *p; p++; f(v); i--;` fixed delay-slot order (18d4a8, 990721-r5900 -fno-thread-jumps);
-  list unlink `for (; p != 0; p = p[5]) { if (p[5] == n) {...; break;} }`; a `key == -1` early return then one loop (2a1df8).
-- `build/work/ggnear.py K N MAXSIZE` (best Ghidra variant per unmatched function, `ggnear_K.json`) + `ggshow.py ADDR` (score it and write `w_<addr>.txt`)
-  finds near misses whose diff is small; hand-fix them: Ghidra's `0x3f000000` float constants -> `0.5f`; offsets in `lb`/`lhu` mean the field types (signed vs
-  unsigned); `ld`/`lq` mean `long long`/`u128` (`typedef int u128 __attribute__((mode(TI)))`); a 2-word diff with `addiu` vs `ori` constants means the
-  number is an address (use a `D_` array); `divu` means unsigned operands; array-of-struct getters/setters match with `E *e = &D[idx]; return e->f;`
-  (a plain `D[idx].f` gives a different `mult` operand order); struct stride 472 with a field beyond it: `((E *)(D + i * 472))->f`. Write callee names in
-  specs with UPPERCASE hex (`func_00254F48`): lowercase hex is an undefined symbol at link time.
-- decomp-permuter is the best tool for 2-10 word near misses (about 1 in 3 solved in 90-100 s): write the current best source to `build/work/w/<addr>.c`
-  (`ggshow.py ADDR` does it for ggnear candidates), run `python3 permw.py SECS ADDR...` from `build/work` (detached with `setsid nohup`, one at a
-  time), copy `build/perm/<addr>/output-0-1/source.c` into a spec as ONE line and re-score it with `batch.py`: a "HIT" is not always real (20d248 was a
-  false positive: the permuter's objdump hid a `lw`/`li` order swap).
-- `build/work/ggscan.py MAXBAD LO HI` re-scores every ggnear candidate with the real checker; ignore candidates whose real score differs a lot from `bad`
-  (the 0x1364c8..0x137a18 family: ggnear said 3, real diff 37-94). `blockperm.py ADDR...` permutes runs of simple statements in a ggnear text.
-- Report units carry `metadata.source_path` (the repo file with the most matched code of that group). `merge_groups` in `tools/report.py` used to take
-  the metadata of the group's first sub-unit, which lost the path for ~36% of matched functions (battle, nori, rsound, ...); it now picks the sub-unit
-  with a path and the most matched code, so every unit with matched code links to an existing file.
-- Bound-checked table getters (`if (a >= 10 || b < 0 || (unsigned)b >= 94) return DEFAULT; return T[b].f;`) need the three tests as one `||` chain with
-  the third unsigned; list pops like `t = L.v[L.n--]` and pointer-reusing `a = (char *)*(int *)(...)` fixed register naming (24a190, 223500).
-  Hardware/kernel code: `__asm__ volatile("sync")`, `".word 0x42000038"` (ei), `"mfc0 %0, $12"`, `"cache 0x10, 0(%0)"` inside normal C matched whole
-  functions (2e60f0, 2e5d30, 1096c0); volatile on the gp scalars they touch stops delay-slot hoisting (10f268).
-- Website (`site/template.html` + `site/build_site.py`, deployed by `.github/workflows/pages.yml`, which checks out 30 commits for the history): the progress
-  section shows badges, cards for code / functions / fuzzy match / data, the categories panel and the recent commits, all filled from `report/report.json`
-  and `git log`; no "See the progress" button in the hero (the user asked to remove it). Matching resumed afterwards for the 12.30% goal (reached at 3579 functions); stop again unless the user sets a new target.
-- README badges are SVG files in `badges/` drawn by `tools/badges.py` in the website's style; `tools/report.py` regenerates them whenever it writes
-  `report/report.json`, so commit `badges/*.svg` together with the report.
+- Not every file was built the same way. A C file picks its build with header lines: `// compiler: 990721-r5900` / `990721` / `991111-01-as210` / `296` / `296-as210`
+  and `// cflags: ...` (`-fno-gcse`, `-fexceptions`, `-fno-schedule-insns`, `-fno-schedule-insns2`, `-fno-thread-jumps`, `-fno-omit-frame-pointer`, `-O1`).
+  A third compiler exists: ee-gcc 2.96 (`~/tools/ee-gcc2.96`, header `// compiler: 296`); it emits the `nop; nop` short-loop padding by itself.
+- Hand-matched small functions live in `src/units/<report unit>[_variant].c` (one file per report unit and compile setting; `tiny_hand*.c` stay in `src/`).
+  `build/work/emit.py` appends to `src/small_hand*.c`: run `python3 tools/split_units.py` afterwards (it appends the new blocks to the unit files and deletes the
+  small_hand files), then `asm_build.py all`. The unit is the `group` column of `decomp/functions.csv`.
+- `src/` matched C (`// MATCH func_XXXXXXXX` on its own line above the definition; prototypes never share that line), `src/gen*/` and `src/ghidra/` generated matches,
+  `src/vu0_asm.c` the libvu0 routines, `wip/*.c` near-miss drafts (`// WIP func_XXXXXXXX`, compiled only by `tools/report.py` for partial-match figures, not part of
+  the build), `tools/` format tools and builders, `site/` project website (GitHub Pages, rebuilt from `report/report.json`).
+- Tools: `tools/match.py src/FILE.c NAME ADDRESS` compares one function word by word; `tools/asm_build.py all` rebuilds and checks; `tools/progress.py` and
+  `tools/report.py` write the progress figures; `tools/perm_setup.py` sets up decomp-permuter.
+- `tools/asm_build.py` sorts the C data placements (`C_DATA_PLACED`) by address: a jump table placed at a lower address than an already placed one made lld write a
+  corrupt ELF (`st_name ... is past the end of the string table` from llvm-objcopy).
+- Report units carry `metadata.source_path` (the repo file with the most matched code of that group); `merge_groups` in `tools/report.py` picks the sub-unit with a path
+  and the most matched code.
+- Website (`site/template.html` + `site/build_site.py`, deployed by `.github/workflows/pages.yml`, which checks out 30 commits for the history): badges, cards for code /
+  functions / fuzzy match / data, the categories panel and the recent commits, all filled from `report/report.json` and `git log`; no "See the progress" button in the hero.
+  README badges are SVG files in `badges/` drawn by `tools/badges.py`; `tools/report.py` regenerates them whenever it writes `report/report.json`.
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
 
-- **Do not use agents, workers or subagents** (no Agent tool, no forks, no background workers) for matching or anything else in this
-  project; work directly in the main session. (User instruction, session 14.)
-- **Every push includes a refreshed `report/report.json`** (run `python3 tools/report.py`). `tools/progress.py` now writes
-  `build/PROGRESS.md` (git-ignored) as a local summary only; `PROGRESS.md` is no longer committed.
-  `build/work/commit.sh "msg" files...` checks the build says MATCH, regenerates the reports, commits and pushes.
-  If a push is rejected: `git pull --rebase origin main`, rebuild, push again.
-- **No assembly stubs.** A function counts as matched only when C compiles to its bytes. `src/asm_stubs.c` (168 hand-written-assembly functions
-  reproduced as file-scope asm) was removed at the user's request (session 14); those functions are built from the original assembly again. The libvu0
-  routines (0x18eaa0-0x18f..., ~124 functions) must not be added either.
-  Audit at the end of session 17: no `.s`/`.S`/`.asm` files are tracked, no file-scope `asm(...)` and no `naked` functions exist in `src/`. The only
-  inline `__asm__ volatile` uses are single hardware instructions inside normal C (`sync`, `.word 0x42000038` = ei, `mfc0`, `cache`, ~70 uses in 7 files);
-  the ~840 `__asm__("func_...")` / `__asm__("D_...")` strings are symbol-label aliases, not code. Unmatched functions are only assembled into the
-  git-ignored `build/asm` so the link and the `MATCH` check work; they are not in the repo and never count as matched.
-- **Assembly wording (session 17).** The user asked to "remove the asm code and all mentions of it in the repo and website. Only C source code" and chose
-  *wording only*: README, CONTRIBUTING and the website no longer mention assembly (hero line: "An ongoing effort to rebuild Legaia 2: Duel Saga as
-  readable C that compiles to the original game's exact bytes."). Build tooling (`tools/asm_build.py`, the `build/asm` fallback) and the `__asm__`
-  uses inside C stay untouched, because the MATCH verification depends on them. Optional follow-up the user has not requested: rename `asm_build.py`.
-- **Never force-push.** (Session 12 and 13: the user allowed one only if unavoidable; it was not needed.)
+- **Do not use agents, workers or subagents** (no Agent tool, no forks, no background workers) for matching or anything else in this project; do the work directly.
+  The permuter and build scripts may run in the background; stop them when told to stop.
+- **Every push includes a refreshed `report/report.json`** (run `python3 tools/report.py`). `tools/progress.py` writes `build/PROGRESS.md` (git-ignored) as a local summary only.
+  `build/work/commit.sh "msg" files...` checks the build says MATCH, regenerates the reports, commits and pushes. `commit.sh` does not add `src/units` and ignores
+  `CLAUDE.md`; add those explicitly (or commit by hand). If a push is rejected: `git pull --rebase origin main`, rebuild, push again.
+- **Assembly policy.** A function counts as matched only when its source compiles to its bytes. Allowed assembly, all user-approved:
+  - single hardware instructions inside normal C functions (`sync`, `.word 0x42000038` = ei, `.word 0x42000039` = di, `mfc0`, `cfc2/ctc2`, `cache`, `syscall`);
+  - the 161 syscall wrappers as `int NAME(void) { register int n __asm__("$3") = N; __asm__ volatile("syscall" : : "r"(n)); }` (the compiler emits the `li`, `jr` and delay slot);
+  - the libvu0 routines (0x18eaa0-0x18f..., 89 functions, 3,224 bytes) as file-scope `__asm__` in `src/vu0_asm.c`, generated by `build/work/genvu0.py` from the original words
+    (undecodable COP2 words become `.word`). Function-body inline asm cannot reproduce them: gcc appends its own `jr $31; nop` and never puts an asm statement in a delay slot,
+    but 89 of them end with a VU0 instruction in the `jr` delay slot.
+  Everything else stays C. The old `src/asm_stubs.c` (168 hand-written-assembly functions as file-scope asm) stays removed. Compiled hardware-register functions
+  (2ceb50, 111170, 2c90a8, 2c82a8, 2e7a18, 2c8e18, ...) must be written in C; file-scope asm for them has NOT been approved.
+  The ~840 `__asm__("func_...")` / `__asm__("D_...")` strings in `src/` are symbol-label aliases, not code. Unmatched functions are only assembled into the git-ignored
+  `build/asm` so the link and the `MATCH` check work; they never count as matched. README, CONTRIBUTING and the website say the project is C apart from `src/vu0_asm.c` and
+  single inline instructions.
+- **Never force-push.**
 - Commit to `main`. Ask before downloads or any visibility change.
-- No copyrighted assets: only tools, docs and C in the repo; game data stays git-ignored. Do not print game text in chat.
-  No game string literals in C (use `D_<addr>` symbols).
-- Keep CPU jobs modest (the user has killed background jobs before). `commit.sh` and `asm_build.py all` take over two minutes:
-  run them in the background, do not edit `src/` while they run, and do not run `asm_build.py all` while `commit.sh` runs.
+- No copyrighted assets: only tools, docs and C in the repo; game data stays git-ignored. Do not print game text in chat. No game string literals in C (use `D_<addr>` symbols).
+- Keep CPU jobs modest (the user has killed background jobs before; four permuter workers gave a load average of 14, two niced workers are fine). `commit.sh` and
+  `asm_build.py all` take two minutes or more: do not edit `src/` while they run, and do not run `asm_build.py all` while `commit.sh` runs.
 - Never `pkill -f` / `pgrep -f` with a pattern that appears in your own command line (it kills the shell). Use
   `ps -eo pid,cmd | grep '[p]ermuter.py' | awk '{print $1}' | xargs kill`.
 - Commit trailer: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
-- Website decisions: no ByteMatch mentions on the site; the Maya image is still missing and must not be fetched by bypassing
-  the fandom bot block.
+- Website decisions: no ByteMatch mentions on the site; the Maya image is still missing and must not be fetched by bypassing the fandom bot block.
 - A compile that is shorter or longer than the original is not a match; trailing `nop` padding is ignored.
 - Pitfalls:
-  - `emit.py` mangles identifiers: never put `__asm__("D_xxxx")` in a spec, a duplicate `typedef char *va_list;` breaks the
-    file, and `T *` prototypes become `void *`. Run `asm_build.py all` right after every emit and read the last lines of the output.
+  - `emit.py` mangles identifiers: never put `__asm__("D_xxxx")` in a spec, a duplicate `typedef char *va_list;` breaks the file, and `T *` prototypes become `void *`.
+    It renames `typedef struct {..} T;` names but not plain typedefs (a second `typedef int u128 ...` in the same unit file must be deleted by hand). Run `asm_build.py all` right
+    after every emit and read the last lines of the output.
+  - Functions that share a csv name (`AddIntcHandler`, `RFU116_SetSyscall`, ...) need a `_ADDR` suffix in C so the `.text.NAME` sections do not clash.
+  - Callee prototypes that clash inside a shared `src/units/*.c` file need `name_ADDR(...) __asm__("name")` aliases (`fixblocks.py FILE ADDR` does it).
   - A stale `// OFF func_X` entry in an old small_hand file causes a duplicate-symbol link error once the function is matched elsewhere.
   - `gen_ghidra.py` without `GG_NEW=1` regenerates `src/ghidra` and drops old matches (`git checkout src/ghidra` restores them).
-  - A global the original reaches with `lui+lw` is an array; with `$28` (gp) it is a scalar. 8-byte unaligned globals need `V8 D[3]`.
+  - A global the original reaches with `lui+lw` is an array; with `$28` (gp) it is a scalar (`D_<0x4A7C70 + offset>`). 8-byte unaligned globals need `V8 D[3]`.
   - `git pull --rebase` fails while any tracked file is modified; pass tool changes as extra arguments to `commit.sh`.
-  - Never run two processes that write the same `w/<addr>.c`.
-- Local helpers live in `build/work/` (git-ignored: `commit.sh`, `batch.py`, `emit.py`, `wk.py`, `perm.py`, `hill2.py`, `permw.py`,
-  `mkchunks.py`, `pair.py`, `untried.py`, ...). If they are gone, the loop is: write C, compile with `tools/match.py`, compare, add
+  - Never run two processes that write the same `w/<addr>.c` (`rs.score` always overwrites it, so copy drafts before looping).
+  - Write callee names in specs with UPPERCASE hex (`func_00254F48`): lowercase hex is an undefined symbol at link time.
+  - Write spec functions on ONE line (or `{` on the signature line and no line starting with a letter inside): `emit.py` puts `// MATCH` before the first line that starts with
+    a letter after the prototype. After an emit whose body spans lines run `build/work/fixblocks.py`.
+- Local helpers live in `build/work/` (git-ignored, listed under Workflow). If they are gone, the loop is: write C, compile with `tools/match.py`, compare, add
   `// MATCH func_XXXXXXXX` above the function, rebuild, commit.
 
-## Current open work
+## Workflow
 
-Near misses (words off), from sessions 12 and 13:
+- Hand-match loop: `build/work/show.sh ADDR...` (raw Ghidra from `decomp/src/` plus the asm) or `show2.py ADDR...` (Ghidra with gp names turned into `D_` symbols and `FUN_` into
+  `func_`) -> write the draft with `mk.sh ADDR` (stdin; `@gp(off)` expands to `D_<0x4A7C70+off>`) into `w/<addr>.c` -> `t.sh ADDR [cc xf]` (diff one draft) and `cfgs.py ADDR`
+  (all compiler variants) -> `autofix.py ADDR [secs]` (best config, then `stperm2.py` and `stmove.py` statement search) -> `permw.py` via the permuter queue for what is left ->
+  `finish.py ADDR...` (tospec -> batch -> emit -> split_units -> fixblocks) -> `asm_build.py all` (must print MATCH) -> `tools/progress.py`, `tools/report.py`,
+  `cp report/report.json report/recomp.json` -> commit, push.
+- Other helpers: `var.py ADDR tpl.c` (`{{a|||b}}` choice groups), `knob.py`/`knob_all.py` (pass-through params), `retype.py` / `retype2.py` (flip callee void/int), `argperm.py` and
+  `argp2.py ADDR CALLEE` (permute where float and int arguments sit in a callee prototype), `scan_cc2.py CCS` (rescore all drafts under other compilers), `ggnear.py K N MAXSIZE`
+  + `ggshow.py ADDR` (best Ghidra variant per unmatched function; hand-fix the small diffs), `ggscan.py`, `blockperm.py`, `ggbig.py`, `wipscan.py` / `prepwip.py ADDR...` (score
+  and install `wip/*.c`), `hit.py ADDR` (install a permuter `output-0-1/source.c` as the draft), `genvu0.py` (writes `src/vu0_asm.c`), `mkchunks.py ADDRHEX` (candidate lists).
+- decomp-permuter: write the current best source to `build/work/w/<addr>.c`, run `python3 permw.py SECS ADDR...` from `build/work` (it reads the draft's own `// compiler:` /
+  `// cflags:` lines). `pqA.sh` and `pqB.sh` are two niced workers over `pq.txt` / `pqB.txt` (done lists `pq.done` / `pqB.done`, logs `pq.log` / `pqB.log`, `PSECS=110`).
+  Drafts 1-14 words off solve about one time in four (4 hits in the first 19 runs); drafts 15-30 words off almost never (0 in 22). A "HIT" is not always real
+  (20d248 was a false positive: the permuter's objdump hid a `lw`/`li` order swap): re-score it with `batch.py`. About 110 drafts are still queued.
+- RTL dumps explain scheduling and register diffs. Compile with `-dr -dj -dg -dl -dc -dG -dS -dR -dL` (files `f.c.rtl/.gcse/.greg/.sched2...`). `.sched2` shows each block's
+  `Ready list` (best insn is LAST; ties go to the lower LUID); `.greg` lists refs and live_length per pseudo (priority ~ floor_log2(refs)*refs/live_length; ties: higher regno
+  allocated first and gets the LOWER hard reg). Example: 167940's `r7` (8 refs, live 118) outranks `n` (3 refs, live 24), the original has the reverse; 2b8ee8's two hoisted
+  `lui`s are created in first-use order and the allocator then reverses them.
+- `gen_ghidra.py` has passes for 991111-01, 990721, 990721-r5900, 296 and 296-as210 variants; run `GG_NEW=1 GG_JOBS=6 python3 tools/gen_ghidra.py 160` (small functions first; it is slow).
+  Raw Ghidra drafts of 400-700 byte functions are 70-150 words off.
 
-- Find-by-tag tails: 160778 (25), 1608a8 (9), 1609c8 (19), 160b48 (10), 160c70 (18), 160df8 (2), callers 160490 (24) and 160568.
-- 2ce5a8 (2, store order of `sw $16,16($17)`), 2cf338 (1, `addu` operand order), 2ca968 (2), 1e2b40 (4), 1e3f88 (3),
-  203d58 (16), 1e7cb0 / 1d7f00 (10), 2cb340 (27).
-- 2ea9f0 / 2eabb8 / 2eb4c0 / 2ebab0: frame matches with `S_ { int a[8]; }` + `T *t`; the string-copy loop compares via `sll 24` and loads with `lbu`.
-- 2a8c80 (struct array init with per-element base pointers), 1707d8 (38), 173630 (11), 178038 (16), 230188 (12), 1694d0 (13), 163d88 (12),
-  137ca8 family, 1704e8 (9), 204c58 (23), 2a4338 (5), 165ca0 (2).
-- GS packet builders 1632d0..163780 (64-bit field packing); member-function-pointer calls (`ld -8` + `dsra32`: 173980 is
-  structurally right with a PMF struct but 9 words off; 171ae8, 164c10, 1723e8, 16e388 not tried).
-- Older ones still open: 10af88 (480 bytes), 109d18 (64 KB stack array), 10a120, 10ec40, 154d20 / 154db8, 1545a8, 112a28,
-  213410, 161868, 2128c8, 130ad8, 2682e0, 260428, 269fc8, 265c30, 2d8438, the 2cf* packet builders.
-- Shikimi: 29 / 42 matched; user said "don't do the big functions" (2afa58, 2b0100, 2b12c8, 2b1e68, 2b2900, 2b34d8, 2b3f10, 2b8650).
+## Techniques that paid off
 
-Hardware-register functions not yet tried: 2c3620 (sync + 64-bit packing), 2c8bb0, 192168, 2bf6a8, 2bfec0, 2c0978. Drafted but not matched (IPU/DMA, compiler `991111-01-as210`): 2c6fa8 (~50 words, register numbering), 2c7120, 2c7228, 2c7318, 191ef0 (46).
+- Callee return types are the biggest cheap knob: declare a callee `int` instead of `void`, or copy its matched definition's type (122710 needed `int func_0012ACB0`;
+  2e8b58 needed a void callee declared `volatile short`).
+- Callee argument order: pointer before float, and INTEGER ARGUMENTS FIRST, floats after (`func_0029D010(char *, float, int, int)`; `func_0018E438(int, float x9)` fixed the
+  rsound family 10ff28/10ff88/110008). For mixed lists the interleaving matters: `func_00155D40(char *, float, int, int, float, float, float, float, float)` matched 155a68
+  only with the first float second (`argp2.py` finds such orders).
+- Callee prototypes from Ghidra often hide arguments: pass the caller's own parameters through (`f(a,b,c,d)` where Ghidra said `f(void)`) to fix argument copies and prologue
+  order (1925f8, 2132e0, 213368, 2c2be0, 235680 needs 11 int params, 165ca0 needs `f(D, b)`).
+- Typed vtable structs (`o->vt->fn60((char *)o + o->vt->adj56, 1)`) instead of raw casts.
+- `volatile` for flag words and output pointers (stops hoisting and CSE; fixes most scheduler-order near misses). Volatile accesses cannot go into a branch or call delay slot,
+  so a store that the original has in a delay slot must be NON-volatile (2cafb8) and a store that must stay in order must be volatile (2bf848 is 4 words off for this reason).
+- Separate loop counter (`i = n`), typed struct pointer for a callee-saved base, hidden pass-through parameters when an argument is copied into `$8`/`$7` (unused extra params
+  passed through: 2c31b8 needs -fexceptions), pointer parameter plus an `int` copy (`int p = (int)o; ... g(o);`) for the `daddu` copy at entry (215858, 2153c8, 215420).
+- Early returns instead of a result variable fix `daddu $2,$0,$0` delay slots; per-failure `if (bad) { DbgPrintf(str, buf); return 0; }` instead of one shared tail lets gcc
+  cross-jump the `jal` tail itself (18a918, 18af40); `size = x + 2047; size &= -2048; call(fd);` puts the `and` in the call's delay slot (18a918); `if (c != 0) c = c + 1; else c = name;`
+  (same variable in both arms) avoids the `movz` (18af40).
+- A switch with one call per case plus `break` (not a shared call after the switch) reproduces per-case constant loads (16ccd0).
+- Struct by value: `V3 t; t = v; f(t)` gives the second 12-byte copy on the stack (24cc58); a returned struct needs `V3 t, v; t = f(); v = t;` (24ccd8). Vector copies need an
+  8-byte aligned type (`typedef union { long long l[2]; float f[4]; } V4;`), otherwise gcc uses `ldl/ldr` (162520 is still open, 20 words).
+- Member-function-pointer calls (`ld -8` + `dsra32`) match with a hand-expanded ptmf: two separate `idx > 0` tests, one for the function and one for the delta
+  (`fn = (void (*)(void *))(e >> 32); d = idx > 0 ? (short)e + dl : dl; fn(o + d);`). Untried: 171ae8 1723e8 173980 175f58 176ac8 176e10 17fc20 204a78 214fa8.
+- Overlapping `lw`/`lh` fields reloaded after a store need a union. A pointer in a callee-saved reg may need a `static inline` helper taking `float *v`.
+- Separate base variable (`q = SYM; p = q + 8`) stops `-25104 + 8` folding into one `addiu`; one unsigned counter `for (i = 63; (int)i >= 0; i--)` for two loops;
+  `p != 0 && n != 0` plus one post-loop `if (p == 0) return 0` for a shared fail block; copy newlib's variable names for newlib code; `x = base; ... q + 6676` needs the base
+  in a separate local assigned inside the branch (2533e8, 25d4b0).
+- Statement order matters: `v = *p; p++; f(v); i--;` fixed delay-slot order (18d4a8, 990721-r5900 `-fno-thread-jumps`); list unlink `for (; p != 0; p = p[5]) { if (p[5] == n) {...; break;} }`;
+  a `key == -1` early return then one loop (2a1df8); `while (p != 0) { if (cond) break; p = p->next; } return p;` for find loops (2175e0); natural source order beats a
+  permuter-shuffled one (1f7970); an `if (x) return 1; return 0;` with the compared global copied into a local first fixed the shuffle_ family.
+- Bound-checked table getters (`if (a >= 10 || b < 0 || (unsigned)b >= 94) return DEFAULT; return T[b].f;`) need the three tests as one `||` chain with the third unsigned;
+  list pops like `t = L.v[L.n--]` and pointer-reusing `a = (char *)*(int *)(...)` fixed register naming (24a190, 223500).
+- Array-of-struct getters/setters match with `E *e = &D[idx]; return e->f;` (a plain `D[idx].f` gives a different `mult` operand order); struct stride 472 with a field beyond it:
+  `((E *)(D + i * 472))->f`; when the original keeps the symbol separate from a big displacement use a base array with a pointer variable and a large constant index
+  (`int *p = D + a * 118; p[1632] = v;`, 29b1a0, 25d7b0). Multi-index tables: `extern E28 D_0062B3D0[][4]` with `D[a][b].f` (2c9bb8..2ca610 family);
+  `[A][B][C][D]` arrays of `volatile` structs with gp ints as indexes matched 136650, 1366e8, 136768 (`int z = 0; e->s0 = z; ... n = e; n->s36 = 0`).
+- Hardware-register code is mechanical: `#define R(a) (*(volatile unsigned *)(a))`, in asm order. IPU/DMA code matches with `991111-01-as210`. A memory-test loop is
+  `while ((R(0x1000a000) & 0x100) != 0) { if (0x1000000 < i++) {...} }` (condition inside `while`, not a read before the loop); `do { v = R(x); } while (v < 0);` gives the
+  4-nop wait loop; a store whose address constant is computed per branch needs the store INSIDE each branch of the `if/else` (2bfec0, 2c0978); quadword FIFO writes use
+  `typedef int u128 __attribute__((mode(TI)))` (non-volatile source arrays are CSE'd, so a repeated quad source needs `volatile u128` arrays, 2cfcd0). COP2 `cfc2/ctc2` and
+  `sync.p` work as `__asm__ volatile("cfc2 %0, $28" : "+r"(t))`; `__asm__ volatile("cache 0x18, 64(%0)" : : "r"(p))` for cache ops.
+- Kernel code: `if (s) { do { di; sync.p; mfc0 } while (v & 0x10000); }` and `ei` inline matched 2e60f0, 2e5d30, 1096c0, 2e5fa0, 2edc98, 2e6370; volatile on the gp scalars they touch
+  stops delay-slot hoisting (10f268); in a heap-growth routine the store belongs only on the success path (2e5fa0).
+- Floats: callees taking floats need real `float` prototypes (21b468); `__builtin_sqrtf` gives `sqrt.s` + NaN check + `sqrtf` call; `(float)(int)(u & 0xffff)` needs a signed int
+  (an unsigned one gives the unsigned-convert sequence); float `locals` reused for the product (`g = g * 128.0f * k`) fixed 12a140; 3-operand `mult` (`.word 0x02032818`) is
+  what gcc emits for `x * 40` and `a * b * c`.
+- GS-packet functions (`sd` constants + `func_00190328`/`func_00190420` calls) are tractable (2975b8, 2a53b0 matched); `long *q` stores; a stack triple `int e[3]` read back
+  (247ef8, 22 words off). More at 24bd78 247970 2436f8.
+- Ghidra-derived hints: `0x3f000000` float constants -> `0.5f`; offsets in `lb`/`lhu` mean the field types; `ld`/`lq` mean `long long`/`u128`; a 2-word diff with `addiu` vs `ori`
+  constants means the number is an address (use a `D_` array); `divu` means unsigned operands; data addresses passed as call arguments need `D_` arrays and code addresses
+  `func_XXXXXXXX` symbols (188c70, 2a2ba0); `src/ghidra/ggint_*.c` holds Ghidra bodies with `undefined8` narrowed to `int` (fixed 2e86a8, 2a3ed8, 2c7ec0); explicit per-field load
+  temporaries (`u1 = e->a0; u2 = e->a4; ...`) fixed 218738/218978; a `void` function whose early exit returns the zero it just tested (batread_) must not be declared `int`.
+- `-fexceptions` (no tail call) fixes calls at the end of rsound/pchevent-style functions (10d748 is 3 words off with it). The permuter's wins were callee/statement
+  transformations: `do { ... } while (0);` around a loop or a call (2ec6f0, 2ee3a0), `k = 3; f(b[2], b[k])` (index through a variable, 2ee3a0).
+- CD-library family (0x2e9xxx-0x2ec5xx, sceCd-style wrappers: CreateSema + `func_002E8928` request + WaitSema): matched 2ea9f0, 2eabb8, 2eb4c0, 2ebab0, 2eaff8, 2eb368.
+  Recipe: `T *t = D_00634280` request block, `S s; s.a[2]=0; s.a[1]=1; s.a[5]=0; sem = CreateSema(&s)`, `r = func_002E8928(...9 args...)`, early `return -11`/`-1`/`-9`
+  constants, then `return res`. Name copy: `if ((t->name[0] = name[0]) != 0) { while (++i < 1024) { if ((t->name[i] = name[i]) == 0) break; } }` gives `lbu`+`sll 24`; a
+  `c = t->name[0] = name[0]` with `unsigned char c` gives the `daddu` copy instead (2eb4c0). Per function try `func_002E95B0` as `void` vs `int`.
+- Same-shape families: `yue_001e9c18` + 6 siblings (`-fno-gcse`, second pointer `q = p`, int `k`), the nayuwin2 slot loaders 1aa160/1aa270/1aa420/1a19b8/1aa050/1a9f20
+  (array-of-struct bases `B164 D_..[]`/`B232 D_..[]`, madd), found by grouping unmatched functions by opcode signature. No unmatched function shares an exact
+  mnemonic sequence with a matched one any more.
 
-Candidate chunk lists: `build/work/mkchunks.py ADDRHEX` regenerates `build/work/ch/c###.txt` (unmatched 60-450 byte functions).
-Chunks 000-020 (addresses up to 0x187068) were read in session 12; continue from `ch021`.
+## Open work
 
-Other ideas: rerun `ggnear.py` with a larger MAXSIZE, rerun `permq.py` / `permw.py` on new near misses, rerun `sweep4.py` after
-adding compiler settings, and a posed model export in `tmd_tool.py` (apply the first frame of a motion clip) for character pictures.
+Near misses (words off; drafts are in `build/work/w/`):
+
+- 1 word: 249ef0, 25d7b0, 2cf338, 12e2a8 (needs a volatile next-pointer plus a reload of `first`); 2: 2b8ee8 (872 bytes, 990721-r5900, two swapped `lui`), 2b32a8 (536 bytes),
+  2ce5a8, 2ca968, 2cf1b0, 2cf2c0, 160df8, 165ca0, 113ec8, 1949e0, 1d8250, 20ddf8, 20fd88, 177348, 247a48, 2d37c0, 2cf4b0, 2cf610; 3: 10d748 (`-fexceptions`), 2121a8, 1e3f88,
+  2d3628; 4: 247b40, 196340, 2bf848, 2cea70 (store order of the zeroing stores), 1e2b40, 2a4338; 5: 213258; 6-10: 1a4180, 2edc50, 2d6168, 218f40, 20b910, 247468, 12cf48, 2d33d8,
+  1266f8, 23b7c0.
+- Found by earlier passes: the GS packet builders 1632d0..163780 (64-bit field packing) and 247b68 / 2493d0 / 247ef8; member-function-pointer calls (173980 is structurally right
+  with a PMF struct but 9 words off); the `work` group GS packets 247e40, 24bd78.
+- Find-by-tag tails: 160778 (25), 1608a8 (9), 1609c8 (19), 160b48 (10), 160c70 (18), callers 160490 (24) and 160568. Pairs with identical shape: 167940/167b88 (580 bytes each,
+  18 words, 990721-r5900, final `movn` vs branch), 2ece08/2ed010 (CD request with an inlined 252-byte struct copy and a runtime alignment test), 1e43d0/1e4568, 127bb8/127d50,
+  20cb90/20cd08, 2cb978/2cbc90, 276b50/276dd4, 137dc8/137ed8.
+- CD family: 2eb200/2e9bd8 (clamp `m = -1; return m < res ? 0 : res;` is right, the `lui`/`lw` register swap in the head is not), 2eb138, 2ea810, 2eb8a0, 2ec348, 2ec528, 2e96b8,
+  2e9d58, 2eb660, 2ebed8, 2ec110, 2e9950, 2e9f90, 2ea200, 2ead88, 2ebc48, 2ea4c0, 2e8bf0, 2edb40.
+- Hardware/kernel: 2c5c60 (38: do-while after an explicit entry test; register swap), 2e8038 (49: the original keeps the 0xffffffc0 mask in a register), 2c3620 (32: `movz/movn`
+  selects match with ternaries, register numbering does not), 2ceb50 (115: dead volatile reads), 111170 (115: a `sw` that must sit in a jal delay slot), 2c8cd8 (IPU handler; the original
+  reloads `*o`), 2c89b8, 2c6fa8, 2c7120, 2c7228, 2c7318, 191ef0, 2e7120/2e32a0 (soft-float helpers: the original uses `(p << 1) >> 53`), 2e5480 (`RFU000_FullReset`, 1 word off).
+- Other drafts: 20b760 and 20b660 (growable array, 990721-r5900, register numbering of the loop), 2d4818, 2da0c8, 2d98c8 (lists), 1252a0 (22), 130ba0 (43: code point must be a signed
+  int), 2c9aa0 (37), 237ae0 and 24a058 (register allocation), 291b60, 21aa60, 249f98 (r5900 short-loop padding).
+- Older ones still open: 10af88 (480 bytes), 109d18 (64 KB stack array), 10a120, 10ec40, 154d20 / 154db8, 1545a8, 112a28, 213410, 161868, 2128c8, 130ad8, 2682e0, 260428,
+  269fc8, 265c30, 2d8438, the 2cf* packet builders, 1707d8 (38), 173630 (11), 178038 (16), 1694d0 (13), 163d88 (12), 137ca8 family, 1704e8 (9), 204c58 (23), 203d58 (16),
+  1e7cb0 / 1d7f00 (10), 2cb340 (27), 2a8c80 (struct array init with per-element base pointers), 1364c8 (three loops over one table), 137298/137330/1367c8 (4-short entries with two
+  address forms; see `fam_gp.txt` in build/work for the 19-function list), 2a4840 (29, `-fno-gcse`), 2a4020 (45), 203f40 (42, wants hoisted array bases), 129a38 (42, the original uses
+  `movz`/`movn` for `a != 0 && f() != 0`).
+- Shikimi: the user said not to do the big functions (2afa58, 2b0100, 2b12c8, 2b1e68, 2b2900, 2b34d8, 2b3f10, 2b8650).
+- Pools: about 4,000 bytes to 13.81%; candidate chunk lists come from `build/work/mkchunks.py ADDRHEX` (`build/work/ch/c###.txt`, unmatched 60-450 byte functions; chunks up to
+  address 0x187068 were read). Other ideas: rerun `ggnear.py` with a larger MAXSIZE, rerun `permq.py` / `permw.py` on new near misses, rerun `sweep4.py` after adding compiler settings,
+  and a posed model export in `tmd_tool.py` (apply the first frame of a motion clip) for character pictures.
 
 ## Housekeeping
 
-- `git status` shows three untracked files that are meant to stay uncommitted: `site/index.html` (generated by
-  `site/build_site.py`), `site/template_red_old.html` and `site/assets/lang.jpg` (original render with the red background).
-- `FORMATS.md`, `PROGRESS.md` and `handoff.md` were removed from the repo (still in git history). Format details live in the
-  docstrings of the `tools/` scripts; references in `CONTRIBUTING.md`, `README.md`, `site/template.html`, `tools/progress.py` and
-  `build/work/commit.sh` were updated.
+- `git status` shows three untracked files that are meant to stay uncommitted: `site/index.html` (generated by `site/build_site.py`), `site/template_red_old.html` and
+  `site/assets/lang.jpg` (original render with the red background).
+- `FORMATS.md`, `PROGRESS.md` and `handoff.md` were removed from the repo (still in git history). Format details live in the docstrings of the `tools/` scripts.
 - The scratch Python venv with Pillow/numpy used for image work is `/tmp/claude-1000/imgvenv` (not part of the repo).
 - README badges and the clone URL point at WeAreTommyBruh/Legaia2-Decomp; update them if the repo is renamed.
 - Memory notes for this project live in `~/.claude/projects/-home-tommy-src-Legaia-2-Decomp/memory/`.
-
-- 136650 family (session 14): `[A][B][C][D]` multi-dim arrays of `volatile` structs (`extern E36 D_056C48E0[][256][8][32]`, gp ints as indexes, `e = &D[A][B][C][D]`) matched 136650, 1366e8, 136768 with the permuter's `int z = 0; e->s0 = z; ... n = e; n->s36 = 0` idiom; 1364c8 (three loops over the same table), 137298/137330/1367c8 (4-short entries with two address forms) are still open (see `fam_gp.txt` in build/work for the 19-function list). 2c6cd0 needed `if (x != 0 && y != 0) v = f(); else v = 0;` (true case first).
-- Same-shape families (session 14 end): `yue_001e9c18` + 6 siblings (`-fno-gcse`, second pointer `q = p`, int `k`), the nayuwin2 slot loaders 1aa160/1aa270/1aa420/1a19b8/1aa050/1a9f20 (array-of-struct bases `B164 D_..[]`/`B232 D_..[]`, madd), found by grouping unmatched functions by opcode signature (`sigs` snippet in the session notes: group by mnemonic tuple, sort by total bytes). Remaining identical-shape pairs: 167940/167b88, 2ece08/2ed010, 1e43d0/1e4568, 127bb8/127d50, 20cb90/20cd08, 2cb978/2cbc90, 276b50/276dd4, 137dc8/137ed8 (slot finder: do-while loops get closest, ~65 words off).
-- `src/ghidra/ggint_*.c` (session 14 end): Ghidra bodies from the ggnear search with every `undefined8` (and sometimes `ulong`/`long`) narrowed to `int`, callee prototypes included; this alone fixed 2e86a8, 2a3ed8, 2c7ec0 (`build/work/ggint.py` rescoring all ggnear entries, `emit_ggint.py ADDR` writes the file, `w2gg.py ADDR` converts a hand-fixed `w/<addr>.c`). Also: data addresses passed as call arguments need `D_` arrays and code addresses `func_XXXXXXXX` symbols (188c70, 2a2ba0); an `if (x) return 1; return 0;` with the compared global copied into a local first fixed the shuffle_ family; `float` locals reused for the product (`g = g * 128.0f * k`) fixed 12a140; explicit per-field load temporaries (`u1 = e->a0; u2 = e->a4; ...`) fixed 218738/218978; a `void` function whose early exit returns the zero it just tested (batread_) must not be declared `int`.
-
-## Session 15 tricks (3579 -> 3612 functions, 12.30% -> 12.57%)
-
-- `build/work/` helpers added: `t.sh ADDR [cc xf]` (diff one draft in `w/`), `cfgs.py ADDR` (all compiler variants), `var.py ADDR tpl.c` (`{{a|||b}}` choice groups; `VCC="cc|xf;..."`; it leaves the template in `w/` on a miss, `rs.score` always overwrites `w/ADDR.c`, so copy drafts before looping), `tospec.py`, `knob.py`/`knob_all.py` (pass-through params), `stperm.py`/`stperm2.py`/`stmove.py` (statement permutation/move search; stperm solved 2988a0), `prepwip.py`, `wipscan.py`, `commit2.sh` (also commits recomp.json + badges). `batch.py` and `emit.py` now know plain `990721-r5900`.
-- Callee prototypes from Ghidra often hide arguments: pass the caller's own parameters through (`f(a,b,c,d)` where Ghidra said `f(void)`) to fix argument copies/prologue order (1925f8, 2132e0, 213368, 2c2be0).
-- Pointer parameter plus an `int` copy (`void f(int *o) { int p = (int)o; ... g(o); }`) reproduces the `daddu` copy at entry (215858, 2153c8, 215420).
-- Multi-index tables: `extern E28 D_0062B3D0[][4]` with `D[a][b].f` (stride 112/28) instead of `*0x1c + *7` arithmetic (2c9bb8..2ca610 family). Data addresses are `D_` arrays (`lui+addiu`), or an adjacent base array with a large index when `lw` offsets are big (29b1a0).
-- Early returns (`if (...) return 0;`) instead of a result variable fix `daddu $2,$0,$0` delay slots; `x = base; ... q + 6676` needs the base in a separate local assigned inside the branch (2533e8, 25d4b0).
-- `volatile unsigned *` for MMIO read-modify-write; IPU/DMA code (2c7850, 2c6ef8) matches with compiler `991111-01-as210`; `if (c++ > 5000)` gives the `daddu` copy of the counter.
-- Floats: callees taking floats need real `float` prototypes (21b468); GS packets with `long *q` stores (see clas_min_002a53b0).
-- Near misses left (all in `build/work/w/`, 1-6 words off): 2cf1b0/2cf2c0 (2, wip draft), 1d8250/20ddf8/20fd88/177348/247a48/165ca0/2d37c0/2cf4b0/2cf610 (2), 2b32a8 (2, 536 bytes), 2b8ee8 (2, 872 bytes, two swapped `lui`), 1949e0 (2), 2d3628 (3), 215ac8 (4), 213258 (5), 2c7318/2c7228/2c7120 (IPU, as210), 113ec8 (2, 990721-r5900), 167940/167b88 (18 each, 580 bytes, 990721-r5900, final `movn` vs branch), 137dc8/127bb8 (far). WIP files in `wip/` may already be matched: check before spending time.
-
-## Session 15 end: workflow notes and open drafts
-
-- Hand-match loop that worked: `build/work/show.sh ADDR...` (raw Ghidra from `decomp/src/` plus the asm) -> write `w/<addr>.c` (D_ symbols for data, gp offsets: symbol = 0x4A7C70 + offset, struct arrays, pass-through args) -> `python3 autofix.py ADDR [secs]` (best compiler config, then `stperm2.py` and `stmove.py` statement search) -> `permw.py` via `pq.sh` for what is left -> `tospec.py`, `batch.py`, `emit.py` -> `python3 tools/split_units.py` -> `asm_build.py all` -> `tools/progress.py`, `tools/report.py`, `cp report/report.json report/recomp.json`, commit, push.
-- `wip/*.c` can already be matched; `wipscan.py` scores them under every compiler config, `prepwip.py ADDR...` copies the best config into `w/`.
-- Rebuild rule after a split: `tools/split_units.py` appends to `src/units/<unit>[_variant].c`; the unit is the `group` column of `decomp/functions.csv`.
-- Drafts left in `build/work/w/` with their distance (words): 2cea70 (4, as210), 1266f8 (10, `-fno-gcse`, permuter was stopped), 23b7c0 (13), 2499c0/249a30/249aa0 (2-4, float matrix writers, only the `ld $31` slot differs), 2d3628 (3), 2b8ee8 (2, 872 bytes), 2b32a8 (2, 536 bytes), 167940/167b88 (18, `movn` vs branch), 203f40 (42, wants hoisted array bases), 129a38 (42, original uses `movz`/`movn` for `a != 0 && f() != 0`), 2a4840 (29, `-fno-gcse`), 2a4020 (45).
-- Ghidra-variant searches over never-examined functions (`ggone2.py`, `ggone3.py`) and over the sibling-shape list (`sigs7.py`) gave nothing new: best candidates were 39-45 words off.
-
-## Session 17 techniques (new)
-
-- **RTL dumps explain scheduling/register diffs.** Compile with `-dr -dj -dg -dl -dc -dG -dS -dR -dL` (files `f.c.rtl/.gcse/.greg/.sched2...` next to the output; scratch helper `rtld.sh`). `.sched2` shows each block's `Ready list` (best insn is LAST; ties go to the lower LUID) and the unit table; `.greg` starts with "Pass 1 registers to be allocated in sorted order" listing refs and live_length per pseudo (priority ~ floor_log2(refs)*refs/live_length; ties: higher regno allocated first and gets the LOWER hard reg). Example: 167940's `r7` (8 refs, live 118) outranks `n` (3 refs, live 24), the original has the reverse; 2b8ee8's two hoisted `lui`s are created in first-use order and the allocator then reverses them.
-- **A third compiler exists: ee-gcc 2.96 (`~/tools/ee-gcc2.96`).** `tools/asm_build.py` knows `296` and `296-as210` (header `// compiler: 296`). It matched 126a68 outright and brings several drafts much closer (21a5f0 9 -> 4 words with `-fno-delayed-branch -fno-schedule-insns2`); it emits the `nop; nop` short-loop padding by itself. `tools/gen_ghidra.py` has four new passes (296, 296-nogcse, 296-nosched, 296-as210); run `GG_NEW=1 GG_JOBS=6 python3 tools/gen_ghidra.py 160` (small functions first: it is slow).
-- Helper scripts in `build/work` (git-ignored): `retype.py` (flip callee void/int), `argperm.py` (permute callee arg order), `scan_cc2.py CCS` (rescore all drafts under other compilers), `ggbig.py K N MAXSIZE MINSIZE` (best raw-Ghidra variant for big functions; raw drafts of 400-700 byte functions were 70-150 words off).
-- **CD-library family (0x2e9xxx-0x2ec5xx, sceCd-style wrappers: CreateSema + `func_002E8928` request + WaitSema).** Matched 2ea9f0, 2eabb8, 2eb4c0, 2ebab0, 2eaff8, 2eb368 (session 17). Recipe: `T *t = D_00634280` request block, `S s; s.a[2]=0; s.a[1]=1; s.a[5]=0; sem = CreateSema(&s)`, `r = func_002E8928(...9 args...)`, early `return -11`/`-1`/`-9` constants, then `return res`. Name copy: `if ((t->name[0] = name[0]) != 0) { while (++i < 1024) { if ((t->name[i] = name[i]) == 0) break; } }` gives `lbu`+`sll 24` (signed-char assignment value); a `c = t->name[0] = name[0]` with `unsigned char c` gives the `daddu` copy instead (2eb4c0). Per function try `func_002E95B0` as `void` vs `int` (changes which of `$2/$3` gets the `lui`/`lw`). Open: 2eb200/2e9bd8 (`if (-1 < res) res = 0` clamp wants `addiu -1; slt; movn`), 2eb138, 2ea810, 2eb8a0, 2ec348, 2ec528, 2e96b8, 2e9d58, 2eb660, 2ebed8, 2ec110, 2e9950, 2e9f90, 2ea200, 2ead88, 2ebc48, 2ea4c0.
-- **Session 17 late tricks (12.83% -> 13.01%):** the permuter's wins were all callee/statement transformations: `volatile short func_002EDC50(void);` (void callee declared as returning a volatile short, 2e8b58), `do { ... } while (0);` around a loop or a call (2ec6f0, 2ee3a0), and `k = 3; f(b[2], b[k])` (index through a variable, 2ee3a0). Run it 400-600 s per function. Sibling kernel-patch installers 2edfe8 and 2ee5c8 still differ by a delay-slot `lw` order (2 words); 2e9bd8/2eb200 (clamp `m = -1; return m < res ? 0 : res;` is right, the `lui`/`lw` register swap in the head is not), 2eb138, 2e8bf0, 2ead88, 2ea810, 2ec110, 2edb40 and the async 0x8000 group (2e9d58, 2ebed8, 2ea200, 2e9f90, 2ea4c0) are open. `build/work/fixblocks.py FILE ADDR` collapses and aliases an emitted block (needed after `emit.py` when the function body spans lines); `prodtypes.py`, `wrapdo.py`, `rettype.py` are the automatic callee-type / wrapper searches.
-
-## Session 18 (13.01% -> 13.61%, 3647 -> 3930 functions; 13.51% reached with libvu0 asm, 13.81% not reached)
-
-- Result: 29 functions (about 5,500 bytes) in 3 pushes; the rest of the way (about 4,600 bytes) would have needed roughly 150 more hand-matched functions.
-  Yield was again about one function per 8-10 tool calls; nothing automated found more.
-- **Build bug fixed:** a C file whose jump table sits at a LOWER address than an already placed one (16ccd0 in `_unknown_after_pachislot.c`) made lld write a corrupt ELF
-  (`st_name ... is past the end of the string table` from llvm-objcopy). `tools/asm_build.py` now sorts `C_DATA_PLACED` by address.
-- **New helpers in `build/work` (git-ignored):** `mk.sh ADDR` (stdin draft with `@gp(off)` -> `w/ADDR.c`), `finish.py ADDR...` (tospec -> batch -> emit -> split_units -> fixblocks for each),
-  `hit.py ADDR` (install a permuter `output-0-1/source.c` as the draft), `argp2.py ADDR CALLEE` (brute-force the positions of float vs int arguments in a callee prototype),
-  `pqA.sh`/`pqB.sh` (two permuter workers over `pq.txt`/`pqB.txt`; `permw.py` reads the draft's own `// compiler:` / `// cflags:` header lines). Scan of all `w/` drafts: `/tmp/.../scanw.py` style (score each draft, then every config for those <= 60 words).
-- **Permuter on 1-14 word near misses was productive this time** (4 hits in the first 19 runs of 110 s: 2ee5c8, 2edfe8, 230188, 12f6a8); the queue files still hold about 140 drafts (`build/work/pq.txt`, `pqB.txt`, `pq*.done`), the next session should restart `pqA.sh`/`pqB.sh` first.
-- **Tricks that paid:**
-  - Callee prototypes with INT ARGUMENT FIRST, floats after (`func_0018E438(int, float x9)` fixed the rsound family 10ff28/10ff88/110008). For mixed lists, the interleaving matters:
-    `func_00155D40(char *, float, int, int, float, float, float, float, float)` matched 155a68 only with the first float second (`argp2.py` finds such orders).
-  - Early-return/crossjump shape: `if (bad) { DbgPrintf(str, buf); return 0; }` per failure instead of one shared tail, then gcc cross-jumps the `jal` tail itself (18a918, 18af40).
-    A `size = x + 2047; size &= -2048; call(fd);` order puts the `and` in the call's delay slot (18a918); `if (c != 0) c = c + 1; else c = name;` (same variable both arms) avoids the `movz` (18af40).
-  - Switch with one call per case + `break` (not a shared call after the switch) reproduces per-case constant loads (16ccd0).
-  - A struct passed by value needs `V3 t; t = v; f(t)` to get the second 12-byte copy on the stack (24cc58); a returned struct needs `V3 t, v; t = f(); v = t;` (24ccd8).
-  - Vector copies need an 8-byte aligned type (`typedef union { long long l[2]; float f[4]; } V4;`), otherwise gcc uses `ldl/ldr` (162520 is still open, 20 words).
-  - Hardware registers: `#define R(a) (*(volatile unsigned *)(a))`; a memory-test loop is `while ((R(0x1000a000) & 0x100) != 0) { if (0x1000000 < i++) {...} }` (condition inside `while`, not a read before the loop);
-    a store whose address constant is computed per branch needs the store INSIDE each branch of the `if/else` (2bfec0, 2c0978); quadword FIFO writes use `typedef int u128 __attribute__((mode(TI)))` and a NON-volatile `*(u128 *)0x10004000 = *p;` (2cafb8: a volatile store cannot go into the `bne` delay slot).
-    COP2 `cfc2/ctc2` and `sync.p` work as `__asm__ volatile("cfc2 %0, $28" : "+r"(t))` (2bf848 is 4 words off: the last store only fits the delay slot when non-volatile, which changes the earlier registers).
-  - `-fexceptions` (no tail call) fixed the calls at the end of rsound/pchevent-style functions (10d748 is 3 words off with it).
-  - 3-operand `mult` (`.word 0x02032818`) is what gcc emits for `x * 40` and `a * b * c`; `__builtin_sqrtf` gives the `sqrt.s` + NaN check + `sqrtf` call.
-- **Open near misses from this session** (all have drafts in `build/work/w/`, scores in words): 12e2a8 (1, needs a volatile next-pointer plus a reload of `first`), 12a860 (the failure block must come first: crossjump keeps the later copy),
-  10d748 (3, `-fexceptions`), 2bf848 (4), 2cea70 (store order of the 6 zeroing stores), 1a4180 (6, increment placement), 2cafb8 done, 2c3620 (32: `movz/movn` selects match with ternaries, register numbering does not),
-  2b8ee8 (2, 990721-r5900, swapped `lui` pair), 2b32a8 (2), 247b68 / 2493d0 (GS packets, 13-26), 2d4818 and 2da0c8 and 2d98c8 (lists), 20b760 and 20b660 (growable array, 990721-r5900, register numbering of the loop), 2c8cd8 (IPU handler; the original reloads `*o`),
-  2c89b8, 2e7120/2e32a0 (soft-float helpers, orig uses `(p << 1) >> 53`), 2ece08/2ed010 (CD request with an inlined 252-byte struct copy including a runtime alignment test).
-- **Syscall wrappers (user-approved, end of session 18):** 161 of the 162 `addiu $3,N; syscall; jr; nop` functions (about 2.6 KB, mostly `_unknown_after_shikimi`) match as
-  `int NAME(void) { register int n __asm__("$3") = N; __asm__ volatile("syscall" : : "r"(n)); }`: the compiler emits the `li`, `jr` and delay slot, only the single `syscall`
-  instruction is inline asm (same class as `sync`/`ei`/`mfc0`). Functions that share a csv name (AddIntcHandler, RFU116_SetSyscall, ...) get a `_ADDR` suffix in C so the
-  `.text.NAME` sections do not clash. `RFU000_FullReset` (2e5480) is 1 word off. Other 16-byte stubs (COP2/VU `.word` bodies, 2caa18-2caa78) were not touched.
-- **libvu0 as file-scope asm (user-approved, end of session 18):** the user asked twice for inline asm; function-body inline asm cannot reproduce these functions (gcc appends its own `jr $31; nop` and never
-  puts an asm statement in a delay slot, but 89 of them end with a VU0 instruction in the `jr` delay slot), so they are written as file-scope `__asm__` in `src/vu0_asm.c` (89 functions, 3,224 bytes,
-  generated by `build/work/genvu0.py` from the original words; undecodable COP2 words become `.word`). This reverses the session-14 "no assembly stubs / no libvu0" rule for the libvu0 range ONLY
-  (0x18eaa0-0x18f...); the unmatched `asm_stubs.c` functions removed in session 14 stay removed. The README and website still say "C only": decide with the user whether to mention `vu0_asm.c` there.
-- **Later in session 18 (13.57% -> 13.61%):** matched 2cfcd0 (IPU init: volatile `u128` source arrays, two separate arrays for the two blocks, a `W()` wait macro), 2e5fa0 (sbrk: store only on the success path),
-  2edc98 and 2e6370 (interrupt helpers with `mfc0`/`ei` inline). Open drafts in `build/work/w/` (words off): 2c5c60 (38: do-while after an explicit entry test; o/constant register swap),
-  2edc50 (10), 2e8038 (49: the original keeps the 0xffffffc0 mask in a register), 2ceb50 (115: dead volatile reads), 111170 (115: a `sw` that must sit in a jal delay slot), 2e7120/2e32a0 (soft-float helpers).
-  Remaining pool: about 4,000 bytes to 13.81%; the compiled hardware-register functions (2ceb50, 111170, 2c90a8, 2c82a8, 2e7a18, 2c8e18, ...) would only fit as file-scope asm, which the user has NOT approved for compiled code.
-- **Where the game's code lives (checked at the user's request):** the executable's `.text` (about 2.0 MB, `total_code` 2,022,408) is all the main-CPU code. The disc has no separately loaded EE code or VU microcode:
-  all 379 `.lzs` and 310 `.pac` (815 MB decompressed), every other archive file and the root files were scanned for MIPS return/prologue patterns and VU NOP words; the only code found is IOP modules
-  (4 `.irx` in the archive, 6 in `IRX.PAC`, 15 in `IOPRP250.IMG`; a separate CPU, not part of this project). `jr $ra` look-alikes in `.pam`/`.tmd`/`.lzs` are polygon records (`80595959 03e00008 ...`).
-  The executable's own `.data` holds about 30 MIPS functions at 0x4299d4-0x42ab98 (kernel-patch code copied to 0x80074000 by 2edfe8); they are not in the percentage.
