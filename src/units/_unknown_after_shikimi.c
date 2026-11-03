@@ -1009,9 +1009,9 @@ extern int D_00426280_002C7120[] __asm__("D_00426280"); void func_002C2DA8(int);
 // MATCH func_002C7120
 unsigned FUN_002c7120(char *o, int n) { if (*(int *)(o + 2072) != 0 || *(int *)(o + 2108) < n) { int i = 0; if ((*(volatile unsigned *)0x10002010 & 0x80004000) == 0x80000000) { do { if (i++ > 5000) { func_002C2DA8(*(int *)(o + 2136)); i = 0; } } while ((*(volatile unsigned *)0x10002010 & 0x80004000) == 0x80000000); } *(volatile unsigned *)0x10002000 = 0x40000000; *(int *)(o + 2072) = D_00426280_002C7120[4]; *(int *)(o + 2104) = (int)func_002C6EF8(o); *(int *)(o + 2108) = 32; } return *(unsigned *)(o + 2104) >> (32 - n); }
 
-void func_002C6E20(char *, unsigned); void func_002C2D58(int, int *); int func_002EDC50(void); void func_002EDC98(void);
+void func_002C6E20_2C8BB0(char *, unsigned) __asm__("func_002C6E20"); void func_002C2D58_2C8BB0(int, int *) __asm__("func_002C2D58"); int func_002EDC50_2C8BB0(void) __asm__("func_002EDC50"); void func_002EDC98_2C8BB0(void) __asm__("func_002EDC98");
 // MATCH func_002C8BB0
-void FUN_002c8bb0(char *o, unsigned a, int n) { int st[8]; int r; while ((int)*(volatile unsigned *)0x10002010 < 0) ; r = func_002EDC50(); *(volatile unsigned *)0x1000b010 = a & 0x0fffffff; *(volatile int *)0x1000b020 = n << 6; *(volatile int *)0x1000b000 = 256; if (r != 0) func_002EDC98(); func_002C6E20(o, n | 0x70000000); st[0] = 4; func_002C2D58(*(int *)(o + 2136), st); while ((*(volatile unsigned *)0x1000b000 >> 8) & 1) ; while ((int)*(volatile unsigned *)0x10002010 < 0) ; }
+void FUN_002c8bb0(char *o, unsigned a, int n) { int st[8]; int r; while ((int)*(volatile unsigned *)0x10002010 < 0) ; r = func_002EDC50_2C8BB0(); *(volatile unsigned *)0x1000b010 = a & 0x0fffffff; *(volatile int *)0x1000b020 = n << 6; *(volatile int *)0x1000b000 = 256; if (r != 0) func_002EDC98_2C8BB0(); func_002C6E20_2C8BB0(o, n | 0x70000000); st[0] = 4; func_002C2D58_2C8BB0(*(int *)(o + 2136), st); while ((*(volatile unsigned *)0x1000b000 >> 8) & 1) ; while ((int)*(volatile unsigned *)0x10002010 < 0) ; }
 
 void func_002C6E50(int); void func_002C7228_002C7468(int, int) __asm__("func_002C7228"); int func_002C7120(int, int);
 // MATCH func_002C7468
@@ -1378,3 +1378,37 @@ void *func_002BF838_2C15F8(void) __asm__("func_002BF838");
 // MATCH func_002C15F8
 void FUN_002c15f8(long *p) { short *r = func_002BF838_2C15F8(); if (r[3] == 1) { *(volatile long *)0x12000000 = p[0]; *(volatile long *)0x12000070 = p[2]; *(volatile long *)0x12000080 = p[3]; *(volatile long *)0x120000c0 = p[4]; } else { *(volatile long *)0x12000000 = p[0]; *(volatile long *)0x12000020 = p[1]; *(volatile long *)0x12000090 = p[2]; *(volatile long *)0x120000a0 = p[3]; *(volatile long *)0x120000e0 = p[4]; } }
 
+extern char D_0049DD50_2C7BA0[] __asm__("D_0049DD50"), D_0049DD78_2C7BA0[] __asm__("D_0049DD78");
+int func_002C7318_2C7BA0(void *, int) __asm__("func_002C7318"); void func_002C6E50_2C7BA0(void *) __asm__("func_002C6E50"); void func_002C6E20_2C7BA0(void *, int) __asm__("func_002C6E20"); void func_002C35C8_2C7BA0(void *, char *) __asm__("func_002C35C8");
+// MATCH func_002C7BA0
+void FUN_002c7ba0(char *o) { int r; r = func_002C7318_2C7BA0(o, 1); *(int *)(o + 2112) = r; if (r != 0) { func_002C6E50_2C7BA0(o); func_002C6E20_2C7BA0(o, 0x50000000); func_002C6E50_2C7BA0(o); } r = func_002C7318_2C7BA0(o, 1); *(int *)(o + 2116) = r; if (r != 0) { func_002C6E50_2C7BA0(o); func_002C6E20_2C7BA0(o, 0x58000000); func_002C6E50_2C7BA0(o); } if (func_002C7318_2C7BA0(o, 1) != 0) func_002C35C8_2C7BA0(o, D_0049DD50_2C7BA0); if (func_002C7318_2C7BA0(o, 1) != 0) func_002C35C8_2C7BA0(o, D_0049DD78_2C7BA0); }
+
+#define R(a) (*(volatile unsigned *)(a))
+extern char D_0049D430_2BFEC0[] __asm__("D_0049D430"); void func_002E7940_2BFEC0(char *) __asm__("func_002E7940");
+// MATCH func_002BFEC0
+int sceGsPutDrawEnv(long *p) { unsigned c, i; i = 0; while ((R(0x1000a000) & 0x100) != 0) { if (0x1000000 < i++) { func_002E7940_2BFEC0(D_0049D430_2BFEC0); return -1; } } R(0x1000a020) = (int)(*p & 0x7fff) + 1; if (((unsigned)p & 0x70000000) == 0x70000000) R(0x1000a010) = ((unsigned)p & 0xfffffff) | 0x80000000; else R(0x1000a010) = (unsigned)p & 0xfffffff; R(0x1000a000) = 0x101; return 0; }
+
+#define R(a) (*(volatile unsigned *)(a))
+extern char D_0049D710_2C0978[] __asm__("D_0049D710"); void func_002E7940_2C0978(char *) __asm__("func_002E7940");
+// MATCH func_002C0978
+int sceGsExecLoadImage(unsigned a, unsigned b) { unsigned i; i = 0; while ((R(0x1000a000) & 0x100) != 0) { if (0x1000000 < i++) { func_002E7940_2C0978(D_0049D710_2C0978); return -1; } } R(0x1000a020) = 6; if ((a & 0x70000000) == 0x70000000) R(0x1000a010) = (a & 0xfffffff) | 0x80000000; else R(0x1000a010) = a & 0xfffffff; R(0x1000a000) = 0x101; while ((R(0x1000a000) & 0x100) != 0) { if (0x1000000 < i++) { func_002E7940_2C0978(D_0049D710_2C0978); return -1; } } R(0x1000a020) = (int)(*(long *)(a + 80) & 0x7fff); if ((b & 0x70000000) == 0x70000000) R(0x1000a010) = (b & 0xfffffff) | 0x80000000; else R(0x1000a010) = b & 0xfffffff; R(0x1000a000) = 0x101; return 0; }
+
+extern int D_0042AC48_2EE5C8[] __asm__("D_0042AC48");
+extern char D_0042A8C8_2EE5C8[] __asm__("D_0042A8C8");
+extern int D_0042AC40_2EE5C8[] __asm__("D_0042AC40");
+void func_002EE5B8_2EE5C8(int, int) __asm__("func_002EE5B8");
+void func_002EE560_2EE5C8(int, void *, int) __asm__("func_002EE560");
+void func_002E5B20_2EE5C8(int) __asm__("func_002E5B20");
+int func_002EE5A8_2EE5C8(int) __asm__("func_002EE5A8");
+// MATCH func_002EE5C8
+void FUN_002ee5c8(void) { int *b; int *p; unsigned k; int k2; int k3; k = 3; b = D_0042AC48_2EE5C8; func_002EE5B8_2EE5C8(b[0], b[1]); func_002EE560_2EE5C8(0x80075000, D_0042A8C8_2EE5C8, 816); func_002E5B20_2EE5C8(0); func_002E5B20_2EE5C8(2); k2 = 3; func_002EE5B8_2EE5C8(b[2], b[3]); k3 = 5; func_002EE5B8_2EE5C8(b[4], b[5]); p = b + 6; do { k++; func_002EE5B8_2EE5C8(*p, func_002EE5A8_2EE5C8(*p)); p += 2; } while (k < 8); D_0042AC40_2EE5C8[0] = func_002EE5A8_2EE5C8(3); }
+
+extern int D_0042A100_2EDFE8[] __asm__("D_0042A100");
+extern char D_00429958_2EDFE8[] __asm__("D_00429958");
+int func_002EDF80_2EDFE8(void) __asm__("func_002EDF80");
+void func_002EDF18_2EDFE8(int, int) __asm__("func_002EDF18");
+void func_002EDF28_2EDFE8(int, void *, int) __asm__("func_002EDF28");
+void func_002E5B20_2EDFE8(int) __asm__("func_002E5B20");
+int func_002EDF70_2EDFE8(int) __asm__("func_002EDF70");
+// MATCH func_002EDFE8
+void FUN_002edfe8(void) { int *b; int *p; unsigned k; int k2; int r; if (func_002EDF80_2EDFE8() != 0) { k = 2; b = D_0042A100_2EDFE8; k2 = 3; func_002EDF18_2EDFE8(b[0], b[1]); func_002EDF28_2EDFE8(0x80074000, D_00429958_2EDFE8, 1960); func_002E5B20_2EDFE8(0); func_002E5B20_2EDFE8(2); func_002EDF18_2EDFE8(b[2], b[3]); p = b + 4; do { k++; r = func_002EDF70_2EDFE8(*p); func_002EDF18_2EDFE8(*p, r); p += 2; } while (k < 3); } }

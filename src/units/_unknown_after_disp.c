@@ -13,3 +13,11 @@ void func_00235338(float, float, float, float, int, int, int, int, int, int, int
 // MATCH func_00235680
 void FUN_00235680(float a, float b, int i0, int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10) { func_00235338(a, b, 1.0f, 1.0f, i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10); }
 
+int func_002302B0_230188(int, int, int, int) __asm__("func_002302B0");
+int func_00231580_230188(float, float, int, int, int) __asm__("func_00231580");
+int func_0022FDD8_230188(void *) __asm__("func_0022FDD8");
+int func_002306E8_230188(int, int, int, int) __asm__("func_002306E8");
+int func_00231548_230188(void) __asm__("func_00231548");
+// MATCH func_00230188
+int FUN_00230188(int p, int i, int c, int d) { char *new_var2; int h; float *new_var; func_002302B0_230188(p, i, c, d); new_var2 = (*((char **) (((char *) p) + 0x90))) + 2052; h = *((int *) (new_var2 + (i * 4))); if (h != 0) { func_00231580_230188(*(new_var = &(*((float *) (((char *) p) + 0x13c)))), *((float *) (((char *) p) + 0x140)), p, h, (int) (*((float *) (((char *) p) - -0x144)))); } func_0022FDD8_230188((void *) p); func_002306E8_230188(p, i, c, d); func_00231548_230188(); }
+

@@ -56,3 +56,7 @@ void FUN_002a8488(float a, float b, float c, float d, char *o, int m, int n) { i
 void func_0029D010_002A8600(void *, float, int, int) __asm__("func_0029D010");
 // MATCH func_002A8600
 void FUN_002a8600(float a, float b, char *o, int m, int n) { if (m == 0) { if (n == 0) { *(float *)(o + 1920) = a; *(float *)(o + 0) = a; *(float *)(o + 1924) = b; *(float *)(o + 20) = b; } else if (n > 0) { func_0029D010_002A8600(o, a, 8, n); func_0029D010_002A8600(o + 20, b, 8, n); } } else if (m > 0) { func_0029D010_002A8600(o, a, 0, m); func_0029D010_002A8600(o + 20, b, 0, m); } }
+
+
+// MATCH func_002A9038
+int FUN_002a9038(char *o) { float d[3]; d[0] = *(float *)(o + 32) - *(float *)(o + 48); d[1] = *(float *)(o + 36) - *(float *)(o + 52); d[2] = *(float *)(o + 40) - *(float *)(o + 56); if (1.0f < __builtin_fabsf(d[0])) return 1; if (1.0f < __builtin_fabsf(d[1])) return 1; if (1.0f < __builtin_fabsf(d[2])) return 1; return 0; }

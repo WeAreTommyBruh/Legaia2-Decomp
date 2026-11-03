@@ -86,9 +86,9 @@ void func_00191740(int); void func_002E58B0_00192268(int) __asm__("func_002E58B0
 // MATCH func_00192268
 int FUN_00192268(int *o) { func_00191740(5); *(volatile int *)0x1000b420 = 0; *(volatile int *)0x1000b410 = 0; *(volatile int *)0x1000b430 = 0; func_002E58B0_00192268(o[16]); return 1; }
 
-int func_002E58E0(int); int func_002E58C0(int); void func_00191740(int); void func_001916D8(int);
+int func_002E58E0_192168(int) __asm__("func_002E58E0"); int func_002E58C0_192168(int) __asm__("func_002E58C0"); void func_00191740_192168(int) __asm__("func_00191740"); void func_001916D8_192168(int) __asm__("func_001916D8");
 // MATCH func_00192168
-int FUN_00192168(int *o) { func_002E58E0(o[16]); o[17] = 0; func_00191740(5); o[7] = *(volatile unsigned *)0x1000b410; o[8] = *(volatile unsigned *)0x1000b430; o[9] = *(volatile unsigned *)0x1000b420; o[10] = *(volatile unsigned *)0x1000b400; while (*(volatile unsigned *)0x10002010 & 0xf0) ; func_001916D8(0); o[11] = *(volatile unsigned *)0x1000b010; o[12] = *(volatile unsigned *)0x1000b020; o[13] = *(volatile unsigned *)0x1000b000; o[14] = *(volatile unsigned *)0x10002020; o[15] = *(volatile unsigned *)0x10002010; func_002E58C0(o[16]); return 1; }
+int FUN_00192168(int *o) { func_002E58E0_192168(o[16]); o[17] = 0; func_00191740_192168(5); o[7] = *(volatile unsigned *)0x1000b410; o[8] = *(volatile unsigned *)0x1000b430; o[9] = *(volatile unsigned *)0x1000b420; o[10] = *(volatile unsigned *)0x1000b400; while (*(volatile unsigned *)0x10002010 & 0xf0) ; func_001916D8_192168(0); o[11] = *(volatile unsigned *)0x1000b010; o[12] = *(volatile unsigned *)0x1000b020; o[13] = *(volatile unsigned *)0x1000b000; o[14] = *(volatile unsigned *)0x10002020; o[15] = *(volatile unsigned *)0x10002010; func_002E58C0_192168(o[16]); return 1; }
 
 void func_002CF4B0(void *, int); void func_002CF830(void *, int); void func_002CF610(void *, int); void func_002CF668(void *, int);
 void func_00192E58(void *, int, int, int, int, int, int, int); void func_002CF6F0(void *, u128); void func_002CF8C8(void *, int, int);
