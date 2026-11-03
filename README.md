@@ -5,6 +5,8 @@
 # Legaia 2: Duel Saga (PAL, SLES-50891) decompilation
 This project aims to rebuild Legaia 2 code into readable C source code. The goal of this project is a byte-for-byte decomp that can reproduce the games executable.
 
+Almost everything is C. The exceptions are the libvu0 routines (VU0 coprocessor code), which are written as file-scope assembly in `src/vu0_asm.c`, and a few single hardware instructions (`syscall`, `sync`, `ei`, `mfc0`, ...) inline in otherwise normal C functions.
+
 [![Code](badges/code.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 [![Functions](badges/functions.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 [![Fuzzy](badges/fuzzy.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)

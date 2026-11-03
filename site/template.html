@@ -245,7 +245,7 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
 <main id="top">
 <section id="progress"><div class="wrap">
   <h2>Progress</h2>
-  <p>How much of the game is decompiled, and every unit. A function counts only when its C compiles to the original bytes. Numbers come from the project's report, generated {{DATE}}.</p>
+  <p>How much of the game is decompiled, and every unit. A function counts only when its source compiles to the original bytes. That source is C, apart from the libvu0 routines (file-scope assembly in <code>src/vu0_asm.c</code>) and single hardware instructions inline in C. Numbers come from the project's report, generated {{DATE}}.</p>
   <ul class="badges" aria-label="Progress badges">{{BADGES_HTML}}</ul>
   <div class="grid">
     <div class="card"><div class="stat">{{CODE_PCT}}<small>%</small></div><div class="label">of the game's code decompiled</div>
@@ -267,7 +267,7 @@ footer{padding:36px 0 60px;text-align:center;font-family:var(--serif);font-size:
   </div>
 
   <h3>How the matches were made</h3>
-  <p class="label">Matched functions by origin. Every one is C that compiles to the original bytes.</p>
+  <p class="label">Matched functions by origin. Every one compiles to the original bytes; all are C except the libvu0 routines, which are assembly.</p>
   <div class="stack" role="img" aria-label="Matched functions by origin: {{K0_N}} hand-written C, {{K1_N}} generated from instruction patterns, {{K2_N}} Ghidra output">
     <i class="k0" style="width:{{K0_W}}%"></i><i class="k1" style="width:{{K1_W}}%"></i><i class="k2" style="width:{{K2_W}}%"></i>
   </div>

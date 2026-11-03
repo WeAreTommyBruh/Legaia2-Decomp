@@ -88,3 +88,7 @@ Once you have the maintainer's go-ahead and your change builds:
 ## AI assistance
 
 This project is heavily AI-assisted and every result is checked by the maintainer. If you use AI tools, you remain responsible for what you submit: verify it matches, contains no game assets or text, and follows the rules above.
+
+## Assembly
+
+Matched code is C. The only exception is the libvu0 range (`src/vu0_asm.c`, file-scope assembly for the VU0 routines); do not add other assembly functions. Single hardware instructions (`syscall`, `sync`, `ei`, `mfc0`, `cfc2`, ...) inside a normal C function are fine.
