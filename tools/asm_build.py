@@ -217,6 +217,7 @@ def c_functions():
             if sec not in placed:
                 raise SystemExit(f"{src}: has {sec} data that no matched function places")
             C_DATA_PLACED.append((os.path.basename(obj), sec, placed[sec]))
+    C_DATA_PLACED.sort(key=lambda t: t[2])  # lld wants ascending addresses
     return out
 
 

@@ -215,3 +215,9 @@ char *nayuwin2_001ad548(int *a, int *b, int *c) {
     D_004A382C_001AD548 = obj;
     return obj;
 }
+
+typedef struct { char p[12]; float a; char q[4]; float b; char r[20]; } E__001AF010;
+typedef struct { char pad[140]; E__001AF010 e[5]; } O__001AF010;
+static inline void chk_001AF010(E__001AF010 *e, int *n) { if (e->a == e->b) (*n)++; }
+// MATCH func_001AF010
+int nayuwin2_001af010(O__001AF010 *o) { int n = 0; chk_001AF010(&o->e[0], &n); chk_001AF010(&o->e[1], &n); chk_001AF010(&o->e[2], &n); chk_001AF010(&o->e[3], &n); chk_001AF010(&o->e[4], &n); if (n == 5) return 1; if (n == 0) return 0; return -1; }

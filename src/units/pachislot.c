@@ -387,3 +387,7 @@ int func_001118F8(void *, int);
 // MATCH func_00165CA0
 int pachislot_00165ca0(S_165ca0_00165CA0 *s, int b) { int r = func_001118F8(D_0043C8D0, b); s->a52 = b; s->a12 = -1; return r; }
 
+int func_00167DD0_167EE8(int, int) __asm__("func_00167DD0"); int func_00167730_167EE8(void *, void *, int) __asm__("func_00167730");
+// MATCH func_00167EE8
+int pachislot_00167ee8(char *o, int b) { int res = 0; int r = 0; int i; int k = func_00167DD0_167EE8(o, b); for (i = 0; i < 3; i++) { r = func_00167730_167EE8(o, o + 44, i + b); if (r) break; } if (r == 1 || k == 1) res = 1; else if (r == 3 || k == 3) res = 3; else if (r == 2 || k == 2) res = 2; return res; }
+

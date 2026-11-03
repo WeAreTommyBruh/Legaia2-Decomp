@@ -29,3 +29,9 @@ typedef struct { int w0, w4, w8, w12, w16, w20, w24, w28; char p1[24]; V8_0016C8
 extern V8_0016C820 D_004A2F68_0016C820[2] __asm__("D_004A2F68");
 // MATCH func_0016C820
 int FUN_0016c820(O_0016C820 *o) { o->w24++; o->w28++; o->w16 = 7; o->w20 = 14; o->w0 -= 6; o->w4 -= 6; o->w8 += 6; o->w12 -= 6; if (o->w0 < -48 || o->w4 < -24) o->v = D_004A2F68_0016C820[0]; return 0; }
+
+extern char D_00343028_16CCD0[] __asm__("D_00343028");
+extern int D_004A2FA0_16CCD0 __asm__("D_004A2FA0");
+void func_0010C2B0_16CCD0(void *, int, int, int, int, int, int) __asm__("func_0010C2B0");
+// MATCH func_0016CCD0
+int FUN_0016ccd0(void) { switch (D_004A2FA0_16CCD0) { case 0: func_0010C2B0_16CCD0(D_00343028_16CCD0, 0x53, 6, 1, 0, 0, 0); break; case 1: func_0010C2B0_16CCD0(D_00343028_16CCD0, 0x53, 6, 1, 1, 0, 0); break; case 2: func_0010C2B0_16CCD0(D_00343028_16CCD0, 0x53, 6, 1, 2, 0, 0); break; case 3: func_0010C2B0_16CCD0(D_00343028_16CCD0, 0x53, 6, 1, 3, 0, 0); break; case 4: func_0010C2B0_16CCD0(D_00343028_16CCD0, 0x53, 6, 1, 4, 0, 0); break; } D_004A2FA0_16CCD0 = -1; return 1; }

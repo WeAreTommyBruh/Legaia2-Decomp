@@ -135,3 +135,9 @@ static inline void setw_0012F4F8(float *v) { v[3] = 1.0f; }
 void func_0012E658_0012F4F8(int, float *, float) __asm__("func_0012E658"); void func_00153B40_0012F4F8(float *) __asm__("func_00153B40"); void func_0018EB78_0012F4F8(float *, float *) __asm__("func_0018EB78"); void func_00153C38(float *, float *); void func_001541C8(float *, float);
 // MATCH func_0012F4F8
 void pchsysw_0012f4f8(int *o, V16_0012F4F8 *dst, float x) { float buf[12]; float m[56]; func_0012E658_0012F4F8(o[0], buf, x); func_0012E658_0012F4F8(o[1], buf + 4, x); func_0012E658_0012F4F8(o[3], buf + 8, x); func_00153B40_0012F4F8(m); func_0018EB78_0012F4F8(m, buf); setw_0012F4F8(m); func_00153C38(m, buf + 4); m[52] = buf[8]; func_001541C8(m, 0.0f); *dst = *(V16_0012F4F8 *)m; }
+
+typedef struct N_ N_; struct N_ { char p[48]; float w; int q; N_ *prev; N_ *next; };
+typedef struct { int n; float tot; N_ *first; N_ *last; } L__0012DF68;
+int func_0012E4F0_12DF68(L__0012DF68 *) __asm__("func_0012E4F0"); N_ *func_0012D9D8_12DF68(L__0012DF68 *, int) __asm__("func_0012D9D8"); void func_0012DA28_12DF68(L__0012DF68 *, N_ *) __asm__("func_0012DA28");
+// MATCH func_0012DF68
+void pchsysw_0012df68(L__0012DF68 *o, int i) { N_ *n, *p, *q; if (i >= 0 && i < func_0012E4F0_12DF68(o)) { n = func_0012D9D8_12DF68(o, i); p = n->prev; q = n->next; if (p != 0) p->next = q; else o->first = q; if (q != 0) q->prev = p; else o->last = p; if (p == 0) { o->tot -= o->first->w; o->first->w = 0; } else func_0012DA28_12DF68(o, p); if (q != 0) func_0012DA28_12DF68(o, q); o->n--; o->tot -= n->w; } }

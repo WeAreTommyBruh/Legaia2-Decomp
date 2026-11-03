@@ -111,3 +111,8 @@ int battle_001227b8(void) { if (func_00290818() != 0) return 1; return *(int *)(
 extern float D_0049FE4C;
 // MATCH func_0012A140
 int battle_0012a140(int o) { float f; float g; int r; f = *(float *)(o + 0x58); if (f < 4000.0f) { g = f; if (g < 0.0f) { g = 0.0f; } g = g * 128.0f * D_0049FE4C; r = (int)g; } else { r = 0x80; } if (r < 0) { r = 0; } if (0x80 < r) { r = 0x80; } return r & 0xf0; }
+
+extern int D_004A6DFC_12AC10 __asm__("D_004A6DFC"), D_004A6C50_12AC10 __asm__("D_004A6C50"), D_004A6D98_12AC10 __asm__("D_004A6D98");
+void func_00124A48_12AC10(int, float, float, float, float) __asm__("func_00124A48"); void func_0011E0B0_12AC10(int, float, float) __asm__("func_0011E0B0"); void func_0012A7F8_12AC10(int, float) __asm__("func_0012A7F8");
+// MATCH func_0012AC10
+void battle_0012ac10(void) { D_004A6C50_12AC10 = 1; D_004A6DFC_12AC10 = 1; func_00124A48_12AC10(10844, 10.0f, 0.0f, 0.0f, 0.0f); if (D_004A6D98_12AC10 < 0) func_0011E0B0_12AC10(300, 0.0f, 10.0f); else func_0011E0B0_12AC10(300, 0.0f, 10.0f); func_0012A7F8_12AC10(1, -1.0f); }

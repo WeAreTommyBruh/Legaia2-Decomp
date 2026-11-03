@@ -82,3 +82,8 @@ void FUN_0018d1f0(char *s, float *o) {
     if (s != 0) func_001118F8_0018D1F0(s);
     if (o != 0) func_001118F8_0018D1F0(D_00440690, o, (double)o[0], (double)o[1], (double)o[2], (double)o[3]);
 }
+
+extern float D_004A0174_18E538 __asm__("D_004A0174");
+void func_0018EC38_18E538(float *) __asm__("func_0018EC38"); void func_0018F3D8_18E538(float *, float *, float *) __asm__("func_0018F3D8");
+// MATCH func_0018E538
+void FUN_0018e538(float *v, float a, float b, float c) { float m[16]; func_0018EC38_18E538(v); func_0018EC38_18E538(m); m[0] = 1.0f / b; m[5] = 1.0f / c; m[12] = 0.5f; m[13] = D_004A0174_18E538; func_0018F3D8_18E538(v, m, v); }

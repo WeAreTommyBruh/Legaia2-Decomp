@@ -116,3 +116,18 @@ extern volatile unsigned D_004A6BB8_0010F268 __asm__("D_004A6BB8"); extern int D
 void func_002E58D0(int); void func_002E5840(int);
 // MATCH func_0010F268
 int FUN_0010f268(int a) { D_004A6BB8_0010F268 = D_004A6BB8_0010F268 + 1; if (D_004A6BB8_0010F268 > 0xfffffff) { D_004A6BD8 = 0; D_004A6BB8_0010F268 = 1; } D_004A6BCC_0010F268 = 1; if (D_004A1210 > 0) { func_002E58D0(D_004A1558); func_002E5840(D_004A1210); } (void)D_004A120C; __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return a; }
+
+extern int D_004A13EC_10FF28 __asm__("D_004A13EC"); extern float D_0049FC80_10FF28 __asm__("D_0049FC80"), D_0049FC84_10FF28 __asm__("D_0049FC84");
+void func_0018E438_10FF28(int,float,float,float,float,float,float,float,float,float) __asm__("func_0018E438");
+// MATCH func_0010FF28
+void FUN_0010ff28(int a) { D_004A13EC_10FF28 = a; func_0018E438_10FF28(0x70003bc0,(float)a,1.0f,D_0049FC84_10FF28,2048.0f,2048.0f,1.0f,D_0049FC80_10FF28,64.0f,D_0049FC80_10FF28); }
+
+extern int D_004A13EC_0010FF88 __asm__("D_004A13EC"), D_004A6BE4_10FF88 __asm__("D_004A6BE4"), D_004A6BE8_10FF88 __asm__("D_004A6BE8"); extern float D_0049FC88_10FF88 __asm__("D_0049FC88"), D_0049FC8C_10FF88 __asm__("D_0049FC8C");
+void func_0018E438_0010FF88(int, float, float, float, float, float, float, float, float, float) __asm__("func_0018E438");
+// MATCH func_0010FF88
+void FUN_0010ff88(int a, int b) { D_004A6BE4_10FF88 = a; D_004A6BE8_10FF88 = b; func_0018E438_0010FF88(0x70003bc0, (float)D_004A13EC_0010FF88, 1.0f, D_0049FC8C_10FF88, (float)a + 1728.0f, (float)b + 1936.0f, 1.0f, D_0049FC88_10FF88, 64.0f, D_0049FC88_10FF88); }
+
+extern int D_004A13EC_00110008 __asm__("D_004A13EC"), D_004A6BE4_00110008 __asm__("D_004A6BE4"), D_004A6BE8_00110008 __asm__("D_004A6BE8"); extern float D_0049FC90_110008 __asm__("D_0049FC90"), D_0049FC94_110008 __asm__("D_0049FC94");
+void func_0018E438_00110008(int, float, float, float, float, float, float, float, float, float) __asm__("func_0018E438");
+// MATCH func_00110008
+void FUN_00110008(void) { func_0018E438_00110008(0x70003bc0, (float)D_004A13EC_00110008, 1.0f, D_0049FC94_110008, (float)D_004A6BE4_00110008 + 1728.0f, (float)D_004A6BE8_00110008 + 1936.0f, 1.0f, D_0049FC90_110008, 64.0f, D_0049FC90_110008); }

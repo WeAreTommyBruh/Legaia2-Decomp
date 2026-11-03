@@ -38,3 +38,16 @@ void *file_0018abf0(char *name, int *out) { char *p = func_002DD1DC_0018ABF0(nam
 
 // MATCH func_0018A300
 long *file_0018a300(char *o, long key) { unsigned i; unsigned n; i = 0; n = *((unsigned short *) (o + 8)); o = o + (((*((unsigned short *) (o + 10))) << 4) + 16); if (n != 0) { do { do { if ((*((long *) o)) == key) { return (long *) o; } i++; o = o + (((*((unsigned short *) (o + 12))) << 4) + 16); } while (i < n); } while (0); } return 0; }
+
+extern char D_00440120_18A918[] __asm__("D_00440120"), D_004401A8_18A918[] __asm__("D_004401A8"), D_004401C8_18A918[] __asm__("D_004401C8");
+void func_0018BAE8_18A918(char *, char *) __asm__("func_0018BAE8"); void func_002EDC50_18A918(void) __asm__("func_002EDC50"); int func_002E9950_18A918(char *, int) __asm__("func_002E9950"); int func_002E9D58_18A918(int, int, int) __asm__("func_002E9D58"); void func_002E9BD8_18A918(int) __asm__("func_002E9BD8");
+void *func_00162130_18A918(int, char *, int) __asm__("func_00162130"); int func_001118F8_18A918(char *, ...) __asm__("func_001118F8"); void func_002EDC98_18A918(void) __asm__("func_002EDC98"); void func_0010FE28_18A918(char *, void *) __asm__("func_0010FE28");
+// MATCH func_0018A918
+void *file_0018a918(char *name, unsigned *psize) { char buf[256]; int fd; int size; void *p; func_0018BAE8_18A918(buf, name); func_002EDC50_18A918(); fd = func_002E9950_18A918(buf, 1); if (fd < 0) { func_001118F8_18A918(D_004401A8_18A918, buf); return 0; } size = func_002E9D58_18A918(fd, 0, 2) + 2047; size &= -2048; func_002E9BD8_18A918(fd); p = func_00162130_18A918(size, D_00440120_18A918, 826); if (p == 0) { func_001118F8_18A918(D_004401C8_18A918, buf); return 0; } if (psize != 0) *psize = size; func_002EDC98_18A918(); func_0010FE28_18A918(buf, p); return p; }
+
+extern char D_00440120_0018AF40[] __asm__("D_00440120"), D_004401C8_0018AF40[] __asm__("D_004401C8"), D_004A3658_18AF40[] __asm__("D_004A3658"), D_004A3630_18AF40 __asm__("D_004A3630");
+void *func_002DD1DC_18AF40(char *, int) __asm__("func_002DD1DC"); int func_002DCE40_18AF40(char *, char *, ...) __asm__("func_002DCE40"); void *func_0018A708_18AF40(char *) __asm__("func_0018A708"); void *func_00162130_18AF40(int, char *, int) __asm__("func_00162130");
+int func_001118F8_18AF40(char *, ...) __asm__("func_001118F8"); void func_0010FEB0_18AF40(char *, void *, int, int) __asm__("func_0010FEB0");
+// MATCH func_0018AF40
+void *file_0018af40(char *name, unsigned *psize) { char buf[256]; char *c, *n; int *e; void *p; unsigned size; c = func_002DD1DC_18AF40(name, 58); if (c != 0) c = c + 1; else c = name; e = func_0018A708_18AF40(c); if (e == 0) return 0; func_002DCE40_18AF40(buf, D_004A3658_18AF40, &D_004A3630_18AF40); size = (unsigned)*(unsigned short *)((char *)e + 10) << 11; p = func_00162130_18AF40(size, D_00440120_0018AF40, 1129); if (p == 0) { func_001118F8_18AF40(D_004401C8_0018AF40, buf); return 0; } if (psize != 0) *psize = size; func_0010FEB0_18AF40(buf, p, e[3] << 11, size); return p; }
+

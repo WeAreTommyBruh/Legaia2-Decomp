@@ -1374,3 +1374,7 @@ void func_002EDEC8_2EDDC8(int, int) __asm__("func_002EDEC8"); int func_002EDD80_
 // MATCH func_002EDDC8
 void FUN_002eddc8(void) { int *b; int a; int c; unsigned u; unsigned v; b = D_00429940_2EDDC8; func_002EDEC8_2EDDC8(b[0], b[1]); func_002EDEC8_2EDDC8(b[2], b[3]); a = func_002EDD80_2EDDC8(0x80000000, 0x80080000, (void *)func_002EDD40_2EDDC8); c = func_002EDD80_2EDDC8(0x80000000, 0x80080000, (void *)func_002EDD08_2EDDC8); u = a - 524; v = c - 360; while (u != v) { if (u < v) { a = func_002EDD80_2EDDC8(a + 4, 0x80080000, (void *)func_002EDD40_2EDDC8); u = a - 524; } else { c = func_002EDD80_2EDDC8(c + 4, 0x80080000, (void *)func_002EDD08_2EDDC8); v = c - 360; } } D_00429938_2EDDC8[0] = u; }
 
+void *func_002BF838_2C15F8(void) __asm__("func_002BF838");
+// MATCH func_002C15F8
+void FUN_002c15f8(long *p) { short *r = func_002BF838_2C15F8(); if (r[3] == 1) { *(volatile long *)0x12000000 = p[0]; *(volatile long *)0x12000070 = p[2]; *(volatile long *)0x12000080 = p[3]; *(volatile long *)0x120000c0 = p[4]; } else { *(volatile long *)0x12000000 = p[0]; *(volatile long *)0x12000020 = p[1]; *(volatile long *)0x12000090 = p[2]; *(volatile long *)0x120000a0 = p[3]; *(volatile long *)0x120000e0 = p[4]; } }
+
