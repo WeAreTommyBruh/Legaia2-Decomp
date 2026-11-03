@@ -391,3 +391,8 @@ int func_00167DD0_167EE8(int, int) __asm__("func_00167DD0"); int func_00167730_1
 // MATCH func_00167EE8
 int pachislot_00167ee8(char *o, int b) { int res = 0; int r = 0; int i; int k = func_00167DD0_167EE8(o, b); for (i = 0; i < 3; i++) { r = func_00167730_167EE8(o, o + 44, i + b); if (r) break; } if (r == 1 || k == 1) res = 1; else if (r == 3 || k == 3) res = 3; else if (r == 2 || k == 2) res = 2; return res; }
 
+extern char D_0043CD90_168A20[] __asm__("D_0043CD90");
+int func_00165A40_168A20(char *, int) __asm__("func_00165A40"); int func_001118F8_168A20(char *, ...) __asm__("func_001118F8");
+// MATCH func_00168A20
+int pachislot_00168a20(char *o) { int a, b, c, p, r; a = func_00165A40_168A20(o + 44, 1) - 11; b = func_00165A40_168A20(o + 124, 1) - 11; c = func_00165A40_168A20(o + 204, 1) - 11; p = a * b * c; r = func_001118F8_168A20(D_0043CD90_168A20, a, b, c, p); *(int *)(o + 368) = *(int *)(o + 368) + p; return r; }
+

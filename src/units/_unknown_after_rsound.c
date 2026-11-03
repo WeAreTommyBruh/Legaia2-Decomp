@@ -131,3 +131,9 @@ extern int D_004A13EC_00110008 __asm__("D_004A13EC"), D_004A6BE4_00110008 __asm_
 void func_0018E438_00110008(int, float, float, float, float, float, float, float, float, float) __asm__("func_0018E438");
 // MATCH func_00110008
 void FUN_00110008(void) { func_0018E438_00110008(0x70003bc0, (float)D_004A13EC_00110008, 1.0f, D_0049FC94_110008, (float)D_004A6BE4_00110008 + 1728.0f, (float)D_004A6BE8_00110008 + 1936.0f, 1.0f, D_0049FC90_110008, 64.0f, D_0049FC90_110008); }
+
+extern char D_0042ED98_111400[] __asm__("D_0042ED98"), D_0042EDA8_111400[] __asm__("D_0042EDA8"), D_0042EDB8_111400[] __asm__("D_0042EDB8"); extern int D_004A6BFC_111400 __asm__("D_004A6BFC"), D_004A6BF8_111400 __asm__("D_004A6BF8"), D_004A6BB8_111400 __asm__("D_004A6BB8");
+#define R(a) (*(volatile unsigned *)(a))
+int func_001118F8_111400(void *, ...) __asm__("func_001118F8");
+// MATCH func_00111400
+int SyncCheck(int p) { int a, b; func_001118F8_111400(D_0042ED98_111400); a = R(0x10000000) - D_004A6BFC_111400; func_001118F8_111400(D_0042EDA8_111400); b = D_004A6BB8_111400 - D_004A6BF8_111400 - 1; func_001118F8_111400(D_0042EDB8_111400); if (p == 0) { R(0x10000010) = 0x9f; D_004A6BFC_111400 = R(0x10000000); D_004A6BF8_111400 = D_004A6BB8_111400; } return b * 1000 + a; }

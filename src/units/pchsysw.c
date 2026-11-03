@@ -141,3 +141,12 @@ typedef struct { int n; float tot; N_ *first; N_ *last; } L__0012DF68;
 int func_0012E4F0_12DF68(L__0012DF68 *) __asm__("func_0012E4F0"); N_ *func_0012D9D8_12DF68(L__0012DF68 *, int) __asm__("func_0012D9D8"); void func_0012DA28_12DF68(L__0012DF68 *, N_ *) __asm__("func_0012DA28");
 // MATCH func_0012DF68
 void pchsysw_0012df68(L__0012DF68 *o, int i) { N_ *n, *p, *q; if (i >= 0 && i < func_0012E4F0_12DF68(o)) { n = func_0012D9D8_12DF68(o, i); p = n->prev; q = n->next; if (p != 0) p->next = q; else o->first = q; if (q != 0) q->prev = p; else o->last = p; if (p == 0) { o->tot -= o->first->w; o->first->w = 0; } else func_0012DA28_12DF68(o, p); if (q != 0) func_0012DA28_12DF68(o, q); o->n--; o->tot -= n->w; } }
+
+typedef struct 
+{
+  int n;
+  char *p;
+} H_0012F6A8;
+// MATCH func_0012F6A8
+void pchsysw_0012f6a8(H_0012F6A8 *o, int idx, float x, float y, float z, int a, int b, int c, int d, int e, int f, int g, int h) { if (idx < o->n) { char *p = ((char *) (idx * 64)) + ((int) o->p); *((float *) (p + 0)) = x; *((float *) (p + 4)) = y; *((float *) (p + 8)) = z; *((int *) (p + 20)) = a; *((int *) (p + 24)) = b; *((int *) (p + 28)) = c; *((int *) (p + 32)) = d; *((int *) (p + 36)) = e; *((int *) (p + 40)) = f; *((int *) (p + 44)) = g; *((int *) (p + 48)) = h; *((int *) (p + 52)) = 0; *((int *) (p + 16)) = 1; } }
+

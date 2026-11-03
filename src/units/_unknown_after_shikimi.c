@@ -1412,3 +1412,9 @@ void func_002E5B20_2EDFE8(int) __asm__("func_002E5B20");
 int func_002EDF70_2EDFE8(int) __asm__("func_002EDF70");
 // MATCH func_002EDFE8
 void FUN_002edfe8(void) { int *b; int *p; unsigned k; int k2; int r; if (func_002EDF80_2EDFE8() != 0) { k = 2; b = D_0042A100_2EDFE8; k2 = 3; func_002EDF18_2EDFE8(b[0], b[1]); func_002EDF28_2EDFE8(0x80074000, D_00429958_2EDFE8, 1960); func_002E5B20_2EDFE8(0); func_002E5B20_2EDFE8(2); func_002EDF18_2EDFE8(b[2], b[3]); p = b + 4; do { k++; r = func_002EDF70_2EDFE8(*p); func_002EDF18_2EDFE8(*p, r); p += 2; } while (k < 3); } }
+
+typedef int u128 __attribute__((mode(TI)));
+#define R(a) (*(volatile unsigned *)(a))
+// MATCH func_002CAFB8
+int FUN_002cafb8(u128 *p, int n) { int i, k; i = 0; k = n - 1; if (n != 0) { do { if ((R(0x10003800) & 0x10000000) != 0) return i; *(u128 *)0x10004000 = *p; i++; p++; k--; } while (k != -1); } return i; }
+
