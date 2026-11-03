@@ -25,3 +25,12 @@ void FUN_002cb018(int a, int b, int c) { func_002E58D0(c); __asm__ volatile("syn
 void func_002E6750(int);
 // MATCH func_002CDA58
 void FUN_002cda58(int a, int b, int c) { func_002E6750(c); __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); }
+
+
+// MATCH func_002E6370
+int FUN_002e6370(void) { int s; __asm__ volatile("mfc0 %0, $12" : "=r"(s)); return (s ^ 1) & 1; }
+
+
+// MATCH func_002EDC98
+int FUN_002edc98(void) { int s; __asm__ volatile("mfc0 %0, $12" : "=r"(s)); s = s & 0x10000; __asm__ volatile(".word 0x42000038"); return s != 0; }
+

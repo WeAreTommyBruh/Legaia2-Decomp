@@ -1901,3 +1901,15 @@ int RFU088_iPollEvnetFlag_2EE730(void) { register int n __asm__("$3") = -88; __a
 // MATCH func_002EE740
 int RFU089_ReferEventFlagStatus_2EE740(void) { register int n __asm__("$3") = 89; __asm__ volatile("syscall" : : "r"(n)); }
 
+#define R(a) (*(volatile unsigned *)(a))
+#define W() do { v = R(0x10002010); } while (v < 0)
+#define Q(i) (*(volatile u128 *)0x10007010 = D_00427E40_2CFCD0[i])
+#define P(i) (*(volatile u128 *)0x10007010 = D_00427E90_2CFCD0[i])
+extern volatile u128 D_00427E40_2CFCD0[] __asm__("D_00427E40"), D_00427E90_2CFCD0[] __asm__("D_00427E90"); void func_002CFC68_2CFCD0(int) __asm__("func_002CFC68");
+// MATCH func_002CFCD0
+void FUN_002cfcd0(void) { int v; func_002CFC68_2CFCD0(1); R(0x10002010) = 0x40000000; W(); R(0x10002000) = 0; W(); Q(0); Q(1); Q(2); Q(3); Q(4); Q(4); Q(4); Q(4); R(0x10002000) = 0x50000000; W(); R(0x10002000) = 0x58000000; W(); P(0); P(1); R(0x10002000) = 0x60000000; W(); R(0x10002000) = 0x90000000; W(); R(0x10002010) = 0x40000000; W(); R(0x10002000) = 0; W(); }
+
+extern unsigned D_0042987C_2E5FA0[] __asm__("D_0042987C"); unsigned func_002E5880_2E5FA0(void) __asm__("func_002E5880"); int *func_002DB948_2E5FA0(void) __asm__("func_002DB948");
+// MATCH func_002E5FA0
+unsigned FUN_002e5fa0(int n) { unsigned s, v, e, nb, ret; int *p; __asm__ volatile("mfc0 %0, $12" : "=r"(s)); s = s & 0x10000; if (s != 0) { do { __asm__ volatile(".word 0x42000039"); __asm__ volatile(".word 0x0000040f"); __asm__ volatile("mfc0 %0, $12" : "=r"(v)); } while ((v & 0x10000) != 0); } nb = D_0042987C_2E5FA0[0] + n; e = func_002E5880_2E5FA0(); if (e < nb) { p = func_002DB948_2E5FA0(); *p = 12; if (s != 0) __asm__ volatile(".word 0x42000038"); return -1; } ret = D_0042987C_2E5FA0[0]; D_0042987C_2E5FA0[0] = nb; if (s != 0) __asm__ volatile(".word 0x42000038"); return ret; }
+
