@@ -107,3 +107,8 @@ typedef struct { int n; int pad[3]; int *v[1]; } L24_0024A190;
 extern L24_0024A190 D_002F9800_0024A190 __asm__("D_002F9800");
 // MATCH func_0024A190
 int *FUN_0024a190(void) { int *t; t = D_002F9800_0024A190.v[D_002F9800_0024A190.n--]; t[0] = 0; t[1] = (int)t; t[4] = (int)t; return t; }
+
+extern float D_004A0834_249E28 __asm__("D_004A0834"), D_004A0838_249E28 __asm__("D_004A0838"); float func_0015FB58_249E28(float, int) __asm__("func_0015FB58"); int func_002DC978_249E28(void) __asm__("func_002DC978");
+// MATCH func_00249E28
+void FUN_00249e28(float a, float *o) { int u; float f; f = func_0015FB58_249E28(o[9], 0); o[4] = o[0] * __builtin_fabsf(f); f = func_0015FB58_249E28(o[9], 0); o[5] = o[1] * __builtin_fabsf(f); f = func_0015FB58_249E28(o[9], 0); o[6] = o[2] * __builtin_fabsf(f); u = func_002DC978_249E28(); f = o[9] + (float)(u & 0xffff) * (a * 1.5258789e-05f * D_004A0834_249E28); o[9] = f; if (D_004A0838_249E28 < f) o[9] = 0.0f; }
+
