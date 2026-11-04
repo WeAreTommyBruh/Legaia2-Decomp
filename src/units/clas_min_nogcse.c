@@ -34,3 +34,7 @@ void clas_min_0029cfb8(P_29cfb8_0029CFB8 *o)
         if (p != 0) func_002BF2C0(p, 3);
     }
 }
+extern float D_004A0D20_29D010 __asm__("D_004A0D20"); extern char D_0049A700_29D010[] __asm__("D_0049A700");
+void *func_00162130_29D010(int, void *, int) __asm__("func_00162130");
+// MATCH func_0029D010
+void clas_min_0029d010(float f, int *o, int a, int b) { int *n; int nx; nx = o[4]; while (nx != 0) { o = *(int * volatile *)(o + 4); nx = o[4]; } if (f == D_004A0D20_29D010) f = *(float *)o; n = func_00162130_29D010(20, D_0049A700_29D010, 966); n[4] = 0; o[4] = (int)n; *(float *)n = f; n[2] = b; n[3] = a; n[1] = 0; }
