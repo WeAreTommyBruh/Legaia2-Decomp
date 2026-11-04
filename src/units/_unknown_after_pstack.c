@@ -272,4 +272,3 @@ unsigned short FUN_0024eff8(unsigned i) { unsigned short *p; if (i < 5) { p = D_
 extern int D_003279A0_24D618[] __asm__("D_003279A0"); float func_0022F5A0_24D618(float, float) __asm__("func_0022F5A0"); float func_0024E158_24D618(int, int) __asm__("func_0024E158");
 // MATCH func_0024D618
 int FUN_0024d618(int a, int b) { int p, q; float x, y; p = D_003279A0_24D618[a]; if (p == 0 || (q = D_003279A0_24D618[b]) == 0) return 0; x = func_0022F5A0_24D618(*(float *)(q + 0x80) - *(float *)(p + 0x80), *(float *)(q + 0x88) - *(float *)(p + 0x88)); y = func_0024E158_24D618(a, b); if (x < y) return 1; return 0; }
-

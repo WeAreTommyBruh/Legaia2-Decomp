@@ -37,3 +37,14 @@ int work_00246c90(float *v, int a, int b)
     *(float *)(r + 40) = v[2];
     return 0;
 }
+
+extern int * D_004A13F0_246C00 __asm__("D_004A13F0");
+void func_002468F8_246C00(void *, int) __asm__("func_002468F8");
+// MATCH func_00246C00
+void work_00246c00(void) { int *n = D_004A13F0_246C00; int *c; int ok; while (n != 0) { c = n; ok = 0; n = (int *)c[3]; if ((c[6] & 10) == 0) { if (c[5] != 0 && (c[6] & 0x20000) != 0) { ((void (*)(int *))c[5])(c); ok = 1; } } if (!ok) func_002468F8_246C00(c, 0); } }
+
+void func_00249108_2468F8(void) __asm__("func_00249108"); void func_00249100_2468F8(float, float, float) __asm__("func_00249100"); void func_00248CF8_2468F8(int, float) __asm__("func_00248CF8");
+void func_0018F3D8_2468F8(char *, unsigned, unsigned) __asm__("func_0018F3D8"); void func_0022D470_2468F8(char *, char *, unsigned) __asm__("func_0022D470"); void func_002491D8_2468F8(void) __asm__("func_002491D8");
+// MATCH func_002468F8
+void work_002468f8(char *o, int a) { char buf[64]; if (a == 0) func_00249108_2468F8(); func_00249100_2468F8(*(float *)(o + 32), *(float *)(o + 36), *(float *)(o + 40)); func_00248CF8_2468F8(0, *(float *)(o + 64)); func_00248CF8_2468F8(1, *(float *)(o + 68)); func_00248CF8_2468F8(2, *(float *)(o + 72)); func_0018F3D8_2468F8(buf, 0x70003c00, 0x70003f80); func_0022D470_2468F8(o + 80, buf, 0x70003e00); if (a == 0) func_002491D8_2468F8(); }
+

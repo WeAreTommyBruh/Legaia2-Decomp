@@ -122,3 +122,13 @@ void func_00249A30_248CF8(float, int) __asm__("func_00249A30"); void func_002499
 // MATCH func_00248CF8
 void FUN_00248cf8(float f, int m) { if (f < 0.0f) f = f + D_004A081C_248CF8; switch (m) { case 0: func_002499C0_248CF8(0x70003f00); break; case 1: func_00249A30_248CF8(f, 0x70003f00); break; case 2: func_00249AA0_248CF8(0x70003f00); break; } func_0018F3D8_248CF8(0x70003f80, 0x70003f80, 0x70003f00); func_0018F3D8_248CF8(0x70003c80, 0x70003c80, 0x70003f00); if (D_004A14B8_248CF8 == 0) return; func_0018DF68_248CF8(0x70003f40, 0x70003f00); func_0018F3D8_248CF8(0x70003d80, 0x70003f40, 0x70003d80); }
 
+extern int D_004A14B8_248FF8 __asm__("D_004A14B8");
+void func_00249B10_248FF8(int, int) __asm__("func_00249B10"); void func_00249B80_248FF8(int, int) __asm__("func_00249B80"); void func_00249BF0_248FF8(int, int) __asm__("func_00249BF0"); void func_0018F3D8_248FF8(int, int, int) __asm__("func_0018F3D8"); void func_0018DF68_248FF8(int, int) __asm__("func_0018DF68");
+// MATCH func_00248FF8
+void FUN_00248ff8(int a, int m) { switch (m) { case 0: func_00249B10_248FF8(0x70003f00, a); break; case 1: func_00249B80_248FF8(0x70003f00, a); break; case 2: func_00249BF0_248FF8(0x70003f00, a); break; } func_0018F3D8_248FF8(0x70003f80, 0x70003f80, 0x70003f00); func_0018F3D8_248FF8(0x70003c80, 0x70003c80, 0x70003f00); if (D_004A14B8_248FF8 == 0) return; func_0018DF68_248FF8(0x70003f40, 0x70003f00); func_0018F3D8_248FF8(0x70003d80, 0x70003f40, 0x70003d80); }
+
+extern int D_004A14B8_2496F0 __asm__("D_004A14B8"); extern float D_004A0828_2496F0 __asm__("D_004A0828"), D_004A082C_2496F0 __asm__("D_004A082C"), D_004A0830_2496F0 __asm__("D_004A0830");
+void func_00249AA0_2496F0(float, int) __asm__("func_00249AA0"); void func_00249A30_2496F0(float, int) __asm__("func_00249A30"); void func_002499C0_2496F0(float, int) __asm__("func_002499C0"); void func_0018F3D8_2496F0(int, int, int) __asm__("func_0018F3D8"); void func_0018DF68_2496F0(int, int) __asm__("func_0018DF68");
+// MATCH func_002496F0
+void FUN_002496f0(float a, float b, float c, float d) { if (d != 0.0f) func_00249AA0_2496F0(a * D_004A0828_2496F0, 0x70003f00); if (c != 0.0f) func_00249A30_2496F0(a * D_004A082C_2496F0, 0x70003f00); if (b != 0.0f) func_002499C0_2496F0(a * D_004A0830_2496F0, 0x70003f00); func_0018F3D8_2496F0(0x70003f80, 0x70003f80, 0x70003f00); func_0018F3D8_2496F0(0x70003c80, 0x70003c80, 0x70003f00); if (D_004A14B8_2496F0 == 0) return; func_0018DF68_2496F0(0x70003f40, 0x70003f00); func_0018F3D8_2496F0(0x70003d80, 0x70003f40, 0x70003d80); }
+

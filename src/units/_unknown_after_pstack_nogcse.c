@@ -37,3 +37,8 @@ int FUN_0025a508(void)
     }
     return n;
 }
+extern int D_004A1A20_24E158 __asm__("D_004A1A20");
+float func_0021AF68_24E158(int) __asm__("func_0021AF68");
+// MATCH func_0024E158
+float FUN_0024e158(int a, int b) { float x, y; x = func_0021AF68_24E158(D_004A1A20_24E158 + a * 0x1560); if (*(int *)(*(int *)(a * 0x1560 + D_004A1A20_24E158 + 0x1444) + 0x38) == 0 && x < 2.0f) x = x * 1.5f; y = func_0021AF68_24E158(D_004A1A20_24E158 + b * 0x1560); if (*(int *)(*(int *)(b * 0x1560 + D_004A1A20_24E158 + 0x1444) + 0x38) == 0 && y < 2.0f) y = y * 1.5f; return (x + y) * 5120.0f; }
+
