@@ -150,3 +150,25 @@ typedef struct
 // MATCH func_0012F6A8
 void pchsysw_0012f6a8(H_0012F6A8 *o, int idx, float x, float y, float z, int a, int b, int c, int d, int e, int f, int g, int h) { if (idx < o->n) { char *p = ((char *) (idx * 64)) + ((int) o->p); *((float *) (p + 0)) = x; *((float *) (p + 4)) = y; *((float *) (p + 8)) = z; *((int *) (p + 20)) = a; *((int *) (p + 24)) = b; *((int *) (p + 28)) = c; *((int *) (p + 32)) = d; *((int *) (p + 36)) = e; *((int *) (p + 40)) = f; *((int *) (p + 44)) = g; *((int *) (p + 48)) = h; *((int *) (p + 52)) = 0; *((int *) (p + 16)) = 1; } }
 
+typedef struct NV_12E2A8 NV_12E2A8;
+struct NV_12E2A8
+{
+  char p[48];
+  float w;
+  int q;
+  NV_12E2A8 *prev;
+  NV_12E2A8 * volatile next;
+};
+typedef struct 
+{
+  int n;
+  float tot;
+  NV_12E2A8 *first;
+  NV_12E2A8 *last;
+} L__0012E2A8;
+int func_0012E4F0_12E2A8(void *) __asm__("func_0012E4F0");
+float func_0012E4F8_12E2A8(void *) __asm__("func_0012E4F8");
+void func_0012DA28_12E2A8(void *, void *) __asm__("func_0012DA28");
+// MATCH func_0012E2A8
+void pchsysw_0012e2a8(float v, L__0012E2A8 *o) { NV_12E2A8 *p; NV_12E2A8 *q; float k; float r; float t; if (func_0012E4F0_12E2A8(o) < 2) { return; } if (func_0012E4F0_12E2A8(o) == 2) { o->last->w = v; o->tot = v; } else { k = func_0012E4F8_12E2A8(o); r = v / k; t = 0.0f; p = o->first->next; ; while (p->next != 0) { p->w = p->w * r; t += p->w; p = (q = p->next); }  p->w = v - t; o->tot = v; p = *((NV_12E2A8 * volatile *) (&o->first)); for (; p != 0; p = p->next) { func_0012DA28_12E2A8(o, p); }  } }
+

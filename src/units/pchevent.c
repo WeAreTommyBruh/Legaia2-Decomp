@@ -191,3 +191,19 @@ float func_0012F1A0_20C828(int) __asm__("func_0012F1A0"); void func_0012F090_20C
 // MATCH func_0020C828
 void pchevent_0020c828(void) { float f; if (D_004A4624_20C828 != 0) { if (D_004A4630_20C828 < 0.0f) D_004A4630_20C828 = 0.0f; f = func_0012F1A0_20C828(D_004A4624_20C828); if (f < D_004A4630_20C828) D_004A4630_20C828 = func_0012F1A0_20C828(D_004A4624_20C828); if (D_004A462C_20C828 == 4 && D_004A4630_20C828 != D_004A48D0_20C828) { D_004A48D0_20C828 = D_004A4630_20C828; func_0012F090_20C828(D_004A4624_20C828, D_0041EFB0_20C828, D_004A4630_20C828); } } }
 
+extern int D_004A1444_20D168 __asm__("D_004A1444");
+extern int D_004A140C_20D168 __asm__("D_004A140C");
+extern int D_004A4678_20D168 __asm__("D_004A4678");
+extern int D_004A45E4_20D168 __asm__("D_004A45E4");
+extern char D_00454D80_20D168[] __asm__("D_00454D80");
+extern char D_00455008_20D168[] __asm__("D_00455008");
+void *func_00162130_20D168(int, void *, int) __asm__("func_00162130");
+int func_0020B508_20D168(void *, int) __asm__("func_0020B508");
+void func_0020B660_20D168(int) __asm__("func_0020B660");
+int func_00130008_20D168(int) __asm__("func_00130008");
+int func_001301E0_20D168(int, int) __asm__("func_001301E0");
+void func_00130010_20D168(int, int, void *) __asm__("func_00130010");
+void func_0020B858_20D168(int, void *) __asm__("func_0020B858");
+void func_0020BA70_20D168(int, void *) __asm__("func_0020BA70");
+// MATCH func_0020D168
+unsigned short pchevent_0020d168(int a) { char buf[1024]; int *p; int i; if (a == 0) { return; } if (D_004A1444_20D168 != 0) { return; } if (!(D_004A140C_20D168 & 8)) { return; } if (D_004A4678_20D168 == 0) { return; } if (D_004A45E4_20D168 == 0) { p = func_00162130_20D168(20, D_00454D80_20D168, 1248); D_004A45E4_20D168 = func_0020B508_20D168(p, 24); } func_0020B660_20D168(D_004A45E4_20D168); for (i = 0; i < func_00130008_20D168(D_004A4678_20D168); i++) { if (func_001301E0_20D168(D_004A4678_20D168, i) != 0) { func_00130010_20D168(D_004A4678_20D168, i, buf); func_0020B858_20D168(D_004A45E4_20D168, buf); } }  func_0020BA70_20D168(D_004A45E4_20D168, D_00455008_20D168); }
