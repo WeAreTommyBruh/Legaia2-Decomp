@@ -77,3 +77,9 @@ extern int D_004A3850_001096C0 __asm__("D_004A3850"); extern int D_004A11CC; ext
 void func_002E6750(int);
 // MATCH func_001096C0
 int FUN_001096c0(int a) { if ((D_00343028_001096C0[0] & 8) != 0 || D_004A3850_001096C0 == 2) { __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return 0; } if (a == 3) func_002E6750(D_004A11CC); __asm__ volatile("sync"); __asm__ volatile(".word 0x42000038"); return 1; }
+
+extern int D_004B9E00_10A848[] __asm__("D_004B9E00"); extern char D_0042CF10_10A848[] __asm__("D_0042CF10");
+void func_001118F8_10A848(void *, ...) __asm__("func_001118F8");
+// MATCH func_0010A848
+void FUN_0010a848(void) { int *p = D_004B9E00_10A848; int k, j; int mg = 0xbc614e; for (k = 0; k < 12; k++) { j = 0xbff; do { if (*p != mg) { func_001118F8_10A848(D_0042CF10_10A848, p, *p); __asm__ volatile(".word 0x0000000d"); } j = j - 1; p = p + 1; } while (-1 < j); } }
+

@@ -1921,3 +1921,8 @@ void *func_002BF838_2C02A0(void) __asm__("func_002BF838"); void func_002E5D30_2C
 // MATCH func_002C02A0
 int FUN_002c02a0(void) { short *p = func_002BF838_2C02A0(); long long l, v; if (*(int *)(p + 4) == 0) { func_002E5D30_2C02A0(); if (*p == 1) return (*(volatile unsigned long long *)0x12001000 >> 13) & 1; return 1; } l = func_002E5DC0_2C02A0(); v = (l >> 13) & 1; if (*p == 1) return v; return 1; }
 
+extern char D_0049DDE8_2C8208[] __asm__("D_0049DDE8");
+int func_002DCE40_2C8208(char *, char *, ...) __asm__("func_002DCE40"); void func_002C35C8_2C8208(int *, char *) __asm__("func_002C35C8");
+// MATCH func_002C8208
+int FUN_002c8208(int *o, int *pic) { char buf[256]; int r; if (o[56] != 0) { r = !(o[55] < pic[1]) && !(o[56] < pic[2]); } else r = !(o[57] < pic[3] * pic[4]); if (r == 0) { func_002DCE40_2C8208(buf, D_0049DDE8_2C8208, pic[1], pic[2]); func_002C35C8_2C8208(o, buf); } return r; }
+
