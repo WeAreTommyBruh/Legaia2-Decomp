@@ -103,3 +103,19 @@ int func_00213088(int, int); char *func_00212F00(int, int);
 // MATCH func_00213258
 int MotBoneName(int a, int b, int c) { char *p; int r; int t; if (func_00213088(a, b) == 0) { t = c * 0x30 + 0x68; r = a + t; } else { p = func_00212F00(a, b); { int u = *(int *)(p + 0x34); int v = *(int *)(p + 0x38); int k = c * 0x18; r = (int)p + v + *(unsigned short *)(p + u + k); } } return r; }
 
+int func_00212F00_213548(int, int) __asm__("func_00212F00"); int func_00213410_213548(int, int, int, int, int) __asm__("func_00213410");
+// MATCH func_00213548
+int MotTranslation(int a, int b, int c, int d, float *out) { int p, e; p = func_00212F00_213548(a, b); e = p + *(int *)(p + 52) + c * 24; out[0] = (float)(func_00213410_213548(a, p, e, *(unsigned short *)(e + 6), d) << (*(char *)(p + 4))); out[1] = (float)(func_00213410_213548(a, p, e, *(unsigned short *)(e + 8), d) << (*(char *)(p + 4))); out[2] = (float)(func_00213410_213548(a, p, e, *(unsigned short *)(e + 10), d) << (*(char *)(p + 4))); return 1; }
+
+int func_00213100_213EB0(int, int) __asm__("func_00213100"); int func_00212F00_213EB0(int, int) __asm__("func_00212F00"); int func_00213410_213EB0(int, int, int, int, int) __asm__("func_00213410");
+// MATCH func_00213EB0
+int MotScale(int a, int b, int c, int d, float *out) { int p, e; if (func_00213100_213EB0(a, b) == 0) return 0; p = func_00212F00_213EB0(a, b); e = p + *(int *)(p + 52) + c * 24; out[0] = (float)func_00213410_213EB0(a, p, e, *(unsigned short *)(e + 18), d) * 0.00390625f; out[1] = (float)func_00213410_213EB0(a, p, e, *(unsigned short *)(e + 20), d) * 0.00390625f; out[2] = (float)func_00213410_213EB0(a, p, e, *(unsigned short *)(e + 22), d) * 0.00390625f; return 1; }
+
+int func_00212F00_2139B8(int, int) __asm__("func_00212F00"); int func_00213150_2139B8(int, int) __asm__("func_00213150"); int func_00213410_2139B8(int, int, int, int, int) __asm__("func_00213410");
+// MATCH func_002139B8
+int MotRotationRaw(int a, int b, int c, int d, short *x, short *y, short *z) { int p, e; p = func_00212F00_2139B8(a, b); e = p + *(int *)(p + 52) + c * 24; *x = func_00213410_2139B8(a, p, e, *(unsigned short *)(e + 12), d); *y = func_00213410_2139B8(a, p, e, *(unsigned short *)(e + 14), d); *z = func_00213410_2139B8(a, p, e, *(unsigned short *)(e + 16), d); if (func_00213150_2139B8(a, b) != 0) { *x = *x >> 2; *y = *y >> 2; *z = *z >> 2; } return 1; }
+
+int func_00212F00_2138A0(int, int) __asm__("func_00212F00"); int func_00213150_2138A0(int, int) __asm__("func_00213150"); int func_00213410_2138A0(int, int, int, int, int) __asm__("func_00213410"); void func_0018EED8_2138A0(float *, float) __asm__("func_0018EED8");
+// MATCH func_002138A0
+int MotRotation(int a, int b, int c, int d, float *out) { int p, e; float f; p = func_00212F00_2138A0(a, b); e = p + *(int *)(p + 52) + c * 24; f = func_00213150_2138A0(a, b) != 0 ? 0.02197265625f : 0.087890625f; out[0] = (float)func_00213410_2138A0(a, p, e, *(unsigned short *)(e + 12), d); out[1] = (float)func_00213410_2138A0(a, p, e, *(unsigned short *)(e + 14), d); out[2] = (float)func_00213410_2138A0(a, p, e, *(unsigned short *)(e + 16), d); func_0018EED8_2138A0(out, f); return 1; }
+
