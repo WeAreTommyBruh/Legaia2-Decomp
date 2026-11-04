@@ -117,3 +117,8 @@ void func_001118F8_24A3C8(char *, ...) __asm__("func_001118F8"); void *func_0018
 // MATCH func_0024A3C8
 void *FUN_0024a3c8(char *name, int *size) { int *r; if (D_004A56AC_24A3C8 != 0) { func_001118F8_24A3C8(D_0045DB10_24A3C8, name); return func_0018B508_24A3C8(name, size); } r = func_00112A28_24A3C8(D_003DC5B0_24A3C8, name); if (r == 0) { func_001118F8_24A3C8(D_0045DB20_24A3C8, name); return func_0018B508_24A3C8(name, size); } if (size != 0) *size = *r; func_001118F8_24A3C8(D_0045DB40_24A3C8, name); return func_001909F8_24A3C8(r); }
 
+extern float D_004A081C_248CF8 __asm__("D_004A081C"); extern int D_004A14B8_248CF8 __asm__("D_004A14B8");
+void func_00249A30_248CF8(float, int) __asm__("func_00249A30"); void func_002499C0_248CF8(int) __asm__("func_002499C0"); void func_00249AA0_248CF8(int) __asm__("func_00249AA0"); void func_0018F3D8_248CF8(int, int, int) __asm__("func_0018F3D8"); void func_0018DF68_248CF8(int, int) __asm__("func_0018DF68");
+// MATCH func_00248CF8
+void FUN_00248cf8(float f, int m) { if (f < 0.0f) f = f + D_004A081C_248CF8; switch (m) { case 0: func_002499C0_248CF8(0x70003f00); break; case 1: func_00249A30_248CF8(f, 0x70003f00); break; case 2: func_00249AA0_248CF8(0x70003f00); break; } func_0018F3D8_248CF8(0x70003f80, 0x70003f80, 0x70003f00); func_0018F3D8_248CF8(0x70003c80, 0x70003c80, 0x70003f00); if (D_004A14B8_248CF8 == 0) return; func_0018DF68_248CF8(0x70003f40, 0x70003f00); func_0018F3D8_248CF8(0x70003d80, 0x70003f40, 0x70003d80); }
+
