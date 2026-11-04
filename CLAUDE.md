@@ -199,6 +199,13 @@ Near misses (words off; drafts are in `build/work/w/`):
   1e7cb0 / 1d7f00 (10), 2cb340 (27), 2a8c80 (struct array init with per-element base pointers), 1364c8 (three loops over one table), 137298/137330/1367c8 (4-short entries with two
   address forms; see `fam_gp.txt` in build/work for the 19-function list), 2a4840 (29, `-fno-gcse`), 2a4020 (45), 203f40 (42, wants hoisted array bases), 129a38 (42, the original uses
   `movz`/`movn` for `a != 0 && f() != 0`).
+- Script-track scanners 1524d0, 13e3c0, 13e488, 151930 (8-11 words off, only register numbering of four hoisted pseudos differs; matched structure is
+  `T140 D_0032EF50[]` with a `for (i = 0; i < D[e].n; i++)` loop over `.ops[i].code == 8`, track base `bt = D_0055FC80 + tr * 0x1000` hoisted; the permuter found nothing in 700 s).
+  Other near misses: 2cdac8 (3 words, the `r = 0` lands in the wrong delay slot), 237bc8 (register swap; the permuter hit leaves `p1` unset on one path, so it is not valid),
+  112b28 (10), 219240 (7), 2cbb80, 21db30, 249108 (one register), 245078, 29d010, 246e18, 224c70, 2971d0.
+- Tricks that worked this round: early `return` per branch so gcc does not cross-jump the call tails (24a3c8); a `for` loop over struct arrays gives the loop pass's double multiply and
+  base copies (1524d0); `volatile short` / `volatile int` callee return types (2a1d28, from the permuter); a magic constant held in a local keeps its hoist order (10a848, with
+  `.word 0x0000000d` = `break 0` inline); `!(a < b)` instead of `a >= b` fixes operand load order (2c8208); pass the tested pointer on to the callee (29fa18).
 - Shikimi: the user said not to do the big functions (2afa58, 2b0100, 2b12c8, 2b1e68, 2b2900, 2b34d8, 2b3f10, 2b8650).
 - Pools: about 4,000 bytes to 13.81%; candidate chunk lists come from `build/work/mkchunks.py ADDRHEX` (`build/work/ch/c###.txt`, unmatched 60-450 byte functions; chunks up to
   address 0x187068 were read). Other ideas: rerun `ggnear.py` with a larger MAXSIZE, rerun `permq.py` / `permw.py` on new near misses, rerun `sweep4.py` after adding compiler settings,
