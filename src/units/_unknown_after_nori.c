@@ -35,3 +35,8 @@ O4_00294A88 *FUN_00294a88(O4_00294A88 *o) { func_002944B8(o, D_0041EF08); o->w52
 extern char D_003E3D20_002785A0[] __asm__("D_003E3D20");
 // MATCH func_002785A0
 int FUN_002785a0(unsigned idx) { int n, k; char *q; short *p; short v; if (4 < idx) return -1; n = 0; k = 15; q = D_003E3D20_002785A0; q += 10; p = (short *)(q + (idx << 4) * 20); do { v = *p; p += 10; k--; if (v != 0) n++; } while (k >= 0); return n; }
+
+extern char D_00499678_2944B8[] __asm__("D_00499678"); void func_00164890_2944B8(void) __asm__("func_00164890"); int func_002DC978_2944B8(void) __asm__("func_002DC978");
+// MATCH func_002944B8
+int *FUN_002944b8(int *o) { int n, r; unsigned lim; func_00164890_2944B8(); n = *(int *)(*o + 20); o[12] = (int)D_00499678_2944B8; if (n == 0) r = 0; else { lim = 0x7fffff - 0x800000 % n; do { r = func_002DC978_2944B8(); } while (lim < (unsigned)(r >> 8)); r = (unsigned)(r >> 8) % n; } o[2] = r; return o; }
+

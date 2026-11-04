@@ -1917,3 +1917,7 @@ extern int D_00429884_2E7038[] __asm__("D_00429884"); extern char D_00632700_2E7
 // MATCH func_002E7038
 void FUN_002e7038(int c) { int n; n = D_00429884_2E7038[0]; if (125 < n) { D_00429884_2E7038[0] = 0; D_00632700_2E7038[127] = 0; func_002E6AB8_2E7038(D_00632700_2E7038); n = D_00429884_2E7038[0]; } if (c != 10) { D_00429884_2E7038[0] = n + 1; D_00632700_2E7038[n] = c; return; } D_00429884_2E7038[0] = 0; D_00632700_2E7038[n] = 10; D_00632700_2E7038[n + 1] = 0; func_002E6AB8_2E7038(D_00632700_2E7038); }
 
+void *func_002BF838_2C02A0(void) __asm__("func_002BF838"); void func_002E5D30_2C02A0(void) __asm__("func_002E5D30"); long long func_002E5DC0_2C02A0(void) __asm__("func_002E5DC0");
+// MATCH func_002C02A0
+int FUN_002c02a0(void) { short *p = func_002BF838_2C02A0(); long long l, v; if (*(int *)(p + 4) == 0) { func_002E5D30_2C02A0(); if (*p == 1) return (*(volatile unsigned long long *)0x12001000 >> 13) & 1; return 1; } l = func_002E5DC0_2C02A0(); v = (l >> 13) & 1; if (*p == 1) return v; return 1; }
+

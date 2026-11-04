@@ -109,3 +109,7 @@ void func_002BEC58(float, float, float, void *);
 void func_0023B8A0(unsigned, int, int, int, int, unsigned);
 // MATCH func_002988A0
 void FUN_002988a0(float *v, int *a, int *b) { float c[10]; int x; int y; int w; unsigned col; unsigned k; int p, q, r; c[0] = 0; c[1] = 0; c[2] = 0; c[3] = 0; c[4] = 0; c[5] = 0; c[6] = 0; c[7] = 0; c[8] = 0; c[9] = 0; func_002BEC58(v[0], 1.0f, 1.0f, c); col = ((int)(c[3] * 15.0f) << 20) | ((int)(c[4] * 15.0f) << 12) | ((int)(c[5] * 15.0f) << 4); a[8] = col; a[7] = col; func_002BEC58(v[0], 1.0f, v[2], c); b[7] = 0xf0f0f0; x = D_004A1430_002988A0 + (118 >> D_004A148C_002988A0); w = 24 >> D_004A148C_002988A0; b[8] = ((int)(c[3] * 15.0f) << 20) | ((int)(c[4] * 15.0f) << 12) | ((int)(c[5] * 15.0f) << 4); y = D_004A1434_002988A0; func_002BEC58(v[0], v[1], v[2], c); q = (int)(c[4] * 255.0f); p = (int)(c[3] * 255.0f); r = (int)(c[5] * 255.0f); k = r | (q << 8) | (p << 16); func_0023B8A0(D_004A5430, x, y, w, w, 0); func_0023B8A0(D_004A5430, x + 4, y + 4, w - 8, w - 8, k); }
+
+void *func_0029C738_297040(void) __asm__("func_0029C738"); void func_002970D8_297040(int) __asm__("func_002970D8");
+// MATCH func_00297040
+void FUN_00297040(void) { char *p = func_0029C738_297040(); float d[3]; d[0] = *(float *)(p + 32) - *(float *)(p + 48); d[1] = *(float *)(p + 36) - *(float *)(p + 52); d[2] = *(float *)(p + 40) - *(float *)(p + 56); if (1.0f < __builtin_fabsf(d[0]) || 1.0f < __builtin_fabsf(d[1]) || 1.0f < __builtin_fabsf(d[2])) func_002970D8_297040(0); else func_002970D8_297040(1); }
