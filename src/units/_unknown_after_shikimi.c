@@ -1967,3 +1967,13 @@ typedef struct
 // MATCH func_002CF6C0
 void FUN_002cf6c0(O_002CF6C0 *o) { int *w = o->w0; int *new_var; int *p = o->w12; o->w12 = 0; new_var = w - 1; p[0] += ((unsigned) (new_var - p)) / 4; }
 
+typedef struct { int *w0; int w4; int w8; int w12; } Pk_002CF228;
+void func_002CF158_2CF228(void *) __asm__("func_002CF158");
+// MATCH func_002CF228
+void FUN_002cf228(Pk_002CF228 *o, unsigned a, unsigned b, int c, int d, unsigned e) { int *p; unsigned t; func_002CF158_2CF228(o); p = o->w0; t = b | 0x30000000; *p++ = e | t; *p = a & 0x9fffffff; p[1] = c; p[2] = d; o->w0 = p + 3; }
+
+typedef struct { int *w0; int w4; int w8; int w12; } Pk_002CF508;
+void func_002CF458_2CF508(void *) __asm__("func_002CF458");
+// MATCH func_002CF508
+void FUN_002cf508(Pk_002CF508 *o, unsigned a, unsigned b, int c, int d, unsigned e) { int *p; unsigned t; func_002CF458_2CF508(o); p = o->w0; t = b | 0x30000000; *p++ = e | t; *p = a & 0x9fffffff; p[1] = c; p[2] = d; o->w0 = p + 3; }
+
