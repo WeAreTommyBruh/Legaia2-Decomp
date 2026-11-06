@@ -226,3 +226,9 @@ void func_001541C8_20DE78(void *, float) __asm__("func_001541C8"); void func_001
 // MATCH func_0020DE78
 void pchevent_0020de78(void) { float u; float a = 0.0f, b = 0.0f, c = 0.0f; if ((D_004A140C_0020DE78 & 2) != 0) { a = D_004A13F4_0020DE78 * D_004A043C_20DE78; b = D_004A13F8_0020DE78 * D_004A043C_20DE78; } else if ((D_004A140C_0020DE78 & 1) != 0) c = D_004A13F4_0020DE78 * D_004A0440_20DE78; u = D_0041EFB0_0020DE78.f208; func_001541C8_20DE78(&D_0041EFB0_0020DE78, 0); if (b != 0.0f) func_00154268_0020DE78(&D_0041EFB0_0020DE78, b); if (a != 0.0f) func_001542C8_0020DE78(&D_0041EFB0_0020DE78, a); if (c != 0.0f) func_00154328_0020DE78(&D_0041EFB0_0020DE78, c); func_001541C8_20DE78(&D_0041EFB0_0020DE78, u); }
 
+typedef struct { char c[16]; } B16_0020C1D8;
+extern int D_004A1444_20C1D8 __asm__("D_004A1444"), D_004A140C_20C1D8 __asm__("D_004A140C"), D_004A45E8_20C1D8 __asm__("D_004A45E8");
+void *func_0020BBD8_20C1D8(int) __asm__("func_0020BBD8"); int *func_002A00E0_20C1D8(int) __asm__("func_002A00E0"); void func_00159220_20C1D8(int) __asm__("func_00159220");
+// MATCH func_0020C1D8
+int pchevent_0020c1d8(int a) { int *p, *q; if (a != 0 && D_004A1444_20C1D8 == 0 && (D_004A140C_20C1D8 & 8) != 0 && D_004A45E8_20C1D8 > 0) { p = func_0020BBD8_20C1D8(D_004A45E8_20C1D8); q = func_002A00E0_20C1D8(0); if (p != 0 && q != 0) { p[125] = q[125]; *(B16_0020C1D8 *)(*(char **)p + 32) = *(B16_0020C1D8 *)(*(char **)q + 32); *(B16_0020C1D8 *)(*(char **)p + 64) = *(B16_0020C1D8 *)(*(char **)q + 64); func_00159220_20C1D8(p[144]); } } return 0; }
+
