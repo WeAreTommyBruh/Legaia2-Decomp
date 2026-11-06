@@ -1985,3 +1985,14 @@ void FUN_002cf368(int *o) { unsigned long *hdr = (unsigned long *)o[3]; int *cur
 // MATCH func_002CF708
 void FUN_002cf708(int *o) { unsigned long *hdr = (unsigned long *)o[5]; int *cur = (int *)*o; unsigned long h = *hdr; unsigned n; unsigned long f; unsigned q; int *p; n = (((int)cur - (int)hdr) >> 3) - 2; f = h >> 58 & 3; if (f != 1) n = n >> 1; if (f != 2) { q = h >> 60; if (q == 0) q = 16; n = (n + q - 1) / q; } o[5] = 0; *hdr = h + n; p = cur; while (((unsigned)p & 0xc) != 0) { *p = 0; p++; } *o = (int)p; }
 
+typedef struct 
+{
+  int *w0;
+  int w4;
+  int w8;
+  int w12;
+} Pk_002CF1B0;
+int func_002CF158_2CF1B0(void *) __asm__("func_002CF158");
+// MATCH func_002CF1B0
+void FUN_002cf1b0(Pk_002CF1B0 *o, int a, int b, unsigned c) { int new_var; int r; int *p; unsigned t; r = func_002CF158_2CF1B0(o); p = o->w0; t = c | 0x10000000; do { o->w8 = r; } while (0); *(p++) = t; p[1] = a; o->w0 = p + 3; p[2] = b; p[0] = (new_var = 0); }
+
