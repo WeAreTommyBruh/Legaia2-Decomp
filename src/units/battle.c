@@ -126,3 +126,8 @@ void func_00239568_122710(char *, int, int) __asm__("func_00239568"); int func_0
 // MATCH func_00122710
 void battle_00122710(void) { int a, q; if (D_004A6E24_122710 != 0) { func_00239568_122710(D_004307E8_122710, D_004A6DC8_122710, D_004A6DCC_122710); func_00239568_122710(D_004307F8_122710, D_004A6D94_122710, D_004A6D9C_122710); } a = D_004A6D94_122710; q = a * 0x1560 + D_004A1A20_122710; if (*(int *)(q + 0x12e4) != 13) *(unsigned *)(q + 0x12d0) = *(unsigned *)(q + 0x12d0) | 2; if (func_0011DB78_122710(a) == 0) { func_001118F8_122710(D_00430818_122710); func_0012AEA8_122710(12); } func_0012ACB0_122710(0); D_004A6CF0_122710 = D_004A6CF0_122710 + 1; }
 
+typedef struct { char c[16]; } B16_0012AFB0;
+extern char D_00327A40_12AFB0[] __asm__("D_00327A40"), D_004318B8_12AFB0[] __asm__("D_004318B8"); void func_001118F8_12AFB0(char *) __asm__("func_001118F8");
+// MATCH func_0012AFB0
+void battle_0012afb0(char *o, B16_0012AFB0 *a, B16_0012AFB0 *b, int c) { *(B16_0012AFB0 *)(o + 64) = *a; *(B16_0012AFB0 *)(o + 80) = *b; if (*(int *)(o + 96) == 0) { *(int *)(o + 96) = c; *(int *)(o + 100) = c; *(B16_0012AFB0 *)o = *(B16_0012AFB0 *)D_00327A40_12AFB0; *(B16_0012AFB0 *)(o + 16) = *(B16_0012AFB0 *)(D_00327A40_12AFB0 + 16); *(B16_0012AFB0 *)(o + 32) = *(B16_0012AFB0 *)(D_00327A40_12AFB0 + 32); func_001118F8_12AFB0(D_004318B8_12AFB0); } }
+
