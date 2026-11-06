@@ -6,10 +6,10 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **14.40% of code, 3999 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
+- **14.42% of code, 4003 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
-- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999). 14.31% (the earlier goal) was reached; the current goal is 15%.
+- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003). 14.31% (the earlier goal) was reached; the current goal is 15%.
 - Matched code is written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), or Ghidra output that already
   matches (`tools/gen_ghidra.py`). Everything counted is C, except the libvu0 routines (file-scope asm in `src/vu0_asm.c`).
 - Functions with a source file: 2042 / 6254; with a real name: 263; `.text` words disassembled: 98.3%.
@@ -205,6 +205,12 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   prints a misleading config). Strip the header lines from the `w/` draft before `finish.py`, check the printed config, and move a function that needs 990721-r5900 into
   `<unit>_990721.c` by hand (with `// compiler:` at the top of that file); never leave a `// compiler:` line in the middle of a unit file (it switches the whole file; symptom `fptosi`
   undefined). A helper `static`/`inline` definition must not share a line with the function after `// MATCH` (the build takes the first identifier before `(` as the function).
+- Search tools in `build/work` (git-ignored, recreate if lost): `vr.py ADDR SPEC.json` (JSON spec with `@@NAME@@` placeholders and lists of alternatives, scores every combination under
+  the listed compiler configs, writes the best draft) and `hc.py ADDR SPEC.json ITERS` (hill-climbs the ORDER of independent statements; random order sampling found 202248 where
+  hand ordering failed, but it stalls at local minima for 10+ stores: 2a8950, 216d28, 1569c8). Both honour `// compiler:`/`// cflags:` lines of the base text.
+- Still stuck after those searches (all queued for the permuter): 192dd0 (2 words, one `ori`/`lw` swap), 187028 (4, float stores after int stores), 2cf5a0 (7), 20bfe0 (8), 2a8950 (6),
+  130188 (9), 24ad58 (28: block order of an `|= 0x40` / `&= ~0x40` pair is right only with the original's `beq` sense, not reproduced), 2215a8/221550 (18: the original stores through
+  several copies of the entry pointer), 20f250 (sprintf with nine promoted floats, 64 words), 20c700 (20), 20b978 (17: parameter registers swapped).
 
 ## Open work
 
