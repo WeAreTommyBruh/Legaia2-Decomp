@@ -6,10 +6,10 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **14.42% of code, 4003 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
+- **14.51% of code, 4019 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
-- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003). 14.31% (the earlier goal) was reached; the current goal is 15%.
+- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003) -> 14.51% (4019). 14.31% (the earlier goal) was reached; the current goal is 15%.
 - Matched code is written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), or Ghidra output that already
   matches (`tools/gen_ghidra.py`). Everything counted is C, except the libvu0 routines (file-scope asm in `src/vu0_asm.c`).
 - Functions with a source file: 2042 / 6254; with a real name: 263; `.text` words disassembled: 98.3%.
@@ -211,6 +211,15 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - Still stuck after those searches (all queued for the permuter): 192dd0 (2 words, one `ori`/`lw` swap), 187028 (4, float stores after int stores), 2cf5a0 (7), 20bfe0 (8), 2a8950 (6),
   130188 (9), 24ad58 (28: block order of an `|= 0x40` / `&= ~0x40` pair is right only with the original's `beq` sense, not reproduced), 2215a8/221550 (18: the original stores through
   several copies of the entry pointer), 20f250 (sprintf with nine promoted floats, 64 words), 20c700 (20), 20b978 (17: parameter registers swapped).
+- More recipes that matched this round: (1) a leaf with several early `return 0` guards whose original shares ONE epilogue is a single `&&` chain with one `return 0` at the end
+  (pchevent 20c1d8; early returns gave a different `ld $31` delay-slot layout); (2) a global counter updated at the end (`D = n + 1`) wants a LOCAL copy `n = D;` read first (battle 127000);
+  (3) `*p = e | (b | K)` needs a temporary (`t = b | K; *p = e | t;`) or gcc reassociates the constant (2cf228/2cf508); (4) a loop that must stay un-rotated and has several
+  statements per element wants an INDEX loop `for (i = 0; i < 4; i++)` with `p = o + i * 96` (shuffle 178038); (5) a 64-bit shift/mask on a value that is later widened:
+  `(n << 3)` in int before the `long` add; (6) when a draft differs only in `mflo`/`jr` delay-slot placement try `991111-01-as210` (24f028); (7) a divisor that stays a register with
+  a `break 7` check is just `x / 18` here; (8) callee prototypes taking `(void *, float)` vs `(float, void *)` change delay-slot filling (20de78).
+- Permuter yield: 400 s runs hit about 1 in 5 drafts that are 2-6 words off (2cf1b0, 1fc050); 100-150 s runs almost never. The `HIT` of a permuter run may be a false positive
+  (2cbb80); always re-score with `allcfg`-style full config scan. A permuter output can carry an `inline_fn` helper on the same line as the function: split it out before
+  `// MATCH` (see Unit placement above). Keep to at most four niced workers (load average 10 with five).
 
 ## Open work
 
