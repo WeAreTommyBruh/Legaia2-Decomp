@@ -221,3 +221,7 @@ void func_001118F8_2A1BE0(char *, ...) __asm__("func_001118F8"); void func_002D7
 // MATCH func_002A1BE0
 void clas_min_002a1be0(char *o, int a, int b, int c) { char *t = o + 0x550; int nx; char *n; int r; nx = *(int *)(t + 256); while (nx != 0) { t = *(char * volatile *)(t + 256); nx = *(int *)(t + 256); } if (func_002A1E88_2A1BE0(o, a, b, c) != 0) { n = func_00162130_2A1BE0(0x110, D_0049A700_2A1BE0, 2895); r = func_002A1A70_2A1BE0(n, a, b, c); *(int *)(t + 256) = r; if (r == 0) { func_001118F8_2A1BE0(D_0049AD08_2A1BE0); func_001118F8_2A1BE0(D_0049AD30_2A1BE0); func_002D7228_2A1BE0(0); return; } } }
 
+typedef struct { float f0; int w4; int w8; int w12; int w16; } S_29d378_0029D378;
+void func_002BF2C0_29D378(void *, int) __asm__("func_002BF2C0");
+// MATCH func_0029D378
+void clas_min_0029d378(char *a, float *b) { S_29d378_0029D378 *c = *(S_29d378_0029D378 **)(a + 16); int n; *b = *(float *)a; n = c->w4 + 1; c->w4 = n; if (c->w8 < n) { *b = c->f0; *(int *)(a + 16) = c->w16; *(float *)a = c->f0; func_002BF2C0_29D378(c, 3); } }

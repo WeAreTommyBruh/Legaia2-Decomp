@@ -131,3 +131,8 @@ typedef struct { char p0[4]; float f4; char p1[8]; E_0016E388 **arr; char p2[12]
 void func_0018F068_0016E388(float *, void *) __asm__("func_0018F068"); int func_0016EB78(void *, float *); int func_0010C2B0_0016E388(char *, int, int, int, int, int, int) __asm__("func_0010C2B0"); int func_002D9440(float); int func_001E48E0_0016E388() __asm__("func_001E48E0");
 // MATCH func_0016E388
 int darts_0016e388(O_0016E388 *o) { int x; int y; int z; func_0018F068_0016E388(&o->arr[o->w32]->x, o); o->f4 = o->f4 + 0.0f; o->fn588((char *)o + o->adj584); if (func_0016EB78(o, &o->arr[o->w32]->x) != 0) { x = func_002D9440(o->arr[o->w32]->x); y = func_002D9440(o->arr[o->w32]->y); z = func_002D9440(o->arr[o->w32]->z); func_001E48E0_0016E388(2, 0, x, y, z); func_001E48E0_0016E388(1, 0); func_0010C2B0_0016E388(D_00343028_0016E388, 83, 6, 0, 2, 0, 0); o->v104 = D_004A3028_0016E388[0]; return 1; } return 0; }
+
+extern int D_004A2FA0_16CF10 __asm__("D_004A2FA0"); extern float D_004A000C_16CF10 __asm__("D_004A000C"); void func_0016EC88_16CF10(char *) __asm__("func_0016EC88");
+// MATCH func_0016CF10
+void darts_0016cf10(char *o) { int i; int *p; float f; *(int *)(o + 32) = 5; *(int *)(o + 24) = 0; *(int *)(o + 36) = 0; *(int *)(o + 40) = 0; D_004A2FA0_16CF10 = -1; *(int *)(o + 44) = 0; *(int *)(o + 68) = 0; *(int *)(o + 72) = 0; *(int *)(o + 76) = 0; *(int *)(o + 80) = 0; f = D_004A000C_16CF10; p = *(int **)(o + 16); i = 4; do { char *q = (char *)*p; *(float *)(q + 36) = f; p++; i--; } while (i >= 0); func_0016EC88_16CF10(o); }
+
