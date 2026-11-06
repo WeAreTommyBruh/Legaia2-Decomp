@@ -851,38 +851,18 @@ extern char D_0049D3B0[], D_0049D3D0[]; int func_00295098(int); void func_002DC9
 unsigned FullAllocAndFree(int a) { int r = func_00295098(a); unsigned n; func_002DC918(D_0049D3B0, r); n = ((unsigned)(func_002DBC48(a + 128) + 127) >> 7) << 7; func_002DC918(D_0049D3D0, n, a); return n; }
 
 typedef struct { int *w0; int w4; int w8; int w12; } Pk_002CF4B0;
-int func_002CF458(void *);
+int func_002CF458_2CF4B0(void *) __asm__("func_002CF458");
 // 2 words differ
-// WIP func_002CF4B0
+// WIP func_002CF4B0_2CF4B0
 // MATCH func_002CF4B0
-void FUN_002cf4b0(Pk_002CF4B0 *o, int x)
-{
-  int r = func_002CF458(o);
-  int *p = o->w0;
-  o->w8 = r;
-  *(p++) = x | 0x10000000;
- do { } while (0);
-  o->w12 = 0;
-  o->w0 = p + 1;
-  *p = 0;
-}
+void FUN_002cf4b0(Pk_002CF4B0 *o, int x) { int r = func_002CF458_2CF4B0(o); int *p = o->w0; o->w8 = r; *(p++) = x | 0x10000000; do { } while (0); o->w12 = 0; o->w0 = p + 1; *p = 0; }
 
 typedef struct { int *w0; int w4; int w8; int w12; } Pk_002CF610;
-int func_002CF458(void *);
+int func_002CF458_2CF610(void *) __asm__("func_002CF458");
 // 2 words differ
-// WIP func_002CF610
+// WIP func_002CF610_2CF610
 // MATCH func_002CF610
-void FUN_002cf610(Pk_002CF610 *o, int x)
-{
-  int r = func_002CF458(o);
-  int *p = o->w0;
-  o->w8 = r;
-  *(p++) = x | 0x70000000;
- do { } while (0);
-  o->w12 = 0;
-  o->w0 = p + 1;
-  *p = 0;
-}
+void FUN_002cf610(Pk_002CF610 *o, int x) { int r = func_002CF458_2CF610(o); int *p = o->w0; o->w8 = r; *(p++) = x | 0x70000000; do { } while (0); o->w12 = 0; o->w0 = p + 1; *p = 0; }
 
 // MATCH func_002CADE8
 int FUN_002cade8(void) { unsigned *p = (unsigned *)0x10003800; unsigned v; __asm__("" : "+r"(p)); v = *p; if (!(v & 3)) return 0; if (v & 0x700) return 1; if (v & 0xc) return 2; return (v & 0x3000) ? 3 : 4; }
