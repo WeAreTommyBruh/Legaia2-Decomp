@@ -230,3 +230,7 @@ extern int D_004A69AC_2A0138 __asm__("D_004A69AC"), D_004A69B0_2A0138 __asm__("D
 // MATCH func_002A0138
 int clas_min_002a0138(char *o, int x) { unsigned f = *(unsigned *)(o + 496); if ((f & 3) != 0) { if (x == *(int *)(o + 488) + D_004A69AC_2A0138) return 1; } else if ((f & 4) != 0) { if (x == *(int *)(o + 488) + D_004A69B0_2A0138) return 1; } return 0; }
 
+extern char D_005F9640_29FAF0[] __asm__("D_005F9640"); void func_0029FA18_29FAF0(char *, void *) __asm__("func_0029FA18"); void func_0029F008_29FAF0(char *, int, int) __asm__("func_0029F008");
+// MATCH func_0029FAF0
+void clas_min_0029faf0(char *o, int *a) { *(int *)(o + 76) &= ~0x1000; func_0029FA18_29FAF0(o, a); func_0029FA18_29FAF0(o, D_005F9640_29FAF0 + *(int *)(o + 80) * 608); func_0029F008_29FAF0(o, *a, 0); }
+
