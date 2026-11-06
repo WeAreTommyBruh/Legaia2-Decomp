@@ -6,10 +6,10 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **14.26% of code (288,428 bytes), 3985 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
+- **14.40% of code, 3999 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
-- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985).
+- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999). 14.31% (the earlier goal) was reached; the current goal is 15%.
 - Matched code is written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), or Ghidra output that already
   matches (`tools/gen_ghidra.py`). Everything counted is C, except the libvu0 routines (file-scope asm in `src/vu0_asm.c`).
 - Functions with a source file: 2042 / 6254; with a real name: 263; `.text` words disassembled: 98.3%.
@@ -191,6 +191,20 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - `build/work/vr.py ADDR SPEC.json` (new): variant runner with `@@NAME@@` placeholders and a JSON spec (no `{{ }}` brace clashes); `scoreall`-style pass: score every `w/*.c` draft under
   its own header once (664 drafts take 30 s) to find real near misses; many `w/` drafts are STALE (already matched), so filter by `// MATCH` tags first (the "permuter hits"
   2cf4b0/2cf610 were already matched).
+
+- **Block copies (`ldl/ldr/sdl/sdr` or a runtime `or/andi 7` test) are plain C, and 162 unmatched functions (122 KB) contain them.** An unaligned 8/16-byte copy is a struct of
+  `char c[8]` / `char c[16]` assigned by value (`*(B16 *)(o + 112) = *(B16 *)p;`): mizuki 1e0150, th_tex 22c0e0, srivus 1891c0, pchsysw 12e040, pchevent 20ce80, 2cf088 matched that way.
+  The inlined 96/252-byte copy WITH a runtime alignment test is gcc's builtin `memcpy(dst, src, N)` (declare `void *memcpy(void *, const void *, unsigned);`, char pointers): 2247b0,
+  2248a8 matched with it (a non-constant size stays a real call; known 8-byte alignment gives the plain `ld/sd` loop from a struct of `long long`). Still open with this idiom: 2ece08/
+  2ed010/2ed418 (one callee-saved register short), 16d030 (struct `S224` copies, 45 words), 20f3f8, 1748c8, 172998, 1703b0, 20c1d8.
+- Layout rules that fixed several functions: the original's `bgez/bltz` sense decides which block is written first (flip `if (a) X else Y` to `if (!a) Y else X`; 20dbb8, 1d95d4-style
+  tails); an early `return`'s shared epilogue means a single result variable only if the delay slot holds the `lui`/constant (try both); Ghidra drops FLOAT arguments of callees
+  (`func_00154268(b, D)` had a hidden float, 20e0d0/20de78) and argument ORDER of a float+pointer prototype matters for delay-slot filling (`(void *, float)` fixed 20de78); a
+  global at `lui`+offset that is accessed with several offsets is ONE struct global (`D_0041EFB0.f208`), not several symbols.
+- Unit placement: `finish.py`/`emit.py` put everything into the default unit and ignore a `// compiler:` or `// cflags:` line inside a draft (`rs.score` honours it, so the batch output
+  prints a misleading config). Strip the header lines from the `w/` draft before `finish.py`, check the printed config, and move a function that needs 990721-r5900 into
+  `<unit>_990721.c` by hand (with `// compiler:` at the top of that file); never leave a `// compiler:` line in the middle of a unit file (it switches the whole file; symptom `fptosi`
+  undefined). A helper `static`/`inline` definition must not share a line with the function after `// MATCH` (the build takes the first identifier before `(` as the function).
 
 ## Open work
 
