@@ -34,6 +34,7 @@ game code and are git-ignored.
 Usage: asm_build.py split | build | all
 """
 
+import bisect
 import collections
 import concurrent.futures
 import csv
@@ -191,6 +192,10 @@ def c_functions():
             subprocess.run([objcopy, "-w", "--remove-section=.data", "--remove-section=.rel.data", obj],
                            check=True)
         subprocess.run([objcopy, "-w", "--remove-section=.rela*", obj], check=True)
+        # ee-gcc aligns functions to 8; the original packs some of them at 4 mod 8
+        odd = [f"--set-section-alignment=.text.{name}=4" for addr, name in marks if int(addr, 16) % 8 == 4]
+        if odd:
+            subprocess.run([objcopy, *odd, obj], check=True)
         data = bytearray(open(obj, "rb").read())
         struct.pack_into("<I", data, 0x24, flags)
         # lld does not know R_MIPS_LITERAL (a li.s constant in .lit4); it is
@@ -272,11 +277,23 @@ def split():
     run_index = []
     for i, r in enumerate(runs):
         run_index += [i] * ((r["end"] - r["start"]) // 4)
+    # a C function cuts its run into separate .s files, so a branch may not cross one
+    cut = sorted(cfuncs)
+    cut_ranges = [(c, c + cfuncs[c][2]) for c in cut]
+
+    def segment(x):
+        return bisect.bisect_right(cut, x)
+
+    def in_c(x):
+        i = bisect.bisect_right(cut, x) - 1
+        return i >= 0 and x < cut_ranges[i][1]
+
     locals_ = set()
     for a, d in decoded.items():
         if d and d[2] is not None and d[0] not in ("j", "jal"):
             t = d[2]
-            if start <= t < end and run_index[(t - start) // 4] == run_index[(a - start) // 4]:
+            if (start <= t < end and run_index[(t - start) // 4] == run_index[(a - start) // 4]
+                    and segment(t) == segment(a) and not in_c(t)):
                 locals_.add(t)
             else:
                 decoded[a] = None

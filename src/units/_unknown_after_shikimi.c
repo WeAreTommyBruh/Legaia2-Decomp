@@ -1956,3 +1956,7 @@ void func_002E95B0_2EA810(int) __asm__("func_002E95B0"); void func_002E96B8_2EA8
 // MATCH func_002EA810
 int FUN_002ea810(int a0, int a1, void *a2, unsigned a3, int a4, unsigned a5) { T_2ea810_002EA810 *t = D_00634280_002EA810; S_2ea810_002EA810 s; int res; int sem; int r; int v; H_2ea810_002EA810 *h; h = func_002E9130_2EA810(); func_002E95B0_2EA810(26); if (D_00429918_002EA810[0] == 0) func_002E96B8_2EA810(); if (h == 0 || h->w4 == 0) { func_002E95E0_2EA810(); return -9; } if (a3 > 1024 || a5 > 1024) { func_002E95E0_2EA810(); return -22; } if (a2 == 0) t->w1052 = 0; else func_002DC650_2EA810(t->buf, a2, a3); t->w12 = h->w0; t->w16 = a1; t->w1052 = a3; s.a[2] = 0; s.a[1] = 1; s.a[5] = 0; sem = func_002E58A0_2EA810(&s); t->w1048 = a5; t->res = &res; t->w8 = 4; t->w1044 = a4; t->sem = sem; func_002E8038_2EA810(D_00634280_002EA810, 1056); r = func_002E8928_2EA810(D_00635540_002EA810, 26, 0, D_00634280_002EA810, 1056, D_00634EC0_002EA810, 4, 0, 0); if (r < 0) { func_002E58B0_2EA810(sem); func_002E95E0_2EA810(); return -11; } v = *(int *)((unsigned)D_00634EC0_002EA810 | 0x20000000); func_002E95E0_2EA810(); if (v == 0) { func_002E58B0_2EA810(sem); return -11; } func_002E58E0_2EA810(sem); func_002E58B0_2EA810(sem); return res; }
 
+
+// MATCH func_002CF338
+void FUN_002cf338(int *o, int a) { int p; int new_var; if (p) { a = a << 2; p = *o; new_var = p + a; *o = new_var; } else { a = a << 2; p = *o; new_var = p + a; *o = new_var; } }
+
