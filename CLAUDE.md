@@ -6,10 +6,10 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **14.01% of code, 3971 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
+- **14.26% of code (288,428 bytes), 3985 / 6254 functions matched.** `.text` is about 2.0 MB (`total_code` 2,022,408 bytes); the percentages measure only that.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
-  request for 100 more functions (11 matched, 89 short). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
-- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971).
+  request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
+- History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985).
 - Matched code is written by hand, generated from instruction patterns (`tools/gen_tiny.py` and the other `gen_*` tools), or Ghidra output that already
   matches (`tools/gen_ghidra.py`). Everything counted is C, except the libvu0 routines (file-scope asm in `src/vu0_asm.c`).
 - Functions with a source file: 2042 / 6254; with a real name: 263; `.text` words disassembled: 98.3%.
@@ -44,6 +44,10 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - Website (`site/template.html` + `site/build_site.py`, deployed by `.github/workflows/pages.yml`, which checks out 30 commits for the history): badges, cards for code /
   functions / fuzzy match / data, the categories panel and the recent commits, all filled from `report/report.json` and `git log`; no "See the progress" button in the hero.
   README badges are SVG files in `badges/` drawn by `tools/badges.py`; `tools/report.py` regenerates them whenever it writes `report/report.json`.
+- `tools/asm_build.py` (fixed): a C function whose address is 4 mod 8 gets its `.text.NAME` section aligned to 4 (the original packs some functions like that, e.g. the
+  nayuki float packers; ee-gcc's own alignment is 8 and shifted everything after it by 4-8 bytes), and unmatched code that branches ACROSS a C function now writes the branch as
+  `.word` (the C function splits the run into separate .s files, so the local label was undefined at link time). Symptom of either: `DIFFERS`, `.text` 8 bytes long, or
+  `undefined symbol .L001Dxxxx`. `build/word_overrides.txt` is rewritten by every build; it is only a list of words, harmless.
 - csv size quirk: 155738 absorbs the next 8-byte function; a 1-word diff with no `!=` line is the known `jr` delay-slot size quirk.
 
 ## Rules
@@ -134,7 +138,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - Struct by value: `V3 t; t = v; f(t)` gives the second 12-byte copy on the stack (24cc58); a returned struct needs `V3 t, v; t = f(); v = t;` (24ccd8). Vector copies need an
   8-byte aligned type (`typedef union { long long l[2]; float f[4]; } V4;`), otherwise gcc uses `ldl/ldr` (162520 is still open, 20 words).
 - Member-function-pointer calls (`ld -8` + `dsra32`) match with a hand-expanded ptmf: two separate `idx > 0` tests, one for the function and one for the delta
-  (`fn = (void (*)(void *))(e >> 32); d = idx > 0 ? (short)e + dl : dl; fn(o + d);`). Untried: 171ae8 1723e8 173980 175f58 176ac8 176e10 17fc20 204a78 214fa8.
+  (`fn = (void (*)(void *))(e >> 32); d = idx > 0 ? (short)e + dl : dl; fn(o + d);`). All matched now except 204a78 (4 words, 990721-r5900) and 214fa8 (untried). Recipe for 175f58/176e10: `switch (state) { case 0: ...; return 2; case 1: ...; return 2; }` with the main body after the switch, `D_004A129C = 1` stored AFTER the index load, a separate temporary for the case-1 result, and `if (p == 0) Dbg(...); return 2;` (not a return inside the braces).
 - Overlapping `lw`/`lh` fields reloaded after a store need a union. A pointer in a callee-saved reg may need a `static inline` helper taking `float *v`.
 - Separate base variable (`q = SYM; p = q + 8`) stops `-25104 + 8` folding into one `addiu`; one unsigned counter `for (i = 63; (int)i >= 0; i--)` for two loops;
   `p != 0 && n != 0` plus one post-loop `if (p == 0) return 0` for a shared fail block; copy newlib's variable names for newlib code; `x = base; ... q + 6676` needs the base
@@ -174,12 +178,26 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   (array-of-struct bases `B164 D_..[]`/`B232 D_..[]`, madd), found by grouping unmatched functions by opcode signature. No unmatched function shares an exact
   mnemonic sequence with a matched one any more.
 
+- **Float/int packer functions (no branches, no calls) lift mechanically:** `addiu rB, rIn, imm` bases become `float *p = (float *)(d + imm); int *ip = (int *)p;`, each store
+  `o[k] = p[j]` or `(float)ip[j]` in out-offset order (1d953c, 1d9410, 1d95d4 matched first try). `build/work/lift.py ADDR` does it. A last store that is NOT in the `jr` delay slot
+  (nop after the jr) is a `volatile` store (1d95d4). Plain-array `for (i = 0; i < 32; i++) if (T[i] == -1) {...; break;}` gives the original's un-strength-reduced slot scan
+  (gcc peels the first iteration itself); a do/while with a pointer variable does not.
+- **CD request wrappers** (`func_002E95B0(n)`, `D_00634280` request block, `S s; s.a[1]=1`, `func_002E8928` 9 args): typed struct per function, name copies as in 2eb8a0, a
+  `buf[i] = c[i]` loop with `unsigned` index when the original uses `sltu`, signed `int` index for the name loops, error returns as plain negative constants
+  (`-65536`/`-65540`/`-65537` are `lui 0xffff`/`lui 0xfffe; ori`). Matched 2ebc48, 2ead88, 2ec110, 2ea810, 2ed680, 2ed218, 2ed348. A base symbol `+8` (`D_006357C8`, p = t - 8)
+  stops gcc folding the offset. Hex vs decimal: check `addiu` constants with Python (22472 is 0x57C8).
+- **Register priority = refs / live length.** If two values swap registers, remove references to the long-lived one: declare a pass-through callee `int f(void)` instead of
+  `f(x)` when the original leaves `$4` untouched (2ed218/2ed348 fixed this way); add references to the other.
+- `build/work/vr.py ADDR SPEC.json` (new): variant runner with `@@NAME@@` placeholders and a JSON spec (no `{{ }}` brace clashes); `scoreall`-style pass: score every `w/*.c` draft under
+  its own header once (664 drafts take 30 s) to find real near misses; many `w/` drafts are STALE (already matched), so filter by `// MATCH` tags first (the "permuter hits"
+  2cf4b0/2cf610 were already matched).
+
 ## Open work
 
 Near misses (words off; drafts are in `build/work/w/`):
 
-- 1 word: 249ef0, 25d7b0, 2cf338, 12e2a8 (needs a volatile next-pointer plus a reload of `first`); 2: 2b8ee8 (872 bytes, 990721-r5900, two swapped `lui`), 2b32a8 (536 bytes),
-  2ce5a8, 2ca968, 2cf1b0, 2cf2c0, 160df8, 165ca0, 113ec8, 1949e0, 1d8250, 20ddf8, 20fd88, 177348, 247a48, 2d37c0, 2cf4b0, 2cf610; 3: 10d748 (`-fexceptions`), 2121a8, 1e3f88,
+- 1 word: 249ef0, 25d7b0, 12e2a8 (needs a volatile next-pointer plus a reload of `first`); 2: 2b8ee8 (872 bytes, 990721-r5900, two swapped `lui`), 2b32a8 (536 bytes),
+  2ce5a8, 2ca968, 2cf1b0, 2cf2c0, 160df8, 165ca0, 113ec8, 1949e0, 1d8250, 20ddf8, 20fd88, 177348, 247a48, 2d37c0, ; 3: 10d748 (`-fexceptions`), 2121a8, 1e3f88,
   2d3628; 4: 247b40, 196340, 2bf848, 2cea70 (store order of the zeroing stores), 1e2b40, 2a4338; 5: 213258; 6-10: 1a4180, 2edc50, 2d6168, 218f40, 20b910, 247468, 12cf48, 2d33d8,
   1266f8, 23b7c0.
 - Found by earlier passes: the GS packet builders 1632d0..163780 (64-bit field packing) and 247b68 / 2493d0 / 247ef8; member-function-pointer calls (173980 is structurally right
@@ -187,8 +205,16 @@ Near misses (words off; drafts are in `build/work/w/`):
 - Find-by-tag tails: 160778 (25), 1608a8 (9), 1609c8 (19), 160b48 (10), 160c70 (18), callers 160490 (24) and 160568. Pairs with identical shape: 167940/167b88 (580 bytes each,
   18 words, 990721-r5900, final `movn` vs branch), 2ece08/2ed010 (CD request with an inlined 252-byte struct copy and a runtime alignment test), 1e43d0/1e4568, 127bb8/127d50,
   20cb90/20cd08, 2cb978/2cbc90, 276b50/276dd4, 137dc8/137ed8.
-- CD family: 2eb200/2e9bd8 (clamp `m = -1; return m < res ? 0 : res;` is right, the `lui`/`lw` register swap in the head is not), 2eb138, 2ea810, 2eb8a0, 2ec348, 2ec528, 2e96b8,
-  2e9d58, 2eb660, 2ebed8, 2ec110, 2e9950, 2e9f90, 2ea200, 2ead88, 2ebc48, 2ea4c0, 2e8bf0, 2edb40.
+- CD family, still open: 2eb200 (3 words) and 2eb138 (~10): the only diff is `lui $3; lw $2` vs `lui $2; lw $3` for the `D_00429918` init test (void/int callee, named local, array-offset
+  symbol, volatile, test forms all tried; permuter found nothing in 100 s). The 0x8000-flag functions 2e9d58, 2e9f90, 2ea200, 2ea4c0, 2ebed8 (about 3,300 bytes, one solution unlocks all):
+  structure is written (see `w/002e9f90.c`, slot scan as a plain `for`, `D_00634280[0].sem` symbolic accesses, `D_00429924` an ARRAY, flags test `fl & 0x8000` twice) but the
+  original recomputes `andi $2,$19,0x8000` instead of keeping the mask in `$30`, and holds `hi(D_00634280)` in `$20`, flags in `$19`, sem in `$18` (mine: 18/20/19); declaration
+  order, -fno-gcse, volatile loads do not move them. Others: 2e9bd8 (24 words), 2e9950 and 2ea4c0 (stack-saved varargs style), 2ed418/2ece08/2ed010 (inlined 252-byte struct copy with runtime
+  alignment test), 2e96b8, 2e8bf0, 2ecc40, 2ed9a0, 2edb40 (string handling), 2ee0e8.
+- Straight-line functions not yet done (`b0 j0` list): 1d9798 (488, three 80-byte structs, lwc1/swc1 self-copies of fields 36/40 in the first component only), 1dfdc0, 1ea2c0 (876),
+  23c898/23ca00 (GS packets with stack args), 16b240 (35 words: struct-based `D_00314C20[4]` packet pointer, `x = a + 0x6c0` shared), 1632d0/1633e8/163508/163630/163780/1638d0 (GS 64-bit
+  packing), 2a7920, 153690, 111f90, 2a45e8. 190ba0 (212 bytes, 35 words: structure right, `$19`/`$20` swapped for a2 and the symbol). 160f20 (468, 58 words: `-fno-gcse`, n gets
+  the wrong register). 2ed218-style swaps: try removing argument references first.
 - Hardware/kernel: 2c5c60 (38: do-while after an explicit entry test; register swap), 2e8038 (49: the original keeps the 0xffffffc0 mask in a register), 2c3620 (32: `movz/movn`
   selects match with ternaries, register numbering does not), 2ceb50 (115: dead volatile reads), 111170 (115: a `sw` that must sit in a jal delay slot), 2c8cd8 (IPU handler; the original
   reloads `*o`), 2c89b8, 2c6fa8, 2c7120, 2c7228, 2c7318, 191ef0, 2e7120/2e32a0 (soft-float helpers: the original uses `(p << 1) >> 53`), 2e5480 (`RFU000_FullReset`, 1 word off).
