@@ -1977,3 +1977,11 @@ void func_002CF458_2CF508(void *) __asm__("func_002CF458");
 // MATCH func_002CF508
 void FUN_002cf508(Pk_002CF508 *o, unsigned a, unsigned b, int c, int d, unsigned e) { int *p; unsigned t; func_002CF458_2CF508(o); p = o->w0; t = b | 0x30000000; *p++ = e | t; *p = a & 0x9fffffff; p[1] = c; p[2] = d; o->w0 = p + 3; }
 
+
+// MATCH func_002CF368
+void FUN_002cf368(int *o) { unsigned long *hdr = (unsigned long *)o[3]; int *cur = (int *)*o; unsigned long h = *hdr; unsigned n; unsigned long f; unsigned q; int *p; n = (((int)cur - (int)hdr) >> 3) - 2; f = h >> 58 & 3; if (f != 1) n = n >> 1; if (f != 2) { q = h >> 60; if (q == 0) q = 16; n = (n + q - 1) / q; } o[3] = 0; *hdr = h + n; p = cur; while (((unsigned)p & 0xc) != 0) { *p = 0; p++; } *o = (int)p; }
+
+
+// MATCH func_002CF708
+void FUN_002cf708(int *o) { unsigned long *hdr = (unsigned long *)o[5]; int *cur = (int *)*o; unsigned long h = *hdr; unsigned n; unsigned long f; unsigned q; int *p; n = (((int)cur - (int)hdr) >> 3) - 2; f = h >> 58 & 3; if (f != 1) n = n >> 1; if (f != 2) { q = h >> 60; if (q == 0) q = 16; n = (n + q - 1) / q; } o[5] = 0; *hdr = h + n; p = cur; while (((unsigned)p & 0xc) != 0) { *p = 0; p++; } *o = (int)p; }
+
