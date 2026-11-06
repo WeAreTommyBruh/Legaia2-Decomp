@@ -35,8 +35,10 @@ New (packed) layout, 99.4% of clips:
               clip (e.g. a hand pose) plays on the attached object in sync
        bit 1: +0x4c, not read by the accessors (not decoded)
   Bone record: u16 name offset (into section 3), u16 base vector index,
-  u16 channel mask, u16 first segment of each channel: tx, ty, tz, rx, ry, rz,
-  sx, sy, sz (scale only with flag 0x10; scale = value / 256).
+  u16 flags (1 on every bone seen; NOT a mask of present channels), u16 first
+  segment of each channel: tx, ty, tz, rx, ry, rz, sx, sy, sz. All six
+  translation and rotation channels are always present; scale (sx, sy, sz,
+  value / 256) only with clip flag 0x10.
   Segment: u32 value offset (in s16 units), u16 key count, u8 mode, u8 flag.
     mode 1: one value held for all its keys; mode 0: one value per key.
   A channel's segments are consecutive and their key counts add up to the
@@ -53,6 +55,13 @@ test and early versions):
   rz). Some files carry extra data after the last frame, which the game does
   not read. 15 clips in three test files (mon01x, skl_test, test) do not fit
   this and are reported as unsupported.
+
+Posing (read from the game's skeleton code at 0x00230cb0 and the matrix routine at 0x0018e860, and checked
+on screen in site/viewer): bone matrix = parent * translate(tx, ty, tz) * Rz(rz) * Ry(ry) * Rx(rx), standard
+right-handed rotations. A skinned part's vertices are bind-pose model-space positions: with all rotations zero the
+joint of bone b sits at the sum of the translations along its chain, J_b, and a vertex blends
+R_b * (v - J_b) + t_b over its two slots by weight (J from frame 0 of any clip; a rigid part's vertices are in
+the local space of its bone instead).
 
 Both layouts: rotations use 4096 = 360 degrees unless flag 0x80 is set;
 translations are in model units.
@@ -211,7 +220,7 @@ def _decode_new(data, start, end):
         raw = data[so[3] + rec[0]:so[4]].split(b"\0")[0]
         bone = {"name": raw.decode("latin1"), "parent": parent[b + 1] - 1 if parent[b + 1] else None}
         for k, ch in enumerate(CHANNELS + ("sx", "sy", "sz")):
-            if rec[2] >> k & 1 and (k < 6 or flags & 0x10):
+            if k < 6 or flags & 0x10:
                 v = channel(rec[3 + k], keys)
                 if k < 3:
                     v = [x << c[4] for x in v]

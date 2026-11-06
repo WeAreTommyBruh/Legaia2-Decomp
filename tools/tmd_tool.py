@@ -35,11 +35,26 @@ u32 size in words (section = 8 + size * 4 bytes, last 4 may be padding), then
 groups. Group: u32 ?, u16 record count, u16 flags, then 16-byte records:
   u32 flags, u8 r, g, b, a, u16 u, u16 v, u16 vertex offset, u16 normal offset
 (offsets in bytes into the vertex/normal arrays, i.e. index * 16). Each group is
-a triangle strip; a record with flag bit 0 set does not complete a triangle (GS
-ADC bit). This reproduces the header triangle count for 98.6% of the 5,234
-parts on the disc; the rest (a few files such as mon2.tmd) use another group
-layout and are skipped.
-Texture coordinates are written as u/1024, v/1024 (scale not confirmed).
+a triangle strip. Flag bit 0 is the GS ADC bit, stored one record late: the
+triangle that ends at record i is not drawn when record i + 1 has bit 0 set, so a
+new sub-strip starts with two flagged records and nothing joins it to the strip
+before it. (Reading the bit on record i itself gives the same triangle count but
+leaves a long triangle at every restart: 3.9% of the edges in boss.tmd are over
+4x the median, 0.7% with the bit one record late, 0% in mon035.tmd.) This
+reproduces the header triangle count for 98.6% of the 5,234 parts on the disc;
+the rest (a few files such as mon2.tmd) use another group layout and are skipped.
+Texture mapping (checked on the 279 .tmd files that have a same-named .tms). The u32
+flags of a group's FIRST record name the texture: bits 6-13 (low 14 bits >> 6) are the
+texture's palette slot, i.e. the CLUT position stored in its .tms header (u16 at +0x12);
+bits 16-22 are the texture's x >> 6 (VRAM page column); the top byte is the texture's
+index in the set, which is only a fallback (it equals the palette slot - 0x80 in most
+sets but not in all, e.g. ply001.tmd) and breaks ties. u and v are in quarter texels in
+that page's space: texel x = u/4 - (tex.x & 63) * pixels_per_unit (2 for 8-bit textures;
+tex.x is in 16-bit units), texel y = v/4 - tex.y; divide by the texture width/height.
+With this 99.9% of the 849,525 triangles land inside their texture (the exceptions are
+bwin.tmd, mon1.tmd and mon2.tmd). The OBJ writer here still uses the old u/1024, v/1024
+guess; the site viewer (site/viewer/legaia.js, textureForFlags and mapUV) uses the
+mapping above.
 
 Usage:
   tmd_tool.py info FILE.tmd [...]       models, parts, flags, bone slots
@@ -95,7 +110,8 @@ class Part:
                     strip.append((flags, (vo // 16, no // 16 if nn else 0, u, v, rgba)))
                 pos += 16 * n
                 for i in range(2, n):
-                    if not strip[i][0] & 1:
+                    # the ADC bit that suppresses the triangle ending at record i sits on record i + 1
+                    if not (i + 1 < n and strip[i + 1][0] & 1):
                         a, b, c = strip[i - 2][1], strip[i - 1][1], strip[i][1]
                         # alternate winding along the strip
                         self.triangles.append((a, b, c) if i % 2 == 0 else (b, a, c))

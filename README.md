@@ -51,6 +51,13 @@ python3 tools/asm_build.py all
 wsl --install
 ```
 
+# Asset Viewer
+There is an asset viewer on the website. [Open the asset viewer](https://wearetommybruh.github.io/Legaia2-Decomp/viewer.html)
+
+You open your own disc image and you can look at the models, textures, audio, motions and effects. There is also a button to extract everything to a folder. It all runs in your browser. Nothing gets uploaded and there are no game files in this repo.
+
+It is not perfect. Effects are only a rough preview. The viewer is JavaScript, it lives in `site/viewer`.
+
 # AI Usage
 This project is obviously entirely ai.
 

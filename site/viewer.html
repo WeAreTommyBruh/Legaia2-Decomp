@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asset Viewer</title>
+<meta name="description" content="Open your own Legaia 2: Duel Saga disc image in the browser to look at its models, textures, audio, motions and effects, or extract them. Nothing is uploaded and no game data is hosted here.">
+<meta name="theme-color" content="#2A130B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 16 16 30 2 16Z' fill='%23F2C40E' stroke='%232A130B' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;600&display=swap" media="print" onload="this.media='all'">
+<style>
+/* Same palette and components as template.html so the viewer can be folded into the site later. */
+:root{
+  --bg-top:#EC352E; --bg-bottom:#4E1F27; --bg-end:#24090F;
+  --blue-1:#3C8FCD; --blue-2:#2E4C88; --blue-text:#2F74B0;
+  --blue-hover-a:#55A6E3; --blue-hover-b:#3A5FA6;
+  --blue-press-a:#2E4C88; --blue-press-b:#223869;
+  --gold-1:#F2C40E; --gold-2:#EDB202;
+  --brown-1:#2A130B; --brown-2:#372B1D;
+  --text:#FFFFFF; --muted:#F7DCD6; --ink:#2A130B;
+  --serif:'Cinzel','Trajan Pro',Georgia,serif;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--text);font:16px/1.65 'Noto Sans',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  background:linear-gradient(135deg,var(--bg-top) 0%,var(--bg-bottom) 62%,var(--bg-end) 100%) fixed;min-height:100vh}
+a{color:#fff;text-decoration:underline;text-decoration-color:var(--gold-1);text-underline-offset:3px}
+a:hover{color:var(--gold-1)}
+:focus-visible{outline:3px solid var(--gold-1);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+p{margin:.5em 0 1em}
+.label{color:var(--muted);font-size:14px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;background:rgba(42,19,11,.75);padding:1px 6px;border-radius:5px;color:#fff}
+
+nav{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,var(--brown-2),var(--brown-1));border-bottom:2px solid var(--brown-1);box-shadow:0 3px 0 var(--brown-2),0 8px 20px rgba(0,0,0,.35)}
+nav .wrap{max-width:980px;display:flex;align-items:stretch;gap:4px;height:52px;overflow-x:auto;white-space:nowrap}
+nav b{font-family:var(--serif);letter-spacing:.08em;display:flex;align-items:center;margin-right:auto;padding-right:16px}
+nav a{display:flex;align-items:center;padding:0 14px;text-decoration:none;font-family:var(--serif);font-size:13px;letter-spacing:.06em;border-bottom:3px solid transparent}
+nav a:hover{background:linear-gradient(180deg,var(--blue-hover-a),var(--blue-hover-b))}
+nav a[aria-current="true"]{border-bottom-color:var(--gold-1);background:linear-gradient(180deg,var(--blue-1),var(--blue-2))}
+
+header{padding:34px 0 14px}
+.eyebrow{display:inline-block;font-family:var(--serif);font-size:13px;letter-spacing:.28em;text-transform:uppercase;background:rgba(42,19,11,.55);border:1px solid var(--brown-2);border-radius:4px;padding:4px 12px}
+h1{font-family:var(--serif);font-size:32px;letter-spacing:.12em;text-transform:uppercase;margin:14px 0 6px;text-shadow:2px 2px 0 rgba(42,19,11,.7)}
+h2,h3{font-family:var(--serif);letter-spacing:.12em;margin:0 0 8px;text-shadow:1px 1px 0 rgba(42,19,11,.7)}
+h2{font-size:16px}
+h3{font-size:14px}
+h2::before{content:'';display:inline-block;width:8px;height:8px;margin-right:9px;transform:rotate(45deg);background:var(--gold-1);border:1px solid var(--brown-1)}
+
+.panel{background:linear-gradient(180deg,var(--blue-text),var(--blue-2));border:2px solid var(--brown-1);border-radius:8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 0 0 1px var(--brown-2),0 8px 20px rgba(0,0,0,.35);padding:16px;min-width:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;min-height:40px;border-radius:6px;border:2px solid var(--brown-1);cursor:pointer;
+  font-family:var(--serif);font-size:13px;letter-spacing:.08em;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55);text-decoration:none;
+  background:linear-gradient(180deg,var(--blue-1),var(--blue-2));box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 0 1px var(--brown-2),0 3px 8px rgba(0,0,0,.35)}
+.btn:hover{background:linear-gradient(180deg,var(--blue-hover-a),var(--blue-hover-b))}
+.btn:active{background:linear-gradient(180deg,var(--blue-press-a),var(--blue-press-b))}
+.btn.primary{background:linear-gradient(180deg,var(--gold-1),var(--gold-2));color:var(--ink);text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.btn.primary:hover{filter:brightness(1.08);background:linear-gradient(180deg,var(--gold-1),var(--gold-2))}
+.btn[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(.5)}
+.btn.selected{outline:2px solid var(--gold-1);outline-offset:1px}
+.btn.block{width:100%}
+
+/* ---------- viewer layout ---------- */
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 14px}
+.tools .grow{flex:1}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.tabs .btn{padding:6px 14px;min-height:36px}
+.tabs .btn small{font-family:'Noto Sans',sans-serif;letter-spacing:0;opacity:.85;font-size:12px}
+.viewer{display:grid;grid-template-columns:300px minmax(0,1fr) 260px;gap:14px;align-items:stretch}
+@media (max-width:1000px){.viewer{grid-template-columns:1fr}}
+.search{width:100%;min-height:38px;border-radius:6px;border:2px solid var(--brown-1);background:rgba(42,19,11,.75);color:#fff;padding:6px 10px;font:inherit;font-size:14px;margin-bottom:10px}
+.search::placeholder{color:var(--muted)}
+.search:disabled{opacity:.5}
+.files{position:relative;border:1px solid var(--brown-2);border-radius:6px;background:rgba(42,19,11,.55);height:520px;overflow:auto;outline-offset:0}
+.files .pad{position:relative;width:100%}
+.files .row{position:absolute;left:0;right:0;height:30px;padding:0 10px;font-size:13px;border-bottom:1px solid var(--brown-2);display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;color:var(--muted);white-space:nowrap}
+.files .row:hover{background:rgba(85,166,227,.25)}
+.files .row[aria-selected="true"]{background:linear-gradient(180deg,var(--blue-1),var(--blue-2));color:#fff}
+.files .row .n{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.files .row .n i{font-style:normal;opacity:.6}
+.files .row .s{font-size:12px;flex:none;font-variant-numeric:tabular-nums;opacity:.8}
+.files .empty{padding:18px 12px;text-align:center;color:var(--muted);font-size:14px}
+.stage{display:flex;flex-direction:column;gap:10px}
+.screen{position:relative;flex:1;min-height:520px;border:2px solid var(--brown-1);border-radius:8px;overflow:hidden;
+  background:
+    linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px) 0 0/32px 32px,
+    linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px) 0 0/32px 32px,
+    radial-gradient(ellipse at 50% 40%,#3a1a22 0%,#1a0a0f 75%);
+  box-shadow:inset 0 0 40px rgba(0,0,0,.6),0 0 0 1px var(--brown-2)}
+.screen .msg{position:absolute;inset:0;display:grid;place-content:center;text-align:center;padding:20px}
+.screen .msg b{font-family:var(--serif);letter-spacing:.14em;font-size:18px;color:var(--gold-1)}
+.screen .diamond{width:46px;height:46px;margin:0 auto 14px;transform:rotate(45deg);background:linear-gradient(135deg,var(--gold-1),var(--gold-2));border:2px solid var(--brown-1);opacity:.55}
+.view{position:absolute;inset:0;display:none}
+.view.on{display:block}
+#gl{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+#gl.drag{cursor:grabbing}
+.scroll{overflow:auto;padding:12px}
+.texgrid{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+.tex{background:rgba(42,19,11,.7);border:1px solid var(--brown-2);border-radius:6px;padding:8px;max-width:100%}
+.tex canvas{display:block;image-rendering:pixelated;max-width:100%;height:auto;
+  background:conic-gradient(#444 25%,#666 0 50%,#444 0 75%,#666 0) 0 0/16px 16px}
+.tex .cap{font-size:12px;color:var(--muted);margin-top:4px}
+.tex h4{margin:0 0 6px;font-family:var(--serif);font-size:12px;letter-spacing:.1em;color:var(--gold-1)}
+.listing{width:100%;border-collapse:collapse;font-size:13px}
+.listing td,.listing th{padding:5px 8px;border-bottom:1px solid var(--brown-2);text-align:left}
+.listing th{font-family:var(--serif);letter-spacing:.08em;font-size:12px;color:var(--gold-1)}
+.listing tr.pick{cursor:pointer}
+.listing tr.pick:hover{background:rgba(85,166,227,.25)}
+.hex{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.5;white-space:pre;color:#F7DCD6;margin:0}
+.audio{display:flex;flex-direction:column;gap:12px;padding:20px;height:100%;justify-content:center}
+.audio canvas{width:100%;height:160px;background:rgba(42,19,11,.7);border:1px solid var(--brown-2);border-radius:6px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;min-height:40px}
+.toolbar .grow{flex:1}
+.toolbar label{font-size:14px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.toolbar input[type=range]{accent-color:var(--gold-1);width:140px}
+.toolbar select{min-height:38px;border-radius:6px;border:2px solid var(--brown-1);background:rgba(42,19,11,.75);color:#fff;padding:4px 8px;font:inherit;font-size:14px}
+.meta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px}
+.meta dt{color:var(--muted)}
+.meta dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.divider{height:2px;margin:14px 0;background:linear-gradient(90deg,transparent,var(--brown-2),var(--brown-1),var(--brown-2),transparent)}
+.opt{display:flex;align-items:center;gap:8px;font-size:14px;margin:6px 0}
+.opt input{accent-color:var(--gold-1);flex:none}
+.opt>span{min-width:0;overflow-wrap:anywhere}
+.parts{max-height:150px;overflow:auto;margin:6px 0 0}
+.note{margin-top:18px;font-size:14px}
+.status{font-size:14px;min-height:22px;color:var(--muted)}
+.status.err{color:#FFD2CC;font-weight:600}
+.fx.on{display:flex;flex-direction:column}
+#fxCanvas{flex:1;min-height:240px;width:100%;display:block;cursor:grab;touch-action:none}
+.fxscript{flex:none;max-height:36%;overflow:auto;padding:10px 12px;border-top:2px solid var(--brown-1);background:rgba(20,6,8,.7);font-size:12px;line-height:1.45}
+.fxnote{position:absolute;left:10px;top:8px;font-size:12px;color:var(--muted);background:rgba(20,6,8,.6);padding:2px 8px;border-radius:99px;pointer-events:none}
+footer{padding:26px 0 40px;color:var(--muted);font-size:14px}
+body.dragover .viewer{outline:3px dashed var(--gold-1);outline-offset:6px}
+
+dialog{border:2px solid var(--brown-1);border-radius:10px;padding:20px;max-width:520px;width:calc(100% - 32px);color:#fff;
+  background:linear-gradient(180deg,var(--blue-text),var(--blue-2));box-shadow:0 0 0 1px var(--brown-2),0 20px 60px rgba(0,0,0,.6)}
+dialog::backdrop{background:rgba(20,6,8,.7)}
+dialog h2{margin-bottom:12px}
+.bar{height:14px;background:var(--brown-1);border:1px solid var(--brown-2);border-radius:99px;overflow:hidden;margin:12px 0 6px;box-shadow:inset 0 2px 3px rgba(0,0,0,.5)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(180deg,var(--gold-1),var(--gold-2));border-radius:99px;transition:width .15s}
+.row-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;justify-content:flex-end}
+</style>
+</head>
+<body>
+<nav aria-label="Sections"><div class="wrap">
+  <b>Legaia 2 Decomp</b>
+  <a href="index.html#progress">Progress</a><a href="index.html#milestones">Milestones</a><a href="index.html#tools">Format tools</a><a href="index.html#setup">Setup</a><a href="index.html#about">About</a><a href="index.html#help">Help</a><a href="index.html#legal">Legal</a><a href="viewer.html" aria-current="true">Asset viewer</a>
+</div></nav>
+
+<header><div class="wrap">
+  <span class="eyebrow">Beta</span>
+  <h1>Asset Viewer</h1>
+  <p class="label" style="max-width:760px">Open your own disc image to browse the game's models, textures, audio, motions and effects, or extract everything to a folder. The disc is read inside your browser and never uploaded. This project ships no game data.</p>
+</div></header>
+
+<main class="wrap">
+  <div class="tools">
+    <input id="fileInput" type="file" accept=".iso,.bin,.img" hidden>
+    <button id="openBtn" class="btn primary">Open disc image</button>
+    <button id="extractBtn" class="btn" disabled>Extract assets</button>
+    <span class="grow"></span>
+    <span id="status" class="status" role="status" aria-live="polite">Choose your <code>SLES_50891.ISO</code> (or drop it on this page).</span>
+  </div>
+
+  <div id="tabs" class="tabs" role="tablist" aria-label="Asset type">
+    <button class="btn selected" role="tab" aria-selected="true" data-tab="all">All files <small id="c-all"></small></button>
+    <button class="btn" role="tab" aria-selected="false" data-tab="model">Models <small id="c-model"></small></button>
+    <button class="btn" role="tab" aria-selected="false" data-tab="texture">Textures <small id="c-texture"></small></button>
+    <button class="btn" role="tab" aria-selected="false" data-tab="audio">Audio <small id="c-audio"></small></button>
+    <button class="btn" role="tab" aria-selected="false" data-tab="archive">Archives <small id="c-archive"></small></button>
+    <button class="btn" role="tab" aria-selected="false" data-tab="motion">Motions <small id="c-motion"></small></button>
+    <button class="btn" role="tab" aria-selected="false" data-tab="effect">Effects <small id="c-effect"></small></button>
+  </div>
+
+  <div class="viewer">
+    <section class="panel" aria-label="File list">
+      <h2>Files</h2>
+      <input id="search" class="search" type="search" placeholder="Search files" aria-label="Search files" disabled>
+      <div id="files" class="files" tabindex="0" role="listbox" aria-label="Files on the disc"><div class="empty">No disc loaded.</div></div>
+      <p id="count" class="label" style="margin:10px 0 0">0 files</p>
+    </section>
+
+    <section class="panel stage" aria-label="Preview">
+      <h2>Preview</h2>
+      <div class="screen">
+        <div id="msg" class="msg"><div><div class="diamond"></div><b id="msgTitle">NO ASSET SELECTED</b><p id="msgText" class="label">Open a disc image, then pick a file.</p></div></div>
+        <div id="vGl" class="view"><canvas id="gl"></canvas></div>
+        <div id="vTex" class="view scroll"><div id="texGrid" class="texgrid"></div></div>
+        <div id="vList" class="view scroll"><div id="listBox"></div></div>
+        <div id="vAudio" class="view"><div class="audio">
+          <canvas id="wave" width="900" height="160"></canvas>
+          <div class="toolbar"><button id="playBtn" class="btn primary">Play</button><span id="audioInfo" class="label"></span></div>
+        </div></div>
+        <div id="vHex" class="view scroll"><pre id="hexBox" class="hex"></pre></div>
+        <div id="vFx" class="view fx"><canvas id="fxCanvas"></canvas><pre id="fxScript" class="hex fxscript"></pre></div>
+      </div>
+      <div id="toolbar" class="toolbar"></div>
+    </section>
+
+    <aside class="panel" aria-label="Details">
+      <h2>Details</h2>
+      <dl class="meta" id="meta">
+        <dt>Name</dt><dd>-</dd><dt>Type</dt><dd>-</dd><dt>Size</dt><dd>-</dd>
+      </dl>
+      <div class="divider"></div>
+      <div id="modelOpts" hidden>
+        <h3>Display</h3>
+        <label class="opt"><input id="optPose" type="checkbox" checked disabled> Pose with animation</label>
+        <label class="opt"><input id="optSkel" type="checkbox"> Skeleton</label>
+        <label class="opt"><input id="optTex" type="checkbox" checked disabled> Textures</label>
+        <label class="opt"><input id="optWire" type="checkbox"> Wireframe</label>
+        <label class="opt"><input id="optColor" type="checkbox" checked> Vertex colours</label>
+        <label class="opt"><input id="optTwo" type="checkbox" checked> Show back faces</label>
+        <h3 style="margin-top:12px">Parts</h3>
+        <div id="parts" class="parts"></div>
+        <div class="divider"></div>
+      </div>
+      <h3>Save</h3>
+      <button id="saveConv" class="btn block" style="margin-bottom:8px" disabled>Save converted</button>
+      <button id="saveRaw" class="btn block" disabled>Save original file</button>
+    </aside>
+  </div>
+
+  <p class="note label">Models are textured from the matching <code>.tms</code> file and posed with the clips of the matching <code>.mov</code> file. Untick <em>Pose with animation</em> to see a model at rest. Motion files show on their model, or as a bare skeleton when none is found. Effects are an approximate preview: particle emitters and rings are drawn from their documented fields as plain glows and outlines, without angles, texture animation or the game's exact random spread, and the script underneath is exact. Saved OBJ files are in the unposed bind pose. Everything is decoded from your disc with the same formats as the tools in <code>tools/</code>.</p>
+</main>
+
+<dialog id="extractDlg" aria-labelledby="exTitle">
+  <h2 id="exTitle">Extract assets</h2>
+  <p class="label">Writes files into a folder you choose. Nothing leaves your computer. The disc holds about 2.4 GB, so allow some time and disk space.</p>
+  <fieldset style="border:none;padding:0;margin:0;min-width:0">
+    <label class="opt"><input id="exRaw" type="checkbox" checked><span>Original files <span class="label">(as stored; sizes are padded to 2048 bytes)</span></span></label>
+    <label class="opt"><input id="exConv" type="checkbox" checked><span>Converted: models to <code>.obj</code>, textures to <code>.png</code>, audio to <code>.wav</code>, effect scripts to text</span></label>
+    <label class="opt"><input id="exLzs" type="checkbox"><span>Decompress <code>.lzs</code> archives</span></label>
+    <label class="opt"><input id="exFilter" type="checkbox"><span>Only the files matching the current tab and search <span id="exFilterN" class="label"></span></span></label>
+  </fieldset>
+  <div id="exProg" hidden>
+    <div class="bar"><i id="exBar"></i></div>
+    <div id="exText" class="label"></div>
+  </div>
+  <p id="exWarn" class="status err" hidden></p>
+  <div class="row-btns">
+    <button id="exCancel" class="btn">Close</button>
+    <button id="exGo" class="btn primary">Choose folder and extract</button>
+  </div>
+</dialog>
+
+<footer><div class="wrap">Legaia 2 Decompilation · asset viewer · <a href="https://github.com/WeAreTommyBruh/Legaia2-Decomp">Repository</a></div></footer>
+<script src="viewer/legaia.js"></script>
+<script src="viewer/app.js"></script>
+</body>
+</html>
