@@ -131,3 +131,11 @@ extern char D_00327A40_12AFB0[] __asm__("D_00327A40"), D_004318B8_12AFB0[] __asm
 // MATCH func_0012AFB0
 void battle_0012afb0(char *o, B16_0012AFB0 *a, B16_0012AFB0 *b, int c) { *(B16_0012AFB0 *)(o + 64) = *a; *(B16_0012AFB0 *)(o + 80) = *b; if (*(int *)(o + 96) == 0) { *(int *)(o + 96) = c; *(int *)(o + 100) = c; *(B16_0012AFB0 *)o = *(B16_0012AFB0 *)D_00327A40_12AFB0; *(B16_0012AFB0 *)(o + 16) = *(B16_0012AFB0 *)(D_00327A40_12AFB0 + 16); *(B16_0012AFB0 *)(o + 32) = *(B16_0012AFB0 *)(D_00327A40_12AFB0 + 32); func_001118F8_12AFB0(D_004318B8_12AFB0); } }
 
+extern char *D_004A1A20_1269A0 __asm__("D_004A1A20"); extern float D_0049FE10_1269A0 __asm__("D_0049FE10");
+// MATCH func_001269A0
+float battle_001269a0(int a, int b) { char *g = D_004A1A20_1269A0; return (*(float *)(g + a * 5472 + 4900) + *(float *)(g + b * 5472 + 4900)) * 5120.0f * D_0049FE10_1269A0; }
+
+extern int D_004A6D0C_127000 __asm__("D_004A6D0C"); extern char *D_004A6CFC_127000 __asm__("D_004A6CFC");
+// MATCH func_00127000
+void battle_00127000(int a, int b, int c, int d, int e, int f, int g, int h, int i, float x) { int *p; int n; n = D_004A6D0C_127000; if (n < 64) { p = (int *)(n * 40 + (int)D_004A6CFC_127000); p[9] = i; p[3] = a; p[0] = e; p[1] = f; p[2] = g; p[4] = d; p[6] = c; p[5] = b; p[8] = h; ((float *)p)[7] = x; D_004A6D0C_127000 = n + 1; } }
+
