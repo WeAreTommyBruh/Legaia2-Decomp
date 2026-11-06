@@ -56,7 +56,7 @@ There is an [asset viewer](https://wearetommybruh.github.io/Legaia2-Decomp/viewe
 
 You open your own disc image and you can look at the models, textures, audio, motions and effects. There is also a button to extract everything to a folder. It all runs in your browser. Nothing gets uploaded and there are no game files in this repo.
 
-It is not perfect. Effects are only a rough preview. The viewer is JavaScript, it lives in `site/viewer`.
+It is not perfect so expect bugs. If there are any report it in [issues](https://github.com/WeAreTommyBruh/Legaia2-Decomp/issues). Effects are only a rough preview. The viewer is JavaScript, it lives in `site/viewer`.
 
 # AI Usage
 This project is obviously entirely ai.
