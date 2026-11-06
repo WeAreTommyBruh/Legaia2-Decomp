@@ -38,3 +38,14 @@ extern float D_004A0D20_29D010 __asm__("D_004A0D20"); extern char D_0049A700_29D
 void *func_00162130_29D010(int, void *, int) __asm__("func_00162130");
 // MATCH func_0029D010
 void clas_min_0029d010(float f, int *o, int a, int b) { int *n; int nx; nx = o[4]; while (nx != 0) { o = *(int * volatile *)(o + 4); nx = o[4]; } if (f == D_004A0D20_29D010) f = *(float *)o; n = func_00162130_29D010(20, D_0049A700_29D010, 966); n[4] = 0; o[4] = (int)n; *(float *)n = f; n[2] = b; n[3] = a; n[1] = 0; }
+
+typedef struct { int w0; char p[108]; } E112_0029C6F8;
+extern unsigned D_004A67B8_29C6F8 __asm__("D_004A67B8"), D_004A697C_29C6F8 __asm__("D_004A697C"); extern E112_0029C6F8 D_0061F640_29C6F8[] __asm__("D_0061F640");
+// MATCH func_0029C6F8
+int clas_min_0029c6f8(int i) { if (i != -1) D_004A67B8_29C6F8 = i; if (D_004A697C_29C6F8 <= D_004A67B8_29C6F8) D_004A67B8_29C6F8 = 0; return D_0061F640_29C6F8[D_004A67B8_29C6F8].w0; }
+
+typedef struct { int *w0; char p[108]; } E112_0029C738;
+extern unsigned D_004A67B8_0029C738 __asm__("D_004A67B8"), D_004A697C_0029C738 __asm__("D_004A697C"); extern E112_0029C738 D_0061F640_0029C738[] __asm__("D_0061F640");
+// MATCH func_0029C738
+int clas_min_0029c738(void) { if (D_004A697C_0029C738 <= D_004A67B8_0029C738) D_004A67B8_0029C738 = 0; return *D_0061F640_0029C738[D_004A67B8_0029C738].w0; }
+

@@ -225,3 +225,8 @@ typedef struct { float f0; int w4; int w8; int w12; int w16; } S_29d378_0029D378
 void func_002BF2C0_29D378(void *, int) __asm__("func_002BF2C0");
 // MATCH func_0029D378
 void clas_min_0029d378(char *a, float *b) { S_29d378_0029D378 *c = *(S_29d378_0029D378 **)(a + 16); int n; *b = *(float *)a; n = c->w4 + 1; c->w4 = n; if (c->w8 < n) { *b = c->f0; *(int *)(a + 16) = c->w16; *(float *)a = c->f0; func_002BF2C0_29D378(c, 3); } }
+
+extern int D_004A69AC_2A0138 __asm__("D_004A69AC"), D_004A69B0_2A0138 __asm__("D_004A69B0");
+// MATCH func_002A0138
+int clas_min_002a0138(char *o, int x) { unsigned f = *(unsigned *)(o + 496); if ((f & 3) != 0) { if (x == *(int *)(o + 488) + D_004A69AC_2A0138) return 1; } else if ((f & 4) != 0) { if (x == *(int *)(o + 488) + D_004A69B0_2A0138) return 1; } return 0; }
+
