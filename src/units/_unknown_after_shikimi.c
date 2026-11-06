@@ -1958,3 +1958,12 @@ int func_002E8928_2ED348(void *, int, int, void *, int, void *, int, int, int) _
 // MATCH func_002ED348
 int FUN_002ed348(int x) { int r; if (func_002ECC40_2ED348() < 0) return -65536; if (func_002ECD40_2ED348() != 0) return -65540; D_006357C0_002ED348[0] = x; r = func_002E8928_2ED348(D_006359C0_002ED348, 10, 0, D_006357C0_002ED348, 4, D_006357C0_002ED348, 4, 0, 0); if (r < 0) return -65537; return D_006357C0_002ED348[0]; }
 
+typedef struct 
+{
+  int *w0;
+  int pad[2];
+  int *w12;
+} O_002CF6C0;
+// MATCH func_002CF6C0
+void FUN_002cf6c0(O_002CF6C0 *o) { int *w = o->w0; int *new_var; int *p = o->w12; o->w12 = 0; new_var = w - 1; p[0] += ((unsigned) (new_var - p)) / 4; }
+
