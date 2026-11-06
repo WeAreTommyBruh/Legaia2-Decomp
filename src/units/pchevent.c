@@ -215,3 +215,14 @@ int func_001301E0_20CE80(int, int) __asm__("func_001301E0"); float func_0015A9A8
 // MATCH func_0020CE80
 void pchevent_0020ce80(int a) { V4f_0020CE80 v; float r; if (a == 0) return; if (D_004A1444_20CE80 != 0) return; if ((D_004A140C_20CE80 & 8) == 0) return; if (D_004A4678_20CE80 == 0) return; if (func_001301E0_20CE80(D_004A4678_20CE80, D_004A467C_20CE80) != 0) return; *(B16_0020CE80 *)&v = *(B16_0020CE80 *)D_0041EFB0_20CE80; r = func_0015A9A8_20CE80(D_004A0418_20CE80, D_0041EF80_20CE80, &v); v.y = r; func_0012F6A8_20CE80(D_004A4678_20CE80, D_004A467C_20CE80, -1, -1, -1, -1, -1, -1, -1, -1, v.x, r, v.z); }
 
+extern int D_004A140C_20E0D0 __asm__("D_004A140C"); extern float D_004A13F4_20E0D0 __asm__("D_004A13F4"), D_004A13F8_20E0D0 __asm__("D_004A13F8"), D_004A0448_20E0D0 __asm__("D_004A0448"), D_004A0444_20E0D0 __asm__("D_004A0444"); extern char D_0041EFB0_20E0D0[] __asm__("D_0041EFB0");
+void func_00154268_20E0D0(float, char *) __asm__("func_00154268"); void func_001542C8_20E0D0(float, char *) __asm__("func_001542C8"); void func_00154328_20E0D0(float, char *) __asm__("func_00154328");
+// MATCH func_0020E0D0
+void pchevent_0020e0d0(void) { float a = 0.0f, b = 0.0f, c = 0.0f; if ((D_004A140C_20E0D0 & 2) != 0) { a = D_004A13F4_20E0D0 * D_004A0444_20E0D0; b = D_004A13F8_20E0D0 * D_004A0444_20E0D0; } else if ((D_004A140C_20E0D0 & 1) != 0) c = D_004A13F4_20E0D0 * D_004A0448_20E0D0; if (b != 0.0f) func_00154268_20E0D0(b, D_0041EFB0_20E0D0); if (a != 0.0f) func_001542C8_20E0D0(a, D_0041EFB0_20E0D0); if (c != 0.0f) func_00154328_20E0D0(c, D_0041EFB0_20E0D0); }
+
+typedef struct { char p[208]; float f208; } O_41EFB0_0020DE78;
+extern int D_004A140C_0020DE78 __asm__("D_004A140C"); extern float D_004A13F4_0020DE78 __asm__("D_004A13F4"), D_004A13F8_0020DE78 __asm__("D_004A13F8"), D_004A0440_20DE78 __asm__("D_004A0440"), D_004A043C_20DE78 __asm__("D_004A043C"); extern O_41EFB0_0020DE78 D_0041EFB0_0020DE78 __asm__("D_0041EFB0");
+void func_001541C8_20DE78(void *, float) __asm__("func_001541C8"); void func_00154268_0020DE78(void *, float) __asm__("func_00154268"); void func_001542C8_0020DE78(void *, float) __asm__("func_001542C8"); void func_00154328_0020DE78(void *, float) __asm__("func_00154328");
+// MATCH func_0020DE78
+void pchevent_0020de78(void) { float u; float a = 0.0f, b = 0.0f, c = 0.0f; if ((D_004A140C_0020DE78 & 2) != 0) { a = D_004A13F4_0020DE78 * D_004A043C_20DE78; b = D_004A13F8_0020DE78 * D_004A043C_20DE78; } else if ((D_004A140C_0020DE78 & 1) != 0) c = D_004A13F4_0020DE78 * D_004A0440_20DE78; u = D_0041EFB0_0020DE78.f208; func_001541C8_20DE78(&D_0041EFB0_0020DE78, 0); if (b != 0.0f) func_00154268_0020DE78(&D_0041EFB0_0020DE78, b); if (a != 0.0f) func_001542C8_0020DE78(&D_0041EFB0_0020DE78, a); if (c != 0.0f) func_00154328_0020DE78(&D_0041EFB0_0020DE78, c); func_001541C8_20DE78(&D_0041EFB0_0020DE78, u); }
+
