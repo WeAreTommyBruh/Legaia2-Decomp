@@ -172,3 +172,8 @@ void func_0012DA28_12E2A8(void *, void *) __asm__("func_0012DA28");
 // MATCH func_0012E2A8
 void pchsysw_0012e2a8(float v, L__0012E2A8 *o) { NV_12E2A8 *p; NV_12E2A8 *q; float k; float r; float t; if (func_0012E4F0_12E2A8(o) < 2) { return; } if (func_0012E4F0_12E2A8(o) == 2) { o->last->w = v; o->tot = v; } else { k = func_0012E4F8_12E2A8(o); r = v / k; t = 0.0f; p = o->first->next; ; while (p->next != 0) { p->w = p->w * r; t += p->w; p = (q = p->next); }  p->w = v - t; o->tot = v; p = *((NV_12E2A8 * volatile *) (&o->first)); for (; p != 0; p = p->next) { func_0012DA28_12E2A8(o, p); }  } }
 
+typedef struct { char c[16]; } B16_0012E040;
+typedef struct { B16_0012E040 v; char pad[32]; float f48; float f52; int w56; int w60; } P_12e040_0012E040;
+void *func_0012D9D8_12E040(int) __asm__("func_0012D9D8"); void func_0012DA28_12E040(int, void *) __asm__("func_0012DA28");
+// MATCH func_0012E040
+void pchsysw_0012e040(int a0, int b, B16_0012E040 *v, float x, float y) { P_12e040_0012E040 *p = func_0012D9D8_12E040(a0); if (p != 0) { p->v = *v; p->f48 = x; p->f52 = y; func_0012DA28_12E040(a0, p); func_0012DA28_12E040(a0, (void *)p->w56); func_0012DA28_12E040(a0, (void *)p->w60); } }
