@@ -28,3 +28,9 @@ typedef struct { signed char a, b; char pad[6]; } T8_00177EF0;
 extern T8_00177EF0 D_00336680_00177EF0[] __asm__("D_00336680"); extern float D_004A00D8;
 // MATCH func_00177EF0
 int shuffle_00177ef0(char *o) { T8_00177EF0 *t; char *p; char *q; float v; float lim; t = &D_00336680_00177EF0[*(int *)(o + 396)]; lim = D_004A00D8; p = o + t->a * 96; q = o + t->b * 96; *(float *)(p + 52) = *(float *)(p + 52) - *(float *)(o + 404); *(float *)(q + 52) = *(float *)(q + 52) - *(float *)(o + 404); *(float *)(p + 20) = *(float *)(p + 20) + *(float *)(o + 404); v = *(float *)(q + 20) + *(float *)(o + 404); *(float *)(q + 20) = v; if (*(float *)(q + 52) <= lim) return 1; return 0; }
+
+typedef struct { char c[8]; } B8_00178038;
+extern char D_004A3340_178038[] __asm__("D_004A3340"), D_004A3348_178038[] __asm__("D_004A3348");
+// MATCH func_00178038
+int shuffle_00178038(char *o) { int i; for (i = 0; i < 4; i++) { char *p = o + i * 96; float f = *(float *)(p + 4) + 6.0f; *(float *)(p + 4) = f; if (0.0f <= f) { *(int *)(p + 4) = 0; *(int *)(o + 448) = 100; *(B8_00178038 *)(o + 476) = *(B8_00178038 *)D_004A3340_178038; *(B8_00178038 *)(o + 484) = *(B8_00178038 *)D_004A3348_178038; *(int *)(p + 88) = 1; } } return 0; }
+
