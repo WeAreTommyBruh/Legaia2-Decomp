@@ -91,4 +91,4 @@ This project is heavily AI-assisted and every result is checked by the maintaine
 
 ## Assembly
 
-Matched code is C. The only exception is the libvu0 range (`src/vu0_asm.c`, file-scope assembly for the VU0 routines); do not add other assembly functions. Single hardware instructions (`syscall`, `sync`, `ei`, `mfc0`, `cfc2`, ...) inside a normal C function are fine.
+Matched code is C. The only exceptions are the libvu0 range (`src/vu0_asm.c`) and the other VU0 COP2 routines in `src/vu0_asm2.c` (file-scope assembly); do not add other assembly functions. Single hardware instructions (`syscall`, `sync`, `ei`, `mfc0`, `cfc2`, ...) inside a normal C function are fine.
