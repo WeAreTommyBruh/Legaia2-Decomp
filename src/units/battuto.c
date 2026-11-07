@@ -1,0 +1,9 @@
+/* Functions of this report unit, matched by hand. */
+#include "../common.h"
+
+extern int D_004A6FB0_21DC00 __asm__("D_004A6FB0"), D_004A6FA8_21DC00 __asm__("D_004A6FA8"), D_004A6FAC_21DC00 __asm__("D_004A6FAC"), D_004A6F90_21DC00 __asm__("D_004A6F90"), D_004A6F9C_21DC00 __asm__("D_004A6F9C"), D_004A6F98_21DC00 __asm__("D_004A6F98"), D_004A6FB4_21DC00 __asm__("D_004A6FB4"), D_004A6FA0_21DC00 __asm__("D_004A6FA0"), D_004A6FA4_21DC00 __asm__("D_004A6FA4"); extern int *D_004A6FB8_21DC00 __asm__("D_004A6FB8");
+extern char D_00456ED0_21DC00[] __asm__("D_00456ED0"), D_00456EE8_21DC00[] __asm__("D_00456EE8"), D_00456F00_21DC00[] __asm__("D_00456F00"), D_00456F18_21DC00[] __asm__("D_00456F18"), D_00456F30_21DC00[] __asm__("D_00456F30"), D_00456F58_21DC00[] __asm__("D_00456F58");
+int func_001AD2D0_21DC00(int) __asm__("func_001AD2D0"); long func_0018B508_21DC00(char *, char *) __asm__("func_0018B508"); void *func_00162130_21DC00(int, char *, int) __asm__("func_00162130"); void func_00160490_21DC00(int *, long) __asm__("func_00160490");
+// MATCH func_0021DC00
+void battuto_0021dc00(unsigned a) { long l; char buf[16]; D_004A6FB0_21DC00 = 0; D_004A6FA8_21DC00 = 0; l = 0; D_004A6FAC_21DC00 = 0; D_004A6F90_21DC00 = -1; D_004A6F9C_21DC00 = func_001AD2D0_21DC00(1); D_004A6F98_21DC00 = func_001AD2D0_21DC00(1); D_004A6FB4_21DC00 = -1; D_004A6FA0_21DC00 = 0; D_004A6FA4_21DC00 = 0; if ((a & 2) != 0) l = func_0018B508_21DC00(D_00456ED0_21DC00, buf); if ((a & 4) != 0) l = func_0018B508_21DC00(D_00456EE8_21DC00, buf); if ((a & 0x8000) != 0) l = func_0018B508_21DC00(D_00456F00_21DC00, buf); if ((a & 0x10000) != 0) l = func_0018B508_21DC00(D_00456F18_21DC00, buf); if (l != 0) { int *p = (int *)func_00162130_21DC00(60, D_00456F30_21DC00, 352); p[14] = (int)D_00456F58_21DC00; p[0] = 0; D_004A6FB8_21DC00 = p; func_00160490_21DC00(p, l); } }
+

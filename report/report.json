@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 15.616757,
+  "fuzzy_match_percent": 15.653151,
   "total_code": "2022408",
-  "matched_code": "311192",
-  "matched_code_percent": 15.387201,
+  "matched_code": "311928",
+  "matched_code_percent": 15.423594,
   "total_data": "1768096",
   "matched_data": "176",
   "matched_data_percent": 0.00995421,
   "total_functions": 6254,
-  "matched_functions": 4101,
-  "matched_functions_percent": 65.574036,
+  "matched_functions": 4104,
+  "matched_functions_percent": 65.622,
   "total_units": 155
  },
  "units": [
@@ -17940,24 +17940,32 @@
   {
    "name": "nayuini2",
    "measures": {
+    "fuzzy_match_percent": 100.0,
     "total_code": "200",
+    "matched_code": "200",
+    "matched_code_percent": 100.0,
     "matched_data_percent": 100.0,
     "total_functions": 1,
+    "matched_functions": 1,
+    "matched_functions_percent": 100.0,
     "complete_data_percent": 100.0,
     "total_units": 1
    },
    "sections": [
     {
      "name": ".bss",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     },
     {
      "name": ".data",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     },
     {
      "name": ".text",
      "size": "200",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     }
    ],
@@ -17965,11 +17973,13 @@
     {
      "name": "nayuini2_001a4180",
      "size": "200",
+     "fuzzy_match_percent": 100.0,
      "metadata": {},
      "address": "0"
     }
    ],
    "metadata": {
+    "source_path": "src/units/nayuini2.c",
     "progress_categories": [
      "game"
     ]
@@ -26421,24 +26431,32 @@
   {
    "name": "sumpochi",
    "measures": {
+    "fuzzy_match_percent": 100.0,
     "total_code": "256",
+    "matched_code": "256",
+    "matched_code_percent": 100.0,
     "matched_data_percent": 100.0,
     "total_functions": 1,
+    "matched_functions": 1,
+    "matched_functions_percent": 100.0,
     "complete_data_percent": 100.0,
     "total_units": 1
    },
    "sections": [
     {
      "name": ".bss",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     },
     {
      "name": ".data",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     },
     {
      "name": ".text",
      "size": "256",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     }
    ],
@@ -26446,11 +26464,13 @@
     {
      "name": "sumpochi_002174e0",
      "size": "256",
+     "fuzzy_match_percent": 100.0,
      "metadata": {},
      "address": "0"
     }
    ],
    "metadata": {
+    "source_path": "src/units/sumpochi.c",
     "progress_categories": [
      "game"
     ]
@@ -27759,24 +27779,32 @@
   {
    "name": "battuto",
    "measures": {
+    "fuzzy_match_percent": 100.0,
     "total_code": "280",
+    "matched_code": "280",
+    "matched_code_percent": 100.0,
     "matched_data_percent": 100.0,
     "total_functions": 1,
+    "matched_functions": 1,
+    "matched_functions_percent": 100.0,
     "complete_data_percent": 100.0,
     "total_units": 1
    },
    "sections": [
     {
      "name": ".bss",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     },
     {
      "name": ".data",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     },
     {
      "name": ".text",
      "size": "280",
+     "fuzzy_match_percent": 100.0,
      "metadata": {}
     }
    ],
@@ -27784,11 +27812,13 @@
     {
      "name": "battuto_0021dc00",
      "size": "280",
+     "fuzzy_match_percent": 100.0,
      "metadata": {},
      "address": "0"
     }
    ],
    "metadata": {
+    "source_path": "src/units/battuto.c",
     "progress_categories": [
      "game"
     ]
@@ -47911,16 +47941,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 15.522454,
+    "fuzzy_match_percent": 15.630034,
     "total_code": "684140",
-    "matched_code": "103316",
-    "matched_code_percent": 15.101587,
+    "matched_code": "104052",
+    "matched_code_percent": 15.209168,
     "total_data": "8",
     "matched_data": "8",
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 1315,
-    "matched_functions_percent": 64.39765,
+    "matched_functions": 1318,
+    "matched_functions_percent": 64.54456,
     "total_units": 77
    }
   },
