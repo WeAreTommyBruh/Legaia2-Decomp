@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 15.653151,
+  "fuzzy_match_percent": 15.658886,
   "total_code": "2022408",
-  "matched_code": "311928",
-  "matched_code_percent": 15.423594,
+  "matched_code": "312044",
+  "matched_code_percent": 15.42933,
   "total_data": "1768096",
   "matched_data": "176",
   "matched_data_percent": 0.00995421,
   "total_functions": 6254,
-  "matched_functions": 4104,
-  "matched_functions_percent": 65.622,
+  "matched_functions": 4105,
+  "matched_functions_percent": 65.63799,
   "total_units": 155
  },
  "units": [
@@ -21757,24 +21757,32 @@
    "name": "misuzu",
    "measures": {
     "total_code": "3132",
-    "matched_data_percent": 100.0,
     "total_functions": 5,
-    "complete_data_percent": 100.0,
-    "total_units": 1
+    "total_units": 1,
+    "fuzzy_match_percent": 3.7037037037037037,
+    "matched_code": "116",
+    "matched_code_percent": 3.7037037037037037,
+    "matched_functions": 1,
+    "matched_functions_percent": 20.0,
+    "matched_data_percent": 100.0,
+    "complete_data_percent": 100.0
    },
    "sections": [
     {
      "name": ".bss",
-     "metadata": {}
+     "metadata": {},
+     "fuzzy_match_percent": 100.0
     },
     {
      "name": ".data",
-     "metadata": {}
+     "metadata": {},
+     "fuzzy_match_percent": 100.0
     },
     {
      "name": ".text",
+     "metadata": {},
      "size": "3136",
-     "metadata": {}
+     "fuzzy_match_percent": 3.826530612244898
     }
    ],
    "functions": [
@@ -21797,22 +21805,24 @@
      "address": "1624"
     },
     {
-     "name": "misuzu_001f4900",
-     "size": "116",
+     "name": "misuzu_001f4978",
+     "size": "1208",
      "metadata": {},
      "address": "1808"
     },
     {
-     "name": "misuzu_001f4978",
-     "size": "1208",
+     "name": "misuzu_001f4900",
+     "size": "116",
+     "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "1928"
+     "address": "3016"
     }
    ],
    "metadata": {
     "progress_categories": [
      "game"
-    ]
+    ],
+    "source_path": "src/units/misuzu_nogcse.c"
    }
   },
   {
@@ -47941,16 +47951,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 15.630034,
+    "fuzzy_match_percent": 15.646991,
     "total_code": "684140",
-    "matched_code": "104052",
-    "matched_code_percent": 15.209168,
+    "matched_code": "104168",
+    "matched_code_percent": 15.226123,
     "total_data": "8",
     "matched_data": "8",
     "matched_data_percent": 100.0,
     "total_functions": 2042,
-    "matched_functions": 1318,
-    "matched_functions_percent": 64.54456,
+    "matched_functions": 1319,
+    "matched_functions_percent": 64.59354,
     "total_units": 77
    }
   },
