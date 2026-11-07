@@ -34,3 +34,35 @@ int FUN_002e6370(void) { int s; __asm__ volatile("mfc0 %0, $12" : "=r"(s)); retu
 // MATCH func_002EDC98
 int FUN_002edc98(void) { int s; __asm__ volatile("mfc0 %0, $12" : "=r"(s)); s = s & 0x10000; __asm__ volatile(".word 0x42000038"); return s != 0; }
 
+
+// MATCH func_002CA8D8
+int FUN_002ca8d8(void) { int t; __asm__ volatile("cfc2 %0, $29" : "=r"(t)); return (t & 0xf) == 1; }
+
+
+// MATCH func_002CA8F0
+void FUN_002ca8f0(void) { int t; __asm__ volatile("cfc2 %0, $28" : "=r"(t)); t |= 2; __asm__ volatile("ctc2 %0, $28" : : "r"(t)); }
+
+
+// MATCH func_002CAA88
+int FUN_002caa88(void) { int t; __asm__ volatile("cfc2 %0, $26" : "=r"(t)); return t & 0xffff; }
+
+
+// MATCH func_002CAA38
+int FUN_002caa38(void) { int t; __asm__ volatile("cfc2 %0, $29" : "=r"(t)); if (t & 2) return 1; if (t & 4) return 2; if (t & 8) return 3; return (t & 1) << 2; }
+
+
+// MATCH func_002CAA18
+int FUN_002caa18(void) { unsigned t; __asm__ volatile("cfc2 %0, $28" : "=r"(t)); return (t >> 2) & 1; }
+
+
+// MATCH func_002CAA28
+int FUN_002caa28(void) { unsigned t; __asm__ volatile("cfc2 %0, $28" : "=r"(t)); return (t >> 3) & 1; }
+
+
+// MATCH func_002CA9B8
+void FUN_002ca9b8(int on) { unsigned t; __asm__ volatile("cfc2 %0, $28" : "=r"(t)); if (on == 1) t |= 4; else t &= ~4; __asm__ volatile("ctc2 %0, $28" : : "r"(t)); }
+
+
+// MATCH func_002CA9E8
+void FUN_002ca9e8(int on) { unsigned t; __asm__ volatile("cfc2 %0, $28" : "=r"(t)); if (on == 1) t |= 8; else t &= ~8; __asm__ volatile("ctc2 %0, $28" : : "r"(t)); }
+

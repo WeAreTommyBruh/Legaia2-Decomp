@@ -2006,3 +2006,11 @@ int func_002CF158_2CF2C0(void *) __asm__("func_002CF158");
 // MATCH func_002CF2C0
 void FUN_002cf2c0(Pk_002CF2C0 *o, int a, int b, unsigned c) { int r; int *p; unsigned t; r = func_002CF158_2CF2C0(o); p = o->w0; t = c | 0x70000000; do { o->w8 = r; } while (0); *(p++) = t; p[1] = a; o->w0 = p + 3; p[2] = b; p[0] = 0; }
 
+int func_002CA8D8_2CAA98(void) __asm__("func_002CA8D8");
+// MATCH func_002CAA98
+int FUN_002caa98(char *o) { unsigned t; if (func_002CA8D8_2CAA98() != 0) return 0; __asm__ ("cfc2 %0, $16" : "=r"(t)); *(int *)(o + 512) = t; __asm__ ("cfc2 %0, $17" : "=r"(t)); *(int *)(o + 516) = t; __asm__ ("cfc2 %0, $18" : "=r"(t)); *(int *)(o + 520) = t; __asm__ ("cfc2 %0, $20" : "=r"(t)); *(int *)(o + 524) = t; __asm__ ("cfc2 %0, $21" : "=r"(t)); *(int *)(o + 528) = t; __asm__ ("cfc2 %0, $22" : "=r"(t)); *(int *)(o + 532) = t; __asm__ ("cfc2 %0, $0" : "=r"(t)); *(short *)(o + 536) = t; __asm__ ("cfc2 %0, $1" : "=r"(t)); *(short *)(o + 538) = t; __asm__ ("cfc2 %0, $2" : "=r"(t)); *(short *)(o + 540) = t; __asm__ ("cfc2 %0, $3" : "=r"(t)); *(short *)(o + 542) = t; __asm__ ("cfc2 %0, $4" : "=r"(t)); *(short *)(o + 544) = t; __asm__ ("cfc2 %0, $5" : "=r"(t)); *(short *)(o + 546) = t; __asm__ ("cfc2 %0, $6" : "=r"(t)); *(short *)(o + 548) = t; __asm__ ("cfc2 %0, $7" : "=r"(t)); *(short *)(o + 550) = t; __asm__ ("cfc2 %0, $8" : "=r"(t)); *(short *)(o + 552) = t; __asm__ ("cfc2 %0, $9" : "=r"(t)); *(short *)(o + 554) = t; __asm__ ("cfc2 %0, $10" : "=r"(t)); *(short *)(o + 556) = t; __asm__ ("cfc2 %0, $11" : "=r"(t)); *(short *)(o + 558) = t; __asm__ ("cfc2 %0, $12" : "=r"(t)); *(short *)(o + 560) = t; __asm__ ("cfc2 %0, $13" : "=r"(t)); *(short *)(o + 562) = t; __asm__ ("cfc2 %0, $14" : "=r"(t)); *(short *)(o + 564) = t; __asm__ ("cfc2 %0, $15" : "=r"(t)); *(short *)(o + 566) = t; return 1; }
+
+int func_002CAA38_2CA908(void) __asm__("func_002CAA38");
+// MATCH func_002CA908
+int FUN_002ca908(void) { int r = 0; unsigned t; switch (func_002CAA38_2CA908()) { case 4: __asm__ volatile("cfc2 %0, $28" : "=r"(t)); t |= 1; __asm__ volatile("ctc2 %0, $28" : : "r"(t)); case 0: case 3: r = 1; break; case 1: case 2: break; } return r; }
+
