@@ -112,3 +112,8 @@ int func_002D5380(int *); void func_002D5430(int);
 void *memset(void *, int, unsigned);
 // MATCH func_00190EB0
 int FUN_00190eb0(int *o, int a, int b, int c) { int buf[4]; int d; int e; d = D_004A163C; o[15] = b; o[18] = c; o[0] = 0; o[11] = 0; o[13] = 0; o[14] = 0; o[16] = 0; o[21] = 0; o[19] = 0; o[20] = 0; o[17] = d; e = d + c; D_004A163C = e; o[12] = a; o[22] = e; D_004A163C = e + 0x800; memset(D_005AB300, 0, 0x800); func_001915A0(o[22], (int)D_005AB300, 0x800); func_002D5350(); buf[0] = 0; buf[1] = 0x10400; buf[3] = c; buf[2] = o[17]; func_002D5380(buf); buf[1] = 0x10400; buf[3] = c; buf[0] = 1; buf[2] = o[17] + 0x200; func_002D5380(buf); func_002D5430(8); func_00191618(0x3fff); return 1; }
+
+int func_001949D0_1949E0() __asm__("func_001949D0");
+// MATCH func_001949E0
+int FUN_001949e0(char *o) { int n; int r; if (func_001949D0_1949E0() == 0) { n = *(int *)(o + 0x10); r = *(volatile int *)(o + 4) + (((*(volatile int *)(o + 8) - *(int *)(o + 0xc)) + n) % n) * 0x4ce40; } else r = 0; return r; }
+
