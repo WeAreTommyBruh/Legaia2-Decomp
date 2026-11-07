@@ -2358,3 +2358,14 @@ extern void *D_004293F4_2DCEB8[] __asm__("D_004293F4"); int func_002DCEB0_2DCEB8
 // MATCH func_002DCEB8
 int FUN_002dceb8(char *s, char *fmt, ...) { FS_dceb8_002DCEB8 f; f.flags = 4; f.p = s; f.base = s; f.size = f.r = strlen(s); f.rd = func_002DCEB0_2DCEB8; f.ubbase = 0; f.lbbase = 0; f.data = D_004293F4_2DCEB8[0]; return func_002DF6E8_2DCEB8(&f, fmt, (va_list)__builtin_next_arg(fmt) - 48); }
 
+typedef struct { int pad[14]; int didinit; } R_ddec8_002DDEC8;
+typedef struct { char p[84]; R_ddec8_002DDEC8 *data; } F_ddec8_002DDEC8;
+extern R_ddec8_002DDEC8 *D_004293F4_2DDEC8[] __asm__("D_004293F4"); void func_002DBB20_2DDEC8(R_ddec8_002DDEC8 *) __asm__("func_002DBB20"); int func_002DDF40_2DDEC8(R_ddec8_002DDEC8 *, F_ddec8_002DDEC8 *, char *, va_list) __asm__("func_002DDF40");
+// MATCH func_002DDEC8
+int vfprintf(F_ddec8_002DDEC8 *fp, char *fmt, va_list ap) { do { if (fp->data == 0) fp->data = D_004293F4_2DDEC8[0]; if (fp->data->didinit == 0) func_002DBB20_2DDEC8(fp->data); } while (0); return func_002DDF40_2DDEC8(fp->data, fp, fmt, ap); }
+
+typedef struct { unsigned char *p; int pad0[11]; unsigned char *ubbase; int ubsize; int pad1[2]; unsigned char ubuf[3]; char pad2[17]; void *data; } F_4b58_002E4B58;
+void *_malloc_r_2E4B58(void *, int) __asm__("_malloc_r"); void *func_002E4EF0_2E4B58(void *, void *, int) __asm__("func_002E4EF0"); void *memcpy(void *, const void *, unsigned);
+// MATCH func_002E4B58
+int FUN_002e4b58(F_4b58_002E4B58 *fp) { int i; unsigned char *p; if (fp->ubbase == fp->ubuf) { if ((p = (unsigned char *)_malloc_r_2E4B58(fp->data, 1024)) == 0) return -1; fp->ubbase = p; fp->ubsize = 1024; p += 1024 - 3; for (i = 2; i >= 0; i--) p[i] = fp->ubuf[i]; fp->p = p; return 0; } i = fp->ubsize; p = (unsigned char *)func_002E4EF0_2E4B58(fp->data, fp->ubbase, i << 1); if (p == 0) return -1; (void)memcpy(p + i, p, i); fp->p = p + i; fp->ubbase = p; fp->ubsize = i << 1; return 0; }
+
