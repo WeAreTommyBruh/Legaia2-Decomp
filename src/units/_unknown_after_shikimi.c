@@ -1996,3 +1996,8 @@ int func_002CF158_2CF1B0(void *) __asm__("func_002CF158");
 // MATCH func_002CF1B0
 void FUN_002cf1b0(Pk_002CF1B0 *o, int a, int b, unsigned c) { int new_var; int r; int *p; unsigned t; r = func_002CF158_2CF1B0(o); p = o->w0; t = c | 0x10000000; do { o->w8 = r; } while (0); *(p++) = t; p[1] = a; o->w0 = p + 3; p[2] = b; p[0] = (new_var = 0); }
 
+#define R(a) (*(volatile unsigned *)(a))
+void func_002CF8F8_2CFAB0(int) __asm__("func_002CF8F8"); void func_002CF960_2CFAB0(int) __asm__("func_002CF960");
+// MATCH func_002CFAB0
+void FUN_002cfab0(int *o) { unsigned c, cmd; int n, q, p, v, a0, a2; c = o[7]; cmd = c & 0x7f; a0 = o[0]; a2 = o[2]; n = ((c >> 16) & 3) + ((c >> 8) & 0xf); q = a2 + n; p = a0 - n * 16; if (o[4] != 0 && o[5] != 0) { R(0x1000b010) = o[4]; R(0x1000b020) = o[5]; func_002CF8F8_2CFAB0(o[6] | 0x100); } do { v = R(0x10002010); } while (v < 0); R(0x10002000) = cmd; do { v = R(0x10002010); } while (v < 0); if (p != 0 && q != 0) { R(0x1000b410) = p; R(0x1000b430) = o[1]; R(0x1000b420) = q; func_002CF960_2CFAB0(o[3] | 0x100); } }
+

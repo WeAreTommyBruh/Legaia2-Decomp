@@ -66,3 +66,10 @@ extern unsigned D_004A6F40; extern unsigned D_004A14B8_001588F8 __asm__("D_004A1
 int func_00157978(int); void func_0018EB98_001588F8(int, int) __asm__("func_0018EB98"); void func_00247970_001588F8(unsigned) __asm__("func_00247970"); void func_002479F0(void); void func_00247A48_001588F8(unsigned, long) __asm__("func_00247A48"); void func_00249108_001588F8(void) __asm__("func_00249108"); void func_002491D8(void); void func_002492E8_001588F8(int) __asm__("func_002492E8");
 // MATCH func_001588F8
 void FUN_001588f8(void) { int iVar1; func_00249108_001588F8(); func_0018EB98_001588F8((int) D_00333910, 0x70003f80); func_0018EB98_001588F8((int) D_00333990, 0x70003c80); func_002492E8_001588F8((int) D_00333950); D_004A6F40 = D_004A14B8_001588F8; func_00247970_001588F8(2); func_00247A48_001588F8(0x42, 0x44); func_00247A48_001588F8(0x47, 0x5000d); func_002479F0(); for (iVar1 = D_004A13F0; iVar1 != 0; iVar1 = func_00157978(iVar1)) { } func_002491D8(); }
+
+typedef struct O__001578A0 { char pad[80]; char v80[202]; short s282; char pad2[12]; float f296; int i300; struct O__001578A0 *i304; } O__001578A0;
+extern float D_70003E18_1578A0[] __asm__("D_70003E18");
+float func_0018ECB8_1578A0() __asm__("func_0018ECB8"); void func_0018F450_1578A0(int, void *) __asm__("func_0018F450"); void func_0018F348_1578A0(int, int) __asm__("func_0018F348"); void func_001577C0_1578A0(O__001578A0 *, O__001578A0 *) __asm__("func_001577C0");
+// MATCH func_001578A0
+void FUN_001578a0(O__001578A0 *o, O__001578A0 **p2, O__001578A0 **p3, float *a3) { o->i300 = 0; o->i304 = 0; if (func_0018ECB8_1578A0(o, a3) - a3[3] <= 0.0f) return; if (o->s282 != 0) { func_0018F450_1578A0(0x70003c00, o->v80 - 0 + 0); func_0018F348_1578A0(0x70003e10, 0x70003e00); o->f296 = *(float *)0x70003e18; if (*p2 == 0) *p2 = o; else func_001577C0_1578A0(*p2, o); } else { *(O__001578A0 **)((char *)o + 304) = *p3; *p3 = o; } }
+

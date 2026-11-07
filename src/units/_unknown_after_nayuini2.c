@@ -30,3 +30,12 @@ typedef struct { char c[232]; } B232_001A9F20;
 extern B164_001A9F20 D_00376FF8[]; extern B232_001A9F20 D_00379290[]; extern int *D_0036CAB0_001A9F20[] __asm__("D_0036CAB0"); extern int D_004A12A4_001A9F20 __asm__("D_004A12A4"); extern char D_004A3C5C; extern unsigned D_00425514[];
 // MATCH func_001A9F20
 int *FUN_001a9f20(int *p1, int *p2) { int i, n; int buf[4]; int *r; B232_001A9F20 *cur; if (D_004A12A4_001A9F20 != 17) { unsigned m; m = D_00425514[0] & 0x10000000; D_004A3C5C = m != 0; } i = 0; cur = &D_00379290[*p2]; do { n = i + *p1; if (n == 54) return D_0036CAB0_001A9F20[46]; i++; r = nayuwin2_001ad548(&D_00376FF8[n], cur, buf); r[30] = n; D_0036CAB0_001A9F20[n] = r; *p2 += buf[0]; cur += buf[0]; } while (i < 5); *p1 += 5; return 0; }
+
+// cflags: -fexceptions
+extern int D_00371388_1A9E78[] __asm__("D_00371388");
+extern int D_0036CB88_1A9E78[] __asm__("D_0036CB88");
+extern int D_00370B30_1A9E78[] __asm__("D_00370B30");
+int nayuwin2_001ad548(void *, void *, void *);
+// MATCH func_001A9E78
+int FUN_001a9e78(void) { int iVar1; int iVar2; int *piVar3; int *puVar4; int *puVar5; int aiStack_80[4]; puVar5 = D_00371388_1A9E78; piVar3 = D_0036CB88_1A9E78; iVar2 = 0; puVar4 = D_00370B30_1A9E78; do { iVar1 = nayuwin2_001ad548(puVar4, puVar5, aiStack_80); *(int *)(iVar1 + 0x78) = iVar2; *piVar3 = iVar1; iVar2 = iVar2 + 1; piVar3 = piVar3 + 1; puVar5 = (int *)((char *)puVar5 + aiStack_80[0] * 0xe8); puVar4 = (int *)((char *)puVar4 + 0xa4); } while (iVar2 < 0xd); return D_0036CB88_1A9E78[8]; }
+

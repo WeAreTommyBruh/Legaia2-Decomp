@@ -221,3 +221,8 @@ typedef struct { char pad[140]; E__001AF010 e[5]; } O__001AF010;
 static inline void chk_001AF010(E__001AF010 *e, int *n) { if (e->a == e->b) (*n)++; }
 // MATCH func_001AF010
 int nayuwin2_001af010(O__001AF010 *o) { int n = 0; chk_001AF010(&o->e[0], &n); chk_001AF010(&o->e[1], &n); chk_001AF010(&o->e[2], &n); chk_001AF010(&o->e[3], &n); chk_001AF010(&o->e[4], &n); if (n == 5) return 1; if (n == 0) return 0; return -1; }
+
+
+// MATCH func_001AFB60
+int nayuwin2_001afb60(int param_1,int param_2,int param_3,int param_4)  { int iVar1; int iVar2; int iVar3;  iVar3 = 0; if (0 < *(int *)(param_1 + 0x4c)) { iVar2 = *(int *)(param_1 + 0x168); do { iVar1 = iVar3 * (*(int *)(iVar2 + 0x18) + param_4); *(int *)(iVar2 + 8) = iVar1 + param_3; iVar3 = iVar3 + 1; *(int *)(iVar2 + 4) = param_2; iVar2 = iVar2 + 0x100; } while (iVar3 < *(int *)(param_1 + 0x4c)); } return 1; }
+
