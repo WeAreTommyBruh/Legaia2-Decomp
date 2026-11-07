@@ -2150,9 +2150,9 @@ int FUN_002e0388(F_2e0388_002E0388 *fp) { do { if (fp->data == 0) fp->data = D_0
 typedef struct R_2e24d8_002E24D8 { int pad[15]; void *cleanup; } R_2e24d8_002E24D8;
 typedef struct F_2e24d8_002E24D8 { unsigned char *p; int r; int w; short flags; short file; unsigned char *base; int size; int lbfsize; char pad1[12]; int (*seek)(); char pad2[23]; unsigned char nbuf[1]; char pad3[8]; int blksize; char pad4[4]; R_2e24d8_002E24D8 *data; } F_2e24d8_002E24D8;
 typedef struct { int dev; unsigned mode; char rest[104]; } ST_2e24d8_002E24D8;
-long func_002E4E90_2E24D8(R_2e24d8_002E24D8 *, int, ST_2e24d8_002E24D8 *) __asm__("func_002E4E90"); void *_malloc_r(R_2e24d8_002E24D8 *, int); void func_002DBB00_2E24D8(void) __asm__("func_002DBB00"); int func_002DD028_2E24D8() __asm__("func_002DD028"); long func_002E6050_2E24D8(int) __asm__("func_002E6050");
+long func_002E4E90_2E24D8(R_2e24d8_002E24D8 *, int, ST_2e24d8_002E24D8 *) __asm__("func_002E4E90"); void *_malloc_r_2E24D8(R_2e24d8_002E24D8 *, int) __asm__("_malloc_r"); void func_002DBB00_2E24D8(void) __asm__("func_002DBB00"); int func_002DD028_2E24D8() __asm__("func_002DD028"); long func_002E6050_2E24D8(int) __asm__("func_002E6050");
 // MATCH func_002E24D8
-void FUN_002e24d8(F_2e24d8_002E24D8 *fp) { int couldbetty; void *p; int size; ST_2e24d8_002E24D8 st; if (fp->flags & 2) { fp->base = fp->p = fp->nbuf; fp->size = 1; return; } if (fp->file < 0 || func_002E4E90_2E24D8(fp->data, fp->file, &st) < 0) { couldbetty = 0; size = 0x400; fp->flags |= 0x800; } else { couldbetty = (st.mode & 0xf000) == 0x2000; size = 0x400; if ((st.mode & 0xf000) == 0x8000 && fp->seek == func_002DD028_2E24D8) { fp->blksize = size; fp->flags |= 0x400; } else fp->flags |= 0x800; } if ((p = _malloc_r(fp->data, size)) == 0) { fp->flags |= 2; fp->base = fp->p = fp->nbuf; fp->size = 1; } else { fp->data->cleanup = func_002DBB00_2E24D8; fp->flags |= 0x80; fp->base = fp->p = p; fp->size = size; if (couldbetty && func_002E6050_2E24D8(fp->file)) fp->flags |= 1; } }
+void FUN_002e24d8(F_2e24d8_002E24D8 *fp) { int couldbetty; void *p; int size; ST_2e24d8_002E24D8 st; if (fp->flags & 2) { fp->base = fp->p = fp->nbuf; fp->size = 1; return; } if (fp->file < 0 || func_002E4E90_2E24D8(fp->data, fp->file, &st) < 0) { couldbetty = 0; size = 0x400; fp->flags |= 0x800; } else { couldbetty = (st.mode & 0xf000) == 0x2000; size = 0x400; if ((st.mode & 0xf000) == 0x8000 && fp->seek == func_002DD028_2E24D8) { fp->blksize = size; fp->flags |= 0x400; } else fp->flags |= 0x800; } if ((p = _malloc_r_2E24D8(fp->data, size)) == 0) { fp->flags |= 2; fp->base = fp->p = fp->nbuf; fp->size = 1; } else { fp->data->cleanup = func_002DBB00_2E24D8; fp->flags |= 0x80; fp->base = fp->p = p; fp->size = size; if (couldbetty && func_002E6050_2E24D8(fp->file)) fp->flags |= 1; } }
 
 typedef struct B_2e2748_002E2748 { struct B_2e2748_002E2748 *next; int k; int maxwds; int sign; int wds; unsigned x[1]; } B_2e2748_002E2748;
 typedef struct { char pad[76]; B_2e2748_002E2748 **freelist; } R_2e2748_002E2748;
@@ -2207,4 +2207,101 @@ typedef union { long l; struct { int lo; int hi; } w; } DW_2e3638;
 long func_002E3338_2E3638(B_2e3638_002E3638 *, int *) __asm__("func_002E3338"); long func_002D7BC8_2E3638(long, long) __asm__("func_002D7BC8");
 // MATCH func_002E3638
 long FUN_002e3638(B_2e3638_002E3638 *a, B_2e3638_002E3638 *b) { DW_2e3638 da, db; int k, ka, kb; da.l = func_002E3338_2E3638(a, &ka); db.l = func_002E3338_2E3638(b, &kb); k = ka - kb + 32 * (a->wds - b->wds); if (k > 0) da.w.hi += k * 0x100000; else { k = -k; db.w.hi += k * 0x100000; } return func_002D7BC8_2E3638(da.l, db.l); }
+
+typedef struct mc { unsigned prev_size; unsigned size; struct mc *fd; struct mc *bk; } *mp;
+extern mp D_004293F8_2E1B20[] __asm__("D_004293F8");
+extern unsigned long D_00429800_2E1B20[] __asm__("D_00429800");
+extern int D_00429808_2E1B20[] __asm__("D_00429808");
+#define bin_at(i) ((mp)((char *)&D_004293F8_2E1B20[2*(i)+2] - 8))
+#define binblocks (bin_at(0)->size)
+#define top (bin_at(0)->fd)
+#define last_remainder (bin_at(1))
+#define smallbin_index(sz) (((unsigned long)(sz)) >> 3)
+#define bin_index(sz) \
+(((((unsigned long)(sz)) >> 9) ==    0) ?       (((unsigned long)(sz)) >>  3):\
+ ((((unsigned long)(sz)) >> 9) <=    4) ?  56 + (((unsigned long)(sz)) >>  6): \
+ ((((unsigned long)(sz)) >> 9) <=   20) ?  91 + (((unsigned long)(sz)) >>  9): \
+ ((((unsigned long)(sz)) >> 9) <=   84) ? 110 + (((unsigned long)(sz)) >> 12): \
+ ((((unsigned long)(sz)) >> 9) <=  340) ? 119 + (((unsigned long)(sz)) >> 15): \
+ ((((unsigned long)(sz)) >> 9) <= 1364) ? 124 + (((unsigned long)(sz)) >> 18): 126)
+#define idx2binblock(ix) (1L << ((ix) / 4))
+#define mark_binblock(ii) (binblocks |= idx2binblock(ii))
+#define chunksize(p) ((p)->size & ~3)
+#define chunk_at_offset(p, s) ((mp)((char *)(p) + (s)))
+#define inuse_bit_at_offset(p, s) (((mp)((char *)(p) + (s)))->size & 1)
+#define unlink(P, BK, FD) { BK = P->bk; FD = P->fd; FD->bk = BK; BK->fd = FD; }
+#define link_last_remainder(P) { last_remainder->fd = last_remainder->bk = P; P->fd = P->bk = last_remainder; }
+#define frontlink(P, S, IDX, BK, FD) { \
+  if (S < 512) { IDX = smallbin_index(S); mark_binblock(IDX); BK = bin_at(IDX); FD = BK->fd; P->bk = BK; P->fd = FD; FD->bk = BK->fd = P; } \
+  else { IDX = bin_index(S); BK = bin_at(IDX); FD = BK->fd; \
+    if (FD == BK) mark_binblock(IDX); \
+    else { while (FD != BK && S < chunksize(FD)) FD = FD->fd; BK = FD->bk; } \
+    P->bk = BK; P->fd = FD; FD->bk = BK->fd = P; } }
+void func_002DC8C8_2E1B20(void) __asm__("func_002DC8C8"); void func_002DC8D0_2E1B20(void *) __asm__("func_002DC8D0");
+int func_002E1E40_2E1B20(void *, int) __asm__("func_002E1E40");
+// MATCH func_002E1B20
+void FUN_002e1b20(void *reent, void *mem) { mp p; unsigned hd; unsigned sz; int idx; mp next; unsigned nextsz; unsigned prevsz; mp bck; mp fwd; int islr; if (mem == 0) return; func_002DC8C8_2E1B20(); p = (mp)((char *)mem - 8); hd = p->size; sz = hd & ~1; next = chunk_at_offset(p, sz); nextsz = chunksize(next); if (next == top) { sz += nextsz; if (!(hd & 1)) { prevsz = p->prev_size; p = chunk_at_offset(p, -prevsz); sz += prevsz; unlink(p, bck, fwd); } p->size = sz | 1; top = p; if ((unsigned long)sz >= D_00429800_2E1B20[0]) func_002E1E40_2E1B20(reent, D_00429808_2E1B20[0]); func_002DC8D0_2E1B20(reent); return; } next->size = nextsz; islr = 0; if (!(hd & 1)) { prevsz = p->prev_size; p = chunk_at_offset(p, -prevsz); sz += prevsz; if (p->fd == last_remainder) islr = 1; else unlink(p, bck, fwd); } if (!inuse_bit_at_offset(next, nextsz)) { sz += nextsz; if (!islr && next->fd == last_remainder) { islr = 1; link_last_remainder(p); } else unlink(next, bck, fwd); } p->size = sz | 1; *(unsigned *)((char *)p + sz) = sz; if (!islr) frontlink(p, sz, idx, bck, fwd); func_002DC8D0_2E1B20(reent); }
+
+void func_002DC8C8_2E1E40(void) __asm__("func_002DC8C8"); void func_002DC8D0_2E1E40(void *) __asm__("func_002DC8D0");
+void *func_002DC9A8_2E1E40(void *, int) __asm__("func_002DC9A8");
+unsigned long func_002EFBC8_2E1E40(unsigned long, unsigned long) __asm__("func_002EFBC8");
+long func_002D73E8_2E1E40(unsigned long, unsigned long) __asm__("func_002D73E8");
+extern int D_00429810_2E1E40[] __asm__("D_00429810");
+extern int D_00429828_2E1E40[] __asm__("D_00429828");
+// MATCH func_002E1E40
+int FUN_002e1e40(void *reent, unsigned pad) { long top_size; long extra; char *current_brk; char *new_brk; unsigned long pagesz = 4096; func_002DC8C8_2E1E40(); top_size = chunksize(top); extra = func_002D73E8_2E1E40(func_002EFBC8_2E1E40(top_size - pad - 16 + (pagesz - 1), pagesz) - 1, pagesz); if (extra < (long)pagesz) { func_002DC8D0_2E1E40(reent); return 0; } else { current_brk = func_002DC9A8_2E1E40(reent, 0); if (current_brk != (char *)top + top_size) { func_002DC8D0_2E1E40(reent); return 0; } else { new_brk = func_002DC9A8_2E1E40(reent, -extra); if (new_brk == (char *)-1) { current_brk = func_002DC9A8_2E1E40(reent, 0); top_size = current_brk - (char *)top; if (top_size >= 16) { D_00429828_2E1E40[0] = current_brk - (char *)D_00429810_2E1E40[0]; top->size = top_size | 1; } func_002DC8D0_2E1E40(reent); return 0; } else { top->size = (top_size - extra) | 1; D_00429828_2E1E40[0] -= extra; func_002DC8D0_2E1E40(reent); return 1; } } } }
+
+typedef struct { int pad[14]; int didinit; } R_t_002E1FB0;
+typedef struct F_t_002E1FB0 { unsigned char *p; int r; int w; short flags; short file; unsigned char *base; int size; int lbfsize; void *cookie; void *rd; int (*wr)(void *, const char *, int); char pad[44]; R_t_002E1FB0 *data; } F_t_002E1FB0;
+typedef struct { const char *base; unsigned len; } IOV_002E1FB0;
+typedef struct { IOV_002E1FB0 *iov; int iovcnt; int resid; } UIO_002E1FB0;
+long func_002E0388_2E1FB0(F_t_002E1FB0 *) __asm__("func_002E0388");
+long func_002E18F8_2E1FB0(F_t_002E1FB0 *) __asm__("func_002E18F8");
+void *func_002E2664_2E1FB0(const void *, int, unsigned) __asm__("func_002E2664");
+void *memmove(void *, const void *, unsigned);
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define COPY(n) (void) memmove((void *) fp->p, (void *) p, (unsigned)(n))
+#define GETIOV(extra_work) while (len == 0) { extra_work; p = iov->base; len = iov->len; iov++; }
+// MATCH func_002E1FB0
+int FUN_002e1fb0(F_t_002E1FB0 *fp, UIO_002E1FB0 *uio) { unsigned len; const char *p; IOV_002E1FB0 *iov; int w, s; char *nl; int nlknown, nldist; if ((len = uio->resid) == 0) return 0; if ((fp->flags & 8) == 0 || fp->base == 0) { if (func_002E0388_2E1FB0(fp)) return -1; } iov = uio->iov; len = 0; if (fp->flags & 2) { do { GETIOV(;); w = fp->wr(fp->cookie, p, MIN(len, 1024)); if (w <= 0) goto err; p += w; len -= w; } while ((uio->resid -= w) != 0); } else if ((fp->flags & 1) == 0) { do { GETIOV(;); w = fp->w; if (fp->flags & 0x200) { if (len < w) w = len; COPY(w); fp->w -= w; fp->p += w; w = len; } else if (fp->p > fp->base && len > w) { COPY(w); fp->p += w; if (func_002E18F8_2E1FB0(fp)) goto err; } else if (len >= (w = fp->size)) { w = fp->wr(fp->cookie, p, w); if (w <= 0) goto err; } else { w = len; COPY(w); fp->w -= w; fp->p += w; } p += w; len -= w; } while ((uio->resid -= w) != 0); } else { nlknown = 0; do { GETIOV(nlknown = 0); if (!nlknown) { nl = func_002E2664_2E1FB0(p, '\n', len); nldist = nl ? nl + 1 - p : len + 1; nlknown = 1; } s = MIN(len, nldist); w = fp->w + fp->size; if (fp->p > fp->base && s > w) { COPY(w); fp->p += w; if (func_002E18F8_2E1FB0(fp)) goto err; } else if (s >= (w = fp->size)) { w = fp->wr(fp->cookie, p, w); if (w <= 0) goto err; } else { w = s; COPY(w); fp->w -= w; fp->p += w; } if ((nldist -= w) == 0) { if (func_002E18F8_2E1FB0(fp)) goto err; nlknown = 0; } p += w; len -= w; } while ((uio->resid -= w) != 0); } return 0; err: fp->flags |= 0x40; return -1; }
+
+extern mp D_004293F8_2DBED8[] __asm__("D_004293F8");
+extern unsigned long D_00429800_2DBED8[] __asm__("D_00429800");
+extern int D_00429808_2DBED8[] __asm__("D_00429808");
+#define bin_at(i) ((mp)((char *)&D_004293F8_2DBED8[2*(i)+2] - 8))
+#define binblocks (bin_at(0)->size)
+#define top (bin_at(0)->fd)
+#define last_remainder (bin_at(1))
+#define smallbin_index(sz) (((unsigned long)(sz)) >> 3)
+#define bin_index(sz) \
+(((((unsigned long)(sz)) >> 9) ==    0) ?       (((unsigned long)(sz)) >>  3):\
+ ((((unsigned long)(sz)) >> 9) <=    4) ?  56 + (((unsigned long)(sz)) >>  6): \
+ ((((unsigned long)(sz)) >> 9) <=   20) ?  91 + (((unsigned long)(sz)) >>  9): \
+ ((((unsigned long)(sz)) >> 9) <=   84) ? 110 + (((unsigned long)(sz)) >> 12): \
+ ((((unsigned long)(sz)) >> 9) <=  340) ? 119 + (((unsigned long)(sz)) >> 15): \
+ ((((unsigned long)(sz)) >> 9) <= 1364) ? 124 + (((unsigned long)(sz)) >> 18): 126)
+#define idx2binblock(ix) (1L << ((ix) / 4))
+#define mark_binblock(ii) (binblocks |= idx2binblock(ii))
+#define chunksize(p) ((p)->size & ~3)
+#define RSZ(a, b) ((a) < (b) ? -(long)((b) - (a)) : (long)((a) - (b)))
+#define last(b) ((b)->bk)
+#define first(b) ((b)->fd)
+#define next_bin(b) ((mp)((char *)(b) + 8))
+#define prev_bin(b) ((mp)((char *)(b) - 8))
+#define set_inuse_bit_at_offset(p, s) (((mp)((char *)(p) + (s)))->size |= 1)
+#define clear_last_remainder (last_remainder->fd = last_remainder->bk = last_remainder)
+#define chunk_at_offset(p, s) ((mp)((char *)(p) + (s)))
+#define inuse_bit_at_offset(p, s) (((mp)((char *)(p) + (s)))->size & 1)
+#define unlink(P, BK, FD) { BK = P->bk; FD = P->fd; FD->bk = BK; BK->fd = FD; }
+#define link_last_remainder(P) { last_remainder->fd = last_remainder->bk = P; P->fd = P->bk = last_remainder; }
+#define frontlink(P, S, IDX, BK, FD) { \
+  if (S < 512) { IDX = smallbin_index(S); mark_binblock(IDX); BK = bin_at(IDX); FD = BK->fd; P->bk = BK; P->fd = FD; FD->bk = BK->fd = P; } \
+  else { IDX = bin_index(S); BK = bin_at(IDX); FD = BK->fd; \
+    if (FD == BK) mark_binblock(IDX); \
+    else { while (FD != BK && S < chunksize(FD)) FD = FD->fd; BK = FD->bk; } \
+    P->bk = BK; P->fd = FD; FD->bk = BK->fd = P; } }
+void func_002DC8C8_2DBED8(void *) __asm__("func_002DC8C8"); void func_002DC8D0_2DBED8(void *) __asm__("func_002DC8D0");
+void func_002DBC80_2DBED8(void *, unsigned) __asm__("func_002DBC80");
+// MATCH func_002DBED8
+void *_malloc_r(void *reent, unsigned bytes) { mp victim; unsigned victim_size; int idx; mp bin; mp remainder; long remainder_size; int remainder_index; unsigned long block; int startidx; mp fwd; mp bck; mp q; unsigned nb; nb = (long)(bytes + 19) < 31 ? 16 : ((bytes + 19) & ~15); func_002DC8C8_2DBED8(reent); if (nb < 504) { idx = smallbin_index(nb); q = bin_at(idx); victim = last(q); if (victim != q) { victim_size = chunksize(victim); unlink(victim, bck, fwd); set_inuse_bit_at_offset(victim, victim_size); func_002DC8D0_2DBED8(reent); return (char *)victim + 8; } idx += 2; } else { idx = bin_index(nb); bin = bin_at(idx); for (victim = last(bin); victim != bin; victim = victim->bk) { victim_size = chunksize(victim); remainder_size = RSZ(victim_size, nb); if (remainder_size >= 16) { --idx; break; } else if (remainder_size >= 0) { unlink(victim, bck, fwd); set_inuse_bit_at_offset(victim, victim_size); func_002DC8D0_2DBED8(reent); return (char *)victim + 8; } } ++idx; } if ((victim = last_remainder->fd) != last_remainder) { victim_size = chunksize(victim); remainder_size = RSZ(victim_size, nb); if (remainder_size >= 16) { remainder = chunk_at_offset(victim, nb); victim->size = nb | 1; link_last_remainder(remainder); remainder->size = remainder_size | 1; *(unsigned *)((char *)remainder + remainder_size) = remainder_size; func_002DC8D0_2DBED8(reent); return (char *)victim + 8; } clear_last_remainder; if (remainder_size >= 0) { set_inuse_bit_at_offset(victim, victim_size); func_002DC8D0_2DBED8(reent); return (char *)victim + 8; } frontlink(victim, victim_size, remainder_index, bck, fwd); } if ((block = idx2binblock(idx)) <= binblocks) { if ((block & binblocks) == 0) { idx = (idx & ~3) + 4; block <<= 1; while ((block & binblocks) == 0) { idx += 4; block <<= 1; } } for (;;) { startidx = idx; q = bin = bin_at(idx); do { for (victim = last(bin); victim != bin; victim = victim->bk) { victim_size = chunksize(victim); remainder_size = RSZ(victim_size, nb); if (remainder_size >= 16) { remainder = chunk_at_offset(victim, nb); victim->size = nb | 1; unlink(victim, bck, fwd); link_last_remainder(remainder); remainder->size = remainder_size | 1; *(unsigned *)((char *)remainder + remainder_size) = remainder_size; func_002DC8D0_2DBED8(reent); return (char *)victim + 8; } else if (remainder_size >= 0) { set_inuse_bit_at_offset(victim, victim_size); unlink(victim, bck, fwd); func_002DC8D0_2DBED8(reent); return (char *)victim + 8; } } bin = next_bin(bin); if (idx < 63) { bin = next_bin(bin); ++idx; } } while ((++idx & 3) != 0); do { if ((startidx & 3) == 0) { binblocks &= ~block; break; } --startidx; q = prev_bin(q); } while (first(q) == q); if ((block <<= 1) <= binblocks && (block != 0)) { while ((block & binblocks) == 0) { idx += 4; block <<= 1; } } else break; } } remainder_size = RSZ(chunksize(top), nb); if (chunksize(top) < nb || remainder_size < 16) { func_002DBC80_2DBED8(reent, nb); remainder_size = RSZ(chunksize(top), nb); if (chunksize(top) < nb || remainder_size < 16) { func_002DC8D0_2DBED8(reent); return 0; } } victim = top; victim->size = nb | 1; top = chunk_at_offset(victim, nb); top->size = remainder_size | 1; func_002DC8D0_2DBED8(reent); return (char *)victim + 8; }
 
