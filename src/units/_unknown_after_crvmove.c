@@ -41,3 +41,7 @@ int FUN_00164098(O_00164098 *o, int **pp) { int *q = *pp; float x, y; x = (float
 
 // MATCH func_00163080
 char *FUN_00163080(int *p, int i) { if (p == 0) return 0; if (i < 0) return 0; if (i >= p[0]) return 0; return (char *)p + p[i + 1]; }
+
+extern char D_0043C7E8_163D88[] __asm__("D_0043C7E8"); void func_00163E68_163D88(char *, char *) __asm__("func_00163E68");
+// MATCH func_00163D88
+char *FUN_00163d88(char *o, int a, int b) { *(int *)(o + 88) = 0; *(float *)(o + 36) = 1.0f; *(float *)(o + 40) = 1.0f; *(char **)(o + 104) = D_0043C7E8_163D88; *(int *)(o + 100) = b; *(float *)(o + 44) = 1.0f; *(int *)(o + 84) = 1; *(int *)(o + 68) = 50; *(int *)(o + 72) = 0; *(int *)(o + 76) = 0; *(float *)(o + 48) = 1.0f; *(int *)(o + 80) = 0; *(int *)(o + 12) = 0; *(int *)(o + 56) = 128; *(int *)(o + 64) = 0x808080; *(int *)(o + 16) = 0; *(int *)(o + 20) = 0; *(int *)(o + 0) = a; *(int *)(o + 24) = 0; func_00163E68_163D88(o, o + 100); return o; }

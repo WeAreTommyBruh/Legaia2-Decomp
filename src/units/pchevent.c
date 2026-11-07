@@ -232,3 +232,7 @@ void *func_0020BBD8_20C1D8(int) __asm__("func_0020BBD8"); int *func_002A00E0_20C
 // MATCH func_0020C1D8
 int pchevent_0020c1d8(int a) { int *p, *q; if (a != 0 && D_004A1444_20C1D8 == 0 && (D_004A140C_20C1D8 & 8) != 0 && D_004A45E8_20C1D8 > 0) { p = func_0020BBD8_20C1D8(D_004A45E8_20C1D8); q = func_002A00E0_20C1D8(0); if (p != 0 && q != 0) { p[125] = q[125]; *(B16_0020C1D8 *)(*(char **)p + 32) = *(B16_0020C1D8 *)(*(char **)q + 32); *(B16_0020C1D8 *)(*(char **)p + 64) = *(B16_0020C1D8 *)(*(char **)q + 64); func_00159220_20C1D8(p[144]); } } return 0; }
 
+extern int D_004A45E8_20BFE0 __asm__("D_004A45E8"); extern int D_004A45EC_20BFE0 __asm__("D_004A45EC"); extern int *D_003C10B0_20BFE0[] __asm__("D_003C10B0"); int *func_0020BBD8_20BFE0(int) __asm__("func_0020BBD8");
+// MATCH func_0020BFE0
+int pchevent_0020bfe0(void) { int *q; q = func_0020BBD8_20BFE0(D_004A45E8_20BFE0); if (q != 0) { int p = *q; D_003C10B0_20BFE0[2] = (int *)(p + 32); D_003C10B0_20BFE0[10] = (int *)(p + 36); D_003C10B0_20BFE0[18] = (int *)(p + 40); } else { int *v = &D_004A45EC_20BFE0; D_003C10B0_20BFE0[2] = v; D_003C10B0_20BFE0[10] = v; D_003C10B0_20BFE0[18] = v; } return 0; }
+
