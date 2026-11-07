@@ -2318,3 +2318,21 @@ void *func_002D8228_2D82E0(int) __asm__("func_002D8228"); int *func_002D63A8_2D8
 // MATCH func_002D82E0
 void FUN_002d82e0(int a, int b, int c) { O_002D82E0 *p; int *q; p = func_002D8228_2D82E0(48); p->f12 = b; p->f16 = c; p->f8 = a; p->f40 = a; p->f32 = 0; p->f20 = 0; p->f0 = (int)func_002D8270_2D82E0; p->s4 = 4; p->s6 = 1; q = func_002D63A8_2D82E0(); p->f24 = *q; *q = (int)p; }
 
+extern int D_00631AF8_2DA0C8[] __asm__("D_00631AF8"); void func_002DB900_2DA0C8(void) __asm__("func_002DB900"); void func_002DBC70_2DA0C8(int) __asm__("func_002DBC70");
+// MATCH func_002DA0C8
+int *FUN_002da0c8(int a) { int *pp = D_00631AF8_2DA0C8; int *n; while (*pp != 0) { n = (int *)*pp; if (n[2] == a) { int t = n[0]; *pp = n[5]; if (t != 0) func_002DBC70_2DA0C8(n[3]); return n; } pp = &n[5]; } func_002DB900_2DA0C8(); }
+
+
+// MATCH func_002D98C8
+void FUN_002d98c8(int *a, int *out, unsigned *pmin, unsigned *pmax) { unsigned mn = *pmin, mx = *pmax; while (*a != 0) { if (a[1] != 0 && a[2] != 0) { ((int **)out[0])[out[1]++] = a; if ((unsigned)a[2] < mn) mn = a[2]; if (mx < (unsigned)a[2] + a[3]) mx = a[2] + a[3]; } a = (int *)((int)a + *a + 4); } *pmin = mn; *pmax = mx; }
+
+typedef struct { char p[16]; short adj; short pad; long (*fn)(int, long, long, long, long, long); } VT_a5b8_002DA5B8;
+typedef struct { int pad[2]; int *obj; } O_a5b8_002DA5B8;
+long func_002DA4E0_2DA5B8() __asm__("func_002DA4E0");
+// MATCH func_002DA5B8
+long FUN_002da5b8(O_a5b8_002DA5B8 *o, long a, long b, long c, long d, long e) { int *obj; VT_a5b8_002DA5B8 *vt; if (func_002DA4E0_2DA5B8(o, a) != 0) return c; obj = o->obj; vt = *(VT_a5b8_002DA5B8 **)((char *)obj + 4); return vt->fn((int)obj + vt->adj, a, b, c, d, e); }
+
+typedef struct { short adj; short pad; long (*fn)(int, long, long, long, long, long); } E_b188_002DB188;
+// MATCH func_002DB188
+void FUN_002db188(int (*f1)(void), long (*f2)(void), long c, long d, long (*f5)(void), long e) { int o; E_b188_002DB188 *t; long x, y; o = f1(); t = (E_b188_002DB188 *)(*(int *)(o + 4) + 16); o = o + t->adj; x = f2(); y = f5(); t->fn(o, x, c, d, y, e); }
+
