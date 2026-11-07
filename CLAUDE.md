@@ -279,6 +279,14 @@ Near misses (words off; drafts are in `build/work/w/`):
   late; bone = parent * T * Rz*Ry*Rx; parts with flag 0x01 (no bone slot) are detached debris and start hidden; family motions (ply03e.tmd -> ply03.mov) match by name prefix
   plus slot count; "Pose with animation" must stay on by default. `LegaiaViewer.snapshot()` draws and returns the canvas (handy for contact sheets). Details are in the
   docstrings of `tools/tmd_tool.py` and `tools/mov_tool.py`.
+  Model/motion pairing (2026-11 fixes, all in `legaia.js`): variants share one motion file but not its slot count, so `slotsFit` accepts up to 4 parts more than the clip has (mon005i's
+  weapon) or any number fewer (mon00x uses 25 of 32 slots) and `alignSlots` hangs extra parts on the last bone of their name group (`ajila03` on the `ajila` chain); a model with no
+  same-family file takes the file in its folder whose bone names share the parts' first three letters (`nameAffinity` >= 0.7 and equal slot count: mon013 -> mon012.mov,
+  ply06a..y -> ply00.mov, mon41 -> mon041.mov); a `.tms` falls back the same way (mon011e -> mon011.tms). Skinned vertices and clip joints are not always in one space (mon011 is
+  shifted by about its root height, mon012a is mon012 at half size), so `fitSkeleton` fits `v = s*joint + o` from the per-bone mean of strongly weighted vertices and `poseWorld`/
+  `bindJoints` take it as `conv.cal` / `cal`; `ratio` > 0.8 means the skeleton belongs to another mesh (mon011_, mon011c) and the model shows unposed ("none found"). Meshes are
+  double-sided with arbitrary winding (feathers, cloth), so the fragment shader flips normals that face away from the viewer (otherwise a black/white checker) and back-face culling is
+  meaningless. Test setup that works headless: a small Node server with HTTP Range for the ISO, `LegaiaViewer.load({size, slice})`, then POST `snapshot()` PNGs back to disk.
 - `FORMATS.md`, `PROGRESS.md` and `handoff.md` were removed from the repo (still in git history). Format details live in the docstrings of the `tools/` scripts.
 - The scratch Python venv with Pillow/numpy used for image work is `/tmp/claude-1000/imgvenv` (not part of the repo).
 - README badges and the clone URL point at WeAreTommyBruh/Legaia2-Decomp; update them if the repo is renamed.

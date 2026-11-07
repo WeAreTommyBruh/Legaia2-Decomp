@@ -539,6 +539,17 @@ function parseMotions(data) {
   return offs.slice(0, count).map((o, i) => { try { return decodeClip(data, o, offs[i + 1]); } catch (e) { return null; } });
 }
 
+// The first clip of a motion file only (bones, slot map), for finding which file belongs to a model
+function firstClip(data) {
+  const count = u32(data, 0);
+  if (!(count > 0 && count < 4096) || u32(data, 4) !== 4 + 4 * count) return null;
+  for (let i = 0; i < count; i++) {
+    const o = u32(data, 4 + 4 * i), e = i + 1 < count ? u32(data, 8 + 4 * i) : data.length;
+    try { const c = decodeClip(data, o, e); if (c) return c; } catch (err) { /* next clip */ }
+  }
+  return null;
+}
+
 const modelSlots = model => model.parts.reduce((a, p) => a + p.slots, 0);
 
 // Channel value at `frame`; half-rate clips store every second frame, so odd frames are averaged.
@@ -563,15 +574,17 @@ function axisRot(axis, deg) {
 const POSE_CONVENTION = { order: "zyx", signs: [1, 1, 1] };
 
 // World transform of every bone at `frame`: [{R: 9 numbers (row major), t: [x, y, z]}]
+// conv.cal ({s, o}, see fitSkeleton) scales every bone translation and moves the roots, so the skeleton
+// lines up with the model it drives.
 function poseWorld(clip, frame, conv = POSE_CONVENTION) {
-  const W = new Array(clip.bones.length);
+  const W = new Array(clip.bones.length), cal = conv.cal;
   const build = b => {
     if (W[b]) return W[b];
     const bone = clip.bones[b];
     const ang = { x: clipValue(clip, bone.r[0], frame) * conv.signs[0], y: clipValue(clip, bone.r[1], frame) * conv.signs[1], z: clipValue(clip, bone.r[2], frame) * conv.signs[2] };
     let M = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     for (const ax of conv.order) M = matMul(M, axisRot(ax, ang[ax]));
-    const t = [0, 1, 2].map(k => clipValue(clip, bone.t[k], frame));
+    const t = [0, 1, 2].map(k => clipValue(clip, bone.t[k], frame) * (cal ? cal.s : 1) + (cal && bone.parent === null ? cal.o[k] : 0));
     if (bone.parent === null) return (W[b] = { R: M, t });
     const P = build(bone.parent), R = P.R;
     return (W[b] = { R: matMul(R, M), t: [R[0] * t[0] + R[1] * t[1] + R[2] * t[2] + P.t[0], R[3] * t[0] + R[4] * t[1] + R[5] * t[2] + P.t[1], R[6] * t[0] + R[7] * t[1] + R[8] * t[2] + P.t[2]] });
@@ -581,11 +594,11 @@ function poseWorld(clip, frame, conv = POSE_CONVENTION) {
 }
 
 // Bind pose: every joint's model-space position with all rotations zero, from the translations of frame 0
-function bindJoints(clip) {
+function bindJoints(clip, cal) {
   const J = new Array(clip.bones.length);
   const f = b => {
     if (J[b]) return J[b];
-    const bone = clip.bones[b], t = [0, 1, 2].map(k => clipValue(clip, bone.t[k], 0));
+    const bone = clip.bones[b], t = [0, 1, 2].map(k => clipValue(clip, bone.t[k], 0) * (cal ? cal.s : 1) + (cal && bone.parent === null ? cal.o[k] : 0));
     if (bone.parent === null) return (J[b] = t);
     const p = f(bone.parent);
     return (J[b] = [p[0] + t[0], p[1] + t[1], p[2] + t[2]]);
@@ -597,12 +610,12 @@ function bindJoints(clip) {
 // Poses a model: returns, for every part, {positions, normals} in the part's render-buffer layout (y and z flipped
 // like part.positions). Skinned parts hold bind-pose model-space vertices blended between two bones; the other
 // parts are in the local space of their one bone. Parts with no bone slot stay as they are.
-function skinModel(model, clip, W, J) {
+function skinModel(model, clip, W, J, slotBones = clip.slotBones) {
   const out = [];
   let slot = 0;
   for (const p of model.parts) {
     const m = p.vertexIndex.length, pos = new Float32Array(m * 3), nrm = new Float32Array(m * 3);
-    const bones = p.slots ? clip.slotBones.slice(slot, slot + p.slots) : [];
+    const bones = p.slots ? slotBones.slice(slot, slot + p.slots) : [];
     slot += p.slots;
     if (!p.slots || bones.some(b => b === undefined)) { out.push({ positions: p.positions, normals: p.normals }); continue; }
     const xf = (b, v, n, w, o) => {
@@ -624,6 +637,96 @@ function skinModel(model, clip, W, J) {
     out.push({ positions: pos, normals: nrm });
   }
   return out;
+}
+
+// ---- fitting a model to a clip's skeleton
+
+// Letters at the start of a part or bone name: "ajira05_1" and "ajira03" are both "ajira"
+const namePrefix = name => { const m = /^[a-z]+/i.exec(name || ""); return m ? m[0].toLowerCase() : ""; };
+
+// Does the model's part list fit the clip's bone-slot map? Exactly, or with a few parts more or fewer than the
+// clip (variants of one monster share a motion file: mon005i has a held weapon the clip does not know,
+// mon00x leaves seven of the clip's slots unused). Returns 2 for an exact fit, 1 for a loose one, 0 for none.
+function slotsFit(model, clip) {
+  const total = modelSlots(model), n = clip.slotBones.length;
+  return total === n ? 2 : total > 0 && total <= n + 4 ? 1 : 0;
+}
+
+// The bone of every slot of `model` (the clip's slotBones when the counts agree). When the model has parts the clip
+// does not, those parts are found by name: walking the parts in order, a part whose name starts like the bone
+// the next clip slot belongs to takes that slot; any other named part is an extra and hangs on the last bone of
+// its name group (mon005i's ajila03 on the end of the ajila chain). Unnamed parts take the next slot.
+function alignSlots(model, clip) {
+  const sb = clip.slotBones;
+  if (modelSlots(model) === sb.length) return sb;
+  const known = new Set(clip.bones.map(b => namePrefix(b.name)).filter(Boolean));
+  const out = [];
+  let j = 0;
+  for (const p of model.parts) for (let k = 0; k < p.slots; k++) {
+    const pre = namePrefix(p.name), at = j < sb.length ? namePrefix(clip.bones[sb[j]].name) : null;
+    if (j < sb.length && (!known.has(pre) || !at || at === pre)) out.push(sb[j++]);
+    else { let b = 0; clip.bones.forEach((bn, i) => { if (namePrefix(bn.name) === pre) b = i; }); out.push(b); }
+  }
+  return out;
+}
+
+// How much of a model's part naming a clip's bone naming shares, 0..1: the part names start with the three
+// letters the monster's bones do (kzn, lng, pri, ...). Used to find the motion file of a model whose file name
+// does not say (mon013 uses mon012.mov, ply06a uses ply00.mov, mon41 is a typo for mon041). Parts with generic
+// names (part_N, Skin Object) are ignored; 0 when fewer than two parts are named.
+function nameAffinity(model, clip) {
+  const tag = n => namePrefix(n).slice(0, 3);
+  const bones = new Set(clip.bones.map(b => tag(b.name)).filter(Boolean));
+  const named = model.parts.filter(p => tag(p.name) && !/^(par|ski)/i.test(tag(p.name)));
+  if (named.length < 2) return 0;
+  return named.filter(p => bones.has(tag(p.name))).length / named.length;
+}
+
+// Calibration of a clip's skeleton against the skinned vertices of a model: {cal, ratio}. The skinned vertices
+// are in the model's own space, the joints in the clip's, and the two do not always agree: mon011 is shifted
+// by about its root height, and mon012a is mon012 at half size on the same motion file. For every bone the mean
+// of the vertices that depend mostly on it is compared with its joint, and v = s * joint + o is fitted (a size
+// of 1 unless a free one fits much better). `cal` is {s, o}, only when the fit is clearly better, so models that
+// already line up stay as they are. `ratio` is what is left over, as a fraction of the model's height: a few
+// percent when the skeleton belongs to the model, above 0.8 when it does not (mon011_ on mon011.mov), and null
+// when there are too few skinned vertices to tell.
+function fitSkeleton(model, clip, slotBones = clip.slotBones) {
+  const J = bindJoints(clip), sum = new Map();
+  let slot = 0, ymin = Infinity, ymax = -Infinity;
+  for (const p of model.parts) {
+    if (p.weights) for (let i = 0; i < p.vertexCount; i++) {
+      const y = p.vertices[i * 3 + 1];
+      if (y < ymin) ymin = y;
+      if (y > ymax) ymax = y;
+      const w = p.weights[i * 4 + 1], b = slotBones[slot + p.weights[i * 4]];
+      if (w < 60 || b === undefined || !J[b]) continue;
+      let e = sum.get(b);
+      if (!e) sum.set(b, e = { n: 0, v: [0, 0, 0] });
+      e.n++;
+      for (let k = 0; k < 3; k++) e.v[k] += p.vertices[i * 3 + k];
+    }
+    slot += p.slots;
+  }
+  const pts = [...sum].filter(([, e]) => e.n >= 3).map(([b, e]) => ({ j: J[b], v: e.v.map(x => x / e.n), n: e.n }));
+  if (pts.length < 2) return { cal: null, ratio: null };
+  const height = Math.max(ymax - ymin, 1);
+  let wt = 0;
+  const mj = [0, 0, 0], mv = [0, 0, 0];
+  for (const q of pts) { wt += q.n; for (let k = 0; k < 3; k++) { mj[k] += q.j[k] * q.n; mv[k] += q.v[k] * q.n; } }
+  for (let k = 0; k < 3; k++) { mj[k] /= wt; mv[k] /= wt; }
+  const rms = (s, o) => { let r = 0; for (const q of pts) for (let k = 0; k < 3; k++) r += q.n * (q.v[k] - (s * q.j[k] + o[k])) ** 2; return Math.sqrt(r / wt / 3); };
+  const base = rms(1, [0, 0, 0]);
+  const shifted = { s: 1, o: [0, 1, 2].map(k => mv[k] - mj[k]) };
+  let best = { ...shifted, r: rms(1, shifted.o) };
+  if (pts.length >= 4) {
+    let num = 0, den = 0;
+    for (const q of pts) for (let k = 0; k < 3; k++) { num += q.n * (q.j[k] - mj[k]) * (q.v[k] - mv[k]); den += q.n * (q.j[k] - mj[k]) ** 2; }
+    const sf = den > 0 ? num / den : 1;
+    const free = { s: sf, o: [0, 1, 2].map(k => mv[k] - sf * mj[k]) }, rf = rms(free.s, free.o);
+    if (Math.abs(sf - 1) > 0.25 && sf > 0.3 && sf < 3.5 && rf < 0.7 * best.r) best = { ...free, r: rf };
+  }
+  const use = base > 1200 && best.r < 0.6 * base;
+  return { cal: use ? { s: best.s, o: best.o } : null, ratio: (use ? best.r : base) / height };
 }
 
 // ---------------------------------------------------------------- effects (.efp packs of .efb)
@@ -837,7 +940,7 @@ const api = {
   parseTexture, parseTextureSet, textureRGBA, findTextureSets,
   parseModels, modelsToObj, modelMtl, modelUVs, mapUV, bindTextures, textureForFlags,
   efbCommands, efbListing, efbObjects, efbNumber, efpEntries,
-  parseMotions, decodeClip, modelSlots, poseWorld, bindJoints, skinModel, POSE_CONVENTION,
+  parseMotions, decodeClip, firstClip, modelSlots, slotsFit, nameAffinity, alignSlots, fitSkeleton, poseWorld, bindJoints, skinModel, POSE_CONVENTION,
   decodeInt, adpcmDecodeFrames, encodeWav, encodePng, crc32,
   extOf, kindOf,
 };

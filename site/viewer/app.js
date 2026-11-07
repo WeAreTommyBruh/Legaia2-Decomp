@@ -5,7 +5,7 @@ const L = window.Legaia;
 const $ = id => document.getElementById(id);
 const ROW = 30;
 
-const state = { disc: null, files: [], tab: "all", query: "", list: [], sel: -1, asset: null, token: 0 };
+const state = { disc: null, files: [], tab: "all", query: "", list: [], sel: -1, asset: null, token: 0, skelCache: new Map() };
 
 // ---------------------------------------------------------------- small helpers
 
@@ -175,8 +175,17 @@ async function openEntry(entry) {
     const data = whole ? await state.disc.readFile(entry) : await state.disc.readHead(entry, 4096);
     if (token !== state.token) return;
     const raw = () => state.disc.readFile(entry);
+    // The .tms of a model: its own, else one of the same family in the folder (mon011e.tmd shares mon011.tms; mon41.tmd's is
+    // mon041.tms, the zero left out of its name).
     const findTextures = async name => {
-      const sib = state.byPath.get(stripExt(name) + ".tms");
+      const dir = name.slice(0, name.lastIndexOf("/") + 1), stem = stripExt(baseName(name));
+      const norm = x => x.toLowerCase().replace(/(^|[^0-9])0+(?=[0-9])/g, "$1");
+      let sib = state.byPath.get(dir + stem + ".tms");
+      if (!sib) {
+        const fam = state.files.filter(f => f.ext === "tms" && f.path.startsWith(dir) && f.path.indexOf("/", dir.length) < 0).map(f => ({ f, b: stripExt(baseName(f.path)) }))
+          .filter(x => norm(x.b) === norm(stem) || stem.startsWith(x.b)).sort((a, b) => b.b.length - a.b.length);
+        sib = fam.length ? fam[0].f : null;
+      }
       if (!sib) return null;
       const sets = L.findTextureSets(await state.disc.readFile(sib), false);
       return sets.length ? sets[0].textures : null;
@@ -191,37 +200,57 @@ async function openEntry(entry) {
     };
     const findMotions = async (name, models) => {
       const dir = name.slice(0, name.lastIndexOf("/") + 1), stem = stripExt(baseName(name));
-      const slots = (models || []).map(L.modelSlots);
-      const fits = clips => !slots.length || clips.some(c => c && slots.includes(c.slotBones.length));
+      const fits = clips => !(models || []).length ? 2 : Math.max(0, ...clips.filter(Boolean).map(c => Math.max(...models.map(m => L.slotsFit(m, c)))));
       const common = b => { let n = 0; while (n < b.length && n < stem.length && b[n] === stem[n]) n++; return n; };
       const cands = state.files.filter(f => (f.ext === "mov" || f.ext === "moz") && f.path.startsWith(dir) && f.path.indexOf("/", dir.length) < 0)
         .map(f => ({ f, b: stripExt(baseName(f.path)) }))
         .filter(x => x.b === stem || x.b.startsWith(stem) || stem.startsWith(x.b))   // a wider rule would pair unrelated monsters that happen to have the same slot count
         .sort((a, b) => (b.b === stem) - (a.b === stem) || common(b.b) - common(a.b) || a.b.length - b.b.length);
+      let loose = null;   // a file with a few parts more or fewer than the model (see slotsFit) is the second choice
       for (const { f } of cands.slice(0, 8)) {
-        try { const clips = await readClips(f); if (fits(clips)) return clips; } catch (e) { /* try the next one */ }
+        try { const clips = await readClips(f), fit = fits(clips); if (fit === 2) return clips; if (fit && !loose) loose = clips; } catch (e) { /* try the next one */ }
       }
-      return null;
+      if (loose) return loose;
+      // No file of the model's own family fits: take the file in the folder whose bones are named like the model's parts
+      // (mon013 -> mon012.mov, ply06a -> ply00.mov, mon41 -> mon041.mov), the slot counts agreeing.
+      if (!(models || []).length) return null;
+      const tried = new Set(cands.slice(0, 8).map(x => x.f.path));
+      let best = null;
+      for (const f of state.files) {
+        if (!(f.ext === "mov" || f.ext === "moz") || !f.path.startsWith(dir) || f.path.indexOf("/", dir.length) >= 0 || tried.has(f.path)) continue;
+        let clip = state.skelCache.get(f.path);
+        if (clip === undefined) {
+          try { let d = await state.disc.readFile(f); if (f.ext === "moz") d = L.lzsDecompress(d).data; clip = L.firstClip(d); } catch (e) { clip = null; }
+          state.skelCache.set(f.path, clip);
+        }
+        if (!clip) continue;
+        for (const m of models) {
+          const fit = L.slotsFit(m, clip), aff = L.nameAffinity(m, clip);
+          if (fit && aff >= 0.7 && (!best || (aff > best.aff || aff === best.aff && fit > best.fit))) best = { f, aff, fit };
+        }
+      }
+      return best ? readClips(best.f) : null;
     };
     // the model a motion file drives: same name, else a model next to it with that name as a prefix (or the reverse) and the right slot count
     const findModelFor = async (name, clips) => {
       const dir = name.slice(0, name.lastIndexOf("/") + 1), stem = stripExt(baseName(name));
-      const slots = clips.find(Boolean).slotBones.length;
+      const clip = clips.find(Boolean);
       const cands = [dir + stem + ".tmd"];
       for (const f of state.files) if (f.ext === "tmd" && f.path.startsWith(dir) && f.path !== cands[0]) {
         const s2 = stripExt(baseName(f.path));
         if (s2.startsWith(stem) || stem.startsWith(s2)) cands.push(f.path);
       }
+      let loose = null;
       for (const p of cands.slice(0, 8)) {
         const f = state.byPath.get(p);
         if (!f) continue;
         try {
-          const models = L.parseModels(await state.disc.readFile(f));
-          if (!models.some(m => L.modelSlots(m) === slots)) continue;
-          return { name: p, models, textures: await findTextures(p) };
+          const models = L.parseModels(await state.disc.readFile(f)), fit = Math.max(...models.map(m => L.slotsFit(m, clip)));
+          if (fit === 2) return { name: p, models, textures: await findTextures(p) };
+          if (fit && !loose) loose = { name: p, models, textures: await findTextures(p) };
         } catch (e) { /* not a match */ }
       }
-      return null;
+      return loose;
     };
     await showData(entry.path, data, { entry, raw, whole, token, findTextures, findMotions, findModelFor, base: [["Name", baseName(entry.path)], ["Folder", entry.path.slice(0, entry.path.lastIndexOf("/")) || "/"], ["Size", fmtSize(entry.bytes)]] });
   } catch (err) {
@@ -366,15 +395,17 @@ async function showLzs(name, data, ctx, rawAsset) {
         };
         // a motion inside an archive drives a model from the same archive
         const findModelFor = async (mname, clips) => {
-          const stemM = stripExt(baseName(mname)), slots = clips.find(Boolean).slotBones.length;
+          const stemM = stripExt(baseName(mname)), clip = clips.find(Boolean);
           const cands = members.filter(x => L.extOf(x.path) === "tmd").sort((a, b) => (stripExt(baseName(b.path)) === stemM) - (stripExt(baseName(a.path)) === stemM));
+          let loose = null;
           for (const m of cands.slice(0, 8)) {
             try {
-              const models = L.parseModels(m.read());
-              if (models.some(md => L.modelSlots(md) === slots)) return { name: m.path, models, textures: await findTextures(m.path) };
+              const models = L.parseModels(m.read()), fit = Math.max(...models.map(md => L.slotsFit(md, clip)));
+              if (fit === 2) return { name: m.path, models, textures: await findTextures(m.path) };
+              if (fit && !loose) loose = { name: m.path, models, textures: await findTextures(m.path) };
             } catch (e) { /* not a match */ }
           }
-          return null;
+          return loose;
         };
         showData(memberName, body, { ...ctx, token, findTextures, findMotions, findModelFor, base: [["Name", baseName(memberName)], ["In archive", baseName(name)], ["Size", fmtSize(body.length)]], raw: null })
           .then(() => {
@@ -501,6 +532,7 @@ void main(){
   float l = 0.85;
   if (len > 0.01) {
     vec3 n = vN / len;
+    if (uTwo && n.z < 0.0) n = -n;   // double-sided pieces (feathers, cloth) have normals on either side: light the side that faces the viewer
     l = 0.35 + 0.65 * max(dot(n, normalize(vec3(0.3, 0.5, 1.0))), 0.0);
   }
   vec3 base = uColor ? min(vC * 1.9921875, vec3(1.0)) : vec3(0.78);
@@ -747,7 +779,7 @@ function fitClip(pose, model, keepAngles) {
   for (let i = 0; i < steps; i++) {
     const W = L.poseWorld(clip, Math.floor(i * (n - 1) / Math.max(1, steps - 1)), pose.conv);
     for (const w of W) add(w.t[0], -w.t[1], -w.t[2]);
-    if (model) L.skinModel(model, clip, W, pose.J).forEach((p, pi) => { if (model.parts[pi].flags & 1) return; for (let k = 0; k < p.positions.length; k += 3) add(p.positions[k], p.positions[k + 1], p.positions[k + 2]); });
+    if (model) L.skinModel(model, clip, W, pose.J, pose.slotBones).forEach((p, pi) => { if (model.parts[pi].flags & 1) return; for (let k = 0; k < p.positions.length; k += 3) add(p.positions[k], p.positions[k + 1], p.positions[k + 2]); });
   }
   if (!isFinite(min[0])) return;
   gl3.bounds = { min, max };
@@ -760,7 +792,7 @@ function applyPose(pose, model, frame) {
   pose.frame = frame;
   const W = L.poseWorld(clip, frame, pose.conv);
   setSkeleton(clip, W);
-  const skinned = model ? L.skinModel(model, clip, W, pose.J) : null;
+  const skinned = model ? L.skinModel(model, clip, W, pose.J, pose.slotBones) : null;
   const gl = gl3.gl;
   for (const p of skinned ? gl3.parts : []) {
     gl.bindBuffer(gl.ARRAY_BUFFER, p.bufs[0]); gl.bufferData(gl.ARRAY_BUFFER, skinned[p.idx].positions, gl.DYNAMIC_DRAW);
@@ -784,7 +816,7 @@ function showModel(name, models, ctx, rawAsset, textures, motions, poseOn) {
   uploadTextures(textures);
   // clips whose bone-slot map fits this model; the first one gives the bind pose
   const total = models.map(L.modelSlots);
-  const clipsFor = i => (motions || []).filter(c => c && c.slotBones.length === total[i]);
+  const clipsFor = i => { const fits = (motions || []).filter(c => c && L.slotsFit(models[i], c)); return fits.some(c => c.slotBones.length === total[i]) ? fits.filter(c => c.slotBones.length === total[i]) : fits; };
   const pose = { clips: [], ci: 0, frame: 0, J: null, conv: L.POSE_CONVENTION, on: true };
   window.LegaiaViewer.pose = pose;
   const optPose = $("optPose");
@@ -807,11 +839,21 @@ function showModel(name, models, ctx, rawAsset, textures, motions, poseOn) {
   const load = i => {
     gl3.mi = i;
     pose.clips = clipsFor(i); pose.ci = 0;
+    // part-to-bone map and skeleton calibration for this model (see alignSlots and fitSkeleton)
+    pose.slotBones = pose.clips.length ? L.alignSlots(models[i], pose.clips[0]) : null;
+    const fitted = pose.clips.length ? L.fitSkeleton(models[i], pose.clips[0], pose.slotBones) : null;
+    // a skeleton that is nowhere near the model's skinned geometry belongs to another mesh (mon011_ on mon011.mov): no animation then
+    if (fitted && fitted.ratio !== null && fitted.ratio > 0.8) { pose.clips = []; pose.slotBones = null; }
+    const cal = pose.clips.length ? fitted.cal : null;
+    pose.conv = cal ? { ...L.POSE_CONVENTION, cal } : L.POSE_CONVENTION;
+    pose.J = pose.clips.length ? L.bindJoints(pose.clips[0], cal) : null;
+    // "Pose with animation" shows as off while the model has no animation, and comes back when one with clips is picked
+    if (!pose.clips.length) { if (optPose.checked) { optPose.checked = false; pose.autoOff = true; } }
+    else if (pose.autoOff) { optPose.checked = true; pose.autoOff = false; }
     const usePose = pose.clips.length > 0 && optPose.checked;
-    pose.J = pose.clips.length ? L.bindJoints(pose.clips[0]) : null;
     optPose.disabled = !pose.clips.length;
     let first = null;
-    if (usePose) { const clip = pose.clips[0]; first = L.skinModel(models[i], clip, L.poseWorld(clip, 0, pose.conv), pose.J); }
+    if (usePose) { const clip = pose.clips[0]; first = L.skinModel(models[i], clip, L.poseWorld(clip, 0, pose.conv), pose.J, pose.slotBones); }
     uploadModel(models[i], textures, first);
     if (usePose) { setSkeleton(pose.clips[0], L.poseWorld(pose.clips[0], 0, pose.conv)); fitClip(pose, models[i], false); } else setSkeleton(null);
     info();
@@ -1306,7 +1348,7 @@ async function loadSource(source, label) {
   setStatus("Reading the file table…");
   try {
     const disc = await L.openDisc(source);
-    state.disc = disc;
+    state.disc = disc; state.skelCache = new Map();
     state.files = disc.files.map(f => { const ext = L.extOf(f.path); return { ...f, ext, kind: L.kindOf(f.path), lower: f.path.toLowerCase() }; });
     state.byPath = new Map(state.files.map(f => [f.path, f]));
     state.tab = "all"; state.query = "";
