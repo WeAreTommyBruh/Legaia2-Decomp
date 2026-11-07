@@ -2196,3 +2196,15 @@ void *func_002E2820(R_2e2e30_002E2E30 *, B_2e2e30_002E2E30 *, int, int); B_2e2e3
 // MATCH func_002E2E30
 B_2e2e30_002E2E30 *FUN_002e2e30(R_2e2e30_002E2E30 *ptr, B_2e2e30_002E2E30 *b, int k) { B_2e2e30_002E2E30 *b1, *p5, *p51; int i; if ((i = k & 3)) b = func_002E2820(ptr, b, D_0049F290[i - 1], 0); if (!(k >>= 2)) return b; if (!(p5 = ptr->p5s)) { p5 = ptr->p5s = func_002E2BC8(ptr, 625); p5->next = 0; } for (;;) { if (k & 1) { b1 = func_002E2C00(ptr, b, p5); func_002E27F0(ptr, b); b = b1; } if (!(k >>= 1)) break; if (!(p51 = p5->next)) { p51 = p5->next = func_002E2C00(ptr, p5, p5); p51->next = 0; } p5 = p51; } return b; }
 
+typedef struct B_2e3110_002E3110 { struct B_2e3110_002E3110 *next; int k; int maxwds; int sign; int wds; unsigned x[1]; } B_2e3110_002E3110;
+typedef struct R_2e3110 R_2e3110;
+void *func_002E2748_2E3110(R_2e3110 *, int) __asm__("func_002E2748"); int func_002E30A8_2E3110(B_2e3110_002E3110 *, B_2e3110_002E3110 *) __asm__("func_002E30A8");
+// MATCH func_002E3110
+B_2e3110_002E3110 *FUN_002e3110(R_2e3110 *ptr, B_2e3110_002E3110 *a, B_2e3110_002E3110 *b) { B_2e3110_002E3110 *c; int i; int wa, wb; int borrow, y; unsigned *xa, *xae, *xb, *xbe, *xc; int z; i = func_002E30A8_2E3110(a, b); if (!i) { c = func_002E2748_2E3110(ptr, 0); c->wds = 1; c->x[0] = 0; return c; } if (i < 0) { c = a; a = b; b = c; i = 1; } else i = 0; c = func_002E2748_2E3110(ptr, a->k); c->sign = i; wa = a->wds; xa = a->x; xae = xa + wa; wb = b->wds; xb = b->x; xbe = xb + wb; xc = c->x; borrow = 0; do { y = (*xa & 0xffff) - (*xb & 0xffff) + borrow; borrow = y >> 16; z = (*xa++ >> 16) - (*xb++ >> 16) + borrow; borrow = z >> 16; ((unsigned short *)xc)[1] = (unsigned short)z; ((unsigned short *)xc)[0] = (unsigned short)y; xc++; } while (xb < xbe); while (xa < xae) { y = (*xa & 0xffff) + borrow; borrow = y >> 16; z = (*xa++ >> 16) + borrow; borrow = z >> 16; ((unsigned short *)xc)[1] = (unsigned short)z; ((unsigned short *)xc)[0] = (unsigned short)y; xc++; } while (!*--xc) wa--; c->wds = wa; return c; }
+
+typedef struct B_2e3638_002E3638 { struct B_2e3638_002E3638 *next; int k; int maxwds; int sign; int wds; unsigned x[1]; } B_2e3638_002E3638;
+typedef union { long l; struct { int lo; int hi; } w; } DW_2e3638;
+long func_002E3338_2E3638(B_2e3638_002E3638 *, int *) __asm__("func_002E3338"); long func_002D7BC8_2E3638(long, long) __asm__("func_002D7BC8");
+// MATCH func_002E3638
+long FUN_002e3638(B_2e3638_002E3638 *a, B_2e3638_002E3638 *b) { DW_2e3638 da, db; int k, ka, kb; da.l = func_002E3338_2E3638(a, &ka); db.l = func_002E3338_2E3638(b, &kb); k = ka - kb + 32 * (a->wds - b->wds); if (k > 0) da.w.hi += k * 0x100000; else { k = -k; db.w.hi += k * 0x100000; } return func_002D7BC8_2E3638(da.l, db.l); }
+
