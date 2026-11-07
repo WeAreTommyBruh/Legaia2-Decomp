@@ -2014,3 +2014,95 @@ int func_002CAA38_2CA908(void) __asm__("func_002CAA38");
 // MATCH func_002CA908
 int FUN_002ca908(void) { int r = 0; unsigned t; switch (func_002CAA38_2CA908()) { case 4: __asm__ volatile("cfc2 %0, $28" : "=r"(t)); t |= 1; __asm__ volatile("ctc2 %0, $28" : : "r"(t)); case 0: case 3: r = 1; break; case 1: case 2: break; } return r; }
 
+typedef struct { int cls; int sign; int exp; unsigned ll; } FPF_002D89B0;
+typedef union { float f; unsigned raw; struct { unsigned fraction:23; unsigned exp:8; unsigned sign:1; } bits; } FU_002d89b0;
+// MATCH func_002D89B0
+void __unpack_f(FU_002d89b0 *src, FPF_002D89B0 *dst) { unsigned fraction; int exp; int sign; fraction = src->bits.fraction; exp = src->bits.exp; sign = src->bits.sign; dst->sign = sign; if (exp == 0) { dst->cls = 2; } else if (exp == 0xff) { if (fraction == 0) { dst->cls = 4; } else { if (fraction & 0x100000) dst->cls = 1; else dst->cls = 0; dst->ll = fraction; } } else { dst->exp = exp - 127; dst->cls = 3; dst->ll = (fraction << 7) | 0x40000000; } }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FPD_002D7580;
+typedef union { double d; unsigned long long raw; struct { unsigned long long fraction:52; unsigned exp:11; unsigned sign:1; } bits; } FU_002D7580;
+// MATCH func_002D7580
+void __unpack_d(FU_002D7580 *src, FPD_002D7580 *dst) { unsigned long long fraction; int exp; int sign; fraction = src->bits.fraction; exp = src->bits.exp; sign = src->bits.sign; dst->sign = sign; if (exp == 0) { do { dst->cls = 2; } while (0); } else if (exp == 0x7ff) { if (fraction == 0) { dst->cls = 4; } else { if (fraction & 0x8000000000000ULL) dst->cls = 1; else dst->cls = 0; dst->ll = fraction; } } else { dst->exp = exp - 1023; dst->cls = 3; dst->ll = (fraction << 8) | 0x1000000000000000ULL; } }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FPD_2d7450_002D7450;
+typedef union { double d; unsigned long long raw; struct { unsigned long long fraction:52; unsigned exp:11; unsigned sign:1; } bits; } FU_2d7450;
+static inline int isnan_2d7450_002D7450(FPD_2d7450_002D7450 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf_2d7450_002D7450(FPD_2d7450_002D7450 *x) { return x->cls == 4; }
+static inline int iszero_2d7450_002D7450(FPD_2d7450_002D7450 *x) { return x->cls == 2; }
+// MATCH func_002D7450
+long __pack_d(FPD_2d7450_002D7450 *src) { FU_2d7450 dst; unsigned long long fraction = src->ll; int sign = src->sign; int exp = 0; if (isnan_2d7450_002D7450(src)) { exp = 2047; if (src->cls == 1 || 1) fraction |= 0x8000000000000ULL; } else if (isinf_2d7450_002D7450(src)) { exp = 2047; fraction = 0; } else if (iszero_2d7450_002D7450(src)) { exp = 0; fraction = 0; } else if (fraction == 0) { exp = 0; } else { if (src->exp < -1022) { int shift = -1022 - src->exp; exp = 0; if (shift > 56) { fraction = 0; } else { fraction >>= shift; } fraction >>= 8; } else if (src->exp > 1023) { exp = 2047; fraction = 0; } else { exp = src->exp + 1023; if ((fraction & 0xff) == 0x80) { if (fraction & (1 << 8)) fraction += 0x7f + 1; } else { fraction += 0x7f; } if (fraction >= 0x2000000000000000ULL) { fraction >>= 1; exp += 1; } fraction >>= 8; } } dst.bits.fraction = fraction; dst.bits.exp = exp; dst.bits.sign = sign; return dst.raw; }
+
+typedef struct { int cls; int sign; int exp; unsigned ll; } FPF_2d88a0_002D88A0;
+typedef union { float f; unsigned raw; struct { unsigned fraction:23; unsigned exp:8; unsigned sign:1; } bits; } FU_2d88a0;
+static inline int isnan_2d88a0_002D88A0(FPF_2d88a0_002D88A0 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf_2d88a0_002D88A0(FPF_2d88a0_002D88A0 *x) { return x->cls == 4; }
+static inline int iszero_2d88a0_002D88A0(FPF_2d88a0_002D88A0 *x) { return x->cls == 2; }
+// MATCH func_002D88A0
+float FUN_002d88a0(FPF_2d88a0_002D88A0 *src) { FU_2d88a0 dst; unsigned fraction = src->ll; int sign = src->sign; int exp = 0; if (isnan_2d88a0_002D88A0(src)) { exp = 255; if (src->cls == 1 || 1) fraction |= 0x100000; } else if (isinf_2d88a0_002D88A0(src)) { exp = 255; fraction = 0; } else if (iszero_2d88a0_002D88A0(src)) { exp = 0; fraction = 0; } else if (fraction == 0) { exp = 0; } else { if (src->exp < -126) { int shift = -126 - src->exp; exp = 0; if (shift > 25) { fraction = 0; } else { fraction >>= shift; } fraction >>= 7; } else if (src->exp > 127) { exp = 255; fraction = 0; } else { exp = src->exp + 127; if ((fraction & 0x7f) == 0x40) { if (fraction & (1 << 7)) fraction += 0x3f + 1; } else { fraction += 0x3f; } if (fraction >= 0x80000000U) { fraction >>= 1; exp += 1; } fraction >>= 7; } } dst.bits.fraction = fraction; dst.bits.exp = exp; dst.bits.sign = sign; return dst.f; }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FPD_2d7620_002D7620;
+static inline int isnan_2d7620_002D7620(FPD_2d7620_002D7620 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf_2d7620_002D7620(FPD_2d7620_002D7620 *x) { return x->cls == 4; }
+static inline int iszero_2d7620_002D7620(FPD_2d7620_002D7620 *x) { return x->cls == 2; }
+extern FPD_2d7620_002D7620 D_00631AD0_2D7620 __asm__("D_00631AD0");
+static inline FPD_2d7620_002D7620 *nan_2d7620_002D7620(void) { return &D_00631AD0_2D7620; }
+// MATCH func_002D7620
+FPD_2d7620_002D7620 *_fpadd_parts(FPD_2d7620_002D7620 *a, FPD_2d7620_002D7620 *b, FPD_2d7620_002D7620 *tmp) { long long tfraction; int a_normal_exp; int b_normal_exp; unsigned long long a_fraction; unsigned long long b_fraction; if (isnan_2d7620_002D7620(a)) return a; if (isnan_2d7620_002D7620(b)) return b; if (isinf_2d7620_002D7620(a)) { if (isinf_2d7620_002D7620(b) && a->sign != b->sign) return nan_2d7620_002D7620(); return a; } if (isinf_2d7620_002D7620(b)) { return b; } if (iszero_2d7620_002D7620(b)) { if (iszero_2d7620_002D7620(a)) { *tmp = *a; tmp->sign = a->sign & b->sign; return tmp; } return a; } if (iszero_2d7620_002D7620(a)) { return b; } { int diff; a_normal_exp = a->exp; b_normal_exp = b->exp; a_fraction = a->ll; b_fraction = b->ll; diff = a_normal_exp - b_normal_exp; if (diff < 0) diff = -diff; if (diff < 64) { while (a_normal_exp > b_normal_exp) { b_normal_exp++; b_fraction = (b_fraction & 1) | (b_fraction >> 1); } while (b_normal_exp > a_normal_exp) { a_normal_exp++; a_fraction = (a_fraction & 1) | (a_fraction >> 1); } } else { if (a_normal_exp > b_normal_exp) { b_normal_exp = a_normal_exp; b_fraction = 0; } else { a_normal_exp = b_normal_exp; a_fraction = 0; } } } if (a->sign != b->sign) { if (a->sign) { tfraction = -a_fraction + b_fraction; } else { tfraction = a_fraction - b_fraction; } if (tfraction >= 0) { tmp->sign = 0; tmp->exp = a_normal_exp; tmp->ll = tfraction; } else { tmp->sign = 1; tmp->exp = a_normal_exp; tmp->ll = -tfraction; } while (tmp->ll < 0x1000000000000000ULL && tmp->ll) { tmp->ll <<= 1; tmp->exp--; } } else { tmp->sign = a->sign; tmp->exp = a_normal_exp; tmp->ll = a_fraction + b_fraction; } tmp->cls = 3; if (tmp->ll >= 0x2000000000000000ULL) { tmp->ll = (tmp->ll & 1) | (tmp->ll >> 1); tmp->exp++; } return tmp; }
+
+typedef struct { int cls; int sign; int exp; unsigned ll; } FPF_2d8a40_002D8A40;
+static inline int isnan_2d8a40_002D8A40(FPF_2d8a40_002D8A40 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf_2d8a40_002D8A40(FPF_2d8a40_002D8A40 *x) { return x->cls == 4; }
+static inline int iszero_2d8a40_002D8A40(FPF_2d8a40_002D8A40 *x) { return x->cls == 2; }
+extern FPF_2d8a40_002D8A40 D_00631AE8_2D8A40 __asm__("D_00631AE8");
+static inline FPF_2d8a40_002D8A40 *nan_2d8a40_002D8A40(void) { return &D_00631AE8_2D8A40; }
+// MATCH func_002D8A40
+FPF_2d8a40_002D8A40 *FUN_002d8a40(FPF_2d8a40_002D8A40 *a, FPF_2d8a40_002D8A40 *b, FPF_2d8a40_002D8A40 *tmp) { int tfraction; int a_normal_exp; int b_normal_exp; unsigned a_fraction; unsigned b_fraction; if (isnan_2d8a40_002D8A40(a)) return a; if (isnan_2d8a40_002D8A40(b)) return b; if (isinf_2d8a40_002D8A40(a)) { if (isinf_2d8a40_002D8A40(b) && a->sign != b->sign) return nan_2d8a40_002D8A40(); return a; } if (isinf_2d8a40_002D8A40(b)) { return b; } if (iszero_2d8a40_002D8A40(b)) { if (iszero_2d8a40_002D8A40(a)) { *tmp = *a; tmp->sign = a->sign & b->sign; return tmp; } return a; } if (iszero_2d8a40_002D8A40(a)) { return b; } { int diff; a_normal_exp = a->exp; b_normal_exp = b->exp; a_fraction = a->ll; b_fraction = b->ll; diff = a_normal_exp - b_normal_exp; if (diff < 0) diff = -diff; if (diff < 32) { while (a_normal_exp > b_normal_exp) { b_normal_exp++; b_fraction = (b_fraction & 1) | (b_fraction >> 1); } while (b_normal_exp > a_normal_exp) { a_normal_exp++; a_fraction = (a_fraction & 1) | (a_fraction >> 1); } } else { if (a_normal_exp > b_normal_exp) { b_normal_exp = a_normal_exp; b_fraction = 0; } else { a_normal_exp = b_normal_exp; a_fraction = 0; } } } if (a->sign != b->sign) { if (a->sign) { tfraction = -a_fraction + b_fraction; } else { tfraction = a_fraction - b_fraction; } if (tfraction >= 0) { tmp->sign = 0; tmp->exp = a_normal_exp; tmp->ll = tfraction; } else { tmp->sign = 1; tmp->exp = a_normal_exp; tmp->ll = -tfraction; } while (tmp->ll < 0x40000000U && tmp->ll) { tmp->ll <<= 1; tmp->exp--; } } else { tmp->sign = a->sign; tmp->exp = a_normal_exp; tmp->ll = a_fraction + b_fraction; } tmp->cls = 3; if (tmp->ll >= 0x80000000U) { tmp->ll = (tmp->ll & 1) | (tmp->ll >> 1); tmp->exp++; } return tmp; }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FPD_2d7e98_002D7E98;
+long func_002D7450_2D7E98(void *) __asm__("func_002D7450");
+// MATCH func_002D7E98
+long __floatsidf(int arg_a) { FPD_2d7e98_002D7E98 in; in.cls = 3; in.sign = arg_a < 0; if (!arg_a) { in.cls = 2; } else { in.exp = 60; if (in.sign) { if (arg_a == (int)0x80000000) { return 0xc1e0000000000000L; } in.ll = (-arg_a); } else in.ll = arg_a; while (in.ll < (1LL << 60)) { in.ll <<= 1; in.exp -= 1; } } return func_002D7450_2D7E98(&in); }
+
+typedef struct { int cls; int sign; int exp; unsigned ll; } FPF_2d91f8_002D91F8;
+float func_002D88A0_2D91F8(void *) __asm__("func_002D88A0");
+// MATCH func_002D91F8
+float FUN_002d91f8(int arg_a) { FPF_2d91f8_002D91F8 in; in.cls = 3; in.sign = arg_a < 0; if (!arg_a) { in.cls = 2; } else { in.exp = 30; if (in.sign) { if (arg_a == (int)0x80000000) { return -2147483648.0f; } in.ll = (-arg_a); } else in.ll = arg_a; while (in.ll < (1 << 30)) { in.ll <<= 1; in.exp -= 1; } } return func_002D88A0_2D91F8(&in); }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FP_2d7d30_002D7D30;
+static inline int isnan_2d7d30_002D7D30(FP_2d7d30_002D7D30 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf_2d7d30_002D7D30(FP_2d7d30_002D7D30 *x) { return x->cls == 4; }
+static inline int iszero_2d7d30_002D7D30(FP_2d7d30_002D7D30 *x) { return x->cls == 2; }
+// MATCH func_002D7D30
+int __fpcmp_parts_d(FP_2d7d30_002D7D30 *a, FP_2d7d30_002D7D30 *b) { if (isnan_2d7d30_002D7D30(a) || isnan_2d7d30_002D7D30(b)) { return 1; } if (isinf_2d7d30_002D7D30(a) && isinf_2d7d30_002D7D30(b)) { return b->sign - a->sign; } if (isinf_2d7d30_002D7D30(a)) { return a->sign ? -1 : 1; } if (isinf_2d7d30_002D7D30(b)) { return b->sign ? 1 : -1; } if (iszero_2d7d30_002D7D30(a) && iszero_2d7d30_002D7D30(b)) { return 0; } if (iszero_2d7d30_002D7D30(a)) { return b->sign ? 1 : -1; } if (iszero_2d7d30_002D7D30(b)) { return a->sign ? -1 : 1; } if (a->sign != b->sign) { return a->sign ? -1 : 1; } if (a->exp > b->exp) { return a->sign ? -1 : 1; } if (a->exp < b->exp) { return a->sign ? 1 : -1; } if (a->ll > b->ll) { return a->sign ? -1 : 1; } if (a->ll < b->ll) { return a->sign ? 1 : -1; } return 0; }
+
+typedef struct { int cls; int sign; int exp; unsigned ll; } FP_2d9090_002D9090;
+static inline int isnan_2d9090_002D9090(FP_2d9090_002D9090 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf_2d9090_002D9090(FP_2d9090_002D9090 *x) { return x->cls == 4; }
+static inline int iszero_2d9090_002D9090(FP_2d9090_002D9090 *x) { return x->cls == 2; }
+// MATCH func_002D9090
+int FUN_002d9090(FP_2d9090_002D9090 *a, FP_2d9090_002D9090 *b) { if (isnan_2d9090_002D9090(a) || isnan_2d9090_002D9090(b)) { return 1; } if (isinf_2d9090_002D9090(a) && isinf_2d9090_002D9090(b)) { return b->sign - a->sign; } if (isinf_2d9090_002D9090(a)) { return a->sign ? -1 : 1; } if (isinf_2d9090_002D9090(b)) { return b->sign ? 1 : -1; } if (iszero_2d9090_002D9090(a) && iszero_2d9090_002D9090(b)) { return 0; } if (iszero_2d9090_002D9090(a)) { return b->sign ? 1 : -1; } if (iszero_2d9090_002D9090(b)) { return a->sign ? -1 : 1; } if (a->sign != b->sign) { return a->sign ? -1 : 1; } if (a->exp > b->exp) { return a->sign ? -1 : 1; } if (a->exp < b->exp) { return a->sign ? 1 : -1; } if (a->ll > b->ll) { return a->sign ? -1 : 1; } if (a->ll < b->ll) { return a->sign ? 1 : -1; } return 0; }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FP_2d7fe8_002D7FE8;
+static inline int isnan_2d7fe8_002D7FE8(FP_2d7fe8_002D7FE8 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf_2d7fe8_002D7FE8(FP_2d7fe8_002D7FE8 *x) { return x->cls == 4; }
+static inline int iszero_2d7fe8_002D7FE8(FP_2d7fe8_002D7FE8 *x) { return x->cls == 2; }
+void func_002D7580_2D7FE8(void *, void *) __asm__("func_002D7580");
+// MATCH func_002D7FE8
+unsigned FUN_002d7fe8(double arg_a) { FP_2d7fe8_002D7FE8 a; func_002D7580_2D7FE8(&arg_a, &a); if (iszero_2d7fe8_002D7FE8(&a)) return 0; if (isnan_2d7fe8_002D7FE8(&a)) return 0; if (a.sign) return 0; if (isinf_2d7fe8_002D7FE8(&a)) return 0xffffffffU; if (a.exp < 0) return 0; if (a.exp > 31) return 0xffffffffU; else if (a.exp > 60) return a.ll << (a.exp - 60); else return a.ll >> (60 - a.exp); }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FP_2d80f0_002D80F0;
+void func_002D7580_2D80F0(void *, void *) __asm__("func_002D7580"); float func_002D9410_2D80F0(int, int, int, int) __asm__("func_002D9410");
+// MATCH func_002D80F0
+float FUN_002d80f0(double arg_a) { FP_2d80f0_002D80F0 in; unsigned sffrac; func_002D7580_2D80F0(&arg_a, &in); sffrac = in.ll >> 30; if ((in.ll & ((1ULL << 30) - 1)) != 0) sffrac |= 1; return func_002D9410_2D80F0(in.cls, in.sign, in.exp, sffrac); }
+
+typedef struct { int cls; int sign; int exp; unsigned long long ll; } FPD_2d7bc8_002D7BC8;
+static inline int isnan_2d7bc8_002D7BC8(FPD_2d7bc8_002D7BC8 *x) { return x->cls == 0 || x->cls == 1; }
+static inline int isinf_2d7bc8_002D7BC8(FPD_2d7bc8_002D7BC8 *x) { return x->cls == 4; }
+static inline int iszero_2d7bc8_002D7BC8(FPD_2d7bc8_002D7BC8 *x) { return x->cls == 2; }
+extern FPD_2d7bc8_002D7BC8 D_00631AD0;
+static inline FPD_2d7bc8_002D7BC8 *nan_2d7bc8_002D7BC8(void) { return &D_00631AD0; }
+void func_002D7580(void *, void *); long func_002D7450(void *);
+static inline FPD_2d7bc8_002D7BC8 *fpdiv_parts_2d7bc8_002D7BC8(FPD_2d7bc8_002D7BC8 *a, FPD_2d7bc8_002D7BC8 *b) { unsigned long long bit; unsigned long long numerator; unsigned long long denominator; unsigned long long quotient; if (isnan_2d7bc8_002D7BC8(a)) return a; if (isnan_2d7bc8_002D7BC8(b)) return b; a->sign = a->sign ^ b->sign; if (isinf_2d7bc8_002D7BC8(a) || iszero_2d7bc8_002D7BC8(a)) { if (a->cls == b->cls) return nan_2d7bc8_002D7BC8(); return a; } if (isinf_2d7bc8_002D7BC8(b)) { a->ll = 0; a->exp = 0; return a; } if (iszero_2d7bc8_002D7BC8(b)) { a->cls = 4; return a; } { a->exp = a->exp - b->exp; numerator = a->ll; denominator = b->ll; if (numerator < denominator) { numerator *= 2; a->exp--; } bit = 0x1000000000000000ULL; quotient = 0; while (bit) { if (numerator >= denominator) { quotient |= bit; numerator -= denominator; } bit >>= 1; numerator *= 2; } if ((quotient & 0xff) == 0x80) { if (quotient & (1 << 8)) { quotient += 0x7f + 1; } else if (numerator) { quotient += 0x7f + 1; } } a->ll = quotient; return a; } } 
+// MATCH func_002D7BC8
+long FUN_002d7bc8(long x, long y) { FPD_2d7bc8_002D7BC8 a; FPD_2d7bc8_002D7BC8 b; func_002D7580(&x, &a); func_002D7580(&y, &b); return func_002D7450(fpdiv_parts_2d7bc8_002D7BC8(&a, &b)); }
+
