@@ -69,3 +69,21 @@ int func_002C2F30(int);
 // MATCH func_002C2BE0
 void FUN_002c2be0(int p, unsigned q, int r, int s) { int e; e = *(int *)(p + 0x40); *(int *)(e + 0xe0) = s << 4; *(unsigned *)(e + 0xd8) = q & 0xfffffff | 0x20000000; *(int *)(e + 0xe4) = r * s; *(int *)(e + 0xdc) = r << 4; *(int *)(e + 0xb0) = 0; func_002C2F30(p); }
 
+
+typedef struct O_8370 { int f0; short s4, s6; int f8; int f12; void (*dtor)(int, int); int f20; struct O_8370 *next; int pad28; long long cnt; int f40; } O_8370;
+O_8370 **func_002D63A8_8370(void) __asm__("func_002D63A8"); void func_002D8148_8370(void) __asm__("func_002D8148") __attribute__((noreturn)); int func_002DB070_8370(int) __asm__("func_002DB070"); void func_002D8250_8370(void *) __asm__("func_002D8250");
+// MATCH func_002D8370
+void FUN_002d8370(O_8370 *o) {
+  O_8370 **pp;
+  pp = func_002D63A8_8370();
+  o->cnt = o->cnt - 1;
+  if (o->cnt != 0) return;
+  if (o == *pp && o->f20 == 0) return;
+  for (; *pp; pp = &(*pp)->next)
+    if (*pp == o) break;
+  if (*pp == 0) func_002D8148_8370();
+  *pp = o->next;
+  if (o->dtor != 0) o->dtor(o->f8, 2);
+  if (func_002DB070_8370(o->f12) == 0) func_002D8250_8370((void *)o->f40);
+  func_002D8250_8370(o);
+}

@@ -2459,3 +2459,39 @@ void func_002D7580_2D7920(void *, void *) __asm__("func_002D7580"); long func_00
 static inline FPD_2d7920 *fpmul_parts_2d7920_002D7920(FPD_2d7920 *a, FPD_2d7920 *b, FPD_2d7920 *tmp) { unsigned long long low = 0; unsigned long long high = 0; if (isnan_2d7920_002D7920(a)) { a->sign = a->sign != b->sign; return a; } if (isnan_2d7920_002D7920(b)) { b->sign = a->sign != b->sign; return b; } if (isinf_2d7920_002D7920(a)) { if (iszero_2d7920_002D7920(b)) return nan_2d7920_002D7920(); a->sign = a->sign != b->sign; return a; } if (isinf_2d7920_002D7920(b)) { if (iszero_2d7920_002D7920(a)) return nan_2d7920_002D7920(); b->sign = a->sign != b->sign; return b; } if (iszero_2d7920_002D7920(a)) { a->sign = a->sign != b->sign; return a; } if (iszero_2d7920_002D7920(b)) { b->sign = a->sign != b->sign; return b; } { unsigned long long nl = a->fraction.ll & 0xffffffffULL; unsigned long long nh = a->fraction.ll >> 32; unsigned long long ml = b->fraction.ll & 0xffffffffULL; unsigned long long mh = b->fraction.ll >> 32; unsigned long long pp_ll = ml * nl; unsigned long long pp_hl = mh * nl; unsigned long long pp_lh = ml * nh; unsigned long long pp_hh = mh * nh; unsigned long long res2 = 0; unsigned long long res0 = 0; unsigned long long ps_hh__ = pp_hl + pp_lh; if (ps_hh__ < pp_hl) res2 += (unsigned long long)1 << 32; pp_hl = ps_hh__ << 32; res0 = pp_ll + pp_hl; if (res0 < pp_ll) res2++; res2 += ((ps_hh__ >> 32) & 0xffffffffULL) + pp_hh; high = res2; low = res0; } tmp->exp = a->exp + b->exp + 4; tmp->sign = a->sign != b->sign; while (high >= 0x2000000000000000ULL) { tmp->exp++; if (high & 1) { low >>= 1; low |= 0x8000000000000000ULL; } high >>= 1; } while (high < 0x1000000000000000ULL) { tmp->exp--; high <<= 1; if (low & 0x8000000000000000ULL) high |= 1; low <<= 1; } if ((high & 0xff) == 0x80) { if (high & (1 << 8)) { high += 0x7f + 1; } else if (low) { high += 0x7f + 1; } } tmp->fraction.ll = high; tmp->cls = 3; return tmp; }
 // MATCH func_002D7920
 long __muldf3(long x, long y) { FPD_2d7920 a; FPD_2d7920 b; FPD_2d7920 tmp; func_002D7580_2D7920(&x, &a); func_002D7580_2D7920(&y, &b); return func_002D7450_2D7920(fpmul_parts_2d7920_002D7920(&a, &b, &tmp)); }
+
+typedef struct fde_9518_002D9518_2D9518 { int length; int CIE_delta; unsigned pc_begin; unsigned pc_range; } fde_9518_002D9518_2D9518;
+struct fv_9518 { fde_9518_002D9518_2D9518 **array; unsigned count; };
+static inline int fde_compare_9518_002D9518(fde_9518_002D9518_2D9518 *x, fde_9518_002D9518_2D9518 *y) { return x->pc_begin - y->pc_begin; }
+// MATCH func_002D9518
+void FUN_002d9518(struct fv_9518 *v1, struct fv_9518 *v2) { unsigned i1, i2; fde_9518_002D9518_2D9518 *fde2; i2 = v2->count; if (i2 > 0) { i1 = v1->count; do { i2--; fde2 = v2->array[i2]; while (i1 > 0 && fde_compare_9518_002D9518(v1->array[i1-1], fde2) > 0) { v1->array[i1+i2] = v1->array[i1-1]; i1--; } v1->array[i1+i2] = fde2; } while (i2 > 0); v1->count += v2->count; } }
+
+
+typedef struct { void *cfa; void *eh_ptr; long cfa_offset; long args_size; long reg_or_offset[80]; unsigned short cfa_reg; unsigned short retaddr_column; char saved[80]; } FS_a160_002DA160_2DA160;
+typedef struct FSI_a160_002DA160_2DA160 { FS_a160_002DA160_2DA160 s; struct FSI_a160_002DA160_2DA160 *saved_state; } FSI_a160_002DA160_2DA160;
+typedef struct { char *augmentation; void *eh_ptr; int code_align; int data_align; unsigned ra_column; } CIE_a160_002DA160_2DA160;
+typedef struct fde_a160_002DA160_2DA160 { int length; int CIE_delta; unsigned pc_begin; unsigned pc_range; } fde_a160_002DA160_2DA160;
+fde_a160_002DA160_2DA160 *func_002D9A90_a160(void *) __asm__("func_002D9A90");
+unsigned char *func_002D9B78_a160(fde_a160_002DA160_2DA160 *, CIE_a160_002DA160_2DA160 *) __asm__("func_002D9B78");
+unsigned char *func_002D9C80_a160(unsigned char *, FSI_a160_002DA160_2DA160 *, CIE_a160_002DA160_2DA160 *, unsigned *) __asm__("func_002D9C80");
+unsigned char *func_002D9480_a160(unsigned char *, int *) __asm__("func_002D9480");
+void *memset(void *, int, unsigned);
+static inline fde_a160_002DA160_2DA160 *next_fde_a160_002DA160(fde_a160_002DA160_2DA160 *f) { return (fde_a160_002DA160_2DA160 *)(((char *)f) + f->length + sizeof (f->length)); }
+static inline fde_a160_002DA160_2DA160 *get_cie_a160_002DA160(fde_a160_002DA160_2DA160 *f) { return (fde_a160_002DA160_2DA160 *)((char *)&f->CIE_delta - f->CIE_delta); }
+// MATCH func_002DA160
+FS_a160_002DA160_2DA160 *FUN_002da160(void *pc_target, FS_a160_002DA160_2DA160 *state_in) { fde_a160_002DA160_2DA160 *f; unsigned char *insn, *end; unsigned pc; CIE_a160_002DA160_2DA160 info; FSI_a160_002DA160_2DA160 state; f = func_002D9A90_a160(pc_target); if (f == 0) return 0; insn = func_002D9B78_a160(f, &info); if (insn == 0) return 0; memset(&state, 0, sizeof (state)); state.s.retaddr_column = info.ra_column; state.s.eh_ptr = info.eh_ptr; end = (unsigned char *) next_fde_a160_002DA160(get_cie_a160_002DA160(f)); while (insn < end) insn = func_002D9C80_a160(insn, &state, &info, 0); insn = (unsigned char *)(f + 1); if (info.augmentation[0] == 'z') { int i; insn = func_002D9480_a160(insn, &i); insn += i; } end = (unsigned char *) next_fde_a160_002DA160(f); pc = f->pc_begin; while (insn < end && pc <= (unsigned)pc_target) insn = func_002D9C80_a160(insn, &state, &info, &pc); *state_in = state.s; return state_in; }
+
+
+typedef struct fde_9618 { int length; int CIE_delta; unsigned pc_begin; unsigned pc_range; } fde_9618;
+struct fv_9618 { fde_9618 **array; unsigned count; };
+struct acc_9618 { struct fv_9618 linear; struct fv_9618 erratic; };
+void func_002DB900_9618(void) __asm__("func_002DB900") __attribute__((noreturn));
+void func_002DA338_9618(struct fv_9618 *, struct fv_9618 *) __asm__("func_002DA338");
+void func_002D9518_9618(struct fv_9618 *, struct fv_9618 *) __asm__("func_002D9518");
+void func_002DBC70_9618(void *) __asm__("func_002DBC70");
+static inline int fde_compare_9618(fde_9618 *x, fde_9618 *y) { return x->pc_begin - y->pc_begin; }
+#define SWAP(x, y) do { fde_9618 *tmp = x; x = y; y = tmp; } while (0)
+static inline void frame_heapsort_9618(struct fv_9618 *erratic) { fde_9618 **a; unsigned n, m, i; a = erratic->array; n = erratic->count; m = n; while (m > 0) { m--; for (i = m; 2*i+1 < n; ) { if (2*i+2 < n && fde_compare_9618(a[2*i+2], a[2*i+1]) > 0 && fde_compare_9618(a[2*i+2], a[i]) > 0) { SWAP(a[i], a[2*i+2]); i = 2*i+2; } else if (fde_compare_9618(a[2*i+1], a[i]) > 0) { SWAP(a[i], a[2*i+1]); i = 2*i+1; } else break; } } while (n > 1) { n--; SWAP(a[0], a[n]); for (i = 0; 2*i+1 < n; ) { if (2*i+2 < n && fde_compare_9618(a[2*i+2], a[2*i+1]) > 0 && fde_compare_9618(a[2*i+2], a[i]) > 0) { SWAP(a[i], a[2*i+2]); i = 2*i+2; } else if (fde_compare_9618(a[2*i+1], a[i]) > 0) { SWAP(a[i], a[2*i+1]); i = 2*i+1; } else break; } } }
+// MATCH func_002D9618
+fde_9618 **FUN_002d9618(struct acc_9618 *accu, unsigned count) { unsigned c0; c0 = accu->linear.count; if (c0 != count) func_002DB900_9618(); func_002DA338_9618(&accu->linear, &accu->erratic); if (accu->linear.count + accu->erratic.count != c0) func_002DB900_9618(); frame_heapsort_9618(&accu->erratic); func_002D9518_9618(&accu->linear, &accu->erratic); func_002DBC70_9618(accu->erratic.array); return accu->linear.array; }
+#undef SWAP
