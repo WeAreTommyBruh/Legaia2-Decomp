@@ -2420,3 +2420,31 @@ unsigned long long FUN_002d7258(float original_a) { double a = (double) original
 // MATCH func_002EF470
 unsigned long long FUN_002ef470(double a) { double b; unsigned long long v; if (a < 0) return 0; b = (a / 4294967296.0); v = (unsigned) b; v <<= 32; a -= (double) v; if (a < 0) v -= (unsigned) (- a); else v += (unsigned) a; return v; }
 
+typedef union { double d; struct { unsigned lo; unsigned hi; } w_2DF458; } DU;
+void *func_002E0728_2DF458(void *, double d, int mode, int ndigits, void *, void *, void **rve) __asm__("func_002E0728");
+// MATCH func_002DF458
+char *FUN_002df458(void *ptr, double value, int ndigits, int flags, char *sign, int *decpt, int ch, int *length) { int mode, dsgn; char *digits, *bp, *rve; DU tmp; if (ch == 'f') { mode = 3; } else { if (ch == 'e' || ch == 'E') { ndigits++; } mode = 2; } tmp.d = value; if (tmp.w_2DF458.hi & 0x80000000) { value = -value; *sign = '-'; } else *sign = '\000'; digits = func_002E0728_2DF458(ptr, value, mode, ndigits, decpt, &dsgn, &rve); if ((ch != 'g' && ch != 'G') || flags & 1) { bp = digits + ndigits; if (ch == 'f') { if (*digits == '0' && value) *decpt = -ndigits + 1; bp += *decpt; } if (value == 0) rve = bp; while (rve < bp) *rve++ = '0'; } *length = rve - digits; return (digits); }
+
+#define LIBGCC_CLZ_TAB D_0049F9C8
+#define LIBGCC_UDIVMODDI4 udivmoddi4_2EFBC8
+#include "../libgcc2_div.h"
+// MATCH func_002EFBC8
+UDWtype FUN_002efbc8(UDWtype n, UDWtype d) { return udivmoddi4_2EFBC8(n, d, (UDWtype *) 0); }
+
+#define LIBGCC_CLZ_TAB D_0049FAC8
+#define LIBGCC_UDIVMODDI4 udivmoddi4_2F0198
+#include "../libgcc2_div.h"
+// MATCH func_002F0198
+UDWtype FUN_002f0198(UDWtype u, UDWtype v) { UDWtype w; (void) udivmoddi4_2F0198(u, v, &w); return w; }
+
+#define LIBGCC_CLZ_TAB D_0049F8C8
+#define LIBGCC_UDIVMODDI4 udivmoddi4_2EF560
+#include "../libgcc2_div.h"
+// MATCH func_002EF560
+DWtype FUN_002ef560(DWtype u, DWtype v) { Wtype c = 0; DWunion uu, vv; DWtype w; uu.ll = u; vv.ll = v; if (uu.s.high < 0) c = ~c, uu.ll = negdi2 (uu.ll); if (vv.s.high < 0) vv.ll = negdi2 (vv.ll); (void) udivmoddi4_2EF560(uu.ll, vv.ll, &w); if (c) w = negdi2 (w); return w; }
+
+#define LIBGCC_CLZ_TAB D_0049F7C8
+#define LIBGCC_UDIVMODDI4 udivmoddi4_2EED20
+#include "../libgcc2_div.h"
+// MATCH func_002EED20
+DWtype FUN_002eed20(DWtype u, DWtype v) { Wtype c = 0; DWunion uu, vv; DWtype w; uu.ll = u; vv.ll = v; if (uu.s.high < 0) c = ~c, uu.ll = negdi2 (uu.ll); if (vv.s.high < 0) c = ~c, vv.ll = negdi2 (vv.ll); w = udivmoddi4_2EED20(uu.ll, vv.ll, (UDWtype *) 0); if (c) w = negdi2 (w); return w; }
