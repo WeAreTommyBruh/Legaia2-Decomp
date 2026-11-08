@@ -2369,3 +2369,42 @@ void *_malloc_r_2E4B58(void *, int) __asm__("_malloc_r"); void *func_002E4EF0_2E
 // MATCH func_002E4B58
 int FUN_002e4b58(F_4b58_002E4B58 *fp) { int i; unsigned char *p; if (fp->ubbase == fp->ubuf) { if ((p = (unsigned char *)_malloc_r_2E4B58(fp->data, 1024)) == 0) return -1; fp->ubbase = p; fp->ubsize = 1024; p += 1024 - 3; for (i = 2; i >= 0; i--) p[i] = fp->ubuf[i]; fp->p = p; return 0; } i = fp->ubsize; p = (unsigned char *)func_002E4EF0_2E4B58(fp->data, fp->ubbase, i << 1); if (p == 0) return -1; (void)memcpy(p + i, p, i); fp->p = p + i; fp->ubbase = p; fp->ubsize = i << 1; return 0; }
 
+typedef struct B_002E3338_2E3338 { struct B_002E3338_2E3338 *next; int k; int maxwds; int sign; int wds; unsigned x[1]; } B_002E3338_2E3338;
+typedef union { long l; struct { unsigned lo; unsigned hi; } w_2E3338; } DW_2E3338;
+int func_002E2A80_2E3338(unsigned) __asm__("func_002E2A80");
+// MATCH func_002E3338
+long FUN_002e3338(B_002E3338_2E3338 *a, int *e) { unsigned *xa, *xa0, w_2E3338, y, z; int k; DW_2E3338 d; xa0 = a->x; xa = xa0 + a->wds; y = *--xa; k = func_002E2A80_2E3338(y); *e = 32 - k; if (k < 11) { d.w_2E3338.hi = 0x3ff00000 | y >> (11 - k); w_2E3338 = xa > xa0 ? *--xa : 0; d.w_2E3338.lo = y << (21 + k) | w_2E3338 >> (11 - k); goto ret_d; } z = xa > xa0 ? *--xa : 0; if ((k -= 11)) { d.w_2E3338.hi = 0x3ff00000 | y << k | z >> (32 - k); y = xa > xa0 ? *--xa : 0; d.w_2E3338.lo = z << k | y >> (32 - k); } else { d.w_2E3338.hi = 0x3ff00000 | y; d.w_2E3338.lo = z; } ret_d: return d.l; }
+
+typedef struct B_002E34B8_2E34B8 { struct B_002E34B8_2E34B8 *next; int k; int maxwds; int sign; int wds; unsigned x[1]; } B_002E34B8_2E34B8;
+typedef union { long l; struct { unsigned lo; unsigned hi; } w_2E34B8; } DW_2E34B8;
+int func_002E2A80_2E34B8(unsigned) __asm__("func_002E2A80"); int func_002E2B08_2E34B8(unsigned *) __asm__("func_002E2B08"); B_002E34B8_2E34B8 *func_002E2748_2E34B8(void *, int) __asm__("func_002E2748");
+// MATCH func_002E34B8
+B_002E34B8_2E34B8 *FUN_002e34b8(void *ptr, long dd, int *e, int *bits) { B_002E34B8_2E34B8 *b; int de, i, k; unsigned *x, y, z; DW_2E34B8 d; d.l = dd; b = func_002E2748_2E34B8(ptr, 1); x = b->x; z = d.w_2E34B8.hi & 0xfffff; d.w_2E34B8.hi &= 0x7fffffff; if ((de = (int)(d.w_2E34B8.hi >> 20))) z |= 0x100000; if ((y = d.w_2E34B8.lo)) { if ((k = func_002E2B08_2E34B8(&y))) { x[0] = y | z << (32 - k); z >>= k; } else x[0] = y; i = b->wds = (x[1] = z) ? 2 : 1; } else { k = func_002E2B08_2E34B8(&z); x[0] = z; i = b->wds = 1; k += 32; } if (de) { *e = de - 1075 + k; *bits = 53 - k; } else { *e = de - 1074 + k; *bits = 32 * i - func_002E2A80_2E34B8(x[i - 1]); } return b; }
+
+typedef union { long l; struct { unsigned lo; unsigned hi; } w_2E32A0; } DW_2E32A0;
+// MATCH func_002E32A0
+long FUN_002e32a0(long dd) { DW_2E32A0 x, a; int L; x.l = dd; L = (x.w_2E32A0.hi & 0x7ff00000) - 0x03400000; if (L > 0) { a.w_2E32A0.hi = L; a.w_2E32A0.lo = 0; } else { L = -L >> 20; if (L < 20) { a.w_2E32A0.hi = 0x80000 >> L; a.w_2E32A0.lo = 0; } else { a.w_2E32A0.hi = 0; L -= 20; a.w_2E32A0.lo = L >= 31 ? 1 : 1 << (31 - L); } } return a.l; }
+
+typedef struct { int pad[14]; int didinit; } R_t_002E37E8_2E37E8;
+typedef struct F_t_002E37E8_2E37E8 { unsigned char *p; int r; int w; short flags; short file; unsigned char *base; int size; int lbfsize; void *cookie; int (*rd)(void *, unsigned char *, int); char pad1[12]; unsigned char *ubbase; int ubsize; unsigned char *up; int ur; unsigned char ubuf[4]; char pad2[16]; R_t_002E37E8_2E37E8 *data; } F_t_002E37E8_2E37E8;
+extern R_t_002E37E8_2E37E8 *D_004293F4_2E37E8[] __asm__("D_004293F4");
+void func_002DBB20_2E37E8(R_t_002E37E8_2E37E8 *) __asm__("func_002DBB20"); long func_002E18F8_2E37E8(F_t_002E37E8_2E37E8 *) __asm__("func_002E18F8"); void func_002E1B20_2E37E8(R_t_002E37E8_2E37E8 *, void *) __asm__("func_002E1B20"); void func_002E24D8_2E37E8(F_t_002E37E8_2E37E8 *) __asm__("func_002E24D8"); void func_002DBBB0_2E37E8(R_t_002E37E8_2E37E8 *, void *) __asm__("func_002DBBB0"); void func_002E37C8_2E37E8(void) __asm__("func_002E37C8");
+// MATCH func_002E37E8
+int FUN_002e37e8(F_t_002E37E8_2E37E8 *fp) { do { if (fp->data == 0) fp->data = D_004293F4_2E37E8[0]; if (fp->data->didinit == 0) func_002DBB20_2E37E8(fp->data); } while (0); fp->r = 0; if (fp->flags & 0x20) return -1; if ((fp->flags & 4) == 0) { if ((fp->flags & 0x10) == 0) return -1; if (fp->flags & 8) { if (func_002E18F8_2E37E8(fp)) return -1; fp->flags &= ~8; fp->w = 0; fp->lbfsize = 0; } fp->flags |= 4; } else { if (fp->ubbase != 0) { if (fp->ubbase != fp->ubuf) func_002E1B20_2E37E8(fp->data, fp->ubbase); fp->ubbase = 0; if ((fp->r = fp->ur) != 0) { fp->p = fp->up; return 0; } } } if (fp->base == 0) func_002E24D8_2E37E8(fp); if (fp->flags & 3) func_002DBBB0_2E37E8(fp->data, (void *)func_002E37C8_2E37E8); fp->p = fp->base; fp->r = (*fp->rd)(fp->cookie, fp->p, fp->size); fp->flags &= ~0x2000; if (fp->r <= 0) { if (fp->r == 0) fp->flags |= 0x20; else { fp->r = 0; fp->flags |= 0x40; } return -1; } return 0; }
+
+typedef struct { int pad[14]; int didinit; } R_t_002E4C48_2E4C48;
+typedef struct F_t_002E4C48_2E4C48 { unsigned char *p; int r; int w; short flags; short file; unsigned char *base; int size; int lbfsize; char pad1[20]; unsigned char *ubbase; int ubsize; unsigned char *up; int ur; unsigned char ubuf[3]; char pad2[17]; R_t_002E4C48_2E4C48 *data; } F_t_002E4C48_2E4C48;
+extern R_t_002E4C48_2E4C48 *D_004293F4_002E4C48[] __asm__("D_004293F4");
+void func_002DBB20_002E4C48(R_t_002E4C48_2E4C48 *) __asm__("func_002DBB20"); long func_002E18F8_002E4C48(F_t_002E4C48_2E4C48 *) __asm__("func_002E18F8"); long func_002E4B58_2E4C48(F_t_002E4C48_2E4C48 *) __asm__("func_002E4B58");
+// MATCH func_002E4C48
+int FUN_002e4c48(int c, F_t_002E4C48_2E4C48 *fp) { if (c == -1) return -1; do { if (fp->data == 0) fp->data = D_004293F4_002E4C48[0]; if (fp->data->didinit == 0) func_002DBB20_002E4C48(fp->data); } while (0); fp->flags &= ~0x20; if ((fp->flags & 4) == 0) { if ((fp->flags & 0x10) == 0) return -1; if (fp->flags & 8) { if (func_002E18F8_002E4C48(fp)) return -1; fp->flags &= ~8; fp->w = 0; fp->lbfsize = 0; } fp->flags |= 4; } c = (unsigned char)c; if (fp->ubbase != 0) { if (fp->r >= fp->ubsize && func_002E4B58_2E4C48(fp)) return -1; *--fp->p = c; fp->r++; return c; } if (fp->base != 0 && fp->p > fp->base && fp->p[-1] == c) { fp->p--; fp->r++; return c; } fp->ur = fp->r; fp->up = fp->p; fp->ubbase = fp->ubuf; fp->ubsize = 3; fp->ubuf[2] = c; fp->p = &fp->ubuf[2]; fp->r = 1; return c; }
+
+typedef struct B_002E0510_2E0510 { struct B_002E0510_2E0510 *next; int k; int maxwds; int sign; int wds; unsigned x[1]; } B_002E0510_2E0510;
+int func_002E30A8_2E0510(void *, void *) __asm__("func_002E30A8");
+// MATCH func_002E0510
+int FUN_002e0510(B_002E0510_2E0510 *b, B_002E0510_2E0510 *S) { int n; int borrow, y; unsigned carry, q, ys; unsigned *bx, *bxe, *sx, *sxe; int z; unsigned si, zs; n = S->wds; if (b->wds < n) return 0; sx = S->x; sxe = sx + --n; bx = b->x; bxe = bx + n; q = *bxe / (*sxe + 1); if (q) { borrow = 0; carry = 0; do { si = *sx++; ys = (si & 0xffff) * q + carry; zs = (si >> 16) * q + (ys >> 16); carry = zs >> 16; y = (*bx & 0xffff) - (ys & 0xffff) + borrow; borrow = y >> 16; z = (*bx >> 16) - (zs & 0xffff) + borrow; borrow = z >> 16; ((unsigned short *)bx)[1] = (unsigned short)z; ((unsigned short *)bx)[0] = (unsigned short)y; bx++; } while (sx <= sxe); if (!*bxe) { bx = b->x; while (--bxe > bx && !*bxe) --n; b->wds = n; } } if (func_002E30A8_2E0510(b, S) >= 0) { q++; borrow = 0; carry = 0; bx = b->x; sx = S->x; do { si = *sx++; ys = (si & 0xffff) + carry; zs = (si >> 16) + (ys >> 16); carry = zs >> 16; y = (*bx & 0xffff) - (ys & 0xffff) + borrow; borrow = y >> 16; z = (*bx >> 16) - (zs & 0xffff) + borrow; borrow = z >> 16; ((unsigned short *)bx)[1] = (unsigned short)z; ((unsigned short *)bx)[0] = (unsigned short)y; bx++; } while (sx <= sxe); bx = b->x; bxe = bx + n; if (!*bxe) { while (--bxe > bx && !*bxe) --n; b->wds = n; } } return q; }
+
+
+// MATCH func_002E01F0
+char *FUN_002e01f0(char *tab, char *fmt) { int c, n, v; c = *fmt++; if (c == '^') { v = 1; c = *fmt++; } else v = 0; for (n = 0; n < 256; n++) tab[n] = v; if (c == 0) return (fmt - 1); v = 1 - v; for (;;) { tab[c] = v; doswitch: n = *fmt++; switch (n) { case 0: return (fmt - 1); case '-': n = *fmt; if (n == ']' || n < c) { c = '-'; break; } fmt++; do { tab[++c] = v; } while (c < n); goto doswitch; case ']': return (fmt); default: c = n; break; } } }
+
