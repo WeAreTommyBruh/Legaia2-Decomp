@@ -62,7 +62,7 @@ It is not perfect so expect bugs. If there are any report it in [issues](https:/
 This project is obviously entirely ai.
 
 # Legal
-This project contains no game assets of Legaia 2: Duel Saga. I will not provide any copies of the game. 
+The code in this repository is released under the [MIT License](LICENSE). This project contains no game assets of Legaia 2: Duel Saga. I will not provide any copies of the game. 
 This project is not affiliated with or endorsed by the game's original developers or publisher.
 
 # How Long Is This Gonna Take?
