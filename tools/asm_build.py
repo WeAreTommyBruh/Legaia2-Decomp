@@ -180,9 +180,16 @@ def c_functions():
         obj = os.path.join(BUILD, "src", "c_" + re.sub(r"[^A-Za-z0-9_]", "_", rel) + ".o")
         os.makedirs(os.path.dirname(obj), exist_ok=True)
         r = compile_c(src, obj, CFLAGS)
+        fell_back = False
+        if r.returncode and file_flags(src):
+            # a function with a label address (&&label, __throw) only compiles with -fexceptions
+            r = compile_c(src, obj, CFLAGS + file_flags(src))
+            fell_back = True
         if r.returncode:
             raise SystemExit(f"{src}:\n{r.stderr}")
         own = {name for name, h in sections(open(obj, "rb").read()) if name in C_DATA and h[5]}
+        if fell_back:
+            own.discard(".data")  # frame tables of -fexceptions
         extra = file_flags(src)
         if extra:
             # -fexceptions adds frame tables to .data, which the build does not

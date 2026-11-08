@@ -87,3 +87,136 @@ void FUN_002d8370(O_8370 *o) {
   if (func_002DB070_8370(o->f12) == 0) func_002D8250_8370((void *)o->f40);
   func_002D8250_8370(o);
 }
+
+void func_002DB900_62b8(void) __asm__("func_002DB900") __attribute__((noreturn));
+// MATCH func_002D62B8
+void FUN_002d62b8(void) { func_002DB900_62b8(); }
+
+struct eh_context_6488 { void *handler_label; void **dynamic_handler_chain; void *info; };
+extern struct eh_context_6488 *(*D_00427EF8_6488[])(void) __asm__("D_00427EF8");
+void func_002D62C8_6488(void) __asm__("func_002D62C8");
+// MATCH func_002D6488
+void FUN_002d6488(void) {
+  struct eh_context_6488 *eh = (*D_00427EF8_6488[0])();
+  void ***dhc = &eh->dynamic_handler_chain;
+  void *jmpbuf;
+  void (*func)(void *, int);
+  void *arg;
+  void ***cleanup = (void ***)&(*dhc)[1];
+  if (cleanup[0]) {
+    double store[200];
+    void **buf = (void **)store;
+    buf[1] = 0;
+    buf[0] = (*dhc);
+    if (! __builtin_setjmp (&buf[2])) {
+      *dhc = buf;
+      while (cleanup[0]) {
+        func = (void (*)(void *, int))cleanup[0][1];
+        arg = (void *)cleanup[0][2];
+        cleanup[0] = (void **)cleanup[0][0];
+        (*func)(arg, 2);
+      }
+      *dhc = buf[0];
+    } else {
+      func_002D62C8_6488();
+    }
+  }
+  if (! eh->info || (*dhc)[0] == 0)
+    func_002D62C8_6488();
+  jmpbuf = &(*dhc)[2];
+  *dhc = (void **)(*dhc)[0];
+  __builtin_longjmp (jmpbuf, 1);
+}
+
+typedef struct { void *cfa; void *eh_ptr; long cfa_offset; long args_size; long reg_or_offset[80]; unsigned short cfa_reg; unsigned short retaddr_column; char saved[80]; } FS_6e60;
+struct eh_context_6e60 { void *handler_label; void **dynamic_handler_chain; void *info; };
+extern struct eh_context_6e60 *(*D_00427EF8_6e60[])(void) __asm__("D_00427EF8");
+void func_002D62C8_6e60(void) __asm__("func_002D62C8");
+FS_6e60 *func_002DA160_6e60(void *, FS_6e60 *) __asm__("func_002DA160");
+void *func_002D6B30_6e60(struct eh_context_6e60 *, void *, FS_6e60 *, FS_6e60 **) __asm__("func_002D6B30");
+// MATCH func_002D6E60
+void FUN_002d6e60(void) {
+  struct eh_context_6e60 *eh = (*D_00427EF8_6e60[0])();
+  void *pc, *handler;
+  FS_6e60 ustruct, ustruct2;
+  FS_6e60 *udata = &ustruct;
+  FS_6e60 *sub_udata = &ustruct2;
+  __builtin_unwind_init ();
+  if (! eh->info)
+    func_002D62C8_6e60();
+label:
+  udata = func_002DA160_6e60(&&label, udata);
+  if (! udata)
+    func_002D62C8_6e60();
+  udata->cfa = __builtin_dwarf_cfa ();
+  ustruct2 = *udata;
+  pc = __builtin_return_address (0) - 1;
+  handler = func_002D6B30_6e60(eh, pc, sub_udata, &udata);
+  __builtin_eh_return ((int) eh, (char *) udata->cfa - (char *) sub_udata->cfa, handler);
+}
+
+typedef struct { void *cfa; void *eh_ptr; long cfa_offset; long args_size; long reg_or_offset[80]; unsigned short cfa_reg; unsigned short retaddr_column; char saved[80]; } FS_7040;
+struct eh_context_7040 { void *handler_label; void **dynamic_handler_chain; void *info; void *table_index; };
+extern struct eh_context_7040 *(*D_00427EF8_7040[])(void) __asm__("D_00427EF8");
+void func_002D62C8_7040(void) __asm__("func_002D62C8");
+FS_7040 *func_002DA160_7040(void *, FS_7040 *) __asm__("func_002DA160");
+void *func_002D6B30_7040(struct eh_context_7040 *, void *, FS_7040 *, FS_7040 **) __asm__("func_002D6B30");
+// MATCH func_002D7040
+void FUN_002d7040(void *index) {
+  struct eh_context_7040 *eh = (*D_00427EF8_7040[0])();
+  void *pc, *handler;
+  FS_7040 ustruct, ustruct2;
+  FS_7040 *udata = &ustruct;
+  FS_7040 *sub_udata = &ustruct2;
+  __builtin_unwind_init ();
+  if (! eh->info)
+    func_002D62C8_7040();
+  eh->table_index = index;
+label:
+  udata = func_002DA160_7040(&&label, udata);
+  if (! udata)
+    func_002D62C8_7040();
+  udata->cfa = __builtin_dwarf_cfa ();
+  ustruct2 = *udata;
+  pc = __builtin_return_address (0) - 1;
+  handler = func_002D6B30_7040(eh, pc, sub_udata, &udata);
+  __builtin_eh_return ((int) eh, (char *) udata->cfa - (char *) sub_udata->cfa, handler);
+}
+
+typedef struct { void *cfa; void *eh_ptr; long cfa_offset; long args_size; long reg_or_offset[80]; unsigned short cfa_reg; unsigned short retaddr_column; char saved[80]; } FS_6990;
+void func_002DB900_6990(void) __asm__("func_002DB900");
+// MATCH func_002D6990
+void *FUN_002d6990(unsigned reg, FS_6990 *udata) {
+  while (udata->saved[reg] == 2)
+    reg = udata->reg_or_offset[reg];
+  if (udata->saved[reg] == 1)
+    return (void *)((char *)udata->cfa + udata->reg_or_offset[reg]);
+  else
+    func_002DB900_6990();
+}
+
+typedef struct { void *cfa; void *eh_ptr; long cfa_offset; long args_size; long reg_or_offset[80]; unsigned short cfa_reg; unsigned short retaddr_column; char saved[80]; } FS_6a18;
+void *func_002D6990_6a18(unsigned, FS_6a18 *, FS_6a18 *) __asm__("func_002D6990");
+void *memcpy(void *, const void *, unsigned);
+// MATCH func_002D6A18
+void FUN_002d6a18(unsigned reg, FS_6a18 *udata, FS_6a18 *target_udata) {
+  long *preg = func_002D6990_6a18(reg, udata, 0);
+  long *ptreg = func_002D6990_6a18(reg, target_udata, 0);
+  memcpy(ptreg, preg, __builtin_dwarf_reg_size(reg));
+}
+
+typedef struct { void *cfa; void *eh_ptr; long cfa_offset; long args_size; long reg_or_offset[80]; unsigned short cfa_reg; unsigned short retaddr_column; char saved[80]; } FS_6a98;
+FS_6a98 *func_002DA160_6a98(void *, FS_6a98 *) __asm__("func_002DA160");
+void *func_002D6990_6a98(unsigned, FS_6a98 *, FS_6a98 *) __asm__("func_002D6990");
+// MATCH func_002D6A98
+FS_6a98 *FUN_002d6a98(void *pc, FS_6a98 *udata, FS_6a98 *caller_udata) {
+  caller_udata = func_002DA160_6a98(pc, caller_udata);
+  if (! caller_udata)
+    return 0;
+  if (udata->saved[caller_udata->cfa_reg])
+    { long t = *(long *)func_002D6990_6a98(caller_udata->cfa_reg, udata, 0); caller_udata->cfa = (void *)t; }
+  else
+    caller_udata->cfa = udata->cfa;
+  caller_udata->cfa += caller_udata->cfa_offset;
+  return caller_udata;
+}

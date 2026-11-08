@@ -2550,3 +2550,93 @@ void FUN_002d9950(struct obj_9950 *ob) {
   ob->pc_begin = beg;
   ob->pc_end = end;
 }
+
+typedef struct fde_a338 { int length; int CIE_delta; unsigned pc_begin; unsigned pc_range; } fde_a338;
+struct fv_a338 { fde_a338 **array; unsigned count; };
+static inline int fde_compare(fde_a338 *x, fde_a338 *y) { return x->pc_begin - y->pc_begin; }
+// MATCH func_002DA338
+void FUN_002da338(struct fv_a338 *linear, struct fv_a338 *erratic) {
+  unsigned count = linear->count;
+  unsigned linear_max = (unsigned) -1;
+  unsigned previous_max[count];
+  unsigned i, j;
+  for (i = 0; i < count; i++) {
+    j = linear_max;
+    while (j != (unsigned) -1 && fde_compare(linear->array[i], linear->array[j]) < 0) {
+      erratic->array[erratic->count++] = linear->array[j];
+      linear->array[j] = 0;
+      j = previous_max[j];
+    }
+    linear_max = i;
+    previous_max[i] = j;
+  }
+  for (i = j = 0; i < count; i++)
+    if (linear->array[i])
+      linear->array[j++] = linear->array[i];
+  linear->count = j;
+}
+
+typedef struct { void *start; void *end; void *exception_handler; } exception_table_6770;
+// MATCH func_002D6770
+void *FUN_002d6770(void *pc, exception_table_6770 *table) {
+  if (table) {
+    int best = -1;
+    int pos = 0;
+    while (table[pos].start != (void *) -1) {
+      if (table[pos].start <= pc && table[pos].end > pc) {
+        if (best == -1 || (table[pos].end <= table[best].end && table[pos].start >= table[best].start))
+          best = pos;
+      } else if (best >= 0 && table[pos].start > pc)
+        break;
+      pos++;
+    }
+    if (best != -1)
+      return table[best].exception_handler;
+  }
+  return (void *) 0;
+}
+
+extern void (**D_00427EF0[])(void);
+// MATCH func_002D6190
+void FUN_002d6190(void) {
+  while (*D_00427EF0[0]) {
+    D_00427EF0[0]++;
+    (*(D_00427EF0[0] - 1))();
+  }
+}
+
+typedef struct { void *start_region; void *end_region; void *exception_handler; void *match_info; } exception_table_6848;
+typedef struct { int (*match_function)(void *, void *, void *); } eh_info_6848;
+// MATCH func_002D6848
+void *FUN_002d6848(void *pc, char *table, eh_info_6848 *eh_info, int rethrow, int *cleanup) {
+  void *retval = 0;
+  *cleanup = 1;
+  if (table) {
+    int pos = 0;
+    exception_table_6848 *tbl = (exception_table_6848 *)(table + 8);
+    if (rethrow) {
+      pos = ((char *)pc - (char *)tbl) >> 4;
+      pc = (char *)((exception_table_6848 *)pc)->end_region - 1;
+      if (tbl[pos].start_region != (void *) -1)
+        pos++;
+    } else
+      pc = (char *)pc - 1;
+    while (tbl[pos].start_region != (void *) -1) {
+      if (tbl[pos].start_region <= pc && tbl[pos].end_region > pc) {
+        if (tbl[pos].match_info) {
+          if (eh_info->match_function) {
+            if (eh_info->match_function(eh_info, tbl[pos].match_info, table)) {
+              if (!retval) retval = tbl[pos].exception_handler;
+              *cleanup = 0;
+              return retval;
+            }
+          }
+        } else {
+          if (!retval) retval = tbl[pos].exception_handler;
+        }
+      }
+      pos++;
+    }
+  }
+  return retval;
+}

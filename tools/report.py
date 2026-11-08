@@ -105,7 +105,15 @@ def symbols_and_relocs(obj):
                 target = lo16(nxt[0][2]) if nxt else 0
             callee = by_off.get(target)
             if callee is None:
-                raise SystemExit(f"{obj}: address of an unknown local target at {off:#x}")
+                # a label inside a function (&&label, __throw): the function plus the offset
+                inside = [(n, v) for n, v in funcs.items() if v[0] <= target < v[0] + v[1]]
+                if not inside:
+                    raise SystemExit(f"{obj}: address of an unknown local target at {off:#x}")
+                callee, (start, _) = inside[0]
+                if t == 6:
+                    word = (word & ~0xFFFF) | ((target - start) & 0xFFFF)
+                else:
+                    word = word & ~0xFFFF
             relocs[off] = (t, callee, word)
         elif not sym:
             raise SystemExit(f"{obj}: relocation type {t} at {off:#x} against a section")
