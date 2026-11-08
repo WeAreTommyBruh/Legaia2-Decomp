@@ -2495,3 +2495,58 @@ static inline void frame_heapsort_9618(struct fv_9618 *erratic) { fde_9618 **a; 
 // MATCH func_002D9618
 fde_9618 **FUN_002d9618(struct acc_9618 *accu, unsigned count) { unsigned c0; c0 = accu->linear.count; if (c0 != count) func_002DB900_9618(); func_002DA338_9618(&accu->linear, &accu->erratic); if (accu->linear.count + accu->erratic.count != c0) func_002DB900_9618(); frame_heapsort_9618(&accu->erratic); func_002D9518_9618(&accu->linear, &accu->erratic); func_002DBC70_9618(accu->erratic.array); return accu->linear.array; }
 #undef SWAP
+
+struct glue_ba20 { struct glue_ba20 *_next; int _niobs; struct file_ba20 *_iobs; };
+struct sbuf_ba20 { unsigned char *_base; int _size; };
+struct file_ba20 { unsigned char *_p; int _r; int _w; short _flags; short _file; struct sbuf_ba20 _bf; int _lbfsize; void *_cookie; void *_read; void *_write; void *_seek; void *_close; struct sbuf_ba20 _ub; unsigned char *_up; int _ur; unsigned char _ubuf[3]; unsigned char _nbuf[1]; struct sbuf_ba20 _lb; int _blksize; int _offset; struct reent_ba20 *_reent; };
+struct reent_ba20 { int _errno; char pad[0x34]; int __sdidinit; char pad2[0x19c]; struct glue_ba20 __sglue; };
+void func_002DBB20_ba20(struct reent_ba20 *) __asm__("func_002DBB20");
+struct glue_ba20 *func_002DB9B0_ba20(struct reent_ba20 *, int) __asm__("func_002DB9B0");
+// MATCH func_002DBA20
+struct file_ba20 *FUN_002dba20(struct reent_ba20 *d) { struct file_ba20 *fp; int n; struct glue_ba20 *g; if (d->__sdidinit == 0) func_002DBB20_ba20(d); for (g = &d->__sglue;; g = g->_next) { for (fp = g->_iobs, n = g->_niobs; --n >= 0; fp++) if (fp->_flags == 0) goto found; if (g->_next == 0 && (g->_next = func_002DB9B0_ba20(d, 4)) == 0) break; } d->_errno = 12; return 0; found: fp->_file = -1; fp->_flags = 1; fp->_p = 0; fp->_w = 0; fp->_r = 0; fp->_bf._base = 0; fp->_bf._size = 0; fp->_lbfsize = 0; fp->_file = -1; fp->_ub._base = 0; fp->_ub._size = 0; fp->_lb._base = 0; fp->_lb._size = 0; fp->_reent = d; return fp; }
+
+
+// MATCH func_002DF608
+int FUN_002df608(char *p0, int exp, int fmtch) { register char *p, *t; char expbuf[308]; p = p0; *p++ = fmtch; if (exp < 0) { exp = -exp; *p++ = '-'; } else *p++ = '+'; t = expbuf + 308; if (exp > 9) { do { *--t = (exp % 10) + '0'; } while ((exp /= 10) > 9); *--t = exp + '0'; for (; t < expbuf + 308; *p++ = *t++) ; } else { *p++ = '0'; *p++ = exp + '0'; } return (p - p0); }
+
+typedef struct { unsigned low; int high; } DWstruct_73E8;
+typedef union { DWstruct_73E8 s; long long ll; } DWunion_73E8;
+static inline DWunion_73E8 umulsidi3_73E8(unsigned u, unsigned v) { DWunion_73E8 w; __asm__("multu %2,%3" : "=l" ((unsigned)(w.s.low)), "=h" ((unsigned)(w.s.high)) : "d" ((unsigned)(u)), "d" ((unsigned)(v))); return w; }
+// MATCH func_002D73E8
+long long FUN_002d73e8(long long u, long long v) { DWunion_73E8 w; DWunion_73E8 uu, vv; uu.ll = u, vv.ll = v; w.ll = umulsidi3_73E8(uu.s.low, vv.s.low).ll; w.s.high += ((unsigned) uu.s.low * (unsigned) vv.s.high + (unsigned) uu.s.high * (unsigned) vv.s.low); return w.ll; }
+
+struct fde_9950 { int length; int CIE_delta; unsigned pc_begin; unsigned pc_range; };
+struct fv_9950 { struct fde_9950 **array; unsigned count; };
+struct acc_9950 { struct fv_9950 linear; struct fv_9950 erratic; };
+struct obj_9950 { unsigned pc_begin; unsigned pc_end; struct fde_9950 *fde_begin; struct fde_9950 **fde_array; unsigned count; struct obj_9950 *next; };
+unsigned func_002D9880_9950(struct fde_9950 *) __asm__("func_002D9880");
+void *func_002DBC48_9950(int) __asm__("func_002DBC48");
+void func_002D98C8_9950(struct fde_9950 *, struct acc_9950 *, unsigned *, unsigned *) __asm__("func_002D98C8");
+struct fde_9950 **func_002D9618_9950(struct acc_9950 *, unsigned) __asm__("func_002D9618");
+// MATCH func_002D9950
+void FUN_002d9950(struct obj_9950 *ob) {
+  struct acc_9950 accu;
+  unsigned count, beg, end;
+  if (ob->fde_array) {
+    struct fde_9950 **p = ob->fde_array;
+    for (count = 0; *p; ++p)
+      count += func_002D9880_9950(*p);
+  } else
+    count = func_002D9880_9950(ob->fde_begin);
+  ob->count = count;
+  accu.linear.array = func_002DBC48_9950(sizeof (struct fde_9950 *) * count);
+  accu.erratic.array = func_002DBC48_9950(sizeof (struct fde_9950 *) * count);
+  accu.linear.count = 0;
+  accu.erratic.count = 0;
+  beg = -1;
+  end = 0;
+  if (ob->fde_array) {
+    struct fde_9950 **p = ob->fde_array;
+    for (; *p; ++p)
+      func_002D98C8_9950(*p, &accu, &beg, &end);
+  } else
+    func_002D98C8_9950(ob->fde_begin, &accu, &beg, &end);
+  ob->fde_array = func_002D9618_9950(&accu, count);
+  ob->pc_begin = beg;
+  ob->pc_end = end;
+}
