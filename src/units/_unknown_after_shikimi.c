@@ -834,9 +834,9 @@ P_002E84A0 *func_002E8378(int); void func_002E7ED0(unsigned, P_002E84A0 *, int, 
 // MATCH func_002E84A0
 void FUN_002e84a0(O_002E84A0 *o, int b) { P_002E84A0 *p = func_002E8378(b); int x = o->w20, y = o->w28; p->w20 = x; p->w28 = y; p->w32 = 0x8000000c; func_002E7ED0(0x80000008, p, 64, o->w32, o->w36, o->w40); }
 
-int func_002D7E48(int, int); int func_002D78B8(int, int); long long func_002EF470(int);
+int func_002D7E48_2EF410(int, int) __asm__("func_002D7E48"); int func_002D78B8_2EF410(int, int) __asm__("func_002D78B8"); long long func_002EF470_2EF410(int) __asm__("func_002EF470");
 // MATCH func_002EF410
-long long FUN_002ef410(int a) { int z = 0; __asm__("" : "+r"(z)); if (func_002D7E48(a, z) < 0) return -func_002EF470(func_002D78B8(z, a)); return func_002EF470(a); }
+long long FUN_002ef410(int a) { int z = 0; __asm__("" : "+r"(z)); if (func_002D7E48_2EF410(a, z) < 0) return -func_002EF470_2EF410(func_002D78B8_2EF410(z, a)); return func_002EF470_2EF410(a); }
 
 typedef struct { int n0, n1; unsigned char *d0, *d1; unsigned char s0[64]; unsigned char s1[64]; } P_002CD728;
 // MATCH func_002CD728
@@ -2407,4 +2407,16 @@ int FUN_002e0510(B_002E0510_2E0510 *b, B_002E0510_2E0510 *S) { int n; int borrow
 
 // MATCH func_002E01F0
 char *FUN_002e01f0(char *tab, char *fmt) { int c, n, v; c = *fmt++; if (c == '^') { v = 1; c = *fmt++; } else v = 0; for (n = 0; n < 256; n++) tab[n] = v; if (c == 0) return (fmt - 1); v = 1 - v; for (;;) { tab[c] = v; doswitch: n = *fmt++; switch (n) { case 0: return (fmt - 1); case '-': n = *fmt; if (n == ']' || n < c) { c = '-'; break; } fmt++; do { tab[++c] = v; } while (c < n); goto doswitch; case ']': return (fmt); default: c = n; break; } } }
+
+
+// MATCH func_002D7350
+double FUN_002d7350(long long u) { double d; d = (int) (u >> 32); d *= 65536.0; d *= 65536.0; d += (unsigned) (u & 0xffffffff); return d; }
+
+
+// MATCH func_002D7258
+unsigned long long FUN_002d7258(float original_a) { double a = (double) original_a; double b; unsigned long long v; if (a < 0) return 0; b = (a / 4294967296.0); v = (unsigned) b; v <<= 32; a -= (double) v; if (a < 0) v -= (unsigned) (- a); else v += (unsigned) a; return v; }
+
+
+// MATCH func_002EF470
+unsigned long long FUN_002ef470(double a) { double b; unsigned long long v; if (a < 0) return 0; b = (a / 4294967296.0); v = (unsigned) b; v <<= 32; a -= (double) v; if (a < 0) v -= (unsigned) (- a); else v += (unsigned) a; return v; }
 
