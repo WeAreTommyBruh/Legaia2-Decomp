@@ -61,9 +61,6 @@ It is not perfect so expect bugs. If there are any report it in [issues](https:/
 # AI Usage
 This project is obviously entirely ai.
 
-# Contributing
-Any help will be welcome. Please read [CONTRIBUTING.md](https://github.com/WeAreTommyBruh/Legaia2-Decomp/blob/main/CONTRIBUTING.md) for more details.
-
 # Legal
 This project contains no game assets of Legaia 2: Duel Saga. I will not provide any copies of the game. 
 This project is not affiliated with or endorsed by the game's original developers or publisher.
