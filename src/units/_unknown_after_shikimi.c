@@ -2640,3 +2640,9 @@ void *FUN_002d6848(void *pc, char *table, eh_info_6848 *eh_info, int rethrow, in
   }
   return retval;
 }
+
+typedef void (*func_ptr)(void);
+extern func_ptr D_002F7098_2D61E8[] __asm__("D_002F7098");
+// MATCH func_002D61E8
+void FUN_002d61e8(void) { unsigned long nptrs; func_ptr *new_var; func_ptr *new_var2; unsigned i; do { nptrs = (unsigned long) D_002F7098_2D61E8[0]; if (nptrs == ((unsigned long) (-1))) { for (nptrs = 0; D_002F7098_2D61E8[nptrs + 1] != 0; nptrs++) { ; } } for (i = nptrs; i >= 1; i--) { if (1) { new_var = D_002F7098_2D61E8; new_var2 = new_var; new_var2[i](); } } } while (0); }
+
