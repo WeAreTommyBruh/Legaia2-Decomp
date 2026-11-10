@@ -2719,3 +2719,10 @@ float FUN_002d5d80(float x, float y) { int n, hx, hy, hz, ix, iy, sx, i; GET_FLO
 #undef GET_FLOAT_WORD
 #undef SET_FLOAT_WORD
 
+extern int D_00631800_2D3628[] __asm__("D_00631800"); extern char D_00631600_2D3628[] __asm__("D_00631600");
+void *func_002CFF90_2D3628(void) __asm__("func_002CFF90"); void *func_002CFFC0_2D3628(int, int) __asm__("func_002CFFC0"); void *func_002CFF08_2D3628(int) __asm__("func_002CFF08"); void *func_002CFF48_2D3628(int) __asm__("func_002CFF48"); void *func_002CFF38_2D3628(void) __asm__("func_002CFF38"); void *func_002CFF20_2D3628(int) __asm__("func_002CFF20");
+void func_002D37C0_2D3628() __asm__("func_002D37C0");
+void *memset(void *, int, unsigned);
+// MATCH func_002D3628
+void FUN_002d3628(int a) { char *s0; char *s1; unsigned char *s2; char *s3; char *s4; char *s5; int i; int buf[16]; s0 = func_002CFF90_2D3628(); s1 = func_002CFFC0_2D3628(0, 0); s2 = (unsigned char *)func_002CFF08_2D3628(0); s3 = func_002CFF48_2D3628(0); s4 = func_002CFF38_2D3628(); s5 = func_002CFF20_2D3628(0); D_00631800_2D3628[0] = 0x20000000 | (int)D_00631600_2D3628; buf[0] = 0x1e; buf[4] = 0; buf[1] = a; func_002D37C0_2D3628(0x65, 0, buf, buf, 0x40, 0x40); memset(s2, 0, 0x1080); memset(s3, 0, 0x600); memset(s5, 0, 0xfc0); memset(s4, 0, 0x50); memset(s1, 0, 0x1000); memset((void *)D_00631800_2D3628[0], 0, 0x200); memset(s0, 0, 0x200); i = 0x2f; do { s2[0x50] = 0xff; i--; s2[0x56] = 0xff; s2[0x55] = 0xff; s2[0x54] = 0xff; s2 += 0x58; } while (i >= 0); *(volatile int *)(s4 + 0x48) = 0; *(volatile int *)(s4 + 0x44) = 1; *(volatile short *)(s4 + 0x3a) = 0x3c; *(int *)(s4 + 0x40) = 0; }
+
