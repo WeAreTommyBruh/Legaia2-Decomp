@@ -117,3 +117,11 @@ void FUN_00297040(void) { char *p = func_0029C738_297040(); float d[3]; d[0] = *
 extern float D_004A7324_2990A0 __asm__("D_004A7324"), D_004A7328_2990A0 __asm__("D_004A7328"), D_004A0D10_2990A0 __asm__("D_004A0D10"); extern char D_0062B0A0_2990A0[] __asm__("D_0062B0A0"), D_0062B0E0_2990A0[] __asm__("D_0062B0E0"); void func_00298B10_2990A0(float *, char *, char *) __asm__("func_00298B10");
 // MATCH func_002990A0
 void FUN_002990a0(void) { float v[3]; v[0] = D_004A7324_2990A0 / 360.0f * 2.0f * D_004A0D10_2990A0; v[1] = D_004A7328_2990A0 / 360.0f * 2.0f * D_004A0D10_2990A0; v[2] = 0; func_00298B10_2990A0(v, D_0062B0A0_2990A0, D_0062B0E0_2990A0); }
+
+extern char D_00499780_295098[] __asm__("D_00499780"), D_0063701C_295098[] __asm__("D_0063701C"), D_00020000_295098[] __asm__("D_00020000");
+void func_002DC918_295098(void *, void *, int) __asm__("func_002DC918");
+int func_002DBC48_295098(int) __asm__("func_002DBC48");
+void func_002DBC70_295098(int) __asm__("func_002DBC70");
+// MATCH func_00295098
+int FUN_00295098(void) { int n = (int)D_00020000_295098; char *q = D_0063701C_295098; int r; func_002DC918_295098(D_00499780_295098, q, n); r = 0x1ffeff0 - (int)(q + (n + 4096)); func_002DBC70_295098(func_002DBC48_295098(r)); return r; }
+

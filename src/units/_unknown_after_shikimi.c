@@ -2680,19 +2680,32 @@ int *FUN_002db948(void);
 // MATCH func_002D5878
 float FUN_002d5878(float x) { float z; int v; struct exc_2d5878 exc; z = FUN_002d5fd0(x); v = D_0049E670_002D5878[0]; if (v == -1 || FUN_002d6168(x)) return z; if (x < 0.0f) { exc.type = 1; exc.name = D_0049E630_2D5878; exc.err = 0; exc.arg1 = exc.arg2 = (double)x; if (v == 0) exc.retval = 0.0; else exc.retval = D_0049E638_2D5878[0]; if (D_0049E670_002D5878[0] == 2) *FUN_002db948() = 33; else if (!FUN_002d6140(&exc)) *FUN_002db948() = 33; if (exc.err != 0) *FUN_002db948() = exc.err; return (float)exc.retval; } else return z; }
 
-typedef union { double value; struct { unsigned lsw; unsigned msw; } parts_2D6108; } DW;
-#define EXTRACT_WORDS(ix0, ix1, d) do { DW ew_u; ew_u.value = (d); (ix0) = ew_u.parts_2D6108.msw; (ix1) = ew_u.parts_2D6108.lsw; } while (0)
+typedef union { double value; struct { unsigned lsw; unsigned msw; } parts_2D6108; } DW_2D6108;
+#define EXTRACT_WORDS(ix0, ix1, d) do { DW_2D6108 ew_u; ew_u.value = (d); (ix0) = ew_u.parts_2D6108.msw; (ix1) = ew_u.parts_2D6108.lsw; } while (0)
 // MATCH func_002D6108
 int FUN_002d6108(double x) { int hx, lx; EXTRACT_WORDS(hx, lx, x); hx &= 0x7fffffff; hx |= (unsigned)(lx | (-lx)) >> 31; hx = 0x7ff00000 - hx; return (int)(((unsigned)hx) >> 31); }
+#undef EXTRACT_WORDS
 
 typedef union { float value; unsigned word; } FW_2D6168;
 #define GET_FLOAT_WORD(i, d) do { FW_2D6168 gf_u; gf_u.value = (d); (i) = gf_u.word; } while (0)
 // MATCH func_002D6168
 int FUN_002d6168(float x) { int hx; GET_FLOAT_WORD(hx, x); hx &= 0x7fffffff; hx = 0x7f800000 - hx; return (int)(((unsigned)hx) >> 31); }
+#undef GET_FLOAT_WORD
 
 typedef union { float value; int word; } FW_2D5FD0;
 #define GET_FLOAT_WORD(i, d) do { FW_2D5FD0 gf_u; gf_u.value = (d); (i) = gf_u.word; } while (0)
 #define SET_FLOAT_WORD(d, i) do { FW_2D5FD0 sf_u; sf_u.word = (i); (d) = sf_u.value; } while (0)
 // MATCH func_002D5FD0
 float FUN_002d5fd0(float x) { float z; int sign = (int)0x80000000; int ix, s, q, m, t, i; unsigned r; GET_FLOAT_WORD(ix, x); if ((ix & 0x7f800000) == 0x7f800000) return x * x + x; if (ix <= 0) { if ((ix & (~sign)) == 0) return x; else if (ix < 0) return (x - x) / (x - x); } m = (ix >> 23); if (m == 0) { for (i = 0; (ix & 0x00800000) == 0; i++) ix <<= 1; m -= i - 1; } m -= 127; ix = (ix & 0x007fffff) | 0x00800000; if (m & 1) ix += ix; m >>= 1; ix += ix; q = s = 0; r = 0x01000000; while (r != 0) { t = s + r; if (t <= ix) { s = t + r; ix -= t; q += r; } ix += ix; r >>= 1; } if (ix != 0) { q += (q & 1); } ix = (q >> 1) + 0x3f000000; ix += (m << 23); SET_FLOAT_WORD(z, ix); return z; }
+#undef GET_FLOAT_WORD
+#undef SET_FLOAT_WORD
 
+typedef union { double value; struct { unsigned lsw; unsigned msw; } parts_2E3960; } DW_2E3960;
+#define EXTRACT_WORDS(ix0, ix1, d) do { DW_2E3960 ew_u; ew_u.value = (d); (ix0) = ew_u.parts_2E3960.msw; (ix1) = ew_u.parts_2E3960.lsw; } while (0)
+// MATCH func_002E3960
+int FUN_002e3960(double x) { int hx, lx; EXTRACT_WORDS(hx, lx, x); hx &= 0x7fffffff; hx |= (unsigned)(lx | (-lx)) >> 31; hx = 0x7ff00000 - hx; return 1 - (int)((unsigned)(hx | (-hx)) >> 31); }
+#undef EXTRACT_WORDS
+
+volatile short func_002EDC50_2E82B0(void) __asm__("func_002EDC50"); void func_002EDC98_2E82B0(void) __asm__("func_002EDC98");
+// MATCH func_002E82B0
+int FUN_002e82b0(int *p) { int i; int j; int k; char *q; func_002EDC50_2E82B0(); i = 0; q = (char *)p[1]; if (0 < p[2]) { do { if ((*(unsigned *)(q + 16) & 1) == 0) { *(unsigned *)(q + 16) = (i << 16) | 5; k = *p; *p = k + 1; if (k + 1 == 1) { *p = k + 2; j = 1; } else j = k + 1; *(int *)(q + 20) = (int)q; *(int *)(q + 24) = j; func_002EDC98_2E82B0(); return (int)q; } i++; q += 64; } while (i < p[2]); } func_002EDC98_2E82B0(); return 0; }

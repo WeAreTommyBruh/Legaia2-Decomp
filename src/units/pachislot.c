@@ -396,3 +396,7 @@ int func_00165A40_168A20(char *, int) __asm__("func_00165A40"); int func_001118F
 // MATCH func_00168A20
 int pachislot_00168a20(char *o) { int a, b, c, p, r; a = func_00165A40_168A20(o + 44, 1) - 11; b = func_00165A40_168A20(o + 124, 1) - 11; c = func_00165A40_168A20(o + 204, 1) - 11; p = a * b * c; r = func_001118F8_168A20(D_0043CD90_168A20, a, b, c, p); *(int *)(o + 368) = *(int *)(o + 368) + p; return r; }
 
+typedef struct { char c[8]; } V8_0016AC78_16AC78;
+extern char D_00343028_16AC78[] __asm__("D_00343028"); void func_00168AB8_16AC78(char *) __asm__("func_00168AB8"); void func_0010C2B0_16AC78(char *, int, int, int, int, int, int) __asm__("func_0010C2B0");
+// MATCH func_0016AC78
+int pachislot_0016ac78(char *o) { int *w = (int *)o; int c, v; func_00168AB8_16AC78(o); if (w[116]++ < 4) return 0; v = w[92]; w[116] = 0; if (v > 0) { w[127] = 1; if (v >= 2000) { w[92] = v - 1000; w[91] = w[91] + 1000; } else if (v >= 200) { w[92] = v - 100; w[91] = w[91] + 100; } else if (v >= 20) { w[92] = v - 10; w[91] = w[91] + 10; } else { w[92] = v - 1; w[91] = w[91] + 1; } if (w[91] > 999999) w[91] = 999999; func_0010C2B0_16AC78(D_00343028_16AC78, 139, 6, 0, 6, 0, 0); return 0; } w[127] = 0; *(V8_0016AC78_16AC78 *)(o + 544) = *(V8_0016AC78_16AC78 *)(o + 552); w[124] = -1; return 0; }
