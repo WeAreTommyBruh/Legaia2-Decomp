@@ -2646,3 +2646,53 @@ extern func_ptr D_002F7098_2D61E8[] __asm__("D_002F7098");
 // MATCH func_002D61E8
 void FUN_002d61e8(void) { unsigned long nptrs; func_ptr *new_var; func_ptr *new_var2; unsigned i; do { nptrs = (unsigned long) D_002F7098_2D61E8[0]; if (nptrs == ((unsigned long) (-1))) { for (nptrs = 0; D_002F7098_2D61E8[nptrs + 1] != 0; nptrs++) { ; } } for (i = nptrs; i >= 1; i--) { if (1) { new_var = D_002F7098_2D61E8; new_var2 = new_var; new_var2[i](); } } } while (0); }
 
+extern int D_0049E670_2D5618[] __asm__("D_0049E670");
+extern char D_0049E610_2D5618[] __asm__("D_0049E610");
+extern const double D_0049E618_2D5618[] __asm__("D_0049E618");
+struct exc_2d5618 { int type; char *name; double arg1; double arg2; double retval; int err; };
+double FUN_002d5990(double, double);
+int FUN_002d6108(double);
+int FUN_002d6140(void *);
+int FUN_002d7e48(double, int);
+int *FUN_002db948(void);
+// MATCH func_002D5618
+double FUN_002d5618(double x, double y) { double z; int v; struct exc_2d5618 exc; z = FUN_002d5990(x, y); v = D_0049E670_2D5618[0]; if (v == -1 || FUN_002d6108(y) || FUN_002d6108(x)) return z; if (y == 0.0) { exc.type = 1; exc.name = D_0049E610_2D5618; exc.arg1 = x; exc.arg2 = y; exc.err = 0; if (v == 0) exc.retval = x; else exc.retval = D_0049E618_2D5618[0]; if (D_0049E670_2D5618[0] == 2) *FUN_002db948() = 33; else if (!FUN_002d6140(&exc)) *FUN_002db948() = 33; if (exc.err != 0) *FUN_002db948() = exc.err; return exc.retval; } else return z; }
+
+extern int D_0049E670_002D5738[] __asm__("D_0049E670");
+extern char D_0049E620_2D5738[] __asm__("D_0049E620");
+extern const double D_0049E628_2D5738[] __asm__("D_0049E628");
+struct exc_2d5738 { int type; char *name; double arg1; double arg2; double retval; int err; };
+float FUN_002d5d80(float, float);
+int FUN_002d6168(float);
+int FUN_002d6140(void *);
+int *FUN_002db948(void);
+// MATCH func_002D5738
+float FUN_002d5738(float x, float y) { float z; int v; struct exc_2d5738 exc; z = FUN_002d5d80(x, y); v = D_0049E670_002D5738[0]; if (v == -1 || FUN_002d6168(y) || FUN_002d6168(x)) return z; if (y == 0.0f) { exc.type = 1; exc.name = D_0049E620_2D5738; exc.err = 0; exc.arg1 = (double)x; exc.arg2 = (double)y; if (v == 0) exc.retval = (double)x; else exc.retval = D_0049E628_2D5738[0]; if (D_0049E670_002D5738[0] == 2) *FUN_002db948() = 33; else if (!FUN_002d6140(&exc)) *FUN_002db948() = 33; if (exc.err != 0) *FUN_002db948() = exc.err; return (float)exc.retval; } else return z; }
+
+extern int D_0049E670_002D5878[] __asm__("D_0049E670");
+extern char D_0049E630_2D5878[] __asm__("D_0049E630");
+extern const double D_0049E638_2D5878[] __asm__("D_0049E638");
+struct exc_2d5878 { int type; char *name; double arg1; double arg2; double retval; int err; };
+float FUN_002d5fd0(float);
+int FUN_002d6168(float);
+int FUN_002d6140(void *);
+int *FUN_002db948(void);
+// MATCH func_002D5878
+float FUN_002d5878(float x) { float z; int v; struct exc_2d5878 exc; z = FUN_002d5fd0(x); v = D_0049E670_002D5878[0]; if (v == -1 || FUN_002d6168(x)) return z; if (x < 0.0f) { exc.type = 1; exc.name = D_0049E630_2D5878; exc.err = 0; exc.arg1 = exc.arg2 = (double)x; if (v == 0) exc.retval = 0.0; else exc.retval = D_0049E638_2D5878[0]; if (D_0049E670_002D5878[0] == 2) *FUN_002db948() = 33; else if (!FUN_002d6140(&exc)) *FUN_002db948() = 33; if (exc.err != 0) *FUN_002db948() = exc.err; return (float)exc.retval; } else return z; }
+
+typedef union { double value; struct { unsigned lsw; unsigned msw; } parts_2D6108; } DW;
+#define EXTRACT_WORDS(ix0, ix1, d) do { DW ew_u; ew_u.value = (d); (ix0) = ew_u.parts_2D6108.msw; (ix1) = ew_u.parts_2D6108.lsw; } while (0)
+// MATCH func_002D6108
+int FUN_002d6108(double x) { int hx, lx; EXTRACT_WORDS(hx, lx, x); hx &= 0x7fffffff; hx |= (unsigned)(lx | (-lx)) >> 31; hx = 0x7ff00000 - hx; return (int)(((unsigned)hx) >> 31); }
+
+typedef union { float value; unsigned word; } FW_2D6168;
+#define GET_FLOAT_WORD(i, d) do { FW_2D6168 gf_u; gf_u.value = (d); (i) = gf_u.word; } while (0)
+// MATCH func_002D6168
+int FUN_002d6168(float x) { int hx; GET_FLOAT_WORD(hx, x); hx &= 0x7fffffff; hx = 0x7f800000 - hx; return (int)(((unsigned)hx) >> 31); }
+
+typedef union { float value; int word; } FW_2D5FD0;
+#define GET_FLOAT_WORD(i, d) do { FW_2D5FD0 gf_u; gf_u.value = (d); (i) = gf_u.word; } while (0)
+#define SET_FLOAT_WORD(d, i) do { FW_2D5FD0 sf_u; sf_u.word = (i); (d) = sf_u.value; } while (0)
+// MATCH func_002D5FD0
+float FUN_002d5fd0(float x) { float z; int sign = (int)0x80000000; int ix, s, q, m, t, i; unsigned r; GET_FLOAT_WORD(ix, x); if ((ix & 0x7f800000) == 0x7f800000) return x * x + x; if (ix <= 0) { if ((ix & (~sign)) == 0) return x; else if (ix < 0) return (x - x) / (x - x); } m = (ix >> 23); if (m == 0) { for (i = 0; (ix & 0x00800000) == 0; i++) ix <<= 1; m -= i - 1; } m -= 127; ix = (ix & 0x007fffff) | 0x00800000; if (m & 1) ix += ix; m >>= 1; ix += ix; q = s = 0; r = 0x01000000; while (r != 0) { t = s + r; if (t <= ix) { s = t + r; ix -= t; q += r; } ix += ix; r >>= 1; } if (ix != 0) { q += (q & 1); } ix = (q >> 1) + 0x3f000000; ix += (m << 23); SET_FLOAT_WORD(z, ix); return z; }
+
