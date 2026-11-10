@@ -2709,3 +2709,13 @@ int FUN_002e3960(double x) { int hx, lx; EXTRACT_WORDS(hx, lx, x); hx &= 0x7ffff
 volatile short func_002EDC50_2E82B0(void) __asm__("func_002EDC50"); void func_002EDC98_2E82B0(void) __asm__("func_002EDC98");
 // MATCH func_002E82B0
 int FUN_002e82b0(int *p) { int i; int j; int k; char *q; func_002EDC50_2E82B0(); i = 0; q = (char *)p[1]; if (0 < p[2]) { do { if ((*(unsigned *)(q + 16) & 1) == 0) { *(unsigned *)(q + 16) = (i << 16) | 5; k = *p; *p = k + 1; if (k + 1 == 1) { *p = k + 2; j = 1; } else j = k + 1; *(int *)(q + 20) = (int)q; *(int *)(q + 24) = j; func_002EDC98_2E82B0(); return (int)q; } i++; q += 64; } while (i < p[2]); } func_002EDC98_2E82B0(); return 0; }
+
+extern const float D_0049E660_2D5D80[] __asm__("D_0049E660");
+typedef union { float value; int word; } FW_2D5D80;
+#define GET_FLOAT_WORD(i, d) do { FW_2D5D80 gf_u; gf_u.value = (d); (i) = gf_u.word; } while (0)
+#define SET_FLOAT_WORD(d, i) do { FW_2D5D80 sf_u; sf_u.word = (i); (d) = sf_u.value; } while (0)
+// MATCH func_002D5D80
+float FUN_002d5d80(float x, float y) { int n, hx, hy, hz, ix, iy, sx, i; GET_FLOAT_WORD(hx, x); GET_FLOAT_WORD(hy, y); sx = hx & 0x80000000; hx ^= sx; hy &= 0x7fffffff; if (hy == 0 || (hx >= 0x7f800000) || (hy > 0x7f800000)) return (x * y) / (x * y); if (hx < hy) return x; if (hx == hy) return D_0049E660_2D5D80[(unsigned)sx >> 31]; if (hx < 0x00800000) { for (ix = -126, i = (hx << 8); i > 0; i <<= 1) ix -= 1; } else ix = (hx >> 23) - 127; if (hy < 0x00800000) { for (iy = -126, i = (hy << 8); i >= 0; i <<= 1) iy -= 1; } else iy = (hy >> 23) - 127; if (ix >= -126) hx = 0x00800000 | (0x007fffff & hx); else { n = -126 - ix; hx = hx << n; } if (iy >= -126) hy = 0x00800000 | (0x007fffff & hy); else { n = -126 - iy; hy = hy << n; } n = ix - iy; while (i = n, n--, i != 0) { hz = hx - hy; if (hz < 0) { hx = hx + hx; } else { if (hz == 0) return D_0049E660_2D5D80[(unsigned)sx >> 31]; hx = hz + hz; } } hz = hx - hy; if (hz >= 0) { hx = hz; } if (hx == 0) return D_0049E660_2D5D80[(unsigned)sx >> 31]; while (hx < 0x00800000) { hx = hx + hx; iy -= 1; __asm__ volatile ("" : : "r"(n)); } if (iy >= -126) { hx = ((hx - 0x00800000) | ((iy + 127) << 23)); SET_FLOAT_WORD(x, hx | sx); } else { n = -126 - iy; hx >>= n; SET_FLOAT_WORD(x, hx | sx); } return x; }
+#undef GET_FLOAT_WORD
+#undef SET_FLOAT_WORD
+
