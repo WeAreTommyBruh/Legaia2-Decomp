@@ -16,3 +16,9 @@ void FUN_001962c0(void) { int *p; if (D_004A3864_001962C0 & 1) func_001118F8_001
 extern char D_005ABD00[], D_005ABB00[], D_00343010_00197DE0[] __asm__("D_00343010"), D_00343028_00197DE0[] __asm__("D_00343028"), D_0043B400[]; extern float D_004A01C0; void func_00153B40_00197DE0(char *) __asm__("func_00153B40"); void func_001E2638(char *); void func_001098B8(char *);
 // MATCH func_00197DE0
 void FUN_00197de0(void) { int i; char *p; func_00153B40_00197DE0(D_005ABD00); p = D_005ABB00; for (i = 3; i != -1; i--) { *(int *)(p + 52) = (int)D_0043B400; *(float *)(p + 112) = 1.0f; *(int *)(p + 116) = 0; *(int *)(p + 120) = 0; *(float *)(p + 124) = D_004A01C0; p += 128; } func_001E2638(D_00343010_00197DE0); func_001098B8(D_00343028_00197DE0); }
+
+extern int D_004A3838_1986E8 __asm__("D_004A3838"), D_004A383C_1986E8 __asm__("D_004A383C");
+void func_00198790_1986E8(int, int, int, int) __asm__("func_00198790");
+// MATCH func_001986E8
+int FUN_001986e8(int p1, int p2) { int i; i = 0; if (D_004A3838_1986E8 == 0) return 0; if (D_004A383C_1986E8 == 0) return 1; do { if (i == 0) i = D_004A3838_1986E8; else i = *(int *)(i + 4); func_00198790_1986E8(i, p1, p2, 0); } while (i != D_004A383C_1986E8); return 1; }
+

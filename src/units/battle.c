@@ -139,3 +139,15 @@ extern int D_004A6D0C_127000 __asm__("D_004A6D0C"); extern char *D_004A6CFC_1270
 // MATCH func_00127000
 void battle_00127000(int a, int b, int c, int d, int e, int f, int g, int h, int i, float x) { int *p; int n; n = D_004A6D0C_127000; if (n < 64) { p = (int *)(n * 40 + (int)D_004A6CFC_127000); p[9] = i; p[3] = a; p[0] = e; p[1] = f; p[2] = g; p[4] = d; p[6] = c; p[5] = b; p[8] = h; ((float *)p)[7] = x; D_004A6D0C_127000 = n + 1; } }
 
+typedef struct { char p[188]; short s188; } BO_0012C9B0_12C9B0;
+extern BO_0012C9B0_12C9B0 *D_003279A0_12C9B0[] __asm__("D_003279A0"); extern int D_004A1A20_12C9B0 __asm__("D_004A1A20");
+int func_00129E80_12C9B0(int) __asm__("func_00129E80"); void func_0011C068_12C9B0(int, int, float) __asm__("func_0011C068"); int func_0021A938_12C9B0(int) __asm__("func_0021A938");
+// MATCH func_0012C9B0
+int battle_0012c9b0(int a) { int r; int s; r = 0; if (func_00129E80_12C9B0(a) == 2) { D_003279A0_12C9B0[a]->s188 = 0; r = 1; func_0011C068_12C9B0(a, 0, 1.0f); } s = func_00129E80_12C9B0(a); if (s == 1) { if (func_0021A938_12C9B0(D_004A1A20_12C9B0 + a * 5472) != 0) { D_003279A0_12C9B0[a]->s188 = s; func_0011C068_12C9B0(a, 0, 1.0f); } else { D_003279A0_12C9B0[a]->s188 = 0; r = 1; func_0011C068_12C9B0(a, 0, 1.0f); } } return r; }
+
+extern int D_004A1A20_00128248 __asm__("D_004A1A20");
+int func_00291DC0_128248(int, int, int, int, int, int) __asm__("func_00291DC0");
+void battle_001252a0(int param_1);
+// MATCH func_00128248
+void battle_00128248(int param_1)  { short sVar1; int iVar2;  sVar1 = *(short *)(param_1 + 0xae); func_00291DC0_128248(sVar1,1,0x40000008,0,0,2); func_00291DC0_128248(sVar1,2,0x40000009,0,0,2); iVar2 = (D_004A1A20_00128248); *(int *)(param_1 + 0xc0) = 0; *(int *)(sVar1 * 0x1560 + iVar2 + 0x1378) = 0; battle_001252a0(sVar1); return; }
+

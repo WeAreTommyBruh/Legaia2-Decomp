@@ -163,3 +163,8 @@ typedef struct { int a0, a4, a8, a12, a16, a20, a24; int a28; int a32; } T36_002
 extern T36_00218ba8_00218BA8_218BA8 D_003C7EF0_218BA8[] __asm__("D_003C7EF0"); void func_00216D28_218BA8(void) __asm__("func_00216D28"); void func_00229390_218BA8(char *, int, int) __asm__("func_00229390");
 // MATCH func_00218BA8
 void FUN_00218ba8(char *o) { int k; int y; int x; int u1, u2, u3, u4, u5, u6, u7; T36_00218ba8_00218BA8_218BA8 *e; func_00216D28_218BA8(); k = -1; x = *(int *)(o + 1780); if (x == 0x1a) k = 0; if (x == 32) { *(float *)(o + 1028) = 512.0f; k = 1; } x = *(int *)(o + 1780); y = x++; x--; if (y == 33) { *(float *)(o + 1028) = 512.0f; k = 2; } if (y == 34) { *(float *)(o + 1028) = 512.0f; k = 3; } if (x == 35) { *(float *)(o + 1028) = 512.0f; k = 4; } if (k >= 0) { e = &D_003C7EF0_218BA8[k]; u1 = e->a0; u2 = e->a4; *(int *)(o + 60) = u1; *(int *)(o + 64) = u2; u3 = e->a24; u4 = e->a8; *(int *)(o + 2064) = u3; *(int *)(o + 68) = u4; u5 = e->a12; *(int *)(o + 2076) = u5; u6 = e->a16; *(int *)(o + 2080) = u6; u7 = e->a20; *(int *)(o + 2084) = u7; if (e->a28 != 0) func_00229390_218BA8(o, e->a28, e->a32); } }
+
+extern int D_004A1A20_21A478 __asm__("D_004A1A20");
+int func_0021A280_21A478(int param_1, int param_2, int param_3, int param_4) __asm__("func_0021A280");
+// MATCH func_0021A478
+void FUN_0021a478(int param_1)  { short sVar1; int iVar2;  sVar1 = *(short *)(param_1 + 0xae); func_0021A280_21A478(sVar1,0,0,0x40000001); func_0021A280_21A478(sVar1,1,0,0x40000001); func_0021A280_21A478(sVar1,2,0,0x40000001); iVar2 = (D_004A1A20_21A478); *(short *)(param_1 + 0x17a) = 0; *(short *)(param_1 + 0x178) = 0; *(int *)(param_1 + 0xc0) = 0; *(int *)(sVar1 * 0x1560 + iVar2 + 0x1378) = 0; return; }

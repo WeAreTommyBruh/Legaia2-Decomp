@@ -49,3 +49,9 @@ extern unsigned D_004A67B8_0029C738 __asm__("D_004A67B8"), D_004A697C_0029C738 _
 // MATCH func_0029C738
 int clas_min_0029c738(void) { if (D_004A697C_0029C738 <= D_004A67B8_0029C738) D_004A67B8_0029C738 = 0; return *D_0061F640_0029C738[D_004A67B8_0029C738].w0; }
 
+extern unsigned D_004A697C;
+extern unsigned D_004A67B8;
+extern int D_0061F640[];
+// MATCH func_0029C770
+int * clas_min_0029c770(void)  { if ((D_004A697C) <= (D_004A67B8)) { (D_004A67B8) = 0; } return &(D_0061F640[0]) + (D_004A67B8) * 0x1c; }
+
