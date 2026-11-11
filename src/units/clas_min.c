@@ -234,10 +234,8 @@ extern char D_005F9640_29FAF0[] __asm__("D_005F9640"); void func_0029FA18_29FAF0
 // MATCH func_0029FAF0
 void clas_min_0029faf0(char *o, int *a) { *(int *)(o + 76) &= ~0x1000; func_0029FA18_29FAF0(o, a); func_0029FA18_29FAF0(o, D_005F9640_29FAF0 + *(int *)(o + 80) * 608); func_0029F008_29FAF0(o, *a, 0); }
 
-// cflags: -fno-gcse
-extern char D_0049A700_2A4338[] __asm__("D_0049A700"); 
-typedef struct N__002A4338 { struct N__002A4338 *next; int v; } N__002A4338;
-void *func_00162130_2A4338(int, void *, int) __asm__("func_00162130");
-// MATCH func_002A4338
-void clas_min_002a4338(N__002A4338 **q, int v) { N__002A4338 *n; N__002A4338 *p; while (*q != 0) q = (N__002A4338 **)*q; n = func_00162130_2A4338(8, D_0049A700_2A4338, 3919); do { n->next = 0; } while (0); *q = n; n->v = v; }
+extern char D_00424E18_2A4020[] __asm__("D_00424E18"); extern char D_004A6A38_2A4020[] __asm__("D_004A6A38");
+void clas_min_002a1aa8(char *, int, char *, int); void clas_min_002a1e48(int, int, int *, int *, int *);
+// MATCH func_002A4020
+void clas_min_002a4020(int a, int b) { int i; int s[3]; s[1] = 0; for (i = 0; i < 5; i++) clas_min_002a1aa8(D_00424E18_2A4020 + i * 0x110, 0, D_004A6A38_2A4020, 0); for (i = 0; i < 5; i++) { clas_min_002a1e48(b, i, &s[0], &s[1], &s[2]); if (s[2] != 0) { int x = s[0], y = s[1], z = s[2]; clas_min_002a1aa8(D_00424E18_2A4020 + i * 0x110, x, (char *)y, z); } } }
 

@@ -55,3 +55,9 @@ extern int D_0061F640[];
 // MATCH func_0029C770
 int * clas_min_0029c770(void)  { if ((D_004A697C) <= (D_004A67B8)) { (D_004A67B8) = 0; } return &(D_0061F640[0]) + (D_004A67B8) * 0x1c; }
 
+extern char D_0049A700_2A4338[] __asm__("D_0049A700"); 
+typedef struct N__002A4338 { struct N__002A4338 *next; int v; } N__002A4338;
+void *func_00162130_2A4338(int, void *, int) __asm__("func_00162130");
+// MATCH func_002A4338
+void clas_min_002a4338(N__002A4338 **q, int v) { N__002A4338 *n; N__002A4338 *p; while (*q != 0) q = (N__002A4338 **)*q; n = func_00162130_2A4338(8, D_0049A700_2A4338, 3919); do { n->next = 0; } while (0); *q = n; n->v = v; }
+
