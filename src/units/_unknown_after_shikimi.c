@@ -2771,3 +2771,24 @@ void func_002E7940_2CBB80(void *) __asm__("func_002E7940");
 // MATCH func_002CBB80
 int FUN_002cbb80(int a) { if (a == 0) { if (D_00426350_2CBB80[0] > 0) { func_002E7940_2CBB80(D_0049E080_2CBB80); } while ((D_00426370_2CBB80[0] != 0) || (func_002E8B18_2CBB80(D_00427510_2CBB80) != 0)) { func_002CB040_2CBB80(60); }  return 0; } if (D_00426370_2CBB80[0] != 0 || func_002E8B18_2CBB80(D_00427510_2CBB80) != 0) return 1; return 0; }
 
+struct obj_9a90
+{
+  void *pc_begin;
+  void *pc_end;
+  struct fde_9a90 *fde_begin;
+  struct fde_9a90 **fde_array;
+  unsigned count;
+  struct obj_9a90 *next;
+};
+struct fde_9a90
+{
+  int length;
+  int CIE_delta;
+  void *pc_begin;
+  unsigned pc_range;
+};
+extern struct obj_9a90 *D_00631AF8_2D9A90[] __asm__("D_00631AF8");
+void func_002D9950_2D9A90(void *) __asm__("func_002D9950");
+// MATCH func_002D9A90
+struct fde_9a90 *FUN_002d9a90(void *pc) { struct obj_9a90 *ob; unsigned lo; struct obj_9a90 *new_var; unsigned hi; for (ob = D_00631AF8_2D9A90[0]; ob; ob = ob->next) { if (ob->pc_begin == 0) { func_002D9950_2D9A90(ob); } if ((pc >= ob->pc_begin) && (pc < ob->pc_end)) { break; } }  new_var = ob; if (new_var == 0) { return 0; } for (lo = 0, hi = ob->count; lo < hi;) { unsigned i = (lo + hi) / 2; struct fde_9a90 *f = ob->fde_array[i]; if (pc < f->pc_begin) { hi = i; } else if (pc >= (f->pc_begin + f->pc_range)) { lo = i + 1; } else { return f; } }  return 0; }
+
