@@ -2735,3 +2735,29 @@ double FUN_002d5990(double x, double y) { unsigned n; int hx, hy, hz, ix, iy, sx
 #undef EXTRACT_WORDS
 #undef INSERT_WORDS
 
+extern int D_00429878_2E5EE8[] __asm__("D_00429878");
+int func_002E6E70_2E5EE8(int param_1, int param_2) __asm__("func_002E6E70");
+int func_002E6F40_2E5EE8() __asm__("func_002E6F40");
+// MATCH func_002E5EE8
+int FUN_002e5ee8(int param_1,int param_2,int param_3)  { int lVar1; int uVar2;  if (param_1 == 0) { if (D_00429878_2E5EE8[0] == 0) { lVar1 = func_002E6F40_2E5EE8(); if (lVar1 == 0) goto LAB_002e5f40; do { D_00429878_2E5EE8[0] = 1; } while (0); } uVar2 = func_002E6E70_2E5EE8(param_2,param_3); } else { LAB_002e5f40: uVar2 = 0xffffffffffffffff; } return uVar2; }
+
+volatile short func_002EDC50_2E8BF0(void) __asm__("func_002EDC50"); void func_002EDC98_2E8BF0() __asm__("func_002EDC98");
+// MATCH func_002E8BF0
+void FUN_002e8bf0(int *n, int a, int b, int c, int d, int e, int *o) { int *h; int *p; int *q; int *t; func_002EDC50_2E8BF0(); ((volatile int *)n)[15] = 0; ((volatile int *)n)[14] = 0; *(volatile int *)n = a; h = (int *)o[2]; n[1] = b; n[2] = c; n[4] = d; n[5] = e; n[16] = (int)o; if (h == 0) o[2] = (int)n; else { p = h; q = (int *)p[14]; if (q != 0) { do { p = q; t = (int *)p[14]; q = t; } while (t != 0); } p[14] = (int)n; } func_002EDC98_2E8BF0(); }
+
+extern int D_00429878_2E5E68[] __asm__("D_00429878");
+int func_002E6D20_2E5E68(int, int) __asm__("func_002E6D20"); int func_002E6F40_2E5E68() __asm__("func_002E6F40");
+// MATCH func_002E5E68
+int FUN_002e5e68(int a, int b, int c) { if (a - 1U < 2) { if (D_00429878_2E5E68[0] == 0) { if (func_002E6F40_2E5E68() == 0) return -1; D_00429878_2E5E68[0] = 1; } return func_002E6D20_2E5E68(b, c); } return -1; }
+
+int func_002E8DE8_2E9008(int) __asm__("func_002E8DE8"); void func_002E8E40_2E9008(int) __asm__("func_002E8E40");
+// MATCH func_002E9008
+void FUN_002e9008(int p) { int r; for (;;) { while ((r = func_002E8DE8_2E9008(p)) != 0) func_002E8E40_2E9008(r); SleepThread(); } }
+
+typedef struct { volatile int h; volatile int a4; volatile int a8; volatile int ac; void *p10; void *p14; void *p18; } G6f40_002E6F40_2E6F40;
+typedef struct { char pad[2]; short s2; short s4; char c6; char c7; int w8; } U6f40_002E6F40_2E6F40;
+extern G6f40_002E6F40_2E6F40 D_00632450_2E6F40 __asm__("D_00632450"); extern char D_00632480_2E6F40[] __asm__("D_00632480"), D_006325C0_2E6F40[] __asm__("D_006325C0");
+void func_002E5B20_2E6F40(int) __asm__("func_002E5B20"); int func_002E6900_2E6F40(int, G6f40_002E6F40_2E6F40 *, void *) __asm__("func_002E6900"); void *func_002E6AE0_2E6F40(int) __asm__("func_002E6AE0"); void func_002E6B88_2E6F40(void) __asm__("func_002E6B88");
+// MATCH func_002E6F40
+int FUN_002e6f40(void) { U6f40_002E6F40_2E6F40 *u; func_002E5B20_2E6F40(0); D_00632450_2E6F40.h = func_002E6900_2E6F40(0x210, &D_00632450_2E6F40, (void *)func_002E6B88_2E6F40); if (D_00632450_2E6F40.h < 0) return 0; D_00632450_2E6F40.ac = 0; D_00632450_2E6F40.a4 = 0; D_00632450_2E6F40.a8 = 0; D_00632450_2E6F40.p14 = (void *)((unsigned)D_006325C0_2E6F40 | 0x20000000); u = (U6f40_002E6F40_2E6F40 *)((unsigned)D_00632480_2E6F40 | 0x20000000); D_00632450_2E6F40.p10 = u; u->s4 = 0x210; u->c6 = 0x45; u->c7 = 0x48; u->s2 = 0; u->w8 = 0; D_00632450_2E6F40.p18 = func_002E6AE0_2E6F40(0x100); return 1; }
+
