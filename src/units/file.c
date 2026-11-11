@@ -61,3 +61,13 @@ void *func_002DD1DC_18AE28(char *, int) __asm__("func_002DD1DC"); void *func_001
 // MATCH func_0018AE28
 void *file_0018ae28(char *name, unsigned *psize) { char buf[256]; char *c; int *e; int fd; unsigned size; void *p; c = func_002DD1DC_18AE28(name, 58); if (c != 0) c = c + 1; else c = name; e = func_0018A708_18AE28(c); if (e == 0) return 0; func_002DCE40_18AE28(buf, D_004A3658_18AE28, &D_004A3630_18AE28); fd = func_002E9950_18AE28(buf, 1); if (fd < 0) { func_001118F8_18AE28(D_004401A8_18AE28, buf); return 0; } func_002E9D58_18AE28(fd, e[3] << 11, 0); size = (unsigned)*(unsigned short *)((char *)e + 10) << 11; p = func_00162130_18AE28(size, D_00440120_18AE28, 1090); if (p == 0) { func_001118F8_18AE28(D_004401C8_18AE28, buf); return 0; } func_002E9F90_18AE28(fd, p, size); if (psize != 0) *psize = size; func_002E9BD8_18AE28(fd); return p; }
 
+extern int D_004A3620_18A798 __asm__("D_004A3620");
+int file_0018a298_18A798(int *) __asm__("file_0018a298"); int file_0018a300_18A798(int, int) __asm__("file_0018a300"); int file_0018a3d0_18A798(int, int, int) __asm__("file_0018a3d0");
+// MATCH func_0018A798
+int file_0018a798(int a, int b, int c) { int s[4]; int p; int r; s[0] = a; if (D_004A3620_18A798 == 0) return 0; p = D_004A3620_18A798 + *(unsigned short *)(D_004A3620_18A798 + 6); for (;;) { r = file_0018a298_18A798(s); if (s[0] == 0) break; p = file_0018a300_18A798(p, r); if (p == 0) return 0; __asm__ volatile ("" : : "r"(c)); } return file_0018a3d0_18A798(p, b, c); }
+
+extern int D_004A3620_18A708 __asm__("D_004A3620");
+void *file_0018a1c8_18A708(void) __asm__("file_0018a1c8"); int file_0018a218_18A708(char *) __asm__("file_0018a218"); int file_0018a298_18A708(int *) __asm__("file_0018a298"); int file_0018a300_18A708(int, int) __asm__("file_0018a300"); int file_0018a358_18A708(int, int, int) __asm__("file_0018a358");
+// MATCH func_0018A708
+int file_0018a708(int a) { int s[4]; int p, r, l; p = D_004A3620_18A708; s[0] = a; if (p == 0) return 0; l = file_0018a218_18A708(file_0018a1c8_18A708()); if (l < 0) return 0; p += *(unsigned short *)(p + 6); for (;;) { r = file_0018a298_18A708(s); if (s[0] == 0) break; p = file_0018a300_18A708(p, r); if (p == 0) return 0; } return file_0018a358_18A708(p, r, l); }
+

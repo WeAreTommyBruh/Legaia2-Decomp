@@ -272,3 +272,12 @@ unsigned short FUN_0024eff8(unsigned i) { unsigned short *p; if (i < 5) { p = D_
 extern int D_003279A0_24D618[] __asm__("D_003279A0"); float func_0022F5A0_24D618(float, float) __asm__("func_0022F5A0"); float func_0024E158_24D618(int, int) __asm__("func_0024E158");
 // MATCH func_0024D618
 int FUN_0024d618(int a, int b) { int p, q; float x, y; p = D_003279A0_24D618[a]; if (p == 0 || (q = D_003279A0_24D618[b]) == 0) return 0; x = func_0022F5A0_24D618(*(float *)(q + 0x80) - *(float *)(p + 0x80), *(float *)(q + 0x88) - *(float *)(p + 0x88)); y = func_0024E158_24D618(a, b); if (x < y) return 1; return 0; }
+
+int func_00254938_254CE0(int) __asm__("func_00254938"); int func_00254990_254CE0(unsigned) __asm__("func_00254990"); void func_00255278_254CE0(int) __asm__("func_00255278");
+// MATCH func_00254CE0
+int FUN_00254ce0(unsigned p, int n) { if (func_00254938_254CE0(p & 0xffff) == 0) return -1; if (n <= 0) return -1; func_00255278_254CE0(6); do { if (func_00254990_254CE0(p) != 0) { func_00255278_254CE0(5); return n; } n--; } while (n > 0); func_00255278_254CE0(5); return 0; }
+
+int func_00254938_255008(int) __asm__("func_00254938"); int func_00254E38_255008(unsigned) __asm__("func_00254E38"); void func_00255278_255008(int) __asm__("func_00255278");
+// MATCH func_00255008
+int FUN_00255008(unsigned p, int n) { if (func_00254938_255008(p & 0xffff) == 0) return -1; if (n <= 0) return -1; func_00255278_255008(6); do { if (func_00254E38_255008(p) != 0) { func_00255278_255008(5); return n; } n--; } while (n > 0); func_00255278_255008(5); return 0; }
+
