@@ -25,3 +25,7 @@ typedef struct { int a, f4, c, d, e, f, g, h, i; } E_00112AD0;
 typedef struct { int x0, x1, n, x3; E_00112AD0 e[1]; } H_00112AD0;
 // MATCH func_00112AD0
 int *FUN_00112ad0(H_00112AD0 **p, int k) { H_00112AD0 *h = *p; E_00112AD0 *e = h->e; if (h->n <= k) return 0; return &e[k].f4; }
+
+extern char D_0042F060_1128E0[] __asm__("D_0042F060"), D_0042F070_1128E0[] __asm__("D_0042F070"), D_0042F080_1128E0[] __asm__("D_0042F080"); void func_001118F8_1128E0(char *, ...) __asm__("func_001118F8"); int func_002DD36C_1128E0(char *, char *) __asm__("func_002DD36C");
+// MATCH func_001128E0
+int FUN_001128e0(int **a, char *name) { int *o; int i; register char *p __asm__("$17"); if (name == 0) { func_001118F8_1128E0(D_0042F060_1128E0); return -1; } if (*name == 0) { func_001118F8_1128E0(D_0042F070_1128E0); return -1; } o = *a; func_001118F8_1128E0(D_0042F080_1128E0, name, o[2]); i = 0; __asm__ volatile ("" : : "r"(i)); p = (char *)o + 20; { register int count __asm__("$3") = o[2]; if (count > 0) { do { if (func_002DD36C_1128E0(name, p) == 0) return i; i++; p += 36; } while (i < o[2]); } } return -1; }
