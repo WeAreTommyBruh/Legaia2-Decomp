@@ -140,7 +140,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   `asm_build.py all` take two minutes or more: do not edit `src/` while they run, and do not run `asm_build.py all` while `commit.sh` runs.
 - Never `pkill -f` / `pgrep -f` with a pattern that appears in your own command line (it kills the shell). Use
   `ps -eo pid,cmd | grep '[p]ermuter.py' | awk '{print $1}' | xargs kill`.
-- Commit attribution: use `Co-Authored-By: Codex <codex@openai.com>` for Codex work. Keep the repository owner as the commit author; do not credit Claude for Codex work.
+- Commit attribution: use `Co-Authored-By: Codex <codex@openai.com>` for Codex work. Keep the repository owner as the commit author; do not credit Claude for Codex work. When the user requests Codex in GitHub's native Contributors panel, use `--author="Codex <codex@openai.com>"` on a real Codex-authored change and keep the repository owner as committer. Do not create empty commits or rewrite published history for attribution.
 - Website decisions: no ByteMatch mentions on the site; the Maya image is still missing and must not be fetched by bypassing the fandom bot block.
 - A compile that is shorter or longer than the original is not a match; trailing `nop` padding is ignored.
 - Pitfalls:
