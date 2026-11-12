@@ -26,3 +26,8 @@ typedef union { int w; struct { short a; short b; } s; } U;
 typedef struct { P_00164C10 *p; int pad4; U u; int w12; int w16; int w20; int w24; char pad28[12]; short d40; short i42; short v44; short v46; } O_00164C10;
 // MATCH func_00164C10
 void pachislot_00164c10(O_00164C10 *o) { int idx; void (*fn)(void *); int d; int dl; long e; o->w12 = o->u.s.b; o->u.w += o->w24; if (o->u.s.b < 0) o->u.s.b = (unsigned short)o->u.s.b + *(unsigned short *)&o->p->w20; if (o->u.s.b >= o->p->w20) o->u.s.b = (unsigned short)o->u.s.b - *(unsigned short *)&o->p->w20; idx = o->i42; if (idx > 0) { long *vt = *(long **)((char *)o + o->v44); e = vt[idx - 1]; fn = (void (*)(void *))(e >> 32); } else fn = *(void (**)(void *))&o->v44; dl = o->d40; d = idx > 0 ? (short)e + dl : dl; fn((char *)o + d); }
+
+
+int func_00165A40_1673C0(char *, int) __asm__("func_00165A40"); int func_001659A8_1673C0(char *) __asm__("func_001659A8");
+// MATCH func_001673C0
+int pachislot_001673c0(char *o, int a, int b, int c) { int x, y, z; x = func_00165A40_1673C0(o + 44, a); y = func_00165A40_1673C0(o + 124, b); z = func_00165A40_1673C0(o + 204, c); if (x == 6 || func_001659A8_1673C0(o + 44) != 0) x = -1; if (y == 6 || func_001659A8_1673C0(o + 124) != 0) y = -1; if (z == 6 || func_001659A8_1673C0(o + 204) != 0) z = -1; if (x == y && x != -1) return x; { register int miss __asm__("$3") = -1; if (y == z && y != miss) return y; } if (x == z) return x; x = -1; return x; }

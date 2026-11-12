@@ -281,3 +281,12 @@ int func_00254938_255008(int) __asm__("func_00254938"); int func_00254E38_255008
 // MATCH func_00255008
 int FUN_00255008(unsigned p, int n) { if (func_00254938_255008(p & 0xffff) == 0) return -1; if (n <= 0) return -1; func_00255278_255008(6); do { if (func_00254E38_255008(p) != 0) { func_00255278_255008(5); return n; } n--; } while (n > 0); func_00255278_255008(5); return 0; }
 
+typedef struct { char c[8]; } B8_0025E718;
+extern volatile float D_004A0984_25E718 __asm__("D_004A0984"), D_004A0988_25E718 __asm__("D_004A0988"); extern char D_004A59C0_25E718[] __asm__("D_004A59C0");
+// MATCH func_0025E718
+int FUN_0025e718(char *o) { float t, lo; t = *(volatile float *)(o + 4); t -= D_004A0984_25E718; lo = D_004A0988_25E718; *(float *)(o + 4) = t; if (t < lo) { *(float *)(o + 4) = lo; *(B8_0025E718 *)(o + 36) = *(B8_0025E718 *)D_004A59C0_25E718; } return 1; }
+
+typedef struct { char c[8]; } B8_0025E630;
+extern volatile float D_004A0978_25E630 __asm__("D_004A0978"), D_004A097C_25E630 __asm__("D_004A097C"); extern char D_004A59C0_25E630[] __asm__("D_004A59C0");
+// MATCH func_0025E630
+int FUN_0025e630(char *o) { float t, lo; t = *(volatile float *)(o + 4); t -= D_004A0978_25E630; lo = D_004A097C_25E630; *(float *)(o + 4) = t; if (t < lo) { *(float *)(o + 4) = lo; *(B8_0025E630 *)(o + 36) = *(B8_0025E630 *)D_004A59C0_25E630; } return 1; }
