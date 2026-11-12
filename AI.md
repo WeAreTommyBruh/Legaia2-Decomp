@@ -120,7 +120,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   The permuter and build scripts may run in the background; stop them when told to stop.
 - **Every push includes a refreshed `report/report.json`** (run `python3 tools/report.py`). `tools/progress.py` writes `build/PROGRESS.md` (git-ignored) as a local summary only.
   `build/work/commit.sh "msg" files...` checks the build says MATCH, regenerates the reports, commits and pushes. `commit.sh` does not add `src/units` and ignores
-  `CLAUDE.md`; add those explicitly (or commit by hand). If a push is rejected: `git pull --rebase origin main`, rebuild, push again.
+  `AI.md`; add those explicitly (or commit by hand). If a push is rejected: `git pull --rebase origin main`, rebuild, push again.
 - **Assembly policy.** A function counts as matched only when its source compiles to its bytes. Allowed assembly, all user-approved:
   - single hardware instructions inside normal C functions (`sync`, `.word 0x42000038` = ei, `.word 0x42000039` = di, `mfc0`, `cfc2/ctc2`, `cache`, `syscall`);
   - the 161 syscall wrappers as `int NAME(void) { register int n __asm__("$3") = N; __asm__ volatile("syscall" : : "r"(n)); }` (the compiler emits the `li`, `jr` and delay slot);
@@ -140,7 +140,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   `asm_build.py all` take two minutes or more: do not edit `src/` while they run, and do not run `asm_build.py all` while `commit.sh` runs.
 - Never `pkill -f` / `pgrep -f` with a pattern that appears in your own command line (it kills the shell). Use
   `ps -eo pid,cmd | grep '[p]ermuter.py' | awk '{print $1}' | xargs kill`.
-- Commit trailer: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
+- Commit attribution: use `Co-Authored-By: Codex <codex@openai.com>` for Codex work. Keep the repository owner as the commit author; do not credit Claude for Codex work.
 - Website decisions: no ByteMatch mentions on the site; the Maya image is still missing and must not be fetched by bypassing the fandom bot block.
 - A compile that is shorter or longer than the original is not a match; trailing `nop` padding is ignored.
 - Pitfalls:

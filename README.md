@@ -7,9 +7,9 @@ This project aims to rebuild Legaia 2 code into readable C source code. The goal
 
 Almost everything is C. The exceptions are the libvu0 routines (VU0 coprocessor code), which are written as file-scope assembly in `src/vu0_asm.c` (plus 25 other VU0/COP2 routines in `src/vu0_asm2.c`), and a few single hardware instructions (`syscall`, `sync`, `ei`, `mfc0`, ...) inline in otherwise normal C functions.
 
-[![Code](badges/code.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
-[![Functions](badges/functions.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
-[![Fuzzy](badges/fuzzy.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
+[![Code](badges/code.svg?v=350664)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
+[![Functions](badges/functions.svg?v=4200)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
+[![Fuzzy](badges/fuzzy.svg?v=17.533838)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 [![Data](badges/data.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 [![Units](badges/units.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 
@@ -60,6 +60,11 @@ It is not perfect so expect bugs. If there are any report it in [issues](https:/
 
 # AI Usage
 This project is obviously entirely ai.
+
+# Contributors
+
+- [WeAreTommyBruh](https://github.com/WeAreTommyBruh) — project owner.
+- [Codex](https://github.com/openai/codex) — AI-assisted function matching and tooling.
 
 # Legal
 The code in this repository is released under the [MIT License](LICENSE). This project contains no game assets of Legaia 2: Duel Saga. I will not provide any copies of the game. 
