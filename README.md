@@ -64,6 +64,7 @@ This project is obviously entirely ai.
 # Contributors
 
 - [WeAreTommyBruh](https://github.com/WeAreTommyBruh) — project owner.
+- [Claude Code](https://github.com/anthropics/claude-code) - AI-assisted function matching and tooling.
 - [Codex](https://github.com/openai/codex) — AI-assisted function matching and tooling.
 
 # Legal
