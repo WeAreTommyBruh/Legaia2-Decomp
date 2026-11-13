@@ -168,3 +168,149 @@ long FUN_002bf8b0(void) {
   v = func_002DB920_2BF8B0(&buf[i - 9]);
   return 0x1315670 < v;
 }
+
+typedef struct { long key; long m; int v; int u; } Ent_2C2008;
+typedef struct { char pad[0x44]; Ent_2C2008 *tab; int n; } Cache_2C2008;
+typedef struct { char pad[0x40]; Cache_2C2008 *c; } Obj_2C2008;
+typedef struct { unsigned long v, m; } E_2C2008; extern E_2C2008 D_004260E0_2C2008[] __asm__("D_004260E0");
+unsigned long func_002C1A68_2C2008(unsigned, long) __asm__("func_002C1A68");
+// MATCH func_002C2008
+int FUN_002c2008(Obj_2C2008 *o, unsigned i, long x, int v1, int v2) {
+  register int r __asm__("$17") = 0;
+  Cache_2C2008 *c = o->c;
+  Ent_2C2008 *tab = c->tab;
+  long key = func_002C1A68_2C2008(i, x);
+  int idx = 0;
+  int n = c->n;
+  if (n > 0) {
+    for (idx = 0; idx < n; idx++) {
+      if (key == tab[idx].key) { r = tab[idx].v; break; }
+    }
+  }
+  if (idx < 64) {
+    Ent_2C2008 *e;
+    e = &tab[idx];
+    e->key = key;
+    c->n = n + 1;
+    e->u = v2;
+    e->v = v1;
+    e->m = D_004260E0_2C2008[i].m;
+  }
+  return r;
+}
+
+// MATCH func_002C1228
+void FUN_002c1228(char *p, short x, short y, short z) {
+  unsigned long d = *(unsigned long *)(p + 0x30);
+  long ly = (long)y - ((unsigned long)(long)(int)((int)((d >> 48) & 0x7ff) + 1) >> 1);
+  long lx = (long)x - ((unsigned long)(long)(int)((int)((d >> 16) & 0x7ff) + 1) >> 1);
+  long x16 = lx * 16;
+  register long y16 __asm__("$2") = ly * 16;
+  unsigned long v;
+  if (z != 0) v = (y16 + 8) << 32; else v = ly << 36;
+  *(unsigned long *)(p + 0x20) = x16 | v;
+}
+
+unsigned long *func_002BF838_2C16B8(void) __asm__("func_002BF838");
+// MATCH func_002C16B8
+short FUN_002c16b8(short a, short w, short h) {
+  unsigned long *p = func_002BF838_2C16B8();
+  int pw = (w + 63) / 64;
+  int ph;
+  if ((a & 2) != 0) ph = (h + 63) / 64; else ph = (h + 31) / 32;
+  if ((*p & 0xffff0000ffffUL) == 1) return pw * ph;
+  return pw * ph * 2;
+}
+
+typedef unsigned long u_long_2C1780;
+#define UL u_long_2C1780
+typedef struct { UL testa; long testaaddr; UL prim; long primaddr; UL rgbaq; long rgbaqaddr; UL xyz2a; long xyz2aaddr; UL xyz2b; long xyz2baddr; UL testb; long testbaddr; } Clear_2C1780;
+// MATCH func_002C1780
+int FUN_002c1780(Clear_2C1780 *cp, short ztest, short x, short y, short w, short h, unsigned char r, unsigned char g, unsigned char b, unsigned char a, unsigned z) {
+  cp->testaaddr = 0x47;
+  cp->testa = (UL)1 << 16 | (UL)1 << 17;
+  cp->primaddr = 0;
+  cp->prim = 6;
+  cp->rgbaqaddr = 1;
+  cp->rgbaq = (UL)r | (UL)g << 8 | (UL)b << 16 | (UL)a << 24 | (UL)0x3f800000 << 32;
+  cp->xyz2a = (UL)(x << 4) | (UL)(y << 4) << 16 | (UL)z << 32;
+  cp->xyz2aaddr = 5;
+  cp->xyz2baddr = 5;
+  cp->xyz2b = (UL)((x + w) << 4) | (UL)((y + h) << 4) << 16 | (UL)z << 32;
+  cp->testbaddr = 0x47;
+  if (ztest != 0) cp->testb = (UL)1 << 16 | (UL)(ztest & 3) << 17;
+  else cp->testb = (UL)1 << 16 | (UL)1 << 17;
+  __asm__ volatile("sync");
+  return 6;
+}
+#undef UL
+
+typedef unsigned long u_long_2C1888;
+#define UL u_long_2C1888
+typedef struct { UL b0:1; UL pad:63; } Bit_2C1888;
+typedef struct { UL frame; long frameaddr; UL zbuf; long zbufaddr; UL xyoffset; long xyoffsetaddr; UL scissor; long scissoraddr; Bit_2C1888 prmodecont; long prmodecontaddr; Bit_2C1888 colclamp; long colclampaddr; Bit_2C1888 dthe; long dtheaddr; UL test; long testaddr; } DrawEnv_2C1888;
+short func_002C16B8_2C1888(short, short, short) __asm__("func_002C16B8");
+// MATCH func_002C1888
+int FUN_002c1888(DrawEnv_2C1888 *d, short psm, short w, short h, short ztest, short zpsm) {
+  d->frameaddr = 0x4d;
+  d->frame = (UL)((w >> 6) & 0x3f) << 16 | (UL)(psm & 0xf) << 24;
+  d->zbufaddr = 0x4f;
+  if (ztest == 0) d->zbuf = (UL)func_002C16B8_2C1888(psm, w, h) | (UL)(zpsm & 0xf) << 24 | (UL)1 << 32;
+  else d->zbuf = (UL)func_002C16B8_2C1888(psm, w, h) | (UL)(zpsm & 0xf) << 24;
+  d->xyoffsetaddr = 0x19;
+  d->xyoffset = ((UL)2048 - (short)(w >> 1)) << 4 | ((UL)2048 - (short)(h >> 1)) << 36;
+  d->scissoraddr = 0x41;
+  d->scissor = (UL)(w - 1) << 16 | (UL)(h - 1) << 48;
+  d->prmodecontaddr = 0x1a;
+  d->prmodecont.b0 = 1;
+  d->colclampaddr = 0x46;
+  d->colclamp.b0 = 1;
+  d->dtheaddr = 0x45;
+  if (psm & 2) d->dthe.b0 = 1; else d->dthe.b0 = 0;
+  d->testaddr = 0x48;
+  if (ztest != 0) d->test = (UL)1 << 16 | (UL)(ztest & 3) << 17;
+  else d->test = (UL)1 << 16 | (UL)1 << 17;
+  __asm__ volatile("sync");
+  return 8;
+}
+#undef UL
+
+typedef unsigned long u_long_2BFCD8;
+#define UL u_long_2BFCD8
+typedef struct { UL b0:1; UL pad:63; } Bit_2BFCD8;
+typedef struct { UL frame; long frameaddr; UL zbuf; long zbufaddr; UL xyoffset; long xyoffsetaddr; UL scissor; long scissoraddr; Bit_2BFCD8 prmodecont; long prmodecontaddr; Bit_2BFCD8 colclamp; long colclampaddr; Bit_2BFCD8 dthe; long dtheaddr; UL test; long testaddr; } DrawEnv_2BFCD8;
+short func_002C16B8_2BFCD8(short, short, short) __asm__("func_002C16B8");
+// MATCH func_002BFCD8
+int FUN_002bfcd8(DrawEnv_2BFCD8 *d, short psm, short w, short h, short ztest, short zpsm) {
+  d->frameaddr = 0x4c;
+  d->frame = (UL)(((w + 63) >> 6) & 0x3f) << 16 | (UL)(psm & 0xf) << 24;
+  d->zbufaddr = 0x4e;
+  if (ztest == 0) d->zbuf = (UL)func_002C16B8_2BFCD8(psm, w, h) | (UL)(zpsm & 0xf) << 24 | (UL)1 << 32;
+  else d->zbuf = (UL)func_002C16B8_2BFCD8(psm, w, h) | (UL)(zpsm & 0xf) << 24;
+  d->xyoffsetaddr = 0x18;
+  d->xyoffset = ((UL)2048 - (short)(w >> 1)) << 4 | ((UL)2048 - (short)(h >> 1)) << 36;
+  d->scissoraddr = 0x40;
+  d->scissor = (UL)(w - 1) << 16 | (UL)(h - 1) << 48;
+  d->prmodecontaddr = 0x1a;
+  d->prmodecont.b0 = 1;
+  d->colclampaddr = 0x46;
+  d->colclamp.b0 = 1;
+  d->dtheaddr = 0x45;
+  if (psm & 2) d->dthe.b0 = 1; else d->dthe.b0 = 0;
+  d->testaddr = 0x47;
+  if (ztest != 0) d->test = (UL)1 << 16 | (UL)(ztest & 3) << 17;
+  else d->test = (UL)1 << 16 | (UL)1 << 17;
+  __asm__ volatile("sync");
+  return 8;
+}
+#undef UL
+
+typedef struct { int (*fn)(); int arg; } H_2C2D58;
+typedef struct { char pad[12]; H_2C2D58 tab[1]; } C_2C2D58;
+typedef struct { char pad[0x40]; C_2C2D58 *c; } O_2C2D58;
+// MATCH func_002C2D58
+int FUN_002c2d58(O_2C2D58 *o, int *msg) {
+  int r = 0;
+  if (o != 0) { C_2C2D58 *c = o->c; if (c != 0) { int (*fn)() = c->tab[*msg].fn; if (fn != 0) r = fn(o, msg, c->tab[*msg].arg); } }
+  return r;
+}

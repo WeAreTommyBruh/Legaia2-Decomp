@@ -132,6 +132,8 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - Loop recipes: a table scan written as `for (idx = 0; idx < n; idx++)` inside `if (n > 0)` gets the original's peeled first compare (2c2008 draft is at ops~0, 10 words: `$17`/`$18` swapped); an early `return -1` before `i = 0` kept the init after the call (2bf8b0); a `long` return type removed the result copy there.
 - Open from this session: sceGsExecStoreImage 2c0af8 (draft in `w/`, ops~115: the `rem == 0` arms are cross-jumped into the last switch case, `n`/`rem`/`ca`/`cb`/`t` live in `$22/$19/$18/$17/$16`), 2c1228 (6 words), 2c16b8 (11 words, `r` pinned to `$2`), 2c2008 (10 words), 2c1a68 (needs an unused 16-byte frame), 2c1780.
 
+- **Follow-up (18.01% -> 18.10%):** seven more libgraph matches in `_unknown_after_shikimi_as210.c`: the draw-environment builders 2c1888 / 2bfcd8 (480/484 bytes, first compile; siblings differing only in register addresses and `(w + 63) >> 6`), the clear packet 2c1780, 2c2008, 2c16b8, 2c1228, 2c2d58. Recipe: write the SDK source naturally with `SCE_GS_SET_*`-style shift/or expressions on `u_long`, the `...addr` store BEFORE its value store, one-bit register fields as a `b0:1` bitfield (`ld; or 1; sd`), duplicated calls in both `if` arms where the asm duplicates them, and the `if` polarity from the branch sense. A `sll 16; sra 16` on the result means a `short` return type (2c16b8 needed no pin after that). 2c2008 pins `r` to `$17` and 2c1228 pins the `ly * 16` temp to `$2` (approved register-bound locals). 2c1a68 is still open (unused 16-byte frame).
+
 ## Layout and build
 
 - Steps 1 and 2 are done (compiler identified, executable rebuilt byte-identical). Step 3, matching functions in C, is in progress.
