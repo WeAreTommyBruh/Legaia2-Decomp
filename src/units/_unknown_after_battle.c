@@ -35,3 +35,7 @@ int FUN_0012cf98(int a) { int t = func_00127430() ? 10 : 28; func_00127F30(0, a,
 extern char D_0053FDA0[], D_00431C80[], D_0053FD30_0012D310[] __asm__("D_0053FD30"), D_0053FD00_0012D310[] __asm__("D_0053FD00"), D_0053F980_0012D310[] __asm__("D_0053F980"), D_0053F900[]; void func_002A39D0(char *); void func_0015ACE0(char *); void func_00180C58_0012D310(char *) __asm__("func_00180C58"); void func_002A4F30_0012D310(char *) __asm__("func_002A4F30");
 // MATCH func_0012D310
 void FUN_0012d310(void) { int i; char *p = D_0053FDA0; for (i = 3; i != -1; i--) { *(int *)(p + 52) = (int)D_00431C80; p += 64; } func_002A39D0(D_0053FD30_0012D310); func_0015ACE0(D_0053FD00_0012D310); func_00180C58_0012D310(D_0053F980_0012D310); func_002A4F30_0012D310(D_0053F900); }
+
+extern int *D_004A1A3C_0012CF48 __asm__("D_004A1A3C");
+// MATCH func_0012CF48
+int FUN_0012cf48(void) { int *p; register int r __asm__("$2"); p = D_004A1A3C_0012CF48; r = 0; if (p != 0) { if (p[1] > 99) { if (p[297] == 0) r = 1; } } return r; }

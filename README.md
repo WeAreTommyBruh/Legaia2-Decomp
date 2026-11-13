@@ -7,9 +7,9 @@ This project aims to rebuild Legaia 2 code into readable C source code. The goal
 
 Almost everything is C. The exceptions are the libvu0 routines (VU0 coprocessor code), which are written as file-scope assembly in `src/vu0_asm.c` (plus 25 other VU0/COP2 routines in `src/vu0_asm2.c`), and a few single hardware instructions (`syscall`, `sync`, `ei`, `mfc0`, ...) inline in otherwise normal C functions.
 
-[![Code](badges/code.svg?v=350664)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
-[![Functions](badges/functions.svg?v=4200)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
-[![Fuzzy](badges/fuzzy.svg?v=17.533838)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
+[![Code](badges/code.svg?v=354804)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
+[![Functions](badges/functions.svg?v=4219)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
+[![Fuzzy](badges/fuzzy.svg?v=17.734035)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 [![Data](badges/data.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 [![Units](badges/units.svg)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 

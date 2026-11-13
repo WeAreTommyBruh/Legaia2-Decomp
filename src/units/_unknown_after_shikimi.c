@@ -2812,3 +2812,59 @@ typedef struct { int a[8]; } S_2e9bd8_002E9BD8_2E9BD8;
 int func_002E95B0_2E9BD8(int) __asm__("func_002E95B0"); void func_002E96B8_2E9BD8(void) __asm__("func_002E96B8"); int func_002E58A0_2E9BD8(void *) __asm__("func_002E58A0"); int func_002E8928_2E9BD8(void *, int, int, void *, int, void *, int, int, int) __asm__("func_002E8928"); void func_002E58B0_2E9BD8(int) __asm__("func_002E58B0"); void func_002E95E0_2E9BD8(void) __asm__("func_002E95E0"); void func_002E58E0_2E9BD8(int) __asm__("func_002E58E0"); int *func_002E9130_2E9BD8(void) __asm__("func_002E9130");
 // MATCH func_002E9BD8
 int FUN_002e9bd8(void) { T_2e9bd8_002E9BD8_2E9BD8 *t = D_00634280_2E9BD8; S_2e9bd8_002E9BD8_2E9BD8 s; int res; int sem; int r; register int v __asm__("$2"); int v2; int *h; h = func_002E9130_2E9BD8(); func_002E95B0_2E9BD8(1); v = D_00429918_2E9BD8[0]; if (v == 0) { func_002E95E0_2E9BD8(); return -1; } if (h == 0 || h[1] == 0) { func_002E95E0_2E9BD8(); return -9; } t->wc = h[0]; t->w16 = ((char *)h - D_00635340_2E9BD8) >> 4; s.a[2] = 0; s.a[1] = 1; s.a[5] = 0; sem = func_002E58A0_2E9BD8(&s); t->res = &res; t->sem = sem; t->w8 = 4; r = func_002E8928_2E9BD8(D_00635540_2E9BD8, 1, 0, D_00634280_2E9BD8, 20, D_00634EC0_2E9BD8, 4, 0, 0); if (r < 0) { func_002E58B0_2E9BD8(sem); func_002E95E0_2E9BD8(); return -11; } h[1] = 0; v2 = *(int *)((unsigned)D_00634EC0_2E9BD8 | 0x20000000); func_002E95E0_2E9BD8(); if (v2 == 0) { func_002E58B0_2E9BD8(sem); return -11; } func_002E58E0_2E9BD8(sem); func_002E58B0_2E9BD8(sem); { int m = -1; return m < res ? 0 : res; } }
+
+extern int D_00429880_002E6678[] __asm__("D_00429880"), D_00631F00_002E6678[] __asm__("D_00631F00"); extern char D_00631B00_002E6678[] __asm__("D_00631B00"), D_004A7C70_002E6678[] __asm__("D_004A7C70"); extern int D_00631F08_002E6678[] __asm__("D_00631F08");
+void func_002E65A0_002E6678(unsigned *) __asm__("func_002E65A0"); int func_002E58A0_002E6678(void *) __asm__("func_002E58A0"); int func_002E56A0_002E6678(void *) __asm__("func_002E56A0"); int func_002E58B0_002E6678(int) __asm__("func_002E58B0"); int func_002E56C0_002E6678(int, void *) __asm__("func_002E56C0"); int func_002E5790_002E6678(void) __asm__("func_002E5790"); int func_002E5730_002E6678(int, int) __asm__("func_002E5730");
+typedef struct {int a[12];} Thread; typedef struct {int a[8];} Sema;
+// MATCH func_002E6678
+int FUN_002e6678(void) { Thread t; Sema s; int id; if(D_00429880_002E6678[0] > 0) return -1; s.a[2]=0; s.a[1]=255; if ((D_00631F00_002E6678[0]=func_002E58A0_002E6678(&s))<0) return -1; t.a[1]=(int)func_002E65A0_002E6678; t.a[2]=(int)D_00631B00_002E6678; t.a[3]=1024; t.a[4]=(int)D_004A7C70_002E6678; t.a[5]=0; id=func_002E56A0_002E6678(&t); D_00429880_002E6678[0]=id; if(id<0) { func_002E58B0_002E6678(D_00631F00_002E6678[0]); return -1; } D_00631F08_002E6678[0]=0; D_00631F08_002E6678[1]=0; func_002E56C0_002E6678(id,D_00631F08_002E6678); func_002E5730_002E6678(func_002E5790_002E6678(),1); return D_00429880_002E6678[0]; }
+
+extern int D_00631F00_002E65A0[] __asm__("D_00631F00"); extern char D_0049F498_002E65A0[] __asm__("D_0049F498");
+int func_002E58E0_002E65A0(int) __asm__("func_002E58E0"); int func_002E5750_002E65A0(int) __asm__("func_002E5750"); int func_002E57D0_002E65A0(int) __asm__("func_002E57D0"); int func_002E5810_002E65A0(int) __asm__("func_002E5810"); void func_002E7908_002E65A0(char *) __asm__("func_002E7908");
+// MATCH func_002E65A0
+void FUN_002e65a0(unsigned *pin) { register unsigned *p __asm__("$17")=pin; unsigned char *rb=(unsigned char*)p+9; for (;;) { unsigned i; unsigned char b; unsigned char *q,*r; func_002E58E0_002E65A0(D_00631F00_002E65A0[0]); i=*p & 0x1ff; { register unsigned ni __asm__("$4")=i+1;  *p=ni; } i=i*2; q=(unsigned char*)p+8; q+=i; r=rb+i; __asm__ volatile("" : "+r"(i) : "r"(q)); b=*q; switch(b) { case 0: {register unsigned char *v __asm__("$3")=r; __asm__ volatile("" : : "r"(v));func_002E57D0_002E65A0(*v);} break; case 1: func_002E5750_002E65A0(*r); break; case 2: {unsigned char *v=rb+i; func_002E5810_002E65A0(*v);} break; default: func_002E7908_002E65A0(D_0049F498_002E65A0); break; } } }
+
+typedef struct { volatile int f0;volatile int f1;volatile int f2;volatile int f3;int f4;int f5;int f6; } C_002E6B88;
+extern char D_0049F4C0_002E6B88[] __asm__("D_0049F4C0"),D_0049F4E8_002E6B88[] __asm__("D_0049F4E8"),D_0049F500_002E6B88[] __asm__("D_0049F500"),D_0049F518_002E6B88[] __asm__("D_0049F518");
+void func_002E7908_002E6B88(char*,...) __asm__("func_002E7908"); int func_002E69C8_002E6B88(int,char*,unsigned short) __asm__("func_002E69C8"); int func_002E6A00_002E6B88(int,char*,unsigned short) __asm__("func_002E6A00"); void func_002E6B08_002E6B88(int*) __asm__("func_002E6B08");
+// MATCH func_002E6B88
+void FUN_002e6b88(int op,int lin,C_002E6B88 *p) { register int len __asm__("$16")=lin; int n; char *buf; switch(op) { case 1: case 2: if(len) { if((unsigned)(p->f2+len)>320) func_002E7908_002E6B88(D_0049F4C0_002E6B88); __asm__ volatile("" : : "r"(len));len=func_002E69C8_002E6B88(p->f0,(char*)p->f5+p->f2,(unsigned short)len); if(len<0)func_002E7908_002E6B88(D_0049F4E8_002E6B88); p->f2+=len; } else { buf=(char*)p->f5; for(n=12;n<*(unsigned short*)buf;n++){ *(char*)((int*)p->f6)[3]=((char*)p->f5)[n]; func_002E6B08_002E6B88((int*)p->f6); } p->f2=0; } break; case 3: { register int nr __asm__("$5"); nr=func_002E6A00_002E6B88(p->f0,(char*)p->f4,(unsigned short)p->f1); __asm__ volatile("" : : "r"(nr)); if(nr<0) {func_002E7908_002E6B88(D_0049F500_002E6B88);p->f3=0;}else{p->f4+=nr;p->f1-=nr;}  } break;case 4: if(p->f1)func_002E7908_002E6B88(D_0049F518_002E6B88,p->f1);p->f3=0;break;} }
+
+void func_002E58D0_002E83E8(int) __asm__("func_002E58D0"); void func_002E8358_002E83E8(int) __asm__("func_002E8358");
+// MATCH func_002E83E8
+void FUN_002e83e8(int *r){unsigned c=r[8];int *q;int s;if(c==0x8000000a)goto ca;if(c>0x8000000a){q=(int*)r[7];goto common;}if(c==0x80000009)goto c9;q=(int*)r[7];goto common;ca:q=(int*)r[7];if(q[7]==0){s=q[2];goto check;}((void(*)(int))q[7])(q[8]);q=(int*)r[7];goto common;c9:q=(int*)r[7];q[9]=r[9];q[5]=r[10];q[6]=r[11];common:s=q[2];check:if(s>=0)func_002E58D0_002E83E8(s);func_002E8358_002E83E8(q[0]);q[0]=0;}
+
+typedef struct { int f0; volatile int f4; char *f8; } Q6e70_002E6E70;
+typedef struct { int h, a4, a8, ac; void *p10, *p14; Q6e70_002E6E70 *p18; } G6e70_002E6E70;
+extern G6e70_002E6E70 D_00632450_002E6E70 __asm__("D_00632450"); extern Q6e70_002E6E70 *D_00632468_002E6E70[] __asm__("D_00632468");
+void func_002E6B48_002E6E70(Q6e70_002E6E70 *) __asm__("func_002E6B48");
+// MATCH func_002E6E70
+int FUN_002e6e70(char *s, int n) { int i, j; char *p; i = 0; for (; i < n; i = j) { p = s + i; j = i + 1; while (D_00632468_002E6E70[0]->f4 == 0) ; *p = *D_00632450_002E6E70.p18->f8; func_002E6B48_002E6E70(D_00632450_002E6E70.p18); if (*p == '\n' || *p == '\r') return j; } return i; }
+
+typedef struct { volatile int fd;volatile int len;int used;volatile int busy;char *packet;int w20;void *io;} C_002E6D20;
+extern C_002E6D20 D_00632450_002E6D20[] __asm__("D_00632450"); extern char D_00632480_002E6D20[] __asm__("D_00632480");
+void func_002EDC50_002E6D20(void) __asm__("func_002EDC50");void func_002EDC98_002E6D20(void) __asm__("func_002EDC98");int func_002E6970_002E6D20(int,int) __asm__("func_002E6970");void func_002E69A0_002E6D20(int) __asm__("func_002E69A0");
+// MATCH func_002E6D20
+int FUN_002e6d20(char *src,int len) { int consumed=0,used=0; char *packet,*d; C_002E6D20 *p=D_00632450_002E6D20; if(D_00632450_002E6D20[0].busy)return -1; func_002EDC50_002E6D20(); packet=(char*)((unsigned)D_00632480_002E6D20|0x20000000);D_00632450_002E6D20[0].busy=1;D_00632450_002E6D20[0].packet=packet; d=packet+12;while(--len!=-1) { if(*src==10){*d++=13;used++;if(used>=256)break;}*d++=*src++;used++;consumed++;if(used>=256)break;}D_00632450_002E6D20[0].len=used+12;*(unsigned short*)packet=D_00632450_002E6D20[0].len;if(func_002E6970_002E6D20(D_00632450_002E6D20[0].fd,packet[7])<0){*(int *)&D_00632450_002E6D20[0].busy=0;func_002EDC98_002E6D20();return -1;}while(D_00632450_002E6D20[0].busy)func_002E69A0_002E6D20(D_00632450_002E6D20[0].fd);func_002EDC98_002E6D20();return consumed; }
+
+void *_malloc_r_002E4DD0(void *, int) __asm__("_malloc_r"); void *memset_002E4DD0(void *, int, unsigned) __asm__("memset");
+// MATCH func_002E4DD0
+unsigned *FUN_002e4dd0(void *r, int a, int b) {
+ unsigned *mem; unsigned csz; unsigned *d;
+ mem = (unsigned *)_malloc_r_002E4DD0(r, a * b);
+ if (mem == 0) { register int zero __asm__("$2")=0;return (unsigned*)zero; } {
+  {unsigned mask=0xfffffffc;unsigned h=mem[-1];csz=(h&mask)-4;}
+  if (csz <= 36) {
+    d = mem;
+    if (csz > 19) {
+      *d++ = 0; *d++ = 0;
+      if (csz > 27) {
+        *d++ = 0; *d++ = 0;
+        if (csz > 35) { *d++ = 0; *d++ = 0; }
+      }
+    }
+    *d++ = 0; *d++ = 0; *d = 0;
+  } else memset_002E4DD0(mem, 0, csz);
+  }
+  return mem;
+}

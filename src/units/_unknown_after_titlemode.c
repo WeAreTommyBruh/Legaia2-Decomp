@@ -64,3 +64,7 @@ void FUN_002153c8(int *o) { int p; int n; int a; unsigned v; p = (int)o; n = (*(
 void func_00214A68(void *, int, int, int);
 // MATCH func_00215420
 void FUN_00215420(int *o) { int p; int n; int a; unsigned v; p = (int)o; n = (*(int **)(p + 4))[1]; v = ((*(int *)(p + 8) - 1) * 0x78) / n; a = **(int **)(p + 4); *(unsigned *)(p + 0xc) = v | (v << 16 | v << 8) | 0x80000000; func_00214A68(o, a, 0, 0); }
+
+void func_002147B8_002157E0(int *) __asm__("func_002147B8"); void func_00214A68_002157E0(int *, int, int, int) __asm__("func_00214A68");
+// MATCH func_002157E0
+void FUN_002157e0(int *o) { int d; int *p; int nv; register int u __asm__("$5"); unsigned w; p = (int *) o[1]; d = p[1]; nv = (o[2] * 0x78) / d; u = p[0]; w = nv; o[3] = w | (w * 0x100) | (w * 0x10000) | 0x80000000; func_00214A68_002157E0(o, u, 0, 0); func_002147B8_002157E0(o); }
