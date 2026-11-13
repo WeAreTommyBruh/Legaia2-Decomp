@@ -2891,3 +2891,8 @@ int FUN_002cdac8(int a, int *b, int *c) {
   }
   return res;
 }
+
+unsigned func_002C9420_2C2100(int, int) __asm__("func_002C9420"); void func_002C9470_2C2100(int) __asm__("func_002C9470"); long func_002C9368_2C2100(int, int) __asm__("func_002C9368"); void func_002C2250_2C2100(int, int) __asm__("func_002C2250");
+// MATCH func_002C2100
+int FUN_002c2100(int param_1, int param_2) { unsigned uVar1, uVar3, uVar5; register unsigned uVar7 __asm__("$21"); int iVar2, uVar4; long lVar6; int *puVar8; uVar7 = 0; func_002C9420_2C2100(param_1, 0x22); uVar1 = func_002C9420_2C2100(param_1, 3); func_002C9470_2C2100(param_1); iVar2 = func_002C9420_2C2100(param_1, 0xf); func_002C9470_2C2100(param_1); uVar3 = func_002C9420_2C2100(param_1, 0xf); func_002C9470_2C2100(param_1); uVar4 = func_002C9420_2C2100(param_1, 9); puVar8 = (int *)param_2; puVar8[0] = uVar4; func_002C9420_2C2100(param_1, 0x1e); uVar5 = func_002C9420_2C2100(param_1, 3); puVar8[2] = uVar1 >> 2 & 1; puVar8[1] = uVar1 << 0x1e | iVar2 << 0xf | uVar3; if (uVar5 != 0) { do { func_002C9420_2C2100(param_1, 8); uVar7 = uVar7 + 1; } while (uVar7 < uVar5); } lVar6 = func_002C9368_2C2100(param_1, 0x20); if (lVar6 == 0x1bb) { puVar8[3] = 1; func_002C2250_2C2100(param_1, param_2); } else { puVar8[3] = 0; } return 1; }
+
