@@ -151,3 +151,8 @@ void battle_001252a0(int param_1);
 // MATCH func_00128248
 void battle_00128248(int param_1)  { short sVar1; int iVar2;  sVar1 = *(short *)(param_1 + 0xae); func_00291DC0_128248(sVar1,1,0x40000008,0,0,2); func_00291DC0_128248(sVar1,2,0x40000009,0,0,2); iVar2 = (D_004A1A20_00128248); *(int *)(param_1 + 0xc0) = 0; *(int *)(sVar1 * 0x1560 + iVar2 + 0x1378) = 0; battle_001252a0(sVar1); return; }
 
+extern int D_004A1A20_121918 __asm__("D_004A1A20");
+extern int D_003279A0_121918[] __asm__("D_003279A0");
+// MATCH func_00121918
+int battle_00121918(int param_1) { int iVar1; int k = param_1 + 4; if (D_003279A0_121918[k] != 0) { iVar1 = param_1 * 0x1560 + D_004A1A20_121918 + 0x5580; if ((*(unsigned *)(iVar1 + 0x1474) & 0x200) != 0) { return 0; } if (*(int *)(*(int *)(iVar1 + 0x1444) + 0x38) != 0) { return 1; } } return 0; }
+

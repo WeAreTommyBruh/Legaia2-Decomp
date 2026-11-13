@@ -19,3 +19,9 @@ void FUN_00180810(char *o) {
     *(int *)(o + 60) = c;
     func_00180068(o);
 }
+
+// cflags: -fexceptions
+int FUN_001809d0(void);
+// MATCH func_00180A70
+int FUN_00180a70(int param_1)  { int uVar1; int lVar2; float fVar3; float fVar4;  lVar2 = FUN_001809d0(); if (lVar2 == 0) { uVar1 = 0; } else { fVar3 = *(float *)(param_1 + 0x10) + *(float *)(param_1 + 0x20); *(float *)(param_1 + 0x10) = fVar3; if (fVar3 < *(float *)(param_1 + 0x18)) { *(float *)(param_1 + 0x10) = *(float *)(param_1 + 0x18); } if (*(float *)(param_1 + 0x10) > *(float *)(param_1 + 0x1c)) { *(float *)(param_1 + 0x10) = *(float *)(param_1 + 0x1c); } fVar4 = *(volatile float *)(param_1 + 0x20) + *(float *)(param_1 + 0x30); *(float *)(param_1 + 0x20) = fVar4; if (fVar4 < *(float *)(param_1 + 0x28)) { *(float *)(param_1 + 0x20) = *(float *)(param_1 + 0x28); } if (*(float *)(param_1 + 0x20) > *(float *)(param_1 + 0x2c)) { *(float *)(param_1 + 0x20) = *(float *)(param_1 + 0x2c); } uVar1 = 1; } return uVar1; }
+
