@@ -88,3 +88,63 @@ int sceGsSyncPath(int mode) {
 }
 #undef R_2C0338
 #undef FAIL
+
+typedef unsigned long u_long; typedef int u128 __attribute__((mode(TI)));
+typedef struct { u_long NLOOP:15; u_long EOP:1; u_long pad16:16; u_long id:14; u_long PRE:1; u_long PRIM:11; u_long FLG:2; u_long NREG:4; u_long REGS0:4; u_long REGS1:4; u_long REGS2:4; u_long REGS3:4; u_long REGS4:4; u_long REGS5:4; u_long REGS6:4; u_long REGS7:4; u_long REGS8:4; u_long REGS9:4; u_long REGS10:4; u_long REGS11:4; u_long REGS12:4; u_long REGS13:4; u_long REGS14:4; u_long REGS15:4; } __attribute__((aligned(16))) GifTag_2C0838;
+typedef struct { unsigned w0, w1, w2, w3; GifTag_2C0838 giftag0; long bitbltbuf, bitbltbufaddr, trxpos, trxposaddr, trxreg, trxregaddr, finish, finishaddr, trxdir, trxdiraddr; } StoreImage_2C0838;
+// MATCH func_002C0838
+int FUN_002c0838(StoreImage_2C0838 *sp, short vram_addr, int vram_width, short psm, short x, int y, short w, short h) {
+  long ty = (long)(y << 16);
+  *(u128 *)&sp->giftag0 = 0;
+  sp->w1 = 0x6008000;
+  sp->w0 = 0;
+  sp->finish = 0;
+  sp->w2 = 0x13000000;
+  sp->w3 = 0x50000006;
+  sp->giftag0.NLOOP = 5; sp->giftag0.EOP = 1; sp->giftag0.NREG = 1; sp->giftag0.REGS0 = 0xe;
+  sp->bitbltbuf = (long)(vram_width << 16) | (long)vram_addr | (long)psm << 24;
+  sp->bitbltbufaddr = 0x50;
+  sp->trxpos = ty | (long)x;
+  sp->trxposaddr = 0x51;
+  sp->trxreg = (long)w | (long)h << 32;
+  sp->trxregaddr = 0x52;
+  sp->finishaddr = 0x61;
+  sp->trxdir = 1;
+  sp->trxdiraddr = 0x53;
+  __asm__ volatile ("sync");
+  return 7;
+}
+
+typedef struct { u_long NLOOP:15; u_long EOP:1; u_long pad16:16; u_long id:14; u_long PRE:1; u_long PRIM:11; u_long FLG:2; u_long NREG:4; u_long REGS0:4; u_long REGS1:4; u_long REGS2:4; u_long REGS3:4; u_long REGS4:4; u_long REGS5:4; u_long REGS6:4; u_long REGS7:4; u_long REGS8:4; u_long REGS9:4; u_long REGS10:4; u_long REGS11:4; u_long REGS12:4; u_long REGS13:4; u_long REGS14:4; u_long REGS15:4; } __attribute__((aligned(16))) GifTag_2C0650;
+typedef struct { GifTag_2C0650 giftag0; long bitbltbuf; long bitbltbufaddr; long trxpos; long trxposaddr; long trxreg; long trxregaddr; long trxdir; long trxdiraddr; GifTag_2C0650 giftag1; } LoadImage_2C0650;
+void func_002E7940(char *, ...); extern char D_0049D5F0[];
+// MATCH func_002C0650
+int sceGsSetDefLoadImage(LoadImage_2C0650 *lp, short vram_addr, short vram_width, short psm, short x, short y, short w, short h) {
+  int nloop = 0;
+  switch (psm) {
+  case 0: case 0x30: nloop = w * h >> 2; break;
+  case 1: case 0x31: nloop = w * h * 3 >> 4; break;
+  case 2: case 10: case 0x32: case 0x3a: nloop = w * h >> 3; break;
+  case 0x13: case 0x1b: nloop = w * h >> 4; break;
+  case 0x14: case 0x24: case 0x2c: nloop = w * h >> 5; break;
+  }
+  if (nloop >= 0x8000) { func_002E7940(D_0049D5F0); return 0; }
+  *(u128 *)&lp->giftag1 = 0;
+  *(u128 *)&lp->giftag0 = 0;
+  lp->giftag1.NLOOP = nloop;
+  lp->trxdir = 0;
+  lp->giftag0.NLOOP = 4;
+  lp->giftag1.EOP = 1;
+  lp->giftag0.NREG = 1;
+  lp->giftag0.REGS0 = 0xe;
+  lp->bitbltbuf = (long)vram_addr << 32 | (long)vram_width << 48 | (long)psm << 56;
+  lp->bitbltbufaddr = 0x50;
+  lp->trxpos = (long)x << 32 | (long)y << 48;
+  lp->trxposaddr = 0x51;
+  lp->trxreg = (long)w | (long)h << 32;
+  lp->trxregaddr = 0x52;
+  lp->trxdiraddr = 0x53;
+  lp->giftag1.FLG = 2;
+  __asm__ volatile ("sync");
+  return 6;
+}

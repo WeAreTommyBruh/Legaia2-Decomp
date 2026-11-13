@@ -59,3 +59,8 @@ void pchjob0_00204d68(L__00204D68 *l, int a, int b, int c, int d)
             func_00203E30(o, a, b, c, d);
     }
 }
+
+
+// MATCH func_002056A8
+int pchjob0_002056a8(int *o, int x, int y) { if (x < -1 || y < -1 || o[4] < x || o[5] < y) return 0; { int a = x + 1; int b = y + 1; return o[7] + (a + b * (o[4] + 1)) * 8; } }
+
