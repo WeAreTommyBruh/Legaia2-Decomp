@@ -6,7 +6,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **17.55% of code, 4219 / 6255 functions matched (Codex small-function pass, 2026-11-13).** `.text` is about 2.0 MB (`total_code` 2,022,208 bytes); the percentages measure only that.
+- **17.61% of code, 4222 / 6255 functions matched (17.60% goal, 2026-11-13).** `.text` is about 2.0 MB (`total_code` 2,022,208 bytes); the percentages measure only that.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
 - History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003) -> 14.51% (4019) -> 14.85% (4058) -> 14.96% (4083, with vu0_asm2.c) -> 15.16% (4098) -> 15.39% (4101, newlib malloc). 15.35% and 15.83% (the goals) were reached; 15.53% (4119) -> 15.71% (4130, newlib mprec/stdio) -> 15.74% -> 16.07% (libgcc2 division family) -> 16.11% (4139, `__muldf3`) -> 16.33% (4140, `_dtoa_r`) -> 16.63% (4157, libgcc EH/frame runtime, session 22; 16.58% reached) -> 16.90% (4161, newlib `_vfprintf_r` 5.4 KB, session 23); 17.01% and 17.11% were reached in session 24 (fdlibm block, see below); subsequent work reached 17.27577% (4195 functions), then session 27 reached the requested 17.33% goal (17.34%, 4200 functions).
@@ -89,13 +89,20 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Codex small-function pass (2026-11-13; target revised to 17.50%)
 
-- Added 13 C matches, 2,188 bytes: `0012cf48`, `0020d248`, `0020d280`, `002157e0`, `00215ac8`, `00191170`, `002e6678`, `002e65a0`, `002e6b88`, `002e83e8`, `002e6e70`, `002e6d20`, and `002e4dd0`. The committed-base report advances from 4,206 to 4,219 matched functions and reaches 17.55%. Claude's separately staged or unfinished changes are not included in this commit's report.
+- Added 13 C matches, 2,188 bytes: `0012cf48`, `0020d248`, `0020d280`, `002157e0`, `00215ac8`, `00191170`, `002e6678`, `002e65a0`, `002e6b88`, `002e83e8`, `002e6e70`, `002e6d20`, and `002e4dd0`. The committed-base report advances from 4,206 to 4,219 matched functions and reaches 17.55%. That commit (3314816) excluded Claude's then-pending changes.
 - `00191170` matches with the installed `991111` compiler (not `991111-01`), in `src/units/_unknown_after_decode_991111.c`. Strip a draft's old compiler/flags headers before comparing alternate settings; retaining them can silently invalidate a sweep.
 - Console helpers: shared counters need per-field volatile access. `002e6b88` uses volatile fields 0/4/8/12, a short-lived length in `$16`, and a case-local read result in `$5`. `002e6d20` needs volatile busy polling but a normal completion store, which fills the interrupt-enable call's delay slot. The `002e6e70` callee takes one argument; swapping the independent pointer and next-index assignments fixes its last two instructions.
 - `002e6b88` has the documented CSV size quirk: its 400-byte entry omits the original return delay slot. All 404 compiled bytes compare exactly with the executable (`tools/match.py` says MATCH), and the complete linked executable matches too. Do not pad or replace instructions to hide size differences.
 - `002e83e8` needs the original shared-tail branch layout; explicit C labels preserve the callback/reload and completion paths. `_calloc_r` (`002e4dd0`) needs a scoped zero result in `$2`; declaring the mask before the chunk-header local gives the original register order. Alias `_malloc_r` and `memset` prototypes per block to avoid clashes with the existing library declarations.
 - Verification: full executable SHA-1 remains `3dbb9cbda4593c7a72c113088b2e871b50dbd53d`. Concurrent builds can corrupt shared object files or remove each other's assembly inputs. Use a frozen source copy with separate ROOT/ASM/BUILD paths when checking alongside another process; overriding BUILD alone is insufficient because the builder uses ROOT-relative `asm/` paths.
 - The user revised the goal to 17.50% and authorized large functions. Earlier small-function-only restrictions no longer apply. No agents were used.
+
+## 17.60% goal integration (2026-11-13)
+
+- Integrated Claude's three pending C matches: `sceGsSyncPath` (`002c0338`, 788 bytes), `FUN_00248228` (280), and `pachislot_00167dd0` (280), totaling 1,348 bytes. Progress reaches 17.61%, 4,222 / 6,255 functions. Codex verified and integrated these existing matches rather than claiming new independent implementations.
+- All marked functions in the three affected unit files pass `tools/match.py` (14/14, 29/29, and 3/3). The current source tree is byte-for-byte identical to the frozen full-build snapshot that produced MATCH, with executable SHA-1 `3dbb9cbda4593c7a72c113088b2e871b50dbd53d`.
+- The new pachislot block uses an address-specific alias for the `pachislot_00166fd8` prototype, avoiding its pointer/int declaration clash with the existing definition. Its compiler/flags agree with the unit's existing header.
+- Refreshed both report copies and the badges from that verified source snapshot. The no-agents rule remains in force; larger functions are allowed by the user's latest scope.
 
 ## Layout and build
 

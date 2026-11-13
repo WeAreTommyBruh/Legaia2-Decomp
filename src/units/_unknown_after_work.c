@@ -137,3 +137,8 @@ long func_002ED640_249EF0(char *, int, int) __asm__("func_002ED640"); int func_0
 // MATCH func_00249EF0
 long FUN_00249ef0(void) { long r; if (D_004A3850_249EF0 != 0) D_004A7210_249EF0 = 0; else D_004A7210_249EF0 = 1; if (D_004A7210_249EF0 == 0) return 0; while ((r = func_002ED640_249EF0(D_0045D950_249EF0, 0, 0)) < 0) func_001118F8_249EF0(D_0045D980_249EF0); while ((r = func_002ED640_249EF0(D_0045D990_249EF0, 0, 0)) < 0) func_001118F8_249EF0(D_0045D9B0_249EF0); return r; }
 
+extern int D_00320D20_248228[] __asm__("D_00320D20");
+void func_00249C60_248228(int *, int *) __asm__("func_00249C60"); void func_00249C98_248228() __asm__("func_00249C98");
+// MATCH func_00248228
+int FUN_00248228(short *p, short *q, short *r) { int a[4]; int b[4]; int c[4]; int v[4]; v[0] = p[0]; v[1] = p[1]; v[2] = p[2]; v[3] = 1; func_00249C60_248228(D_00320D20_248228, v); v[0] = q[0]; v[1] = q[1]; v[2] = q[2]; func_00249C60_248228(D_00320D20_248228 + 4, v); v[0] = r[0]; v[1] = r[1]; v[2] = r[2]; func_00249C60_248228(D_00320D20_248228 + 8, v); b[0] = D_00320D20_248228[0]; b[1] = D_00320D20_248228[4]; b[2] = D_00320D20_248228[8]; c[0] = D_00320D20_248228[1]; c[1] = D_00320D20_248228[5]; c[2] = D_00320D20_248228[9]; func_00249C98_248228(a, b, c); return a[0] + a[1] + a[2]; }
+

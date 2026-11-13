@@ -59,3 +59,32 @@ int func_002C7318(int, int);
 // MATCH func_002C7850
 void FUN_002c7850(int o) { int v; int t; *(int *)(o + 0x164) = func_002C7318(o, 4); *(int *)(o + 0x168) = func_002C7318(o, 4); *(int *)(o + 0x16c) = func_002C7318(o, 4); *(int *)(o + 0x170) = func_002C7318(o, 4); v = func_002C7318(o, 2); *(volatile unsigned *)0x10002010 = (*(volatile unsigned *)0x10002010 & 0xfffcffff) | (v << 16); t = func_002C7318(o, 2); *(int *)(o + 0x174) = t; if (*(int *)(o + 0xd4) == 0) *(int *)(o + 0xd4) = t; *(int *)(o + 0x178) = func_002C7318(o, 1); *(int *)(o + 0x17c) = func_002C7318(o, 1); *(int *)(o + 0x180) = func_002C7318(o, 1); v = func_002C7318(o, 1); *(volatile unsigned *)0x10002010 = (*(volatile unsigned *)0x10002010 & 0xffbfffff) | (v << 22); v = func_002C7318(o, 1); *(volatile unsigned *)0x10002010 = (*(volatile unsigned *)0x10002010 & 0xffdfffff) | (v << 21); v = func_002C7318(o, 1); *(volatile unsigned *)0x10002010 = (*(volatile unsigned *)0x10002010 & 0xffefffff) | (v << 20); *(int *)(o + 0x184) = func_002C7318(o, 1); func_002C7318(o, 1); *(int *)(o + 0x188) = func_002C7318(o, 1); if (func_002C7318(o, 1) != 0) { func_002C7318(o, 1); func_002C7318(o, 3); func_002C7318(o, 1); func_002C7318(o, 7); func_002C7318(o, 8); } }
 
+
+extern char D_0049D460_2C0338[] __asm__("D_0049D460"), D_0049D490_2C0338[] __asm__("D_0049D490"), D_0049D4A0_2C0338[] __asm__("D_0049D4A0"), D_0049D4B0_2C0338[] __asm__("D_0049D4B0"), D_0049D4C0_2C0338[] __asm__("D_0049D4C0"), D_0049D4D0_2C0338[] __asm__("D_0049D4D0"), D_0049D4E0_2C0338[] __asm__("D_0049D4E0"), D_0049D4F0_2C0338[] __asm__("D_0049D4F0"), D_0049D500_2C0338[] __asm__("D_0049D500"), D_0049D510_2C0338[] __asm__("D_0049D510"), D_0049D528_2C0338[] __asm__("D_0049D528"), D_0049D540_2C0338[] __asm__("D_0049D540"), D_0049D570_2C0338[] __asm__("D_0049D570"), D_0049D5A0_2C0338[] __asm__("D_0049D5A0"), D_0049D5C8_2C0338[] __asm__("D_0049D5C8");
+#define R_2C0338(a) (*(volatile unsigned *)(a))
+void func_002E7940_2C0338(char *, ...) __asm__("func_002E7940");
+#define FAIL(m) { func_002E7940_2C0338(m); func_002E7940_2C0338(D_0049D490_2C0338, R_2C0338(0x10009000)); func_002E7940_2C0338(D_0049D4A0_2C0338, R_2C0338(0x10009030)); func_002E7940_2C0338(D_0049D4B0_2C0338, R_2C0338(0x10009010)); func_002E7940_2C0338(D_0049D4C0_2C0338, R_2C0338(0x10009020)); func_002E7940_2C0338(D_0049D4D0_2C0338, R_2C0338(0x1000a000)); func_002E7940_2C0338(D_0049D4E0_2C0338, R_2C0338(0x1000a030)); func_002E7940_2C0338(D_0049D4F0_2C0338, R_2C0338(0x1000a010)); func_002E7940_2C0338(D_0049D500_2C0338, R_2C0338(0x1000a020)); func_002E7940_2C0338(D_0049D510_2C0338, R_2C0338(0x10003c00)); func_002E7940_2C0338(D_0049D528_2C0338, R_2C0338(0x10003020)); return -1; }
+// MATCH func_002C0338
+int sceGsSyncPath(int mode) {
+  unsigned i = 0;
+  int r;
+  unsigned t;
+  if (mode == 0) {
+    while ((R_2C0338(0x10009000) & 0x100) != 0) { if (0x1000000 < i++) FAIL(D_0049D460_2C0338) }
+    while ((R_2C0338(0x1000a000) & 0x100) != 0) { if (0x1000000 < i++) FAIL(D_0049D540_2C0338) }
+    while ((R_2C0338(0x10003c00) & 0x1f000003) != 0) { if (0x1000000 < i++) FAIL(D_0049D570_2C0338) }
+    __asm__ volatile("cfc2 %0, $29" : "=r"(t));
+    while ((t & 0x100) != 0) { if (0x1000000 < i++) FAIL(D_0049D5A0_2C0338) __asm__ volatile("cfc2 %0, $29" : "=r"(t)); }
+    while ((R_2C0338(0x10003020) & 0xc00) != 0) { if (0x1000000 < i++) FAIL(D_0049D5C8_2C0338) }
+    return 0;
+  }
+  r = (int)(R_2C0338(0x10009000) & 0x100); if (r != 0) r = 1;
+  if ((R_2C0338(0x1000a000) & 0x100) != 0) r |= 2;
+  if ((R_2C0338(0x10003c00) & 0x1f000003) != 0) r |= 4;
+  __asm__ volatile("cfc2 %0, $29" : "=r"(t));
+  if ((t & 0x100) != 0) r |= 8;
+  if ((R_2C0338(0x10003020) & 0xc00) != 0) r |= 16;
+  return r;
+}
+#undef R_2C0338
+#undef FAIL
