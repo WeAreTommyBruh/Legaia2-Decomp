@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 17.942272,
+  "fuzzy_match_percent": 17.94702,
   "total_code": "2022208",
-  "matched_code": "359032",
-  "matched_code_percent": 17.754456,
+  "matched_code": "359128",
+  "matched_code_percent": 17.759203,
   "total_data": "1768696",
   "matched_data": "776",
   "matched_data_percent": 0.043874133,
   "total_functions": 6255,
-  "matched_functions": 4235,
-  "matched_functions_percent": 67.70583,
+  "matched_functions": 4236,
+  "matched_functions_percent": 67.72182,
   "total_units": 155
  },
  "units": [
@@ -8255,11 +8255,11 @@
     "total_code": "3732",
     "total_functions": 23,
     "total_units": 1,
-    "fuzzy_match_percent": 30.65380493033226,
-    "matched_code": "1144",
-    "matched_code_percent": 30.65380493033226,
-    "matched_functions": 13,
-    "matched_functions_percent": 56.52173913043478,
+    "fuzzy_match_percent": 33.22615219721329,
+    "matched_code": "1240",
+    "matched_code_percent": 33.22615219721329,
+    "matched_functions": 14,
+    "matched_functions_percent": 60.869565217391305,
     "matched_data_percent": 100.0,
     "complete_data_percent": 100.0
    },
@@ -8278,7 +8278,7 @@
      "name": ".text",
      "metadata": {},
      "size": "3768",
-     "fuzzy_match_percent": 30.997876857749468
+     "fuzzy_match_percent": 33.54564755838641
     }
    ],
    "functions": [
@@ -8303,121 +8303,122 @@
      "address": "168"
     },
     {
-     "name": "FUN_00161868",
-     "size": "96",
-     "metadata": {},
-     "address": "456"
-    },
-    {
      "name": "FUN_001619c8",
      "size": "488",
      "metadata": {},
-     "address": "552"
+     "address": "456"
     },
     {
      "name": "FUN_00161bb0",
      "size": "436",
      "metadata": {},
-     "address": "1040"
+     "address": "944"
     },
     {
      "name": "FUN_00161d68",
      "size": "240",
      "metadata": {},
-     "address": "1480"
+     "address": "1384"
     },
     {
      "name": "FUN_00161e58",
      "size": "592",
      "metadata": {},
-     "address": "1720"
+     "address": "1624"
     },
     {
      "name": "FUN_001620f0",
      "size": "60",
      "metadata": {},
-     "address": "2312"
+     "address": "2216"
     },
     {
      "name": "MemAllocDbg",
      "size": "96",
      "metadata": {},
-     "address": "2376"
+     "address": "2280"
     },
     {
      "name": "FUN_001622d0",
      "size": "112",
      "metadata": {},
-     "address": "2472"
+     "address": "2376"
     },
     {
      "name": "FUN_00162428",
      "size": "184",
      "metadata": {},
-     "address": "2584"
+     "address": "2488"
     },
     {
      "name": "FUN_001617b0",
      "size": "184",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "2768"
+     "address": "2672"
     },
     {
-     "name": "MemGetFreeSize",
-     "size": "60",
+     "name": "FUN_00161868",
+     "size": "96",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "2952"
-    },
-    {
-     "name": "FUN_00162340",
-     "size": "100",
-     "fuzzy_match_percent": 100.0,
-     "metadata": {},
-     "address": "3016"
-    },
-    {
-     "name": "FUN_00161908",
-     "size": "192",
-     "fuzzy_match_percent": 100.0,
-     "metadata": {},
-     "address": "3120"
+     "address": "2856"
     },
     {
      "name": "FUN_001620a8",
      "size": "72",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "3312"
+     "address": "2952"
     },
     {
      "name": "MemAlloc",
      "size": "104",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "3384"
+     "address": "3024"
     },
     {
      "name": "MemFreeDbg",
      "size": "56",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "3488"
+     "address": "3128"
     },
     {
      "name": "MemFree",
      "size": "88",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "3544"
+     "address": "3184"
     },
     {
      "name": "FUN_00162290",
      "size": "60",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "3632"
+     "address": "3272"
+    },
+    {
+     "name": "MemGetFreeSize",
+     "size": "60",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "3336"
+    },
+    {
+     "name": "FUN_00162340",
+     "size": "100",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "3400"
+    },
+    {
+     "name": "FUN_00161908",
+     "size": "192",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "3504"
     },
     {
      "name": "FUN_00162230",
@@ -48095,16 +48096,16 @@
    "id": "other",
    "name": "Other code (SDK, libraries, unattributed)",
    "measures": {
-    "fuzzy_match_percent": 18.806644,
+    "fuzzy_match_percent": 18.813818,
     "total_code": "1338068",
-    "matched_code": "250140",
-    "matched_code_percent": 18.694118,
+    "matched_code": "250236",
+    "matched_code_percent": 18.70129,
     "total_data": "1768688",
     "matched_data": "768",
     "matched_data_percent": 0.043422017,
     "total_functions": 4213,
-    "matched_functions": 2895,
-    "matched_functions_percent": 68.71588,
+    "matched_functions": 2896,
+    "matched_functions_percent": 68.73962,
     "total_units": 78
    }
   }

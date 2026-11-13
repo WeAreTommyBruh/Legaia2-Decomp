@@ -20,3 +20,9 @@ void MemFree(void *p) { if (p != 0) { D_004A13D0_00162238--; func_00161690(p); r
 extern int *D_004A6F44_00162290 __asm__("D_004A6F44");
 // MATCH func_00162290
 unsigned FUN_00162290(void) { char *h = *(char **)D_004A6F44_00162290; int *c = *(int **)(h + 128); int *e = (int *)(h + 128); unsigned r = 0; if (c != e) do { unsigned v = c[2]; c = (int *)c[0]; if (r < v) r = v; } while (c != e); return r; }
+
+extern int *D_004A6F44_161868 __asm__("D_004A6F44");
+void func_00161690_161868(void *) __asm__("func_00161690");
+// MATCH func_00161868
+void FUN_00161868(int param_1) { int *puVar1; int *puVar2; int *puVar3; if ((unsigned)param_1 < (unsigned)D_004A6F44_161868[1]) { puVar3 = (int *)(*D_004A6F44_161868 + param_1 * -0x80); puVar1 = (int *)*puVar3; for (puVar2 = puVar1; puVar1 != puVar3; puVar2 = puVar1) { puVar1 = (int *)*puVar1; func_00161690_161868(puVar2 + 0x20); } } }
+
