@@ -81,3 +81,17 @@ void FUN_001b2ae0(int a, int b, int c, int d, unsigned char e) { func_00115090((
 void akari_001e2530(int, int); int akari_001e2588(int); void nayuki_001dafa8(int); void nayuki_001db5a0(int); int rouge_001322c0(int, int, int);
 // MATCH func_001D7F88
 int FUN_001d7f88(int p, int q, int r) { int u; int v; if ((*(long long *)(p + 0x48) & 0xffff000000000000LL) == 0) { u = rouge_001322c0(q, r, 1); } else { if (*(char *)(p + 0x4d) != 0) { akari_001e2530(p, r); v = akari_001e2588(p); if (v == 1) { if (*(int *)(p + 0x80) < 6 || *(int *)(p + 0x80) == 8) nayuki_001db5a0(p); else nayuki_001dafa8(p); } } u = 0; } return u; }
+
+extern unsigned long D_004A12D8_1B7FB0 __asm__("D_004A12D8");
+extern int D_004A3874_1B7FB0 __asm__("D_004A3874"), D_004A12A4_1B7FB0 __asm__("D_004A12A4");
+extern int D_0036CB88_1B7FB0[] __asm__("D_0036CB88"), D_0036CAB0_1B7FB0[] __asm__("D_0036CAB0"), D_0036CAD4_1B7FB0[] __asm__("D_0036CAD4"), D_00343654_1B7FB0[] __asm__("D_00343654"), D_00425510_1B7FB0[] __asm__("D_00425510");
+extern char D_00343028_1B7FB0[] __asm__("D_00343028");
+void func_001AE398_1B7FB0(int) __asm__("func_001AE398");
+void func_001AD888_1B7FB0(int, int) __asm__("func_001AD888");
+void func_001B4B40_1B7FB0(int) __asm__("func_001B4B40");
+int func_001AD848_1B7FB0(int) __asm__("func_001AD848");
+void func_0029B670_1B7FB0() __asm__("func_0029B670");
+int func_0010C2B0_1B7FB0(void *, int, int, int, int, int, int) __asm__("func_0010C2B0");
+// MATCH func_001B7FB0
+void FUN_001b7fb0(void) { int *s, *r, *p; int k; char buf[16]; if (D_004A12D8_1B7FB0 & 0x50) { s = D_0036CB88_1B7FB0; func_001AE398_1B7FB0(s[2]); func_001AD888_1B7FB0(s[2], 10); func_001B4B40_1B7FB0(D_004A3874_1B7FB0); p = *(int **)(s[2] + 360); if (p[10] == 1) D_004A3874_1B7FB0 = D_0036CAD4_1B7FB0[0]; p[10] = 0; k = p[11]; if (k == 1 && D_004A12A4_1B7FB0 != 17) { r = D_0036CAB0_1B7FB0; func_001AE398_1B7FB0(r[13]); func_001AD888_1B7FB0(r[13], 20); func_001AE398_1B7FB0(r[9]); func_001AD888_1B7FB0(r[9], 20); func_001AE398_1B7FB0(r[12]); func_001AD888_1B7FB0(r[12], 20); func_001AE398_1B7FB0(r[11]); func_001AD888_1B7FB0(r[11], 20); func_001AE398_1B7FB0(s[12]); func_001AD888_1B7FB0(s[12], 20); D_00343654_1B7FB0[0] = 4; k = func_001AD848_1B7FB0(r[11]); { int t = *(int *)(k * 256 + *(int *)(r[11] + 360) + 44); D_00425510_1B7FB0[2] |= 4; func_0029B670_1B7FB0(buf, t); } } else { func_0010C2B0_1B7FB0(D_00343028_1B7FB0, 0, 2, 0, 1, 0, 0); } } }
+
