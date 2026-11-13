@@ -6,7 +6,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **17.61% of code, 4222 / 6255 functions matched (17.60% goal, 2026-11-13).** `.text` is about 2.0 MB (`total_code` 2,022,208 bytes); the percentages measure only that.
+- **17.71% of code, 4230 / 6255 functions matched (17.70% goal, 2026-11-13).** `.text` is about 2.0 MB (`total_code` 2,022,208 bytes); the percentages measure only that.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
 - History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003) -> 14.51% (4019) -> 14.85% (4058) -> 14.96% (4083, with vu0_asm2.c) -> 15.16% (4098) -> 15.39% (4101, newlib malloc). 15.35% and 15.83% (the goals) were reached; 15.53% (4119) -> 15.71% (4130, newlib mprec/stdio) -> 15.74% -> 16.07% (libgcc2 division family) -> 16.11% (4139, `__muldf3`) -> 16.33% (4140, `_dtoa_r`) -> 16.63% (4157, libgcc EH/frame runtime, session 22; 16.58% reached) -> 16.90% (4161, newlib `_vfprintf_r` 5.4 KB, session 23); 17.01% and 17.11% were reached in session 24 (fdlibm block, see below); subsequent work reached 17.27577% (4195 functions), then session 27 reached the requested 17.33% goal (17.34%, 4200 functions).
@@ -103,6 +103,15 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - All marked functions in the three affected unit files pass `tools/match.py` (14/14, 29/29, and 3/3). The current source tree is byte-for-byte identical to the frozen full-build snapshot that produced MATCH, with executable SHA-1 `3dbb9cbda4593c7a72c113088b2e871b50dbd53d`.
 - The new pachislot block uses an address-specific alias for the `pachislot_00166fd8` prototype, avoiding its pointer/int declaration clash with the existing definition. Its compiler/flags agree with the unit's existing header.
 - Refreshed both report copies and the badges from that verified source snapshot. The no-agents rule remains in force; larger functions are allowed by the user's latest scope.
+
+## 17.70% goal (2026-11-13)
+
+- Added five exact C matches: `pachislot_00167940` / `pachislot_00167b88` (580 bytes each), `FUN_00112a28` (104), `FUN_002cdac8` (220 plus its omitted return delay slot), and `FUN_001df8b0` (292). This adds 1,780 measured code bytes (1,776 bytes in the CSV). Together with Claude's separate three-function commit `b545b73`, the report reaches 17.71%, 4,230 / 6,255 functions.
+- The pachislot siblings were three words off because gcc replaced the final branch with a conditional move. A scoped return local bound to `$2`, initialized from the actual last result, plus an empty-asm read on the fallback path preserves the original branch and delay-slot copy. The same fix applies to both siblings; no uninitialized values or redundant conditions are involved.
+- `00112a28` returns the callee's result on success and zero on failure. Correcting its void wrapper/callee declarations reproduces the original error-path zero assignment. It uses the existing `-fexceptions` setting in `_unknown_after_main_eh.c`.
+- `002cdac8` needs its zero assignment inside the polling loop, rather than hoisted to loop entry. The initialized result's empty-asm priority nudge keeps it in the original branch delay slot. The CSV omits the final return delay slot: all 224 compiled bytes match with `tools/match.py`, and the full executable matches too.
+- `001df8b0`'s final two instructions were a literal-load scheduling difference. `D_004A02C8` is the read-only `.lit4` value `0.02f`; using that literal instead of a mutable extern float reproduces the original load order. Keep real literal-pool entries distinct from mutable globals when reconstructing declarations.
+- All affected units pass their marked-function checks, and the frozen full build reports MATCH with SHA-1 `3dbb9cbda4593c7a72c113088b2e871b50dbd53d`. Reports and badges are regenerated from the verified source snapshot to avoid concurrent-build output collisions.
 
 ## Layout and build
 

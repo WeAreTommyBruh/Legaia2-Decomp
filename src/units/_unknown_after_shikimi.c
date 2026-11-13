@@ -2874,3 +2874,20 @@ extern E8_002E7D00_2E7D00 *D_00632864_2E7D00[] __asm__("D_00632864"), *D_0063286
 // MATCH func_002E7D00
 void FUN_002e7d00(int i, int a, int b) { register E8_002E7D00_2E7D00 *t __asm__("$4"); register int o __asm__("$3") = i << 3; if (i < 0) t = D_00632864_2E7D00[0]; else t = D_0063286C_2E7D00[0]; ((E8_002E7D00_2E7D00 *)(o + (int)t))->a = a; ((E8_002E7D00_2E7D00 *)(o + (int)t))->b = b; }
 
+extern int D_00427DC8_002CDAC8[] __asm__("D_00427DC8"), D_00427DCC_002CDAC8[] __asm__("D_00427DCC"), D_0062CEC0_002CDAC8[] __asm__("D_0062CEC0"); extern char D_0062B900_002CDAC8[] __asm__("D_0062B900");
+int func_002E8B18_002CDAC8(void *) __asm__("func_002E8B18"); void func_002CDA80_002CDAC8(int) __asm__("func_002CDA80"); void func_002E58C0_002CDAC8(int) __asm__("func_002E58C0");
+// MATCH func_002CDAC8
+int FUN_002cdac8(int a, int *b, int *c) {
+  int r, l2; int res;
+  if (D_00427DC8_002CDAC8[0] == 0) return -1;
+  r = func_002E8B18_002CDAC8(D_0062B900_002CDAC8);
+  if (a == 0 && r != 0) { for(;;){l2=func_002E8B18_002CDAC8(D_0062B900_002CDAC8);__asm__ volatile("" : "+r"(r));r=0;if(l2==0)break;func_002CDA80_002CDAC8(60);} }
+  res = (r == 0);
+  if (b != 0) *b = D_00427DC8_002CDAC8[0];
+  if (res != 0) {
+    D_00427DC8_002CDAC8[0] = 0;
+    if (c != 0) *c = D_0062CEC0_002CDAC8[0];
+    func_002E58C0_002CDAC8(D_00427DCC_002CDAC8[0]);
+  }
+  return res;
+}

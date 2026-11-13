@@ -31,3 +31,40 @@ void pachislot_00164c10(O_00164C10 *o) { int idx; void (*fn)(void *); int d; int
 int func_00165A40_1673C0(char *, int) __asm__("func_00165A40"); int func_001659A8_1673C0(char *) __asm__("func_001659A8");
 // MATCH func_001673C0
 int pachislot_001673c0(char *o, int a, int b, int c) { int x, y, z; x = func_00165A40_1673C0(o + 44, a); y = func_00165A40_1673C0(o + 124, b); z = func_00165A40_1673C0(o + 204, c); if (x == 6 || func_001659A8_1673C0(o + 44) != 0) x = -1; if (y == 6 || func_001659A8_1673C0(o + 124) != 0) y = -1; if (z == 6 || func_001659A8_1673C0(o + 204) != 0) z = -1; if (x == y && x != -1) return x; { register int miss __asm__("$3") = -1; if (y == z && y != miss) return y; } if (x == z) return x; x = -1; return x; }
+
+extern char D_0043CBB8_00167940[] __asm__("D_0043CBB8"); extern char D_0043CBD0_00167940[] __asm__("D_0043CBD0"); extern char D_0043CBE8_00167940[] __asm__("D_0043CBE8"); extern char D_0043CC00_00167940[] __asm__("D_0043CC00"); extern char D_0043CC18_00167940[] __asm__("D_0043CC18"); extern int D_00334830_00167940[] __asm__("D_00334830"); int func_001677E8_00167940(char *, int, int, int) __asm__("func_001677E8"); void func_001118F8_00167940() __asm__("func_001118F8");
+// MATCH func_00167940
+int pachislot_00167940(char *o, int a, int b, int c) {
+  int r;
+  int q;
+  register int res __asm__("$22");
+  res = 0; q = 0; if (*(int *)(o + 360) > 0) { r = func_001677E8_00167940(o, a + 1, b + 1, c + 1); if (r != 0) { func_001118F8_00167940(D_0043CBB8_00167940, a, b, c, D_00334830_00167940[r]); res = r; } if (r == 1) return 1; } if (*(int *)(o + 360) >= 2) { r = func_001677E8_00167940(o, a + 2, b + 2, c + 2); if (r != 0) { func_001118F8_00167940(D_0043CBD0_00167940, a, b, c, D_00334830_00167940[r]); res = r; } if (r == 1) return 1; r = func_001677E8_00167940(o, a, b, c); if (r != 0) { func_001118F8_00167940(D_0043CBE8_00167940, a, b, c, D_00334830_00167940[r]); res = r; } if (r == 1) return 1; } if (*(int *)(o + 360) < 3) return res; r = func_001677E8_00167940(o, a + 2, b + 1, c); if (r != 0) { func_001118F8_00167940(D_0043CC00_00167940, a, b, c, D_00334830_00167940[r]); res = r; } if (r == 1) return 1; r = func_001677E8_00167940(o, a, b + 1, c + 2); if (r != 0) { func_001118F8_00167940(D_0043CC18_00167940, a, b, c, D_00334830_00167940[r]); res = r; } {register int z __asm__("$2")=r;if(r!=1){__asm__ volatile("" : : "r"(r));z=res;}return z;} }
+
+extern char D_0043CC30_00167B88[] __asm__("D_0043CC30"); extern char D_0043CC48_00167B88[] __asm__("D_0043CC48"); extern char D_0043CC60_00167B88[] __asm__("D_0043CC60"); extern char D_0043CC78_00167B88[] __asm__("D_0043CC78"); extern char D_0043CC90_00167B88[] __asm__("D_0043CC90"); extern int D_00334830_00167B88[] __asm__("D_00334830");
+int func_00167890_00167B88(char *, int, int, int) __asm__("func_00167890"); void func_001118F8_00167B88(char *, ...) __asm__("func_001118F8");
+// MATCH func_00167B88
+int pachislot_00167b88(char *o, int a, int b, int c) {
+  register int r7 __asm__("$22"); int r; int n;
+  r7 = 0;
+  if (*(int *)(o + 0x168) > 0) {
+    r = func_00167890_00167B88(o, a + 1, b + 1, c + 1);
+    if (r != 0) { func_001118F8_00167B88(D_0043CC30_00167B88, a, b, c, D_00334830_00167B88[r]); r7 = r; }
+    if (r == 1) return 1;
+  }
+  if (*(int *)(o + 0x168) >= 2) {
+    r = func_00167890_00167B88(o, a + 2, b + 2, c + 2);
+    if (r != 0) { func_001118F8_00167B88(D_0043CC48_00167B88, a, b, c, D_00334830_00167B88[r]); r7 = r; }
+    if (r == 1) return 1;
+    r = func_00167890_00167B88(o, a, b, c);
+    if (r != 0) { func_001118F8_00167B88(D_0043CC60_00167B88, a, b, c, D_00334830_00167B88[r]); r7 = r; }
+    if (r == 1) return 1;
+  }
+  if (*(int *)(o + 0x168) < 3) return r7;
+  n = b + 1;
+  r = func_00167890_00167B88(o, a + 2, n, c);
+  if (r != 0) { func_001118F8_00167B88(D_0043CC78_00167B88, a, b, c, D_00334830_00167B88[r]); r7 = r; }
+  if (r == 1) return 1;
+  r = func_00167890_00167B88(o, a, n, c + 2);
+  if (r != 0) { func_001118F8_00167B88(D_0043CC90_00167B88, a, b, c, D_00334830_00167B88[r]); r7 = r; }
+  {register int z __asm__("$2")=r;if(r!=1){__asm__ volatile("" : : "r"(r));z=r7;}return z;}
+}
