@@ -239,3 +239,8 @@ void clas_min_002a1aa8(char *, int, char *, int); void clas_min_002a1e48(int, in
 // MATCH func_002A4020
 void clas_min_002a4020(int a, int b) { int i; int s[3]; s[1] = 0; for (i = 0; i < 5; i++) clas_min_002a1aa8(D_00424E18_2A4020 + i * 0x110, 0, D_004A6A38_2A4020, 0); for (i = 0; i < 5; i++) { clas_min_002a1e48(b, i, &s[0], &s[1], &s[2]); if (s[2] != 0) { int x = s[0], y = s[1], z = s[2]; clas_min_002a1aa8(D_00424E18_2A4020 + i * 0x110, x, (char *)y, z); } } }
 
+extern float D_004A0D90_2A4758 __asm__("D_004A0D90");
+int rand(void);
+// MATCH func_002A4758
+void clas_min_002a4758(int param_1)  { int iVar1; int iVar2; float fVar3;  if (*(float *)(param_1 + 0x10) != 0.0f) { fVar3 = D_004A0D90_2A4758 / (2.0f / *(float *)(param_1 + 0x10)); iVar1 = rand(); iVar2 = (int)fVar3; *(float *)(param_1 + 8) = (float)((iVar1 >> 5) % iVar2) - fVar3 * 0.5f; } return; }
+

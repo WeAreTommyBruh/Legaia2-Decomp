@@ -86,3 +86,8 @@ typedef struct N__002175E0 { int f0; struct N__002175E0 *next; int f8, fc, f10; 
 typedef struct { char p[2156]; N__002175E0 *head; } H__002175E0;
 // MATCH func_002175E0
 N__002175E0 *FUN_002175e0(H__002175E0 *o, int a, int b, int c) { N__002175E0 *p = o->head; while (p != 0) { if (p->f8 == a && p->f10 >= 0 && p->fc == b && (int)*p->f14 == c) break; p = p->next; } return p; }
+
+extern int D_00318C20_217F48[] __asm__("D_00318C20");
+// MATCH func_00217F48
+int FUN_00217f48(int param_1, int param_2, int param_3) { int b = D_00318C20_217F48[*(unsigned short *)(*(int *)(param_2 + 0x90) + 0x908)]; int c = b + 0x10; if (param_3 < (int)*(unsigned char *)(b + 3)) { return param_3 * 0xa0 + c + 0x60; } return 0; }
+
