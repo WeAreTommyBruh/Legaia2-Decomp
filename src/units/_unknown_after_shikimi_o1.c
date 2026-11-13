@@ -66,3 +66,8 @@ void FUN_002ca9b8(int on) { unsigned t; __asm__ volatile("cfc2 %0, $28" : "=r"(t
 // MATCH func_002CA9E8
 void FUN_002ca9e8(int on) { unsigned t; __asm__ volatile("cfc2 %0, $28" : "=r"(t)); if (on == 1) t |= 8; else t &= ~8; __asm__ volatile("ctc2 %0, $28" : : "r"(t)); }
 
+typedef struct { int a, b; } E8_002E7D30_2E7D30;
+extern E8_002E7D30_2E7D30 *D_00632864_2E7D30[] __asm__("D_00632864"), *D_0063286C_2E7D30[] __asm__("D_0063286C");
+// MATCH func_002E7D30
+void FUN_002e7d30(int i) { register E8_002E7D30_2E7D30 *t __asm__("$4"); register int o __asm__("$3") = i << 3; if (i < 0) t = D_00632864_2E7D30[0]; else t = D_0063286C_2E7D30[0]; *(int *)(o + (int)t) = 0; }
+

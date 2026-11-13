@@ -2868,3 +2868,9 @@ unsigned *FUN_002e4dd0(void *r, int a, int b) {
   }
   return mem;
 }
+
+typedef struct { int a, b; } E8_002E7D00_2E7D00;
+extern E8_002E7D00_2E7D00 *D_00632864_2E7D00[] __asm__("D_00632864"), *D_0063286C_2E7D00[] __asm__("D_0063286C");
+// MATCH func_002E7D00
+void FUN_002e7d00(int i, int a, int b) { register E8_002E7D00_2E7D00 *t __asm__("$4"); register int o __asm__("$3") = i << 3; if (i < 0) t = D_00632864_2E7D00[0]; else t = D_0063286C_2E7D00[0]; ((E8_002E7D00_2E7D00 *)(o + (int)t))->a = a; ((E8_002E7D00_2E7D00 *)(o + (int)t))->b = b; }
+

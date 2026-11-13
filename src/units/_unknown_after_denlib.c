@@ -87,3 +87,8 @@ extern float D_004A0174_18E538 __asm__("D_004A0174");
 void func_0018EC38_18E538(float *) __asm__("func_0018EC38"); void func_0018F3D8_18E538(float *, float *, float *) __asm__("func_0018F3D8");
 // MATCH func_0018E538
 void FUN_0018e538(float *v, float a, float b, float c) { float m[16]; func_0018EC38_18E538(v); func_0018EC38_18E538(m); m[0] = 1.0f / b; m[5] = 1.0f / c; m[12] = 0.5f; m[13] = D_004A0174_18E538; func_0018F3D8_18E538(v, m, v); }
+
+// compiler: 991111-01-as210
+// MATCH func_0018DB18
+void FUN_0018db18(float param_1,char *p2,unsigned char *p3,unsigned char *p4)  { unsigned char *param_4 = p4; unsigned char *param_3 = p3; char *param_2 = p2; unsigned char bVar1; unsigned char bVar2; unsigned char bVar3; unsigned char bVar4; unsigned char bVar5; unsigned char bVar6; int iVar7;  iVar7 = 0xff; do { iVar7 = iVar7 + -1; param_2[3] = param_3[3]; bVar1 = *param_3; bVar2 = *param_4; bVar3 = param_3[1]; bVar4 = param_4[1]; bVar5 = param_3[2]; bVar6 = param_4[2]; param_3 = param_3 + 4; param_4 = param_4 + 4; *param_2 = bVar1 + (char)(int)((float)(int)((unsigned)bVar2 - (unsigned)bVar1) * param_1); param_2[1] = bVar3 + (char)(int)((float)(int)((unsigned)bVar4 - (unsigned)bVar3) * param_1); param_2[2] = bVar5 + (char)(int)((float)(int)((unsigned)bVar6 - (unsigned)bVar5) * param_1); do { param_2 = param_2 + 4; } while (0); } while (-1 < iVar7); return; }
+
