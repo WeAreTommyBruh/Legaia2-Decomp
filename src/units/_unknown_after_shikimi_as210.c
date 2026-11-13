@@ -148,3 +148,23 @@ int sceGsSetDefLoadImage(LoadImage_2C0650 *lp, short vram_addr, short vram_width
   __asm__ volatile ("sync");
   return 6;
 }
+
+extern char D_0049D3E8_2BF8B0[] __asm__("D_0049D3E8");
+long func_002E9950_2BF8B0(char *, int) __asm__("func_002E9950"); long func_002E9F90_2BF8B0(long, char *, int) __asm__("func_002E9F90"); void func_002E9BD8_2BF8B0(long) __asm__("func_002E9BD8"); long func_002DB920_2BF8B0(char *) __asm__("func_002DB920");
+// MATCH func_002BF8B0
+long FUN_002bf8b0(void) {
+  char buf[256];
+  char c;
+  unsigned i;
+  long fd;
+  long v;
+  char *p;
+  fd = func_002E9950_2BF8B0(D_0049D3E8_2BF8B0, 1);
+  if (fd < 0) return -1;
+  i = 0;
+  p = buf;
+  for (; i < 0x100; i++) { func_002E9F90_2BF8B0(fd, p, 1); c = *p; p++; if (c == 0) break; }
+  func_002E9BD8_2BF8B0(fd);
+  v = func_002DB920_2BF8B0(&buf[i - 9]);
+  return 0x1315670 < v;
+}

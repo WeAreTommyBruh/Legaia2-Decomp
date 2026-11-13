@@ -125,6 +125,13 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - Claude separately committed the image-transfer matches `002c0838` / `002c0650` and the `002056a8` accessor in `e6b0ca2`. The final report includes both agents' actual code. A CSV-marker estimate overstated progress: the verified intermediate report was 17.974611% (363,484 bytes), and the final four Codex matches closed the real 514-byte gap.
 - Verification: every new unit's marked functions pass `tools/match.py`; the final combined frozen rebuild reports MATCH and SHA-1 `3dbb9cbda4593c7a72c113088b2e871b50dbd53d`. Reports and badges are refreshed from that verified snapshot.
 
+## Session 28 (Claude, 17.77% -> 17.82%, then Codex reached 18.00%)
+
+- Matched `sceGsSetDefLoadImage` (2c0650, 484 bytes), the store-image packet builder 2c0838 (320), 2056a8 (92) and 2bf8b0 (160). The libgraph GS packet builders match with the SDK structs typed verbatim: `sceGifTag` as `u_long` bitfields (`NLOOP:15, EOP:1, pad16:16, id:14, PRE:1, PRIM:11, FLG:2, NREG:4, REGS0..15:4`, `aligned(16)`), the register words as plain `long` fields assigned from shift/or expressions, the two giftags zeroed with a TI (`mode(TI)`) store, header `// compiler: 991111-01-as210`. Separate `(long)(int)` / `int` parameter types (a short parameter that is `int` in the original changes the extension code). A hoisted temp such as `long ty = (long)(y << 16);` declared first fixed the last swapped pair in 2c0838.
+- `build/work/hc28.py ADDR SECS [seed]` hill-climbs the order of statement lines (one-line bodies are split first, declarations are movable too) and scores by ops*1000+bad words with plateau acceptance; it solved 2c0650 and 2c0838 where the permuter and word-count climbers stalled. `nudge28.py`, `place28.py ADDR UNITFILE` (appends a draft with its `// MATCH` marker) and `frz28.sh` (frozen copy build, safe next to Codex) are the other helpers.
+- Loop recipes: a table scan written as `for (idx = 0; idx < n; idx++)` inside `if (n > 0)` gets the original's peeled first compare (2c2008 draft is at ops~0, 10 words: `$17`/`$18` swapped); an early `return -1` before `i = 0` kept the init after the call (2bf8b0); a `long` return type removed the result copy there.
+- Open from this session: sceGsExecStoreImage 2c0af8 (draft in `w/`, ops~115: the `rem == 0` arms are cross-jumped into the last switch case, `n`/`rem`/`ca`/`cb`/`t` live in `$22/$19/$18/$17/$16`), 2c1228 (6 words), 2c16b8 (11 words, `r` pinned to `$2`), 2c2008 (10 words), 2c1a68 (needs an unused 16-byte frame), 2c1780.
+
 ## Layout and build
 
 - Steps 1 and 2 are done (compiler identified, executable rebuilt byte-identical). Step 3, matching functions in C, is in progress.
