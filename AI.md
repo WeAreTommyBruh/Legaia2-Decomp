@@ -6,7 +6,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **18.00% of code, 4255 / 6255 functions matched (18% goal, 2026-11-13).** `.text` is about 2.0 MB (`total_code` 2,022,208 bytes); the percentages measure only that.
+- **18.42% of code (372,484 bytes), 4288 / 6255 functions matched (18.40% goal reached, 2026-11-14).** `.text` is about 2.0 MB (`total_code` 2,022,208 bytes); the percentages measure only that.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
 - History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003) -> 14.51% (4019) -> 14.85% (4058) -> 14.96% (4083, with vu0_asm2.c) -> 15.16% (4098) -> 15.39% (4101, newlib malloc). 15.35% and 15.83% (the goals) were reached; 15.53% (4119) -> 15.71% (4130, newlib mprec/stdio) -> 15.74% -> 16.07% (libgcc2 division family) -> 16.11% (4139, `__muldf3`) -> 16.33% (4140, `_dtoa_r`) -> 16.63% (4157, libgcc EH/frame runtime, session 22; 16.58% reached) -> 16.90% (4161, newlib `_vfprintf_r` 5.4 KB, session 23); 17.01% and 17.11% were reached in session 24 (fdlibm block, see below); subsequent work reached 17.27577% (4195 functions), then session 27 reached the requested 17.33% goal (17.34%, 4200 functions).
@@ -133,6 +133,24 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - Open from this session: sceGsExecStoreImage 2c0af8 (draft in `w/`, ops~115: the `rem == 0` arms are cross-jumped into the last switch case, `n`/`rem`/`ca`/`cb`/`t` live in `$22/$19/$18/$17/$16`), 2c1228 (6 words), 2c16b8 (11 words, `r` pinned to `$2`), 2c2008 (10 words), 2c1a68 (needs an unused 16-byte frame), 2c1780.
 
 - **Follow-up (18.01% -> 18.10%):** seven more libgraph matches in `_unknown_after_shikimi_as210.c`: the draw-environment builders 2c1888 / 2bfcd8 (480/484 bytes, first compile; siblings differing only in register addresses and `(w + 63) >> 6`), the clear packet 2c1780, 2c2008, 2c16b8, 2c1228, 2c2d58. Recipe: write the SDK source naturally with `SCE_GS_SET_*`-style shift/or expressions on `u_long`, the `...addr` store BEFORE its value store, one-bit register fields as a `b0:1` bitfield (`ld; or 1; sd`), duplicated calls in both `if` arms where the asm duplicates them, and the `if` polarity from the branch sense. A `sll 16; sra 16` on the result means a `short` return type (2c16b8 needed no pin after that). 2c2008 pins `r` to `$17` and 2c1228 pins the `ly * 16` temp to `$2` (approved register-bound locals). 2c1a68 is still open (unused 16-byte frame).
+
+## Session 29 (Claude, 18.10% -> 18.42%, target 18.40% reached)
+
+- 24 functions, all in `src/units/_unknown_after_shikimi_as210.c` (991111-01-as210), from the Sony SDK libraries at 0x2bf000-0x2cb000. Most matched on the first or second compile once the SDK
+  routine was recognised: libgraph `sceGsResetGraph` 2bf6a8 (needs the real `unsigned long GsPutIMR(unsigned long)` prototype), libmpeg 2c1af0 (stream-id table search), 2c2ea8
+  (heap alloc), 2c3200, 2c33d8, 2c3cd0, 2c4c68, 2c5e80 (MPEG-2 dual-prime vectors), 2c6118, 2c6220, 2c6540, 2c6aa8 (motion vector decode), 2c7550, 2c7660, 2c7a88, 2c7df0,
+  2c86f0, 2c9388 / 2c94b8 (bitstream refill / seek), libpad/SIF 2c9658 (bind loop), 2c9798 (RPC init), and `scePadInfoAct` 2c9e28, `scePadInfoComb` 2c9f48, `scePadInfoMode` 2ca068
+  (first compile).
+- Recipes: type the libmpeg decoder state as a struct with a `Slot[2]` array (0x140 bytes each at 0x590, current index at 0x810): `o->s[o->cur].field` gives the original's
+  `cur*320 + o` addressing (2c4c68 first compile). The pad port table is `Port D_0062B3D0[2][4]` (28-byte entries); using `D_0062B3D4` instead is off by the relocation addend.
+  A loop that does NOT strength-reduce (`sll i,2` + hoisted bases each iteration) wants local `int *a = ..., *b = ...;` pointers indexed `a[i]` (2c7c68 draft). `(x * 3 + (x > 0 ? 1 : 0)) >> 1`
+  keeps the branchy increment; a statement-expression `t++` becomes `slt/addu`. A `$2` left holding the last stored constant with an explicit `return 0` on the error path means the
+  success path falls off the end (2c2918 draft). The libmpeg `j func_...` tails are real sibling calls: write the call as the last statement.
+- CSV quirks met: 2c86f0's row says 312 bytes but the function is 272 (it overlaps 2c8800); 2c9658's row omits the final 8 bytes. Both pass the full build. 2c3740 and 2c2f30
+  contain two functions in one CSV row (`j func_002C3868` tail, switch cases in 2c2fe0) and were left alone.
+- Open drafts in `build/work/w/` (scores with `t.sh ADDR 991111-01-as210`): 2c2918 (7 words: two register swaps), 2c3b10, 2c30a0 (9), 2c7c68 (15), 2c8800 (ops~12: an extra
+  `daddu $8,$22`), 2bffa8 / 2c12b0 (`sceGsSetDefDBuff` / Dc: last block keeps a `(short)` sign extension the compiler folds away in mine), 2bf960 (`sceGsSetDefDispEnv`, ops~150),
+  2c3ef0 (hoisted slot field addresses), 2c6008 (the error call passes the switch value, mine const-propagates 0), 2c8560, 2c9540 (index recomputed after the call), 2cad10.
 
 ## Layout and build
 
