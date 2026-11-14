@@ -6,7 +6,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **19.02% of code (384,632 bytes), 4324 / 6255 functions matched (19% goal reached, 2026-11-14).** Total code is 2,022,208 bytes.
+- **19.21% of code (388,440 bytes), 4331 / 6255 functions matched (19.20% goal reached, 2026-11-14).** Total code is 2,022,208 bytes.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
 - History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003) -> 14.51% (4019) -> 14.85% (4058) -> 14.96% (4083, with vu0_asm2.c) -> 15.16% (4098) -> 15.39% (4101, newlib malloc). 15.35% and 15.83% (the goals) were reached; 15.53% (4119) -> 15.71% (4130, newlib mprec/stdio) -> 15.74% -> 16.07% (libgcc2 division family) -> 16.11% (4139, `__muldf3`) -> 16.33% (4140, `_dtoa_r`) -> 16.63% (4157, libgcc EH/frame runtime, session 22; 16.58% reached) -> 16.90% (4161, newlib `_vfprintf_r` 5.4 KB, session 23); 17.01% and 17.11% were reached in session 24 (fdlibm block, see below); subsequent work reached 17.27577% (4195 functions), then session 27 reached the requested 17.33% goal (17.34%, 4200 functions).
@@ -152,6 +152,28 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   `daddu $8,$22`), 2bffa8 / 2c12b0 (`sceGsSetDefDBuff` / Dc: last block keeps a `(short)` sign extension the compiler folds away in mine), 2bf960 (`sceGsSetDefDispEnv`, ops~150),
   2c3ef0 (hoisted slot field addresses), 2c6008 (the error call passes the switch value, mine const-propagates 0), 2c8560, 2c9540 (index recomputed after the call), 2cad10.
 - Codex added exact matches for `FUN_001373d0` (80 bytes, indexed 140-byte save-state entry reset) and `FUN_0010d748` (160 bytes, indexed sound-event dispatch). The latter needed the original pointer-expression shape to preserve the compiler's address arithmetic and register allocation. The full rebuild remained byte-identical; the report moved from 4288 to 4289 matched functions and from 372484 to 372564 matched code bytes.
+
+## Session 30 (Claude, 18.71% -> 19.21%; 19% and 19.20% goals reached)
+
+- Sound driver at 0x2cffe0-0x2d4a00, all `991111-01-as210`: 2d1f90, 2d1580, 2d2d88 (switch, own file `_unknown_after_shikimi_as210_sw.c`), 2d2990, 2d27d8, 2d1760,
+  the sequencer tick 2cffe0 (1,248 bytes, 99-entry jump table, own file `_unknown_after_shikimi_as210_sw2.c`), 2d4398, 2d2510, 2d4608. A function with a jump table
+  goes in its own unit file so the table lands at its original address.
+- Recipes that decided these:
+  - Write the natural source with NO helper locals: `s->ev[3]`, `s->s4->b2`, `t->pc += 5` after the loop. A cached `e = s->ev` / `pc = t->pc` local made gcc fold or hoist
+    differently (2d2510 went from ops~5 to a match by removing the locals). The compiler keeps `s->...` pointer loads across `short` stores by itself (type-based aliasing).
+  - Channel tables are `struct { u8 b0; char p[15]; Ch ch[16]; }` with 16-byte `Ch`: `hd->ch[i].field` gives the original `base + i*16` then offset form; a raw
+    `p[i * 16 + 0x1e]` hoists `base + 0x1e` instead (2d1580, 2d1760).
+  - Register numbering of a temp shared by two `if` arms: declare it once at function scope (`unsigned short *tab` in 2d1760: 21 words -> 0).
+  - A loop whose two pointer increments come out swapped: write it as `i = 0; do { ...; i++; p++; } while (i < 48);` (2d2990).
+  - Which loop constant keeps the last callee-saved register is decided by the ORDER the constants appear in the loop body (later one wins): moving
+    `g->x28 |= 1L << i;` to the end of the block matched 2d4398. Permute the non-volatile statements between the volatile `flags` updates.
+  - Store/epilogue scheduling that will not move: make the two globals-struct counters `volatile int` (2cffe0's `x3c`/`x40`).
+  - Switch body order in the asm is the source `case` order; the case the compare tree falls into is the first one written (2cffe0: 0xf0, 0xc0, 0xb0, 0xe0, 0x80, 0xa0, 0x90).
+  - `(e[2] << 2) * g->x3a` vs `g->x3a * (e[2] * 4)` flips the multiply operand load order; `if (x >= 65) a = 0x4000; else a = 0;` keeps the branchy form.
+- Open drafts in `build/work/w/`: 2d0558 (note-on, 1,152 bytes: ops~3, 33 words; the original keeps a gcse reaching-register copy `daddu $11,$8` of `s->s4` before
+  `if (b15 & 0x20)` that my source loses in the second cprop pass; pinning a `$11` local gives ops~0 but e/tn/ch then sit in $9/$6/$8 instead of $6/$8/$10), 2d09d8 (its
+  multi-note sibling, ops~26, same copy), 2d48f8 (1 word: missing `daddu $2,$3` copy of `se[prog+1]`; use `break` not `return r` at the loop end), 2d4768 (3 words:
+  `lw ent` before `sll`), 2d33d8 (register swap), 2d5050 (or-association order), 2d0e78 (1,800 bytes, untouched), 2d3430, 2d3190, 2d40a8.
 
 ## Layout and build
 

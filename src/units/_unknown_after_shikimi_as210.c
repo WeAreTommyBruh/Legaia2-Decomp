@@ -1518,3 +1518,286 @@ int FUN_002d1580(Tk_2D1580 *t) {
   }
   return 0;
 }
+
+typedef struct { volatile unsigned flags; char p4[8]; unsigned short x0c; char p0e[0x12]; unsigned short x20; char p22[0xa]; unsigned short x2c; char p2e[2]; unsigned short x30; char p32[0xa]; unsigned short x3c; unsigned short x3e; unsigned short x40; unsigned short x42; char p44[0xa]; unsigned char b4e; unsigned char b4f; unsigned char b50; unsigned char b51; char p52[2]; unsigned char b54; char p55[3]; } Vc_2D2990;
+typedef struct { volatile unsigned flags; int pc; char p8[0x10]; unsigned short bank; char p1a[0x32]; unsigned short x4c; unsigned short x4e; } Tk_2D2990;
+typedef struct { char p[4]; unsigned char x14; char q[11]; } Ch_2D2990;
+typedef struct { char p[16]; Ch_2D2990 ch[16]; } Hd_2D2990;
+typedef struct { char p0[8]; Hd_2D2990 *chtab; char pc[4]; unsigned char *ev; } Sq_2D2990;
+typedef struct { char p0[0x38]; unsigned short mono; unsigned short x3a; } Gl_2D2990;
+extern Vc_2D2990 D_0062D540[];
+extern unsigned short D_00427EB0[];
+Vc_2D2990 *func_002CFF08_2D2990(int) __asm__("func_002CFF08");
+Gl_2D2990 *func_002CFF38_2D2990(void) __asm__("func_002CFF38");
+Sq_2D2990 *func_002CFFA0_2D2990(void) __asm__("func_002CFFA0");
+int func_002D2130_2D2990(int, int) __asm__("func_002D2130");
+void func_002D1F90_2D2990(int, Tk_2D2990 *) __asm__("func_002D1F90");
+// MATCH func_002D2990
+void FUN_002d2990(Tk_2D2990 *t) {
+  Vc_2D2990 *p = func_002CFF08_2D2990(0);
+  Gl_2D2990 *g = func_002CFF38_2D2990();
+  Sq_2D2990 *s = func_002CFFA0_2D2990();
+  int i;
+  if (t->flags & 8) {
+    if (g->mono != 1) {
+      for (i = 0; i < 48; i++) {
+        if (p->b51 == 2 && p->b54 == t->bank) {
+          unsigned char *e = s->ev;
+          if (p->x2c == e[4] && p->b4e == e[5] && p->b50 == t->x4c) {
+            int v;
+            p->flags |= 0x80;
+            p->x3c = e[3];
+            p->x3e = p->x30;
+            v = (int)((e[2] << 2) * g->x3a) / 60;
+            p->x40 = v;
+            p->x42 = v;
+          }
+        }
+        p++;
+      }
+    }
+    t->pc += 6;
+  } else {
+    s->chtab->ch[t->x4e].x14 = s->ev[2];
+    if (g->mono != 1) {
+      i = 0; do {
+        if (p->b4f == t->x4e && p->b54 == t->bank && p->b50 == t->x4c && p->b51 == 1) {
+          int r;
+          p->x30 = s->ev[2];
+          r = func_002D2130_2D2990(D_0062D540[i].x0c, t->x4e);
+          p->x20 = D_00427EB0[r >> 2];
+          func_002D1F90_2D2990(i, t);
+        }
+        i++; p++;
+      } while (i < 48);
+    }
+    t->pc += 3;
+  }
+}
+
+typedef struct { volatile unsigned flags; char p4[0xe]; unsigned short x12; unsigned short x14; char p16[4]; unsigned short x1a; char p1c[6]; unsigned short x22; char p24[8]; unsigned short note; char p2e[6]; unsigned short x34; unsigned short x36; unsigned short x38; unsigned short x3a; char p3c[8]; float x44; char p48[4]; short x4c; unsigned char prio; unsigned char trk; unsigned char ch; unsigned char state; char p52[2]; unsigned char key; char p55[3]; } Vc_002D27D8;
+typedef struct { unsigned flags; int pc; char p8[0x10]; unsigned short key; char p1a[0x32]; unsigned short ch; unsigned short trk; } Trk_002D27D8;
+typedef struct { char p[3]; unsigned char x13; char p4[5]; unsigned char vol; unsigned char pb; unsigned char sus; unsigned char x1c; char q[3]; } Ch_002D27D8;
+typedef struct { char p[16]; Ch_002D27D8 ch[16]; } Hd_002D27D8;
+typedef struct { char p0[8]; Hd_002D27D8 *chtab; char pc[4]; unsigned char *ev; } Sq_002D27D8;
+Vc_002D27D8 *func_002CFF08_002D27D8(int) __asm__("func_002CFF08");
+char *func_002CFF38_002D27D8(void) __asm__("func_002CFF38");
+Sq_002D27D8 *func_002CFFA0_002D27D8(void) __asm__("func_002CFFA0");
+void func_002D1F90_002D27D8(int, Trk_002D27D8 *) __asm__("func_002D1F90");
+// MATCH func_002D27D8
+void FUN_002d27d8(Trk_002D27D8 *t) {
+  Vc_002D27D8 *p = func_002CFF08_002D27D8(0);
+  char *g = func_002CFF38_002D27D8();
+  Sq_002D27D8 *s = func_002CFFA0_002D27D8();
+  int i;
+  if (t->flags & 8) {
+    for (i = 0; i < 48; i++) {
+      if (p->state == 2 && p->key == t->key) {
+        unsigned char *e = s->ev;
+        if (p->note == e[4] && p->prio == e[5] && p->ch == t->ch) {
+          int v;
+          p->flags |= 0x40;
+          p->x34 = e[3];
+          p->x36 = p->x1a;
+          v = (int)((e[2] << 2) * *(unsigned short *)(g + 0x3a)) / 60;
+          p->x38 = v;
+          p->x3a = v;
+        }
+      }
+      p++;
+    }
+    t->pc += 6;
+  } else {
+    s->chtab->ch[t->trk].x13 = s->ev[2];
+    for (i = 0; i < 48; i++) {
+      if (p->state == 1 && p->trk == t->trk && p->key == t->key && p->ch == t->ch) {
+        p->x22 = s->ev[2];
+        func_002D1F90_002D27D8(i, t);
+      }
+      p++;
+    }
+    t->pc += 3;
+  }
+}
+
+typedef struct { char p[2]; unsigned char n; char q[13]; } Ch_2D1760;
+typedef struct { unsigned char b0; char p[15]; Ch_2D1760 ch[16]; } Hd_2D1760;
+typedef struct { char p0[0xc]; int magic; unsigned x10; char p14[0x1c]; unsigned short *x30; char p34[0xc]; char *x40; unsigned short *x44; } Bk_2D1760;
+typedef struct { volatile unsigned flags; int pc; Hd_2D1760 *base; char pc_[0xc]; unsigned short bank; char p1a[0x32]; unsigned short x4c; unsigned short x4e; unsigned char b50; unsigned char b51; } Tk_2D1760;
+typedef struct { char *s0; char *s4; void *base; Bk_2D1760 *hdr; unsigned char *ev; } Sq_2D1760;
+Sq_2D1760 *func_002CFFA0_2D1760(void) __asm__("func_002CFFA0");
+Bk_2D1760 **func_002CFF48_2D1760(int) __asm__("func_002CFF48");
+// MATCH func_002D1760
+int FUN_002d1760(Tk_2D1760 *t) {
+  Sq_2D1760 *s = func_002CFFA0_2D1760();
+  Bk_2D1760 *b;
+  Hd_2D1760 *base;
+  unsigned char c;
+  unsigned short *tab;
+  int r;
+  if ((unsigned)(((volatile Tk_2D1760 *)t)->bank - 1) >= 127) return -1;
+  b = *func_002CFF48_2D1760(t->bank);
+  if (b == 0) return -1;
+  base = t->base;
+  if (base == 0 || (s->hdr = b, b->magic != 0x64685353)) return -1;
+  s->ev = (unsigned char *)base + t->pc;
+  c = *s->ev;
+  if (c & 0x80) {
+    t->b50 = c;
+    t->b51 = c;
+  } else {
+    t->pc--;
+    t->b50 = t->b51;
+    s->ev = (unsigned char *)base + t->pc;
+  }
+  r = 1;
+  if (t->flags & 4) {
+    Bk_2D1760 *h;
+    unsigned char *e;
+    char *p;
+    t->x4e = t->x4c;
+    e = s->ev;
+    h = s->hdr;
+    tab = h->x44;
+    p = (char *)tab + tab[e[3] + 1];
+    s->base = h->x40;
+    s->s0 = p;
+    s->s4 = p + 8;
+  } else {
+    Bk_2D1760 *h;
+    int k;
+    int n;
+    char *p;
+    s->base = base;
+    h = s->hdr;
+    tab = h->x30;
+    t->x4e = t->b50 & 0xf;
+    n = base->ch[t->x4e].n;
+    p = (char *)tab + tab[n + 1];
+    s->s0 = p;
+    s->s4 = p + 8;
+    if (t->b50 < 160) {
+      if (tab[n + 1] != 0xffff && !(tab[0] < n)) {
+        if (h->x10 != 0xffffffff) goto out;
+      }
+      r = 0;
+      t->pc += 3;
+    }
+  }
+out:
+  return r;
+}
+
+typedef struct { char p[9]; unsigned char vol; char q[6]; } Ch_2D4398;
+typedef struct { char p[0xc]; int magic; Ch_2D4398 ch[16]; } Hd_2D4398;
+typedef struct { volatile unsigned flags; int pc; Hd_2D4398 *base; char pc_[0xc]; unsigned short bank; char p1a[8]; unsigned short x22; } Tk_2D4398;
+typedef struct { void *bank; int size; int type; } Ent_2D4398;
+typedef struct { volatile unsigned flags; char p4[0xe]; unsigned short x12; char p14[0x12]; unsigned short x26; char p28[0x28]; unsigned char b50; unsigned char b51; char p52[6]; } Vc_2D4398;
+typedef struct { char p0[0x28]; unsigned long x28; } Gl_2D4398;
+Tk_2D4398 *func_002CFF20_2D4398(unsigned) __asm__("func_002CFF20");
+Ent_2D4398 *func_002CFF48_2D4398(int) __asm__("func_002CFF48");
+Vc_2D4398 *func_002CFF08_2D4398(int) __asm__("func_002CFF08");
+Gl_2D4398 *func_002CFF38_2D4398(void) __asm__("func_002CFF38");
+int SndVoiceSetParam_2D4398(int, int, int, int) __asm__("SndVoiceSetParam");
+// MATCH func_002D4398
+void FUN_002d4398(unsigned ch, int mode) {
+  Tk_2D4398 *t;
+  Vc_2D4398 *p;
+  Gl_2D4398 *g;
+  int i, m;
+  if (ch >= 48) return;
+  t = func_002CFF20_2D4398(ch);
+  t->flags |= 0x2000;
+  if ((unsigned short)(t->bank - 1) < 127 && (t->flags & 1) && func_002CFF48_2D4398(t->bank)->type != 0) {
+    p = func_002CFF08_2D4398(0);
+    g = func_002CFF38_2D4398();
+    if (mode >= 0) {
+      if (mode < 2) {
+        t->flags &= ~0x22;
+        t->pc = 272;
+        m = mode;
+        t->x22 = 0;
+        t->flags |= 0x10;
+      } else {
+        if (mode >= 4) goto out;
+        if (!(t->flags & 2)) {
+          if (!(t->flags & 0x50)) {
+            t->flags |= 2;
+            t->flags &= ~0x20;
+          }
+          goto out;
+        }
+        t->flags &= ~2;
+        m = mode - 2;
+        t->flags |= 0x20;
+      }
+      for (i = 0; i < 48; i++) {
+        if (p->b50 == ch && p->b51 == 1) {
+          p->flags |= 0x100;
+          p->x12 = 0;
+          p->x26 = 64;
+          p->flags &= ~0x10;
+          p->flags &= ~0x100;
+          g->x28 |= 1L << i;
+          if (m == 1) SndVoiceSetParam_2D4398(2, i, 0, 0);
+        }
+        p++;
+      }
+      {
+        Hd_2D4398 *b = t->base;
+        if (b->magic == 0x71735353) {
+          for (i = 15; i >= 0; i--) b->ch[i].vol = 0;
+        }
+      }
+    }
+  }
+out:
+  t->flags &= ~0x2000;
+}
+
+typedef struct { volatile unsigned flags; char p4[0xe]; unsigned short x12; unsigned short x14; char p16[0x16]; unsigned short note; char p2e[0x20]; unsigned char prio; unsigned char trk; unsigned char ch; unsigned char state; char p52[2]; unsigned char key; char p55[3]; } Vc_002D2510;
+typedef struct { unsigned flags; int pc; char p8[0x10]; unsigned short key; char p1a[0x32]; unsigned short ch; unsigned short trk; } Trk_002D2510;
+typedef struct { char p[9]; unsigned char vol; unsigned char pb; unsigned char sus; unsigned char x1c; char q[3]; } Ch_002D2510;
+typedef struct { char p[16]; Ch_002D2510 ch[16]; } Hd_002D2510;
+typedef struct { char p0[8]; Hd_002D2510 *chtab; char pc[4]; unsigned char *ev; } Sq_002D2510;
+Vc_002D2510 *func_002CFF08_002D2510(int) __asm__("func_002CFF08");
+char *func_002CFF38_002D2510(void) __asm__("func_002CFF38");
+Sq_002D2510 *func_002CFFA0_002D2510(void) __asm__("func_002CFFA0");
+// MATCH func_002D2510
+void FUN_002d2510(Trk_002D2510 *t) {
+  Vc_002D2510 *p = func_002CFF08_002D2510(0);
+  Sq_002D2510 *s = func_002CFFA0_002D2510();
+  unsigned char *e = s->ev;
+  int v = 240 / (int)(60 - e[2] * 58 / 127);
+  int i;
+  if (t->flags & 8) {
+    for (i = 0; i < 48; i++) {
+      if (p->trk == t->trk && p->note == s->ev[3] && p->prio == s->ev[4] && p->key == t->key && p->ch == t->ch && p->state == 2) p->x14 = v;
+      p++;
+    }
+    t->pc += 5;
+  } else {
+    int pc;
+    s->chtab->ch[t->trk].x1c = v;
+    for (i = 0; i < 48; i++) {
+      if (p->trk == t->trk && p->key == t->key && p->ch == t->ch && p->state == 1) p->x14 = v;
+      p++;
+    }
+    t->pc += 3;
+  }
+}
+
+typedef struct { volatile unsigned flags; int pc; unsigned char *base; int pos; int tick; unsigned time; char p18[6]; unsigned short tempo; unsigned short reso; } Trk_2D4608;
+Trk_2D4608 *func_002CFF20_2D4608(unsigned) __asm__("func_002CFF20");
+char *func_002CFF38_2D4608(void) __asm__("func_002CFF38");
+// MATCH func_002D4608
+void FUN_002d4608(unsigned ch, int tempo) {
+  if (ch < 48 && tempo >= 0 && tempo < 960) {
+    Trk_2D4608 *t = func_002CFF20_2D4608(ch);
+    char *g = func_002CFF38_2D4608();
+    t->flags |= 0x2000;
+    t->tempo = tempo;
+    t->tick = (t->reso * t->tempo << 12) / *(unsigned short *)(g + 0x3a) / 60;
+    t->flags &= ~0x2000;
+  }
+}
