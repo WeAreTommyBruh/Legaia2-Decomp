@@ -1021,12 +1021,8 @@ int SndBankRegister(Hdr_2D3B98 *h, unsigned size) {
   if (h->magic != 0x64685353) return -1;
   for (i = 1; i < 128; i++) {
     if (b->type == 0) {
-      if (h->x7c == 0xffffffff) { b->type = 3;
- b->size = size >> 3;
- }
-      else { b->type = 4;
- b->size = size >> 4;
- }
+      if (h->x7c == 0xffffffff) { b->type = 3; b->size = size >> 3; }
+      else { b->type = 4; b->size = size >> 4; }
       b->bank = (int)h;
       r = i;
       h->p30 = h->o10 + (int)h;
@@ -1276,4 +1272,158 @@ void FUN_002d2cc8(Trk_2D2CC8 *t) {
     t->val = base[t->pos];
   }
   t->pc += 5;
+}
+
+typedef struct { short p0; unsigned short reso; unsigned short tempo; char p6[6]; int magic; } Seq_2D3DF0;
+typedef struct { volatile unsigned flags; int pc; Seq_2D3DF0 *base; int pos; int tick; int time; short bank; char p1a[4]; unsigned short tempo; unsigned short reso; char p22[0x1e]; int v40; int v44; int v48; short id; char p4e[6]; } Trk_2D3DF0;
+Trk_2D3DF0 *func_002CFF20_2D3DF0(int) __asm__("func_002CFF20");
+char *func_002CFF38_2D3DF0(void) __asm__("func_002CFF38");
+char *func_002CFF48_2D3DF0(unsigned) __asm__("func_002CFF48");
+// MATCH func_002D3DF0
+int FUN_002d3df0(unsigned bank, Seq_2D3DF0 *seq) {
+  register int r __asm__("$19") = -1;
+  if (bank < 128) {
+    Trk_2D3DF0 *t = func_002CFF20_2D3DF0(0);
+    char *g = func_002CFF38_2D3DF0();
+    char *b = func_002CFF48_2D3DF0(bank);
+    int i;
+    if (seq->magic == 0x71735353 && *(int *)(b + 8) != 0) {
+      for (i = 0; i < 48; i++) {
+        t->flags |= 0x2000;
+        if ((t->flags & 0xf) == 0) {
+          t->id = i;
+          t->bank = bank;
+          t->base = seq;
+          t->reso = seq->reso;
+          t->flags |= 1;
+          t->tempo = seq->tempo;
+          t->pc = 0x110;
+          t->v40 = 0x1000;
+          t->v44 = 0x1000;
+          t->v48 = 0x1000;
+          t->tick = (int)(t->reso * t->tempo * 0x1000) / *(unsigned short *)(g + 0x3a) / 60;
+          r = i;
+        }
+        t->flags &= ~0x2000;
+        if (r != -1) return r;
+        t++;
+      }
+    }
+  }
+  return r;
+}
+
+typedef struct { volatile unsigned flags; unsigned age; char p8[0x24]; unsigned short note; char p2e[0x20]; unsigned char prio; unsigned char trk; unsigned char ch; unsigned char state; char p52[2]; unsigned char key; char p55[3]; } Vc_2D1DB8;
+typedef struct { unsigned flags; int pc; char p8[0x10]; unsigned short key; char p1a[0x32]; unsigned short ch; unsigned short trk; } Trk_2D1DB8;
+Vc_2D1DB8 *func_002CFF08_2D1DB8(int) __asm__("func_002CFF08");
+char *func_002CFF38_2D1DB8(void) __asm__("func_002CFF38");
+char *func_002CFFA0_2D1DB8(void) __asm__("func_002CFFA0");
+// MATCH func_002D1DB8
+int FUN_002d1db8(Trk_2D1DB8 *t) {
+  register int i __asm__("$5");
+  Vc_2D1DB8 *p = func_002CFF08_2D1DB8(0);
+  char *g = func_002CFF38_2D1DB8();
+  unsigned char *e = *(unsigned char **)(func_002CFFA0_2D1DB8() + 0x10);
+  for (i = 0; i < 48; i++) {
+    if (p->prio == e[1] && p->trk == t->trk && p->ch == t->ch && p->state == 1 && p->key == t->key) {
+      if (!(p->flags & 4) || (p->flags & 8)) p->flags &= ~8;
+      *(unsigned long *)(g + 0x28) |= 1L << i;
+    }
+    p++;
+  }
+  t->pc += 3;
+  return 0;
+}
+
+typedef struct { volatile unsigned flags; unsigned age; char p8[0x48]; unsigned char ch; unsigned char state; char p52[2]; unsigned char bank; unsigned char b55; unsigned char b56; char p57; } Vc_2D4E08;
+Vc_2D4E08 *func_002CFF08_2D4E08(int) __asm__("func_002CFF08");
+int SndVoiceSetParam_2D4E08(int, int, int, int) __asm__("SndVoiceSetParam");
+char *func_002CFF38_2D4E08(void) __asm__("func_002CFF38");
+void *memset_2D4E08(void *, int, unsigned) __asm__("func_002DC804");
+// MATCH func_002D4E08
+int FUN_002d4e08(int mode) {
+  unsigned min = -1;
+  char *g = func_002CFF38_2D4E08();
+  Vc_2D4E08 *v;
+  int i, end, st;
+  int best = -1;
+  switch (mode) {
+  case 0: st = 0; end = 48; break;
+  case 1: st = 0; end = 24; break;
+  case 2: st = 24; end = 48; break;
+  default: return -1;
+  }
+  v = func_002CFF08_2D4E08(st);
+  for (i = st; i < end; i++) {
+    if (v->state == 0) {
+      best = i;
+      v->flags |= 0x100;
+      v->flags &= ~0x100;
+      v->state = 3;
+      goto found;
+    }
+    if (v->age < min && v->state != 3) { min = v->age; best = i; }
+    v++;
+  }
+  if (best == -1) return -1;
+  v = func_002CFF08_2D4E08(best);
+  v->flags |= 0x100;
+  SndVoiceSetParam_2D4E08(2, best, 0, 0);
+  *(unsigned long *)(g + 0x28) |= 1L << best;
+  memset_2D4E08((char *)v + 4, 0, 0x54);
+  v->state = 3;
+  v->flags = 0;
+  v->ch = 0xff;
+  v->b56 = 0xff;
+  v->b55 = 0xff;
+  v->bank = 0xff;
+found:
+  *(unsigned long *)(g + 0x10) &= ~(1L << best);
+  return best;
+}
+
+typedef struct { unsigned flags; unsigned age; char p8[0x49]; unsigned char state; unsigned char prio; unsigned char id; unsigned char key; char p55[3]; } Vc_2D1A38;
+Vc_2D1A38 *func_002CFF08_2D1A38(int) __asm__("func_002CFF08");
+char *func_002CFF38_2D1A38(void) __asm__("func_002CFF38");
+// MATCH func_002D1A38
+int FUN_002d1a38(unsigned id, int prio, unsigned key) {
+  int best1 = -1;
+  int min2 = -1;
+  int i, v;
+  Vc_2D1A38 *p;
+  int best2 = -1;
+  int min1 = -1;
+  char *g = func_002CFF38_2D1A38();
+  if (id != 0) {
+    for (i = 0; i < 48; i++) {
+      v = *(unsigned *)(g + 0x30) % 48;
+      p = func_002CFF08_2D1A38(v);
+      if (!(p->flags & 0x100) && p->state == 2 && p->id == id && p->key == key) return v;
+      (*(unsigned *)(g + 0x30))++;
+    }
+  }
+  for (i = 0; i < 48; i++) {
+    v = *(unsigned *)(g + 0x30) % 48;
+    p = func_002CFF08_2D1A38(v);
+    if (!(p->flags & 0x100) && p->state == 0) return v;
+    (*(unsigned *)(g + 0x30))++;
+  }
+  for (i = 0; i < 48; i++) {
+    v = *(unsigned *)(g + 0x30) % 48;
+    p = func_002CFF08_2D1A38(v);
+    if (!(p->flags & 0x100)) {
+      if (p->state == 1) {
+        if (p->age < min2) { best1 = v;
+ min2 = p->age;
+ }
+      } else if (p->state == 2) {
+        if (p->prio <= prio && p->age < min1) { best2 = v;
+ min1 = p->age;
+ }
+      }
+    }
+    (*(unsigned *)(g + 0x30))++;
+  }
+  if (best1 == -1 && best2 != -1) return best2;
+  return best1;
 }
