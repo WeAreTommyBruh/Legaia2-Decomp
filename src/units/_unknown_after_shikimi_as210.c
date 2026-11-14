@@ -1427,3 +1427,94 @@ int FUN_002d1a38(unsigned id, int prio, unsigned key) {
   if (best1 == -1 && best2 != -1) return best2;
   return best1;
 }
+
+typedef struct { char p0[0x16]; unsigned short a16, a18, a1a, a1c, a1e, a20, a22; char p24[0xa]; unsigned short a2e; } Vc_2D1F90;
+typedef struct { char p0[0x44]; int v44; int v48; } Tk_2D1F90;
+typedef struct { char p0[0x38]; unsigned short mono; } Gl_2D1F90;
+Vc_2D1F90 *func_002CFF08_2D1F90(void) __asm__("func_002CFF08");
+Gl_2D1F90 *func_002CFF38_2D1F90(void) __asm__("func_002CFF38");
+long func_002D73E8_2D1F90(long, long) __asm__("func_002D73E8");
+int SndVoiceSetParam_2D1F90(int, int, int, int) __asm__("SndVoiceSetParam");
+// MATCH func_002D1F90
+int FUN_002d1f90(int ch, Tk_2D1F90 *t) {
+  Vc_2D1F90 *v = func_002CFF08_2D1F90();
+  Gl_2D1F90 *g = func_002CFF38_2D1F90();
+  long m;
+  long n;
+  unsigned short pan;
+  short l, r;
+  n = func_002D73E8_2D1F90(func_002D73E8_2D1F90(v->a16, v->a22), func_002D73E8_2D1F90(v->a1c, v->a1a));
+  m = func_002D73E8_2D1F90(n, func_002D73E8_2D1F90(v->a18, v->a1e));
+  pan = v->a20;
+  l = func_002D73E8_2D1F90(func_002D73E8_2D1F90(m, pan >> 8), t->v44) >> 46;
+  r = func_002D73E8_2D1F90(func_002D73E8_2D1F90(m, pan & 0xff), t->v48) >> 46;
+  if (g->mono == 1) {
+    l = l < 0 ? -l : l;
+    r = r < 0 ? -r : r;
+    if (r < l) r = l; else l = r;
+  }
+  l = (l & 0xffff) >> 1;
+  r = (r & 0xffff) >> 1;
+  if (v->a2e != 0) {
+    l = v->a2e << 8 | l >> 7;
+    r = v->a2e << 8 | r >> 7;
+  }
+  SndVoiceSetParam_2D1F90(1, ch, l, r);
+  return 0;
+}
+
+typedef struct { char p[14]; unsigned char x; char q; } Ch_2D1580;
+typedef struct { unsigned char b0; char p[15]; Ch_2D1580 ch[16]; } Hd_2D1580;
+typedef struct { char p0[0x40]; Hd_2D1580 *x40; } Bk_2D1580;
+typedef struct { volatile unsigned flags; int pc; Hd_2D1580 *base; char pc_[0xc]; unsigned short bank; char p1a[0x16]; int x30; int x34; int x38; int x3c; char p40[0xc]; unsigned short x4c; } Tk_2D1580;
+typedef struct { char p0[0x16]; unsigned short x16; char p18[6]; unsigned short x1e; char p20[0x2f]; unsigned char b4f; unsigned char b50; unsigned char b51; char p52[6]; } Vc_2D1580;
+int func_002CFF78_2D1580(int) __asm__("func_002CFF78");
+Bk_2D1580 **func_002CFF48_2D1580(int) __asm__("func_002CFF48");
+Vc_2D1580 *func_002CFF08_2D1580(int) __asm__("func_002CFF08");
+int func_002D1F90_2D1580(int, Tk_2D1580 *) __asm__("func_002D1F90");
+// MATCH func_002D1580
+int FUN_002d1580(Tk_2D1580 *t) {
+  int st = 0;
+  Hd_2D1580 *e;
+  Vc_2D1580 *p;
+  int i;
+  if ((t->flags & 5) == 4) {
+    int v = func_002CFF78_2D1580(t->bank);
+    if (v & 0x80) {
+      t->x30 = 0xffff;
+      st = 1;
+      t->x34 = v & 0x7f;
+    }
+  } else if ((t->flags & 5) == 1 && (t->flags & 0x200)) {
+    t->flags &= ~0x200;
+    st = 2;
+  }
+  switch (st) {
+  case 1:
+    e = (*func_002CFF48_2D1580(t->bank))->x40;
+    e->b0 = t->x34;
+    break;
+  case 2:
+    e = t->base;
+    if (t->x30 == 0xffff) e->b0 = t->x34;
+    if (t->x38 != 0) {
+      for (i = 0; i < 16; i++) {
+        if ((t->x38 >> i) & 1) e->ch[i].x = t->x3c;
+      }
+    }
+    break;
+  default:
+    return -1;
+  }
+  p = func_002CFF08_2D1580(0);
+  for (i = 0; i < 48; i++) {
+    unsigned char c = p->b51;
+    if (c != 0 && c != 3 && p->b50 == t->x4c) {
+      p->x1e = e->b0;
+      if (c == 1) p->x16 = e->ch[p->b4f].x;
+      func_002D1F90_2D1580(i, t);
+    }
+    p++;
+  }
+  return 0;
+}

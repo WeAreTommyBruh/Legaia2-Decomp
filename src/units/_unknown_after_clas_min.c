@@ -60,3 +60,17 @@ void FUN_002a8600(float a, float b, char *o, int m, int n) { if (m == 0) { if (n
 
 // MATCH func_002A9038
 int FUN_002a9038(char *o) { float d[3]; d[0] = *(float *)(o + 32) - *(float *)(o + 48); d[1] = *(float *)(o + 36) - *(float *)(o + 52); d[2] = *(float *)(o + 40) - *(float *)(o + 56); if (1.0f < __builtin_fabsf(d[0])) return 1; if (1.0f < __builtin_fabsf(d[1])) return 1; if (1.0f < __builtin_fabsf(d[2])) return 1; return 0; }
+
+double func_002D5618(double, double);
+
+// MATCH func_002A7810
+float FUN_002a7810(float hue, float low, float high)
+{
+    hue = (float)func_002D5618((double)hue, 360.0);
+    if (hue < 0.0f) hue += 360.0f;
+    if (hue < 60.0f) return low + (high - low) * hue / 60.0f;
+    if (60.0f <= hue && hue < 180.0f) return high;
+    if (180.0f <= hue && hue < 240.0f)
+        return low + (high - low) * (240.0f - hue) / 60.0f;
+    return low;
+}

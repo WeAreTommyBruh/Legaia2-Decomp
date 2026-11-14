@@ -125,3 +125,42 @@ void func_002DBC70_295098(int) __asm__("func_002DBC70");
 // MATCH func_00295098
 int FUN_00295098(void) { int n = (int)D_00020000_295098; char *q = D_0063701C_295098; int r; func_002DC918_295098(D_00499780_295098, q, n); r = 0x1ffeff0 - (int)(q + (n + 4096)); func_002DBC70_295098(func_002DBC48_295098(r)); return r; }
 
+
+extern char D_0049A618[], D_0049A660[], D_0049A6B8[];
+int sprintf(char *, const char *, ...);
+
+// MATCH func_0029AE78
+int FUN_0029ae78(float *p, int index, char *out)
+{
+    return sprintf(out, D_0049A618, index, p[482], p[483], p[484],
+                   p[480], p[481], p[485], p[486], p[487]);
+}
+
+// MATCH func_0029AF70
+int FUN_0029af70(float *p, int index, char *out)
+{
+    return sprintf(out, D_0049A660, index, p[482], p[483], p[484], p[485],
+                   p[486], p[487], p[476], p[477], p[478], p[479] * 100.0f);
+}
+
+void func_002A8738(void *, int *, float *);
+void func_002A87C8(void *, float *, float *);
+void func_002A8820(void *, int *);
+void func_002A8890(void *, int *, int *);
+void func_002A88E8(void *, int *, int *, int *);
+
+// MATCH func_0029B088
+int FUN_0029b088(void *p, int index, char *out)
+{
+    int enabled;
+    float scale, x, y;
+    int mode, width, height, red, green, blue;
+
+    func_002A8738(p, &enabled, &scale);
+    func_002A87C8(p, &x, &y);
+    func_002A8820(p, &mode);
+    func_002A8890(p, &width, &height);
+    func_002A88E8(p, &red, &green, &blue);
+    return sprintf(out, D_0049A6B8, index, enabled, scale, x, y, mode,
+                   width, height, red, green, blue);
+}

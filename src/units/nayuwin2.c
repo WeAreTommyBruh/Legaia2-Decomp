@@ -226,3 +226,23 @@ int nayuwin2_001af010(O__001AF010 *o) { int n = 0; chk_001AF010(&o->e[0], &n); c
 // MATCH func_001AFB60
 int nayuwin2_001afb60(int param_1,int param_2,int param_3,int param_4)  { int iVar1; int iVar2; int iVar3;  iVar3 = 0; if (0 < *(int *)(param_1 + 0x4c)) { iVar2 = *(int *)(param_1 + 0x168); do { iVar1 = iVar3 * (*(int *)(iVar2 + 0x18) + param_4); *(int *)(iVar2 + 8) = iVar1 + param_3; iVar3 = iVar3 + 1; *(int *)(iVar2 + 4) = param_2; iVar2 = iVar2 + 0x100; } while (iVar3 < *(int *)(param_1 + 0x4c)); } return 1; }
 
+
+typedef struct { int x, y, z, w; } Vec_001AB8F0;
+void func_001AB940(int, int, int, int, int, int, Vec_001AB8F0 *);
+
+// MATCH func_001AB8F0
+void nayuwin2_001ab8f0(int a, int b, int c, int d, int e, int f,
+                      int w, int x, int y, int z)
+{
+    Vec_001AB8F0 values[4], *p = values;
+    int i;
+
+    for (i = 3; i >= 0; i--) {
+        p->x = x;
+        p->y = y;
+        p->z = z;
+        p->w = w;
+        p++;
+    }
+    func_001AB940(a, b, c, d, e, f, values);
+}

@@ -78,3 +78,23 @@ if (s->f0 <= c) s->f12 = c;
 if (s->f0 <= e) { s->f24 = e; s->f28 = e; }
 func_00108C80(s); func_00108C20(s);
 }
+
+extern int D_00343650[];
+extern char *D_003BF120[], D_00400644[][472];
+int func_002DD4B0(char *, char *);
+unsigned strlen(const char *);
+
+// MATCH func_001F5C10
+int FUN_001f5c10(char *name, int skip)
+{
+    int i;
+    for (i = 0; i < 5; i++) {
+        if (i == D_00343650[3]) continue;
+        if (func_002DD4B0(D_003BF120[i], name) == 0) return 0;
+        if (i != skip && func_002DD4B0(D_00400644[i], name) == 0) return 0;
+    }
+    for (i = 5; i < 38; i++) {
+        if (func_002DD4B0(D_003BF120[i], name) == 0) return 0;
+    }
+    return strlen(name) != 0;
+}
