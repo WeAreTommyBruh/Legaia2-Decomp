@@ -151,6 +151,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - Open drafts in `build/work/w/` (scores with `t.sh ADDR 991111-01-as210`): 2c2918 (7 words: two register swaps), 2c3b10, 2c30a0 (9), 2c7c68 (15), 2c8800 (ops~12: an extra
   `daddu $8,$22`), 2bffa8 / 2c12b0 (`sceGsSetDefDBuff` / Dc: last block keeps a `(short)` sign extension the compiler folds away in mine), 2bf960 (`sceGsSetDefDispEnv`, ops~150),
   2c3ef0 (hoisted slot field addresses), 2c6008 (the error call passes the switch value, mine const-propagates 0), 2c8560, 2c9540 (index recomputed after the call), 2cad10.
+- Codex added exact matches for `FUN_001373d0` (80 bytes, indexed 140-byte save-state entry reset) and `FUN_0010d748` (160 bytes, indexed sound-event dispatch). The latter needed the original pointer-expression shape to preserve the compiler's address arithmetic and register allocation. The full rebuild remained byte-identical; the report moved from 4288 to 4289 matched functions and from 372484 to 372564 matched code bytes.
 
 ## Layout and build
 

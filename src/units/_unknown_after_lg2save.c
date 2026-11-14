@@ -25,3 +25,11 @@ typedef struct { volatile char c0, c1; volatile short s2, s4; volatile char c6, 
 extern int D_004A140C_00136768 __asm__("D_004A140C"); extern int D_004A238C_00136768 __asm__("D_004A238C"); extern int D_004A2390_00136768 __asm__("D_004A2390"); extern int D_004A6EE8; extern E8_00136768 D_056788E0[][256][16];
 // MATCH func_00136768
 void FUN_00136768(int a) { E8_00136768 *e; if ((a != 0) && ((D_004A140C_00136768 & 0x200) != 0)) { e = &D_056788E0[D_004A238C_00136768][D_004A2390_00136768][D_004A6EE8]; e->c1 = 0; e->c6 = 0; e->c7 = 0; e->s4 = 0; e->s2 = 0; e->c0 = 0; } }
+
+typedef struct { char p[116]; volatile short s116; volatile short s118; volatile char c120; volatile char c121; char q[18]; } E140_001373D0;
+extern int D_004A140C_001373D0 __asm__("D_004A140C");
+extern int D_004A238C_001373D0 __asm__("D_004A238C");
+extern int D_004A2390_001373D0 __asm__("D_004A2390");
+extern E140_001373D0 D_056190E0_001373D0[] __asm__("D_056190E0");
+// MATCH func_001373D0
+volatile unsigned short FUN_001373d0(int a) { E140_001373D0 *e; int off; if ((a != 0) && ((D_004A140C_001373D0 & 0x200) != 0)) { off = (D_004A2390_001373D0 * 140) + (D_004A238C_001373D0 * 0x8c00); e = (E140_001373D0 *)(((char *)D_056190E0_001373D0) + off); e->s118 = 0; e->c120 = 0; e->c121 = 0; e->s116 = 0; } }
