@@ -1811,3 +1811,29 @@ void *memset_2D3430(void *, int, unsigned) __asm__("func_002DC804");
 // MATCH func_002D3430
 void FUN_002d3430(Trk_2D3430 *t) { int (*ref)[24] = func_002CFFB0_2D3430(); Vc_2D3430 *v = func_002CFF08_2D3430(0); int i; for (i = 0; i < 48; i++) { if (!(v->flags & 0x100)) { if (*(int *)((char *)ref + ((i / 24) * 96 + (i % 24) * 4)) < 2 && v->state != 3 && v->age > 1) { memset_2D3430(v, 0, 0x58); v->ch = 0xff; v->b56 = 0xff; v->b55 = 0xff; v->bank = 0xff; } if (v->state != 0) v->age++; } v++; } for (i = 0; i < 48; i++) { if (!(t->flags & 0x2000) && (t->flags & 0x44) == 0x44) { int k; v = func_002CFF08_2D3430(0); for (k = 0; k < 48; k++) { unsigned char c = v->ch; v++; if (c == i) goto next; } memset_2D3430(func_002CFF20_2D3430(i), 0, 0x54); } next: t++; } }
 
+// compiler: 991111-01-as210
+#define R(a) (*(volatile unsigned *)(a))
+extern unsigned *D_00427DE0_2CEA70[] __asm__("D_00427DE0"); extern int D_0049E360_2CEA70[] __asm__("D_0049E360");
+void func_002CEA10_2CEA70(char *, int) __asm__("func_002CEA10"); int func_002CEB50_2CEA70(char *) __asm__("func_002CEB50");
+// MATCH func_002CEA70
+unsigned FUN_002cea70(int p) { unsigned c; unsigned *q; unsigned **pp; int *t; int i; char buf[32]; c = R(0x1000e000) & 1; for (i = 0; i < 10; i++) { if (D_0049E360_2CEA70[i]) { D_00427DE0_2CEA70[i][0] = 0; D_00427DE0_2CEA70[i][12] = 0; D_00427DE0_2CEA70[i][4] = 0; D_00427DE0_2CEA70[i][20] = 0; D_00427DE0_2CEA70[i][16] = 0; D_00427DE0_2CEA70[i][32] = 0; } } R(0x1000e010) = 0xff1f; R(0x1000e010) = R(0x1000e010) & 0xff1f0000; func_002CEA10_2CEA70(buf, 20); func_002CEB50_2CEA70(buf); if (p == 1) R(0x1000e000) = R(0x1000e000) | 1; return c; }
+
+
+#undef W
+#undef L
+#define W(o, n) (*(int *)((char *)(o) + (n)))
+#define L(o, n) (*(long *)((char *)(o) + (n)))
+void *func_002DC804_2C2918(void *, int, unsigned) __asm__("func_002DC804");
+void func_002C35C8_2C2918(void *, void *) __asm__("func_002C35C8");
+void func_002C2E70_2C2918(void *, void *, unsigned) __asm__("func_002C2E70");
+int func_002C2EA8_2C2918(void *, void *, int, int) __asm__("func_002C2EA8");
+void func_002C3458_2C2918(void *) __asm__("func_002C3458");
+void func_002C2C88_2C2918(void *) __asm__("func_002C2C88");
+int func_002C2CD8_2C2918(void *) __asm__("func_002C2CD8");
+void func_002C2E88_2C2918(void *) __asm__("func_002C2E88");
+void func_002C3ED0_2C2918(void) __asm__("func_002C3ED0");
+void func_002C3EE0_2C2918(void) __asm__("func_002C3EE0");
+extern char D_0049D960_2C2918[] __asm__("D_0049D960");
+// MATCH func_002C2918
+int FUN_002c2918(int *mp, char *buf, unsigned size) { char *m; char *h; unsigned n; func_002DC804_2C2918(buf, 0, size); m = (char *)((unsigned)(buf + 3) / 4 * 4); n = size - (m - buf); if (n < 0x10c0) { func_002C35C8_2C2918(m, D_0049D960_2C2918); return 0; } h = m + 0x108; mp[16] = (int)m; func_002C2E70_2C2918(h, m + 0x10c0, n - 0x10c0); mp[0] = 0; mp[1] = 0; mp[2] = 0; L(mp, 16) = -1; L(mp, 24) = -1; L(mp, 32) = 0; L(mp, 40) = -1; L(mp, 48) = -1; L(mp, 56) = 0; W(m, 0xb4) = 0; W(m, 0xb8) = 0; W(m, 0xbc) = 0; W(m, 0xc0) = 0; W(m, 0xc4) = 0; W(m, 0xc8) = 0; W(m, 0xcc) = 0; W(m, 0xd0) = 0; W(m, 0xd4) = 0; W(m, 0xd8) = 0; W(m, 0xdc) = 0; W(m, 0xe0) = 0; W(m, 0xe4) = 0; W(m, 0xe8) = 0; W(m, 0xf8) = 0; W(m, 0xc) = 0; W(m, 0x14) = 0; W(m, 0x2c) = 0; W(m, 0x34) = 0; W(m, 0x3c) = 0; L(m, 0xf0) = -1; W(m, 0x1c) = (int)func_002C3ED0_2C2918; W(m, 0x24) = (int)func_002C3EE0_2C2918; W(m, 0x44) = func_002C2EA8_2C2918(m, h, 0x600, 8); W(m, 0x48) = 0; W(m, 0xfc) = 0; W(m, 0x100) = 0; W(m, 0x104) = 0; W(m, 0x70) = 0; L(m, 0x78) = 0; W(m, 0x80) = -1; L(m, 0x88) = 0; W(m, 0x90) = 0; W(m, 0xac) = 0; W(m, 0x94) = -1; W(m, 0x98) = -1; W(m, 0x9c) = -1; W(m, 0x858) = (int)mp; W(m, 0xb0) = 1; func_002C3458_2C2918(m); func_002C2C88_2C2918(mp); func_002C2CD8_2C2918(mp); W(m, 0x1b8) = (int)(m + 0x1e8); W(m, 0x1bc) = (int)(m + 0x250); W(m, 0x1c4) = (int)(m + 0x2b8); W(m, 0x1c8) = (int)(m + 0x320); W(m, 0x1cc) = (int)(m + 0x388); W(m, 0x1d4) = (int)(m + 0x3f0); W(m, 0x1d8) = (int)(m + 0x458); W(m, 0x1dc) = (int)(m + 0x4c0); W(m, 0x1e4) = (int)(m + 0x528); func_002C2E88_2C2918(h); W(m, 0x850) = -1; W(m, 0x84c) = 0; W(m, 0x81c) = 0x70003600; W(m, 0x854) = 0; }
+
