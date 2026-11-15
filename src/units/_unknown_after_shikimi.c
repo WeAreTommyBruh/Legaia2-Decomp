@@ -2912,3 +2912,91 @@ extern int D_00429880_002E6868[] __asm__("D_00429880"), D_00631F00_002E6868[] __
 // MATCH func_002E6868
 int FUN_002e6868(unsigned c) {__asm__ volatile("" : : "r"(c));{ unsigned v; int i; { register int n __asm__("$3") = -47; register unsigned rv __asm__("$2"); __asm__ volatile ("syscall" : "=r"(rv) : "r"(n)); v = rv; } if(v != c) return func_002E5820_002E6868(c); if(v>=256 || D_00429880_002E6868[0]==0) return -1; i=D_00631F08_002E6868.idx &511; D_00631F08_002E6868.idx=i+1; D_00631F08_002E6868.e[i].f=2; D_00631F08_002E6868.e[i].c=v; func_002E58D0_002E6868(D_00631F00_002E6868[0]); return v; } }
 
+
+typedef struct { short delta; short pad; void *fn; } VTE_ABA8;
+typedef struct { char *name; VTE_ABA8 *vt; } TI_ABA8;
+typedef struct { char *name; VTE_ABA8 *vt; TI_ABA8 *type; } PTI_ABA8;
+typedef struct { char *name; VTE_ABA8 *vt; TI_ABA8 *type; int attr; } ATI_ABA8;
+void *func_002DB188_ABA8(void *, void *, int, void *, void *, void *) __asm__("func_002DB188");
+int func_002DA4E0_ABA8(void *, void *) __asm__("func_002DA4E0");
+void *func_002DB238_ABA8(void) __asm__("func_002DB238");
+void *func_002DA960_ABA8(void) __asm__("func_002DA960");
+void *func_002DB890_ABA8(void) __asm__("func_002DB890");
+void *func_002DB820_ABA8(void) __asm__("func_002DB820");
+void *func_002DB740_ABA8(void) __asm__("func_002DB740");
+void *func_002DAB40_ABA8(void) __asm__("func_002DAB40");
+#define DC(p, tf) ({ void *r_; if ((p) == 0) r_ = 0; else r_ = func_002DB188_ABA8((p)->vt[0].fn, tf, 1, (char *)(p) + (p)->vt[0].delta, func_002DAB40_ABA8, (p)); r_; })
+#define DC0(p, tf) ((p) ? func_002DB188_ABA8((p)->vt[0].fn, tf, 1, (char *)(p) + (p)->vt[0].delta, func_002DAB40_ABA8, (p)) : 0)
+#define DCA(d, p, tf) if ((p) == 0) d = 0; else d = func_002DB188_ABA8((p)->vt[0].fn, tf, 1, (char *)(p) + (p)->vt[0].delta, func_002DAB40_ABA8, (p))
+#define DCAST(p, c, o) ((void *(*)(void *, void *, int, void *, int, int))(p)->vt[2].fn)((char *)(p) + (p)->vt[2].delta, c, 1, o, 0, 0)
+// MATCH func_002DABA8
+void *FUN_002daba8(TI_ABA8 *catch_type, TI_ABA8 *throw_type, void *objptr) {
+  void *new_objptr;
+  TI_ABA8 *p;
+  PTI_ABA8 *fr;
+  if (func_002DA4E0_ABA8(catch_type, throw_type)) return objptr;
+  new_objptr = 0;
+  DCA(p, throw_type, func_002DA960_ABA8);
+  if (p != 0) {
+    new_objptr = DCAST(p, catch_type, objptr);
+  } else if ((fr = DC(throw_type, func_002DB890_ABA8)) != 0) {
+    PTI_ABA8 *to = DC(catch_type, func_002DB890_ABA8);
+    TI_ABA8 *subfr, *subto;
+    int cvfrom, cvto;
+    ATI_ABA8 *at;
+    if (!to) goto fail;
+    subfr = fr->type; subto = to->type;
+    if ((at = DC(subfr, func_002DB820_ABA8)) != 0) { cvfrom = at->attr; subfr = at->type; }
+    else cvfrom = 0;
+    if ((at = DC(subto, func_002DB820_ABA8)) != 0) { cvto = at->attr; subto = at->type; }
+    else cvto = 0;
+    if ((cvfrom & 1) > (cvto & 1) || (cvfrom & 2) > (cvto & 2)) goto fail;
+    if (func_002DA4E0_ABA8(subto, subfr)) new_objptr = objptr;
+    else if (func_002DA4E0_ABA8(subto, func_002DB238_ABA8()) && DC0(subfr, func_002DB740_ABA8) == 0) new_objptr = objptr;
+    else if ((p = DC(subfr, func_002DA960_ABA8)) != 0) new_objptr = DCAST(p, subto, objptr);
+    else {
+      PTI_ABA8 *pfr;
+      DCA(pfr, subfr, func_002DB890_ABA8);
+      if (pfr) {
+        PTI_ABA8 *pto;
+        int constp;
+        DCA(pto, subto, func_002DB890_ABA8);
+        if (!pto) goto fail;
+        constp = cvto & 1;
+        for (subto = pto->type, subfr = pfr->type; ; subto = pto->type, subfr = pfr->type) {
+          if ((at = DC(subfr, func_002DB820_ABA8)) != 0) { cvfrom = at->attr; subfr = at->type; }
+          else cvfrom = 0;
+          if ((at = DC(subto, func_002DB820_ABA8)) != 0) { cvto = at->attr; subto = at->type; }
+          else cvto = 0;
+          if ((cvfrom & 1) > (cvto & 1) || (cvfrom & 2) > (cvto & 2)) goto fail;
+          if (!constp && ((cvfrom & 1) < (cvto & 1) || (cvfrom & 2) < (cvto & 2))) goto fail;
+          if (func_002DA4E0_ABA8(subto, subfr)) { new_objptr = objptr; break; }
+          DCA(pto, subto, func_002DB890_ABA8);
+          DCA(pfr, subfr, func_002DB890_ABA8);
+          if (!pto || !pfr) goto fail;
+          if (((cvto ^ 1) & 1) != 0) constp = 0;
+        }
+      }
+    }
+  }
+fail:
+  return new_objptr;
+}
+
+#undef DC
+#undef DC0
+#undef DC1
+#undef DCN
+#undef DCA
+#undef DCAST
+
+typedef struct { char p0[0xc]; int magic; char p10[0x10]; unsigned o20; char p24[0x18]; unsigned short *se; } Bk_2D48F8_002D48F8;
+typedef struct { Bk_2D48F8_002D48F8 *bank; int size; int type; } Ent_2D48F8_002D48F8;
+typedef struct { volatile unsigned flags; int pc; char *base; int pos; int tick; int time; short bank; short prog; short note; unsigned short tempo; unsigned short reso; char p22[0x1e]; int v40; int v44; int v48; short id; char p4e[6]; } Trk_2D48F8_002D48F8;
+Trk_2D48F8_002D48F8 *func_002CFF20_2D48F8(int) __asm__("func_002CFF20");
+char *func_002CFF38_2D48F8(void) __asm__("func_002CFF38");
+Ent_2D48F8_002D48F8 *func_002CFF48_2D48F8(unsigned) __asm__("func_002CFF48");
+static inline unsigned short half_2D48F8_002D48F8(unsigned short x) { return x >> 1; }
+// MATCH func_002D48F8
+int FUN_002d48f8(unsigned arg, int prog, int note) { int i; unsigned bank = arg & 0x7f; int r = -1; if (bank - 1 < 127 && prog >= 0 && prog < 128 && note >= 0 && note < 128) { Trk_2D48F8_002D48F8 *t = func_002CFF20_2D48F8(0); for (i = 0; i < 48; i++) { t->flags |= 0x2000; if ((t->flags & 0xf) == 0) { char *g = func_002CFF38_2D48F8(); Ent_2D48F8_002D48F8 *e = func_002CFF48_2D48F8(bank); Bk_2D48F8_002D48F8 *b = e->bank; unsigned short *se = b->se; unsigned k; unsigned short v; unsigned short off; if (e->type == 0 || b->magic != 0x64685353 || b->o20 == 0xffffffff || se == (unsigned short *)0xffffffff || se[0] < prog || se[prog + 1] == 0xffff || se[half_2D48F8_002D48F8(se[prog + 1])] < note) { t->flags &= ~0x2000; return r; } off = se[note + half_2D48F8_002D48F8(se[prog + 1]) + 1]; t->tempo = 0x78; t->bank = bank; t->prog = prog; t->note = note; t->id = i; t->flags |= 0xc; t->base = (char *)se + off; t->v40 = 0x1000; t->v44 = 0x1000; t->v48 = 0x1000; t->tick = 0x1e0000 / *(unsigned short *)(g + 0x3a); if (arg & 0x8000) t->flags |= 0x1000; r = i; } t->flags &= ~0x2000; if (r != -1) break; t++; } } return r; }
+
