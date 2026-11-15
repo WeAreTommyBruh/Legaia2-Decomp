@@ -18,3 +18,29 @@ typedef struct { char p[16]; unsigned long long *w16; } S_00243688;
 extern S_00243688 D_00314C20; extern unsigned D_004A71E4_00243688 __asm__("D_004A71E4"); void func_00190328_00243688(S_00243688 *) __asm__("func_00190328"); void func_00190420_00243688(S_00243688 *) __asm__("func_00190420");
 // MATCH func_00243688
 void object_00243688(void) { unsigned long long *p; func_00190328_00243688(&D_00314C20); p = D_00314C20.w16; p[0] = 0x2007ff8621343140ULL; p[1] = 6; D_00314C20.w16 = p + 2; D_004A71E4_00243688 = 0xffffffff; func_00190420_00243688(&D_00314C20); }
+
+typedef struct { long a, b; } ColorTransform;
+extern ColorTransform D_0045D260[];
+void *func_002DC804(void*,int,unsigned);
+void func_0018F2C0(void*,void*,void*);
+void func_00247970(int);
+void func_00247A70(int,int,int);
+void func_00247A88(int,int,int);
+void func_002479F0(void);
+
+// MATCH func_00243D90
+void object_00243d90(void)
+{
+    ColorTransform v;
+    unsigned char c[4], out[16];
+    v = D_0045D260[0];
+    func_002DC804(c, 0, 4);
+    c[0] = 128;
+    func_0018F2C0(out, &v, c);
+    func_00247970(4);
+    func_00247A70(out[0], out[1], out[2]);
+    func_00247A88(0, 0, 0);
+    func_00247A88(1000, 0, 0);
+    func_00247A88(1000, 1000, 0);
+    func_002479F0();
+}

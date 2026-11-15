@@ -92,3 +92,31 @@ void FUN_0018e538(float *v, float a, float b, float c) { float m[16]; func_0018E
 // MATCH func_0018DB18
 void FUN_0018db18(float param_1,char *p2,unsigned char *p3,unsigned char *p4)  { unsigned char *param_4 = p4; unsigned char *param_3 = p3; char *param_2 = p2; unsigned char bVar1; unsigned char bVar2; unsigned char bVar3; unsigned char bVar4; unsigned char bVar5; unsigned char bVar6; int iVar7;  iVar7 = 0xff; do { iVar7 = iVar7 + -1; param_2[3] = param_3[3]; bVar1 = *param_3; bVar2 = *param_4; bVar3 = param_3[1]; bVar4 = param_4[1]; bVar5 = param_3[2]; bVar6 = param_4[2]; param_3 = param_3 + 4; param_4 = param_4 + 4; *param_2 = bVar1 + (char)(int)((float)(int)((unsigned)bVar2 - (unsigned)bVar1) * param_1); param_2[1] = bVar3 + (char)(int)((float)(int)((unsigned)bVar4 - (unsigned)bVar3) * param_1); param_2[2] = bVar5 + (char)(int)((float)(int)((unsigned)bVar6 - (unsigned)bVar5) * param_1); do { param_2 = param_2 + 4; } while (0); } while (-1 < iVar7); return; }
 
+extern char D_00440638[],D_004A3688[];
+int func_002DCE40(char *,char *,...);
+void func_00239568(char *);
+
+// MATCH func_0018CDE0
+void FUN_0018cde0(float *p)
+{
+    float t;
+    char buf[128];
+    int saved = D_004A129C;
+    D_004A129C = 1;
+    func_002DCE40(buf, D_00440638, (double)p[0], (double)p[4], (double)p[8], (double)p[12]);
+    func_00239568(buf);
+    t = p[1];
+    __asm__ volatile("" : : "f"(t));
+    func_002DCE40(buf, D_00440638, (double)t, (double)p[5], (double)p[9], (double)p[13]);
+    func_00239568(buf);
+    t = p[2];
+    __asm__ volatile("" : : "f"(t));
+    func_002DCE40(buf, D_00440638, (double)t, (double)p[6], (double)p[10], (double)p[14]);
+    func_00239568(buf);
+    t = p[3];
+    __asm__ volatile("" : : "f"(t));
+    func_002DCE40(buf, D_00440638, (double)t, (double)p[7], (double)p[11], (double)p[15]);
+    func_00239568(buf);
+    func_00239568(D_004A3688);
+    D_004A129C = saved;
+}

@@ -168,3 +168,81 @@ extern int D_004A1A20_21A478 __asm__("D_004A1A20");
 int func_0021A280_21A478(int param_1, int param_2, int param_3, int param_4) __asm__("func_0021A280");
 // MATCH func_0021A478
 void FUN_0021a478(int param_1)  { short sVar1; int iVar2;  sVar1 = *(short *)(param_1 + 0xae); func_0021A280_21A478(sVar1,0,0,0x40000001); func_0021A280_21A478(sVar1,1,0,0x40000001); func_0021A280_21A478(sVar1,2,0,0x40000001); iVar2 = (D_004A1A20_21A478); *(short *)(param_1 + 0x17a) = 0; *(short *)(param_1 + 0x178) = 0; *(int *)(param_1 + 0xc0) = 0; *(int *)(sVar1 * 0x1560 + iVar2 + 0x1378) = 0; return; }
+
+void func_002478A8(void *);
+void func_002478D0(int);
+void func_002478B8(int);
+void func_00247970(int);
+void func_00247A48(int,unsigned long);
+void func_00247A40(int,int,int,int);
+void func_00247B40(int,int);
+void func_00247C98(float,float,float);
+void func_002479F0(void);
+extern int D_00319660[];
+extern char D_00314C20[];
+
+// MATCH func_00218DC0
+void FUN_00218dc0(int color,int alpha,float x,float z)
+{
+    unsigned long hi;
+    unsigned long lo;
+    unsigned long bits;
+    int id = D_00319660[0];
+    id+=12608;
+    func_002478A8(D_00314C20);
+    func_002478D0(64);
+    func_002478D0(16);
+    func_002478D0(256);
+    func_00247970(4);
+    hi = (unsigned long)0x8000<<46;
+    lo = id|0x21340000;
+    __asm__("" : "+r"(lo));
+    bits = lo|hi;
+    func_00247A48(6, bits|((unsigned long)0x7ff86<<32));
+    func_00247A48(6, (id|0x21440000)|((unsigned long)0x7ff86<<32));
+    func_00247A48(20, 33);
+    func_00247A40(((unsigned char *)&color)[0], ((unsigned char *)&color)[1], ((unsigned char *)&color)[2], 64);
+    func_00247B40(8, 520);
+    func_00247C98(-x, 0.0f, -z);
+    func_00247B40(512, 516);
+    func_00247C98(x, 0.0f, -z);
+    func_00247B40(0, 1028);
+    func_00247C98(-x, 0.0f, z);
+    func_00247B40(512, 1028);
+    func_00247C98(x, 0.0f, z);
+    func_002478B8(256);
+    func_002479F0();
+}
+
+void func_00247B68(float,float);
+extern int D_00319668[];
+
+// MATCH func_00219300
+void FUN_00219300(int color,int alpha,float x,float z)
+{
+    unsigned long bits;
+    unsigned long hi;
+    int id = D_00319668[0];
+    func_002478D0(64);
+    func_002478D0(16);
+    func_002478B8(256);
+    func_00247970(4);
+    id+=12608;
+    hi = (unsigned long)0x8000<<46;
+    bits = (id|0x19320000)|hi;
+    func_00247A48(6, bits|0x7c08580000000UL);
+    func_00247A48(20, 33);
+    func_00247A40(((unsigned char *)&color)[0], ((unsigned char *)&color)[1], ((unsigned char *)&color)[2], alpha);
+    func_00247B68(0.0f, 0.0f);
+    func_00247C98(-x, 0.0f, -z);
+    func_00247A40(((unsigned char *)&color)[0], ((unsigned char *)&color)[1], ((unsigned char *)&color)[2], alpha);
+    func_00247B68(1.0f, 0.0f);
+    func_00247C98(x, 0.0f, -z);
+    func_00247A40(((unsigned char *)&color)[0], ((unsigned char *)&color)[1], ((unsigned char *)&color)[2], alpha);
+    func_00247B68(0.0f, 1.0f);
+    func_00247C98(-x, 0.0f, z);
+    func_00247A40(((unsigned char *)&color)[0], ((unsigned char *)&color)[1], ((unsigned char *)&color)[2], alpha);
+    func_00247B68(1.0f, 1.0f);
+    func_00247C98(x, 0.0f, z);
+    func_002479F0();
+}

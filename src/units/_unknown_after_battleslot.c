@@ -164,3 +164,48 @@ int FUN_0029b088(void *p, int index, char *out)
     return sprintf(out, D_0049A6B8, index, enabled, scale, x, y, mode,
                    width, height, red, green, blue);
 }
+
+void func_002478D0(int);
+void func_002478B8(int);
+void func_00247970(int);
+void func_00247A70(int,int,int);
+void func_00247C98(float,float,float);
+void func_002479F0(void);
+
+// MATCH func_00298D20
+void FUN_00298d20(float *p,float *q,float *c,float *d)
+{
+    func_002478D0(8);
+    func_002478B8(16);
+    func_00247970(4);
+    func_00247A70((int)(c[0]*255.0f), (int)(c[1]*255.0f), (int)(c[2]*255.0f));
+    func_00247C98(p[0]-128.0f, q[1], p[2]-128.0f);
+    func_00247C98(p[0]+128.0f, q[1], p[2]-128.0f);
+    func_00247A70((int)(d[0]*127.0f), (int)(d[1]*127.0f), (int)(d[2]*127.0f));
+    func_00247C98(q[0], p[1], q[2]);
+    func_002479F0();
+
+    func_00247970(4);
+    func_00247A70((int)(c[0]*255.0f), (int)(c[1]*255.0f), (int)(c[2]*255.0f));
+    func_00247C98(p[0]-128.0f, q[1], p[2]+128.0f);
+    func_00247C98(p[0]+128.0f, q[1], p[2]+128.0f);
+    func_00247A70((int)(d[0]*127.0f), (int)(d[1]*127.0f), (int)(d[2]*127.0f));
+    func_00247C98(q[0], p[1], q[2]);
+    func_002479F0();
+
+    func_00247970(4);
+    func_00247A70((int)(c[0]*255.0f), (int)(c[1]*255.0f), (int)(c[2]*255.0f));
+    func_00247C98(p[0]-128.0f, q[1], p[2]-128.0f);
+    func_00247C98(p[0]-128.0f, q[1], p[2]+128.0f);
+    func_00247A70((int)(d[0]*127.0f), (int)(d[1]*127.0f), (int)(d[2]*127.0f));
+    func_00247C98(q[0], p[1], q[2]);
+    func_002479F0();
+
+    func_00247970(4);
+    func_00247A70((int)(c[0]*255.0f), (int)(c[1]*255.0f), (int)(c[2]*255.0f));
+    func_00247C98(p[0]+128.0f, q[1], p[2]-128.0f);
+    func_00247C98(p[0]+128.0f, q[1], p[2]+128.0f);
+    func_00247A70((int)(d[0]*127.0f), (int)(d[1]*127.0f), (int)(d[2]*127.0f));
+    func_00247C98(q[0], p[1], q[2]);
+    func_002479F0();
+}

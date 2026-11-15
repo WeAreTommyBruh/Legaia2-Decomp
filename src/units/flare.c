@@ -49,3 +49,40 @@ void flare_0015e2a0(char *o, float r, int n)
     while (--k);
   }
 }
+
+extern const float D_0049FF8C,D_0049FF90;float func_0015FB58(float,int);
+
+// MATCH func_0015E148
+void flare_0015e148(float *p,float angle,float scale)
+{
+    float a, b, c, d, *v, *p1, *p2, *p3, *p4;
+    a = func_0015FB58(angle, 1);
+    b = func_0015FB58(angle, 0);
+    angle+=D_0049FF8C;
+    c = func_0015FB58(angle, 1)*scale;
+    d = func_0015FB58(angle, 0)*scale;
+    p[0] = a;
+    p[1] = b;
+    p[2] = D_0049FF90;
+    p[3] = 1.0f;
+    p1 = p+4;
+    p1[0] = c;
+    p1[1] = d;
+    p1[2] = D_0049FF90;
+    p1[3] = 1.0f;
+    p2 = p+8;
+    p2[0] = -a;
+    p2[1] = -b;
+    p2[2] = D_0049FF90;
+    p2[3] = 1.0f;
+    p3 = p+12;
+    p3[0] = -c;
+    p3[1] = -d;
+    p3[2] = D_0049FF90;
+    p3[3] = 1.0f;
+    p4 = p+16;
+    p4[0] = a;
+    p4[1] = b;
+    p4[2] = D_0049FF90;
+    p4[3] = 1.0f;
+}

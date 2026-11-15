@@ -73,3 +73,50 @@ float func_0018ECB8_1578A0() __asm__("func_0018ECB8"); void func_0018F450_1578A0
 // MATCH func_001578A0
 void FUN_001578a0(O__001578A0 *o, O__001578A0 **p2, O__001578A0 **p3, float *a3) { o->i300 = 0; o->i304 = 0; if (func_0018ECB8_1578A0(o, a3) - a3[3] <= 0.0f) return; if (o->s282 != 0) { func_0018F450_1578A0(0x70003c00, o->v80 - 0 + 0); func_0018F348_1578A0(0x70003e10, 0x70003e00); o->f296 = *(float *)0x70003e18; if (*p2 == 0) *p2 = o; else func_001577C0_1578A0(*p2, o); } else { *(O__001578A0 **)((char *)o + 304) = *p3; *p3 = o; } }
 
+void func_00247970(int);
+void func_00247A70(int,int,int);
+void func_00247E30(float*);
+
+// MATCH func_00158998
+void FUN_00158998(int unused,float *p)
+{
+    float v[4];
+    func_00247970(2);
+    func_00247A70(128, 128, 128);
+    v[0] = p[6];
+    v[1] = p[8];
+    v[2] = p[10];
+    v[3] = 1.0f;
+    func_00247E30(v);
+    v[0] = p[7];
+    func_00247E30(v);
+    v[1] = p[9];
+    func_00247E30(v);
+    v[0] = p[6];
+    func_00247E30(v);
+    v[2] = p[11];
+    func_00247E30(v);
+    v[1] = p[8];
+    func_00247E30(v);
+    v[0] = p[7];
+    func_00247E30(v);
+    v[1] = p[9];
+    func_00247E30(v);
+    v[0] = p[6];
+    func_00247E30(v);
+    v[2] = p[10];
+    func_00247E30(v);
+    v[1] = p[8];
+    func_00247E30(v);
+    v[2] = p[11];
+    func_00247E30(v);
+    v[0] = p[7];
+    func_00247E30(v);
+    v[2] = p[10];
+    func_00247E30(v);
+    v[1] = p[9];
+    func_00247E30(v);
+    v[2] = p[11];
+    func_00247E30(v);
+    func_002479F0();
+}

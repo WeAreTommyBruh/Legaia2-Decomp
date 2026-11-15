@@ -92,3 +92,29 @@ int FUN_00179ba0(float f, int a, int b, int c0, int c1, int c2, int p9, int p10,
     }
     return r;
 }
+
+void subtract_vectors(float *, float *, float *) __asm__("func_0018F0B0");
+void func_0018EC78(float*,float*,float*);
+void func_0018EC90(float*,float*,float*,float*);float func_0018ECB8(float*,float*);
+void func_0018F138(float*,float*,float*,float);
+
+// MATCH func_001796E0
+int FUN_001796e0(float *a,float *b,float *c,float *d,float *e,float *f)
+{
+    float v[4], w[4], axis[4], u[4], t[4];
+    float x, y;
+    subtract_vectors(v, b, a);
+    subtract_vectors(w, d, c);
+    func_0018EC78(axis, v, w);
+    func_0018EC90(u, a, b, c);
+    func_0018EC90(t, a, b, d);
+    x = func_0018ECB8(axis, u);
+    y = func_0018ECB8(axis, t);
+    func_0018F138(f, c, d, x/(x-y));
+    func_0018EC90(u, c, d, a);
+    func_0018EC90(t, c, d, b);
+    x = func_0018ECB8(axis, u);
+    y = func_0018ECB8(axis, t);
+    func_0018F138(e, a, b, x/(x-y));
+    return 1;
+}

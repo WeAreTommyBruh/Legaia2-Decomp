@@ -326,3 +326,30 @@ int func_00196FF8_176E10(void) __asm__("func_00196FF8"); void *func_0018B3A8_176
 // MATCH func_00176E10
 int repetition_00176e10(char *o) { int idx, d, dl, r, sv, t; long e; int (*fn)(void *); switch (*(int *)(o + 396)) { case 0: if (func_00196FF8_176E10() != 0) return 2; *(int *)(o + 396) = 1; *(void **)(o + 388) = func_0018B3A8_176E10(D_0043DEF0_00176E10, o + 392); if (*(void **)(o + 388) == 0) func_001118F8_176E10(D_0043D7F0_00176E10); return 2; case 1: if (func_00196FF8_176E10() != 0) return 2; *(int *)(o + 396) = 2; t = func_001E3720_176E10(D_00343010_00176E10, *(int *)(o + 388), *(int *)(o + 392)); *(int *)(o + 388) = t; func_00172A98_176E10(o, t); func_00172A98_176E10(o + 912, *(int *)(o + 388)); done: return 2; } sv = D_004A129C_00176E10; idx = *(short *)(o + 410); D_004A129C_00176E10 = 1; if (idx > 0) { long *vt = *(long **)(o + *(short *)(o + 412)); e = vt[idx - 1]; fn = (int (*)(void *))(e >> 32); } else fn = *(int (**)(void *))(o + 412); dl = *(short *)(o + 408); d = idx > 0 ? (short)e + dl : dl; r = fn(o + d); func_00173980_176E10(o); func_00173980_176E10(o + 912); if (*(short *)(o + 890) == -1 && *(int *)(o + 892) == (int)func_00175EB0_176E10 && *(int *)(o + 364) < func_00172CF0_176E10(o)) *(int *)(o + 364) = func_00172CF0_176E10(o); func_00164608_176E10(o + 376); func_002A8FB0_176E10(D_00425FB0_00176E10, D_0041EFB0_00176E10); func_00176128_176E10(o); D_004A129C_00176E10 = sv; return r; }
 
+typedef struct {char c[8];} Pair;
+extern Pair D_004A31B8[],D_004A31C0[];
+extern char D_0043D818[],D_00336120[];
+void *func_00162130(int,char*,int);
+void *func_00163D88(void*,char*,char*);
+void func_00164578(void*,void*);
+void func_002B2690(int,int,int,int,int,int,int,int);
+extern char D_00336258[];
+extern char D_003362A8[];
+extern char D_00336308[];
+extern char D_00336368[];
+
+// MATCH func_001745C8
+int repetition_001745c8(char *p)
+{
+    *(int*)(p+372) = 150;
+    func_00164578(p+376, func_00163D88(func_00162130(108, D_0043D818, 1356), D_00336120+0, D_00336258));
+    func_00164578(p+376, func_00163D88(func_00162130(108, D_0043D818, 1357), D_00336120+12, D_003362A8));
+    func_00164578(p+376, func_00163D88(func_00162130(108, D_0043D818, 1358), D_00336120+24, D_00336308));
+    func_00164578(p+376, func_00163D88(func_00162130(108, D_0043D818, 1359), D_00336120+36, D_00336368));
+    func_002B2690(142, 6, 0, 5, 0, 0, 2, 100);
+    func_002B2690(142, 6, 0, 5, 0, 0, 52, 100);
+    func_002B2690(142, 6, 0, 5, 0, 0, 102, 100);
+    *(Pair*)(p+408) = D_004A31B8[0];
+    *(Pair*)(p+416) = D_004A31C0[0];
+    return 0;
+}

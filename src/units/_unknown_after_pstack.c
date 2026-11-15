@@ -290,3 +290,29 @@ typedef struct { char c[8]; } B8_0025E630;
 extern volatile float D_004A0978_25E630 __asm__("D_004A0978"), D_004A097C_25E630 __asm__("D_004A097C"); extern char D_004A59C0_25E630[] __asm__("D_004A59C0");
 // MATCH func_0025E630
 int FUN_0025e630(char *o) { float t, lo; t = *(volatile float *)(o + 4); t -= D_004A0978_25E630; lo = D_004A097C_25E630; *(float *)(o + 4) = t; if (t < lo) { *(float *)(o + 4) = lo; *(B8_0025E630 *)(o + 36) = *(B8_0025E630 *)D_004A59C0_25E630; } return 1; }
+
+// MATCH func_0025D7B0
+int FUN_0025d7b0(int index, int value)
+{
+    char *base = D_003FEBA8_002530C8;
+    int result;
+    __asm__("" : "+r"(base));
+    index *= 472;
+    base += index;
+    result = 0;
+    *(int *)(base + 6528) = value;
+    return result;
+}
+
+// MATCH func_00250AF0
+unsigned short FUN_00250af0(int index, int slot)
+{
+    char *base;
+    index *= 472;
+    slot *= 2;
+    __asm__("" : "+r"(slot));
+    base = (char *)&D_003FEBA8;
+    __asm__("" : "+r"(base));
+    slot += index;
+    return *(unsigned short *)(base + slot + 6680);
+}

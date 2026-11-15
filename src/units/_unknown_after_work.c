@@ -142,3 +142,53 @@ void func_00249C60_248228(int *, int *) __asm__("func_00249C60"); void func_0024
 // MATCH func_00248228
 int FUN_00248228(short *p, short *q, short *r) { int a[4]; int b[4]; int c[4]; int v[4]; v[0] = p[0]; v[1] = p[1]; v[2] = p[2]; v[3] = 1; func_00249C60_248228(D_00320D20_248228, v); v[0] = q[0]; v[1] = q[1]; v[2] = q[2]; func_00249C60_248228(D_00320D20_248228 + 4, v); v[0] = r[0]; v[1] = r[1]; v[2] = r[2]; func_00249C60_248228(D_00320D20_248228 + 8, v); b[0] = D_00320D20_248228[0]; b[1] = D_00320D20_248228[4]; b[2] = D_00320D20_248228[8]; c[0] = D_00320D20_248228[1]; c[1] = D_00320D20_248228[5]; c[2] = D_00320D20_248228[9]; func_00249C98_248228(a, b, c); return a[0] + a[1] + a[2]; }
 
+void func_00247970(int);
+void func_002479F0(void);
+void func_00247A70(int,int,int);
+void func_00247C98(float,float,float);
+
+// MATCH func_002486F8
+void FUN_002486f8(float length)
+{
+    float half = length*0.5f, quarter = half*0.25f;
+    func_00247970(2);
+    func_00247A70(128, 0, 0);
+    func_00247C98(-half, 0.0f, 0.0f);
+    func_00247C98(quarter, 0.0f, 0.0f);
+    func_002479F0();
+
+    func_00247970(2);
+    func_00247A70(0, 128, 0);
+    func_00247C98(0.0f, -quarter, 0.0f);
+    func_00247C98(0.0f, half, 0.0f);
+    func_002479F0();
+
+    func_00247970(2);
+    func_00247A70(0, 0, 128);
+    func_00247C98(0.0f, 0.0f, -quarter);
+    func_00247C98(0.0f, 0.0f, half);
+    func_002479F0();
+}
+
+// MATCH func_00248808
+void FUN_00248808(float *p,float length)
+{
+    float half = length*0.5f, quarter = half*0.25f;
+    func_00247970(2);
+    func_00247A70(128, 0, 0);
+    func_00247C98(-quarter+p[0], p[1]+(0.0f), p[2]+(0.0f));
+    func_00247C98(half+p[0], p[1]+(0.0f), p[2]+(0.0f));
+    func_002479F0();
+
+    func_00247970(2);
+    func_00247A70(0, 128, 0);
+    func_00247C98(p[0]+(0.0f), -quarter+p[1], p[2]+(0.0f));
+    func_00247C98(p[0]+(0.0f), half+p[1], p[2]+(0.0f));
+    func_002479F0();
+
+    func_00247970(2);
+    func_00247A70(0, 0, 128);
+    func_00247C98(p[0]+(0.0f), p[1]+(0.0f), -quarter+p[2]);
+    func_00247C98(p[0]+(0.0f), p[1]+(0.0f), half+p[2]);
+    func_002479F0();
+}
