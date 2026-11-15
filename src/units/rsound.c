@@ -26,3 +26,28 @@ typedef struct { char p[1396]; int w1396, w1400, w1404, w1408; char b1412[64]; i
 extern int D_00343028_0010CD80[] __asm__("D_00343028"); extern int D_004A3850_0010CD80 __asm__("D_004A3850"), D_004A118C_0010CD80 __asm__("D_004A118C"); extern char *D_004A12B0_0010CD80 __asm__("D_004A12B0"); extern char D_0042DD28[], D_0042DD50[]; void func_001118F8_0010CD80(char *, ...) __asm__("func_001118F8"); void func_0010E938(O_0010CD80 *, int); void func_002DD4CC_0010CD80(char *, char *) __asm__("func_002DD4CC"); void func_002DD718_0010CD80(char *) __asm__("func_002DD718"); int func_002DD5E0_0010CD80(char *) __asm__("func_002DD5E0"); int func_002DC650(char *, char *, int);
 // MATCH func_0010CD80
 int rsound_0010cd80(O_0010CD80 *o, int a, char *name, int c, int d) { char buf[128]; int i; char *dst, *q; if ((D_00343028_0010CD80[0] & 8) || D_004A3850_0010CD80 == 2) return 0; if (!(D_00343028_0010CD80[0] & 2)) return 0; if (o->w1396 > 0) return -5; if (name == 0) return -2; if (D_004A118C_0010CD80 & 0x40) func_001118F8_0010CD80(D_0042DD28, D_004A12B0_0010CD80); func_0010E938(o, 1); o->w1400 = a; o->w1396 = 1; o->w1404 = 0; if (d == 0) { o->w1408 = 1; o->w1480 = 0; } else { o->w1480 = d; o->w1408 = 0; } func_002DD4CC_0010CD80(buf, name); func_002DD718_0010CD80(buf); dst = o->b1412; q = dst + 63; for (i = 63; i >= 0; i--, q--) *q = 0; func_002DC650(dst, buf, func_002DD5E0_0010CD80(buf)); if (D_004A118C_0010CD80 & 1) func_001118F8_0010CD80(D_0042DD50, dst); return 1; }
+
+typedef struct { float a, b, c, d; signed char e; } SE_10C168;
+extern volatile int D_004A118C_10C168 __asm__("D_004A118C"); extern int D_004A12B0_10C168 __asm__("D_004A12B0"); extern char D_0042D718[], D_0042D798[]; extern SE_10C168 D_002F8390[]; extern int D_002F95F0[];
+void func_001118F8_10C168(char *, ...) __asm__("func_001118F8"); int rsound_0010c2d0(int, int, int, int, int);
+void func_00109E80(float, int, float *, int, int *, int *); void func_002D4CF8(int, int, int);
+// MATCH func_0010C168
+int rsound_0010c168(int a, int b, int c, int d, int e, int se) {
+  int r;
+  float v[3];
+  int o1, o2;
+  o1 = 0;
+  o2 = 0;
+  if (D_004A118C_10C168 & 0x40) func_001118F8_10C168(D_0042D718, D_004A12B0_10C168);
+  if (D_004A118C_10C168 & 1) func_001118F8_10C168(D_0042D798, se, 0);
+  r = rsound_0010c2d0(a, b, c, d, e);
+  if (r >= 0 && se >= 0) {
+    v[0] = D_002F8390[se].b;
+    v[1] = D_002F8390[se].c;
+    v[2] = D_002F8390[se].d;
+    D_002F95F0[r] = se;
+    func_00109E80(D_002F8390[se].a, a, v, D_002F8390[se].e, &o1, &o2);
+    func_002D4CF8(r, o1, o2);
+  }
+  return r;
+}
