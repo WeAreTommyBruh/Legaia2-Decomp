@@ -2166,3 +2166,83 @@ int FUN_002cbc90(int a) {
   return 1;
 }
 
+
+#define R(a) (*(volatile unsigned *)(a))
+// MATCH func_002CFC00
+unsigned FUN_002cfc00(int mode) {
+  unsigned r = 0;
+  int v;
+  switch (mode) {
+  case 0:
+    do { v = R(0x10002010); } while (v < 0);
+    r = 0;
+    break;
+  case 1:
+    r = R(0x10002010) >> 31;
+    break;
+  }
+  return r;
+}
+
+typedef struct { char p[36]; int server; char q[0x18]; } Cl_2CB640;
+typedef struct { unsigned lsn; unsigned size; char name[16]; char date[8]; char flag[4]; } F_2CB640;
+typedef struct { char c[36]; } F36_2CB640;
+typedef struct { char p[36]; char name[256]; void *self; int arg; } Q_2CB640;
+extern volatile int D_00426368_2CB640[] __asm__("D_00426368"); extern int D_00426350_2CB640[] __asm__("D_00426350"), D_0042635C_2CB640[] __asm__("D_0042635C"), D_00426380_2CB640[] __asm__("D_00426380"), D_0062B650_2CB640[] __asm__("D_0062B650");
+extern char D_0062B658_2CB640[] __asm__("D_0062B658"); extern Cl_2CB640 D_0062B840; extern Q_2CB640 D_0062B6C0; extern int D_0062B800[];
+extern char D_0049DFD0[], D_0049DFF0[], D_0049E008[], D_0049E018[], D_0049E028[];
+void func_002E7940_2CB640(char *, ...) __asm__("func_002E7940"); void func_002CB3E0_2CB640(void) __asm__("func_002CB3E0"); int func_002E58F0_2CB640(int) __asm__("func_002E58F0"); void func_002E58C0_2CB640(int) __asm__("func_002E58C0");
+void func_002E57A0_2CB640(int, void *) __asm__("func_002E57A0"); int func_002CBB80_2CB640(int) __asm__("func_002CBB80"); void func_002E80E8_2CB640(int) __asm__("func_002E80E8"); void func_002E8038_2CB640(void *, int) __asm__("func_002E8038");
+int func_002E8758_2CB640(Cl_2CB640 *, unsigned, int) __asm__("func_002E8758");
+int func_002E8928_2CB640(void *, int, int, void *, int, void *, int, void *, void *) __asm__("func_002E8928");
+// MATCH func_002CB640
+int FUN_002cb640(F_2CB640 *file, char *name, int arg) {
+  int i, j, r;
+  Q_2CB640 *q;
+  func_002CB3E0_2CB640();
+  i = func_002E58F0_2CB640(D_00426368_2CB640[0]);
+  if (D_00426368_2CB640[0] != i) return 0;
+  D_0042635C_2CB640[0] = 1;
+  func_002E57A0_2CB640(D_0062B650_2CB640[0], D_0062B658_2CB640);
+  if (func_002CBB80_2CB640(1) != 0) { func_002E58C0_2CB640(D_00426368_2CB640[0]); return 0; }
+  func_002E80E8_2CB640(0);
+  if (D_00426380_2CB640[0] < 0) {
+    for (;;) {
+      if (func_002E8758_2CB640(&D_0062B840, 0x80000597, 0) < 0) {
+        if (D_00426350_2CB640[0] > 0) func_002E7940_2CB640(D_0049DFD0);
+        j = 0x100000;
+        do { j--; } while (j != -1);
+        continue;
+      }
+      if (D_0062B840.server != 0) { D_00426380_2CB640[0] = 0; break; }
+      j = 0x100000;
+      do { j--; } while (j != -1);
+    }
+  }
+  D_0062B6C0.name[0] = name[0];
+  i = 0;
+  if (D_0062B6C0.name[0] != 0) {
+    do {
+      i++;
+      if (i >= 256) break;
+    } while ((D_0062B6C0.name[i] = name[i]) != 0);
+  }
+  if (i == 256) D_0062B6C0.name[255] = 0;
+  if (D_00426350_2CB640[0] > 0) func_002E7940_2CB640(D_0049DFF0, D_0062B6C0.name);
+  q = &D_0062B6C0;
+  q->arg = arg;
+  q->self = q;
+  func_002E8038_2CB640(q, 300);
+  if (func_002E8928_2CB640(&D_0062B840, 0, 0, q, 300, D_0062B800, 4, 0, 0) < 0) { func_002E58C0_2CB640(D_00426368_2CB640[0]); return 0; }
+  *(F36_2CB640 *)file = *(F36_2CB640 *)((unsigned)q | 0x20000000);
+  if (D_00426350_2CB640[0] > 0) {
+    func_002E7940_2CB640(D_0049E008, file->name);
+    if (D_00426350_2CB640[0] > 0) {
+      func_002E7940_2CB640(D_0049E018, file->size);
+      if (D_00426350_2CB640[0] > 0) func_002E7940_2CB640(D_0049E028, file->lsn);
+    }
+  }
+  r = *(int *)((unsigned)D_0062B800 | 0x20000000);
+  func_002E58C0_2CB640(D_00426368_2CB640[0]);
+  return r;
+}

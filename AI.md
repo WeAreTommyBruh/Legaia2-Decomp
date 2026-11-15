@@ -6,7 +6,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **19.74% of code (399,284 bytes), 4358 / 6255 functions matched (19.70% goal reached, 2026-11-15).** Total code is 2,022,208 bytes.
+- **20.01% of code (404,580 bytes), 4373 / 6255 functions matched (20% goal reached, 2026-11-15).** Total code is 2,022,208 bytes.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
 - History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003) -> 14.51% (4019) -> 14.85% (4058) -> 14.96% (4083, with vu0_asm2.c) -> 15.16% (4098) -> 15.39% (4101, newlib malloc). 15.35% and 15.83% (the goals) were reached; 15.53% (4119) -> 15.71% (4130, newlib mprec/stdio) -> 15.74% -> 16.07% (libgcc2 division family) -> 16.11% (4139, `__muldf3`) -> 16.33% (4140, `_dtoa_r`) -> 16.63% (4157, libgcc EH/frame runtime, session 22; 16.58% reached) -> 16.90% (4161, newlib `_vfprintf_r` 5.4 KB, session 23); 17.01% and 17.11% were reached in session 24 (fdlibm block, see below); subsequent work reached 17.27577% (4195 functions), then session 27 reached the requested 17.33% goal (17.34%, 4200 functions).
@@ -147,6 +147,12 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   - g++ `dynamic_cast` null checks are an unfolded `p == 0 ? 0 : __dynamic_cast(...)`; in C only the statement form `if (p == 0) d = 0; else d = call;` assigned straight
     into the declared pointer reproduces the 0-arm-first layout (2daba8). C `?:` gets folded into `p ? call : 0`.
   - `for (i = 0; i < 10; i++)` over two global arrays is what gcc reverses into the `i = 9 .. >= 0` countdown (2cea70).
+- Session 31b (Claude solo, 19.74% -> 20.01%): the libcdvd block at 0x2cb1a8-0x2ce3d0 in `_unknown_after_shikimi_as210.c` (sceCdRead 2cc3a0, sceCdStRead, 2cb640
+  file search, 2cc580, 2ccf20, 2cd088, 2cd8d8, 2cdba8, 2cdc00, 2ce3d0, 2cb1a8, 2cb3e0, 2cb978 / 2cbc90, 2cfc00). Most matched on the first or second compile. Recipes: flag words
+  the original reloads around calls (`D_00426368`, `D_00426394`, ...) are `volatile`; the RPC bind loop is `for (;;) { if (bind() < 0) { printf; delay; continue; }
+  if (cl.server != 0) { state = 0; break; } delay; }` with the delay counter a separate variable from any other index; `if (D != PollSema(D))` keeps operand order;
+  a sector-size switch needs an explicit `case 0:`. Still open there: DiskReady 2cc0e0 and 2cb268 (opcode-identical, register numbering only), 2cbe00 (sceCdInit, bind loop
+  layout), 2cb108 (permuter needs an index-variable trick), 2cb340, 2cad10, 2cf878.
 - Pitfall: `finish.py` / emit can carry a draft's `// compiler:` line into a shared unit file; `asm_build.py` reads that line anywhere in the file and recompiles the WHOLE
   unit with it (2d5878 / 2e4dd0 broke). Grep unit files for stray `// compiler:` / `// cflags:` lines after every emit.
 - When Codex has uncommitted units, `build/work/frz31.sh FILES...` builds a frozen copy with those files reset to HEAD; generate the report there and commit only own files.
