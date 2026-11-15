@@ -1801,3 +1801,13 @@ void FUN_002d4608(unsigned ch, int tempo) {
     t->flags &= ~0x2000;
   }
 }
+
+typedef struct { volatile unsigned flags; int p4; unsigned age; char pc[0x44]; unsigned char ch; unsigned char state; char p52[2]; unsigned char bank; unsigned char b55; unsigned char b56; char p57; } Vc_2D3430;
+typedef struct { volatile unsigned flags; char p4[0x50]; } Trk_2D3430;
+Vc_2D3430 *func_002CFF08_2D3430(int) __asm__("func_002CFF08");
+Trk_2D3430 *func_002CFF20_2D3430(int) __asm__("func_002CFF20");
+int (*func_002CFFB0_2D3430(void))[24] __asm__("func_002CFFB0");
+void *memset_2D3430(void *, int, unsigned) __asm__("func_002DC804");
+// MATCH func_002D3430
+void FUN_002d3430(Trk_2D3430 *t) { int (*ref)[24] = func_002CFFB0_2D3430(); Vc_2D3430 *v = func_002CFF08_2D3430(0); int i; for (i = 0; i < 48; i++) { if (!(v->flags & 0x100)) { if (*(int *)((char *)ref + ((i / 24) * 96 + (i % 24) * 4)) < 2 && v->state != 3 && v->age > 1) { memset_2D3430(v, 0, 0x58); v->ch = 0xff; v->b56 = 0xff; v->b55 = 0xff; v->bank = 0xff; } if (v->state != 0) v->age++; } v++; } for (i = 0; i < 48; i++) { if (!(t->flags & 0x2000) && (t->flags & 0x44) == 0x44) { int k; v = func_002CFF08_2D3430(0); for (k = 0; k < 48; k++) { unsigned char c = v->ch; v++; if (c == i) goto next; } memset_2D3430(func_002CFF20_2D3430(i), 0, 0x54); } next: t++; } }
+

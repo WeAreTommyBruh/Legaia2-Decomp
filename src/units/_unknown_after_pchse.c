@@ -119,3 +119,7 @@ int func_00212F00_2138A0(int, int) __asm__("func_00212F00"); int func_00213150_2
 // MATCH func_002138A0
 int MotRotation(int a, int b, int c, int d, float *out) { int p, e; float f; p = func_00212F00_2138A0(a, b); e = p + *(int *)(p + 52) + c * 24; f = func_00213150_2138A0(a, b) != 0 ? 0.02197265625f : 0.087890625f; out[0] = (float)func_00213410_2138A0(a, p, e, *(unsigned short *)(e + 12), d); out[1] = (float)func_00213410_2138A0(a, p, e, *(unsigned short *)(e + 14), d); out[2] = (float)func_00213410_2138A0(a, p, e, *(unsigned short *)(e + 16), d); func_0018EED8_2138A0(out, f); return 1; }
 
+extern const float D_004A0480_213AE8 __asm__("D_004A0480"), D_004A0484_213AE8 __asm__("D_004A0484");
+int func_00212F00_213AE8(int, int) __asm__("func_00212F00"); int func_00213150_213AE8(int, int) __asm__("func_00213150"); int func_00213410_213AE8(int, int, int, int, int) __asm__("func_00213410"); void func_0018EED8_213AE8(float *, float) __asm__("func_0018EED8");
+// MATCH func_00213AE8
+int FUN_00213ae8(int a, int b, int c, int d, float *out) { int p, e; float f; p = func_00212F00_213AE8(a, b); e = p + *(int *)(p + 52) + c * 24; f = func_00213150_213AE8(a, b) != 0 ? 0.000383495120331645f : 0.00153398048132658f; out[0] = (float)func_00213410_213AE8(a, p, e, *(unsigned short *)(e + 12), d); out[1] = (float)func_00213410_213AE8(a, p, e, *(unsigned short *)(e + 14), d); out[2] = (float)func_00213410_213AE8(a, p, e, *(unsigned short *)(e + 16), d); func_0018EED8_213AE8(out, f); return 1; }
