@@ -2246,3 +2246,23 @@ int FUN_002cb640(F_2CB640 *file, char *name, int arg) {
   func_002E58C0_2CB640(D_00426368_2CB640[0]);
   return r;
 }
+
+
+int func_002C7318_2C6B30(void *, int) __asm__("func_002C7318");
+void func_002C6CD0_2C6B30(void *, int *, int *, int, int, int, int, int) __asm__("func_002C6CD0");
+// MATCH func_002C6B30
+void FUN_002c6b30(void *d, int PMV[2][2][2], int *dmvector, int mvfs[2][2], int s, int motion_vector_count, int mv_format, int h_r_size, int v_r_size, int dmv, int mvscale) {
+  if (motion_vector_count == 1) {
+    if (mv_format == 0 && !dmv) {
+      mvfs[1][s] = mvfs[0][s] = func_002C7318_2C6B30(d, 1);
+    }
+    func_002C6CD0_2C6B30(d, PMV[0][s], dmvector, h_r_size, v_r_size, dmv, mvscale, 0);
+    PMV[1][s][0] = PMV[0][s][0];
+    PMV[1][s][1] = PMV[0][s][1];
+  } else {
+    mvfs[0][s] = func_002C7318_2C6B30(d, 1);
+    func_002C6CD0_2C6B30(d, PMV[0][s], dmvector, h_r_size, v_r_size, dmv, mvscale, 0);
+    mvfs[1][s] = func_002C7318_2C6B30(d, 1);
+    func_002C6CD0_2C6B30(d, PMV[1][s], dmvector, h_r_size, v_r_size, dmv, mvscale, 0);
+  }
+}
