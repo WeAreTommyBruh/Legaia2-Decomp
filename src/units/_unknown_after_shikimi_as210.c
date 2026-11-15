@@ -2266,3 +2266,45 @@ void FUN_002c6b30(void *d, int PMV[2][2][2], int *dmvector, int mvfs[2][2], int 
     func_002C6CD0_2C6B30(d, PMV[1][s], dmvector, h_r_size, v_r_size, dmv, mvscale, 0);
   }
 }
+
+typedef struct { char p[16]; unsigned char *ev; } Sq_2D3190;
+typedef struct { volatile unsigned flags; int pc; int w8; int w12; char p10[0x12]; unsigned short h34, h36, h38, h40, h42, h44; char p2e[0x22]; unsigned char b50; } Tk_2D3190;
+Sq_2D3190 *func_002CFFA0_2D3190(void) __asm__("func_002CFFA0");
+// MATCH func_002D3190
+void FUN_002d3190(Tk_2D3190 *t) {
+  Sq_2D3190 *s = func_002CFFA0_2D3190();
+  switch (s->ev[2]) {
+  case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+  case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15:
+    t->h44 = s->ev[2];
+    t->h40 = 2;
+    break;
+  case 0x14:
+    t->h36 = t->b50;
+    t->w12 = t->pc;
+    t->h40 = 0;
+    t->h42 = 0;
+    break;
+  case 0x1e:
+    if (t->h38 == 127) {
+      t->flags |= 0x80;
+    } else if (t->h34 >= t->h38) {
+      t->w12 = 0;
+      t->flags &= ~0x80;
+      t->h34 = 0;
+    } else {
+      t->h34++;
+      t->flags |= 0x80;
+    }
+    t->h40 = 0;
+    break;
+  case 0x10:
+    t->h40 = 1;
+    break;
+  case 0x7f:
+    t->h40 = 2;
+    t->h44 = 255;
+    break;
+  }
+  t->pc += 3;
+}
