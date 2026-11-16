@@ -2308,3 +2308,18 @@ void FUN_002d3190(Tk_2D3190 *t) {
   }
   t->pc += 3;
 }
+
+extern volatile int D_00426394_2CB108[] __asm__("D_00426394"), D_00426370_2CB108[] __asm__("D_00426370"); extern volatile int D_00426398[], D_00426368_2CB108[] __asm__("D_00426368"), D_00426360_2CB108[] __asm__("D_00426360"); extern volatile int D_00426354_2CB108[] __asm__("D_00426354"); extern int D_0062B640[];
+volatile unsigned int func_002E58D0_2CB108(int) __asm__("func_002E58D0");
+// MATCH func_002CB108
+void FUN_002cb108(int *p) {
+  int z;
+  D_00426394_2CB108[0] = p[0];
+  D_00426398[0] = D_00426394_2CB108[0];
+  if (D_00426394_2CB108[0] == 11) { D_00426394_2CB108[0] = 0; D_00426370_2CB108[0] = 0; return; }
+  z = 0;
+  func_002E58D0_2CB108(D_00426368_2CB108[0]);
+  if (D_00426354_2CB108[0] != z && D_0062B640[0] != 0) func_002E58D0_2CB108(D_00426360_2CB108[0]);
+  else D_00426370_2CB108[0] = z;
+  D_00426394_2CB108[0] = z;
+}

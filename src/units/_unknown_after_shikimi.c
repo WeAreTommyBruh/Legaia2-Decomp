@@ -3000,3 +3000,98 @@ static inline unsigned short half_2D48F8_002D48F8(unsigned short x) { return x >
 // MATCH func_002D48F8
 int FUN_002d48f8(unsigned arg, int prog, int note) { int i; unsigned bank = arg & 0x7f; int r = -1; if (bank - 1 < 127 && prog >= 0 && prog < 128 && note >= 0 && note < 128) { Trk_2D48F8_002D48F8 *t = func_002CFF20_2D48F8(0); for (i = 0; i < 48; i++) { t->flags |= 0x2000; if ((t->flags & 0xf) == 0) { char *g = func_002CFF38_2D48F8(); Ent_2D48F8_002D48F8 *e = func_002CFF48_2D48F8(bank); Bk_2D48F8_002D48F8 *b = e->bank; unsigned short *se = b->se; unsigned k; unsigned short v; unsigned short off; if (e->type == 0 || b->magic != 0x64685353 || b->o20 == 0xffffffff || se == (unsigned short *)0xffffffff || se[0] < prog || se[prog + 1] == 0xffff || se[half_2D48F8_002D48F8(se[prog + 1])] < note) { t->flags &= ~0x2000; return r; } off = se[note + half_2D48F8_002D48F8(se[prog + 1]) + 1]; t->tempo = 0x78; t->bank = bank; t->prog = prog; t->note = note; t->id = i; t->flags |= 0xc; t->base = (char *)se + off; t->v40 = 0x1000; t->v44 = 0x1000; t->v48 = 0x1000; t->tick = 0x1e0000 / *(unsigned short *)(g + 0x3a); if (arg & 0x8000) t->flags |= 0x1000; r = i; } t->flags &= ~0x2000; if (r != -1) break; t++; } } return r; }
 
+
+typedef struct { int pid; void *pkt_table; int pkt_table_len; int unused1; int unused2; void *rdata_table; int rdata_table_len; void *client_table; int client_table_len; int rdata_table_idx; } Rd_2E80E8;
+extern int D_00429890[]; extern Rd_2E80E8 D_00634200_2E80E8 __asm__("D_00634200"); extern char D_00632A00[], D_00633200[], D_00633A00[];
+int func_002EDC50_2E80E8(void) __asm__("func_002EDC50"); void func_002EDC98_2E80E8(void) __asm__("func_002EDC98"); void func_002E7A18_2E80E8(void) __asm__("func_002E7A18");
+void func_002E7D00_2E80E8(unsigned, void *, void *) __asm__("func_002E7D00");
+void func_002E83E8_2E80E8(void) __asm__("func_002E83E8"); void func_002E86A8_2E80E8(void) __asm__("func_002E86A8"); void func_002E8898_2E80E8(void) __asm__("func_002E8898"); void func_002E84A0_2E80E8(void) __asm__("func_002E84A0");
+int func_002E5CB0_2E80E8(unsigned) __asm__("func_002E5CB0"); int func_002E5CA0_2E80E8(unsigned, int) __asm__("func_002E5CA0");
+int func_002E7E90_2E80E8(unsigned, void *, int, void *, void *, int) __asm__("func_002E7E90"); int func_002E79D0_2E80E8(int) __asm__("func_002E79D0");
+// MATCH func_002E80E8
+void FUN_002e80e8(void) {
+  int *cmdp;
+  func_002EDC50_2E80E8();
+  if (D_00429890[0] != 0) { func_002EDC98_2E80E8(); return; }
+  D_00429890[0] = 1;
+  func_002EDC98_2E80E8();
+  func_002E7A18_2E80E8();
+  func_002EDC50_2E80E8();
+  D_00634200_2E80E8.pkt_table = (void *)((unsigned)D_00632A00 | 0x20000000);
+  D_00634200_2E80E8.pkt_table_len = 32;
+  D_00634200_2E80E8.unused1 = 0;
+  D_00634200_2E80E8.unused2 = 0;
+  D_00634200_2E80E8.rdata_table = (void *)((unsigned)D_00633200 | 0x20000000);
+  D_00634200_2E80E8.rdata_table_len = 32;
+  D_00634200_2E80E8.client_table = (void *)((unsigned)D_00633A00 | 0x20000000);
+  D_00634200_2E80E8.client_table_len = 32;
+  D_00634200_2E80E8.rdata_table_idx = 0;
+  D_00634200_2E80E8.pid = 1;
+  func_002E7D00_2E80E8(0x80000008, (void *)func_002E83E8_2E80E8, &D_00634200_2E80E8);
+  func_002E7D00_2E80E8(0x80000009, (void *)func_002E86A8_2E80E8, &D_00634200_2E80E8);
+  func_002E7D00_2E80E8(0x8000000a, (void *)func_002E8898_2E80E8, &D_00634200_2E80E8);
+  func_002E7D00_2E80E8(0x8000000c, (void *)func_002E84A0_2E80E8, &D_00634200_2E80E8);
+  func_002EDC98_2E80E8();
+  if (func_002E5CB0_2E80E8(0x80000002) != 0) return;
+  cmdp = (int *)(D_00632A00 + 64);
+  cmdp[3] = 1;
+  func_002E7E90_2E80E8(0x80000002, cmdp, 16, 0, 0, 0);
+  while (func_002E79D0_2E80E8(0) == 0) ;
+  func_002E5CA0_2E80E8(0x80000002, 1);
+}
+
+typedef struct { void (*handler)(void *, void *); void *harg; } H_2E7A18;
+typedef struct { void *pktbuf; void *unused; void *iopbuf; H_2E7A18 *sys; int nsys; H_2E7A18 *usr; int nusr; unsigned *sregs; } Cd_2E7A18;
+typedef struct { unsigned psize:8, dsize:24; void *dest; int cid; unsigned opt; void *buf; } Ca_2E7A18;
+extern Cd_2E7A18 D_00632858_2E7A18 __asm__("D_00632858");
+extern Ca_2E7A18 D_00632840_2E7A18 __asm__("D_00632840");
+extern int D_0042988C[]; extern int D_00632854[];
+extern char D_00632780[], D_00632800[];
+extern H_2E7A18 D_00632880_2E7A18[] __asm__("D_00632880"); extern unsigned D_00632980[];
+int func_002EDC50_2E7A18(void) __asm__("func_002EDC50"); void func_002EDC98_2E7A18(void) __asm__("func_002EDC98");
+void func_002E5B20_2E7A18(int) __asm__("func_002E5B20"); void func_002E5C80_2E7A18(void) __asm__("func_002E5C80");
+int func_002E55B0_2E7A18(int, void *, int) __asm__("func_002E55B0"); int func_002E64B8_2E7A18(int) __asm__("func_002E64B8");
+unsigned func_002E5CB0_2E7A18(unsigned) __asm__("func_002E5CB0"); int func_002E5CA0_2E7A18(unsigned, unsigned) __asm__("func_002E5CA0");
+int func_002E7E90_2E7A18(unsigned, void *, int, void *, void *, int) __asm__("func_002E7E90");
+void func_002E79C0_2E7A18(void *, void *) __asm__("func_002E79C0"); void func_002E79A0_2E7A18(void *, void *) __asm__("func_002E79A0");
+int func_002E7F10_2E7A18(int) __asm__("func_002E7F10");
+// MATCH func_002E7A18
+void FUN_002e7a18(void) {
+  int i;
+  func_002EDC50_2E7A18();
+  if (D_0042988C[0] != 0) { func_002EDC98_2E7A18(); return; }
+  D_0042988C[0] = 1;
+  D_00632858_2E7A18.iopbuf = 0;
+  D_00632858_2E7A18.pktbuf = (void *)((unsigned)D_00632780 | 0x20000000);
+  D_00632858_2E7A18.unused = (void *)((unsigned)D_00632800 | 0x20000000);
+  D_00632858_2E7A18.nsys = 32;
+  D_00632858_2E7A18.sys = D_00632880_2E7A18;
+  D_00632858_2E7A18.usr = 0;
+  D_00632858_2E7A18.nusr = 0;
+  D_00632858_2E7A18.sregs = D_00632980;
+  for (i = 0; i < 32; i++) { D_00632880_2E7A18[i].handler = 0; D_00632880_2E7A18[i].harg = 0; }
+  for (i = 0; i < 32; i++) D_00632980[i] = 0;
+  D_00632880_2E7A18[0].handler = func_002E79C0_2E7A18;
+  D_00632880_2E7A18[0].harg = &D_00632858_2E7A18;
+  D_00632880_2E7A18[1].handler = func_002E79A0_2E7A18;
+  D_00632880_2E7A18[1].harg = &D_00632858_2E7A18;
+  func_002EDC98_2E7A18();
+  func_002E5B20_2E7A18(0);
+  if (*(volatile unsigned *)0x1000e010 & 0x20) *(volatile unsigned *)0x1000e010 = 0x20;
+  if (!(*(volatile unsigned *)0x1000c000 & 0x100)) func_002E5C80_2E7A18();
+  D_00632854[0] = func_002E55B0_2E7A18(5, (void *)func_002E7F10_2E7A18, 0);
+  func_002E64B8_2E7A18(5);
+  D_00632858_2E7A18.iopbuf = (void *)func_002E5CB0_2E7A18(0x80000000);
+  if (D_00632858_2E7A18.iopbuf) {
+    D_00632840_2E7A18.buf = D_00632780;
+    func_002E7E90_2E7A18(0x80000000, &D_00632840_2E7A18, 20, 0, 0, 0);
+    return;
+  }
+  while (!(func_002E5CB0_2E7A18(4) & 0x20000)) ;
+  D_00632858_2E7A18.iopbuf = (void *)func_002E5CB0_2E7A18(2);
+  func_002E5CA0_2E7A18(0x80000000, (unsigned)D_00632858_2E7A18.iopbuf);
+  func_002E5CA0_2E7A18(0x80000001, (unsigned)&D_00632858_2E7A18);
+  D_00632840_2E7A18.buf = D_00632780;
+  D_00632840_2E7A18.opt = 0;
+  func_002E7E90_2E7A18(0x80000002, &D_00632840_2E7A18, 20, 0, 0, 0);
+}

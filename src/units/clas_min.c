@@ -244,3 +244,7 @@ int rand(void);
 // MATCH func_002A4758
 void clas_min_002a4758(int param_1)  { int iVar1; int iVar2; float fVar3;  if (*(float *)(param_1 + 0x10) != 0.0f) { fVar3 = D_004A0D90_2A4758 / (2.0f / *(float *)(param_1 + 0x10)); iVar1 = rand(); iVar2 = (int)fVar3; *(float *)(param_1 + 8) = (float)((iVar1 >> 5) % iVar2) - fVar3 * 0.5f; } return; }
 
+
+extern int func_0029EF38(int);
+// MATCH func_0029FF70
+int clas_min_0029ff70(int *w) { int r = 1; if (w[27] != 0) r = 1; else r = 0; if (w[39]) r = 1; if (w[51]) r = 1; if (w[75]) r = 1; if (w[133]) r = 1; if (w[138]) r = 1; if (w[143]) r = 1; if (w[60]) r = 1; if (w[70]) r = 1; if (w[118]) { if (func_0029EF38(w[118])) r = 1; } if (!(w[124] & 0x800)) { if (w[65]) r = 1; } return r; }
