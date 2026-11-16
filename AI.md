@@ -6,7 +6,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **20.08% of code (406,160 bytes), 4378 / 6255 functions matched (2026-11-15; 20% reached, 20.50% requested but not reached).** Total code is 2,022,208 bytes.
+- **20.19% of code (408,304 bytes), 4385 / 6255 functions matched (2026-11-16, session 32; 20.30% requested, not reached: about 2,200 bytes short).** Total code is 2,022,208 bytes.
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
 - History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003) -> 14.51% (4019) -> 14.85% (4058) -> 14.96% (4083, with vu0_asm2.c) -> 15.16% (4098) -> 15.39% (4101, newlib malloc). 15.35% and 15.83% (the goals) were reached; 15.53% (4119) -> 15.71% (4130, newlib mprec/stdio) -> 15.74% -> 16.07% (libgcc2 division family) -> 16.11% (4139, `__muldf3`) -> 16.33% (4140, `_dtoa_r`) -> 16.63% (4157, libgcc EH/frame runtime, session 22; 16.58% reached) -> 16.90% (4161, newlib `_vfprintf_r` 5.4 KB, session 23); 17.01% and 17.11% were reached in session 24 (fdlibm block, see below); subsequent work reached 17.27577% (4195 functions), then session 27 reached the requested 17.33% goal (17.34%, 4200 functions).
@@ -205,6 +205,16 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   `if (b15 & 0x20)` that my source loses in the second cprop pass; pinning a `$11` local gives ops~0 but e/tn/ch then sit in $9/$6/$8 instead of $6/$8/$10), 2d09d8 (its
   multi-note sibling, ops~26, same copy), 2d48f8 (1 word: missing `daddu $2,$3` copy of `se[prog+1]`; use `break` not `return r` at the loop end), 2d4768 (3 words:
   `lw ent` before `sll`), 2d33d8 (register swap), 2d5050 (or-association order), 2d0e78 (1,800 bytes, untouched), 2d3430, 2d3190, 2d40a8.
+
+## Session 32 (Claude, 20.08% -> 20.19%, goal 20.30% not reached)
+
+- Matched: sceSifInitCmd 2e7a18, sceSifInitRpc 2e80e8, sceSifResetIop 2ed9a0, 2cb108, 2cb268, 188b88, 29ff70 (new unit `srivus_as210_nogcse.c`).
+- **SDK (libkernel sif) functions match fastest when typed in the SDK/ps2sdk statement order** (2e80e8 matched the moment the `_sif_rpc_data` fields were stored in SDK order; 2e7a18 needed one store-order search). Undrafted SDK functions are worth drafting from Ghidra + ps2sdk source.
+- The sif command header is `struct { unsigned long psize:8, dsize:24, dest:32; int cid; unsigned opt; }` in reset/rpc packets: the 64-bit bitfield unit gives the `ld/and/sd` + `sb` sequence (2ed9a0). `_SifSendCmd` 2e7d58 instead uses the 32-bit `unsigned psize:8, dsize:24` form (lbu/or/sw); still 8 ops off.
+- `if (x != 0) r = 1; else r = 0;` keeps a `movz` that `r = x != 0` turns into `sltu` (29ff70). A table base hoisted before a copy loop: `t = *(char **)(b + 144) + 1024; ... *(int *)((k << 2) + t)` (188b88). Globals reached with `lui` (e.g. `_gp` at D_004A7C70, D_00635568) must be ARRAYS, not scalars, or -G8 makes them gp-relative (2cb268, 2e96b8).
+- Permuter hit: callee return type `volatile unsigned int` (2cb108, also needed for 2cb268's func_002E57A0).
+- **strtod 2e39a8 (3,836 bytes) is now structurally identical** (draft `build/work/S53.c`, 53 words off, register numbering only; `npS53.c` = same without the `$17` pin). Fixes found: `'+'` case is `if (*++s != '\0') goto break2;` falling into `case 0: s = s00; goto ret;` (case 0 after default); `L` is `long` (`__fixdfdi`/`__floatdidf`); drop_down uses an int temp and ends in `break`; no `bs2 += j`; `rv0.d = rv.d`; esign and several loop counters reuse i/j/k (see S53.c). Remaining: unpinned, `z` (44 refs/124 insns) outranks `rv` (133/699) in global alloc so they swap $17/$18; pinning rv fixes that but makes local-alloc tie temps to $17 (Bndry/drop_down blocks). Needs a source change that lowers z's priority.
+- Close but unmatched: 2e96b8 (6 words, prologue schedule), 2e8928 (5, one store pair), 180728 (2), 13d238 (9, counter in $6), 160778 (1), 2cb340, 2e8e40.
 
 ## Layout and build
 
