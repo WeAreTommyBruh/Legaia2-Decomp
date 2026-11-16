@@ -3095,3 +3095,40 @@ void FUN_002e7a18(void) {
   D_00632840_2E7A18.opt = 0;
   func_002E7E90_2E7A18(0x80000002, &D_00632840_2E7A18, 20, 0, 0, 0);
 }
+
+typedef struct { unsigned long psize:8, dsize:24, dest:32; int cid; unsigned opt; } Hdr_2ED9A0;
+typedef struct { Hdr_2ED9A0 hdr; int size; int mode; char arg[80]; } Rst_2ED9A0;
+typedef struct { void *src; void *dest; int size; int attr; } Dma_2ED9A0;
+extern Rst_2ED9A0 D_00635A00_2ED9A0 __asm__("D_00635A00");
+void func_002E5B70_2ED9A0(void) __asm__("func_002E5B70"); unsigned func_002E5CB0_2ED9A0(unsigned) __asm__("func_002E5CB0");
+int func_002E5CA0_2ED9A0(unsigned, unsigned) __asm__("func_002E5CA0"); int func_002E5C60_2ED9A0(Dma_2ED9A0 *, int) __asm__("func_002E5C60");
+void func_002E8038_2ED9A0(void *, int) __asm__("func_002E8038");
+// MATCH func_002ED9A0
+int FUN_002ed9a0(char *arg, int mode) {
+  Dma_2ED9A0 dmat;
+  int i;
+  unsigned dest;
+  func_002E5B70_2ED9A0();
+  dest = func_002E5CB0_2ED9A0(0x80000000);
+  D_00635A00_2ED9A0.mode = mode;
+  for (i = 0; arg[i] != 0; i++) D_00635A00_2ED9A0.arg[i] = arg[i];
+  D_00635A00_2ED9A0.hdr.dest = 0;
+  D_00635A00_2ED9A0.hdr.dsize = 0;
+  D_00635A00_2ED9A0.size = i;
+  D_00635A00_2ED9A0.hdr.cid = 0x80000003;
+  D_00635A00_2ED9A0.hdr.psize = 104;
+  dmat.src = &D_00635A00_2ED9A0;
+  dmat.dest = (void *)dest;
+  dmat.size = 104;
+  dmat.attr = 0x44;
+  func_002E8038_2ED9A0(&D_00635A00_2ED9A0, 104);
+  func_002E5CA0_2ED9A0(4, 0x40000);
+  if (func_002E5C60_2ED9A0(&dmat, 1)) {
+    func_002E5CA0_2ED9A0(4, 0x10000);
+    func_002E5CA0_2ED9A0(4, 0x20000);
+    func_002E5CA0_2ED9A0(0x80000002, 0);
+    func_002E5CA0_2ED9A0(0x80000000, 0);
+    return 1;
+  }
+  return 0;
+}

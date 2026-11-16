@@ -2323,3 +2323,25 @@ void FUN_002cb108(int *p) {
   else D_00426370_2CB108[0] = z;
   D_00426394_2CB108[0] = z;
 }
+
+typedef struct { int attr; void *entry; void *stack; int size; void *gp; int prio; } Th_2CB268;
+extern int D_00426354_2CB268[] __asm__("D_00426354"); extern int D_0062B650[]; extern char D_0062B658[]; extern Th_2CB268 D_0062B688; extern int _gp_2CB268[] __asm__("D_004A7C70");
+int func_002E5790(void); volatile int func_002E57A0(int, void *); int func_002E56A0(Th_2CB268 *); void func_002E56C0(int, int); void func_002E5730(int, int); void func_002CB1A8_2CB268(void) __asm__("func_002CB1A8");
+// MATCH func_002CB268
+int FUN_002cb268(int prio, void *stack, int size) {
+  int r = 1;
+  if (D_00426354_2CB268[0] == 0) {
+    D_0062B650[0] = func_002E5790();
+    func_002E57A0(D_0062B650[0], D_0062B658);
+    {
+    Th_2CB268 *t = &D_0062B688;
+    t->size = size; t->gp = _gp_2CB268; t->entry = (void *)func_002CB1A8_2CB268; t->stack = stack; t->prio = prio;
+    D_00426354_2CB268[0] = func_002E56A0(t);
+    }
+    func_002E56C0(D_00426354_2CB268[0], 0);
+  } else {
+    func_002E5730(D_00426354_2CB268[0], prio);
+    r = 0;
+  }
+  return r;
+}
