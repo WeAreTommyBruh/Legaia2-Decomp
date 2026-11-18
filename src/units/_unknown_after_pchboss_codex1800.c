@@ -36,3 +36,30 @@ void FUN_0021a008(int a, int b) {
     func_0018F020((*q)->m32, &(*q)->f128, m);
   }
 }
+
+typedef struct { char p0[32]; char m32[36]; float f68; char p72[56]; float f128; char p132[4]; float f136; char p140[32]; short h172; } U_21A130;
+extern U_21A130 *D_003279A0_21A130[] __asm__("D_003279A0"); extern float D_003C7FA8[];
+float func_0022F5A0(float, float); float func_0015FB58(float, int);
+void func_0018F080(float *, char *, float *); void func_0018F020(char *, float *, float *);
+// MATCH func_0021A130
+void FUN_0021a130(unsigned i) {
+  float m[4]; float lim, ang; U_21A130 **p;
+  if (i >= 5) i = 0;
+  p = &D_003279A0_21A130[i];
+  if ((*p)->h172 == 1) return;
+  ang = (*p)->f68;
+  lim = D_003C7FA8[i];
+  if (func_0022F5A0((*p)->f128, (*p)->f136) < lim) {
+    func_0018F080(m, (*p)->m32, &(*p)->f128);
+    (*p)->f128 = func_0015FB58(ang, 0) * lim;
+    (*p)->f136 = func_0015FB58(ang, 1) * lim;
+    func_0018F020((*p)->m32, &(*p)->f128, m);
+  }
+  lim = 2000.0f;
+  if (lim < func_0022F5A0((*p)->f128, (*p)->f136)) {
+    func_0018F080(m, (*p)->m32, &(*p)->f128);
+    (*p)->f128 = func_0015FB58(ang, 0) * lim;
+    (*p)->f136 = func_0015FB58(ang, 1) * lim;
+    func_0018F020((*p)->m32, &(*p)->f128, m);
+  }
+}

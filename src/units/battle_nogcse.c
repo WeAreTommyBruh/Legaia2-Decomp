@@ -17,3 +17,25 @@ int DbgPrintf(char *fmt, ...);
 // MATCH func_0012A958
 void battle_0012a958(void) { int *pp; int i, off; int e; char *c; int *q; int fl; pp = D_003279A0; i = 0; off = 0; do { e = *pp; pp = pp + 1; if (e != 0) { c = (char *)(off + D_004A1A20); if (*(int *)(*(int *)(c + 0x1444) + 0x38) < 0) *(int *)(*(int *)(c + 0x1444) + 0x38) = 0; if ((*(unsigned *)(c + 0x12d0) & 0x800) == 0) { fl = D_004A6E24; q = *(int **)(c + 0x1550); q[0x16] = 0; q[0x13] = 0; q[0x14] = 0; q[1] = 0; q[0] = 0; if (fl != 0) DbgPrintf(D_004317F8, i); } } i = i + 1; off = off + 0x1560; } while (i < 0x14); }
 
+
+typedef struct { char c[16]; } V_12B088;
+typedef struct { V_12B088 v[3]; } V3_12B088;
+typedef struct { V_12B088 a, b, c, d, e, f; int n, m; } O_12B088;
+extern V_12B088 D_00327A40[]; extern char D_004318C8[], D_004318E0[], D_004318F0[], D_00431900[];
+void func_00239568(char *, ...); void func_0018F138(V_12B088 *, V_12B088 *, V_12B088 *, float);
+// MATCH func_0012B088
+void battle_0012b088(O_12B088 *o) {
+  float t; int n;
+  if (o->n <= 0) { o->n = 0; return; }
+  n = o->n - 1;
+  o->n = n;
+  if (n > 0) t = (float)(o->m - n) / (float)o->m;
+  else { t = 0.0f; o->a = D_00327A40[0]; o->b = D_00327A40[1]; o->c = D_00327A40[2]; }
+  func_00239568(D_004318C8, o->n, o->m, (double)t);
+  func_00239568(D_004318E0, &o->d);
+  func_00239568(D_004318F0, o);
+  func_00239568(D_00431900, D_00327A40);
+  func_0018F138(&D_00327A40[1], &o->b, &o->e, t);
+  func_0018F138(&D_00327A40[2], &o->c, &o->f, t);
+  func_0018F138(&D_00327A40[0], &o->a, &o->d, t);
+}

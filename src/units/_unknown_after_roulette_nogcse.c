@@ -55,3 +55,27 @@ typedef struct { char p0[88]; int w88; int w92; char p1[4]; float f100; float f1
 void func_00172C00(void *, int); void func_00172E40(void *); void func_00172BE8(void *, int); void func_00173BE0(void *);
 // MATCH func_00173CA0
 int FUN_00173ca0(O_173ca0_00173CA0 *o) { o->vt->fn60((char *)o + o->vt->adj56, 1); func_00172C00(o, 4); o->vt->fn36((char *)o + o->vt->adj32); o->w108 = 0; if (o->w92 == 0) { o->w112->f200 = 1.0f; if (o->w124 != 0) { func_00172E40(o); return 0; } } if (o->w92 > 0) { if (o->w344 != 0 && o->w352 != o->w348) { func_00173BE0(o); return 0; } if (o->w88 == 1) { o->vt->fn60((char *)o + o->vt->adj56, 2); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3160_00173CA0[0]; } else if (o->w88 == 2) { o->vt->fn60((char *)o + o->vt->adj56, 3); func_00172BE8(o, 516); o->f100 = o->f104; o->w112->f200 = o->f104; o->v316 = D_004A3168_00173CA0[0]; } } return 0; }
+
+typedef struct { char p0[16]; char m16[84]; float f100; char p104[4]; float f108; char *w112; char p116[16]; int w132; } O_1734F0;
+extern char D_00343028[];
+void func_0010C2B0(char *, int, int, int, int, int, int); void func_0018F368(float *, char *, float *); void func_0018F050(char *, O_1734F0 *, float *);
+// MATCH func_001734F0
+void FUN_001734f0(O_1734F0 *o, float a, float b) {
+  float v[4];
+  o->f108 += o->f100;
+  if (30.0f <= o->f108) {
+    o->f108 = 30.0f;
+    func_0010C2B0(D_00343028, 142, 6, 0, 1, 0, 0);
+    o->w132 = 0;
+  }
+  if (26.0f <= o->f108 && o->w132 == 0) {
+    o->w132 = 1;
+    func_0010C2B0(D_00343028, 142, 6, 0, 1, 0, 0);
+  }
+  v[1] = 0.0f;
+  v[3] = 1.0f;
+  v[2] = 0.0f;
+  v[0] = (b - a) * (o->f108 / 30.0f) + a;
+  func_0018F368(v, o->m16, v);
+  func_0018F050(o->w112 + 32, o, v);
+}

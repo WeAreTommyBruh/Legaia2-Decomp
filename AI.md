@@ -6,7 +6,8 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **20.60% of code (416,584 bytes), 4418 / 6255 functions matched (2026-11-18, session 33b; 20.60% requested and reached).**
+- **20.82% of code (421,036 bytes), 4430 / 6255 functions matched (2026-11-18, session 33c; 21% requested, stopped by the user at 20.82%).**
+- Session 33b reached 20.60% (416,584 bytes, 4418 functions).
 - Session 33 first reached 20.36% (411,688 bytes, 4402 functions). Total code is 2,022,208 bytes.
 - Session 32 ended at 20.19% (408,304 bytes, 4385 functions; 20.30% was requested there and not reached).
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
@@ -207,6 +208,17 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   `if (b15 & 0x20)` that my source loses in the second cprop pass; pinning a `$11` local gives ops~0 but e/tn/ch then sit in $9/$6/$8 instead of $6/$8/$10), 2d09d8 (its
   multi-note sibling, ops~26, same copy), 2d48f8 (1 word: missing `daddu $2,$3` copy of `se[prog+1]`; use `break` not `return r` at the loop end), 2d4768 (3 words:
   `lw ent` before `sll`), 2d33d8 (register swap), 2d5050 (or-association order), 2d0e78 (1,800 bytes, untouched), 2d3430, 2d3190, 2d40a8.
+
+## Session 33c (Claude, 20.60% -> 20.82%, goal 21% not reached; user asked to stop)
+
+- Matched 12: 248340, 2231d8, 21a130, 1bacd8, 1734f0, 1f5780, 2a2a38, 2a2420, 295a30, 16a7c0, 12b088, 295b88.
+- `build/work/cq.sh ADDR` scores a draft under the five common compiler configs; try it first (1734f0, 2a2a38 matched only under another config).
+- Idioms: callee float-argument position shows in evaluation order (right to left), e.g. `func(ptr, float)` vs `func(float, ptr)` (16a7c0, 1ad2d0, 2231d8);
+  pass the first object to a callee the asm does not use explicitly when the prologue copies `$4` early (2a2420); use plain `{ }` macros, not `do {} while (0)`,
+  when a tail call must survive (1f5780); `static inline` helpers that take only a pointer were not inlined there, macros were; a color passed as a
+  4-byte struct by value explains `sw $4, 0($sp)` + `lbu` (11de28); element-wise struct copies instead of one big copy (12b088).
+- Near misses queued (drafts in `w/`): 20fa50 (3 words, register), 1ad2d0 (2), 2380c0, 13a478, 186b20, 1294c8, 11de28, 127218, 206210/207598
+  (register naming in a bit test), 20f6d8/20f818, 239058, 255150, 24dae8, 12cbe8, 20c490.
 
 ## Session 33b (Claude, 20.36% -> 20.60%, goal 20.60% reached)
 

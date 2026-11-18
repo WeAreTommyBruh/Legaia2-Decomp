@@ -244,3 +244,117 @@ void FUN_0029b450(void) {
   func_002A2170(D_005F9610, D_004248E8);
   func_002A2158(D_005F9610, D_004A6978);
 }
+
+typedef struct { char p0[8]; short adj; short pad; void (*fn)(void *, int); } VT_295A30;
+typedef struct O_295A30 { char p0[4]; int w4, w8; char p12[12]; VT_295A30 *vt; char p28[8]; struct O_295A30 *w36; int w40, w44, w48, w52; char p56[4]; int w60, w64, w68, w72; char p76[8]; int w84, w88; char p92[8]; int w100; char p104[4]; int w108; char p112[4]; int w116; void *w120; } O_295A30;
+extern O_295A30 D_00342CD0[]; extern int D_004A12B0;
+void func_002A53B0(O_295A30 *, int, int, int); void func_002A5EC0(O_295A30 *); void func_0018FD98(O_295A30 *, int, int, int, int);
+// MATCH func_00295A30
+void FUN_00295a30(O_295A30 *o) {
+  int v, t; O_295A30 *q;
+  if (o->w108 == 2) {
+    int u = D_00342CD0[0].w8 + 16;
+    o->w4 = u;
+    o->w8 = u;
+    o->vt->fn((char *)o + o->vt->adj, u);
+    o->w36 = D_00342CD0;
+    o->w120 = o;
+    o->w108 = 0;
+  }
+  v = 2240;
+  if (D_004A12B0 & 1) v = 0;
+  o->w116 = 0;
+  o->w84 = v;
+  o->w88 = 10816;
+  o->w100 = 128;
+  o->w60 = 0;
+  o->w64 = 0;
+  o->w68 = 10240;
+  o->w40 = 27648;
+  o->w44 = 30976;
+  o->w48 = 5120;
+  o->w72 = 3584;
+  o->w52 = 3584;
+  func_002A53B0(o, 128, 128, 128);
+  func_002A5EC0(o);
+  if (o->w108 != 0) return;
+  func_0018FD98(o, o->w8, 96, 0, 0);
+  t = o->w8 + 16;
+  q = o->w36;
+  o->w8 = t;
+  if (q != 0) {
+    func_0018FD98(q, q->w8, 32, t, 0);
+    q->w8 = t;
+  }
+  o->w108 = 1;
+  o->w120 = D_00342CD0;
+}
+
+typedef struct { char p0[8]; short adj; short pad; void (*fn)(void *, int); } VT_295B88;
+typedef struct O_295B88 { char p0[4]; int w4, w8; char p12[12]; VT_295B88 *vt; char p28[8]; struct O_295B88 *w36; int w40, w44, w48, w52; char p56[4]; int w60, w64, w68, w72; char p76[8]; int w84, w88; char p92[8]; int w100; char p104[4]; int w108; char p112[4]; int w116; void *w120; } O_295B88;
+extern O_295B88 D_00342CD0_295B88[] __asm__("D_00342CD0"); extern int D_004A12B0;
+void func_002A53B0_295B88(O_295B88 *, int, int, int) __asm__("func_002A53B0"); void func_002A5470(O_295B88 *, int, int, int); void func_002A5EC0_295B88(O_295B88 *) __asm__("func_002A5EC0"); void func_0018FD98_295B88(O_295B88 *, int, int, int, int) __asm__("func_0018FD98");
+// MATCH func_00295B88
+void FUN_00295b88(O_295B88 *o) {
+  int v, t; O_295B88 *q;
+  if (o->w108 == 2) {
+    int u = D_00342CD0_295B88[0].w8 + 16;
+    o->w4 = u;
+    o->w8 = u;
+    o->vt->fn((char *)o + o->vt->adj, u);
+    o->w36 = D_00342CD0_295B88;
+    o->w120 = o;
+    o->w108 = 0;
+  }
+  v = 2240;
+  if (D_004A12B0 & 1) v = 0;
+  o->w116 = 0;
+  o->w88 = 12608;
+  o->w60 = 0;
+  o->w64 = 0;
+  o->w72 = 3584;
+  o->w40 = 27648;
+  o->w44 = 30976;
+  o->w48 = 5120;
+  o->w52 = 3584;
+  o->w84 = v;
+  o->w100 = 128;
+  o->w68 = 10240;
+  func_002A53B0_295B88(o, 128, 128, 128);
+  o->w72 = 3584;
+  o->w84 = 12608;
+  o->w116 = 0;
+  o->w88 = 12608;
+  o->w60 = 0;
+  o->w64 = 0;
+  o->w68 = 5120;
+  o->w44 = 30976;
+  o->w48 = 2560;
+  o->w52 = 1792;
+  o->w40 = 0x8000;
+  func_002A53B0_295B88(o, 128, 128, 128);
+  o->w84 = 12608;
+  o->w60 = 5120;
+  o->w68 = 2560;
+  o->w72 = 1792;
+  o->w40 = 27648;
+  o->w44 = 30976;
+  o->w116 = 0;
+  o->w64 = 0;
+  o->w88 = 10816;
+  o->w48 = 1280;
+  o->w52 = 1024;
+  func_002A5470(o, 128, 128, 128);
+  func_002A5EC0_295B88(o);
+  if (o->w108 != 0) return;
+  func_0018FD98_295B88(o, o->w8, 96, 0, 0);
+  t = o->w8 + 16;
+  q = o->w36;
+  o->w8 = t;
+  if (q != 0) {
+    func_0018FD98_295B88(q, q->w8, 32, t, 0);
+    q->w8 = t;
+  }
+  o->w108 = 1;
+  o->w120 = D_00342CD0_295B88;
+}

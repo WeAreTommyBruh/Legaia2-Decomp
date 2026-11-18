@@ -400,3 +400,30 @@ typedef struct { char c[8]; } V8_0016AC78_16AC78;
 extern char D_00343028_16AC78[] __asm__("D_00343028"); void func_00168AB8_16AC78(char *) __asm__("func_00168AB8"); void func_0010C2B0_16AC78(char *, int, int, int, int, int, int) __asm__("func_0010C2B0");
 // MATCH func_0016AC78
 int pachislot_0016ac78(char *o) { int *w = (int *)o; int c, v; func_00168AB8_16AC78(o); if (w[116]++ < 4) return 0; v = w[92]; w[116] = 0; if (v > 0) { w[127] = 1; if (v >= 2000) { w[92] = v - 1000; w[91] = w[91] + 1000; } else if (v >= 200) { w[92] = v - 100; w[91] = w[91] + 100; } else if (v >= 20) { w[92] = v - 10; w[91] = w[91] + 10; } else { w[92] = v - 1; w[91] = w[91] + 1; } if (w[91] > 999999) w[91] = 999999; func_0010C2B0_16AC78(D_00343028_16AC78, 139, 6, 0, 6, 0, 0); return 0; } w[127] = 0; *(V8_0016AC78_16AC78 *)(o + 544) = *(V8_0016AC78_16AC78 *)(o + 552); w[124] = -1; return 0; }
+
+typedef struct { char c[8]; } V8_16A7C0;
+typedef struct { int a[4]; } T_16A7C0;
+typedef struct { char p0[44]; char r44[80]; char r124[80]; char r204[156]; int w360; char p364[8]; T_16A7C0 *w372; char p376[128]; int w504; char p508[36]; V8_16A7C0 v544, v552; } P_16A7C0;
+extern long long D_004A12D8; extern V8_16A7C0 D_004A2E80_16A7C0[3] __asm__("D_004A2E80"), D_004A2EF0[3]; extern char D_0043CEF8[];
+void func_001118F8_16A7C0(char *, ...) __asm__("func_001118F8"); void func_00165958(char *, int); void func_002B2690(int, int, int, int, int, int, int, int); void func_00165AB8(char *, float); void func_00168BC0(P_16A7C0 *);
+// MATCH func_0016A7C0
+int pachislot_0016a7c0(P_16A7C0 *p) {
+  long long f = D_004A12D8;
+  p->w504 = 1;
+  if (f & 0x20000) {
+    if (p->w360 > 0) {
+      func_001118F8_16A7C0(D_0043CEF8);
+      func_00165958(p->r44, p->w372->a[1]);
+      func_00165958(p->r124, p->w372->a[2]);
+      func_00165958(p->r204, p->w372->a[3]);
+      func_002B2690(139, 6, 0, 0, 0, 0, 0, 100);
+      p->v544 = D_004A2E80_16A7C0[0];
+      p->v552 = D_004A2EF0[0];
+      func_00165AB8(p->r44, 1.0f);
+      func_00165AB8(p->r124, 1.0f);
+      func_00165AB8(p->r204, 1.0f);
+      p->w504 = 0;
+    }
+  } else if (f & 0xa) func_00168BC0(p);
+  return 0;
+}
