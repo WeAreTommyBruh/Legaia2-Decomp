@@ -156,3 +156,23 @@ extern int D_003279A0_121918[] __asm__("D_003279A0");
 // MATCH func_00121918
 int battle_00121918(int param_1) { int iVar1; int k = param_1 + 4; if (D_003279A0_121918[k] != 0) { iVar1 = param_1 * 0x1560 + D_004A1A20_121918 + 0x5580; if ((*(unsigned *)(iVar1 + 0x1474) & 0x200) != 0) { return 0; } if (*(int *)(*(int *)(iVar1 + 0x1444) + 0x38) != 0) { return 1; } } return 0; }
 
+
+typedef struct { char p0[32]; float f32; char p36[4]; float f40; char p44[24]; float f68; } U_12A6E0;
+typedef struct { char p0[5472]; } B_12A6E0;
+extern U_12A6E0 *D_003279A0[]; extern B_12A6E0 *D_004A1A20_12A6E0 __asm__("D_004A1A20"); extern char D_004A1A08[];
+void func_001118F8(char *, ...); float func_0015FB58(float, int); void func_0021B550(B_12A6E0 *);
+// MATCH func_0012A6E0
+void battle_0012a6e0(float a) {
+  int i;
+  func_001118F8(D_004A1A08, (double)a);
+  for (i = 0; i < 20; i++) {
+    if (D_003279A0[i] != 0) {
+      float x = D_003279A0[i]->f32;
+      float z = D_003279A0[i]->f40;
+      D_003279A0[i]->f32 = x * func_0015FB58(a, 1) - z * func_0015FB58(a, 0);
+      D_003279A0[i]->f40 = z * func_0015FB58(a, 1) + x * func_0015FB58(a, 0);
+      func_0021B550(&D_004A1A20_12A6E0[i]);
+      D_003279A0[i]->f68 -= a;
+    }
+  }
+}

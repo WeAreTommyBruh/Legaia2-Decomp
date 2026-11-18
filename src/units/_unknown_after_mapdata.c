@@ -77,3 +77,62 @@ void FUN_0015a610(int *a) { int v[16]; int r = func_0018D800(); long *q; func_00
 q[0] = 5;
 q[1] = 8;
 *(long **)(D_00342CD0_0015A610 + 16) = q + 2;func_00190420_0015A610(D_00342CD0_0015A610); func_001585E0(*a); func_0018F3D8_0015A610(v, 0x70003bc0, 0x70003c00); func_001555A0(D_00342D00_0015A610, v); func_0018D8B8(r, (int)D_004A2AE8, 120, 198, 0, 0x80f080); }
+
+typedef struct 
+{
+  int a[4];
+} Q_15D788;
+typedef struct 
+{
+  char p0[16];
+  char r16[24];
+  short h40;
+  char p42[6];
+} E_15D788;
+typedef struct 
+{
+  char p0[28];
+  E_15D788 *e;
+  int n;
+} O_15D788;
+extern float D_004A2B34[];
+void func_0018ED58(char *, int, int);
+int func_0015D5C0(E_15D788 *, int, int, float *, Q_15D788 **);
+// MATCH func_0015D788
+char *FUN_0015d788(O_15D788 *o, int id, int b, int c, Q_15D788 *out)
+{
+  char tmp[16];
+  float d;
+  O_15D788 *oo;
+  Q_15D788 *q;
+  float best = D_004A2B34[0];
+  char *r = 0;
+  int i;
+  E_15D788 *e;
+  func_0018ED58(tmp, b, c);
+  e = o->e;
+  oo = o;
+  for (i = 0; i < oo->n; i++, e++)
+  {
+    if (e->h40 != id)
+    {
+      continue;
+    }
+    if (func_0015D5C0(e, b, c, &d, &q) == 0)
+    {
+      continue;
+    }
+    if (best <= d)
+    {
+      continue;
+    }
+    if (out != 0)
+    {
+      *out = *q;
+    }
+    best = d;
+    r = e->r16;
+  }
+
+  return r;
+}

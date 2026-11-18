@@ -209,3 +209,38 @@ void FUN_00298d20(float *p,float *q,float *c,float *d)
     func_00247C98(q[0], p[1], q[2]);
     func_002479F0();
 }
+
+typedef struct { int a, b, c, d, e, f; } S_29B450;
+typedef struct { char p0[8]; unsigned w8; } F_29B450;
+typedef struct { char p0[20]; int w20; } M_29B450;
+extern F_29B450 D_00425510_29B450[] __asm__("D_00425510"); extern S_29B450 D_00620058_29B450[] __asm__("D_00620058"); extern float D_00421490[]; extern float D_004A6968, D_004A696C, D_004A6970, D_004A6974; extern int D_004A6978;
+extern M_29B450 D_005F9610[]; extern char D_00424968[], D_00424B18[], D_004248E8[];
+void func_002A2118(M_29B450 *, char *); void func_002A2240(M_29B450 *); int func_0018B2A8(char *); void func_002A2EF0(M_29B450 *, int, char *);
+void func_002A2158(M_29B450 *, int); void func_002A3068(M_29B450 *, int, char *); void func_002A2170(M_29B450 *, char *);
+// MATCH func_0029B450
+void FUN_0029b450(void) {
+  D_00425510_29B450[0].w8 &= ~0x10;
+  D_00425510_29B450[0].w8 &= ~0x40;
+  D_00421490[1] = D_004A6968;
+  D_00421490[2] = D_004A696C;
+  D_00421490[3] = D_004A6970;
+  D_00421490[4] = D_004A6974;
+  D_00620058_29B450[0].a = 3;
+  D_00620058_29B450[0].d = 0;
+  D_00620058_29B450[0].e = 0;
+  D_00620058_29B450[0].f = 0;
+  D_00620058_29B450[0].b = 46;
+  D_00620058_29B450[0].c = 0;
+  func_002A2118(D_005F9610, D_00424968);
+  func_002A2240(D_005F9610);
+  if (func_0018B2A8(D_00424B18) > 0x3fffff) {
+    D_005F9610[0].w20 = 46;
+    func_002A2EF0(D_005F9610, 14, D_004248E8);
+    func_002A2158(D_005F9610, D_004A6978);
+    return;
+  }
+  D_005F9610[0].w20 = 46;
+  func_002A3068(D_005F9610, 28, D_00424968);
+  func_002A2170(D_005F9610, D_004248E8);
+  func_002A2158(D_005F9610, D_004A6978);
+}

@@ -207,3 +207,17 @@ O_153B40 *FUN_00153b40(O_153B40 *o) {
   o->d = 0;
   return o;
 }
+
+extern char D_0043B310[], D_0043B328[], D_0043B340[], D_0043B358[], D_0043B370[], D_0043B388[];
+void func_001118F8(char *, ...);
+// MATCH func_00154638
+void FUN_00154638(float *m, char *s) {
+  if (s != 0) func_001118F8(s);
+  func_001118F8(D_0043B310, (double)m[4], (double)m[5], (double)m[6], (double)m[7]);
+  func_001118F8(D_0043B328, (double)m[8], (double)m[9], (double)m[10], (double)m[11]);
+  func_001118F8(D_0043B328, (double)m[12], (double)m[13], (double)m[14], (double)m[15]);
+  func_001118F8(D_0043B340, (double)m[16], (double)m[17], (double)m[18], (double)m[19]);
+  func_001118F8(D_0043B358, (double)m[20], (double)m[21], (double)m[22], (double)m[23]);
+  func_001118F8(D_0043B370, (double)m[24], (double)m[25], (double)m[26], (double)m[27]);
+  func_001118F8(D_0043B388, (double)m[28], (double)m[29], (double)m[30], (double)m[31]);
+}

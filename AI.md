@@ -6,7 +6,8 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **20.36% of code (411,688 bytes), 4402 / 6255 functions matched (2026-11-18, session 33; 20.35% requested and reached).** Total code is 2,022,208 bytes.
+- **20.60% of code (416,584 bytes), 4418 / 6255 functions matched (2026-11-18, session 33b; 20.60% requested and reached).**
+- Session 33 first reached 20.36% (411,688 bytes, 4402 functions). Total code is 2,022,208 bytes.
 - Session 32 ended at 20.19% (408,304 bytes, 4385 functions; 20.30% was requested there and not reached).
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
@@ -206,6 +207,22 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   `if (b15 & 0x20)` that my source loses in the second cprop pass; pinning a `$11` local gives ops~0 but e/tn/ch then sit in $9/$6/$8 instead of $6/$8/$10), 2d09d8 (its
   multi-note sibling, ops~26, same copy), 2d48f8 (1 word: missing `daddu $2,$3` copy of `se[prog+1]`; use `break` not `return r` at the loop end), 2d4768 (3 words:
   `lw ent` before `sll`), 2d33d8 (register swap), 2d5050 (or-association order), 2d0e78 (1,800 bytes, untouched), 2d3430, 2d3190, 2d40a8.
+
+## Session 33b (Claude, 20.36% -> 20.60%, goal 20.60% reached)
+
+- Matched 16 more, all fresh drafts: 2491d8, 12a6e0, 230b78, 161690, 21a008, 24af30, 235c48, 15d788 (permuter), 223320 (permuter), 154638 (600 bytes),
+  29b450, 2461e0, 221660 (permuter; uses a no-op `D++; D--;` pair as a register nudge), 2485c0, 2258b0, 1779c8.
+- New helpers in `build/work/`: `ai.py ADDR...` installs a draft into the unit file for its group whose `// compiler:`/`// cflags:` header matches (creating one),
+  then runs `fixclash.py UNIT NAME ADDR`, which aliases clashing prototypes/externs (`name_ADDR(...) __asm__("name")`). `opd.py ADDR` = opcode-level diff,
+  `tv.py ADDR OLD NEW...` = score a text-replace variant (KEEP=1 keeps it if better). `mk.sh` now writes its temp file to `build/work/d/`.
+- Ranking undrafted functions by branch density found good targets: straight-line call sequences and debug float-print dumps (154638, 18d308 family).
+- Idioms that matched: a list head/flag argument passed straight through to a print (`DbgPrintf(fmt, ptr)` explains an early `daddu $5,$4`); a value that
+  sits in `$8`..`$11` with no move is an extra call argument (230b78); scratchpad stores via `((SP *)0x70003b70)->v[i]` give the shared `ori` base (235c48);
+  a 64-bit OR with a 32-bit `int` param needs no sign extension (17a220); `sz + (n->size + 128)` order (161690); recursion on a child pointer explains
+  a load into `$4` (2258b0); a callee returning `int` instead of `void` fixed `$2/$3` (1779c8); storing `0` to a float field and copying that field into
+  the others reproduces `lwc1 $fN, off(base)` zero loads (2461e0); `unsigned short` locals fix two-load/two-store order (24af30).
+- Close but unmatched (drafts in `w/`): 1f7358 (loop entry jump), 20bbd8, 13d118, 17a220 (13), 18d308 (nop delay slots), 22ff58, 241500 (6, regs),
+  2ab158 (2), 29c410, 12d540, 12d630, 162ca8, 20beb8 (4), 210020, 20c490, 24dae8, 12cbe8, 13b860, 29d510, 1af490, 2a2240.
 
 ## Session 33 (Claude, 20.19% -> 20.36%, goal 20.35% reached)
 

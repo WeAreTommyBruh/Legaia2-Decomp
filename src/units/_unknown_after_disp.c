@@ -21,3 +21,47 @@ int func_00231548_230188(void) __asm__("func_00231548");
 // MATCH func_00230188
 int FUN_00230188(int p, int i, int c, int d) { char *new_var2; int h; float *new_var; func_002302B0_230188(p, i, c, d); new_var2 = (*((char **) (((char *) p) + 0x90))) + 2052; h = *((int *) (new_var2 + (i * 4))); if (h != 0) { func_00231580_230188(*(new_var = &(*((float *) (((char *) p) + 0x13c)))), *((float *) (((char *) p) + 0x140)), p, h, (int) (*((float *) (((char *) p) - -0x144)))); } func_0022FDD8_230188((void *) p); func_002306E8_230188(p, i, c, d); func_00231548_230188(); }
 
+
+typedef struct { char p0[232]; short a[8]; short b[8]; char p264[16]; float f[8]; } O_230B78;
+extern int D_004A70E4, D_004A70A8;
+int func_0022F960(float, float, O_230B78 *, unsigned short *, int, short *, int); void func_0017FC20(unsigned short *, int);
+// MATCH func_00230B78
+unsigned FUN_00230b78(O_230B78 *o, int u, unsigned short *k) {
+  unsigned r; int i;
+  if (D_004A70E4 == 2) return 0;
+  r = *k;
+  if (((r ^ 1) & 1) && (r & 2)) {
+    D_004A70A8 = 0;
+    r &= 0xfeff;
+    for (i = 0; i < 8; i++) {
+      if (o->b[i] >= 0 && func_0022F960(o->f[i], 1.0f, o, k, i, &o->a[i], o->b[i])) r |= 0x100;
+    }
+  }
+  if (r & 0x100) {
+    if (r & 1) func_0017FC20(k, 1);
+    else func_0017FC20(k, 2);
+  }
+  return r;
+}
+
+typedef struct { char p[720]; float v[4]; } SP_235C48;
+void func_0018F3D8(int, int, int); void func_00249880(int *, int, int); void func_0018EC58(int); void func_0018F620(int, int);
+// MATCH func_00235C48
+int FUN_00235c48(float *ox, float *oy, int *p, int q, float x, float y) {
+  int r[4];
+  ((SP_235C48 *)0x70003b70)->v[3] = 1.0f;
+  ((SP_235C48 *)0x70003b70)->v[0] = x;
+  ((SP_235C48 *)0x70003b70)->v[1] = y;
+  ((SP_235C48 *)0x70003b70)->v[2] = 0.0f;
+  func_0018F3D8(0x70003f40, 0x70003c00, 0x70003f80);
+  func_0018F3D8(0x70003f00, 0x70003bc0, 0x70003f40);
+  func_00249880(p, 0x70003f00, q);
+  func_0018EC58(0x70003f00);
+  func_0018F620(0x70003f00, 0x70003e40);
+  func_0018F3D8(0x70003f40, 0x70003f00, 0x70003f40);
+  func_0018F3D8(0x70003f00, 0x70003bc0, 0x70003f40);
+  func_00249880(r, 0x70003f00, q);
+  *ox = r[0] - p[0];
+  *oy = r[1] - p[1];
+  return p[2];
+}

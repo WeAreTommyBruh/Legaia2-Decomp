@@ -208,3 +208,25 @@ int FUN_002484f0(int a, int b, int c) {
   func_00249C98(r, u, v);
   return r[0] + r[1] + r[2];
 }
+
+typedef struct { int x, y, z, w; } I4_2485C0;
+extern I4_2485C0 D_00320D20_2485C0[4] __asm__("D_00320D20");
+void func_00249818_2485C0(I4_2485C0 *, int) __asm__("func_00249818"); void func_00249C98(int *, int *, int *);
+// MATCH func_002485C0
+int FUN_002485c0(int a, int b, int c, int d) {
+  int r[3], u[3], v[3];
+  func_00249818_2485C0(&D_00320D20_2485C0[0], a);
+  func_00249818_2485C0(&D_00320D20_2485C0[1], b);
+  func_00249818_2485C0(&D_00320D20_2485C0[2], c);
+  func_00249818_2485C0(&D_00320D20_2485C0[3], d);
+  if (D_00320D20_2485C0[0].w < 0) return -1;
+  u[0] = D_00320D20_2485C0[0].x; u[1] = D_00320D20_2485C0[1].x; u[2] = D_00320D20_2485C0[2].x;
+  v[0] = D_00320D20_2485C0[0].y; v[1] = D_00320D20_2485C0[1].y; v[2] = D_00320D20_2485C0[2].y;
+  func_00249C98(r, u, v);
+  if (r[0] + r[1] + r[2] > 0) return 1;
+  u[0] = D_00320D20_2485C0[3].x;
+  v[0] = D_00320D20_2485C0[3].y;
+  func_00249C98(r, u, v);
+  if (r[0] + r[1] + r[2] > 0) return 1;
+  return -1;
+}
