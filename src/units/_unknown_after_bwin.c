@@ -90,3 +90,23 @@ void FUN_0023aa20(char *o, int n) { if (n < 8) { *(int *)(o + 0x20) = n; *(float
 extern int D_004A1A20_00238000 __asm__("D_004A1A20");
 // MATCH func_00238000
 void FUN_00238000(int a) { char *e; int v; e = (char *)(a * 5472 + D_004A1A20_00238000); v = *(int *)(*(int *)(e + 5188) + 8); if (v < *(int *)(e + 5388)) *(int *)(e + 5388) = v; }
+
+typedef struct { int a; short b; } N_239238;
+extern N_239238 D_004A5380[]; extern char D_003D4080[], D_003D3F40[], D_004A5388[], D_004A5390[], D_0045C648[];
+void func_0023C728(char *, char *); char *func_002DD0B0(char *, char *); char *func_002DD4CC(char *, char *);
+// MATCH func_00239238
+int FUN_00239238(unsigned f) {
+  char a[128]; char b[128];
+  if (f == 0) return 0;
+  if (f & 2) {
+    *(int *)a = D_004A5380[0].a;
+    *(short *)(a + 4) = D_004A5380[0].b;
+    func_0023C728(a, D_003D4080);
+    func_002DD0B0(a, D_004A5388);
+    func_002DD4CC(b, a);
+    func_002DD0B0(b, D_0045C648);
+    func_0023C728(a, D_003D3F40);
+    func_002DD0B0(a, D_004A5390);
+  }
+  return 0;
+}

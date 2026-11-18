@@ -189,3 +189,21 @@ o[2] = 0.0f;} else { float r; s = s * 0.5f; r = func_0015FB58(0, s); func_0018EE
 extern char D_00342D00_00155490[] __asm__("D_00342D00"); void *func_00155510(void *); void *func_00155518(void *); void *func_00154C38(void *); void func_0018EB98_00155490(char *, void *) __asm__("func_0018EB98");
 // MATCH func_00155490
 void FUN_00155490(int u, char *a, char *b, u128 *out) { func_0018EB98_00155490(a, func_00155510(D_00342D00_00155490)); func_0018EB98_00155490(b, func_00155518(D_00342D00_00155490)); *out = *(u128 *)func_00154C38(D_00342D00_00155490); }
+
+typedef struct { float x, y, z, w; } V4_153B40;
+typedef struct { char q0[16]; V4_153B40 a; V4_153B40 b; char q48[16]; char m64[64]; char m128[64]; V4_153B40 c; int d; } O_153B40;
+void func_0018EC38(void *); void func_001544F0(void *); void func_00154550(void *);
+static inline void set_153B40(V4_153B40 *v, float x, float y, float z, float w) { v->x = x; v->y = y; v->z = z; v->w = w; }
+// MATCH func_00153B40
+O_153B40 *FUN_00153b40(O_153B40 *o) {
+  __asm__ volatile("sqc2 $vf0, 0(%0)" : : "r"(o));
+  func_0018EC38(o->m64);
+  func_0018EC38(o->m128);
+  set_153B40(&o->a, 0, 0, 1.0f, 1.0f);
+  set_153B40(&o->b, 0, -1.0f, 0, 1.0f);
+  func_001544F0(o);
+  set_153B40(&o->c, 0, 0, 0, 1.0f);
+  func_00154550(o);
+  o->d = 0;
+  return o;
+}

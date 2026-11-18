@@ -192,3 +192,19 @@ void FUN_00248808(float *p,float length)
     func_00247C98(p[0]+(0.0f), p[1]+(0.0f), half+p[2]);
     func_002479F0();
 }
+
+typedef struct { int x, y, z, w; } I4_2484F0;
+extern I4_2484F0 D_00320D20_2484F0[3] __asm__("D_00320D20");
+void func_00249818(I4_2484F0 *, int); void func_00249C98(int *, int *, int *);
+// MATCH func_002484F0
+int FUN_002484f0(int a, int b, int c) {
+  int r[3], u[3], v[3];
+  func_00249818(&D_00320D20_2484F0[0], a);
+  func_00249818(&D_00320D20_2484F0[1], b);
+  func_00249818(&D_00320D20_2484F0[2], c);
+  if (D_00320D20_2484F0[0].w < 0) return -1;
+  u[0] = D_00320D20_2484F0[0].x; u[1] = D_00320D20_2484F0[1].x; u[2] = D_00320D20_2484F0[2].x;
+  v[0] = D_00320D20_2484F0[0].y; v[1] = D_00320D20_2484F0[1].y; v[2] = D_00320D20_2484F0[2].y;
+  func_00249C98(r, u, v);
+  return r[0] + r[1] + r[2];
+}

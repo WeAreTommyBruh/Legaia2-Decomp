@@ -6,7 +6,8 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **20.19% of code (408,304 bytes), 4385 / 6255 functions matched (2026-11-16, session 32; 20.30% requested, not reached: about 2,200 bytes short).** Total code is 2,022,208 bytes.
+- **20.36% of code (411,688 bytes), 4402 / 6255 functions matched (2026-11-18, session 33; 20.35% requested and reached).** Total code is 2,022,208 bytes.
+- Session 32 ended at 20.19% (408,304 bytes, 4385 functions; 20.30% was requested there and not reached).
 - Reached goals: 13.51% (needed the libvu0 file-scope asm and the syscall wrappers, see Rules). Not reached: 13.81% (about 4,000 bytes short) and a
   request for 100 more functions (11 matched, 89 short), and 14.31% (about 1,100 bytes short; 14.01% -> 14.26% in one session, 14 functions). Hand matching yields about one function per 8-10 tool calls once the easy near misses are gone.
 - History of the code share: 9.00% (3297 functions) -> 9.81% -> 10.21% -> 10.54% -> 12.30% (3579) -> 12.59% (3613) -> 12.72% -> 13.01% (3647) -> 13.57% (3926) -> 13.67% (3941) -> 13.69% (3944) -> 13.75% (3950) -> 13.80% (3954) -> 13.86% (3960) -> 13.92% (3965) -> 13.99% (3969) -> 14.01% (3971) -> 14.26% (3985) -> 14.40% (3999) -> 14.42% (4003) -> 14.51% (4019) -> 14.85% (4058) -> 14.96% (4083, with vu0_asm2.c) -> 15.16% (4098) -> 15.39% (4101, newlib malloc). 15.35% and 15.83% (the goals) were reached; 15.53% (4119) -> 15.71% (4130, newlib mprec/stdio) -> 15.74% -> 16.07% (libgcc2 division family) -> 16.11% (4139, `__muldf3`) -> 16.33% (4140, `_dtoa_r`) -> 16.63% (4157, libgcc EH/frame runtime, session 22; 16.58% reached) -> 16.90% (4161, newlib `_vfprintf_r` 5.4 KB, session 23); 17.01% and 17.11% were reached in session 24 (fdlibm block, see below); subsequent work reached 17.27577% (4195 functions), then session 27 reached the requested 17.33% goal (17.34%, 4200 functions).
@@ -206,6 +207,27 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   multi-note sibling, ops~26, same copy), 2d48f8 (1 word: missing `daddu $2,$3` copy of `se[prog+1]`; use `break` not `return r` at the loop end), 2d4768 (3 words:
   `lw ent` before `sll`), 2d33d8 (register swap), 2d5050 (or-association order), 2d0e78 (1,800 bytes, untouched), 2d3430, 2d3190, 2d40a8.
 
+## Session 33 (Claude, 20.19% -> 20.36%, goal 20.35% reached)
+
+- Matched 17: 153b40, 2d33d8, 2a46c0, 239238, 245108, 113038, 19b6f0, 2484f0, 20c628, 21a730, 21a650, 294300, 196ff8, 1bebc8, 12ce40,
+  11dfe0, 29d120. New unit files `_unknown_after_main_990721.c` and `_unknown_after_window_990721.c` (990721-r5900, no cflags).
+- **About 1,200 unmatched functions have no `w/` draft at all** (the near-miss pools are mined out; opsrank over `w/` found nothing new). Fresh Ghidra drafts of
+  150-270 byte functions matched about half the time within a few tries. The list came from a script that keeps unmatched, undrafted functions with no `.word`
+  in their body; tiny "functions" in that list (23c0bc.., 284bc0.., 276fe0) are switch-case fragments of other functions, skip them.
+- Idioms that matched: `__builtin_fabsf` for `abs.s` (245108); r5900 short-loop `nop nop` before a `bgez` loop means compiler 990721-r5900 (113038, 196ff8, 29d120);
+  4x4 matrix diagonal checks are `m[i][i]` index loops (248a78 is still 5 words off); an unused second param that a DbgPrintf passes along fixes the
+  allocation (21a730: `func_001118F8(fmt, k)`); a list head that has the SAME struct type as its nodes stops sched2 from swapping two stores (29d120); repeated
+  `&D[i]` instead of a pointer local gives the original `addu` operand order (12ce40); early `if (f == 0) return 0;` gives the shared-return layout (239238);
+  nested `if (r == 0) { ... }` with one final `return r` instead of early returns (196ff8).
+- VU0 vector setters are inline functions: `static inline void set(V4 *v, float x, float y, float z, float w) { v->x = x; v->y = y; v->z = z; v->w = w; }`
+  gives the "first store via base, rest via `addiu $2, base, 16`" pattern (153b40, 17eba8, 159250, 21a730). A macro version does NOT match.
+- **decomp-permuter drops the bodies of static inline helpers** (it keeps only the target function), so it cannot be used on drafts that need them.
+- Close but unmatched (drafts in `build/work/w/`): 159250 (1,352 bytes, mapdata loader, `-fno-gcse`, 40 words: $f20/$f21 swap of the 1.0 constant and a local
+  float, store order, a table-address `addu` order), 17eba8 (364, prologue register choice), 2e8928 (`sceSifCallRpc`, 2 words, one store pair), 246810 (5,
+  induction variable base), 18e438 (6, constant scheduling), 2a1988, 2a2240/2a2170 (path copy loops), 248a78, 29c410, 221660, 2babc8, 12d540, 290758, 236c90.
+- Not usable under the current rules: the newlib string functions 2dc700..2dd928 (memmove/memset/strcat/strchr/strcmp/strcpy/strlen/strncpy) use multi-instruction
+  R5900 MMI inline asm.
+
 ## Session 32 (Claude, 20.08% -> 20.19%, goal 20.30% not reached)
 
 - Matched: sceSifInitCmd 2e7a18, sceSifInitRpc 2e80e8, sceSifResetIop 2ed9a0, 2cb108, 2cb268, 188b88, 29ff70 (new unit `srivus_as210_nogcse.c`).
@@ -251,7 +273,8 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   `build/work/commit.sh "msg" files...` checks the build says MATCH, regenerates the reports, commits and pushes. `commit.sh` does not add `src/units` and ignores
   `AI.md`; add those explicitly (or commit by hand). If a push is rejected: `git pull --rebase origin main`, rebuild, push again.
 - **Assembly policy.** A function counts as matched only when its source compiles to its bytes. Allowed assembly, all user-approved:
-  - single hardware instructions inside normal C functions (`sync`, `.word 0x42000038` = ei, `.word 0x42000039` = di, `mfc0`, `cfc2/ctc2`, `cache`, `syscall`);
+  - single hardware instructions inside normal C functions (`sync`, `.word 0x42000038` = ei, `.word 0x42000039` = di, `mfc0`, `cfc2/ctc2`, `cache`, `syscall`, and VU0 quad loads/stores
+    `lqc2`/`sqc2` written as `__asm__ volatile("sqc2 $vf0, 0(%0)" : : "r"(p));`, approved by the user 2026-11-18, used in 153b40);
   - the 161 syscall wrappers as `int NAME(void) { register int n __asm__("$3") = N; __asm__ volatile("syscall" : : "r"(n)); }` (the compiler emits the `li`, `jr` and delay slot);
   - register-bound locals (`register int t __asm__("$2");`, no instruction) to pin a temp's hard register, and empty `__asm__ volatile ("" : : "r"(x));` priority nudges (both user-approved, used sparingly: 2d5990, 2d5d80);
   - the libvu0 routines (0x18eaa0-0x18f..., 89 functions, 3,224 bytes) as file-scope `__asm__` in `src/vu0_asm.c`, generated by `build/work/genvu0.py` from the original words

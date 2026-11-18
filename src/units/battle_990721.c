@@ -16,3 +16,63 @@ extern char D_0053FD00[]; extern int D_004A6DD0, D_004A6D00, D_004A6D04, D_004A6
 int func_0012C1E8(void); int func_0015ADE8(char *, int); int func_0015AE08(char *, int); int func_001565B0(int, int, int); int func_00156408(int, int, int); int func_00156D38(int, int, int); int func_00156B58(int, int);
 // MATCH func_00118638
 void battle_00118638(void) { int h; if (func_0012C1E8() == 0) return; h = func_0015ADE8(D_0053FD00, 0); if (h != 0) { if (D_004A6DD0 == 0) func_001565B0(h, 8768, 15760); if (D_004A6D00 != 0) func_00156408(h, D_004A6D04, D_004A6D08); } h = func_0015AE08(D_0053FD00, 0); if (h != 0) { if (D_004A6DD0 == 0) func_00156D38(h, 9792, 15768); if (D_004A6D00 != 0) func_00156B58(h, D_004A6D04); } D_004A6DD0 = 1; }
+
+typedef struct 
+{
+  char p[209];
+  char c209;
+} U_11DFE0;
+extern int D_004A6DAC;
+extern int D_004A6DB0;
+extern int D_004A1A44;
+extern int D_004A1A60;
+extern int D_004A6DA8;
+extern int D_004A1A8C;
+extern int D_004A6E70;
+extern int D_004A6E90;
+extern float D_0049FD54;
+extern float D_0049FD58;
+extern float D_0049FD5C;
+extern U_11DFE0 *D_003279A0_11DFE0[] __asm__("D_003279A0");
+extern char D_00326F90[];
+void func_0012AEA8(int);
+void func_00235130(int, int);
+volatile unsigned long long func_0011BC88(float, float, float, float, float, float, float, int);
+void func_001266F8(void);
+int func_00127210(void);
+void func_00221D60(char *, int, int);
+// MATCH func_0011DFE0
+void battle_0011dfe0(void)
+{
+  int i;
+  U_11DFE0 **p;
+  D_004A6DAC = 0;
+  D_004A6DB0 = 0;
+  D_004A1A44 = 0;
+  func_0012AEA8(1);
+  func_00235130(-1, D_004A1A60);
+  D_004A6DA8 = 1;
+  func_0011BC88(100.0f, D_0049FD54, D_0049FD58, 0.0f, D_0049FD5C, -11008.0f, -47104.0f, 3908);
+  D_004A6E70 = 0;
+  i = 0;
+  if (D_004A1A8C > 0)
+  {
+    p = D_003279A0_11DFE0;
+    do
+    {
+      if ((*p) != 0)
+      {
+        (*p)->c209 = 0;
+      }
+      i++;
+      p++;
+    }
+    while (i < D_004A1A8C);
+  }
+  func_001266F8();
+  if (func_00127210() != 0)
+  {
+    func_00221D60(D_00326F90, 0, 0);
+  }
+  D_004A6E90 = 0;
+}

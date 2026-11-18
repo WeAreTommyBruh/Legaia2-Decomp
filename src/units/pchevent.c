@@ -263,3 +263,16 @@ void pchevent_0020d280(int param_1)
   }
   return;
 }
+
+extern int D_004A4624, D_004A1430, D_004A1434, D_004A1444, D_004A140C, D_004A4638, D_004A463C, D_004A4640, D_004A4644; extern char D_004A48C8[], D_0041EFB0[];
+int func_0012F180(int); void func_00239568_0020C628(char *, ...) __asm__("func_00239568"); void func_0012EFC0(int, char *, int); float func_0012F230(int, int); float func_0012F250(int, int);
+// MATCH func_0020C628
+int pchevent_0020c628(int f) {
+  if (D_004A4624 != 0) func_00239568_0020C628(D_004A48C8, D_004A1430 + 48, D_004A1434, func_0012F180(D_004A4624));
+  if (f != 0 && D_004A1444 == 0 && (D_004A140C & 0xc) && D_004A4624 != 0) {
+    if (D_004A4638 != 0) func_0012EFC0(D_004A4624, D_0041EFB0, D_004A463C);
+    D_004A4640 = func_0012F230(D_004A4624, D_004A463C);
+    D_004A4644 = func_0012F250(D_004A4624, D_004A463C) * 1000.0f;
+  }
+  return 0;
+}

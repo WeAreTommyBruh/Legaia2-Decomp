@@ -246,3 +246,40 @@ void FUN_00219300(int color,int alpha,float x,float z)
     func_00247C98(x, 0.0f, z);
     func_002479F0();
 }
+
+typedef struct { float x, y, z, w; } V4_21A730;
+typedef struct { char p0[24]; int w24; char p28[4]; V4_21A730 v32; char p48[16]; V4_21A730 v64; } X_21A730;
+typedef struct { char p0[4800]; X_21A730 *x; char p4804[12]; unsigned fl; char p4820[504]; float a[3]; float b[3]; char p5348[96]; int w5444; } O_21A730;
+extern char D_00456C48[]; void func_001118F8(char *, ...); void func_0021B550(O_21A730 *);
+static inline void set_21A730(V4_21A730 *v, float x, float y, float z, float w) { v->x = x; v->y = y; v->z = z; v->w = w; }
+static inline V4_21A730 mk_21A730(float x, float y, float z, float w) { V4_21A730 v; set_21A730(&v, x, y, z, w); return v; }
+// MATCH func_0021A730
+void FUN_0021a730(O_21A730 *o, int k) {
+  X_21A730 *x = o->x;
+  if (x == 0) return;
+  if (!(o->fl & 0x80000)) { func_001118F8(D_00456C48, k); return; }
+  o->fl &= ~0x80000;
+  if (o->fl & 0x2000000) return;
+  { V4_21A730 t[2]; set_21A730(&t[0], o->a[0], o->a[1], o->a[2], 1.0f); set_21A730(&x->v32, o->a[0], o->a[1], o->a[2], 1.0f); }
+  func_0021B550(o);
+  { X_21A730 *y = o->x; set_21A730(&y->v64, o->b[0], o->b[1], o->b[2], 1.0f); y->w24 = o->w5444; }
+}
+
+typedef struct { float x, y, z, w; } V4_21A650;
+typedef struct { char p0[24]; int w24; char p28[4]; V4_21A650 v32; char p48[16]; V4_21A650 v64; } X_21A650;
+typedef struct { char p0[4800]; X_21A650 *x; char p4804[12]; unsigned fl; char p4820[504]; float a[3]; float b[3]; char p5348[96]; int w5444; } O_21A650;
+extern char D_00456C30[]; void func_001118F8(char *, ...);
+// MATCH func_0021A650
+void FUN_0021a650(O_21A650 *o, int k) {
+  X_21A650 *x = o->x;
+  if (x == 0) return;
+  o->a[0] = x->v32.x;
+  o->fl |= 0x80000;
+  o->a[1] = x->v32.y;
+  o->w5444 = x->w24;
+  o->a[2] = x->v32.z;
+  o->b[0] = x->v64.x;
+  o->b[1] = x->v64.y;
+  o->b[2] = x->v64.z;
+  func_001118F8(D_00456C30, k, (double)o->a[0], (double)o->a[1], (double)o->a[2]);
+}

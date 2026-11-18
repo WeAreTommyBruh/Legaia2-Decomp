@@ -2345,3 +2345,33 @@ int FUN_002cb268(int prio, void *stack, int size) {
   }
   return r;
 }
+
+typedef struct 
+{
+  unsigned flags;
+  int pc;
+  char *base;
+  int pos;
+  int tick;
+  unsigned time;
+  char p18[6];
+  unsigned short tempo;
+} Trk_2D33D8;
+// MATCH func_002D33D8
+void FUN_002d33d8(Trk_2D33D8 *t)
+{
+  unsigned v = 0;
+  char *b = t->base;
+  unsigned char c;
+  do
+  {
+    c = b[t->pc++];
+    v = v << 7;
+    v = v | (c & 0x7f);
+  }
+  while (c & 0x80);
+  if (t->tempo != 0)
+  {
+    t->time += v * 0x1000;
+  }
+}

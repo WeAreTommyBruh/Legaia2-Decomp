@@ -40,3 +40,37 @@ extern char D_00499678_2944B8[] __asm__("D_00499678"); void func_00164890_2944B8
 // MATCH func_002944B8
 int *FUN_002944b8(int *o) { int n, r; unsigned lim; func_00164890_2944B8(); n = *(int *)(*o + 20); o[12] = (int)D_00499678_2944B8; if (n == 0) r = 0; else { lim = 0x7fffff - 0x800000 % n; do { r = func_002DC978_2944B8(); } while (lim < (unsigned)(r >> 8)); r = (unsigned)(r >> 8) % n; } o[2] = r; return o; }
 
+
+typedef struct 
+{
+  char p0[20];
+  char *a;
+  char *b;
+  char *c;
+  char p32[4];
+  char *name;
+  char p40[36];
+} T_294300;
+typedef struct 
+{
+  char *x;
+  char *y;
+  char *z;
+  int pad[2];
+} S_294300;
+extern T_294300 D_00402490[];
+extern char D_004993B8[];
+int func_002DCE40(char *, char *, ...);
+volatile unsigned char func_00112C08(char *, S_294300 *, int);
+// MATCH func_00294300
+void FUN_00294300(void) {
+  char buf[256]; S_294300 s; unsigned i; char *c;
+  for (i = 0; i < 14; i++) {
+    s.x = D_00402490[i].b;
+    s.y = D_00402490[i].a;
+    c = D_00402490[i].c;
+    s.z = c;
+    func_002DCE40(buf, D_004993B8, D_00402490[i].name);
+    func_00112C08(buf, &s, 3);
+  }
+}

@@ -63,3 +63,16 @@ void FUN_00244880(float *p,float *q,int r,int g,int b)
     func_00247C98(q[0], q[1], q[2]);
     func_002479F0();
 }
+
+#define FABS_245108(x) __builtin_fabsf(x)
+// MATCH func_00245108
+void FUN_00245108(float *p) {
+  float m = 0;
+  if (m < FABS_245108(p[6])) m = p[6];
+  if (m < FABS_245108(p[8])) m = p[8];
+  if (m < FABS_245108(p[10])) m = p[10];
+  if (m < FABS_245108(p[7])) m = p[7];
+  if (m < FABS_245108(p[9])) m = p[9];
+  if (m < FABS_245108(p[11])) m = p[11];
+  p[6] = -m; p[7] = m; p[8] = -m; p[9] = m; p[10] = -m; p[11] = m;
+}

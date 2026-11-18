@@ -248,3 +248,15 @@ void clas_min_002a4758(int param_1)  { int iVar1; int iVar2; float fVar3;  if (*
 extern int func_0029EF38(int);
 // MATCH func_0029FF70
 int clas_min_0029ff70(int *w) { int r = 1; if (w[27] != 0) r = 1; else r = 0; if (w[39]) r = 1; if (w[51]) r = 1; if (w[75]) r = 1; if (w[133]) r = 1; if (w[138]) r = 1; if (w[143]) r = 1; if (w[60]) r = 1; if (w[70]) r = 1; if (w[118]) { if (func_0029EF38(w[118])) r = 1; } if (!(w[124] & 0x800)) { if (w[65]) r = 1; } return r; }
+
+extern float D_004A0D8C; extern char D_0049B388[]; void func_001118F8(char *, ...);
+// MATCH func_002A46C0
+void clas_min_002a46c0(float *p) {
+  if (p[3] != 0.0f) {
+    float t = D_004A0D8C / (4.0f / p[3]);
+    if (p[1] < t) {
+      p[1] = p[1] + t;
+      func_001118F8(D_0049B388, (double)p[1]);
+    }
+  }
+}
