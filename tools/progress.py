@@ -10,7 +10,6 @@ Usage: progress.py [OUT.md]       (default build/PROGRESS.md, which is not track
 """
 
 import collections
-import csv
 import datetime
 import glob
 import hashlib
@@ -35,12 +34,11 @@ def bar(a, b, width=30):
 def main(argv):
     out = argv[1] if len(argv) > 1 else os.path.join(ROOT, "build", "PROGRESS.md")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
-    with open(os.path.join(ROOT, "decomp", "functions.csv")) as f:
-        funcs = list(csv.DictReader(f))
     # sizes as tools/report.py measures them (address span to the next function, without the
     # alignment padding); the Ghidra sizes in functions.csv overlap or miss for some functions
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import asm_build, report
+    funcs = asm_build.function_rows()
     elf = asm_build.Elf(open(asm_build.EXE, "rb").read())
     text = elf.section(".text")
     code = elf.data[text["off"]:text["off"] + text["size"]]

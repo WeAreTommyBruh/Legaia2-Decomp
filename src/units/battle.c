@@ -326,3 +326,342 @@ int battle_00129b78(void)
     }
     return 0;
 }
+
+extern int D_004A1A20_127168 __asm__("D_004A1A20");
+extern char D_004312B0[], D_004312C0[];
+void func_0021A730(int, int);
+
+// MATCH func_00127168
+void battle_00127168(void)
+{
+    unsigned mask;
+    int i, offset;
+
+    if (D_004A6CA0 == 0) {
+        func_001118F8(D_004312B0);
+        return;
+    }
+    func_001118F8(D_004312C0);
+    i = 0;
+    mask = 0xfeffffff;
+    offset = 0;
+    do {
+        func_0021A730(D_004A1A20_127168 + offset, i);
+        i++;
+        *(unsigned *)(offset + D_004A1A20_127168 + 4816) &= mask;
+        offset += 5472;
+    } while (i < 20);
+}
+
+extern int D_004A1A50, D_004A1A60, D_004A6D94, D_004A6C50;
+extern unsigned D_00425510[];
+void func_00127600(void);
+void func_00124A48(int, float, float, float, float);
+void func_0011E0B0(int, float, float);
+void func_00235130(int, int);
+void SetBattleEnd(int);
+// MATCH func_00127890
+void battle_00127890(int mode)
+{
+    if (mode == 0) {
+        func_00127600();
+        func_00124A48(8972, 0.0f, 0.0f, 0.0f, 0.0f);
+        func_0011E0B0(300, 0.0f, 0.0f);
+    }
+    D_004A1A50 |= 0x10;
+    D_00425510[1] |= 0x14000;
+    func_00235130(-1, D_004A1A60);
+    SetBattleEnd(-1);
+    D_004A6D94 = -1;
+    D_004A6C50 = 1;
+}
+
+extern int D_004A6C40, D_004A6EAC, D_004A6CA4;
+extern char D_00431670[], D_00431680[];
+extern int func_0027BDB8(void);
+extern int func_00220B78(void);
+extern void func_001298E8(int, int);
+
+// MATCH func_00129A38
+int battle_00129a38(int waitForMotion)
+{
+    int id;
+    int ready;
+    if (D_004A6C40 != 0)
+        return 0;
+    id = func_0027BDB8();
+    if (func_00220B78())
+        return 1;
+    if (D_004A6CA4 == id)
+        return 0;
+    {
+        register long test __asm__("$17") = 1;
+        __asm__ volatile ("" : : "r"(test));
+        ready = func_00126058();
+        test = ready ? (waitForMotion ? 0 : test) : test;
+        if (test == 0)
+            return 1;
+    }
+    if (id >= 0) {
+        func_001118F8(D_00431670, id);
+        func_001298E8(id, waitForMotion);
+        D_004A6EAC = id;
+    } else {
+        if (D_004A6EAC != id)
+            func_001118F8(D_00431680, id);
+        D_004A6EAC = id;
+    }
+    return 0;
+}
+
+extern int D_004A6E34, D_004A6C80, D_004A6C24, D_004A1460, D_004A6C28, D_004A6C30, D_004A6CA4;
+extern void *D_004A1AA8_12ACB0 __asm__("D_004A1AA8");
+extern char D_004318A0[], D_00343010[];
+extern void func_001E3F88(char *, int);
+extern void func_002206E0(void *, int);
+extern void func_00239568(char *, int);
+extern void func_0021F2A8(void *, int, int);
+extern int func_00129A38(int);
+extern int func_0012AE68(void);
+// MATCH func_0012ACB0
+int battle_0012acb0(int mode)
+{
+    int pending = 0;
+    int retry = 0;
+    if (D_004A6E34 > 0) {
+        D_004A6E34--;
+        return 7;
+    }
+    if (D_004A6C80 != 0 || mode != 0)
+        pending = func_00129A38(1);
+    if (mode == 1) {
+        if (func_00126058())
+            return 1;
+        if (func_0012AE68())
+            return 5;
+    }
+    if (D_004A6C24 == 0) {
+        if (D_004A1460)
+            func_00239568(D_004318A0, D_004A6C28);
+        retry = ++D_004A6C28 >= 3;
+    }
+    if (!mode && !retry)
+        return 0;
+    func_001E3F88(D_00343010, 1);
+    func_002206E0(D_004A1AA8_12ACB0, 0);
+    if (D_004A6C30 != 0) {
+        if (--D_004A6C30 != 0)
+            return 4;
+    }
+    if (mode != 0)
+        return 0;
+    if (pending != 0)
+        return 2;
+    if (D_004A6CA4 >= 0)
+        func_0021F2A8(D_004A1AA8_12ACB0, D_004A6CA4, 1);
+    return 0;
+}
+
+void func_001265D8(int);
+
+// MATCH func_001265D0
+void battle_001265d0(int mode)
+{
+    func_001265D8(mode);
+}
+
+typedef struct {
+    char prefix[4816];
+    int flags;
+    char gap[123];
+    signed char state;
+    char rest[260];
+    float timer;
+    char suffix[264];
+} BattleActor_C808;
+
+typedef struct {
+    char prefix[24];
+    unsigned flags;
+} BattlePart_C808;
+
+extern BattleActor_C808 *D_004A1A20_12C808 __asm__("D_004A1A20");
+extern BattlePart_C808 *D_003279A0_12C808[] __asm__("D_003279A0");
+extern const float D_0049FE70;
+extern char D_00431AE8[], D_00431B00[], D_00431B18[], D_00431B30[];
+extern void func_002395A0(char *);
+
+// MATCH func_0012C808
+int battle_0012c808(unsigned actor)
+{
+    BattlePart_C808 **entry;
+    BattleActor_C808 *slot;
+    int offset;
+    if (actor >= 20) {
+        func_002395A0(D_00431AE8);
+        return -1;
+    }
+    entry = &D_003279A0_12C808[(int)actor];
+    if (*entry == 0) {
+        func_001118F8(D_00431B00);
+        return -2;
+    }
+    offset = (int)actor * 5472;
+    slot = (BattleActor_C808 *)(offset + (int)D_004A1A20_12C808);
+    if (slot->timer != 0.0f) {
+        func_001118F8(D_00431B18);
+        return -3;
+    }
+    if (slot->flags & 0x40000000)
+        return -4;
+    if (slot->state != 0)
+        return -5;
+    func_001118F8(D_00431B30);
+    {
+        BattlePart_C808 *part = *entry;
+        BattleActor_C808 *current = (BattleActor_C808 *)(offset + (int)D_004A1A20_12C808);
+        int flags = current->flags;
+        float timer = D_0049FE70;
+        current->timer = timer;
+        current->flags = (flags | 0x800) & -2;
+        part->flags |= 0x20000000;
+    }
+    return 0;
+}
+
+typedef struct {
+    unsigned char prefix[174];
+    short id;
+    unsigned char gap[16];
+    int field192;
+} BattleMotion_1282D0;
+
+extern int D_004A1A20_1282D0 __asm__("D_004A1A20");
+extern char D_004313D0[], D_004313E8[], D_00431400[], D_00431418[];
+extern int func_00291C20(BattleMotion_1282D0 *, int, int);
+extern int func_00291DC0(int, int, int, int, int, int);
+extern void func_001252A0(int);
+
+// MATCH func_001282D0
+int battle_001282d0(BattleMotion_1282D0 *motion)
+{
+    short id = motion->id;
+    int actors;
+    if (func_00291C20(motion, 3, 2) < 0)
+        goto fail;
+    func_00291DC0(id, 0, 0, 0, 0, 2);
+    func_00291DC0(id, 1, 8, 3, 2, 2);
+    if (func_00291C20(motion, 3, 3) >= 0) {
+        func_00291DC0(id, 2, 0x40000009, 3, 3, 2);
+        func_001118F8_11ADC0(D_004313D0, id);
+    } else {
+        func_001118F8_11ADC0(D_004313E8, id);
+    }
+    actors = D_004A1A20_1282D0;
+    motion->field192 = 0;
+    *(int *)(id * 5472 + actors + 4984) = 0;
+    func_001252A0(id);
+    func_001118F8_11ADC0(D_00431400, id);
+    return 0;
+
+fail:
+    func_001118F8_11ADC0(D_00431418, id);
+    return -1;
+}
+
+extern int D_004A6C44, D_004A6E88;
+extern char D_004317C0[];
+int func_0021F2A8_12A860(void *, int, int) __asm__("func_0021F2A8");
+
+// MATCH func_0012A860
+int battle_0012a860(int actor)
+{
+    if (D_004A1AAC != 0) {
+stop:
+        func_0012ABF0(4);
+        return 0;
+    }
+    if (D_004A6C44 != 0 && D_004A6E88 != 0) {
+        --D_004A6E88;
+        return 1;
+    }
+    if (func_00126058())
+        return 2;
+    if (actor < 0)
+        goto stop;
+    if (D_004A6CA4 == actor) {
+        if (func_0021F2A8_12A860(D_004A1AA8_12ACB0, actor, 1))
+            return 3;
+        if (D_004A6CA4 == actor)
+            goto unchanged;
+    }
+    func_001118F8(D_004317C0, D_004A6CA4, actor);
+    func_001298E8(actor, 0);
+    D_004A6C44 = 1;
+    D_004A6E88 = 120;
+    return 4;
+unchanged:
+    return 0;
+}
+
+extern int D_004A6E4C;
+extern int D_004A1A20_12C448 __asm__("D_004A1A20");
+
+// MATCH func_0012C448
+int battle_0012c448(int actor)
+{
+    register int actorIndex __asm__("$3") = actor;
+    int expected = D_004A6D94;
+    int stride = 5472;
+    if (actorIndex != expected)
+        return 0;
+    {
+        int base = D_004A1A20_12C448;
+        register int offset __asm__("$4");
+        int flags;
+        register int result __asm__("$2") = 0;
+        offset = actorIndex * stride;
+        flags = *(int *)(offset + base + 4816);
+        if (flags & 0x20000000)
+            result = D_004A6E4C == 30;
+        return result;
+    }
+}
+
+extern int D_004A1AA8,D_004A1A50,D_004A1A20_1260B0 __asm__("D_004A1A20"),D_004A6E80,D_004A3860,D_004A12A4,D_004A6E48;
+extern unsigned char D_004A1A70;
+extern int D_00314CC8[];
+extern char D_00343028[],D_00430F70[],D_003210E0[];
+void func_002206E0_1260B0(int, int) __asm__("func_002206E0");
+void func_00265C30(int), func_0021AAF8(int), func_002224A8(int, int, int, int);
+int func_00127210(void);
+void func_0010E368(char *),func_0010ED80(char *),func_0010E820(char *,int),func_002A1958(void);
+void func_001118F8(char *,...);
+// MATCH func_001260B0
+void battle_001260b0(void)
+{
+    int i,offset;
+    func_002206E0_1260B0(D_004A1AA8,0);
+    func_002206E0_1260B0(D_004A1AA8,1);
+    if (D_004A1A50 & 16) func_00265C30(0);
+    if (func_00127210()) func_00265C30(0);
+    offset = 0;
+    for (i = 19; i >= 0; --i, offset += 5472)
+        func_0021AAF8(D_004A1A20_1260B0 + offset);
+    if (D_00314CC8[0] == 239)
+        D_00425510[1] |= 0x08000000;
+    D_004A3860 = D_004A6E80;
+    if (!(D_004A1A50 & 8)) func_002224A8(0,0,0,0);
+    if (D_004A12A4 != 14) {
+        if (!D_004A6E48) {
+        func_0010E368(D_00343028);
+        func_0010ED80(D_00343028);
+        func_0010E820(D_00343028,102);
+        }
+    } else {
+        func_0010E368(D_00343028);
+        func_002A1958();
+    }
+    func_001118F8(D_00430F70);
+    D_003210E0[40] = D_004A1A70;
+}

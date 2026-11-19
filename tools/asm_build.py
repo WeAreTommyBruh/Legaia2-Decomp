@@ -158,9 +158,23 @@ class Elf:
         return next(s for s in self.sections if s["name"] == name)
 
 
-def functions():
+def function_rows():
     with open(os.path.join(ROOT, "decomp", "functions.csv")) as f:
         rows = list(csv.DictReader(f))
+    # Some exports include the camera-mode dispatcher in its entry thunk.
+    if not any(int(row["address"], 16) == 0x1265D8 for row in rows):
+        for index, row in enumerate(rows):
+            if int(row["address"], 16) == 0x1265D0 and int(row["size_bytes"]) == 292:
+                rows[index:index + 1] = [
+                    dict(row, size_bytes="8"),
+                    dict(row, address="001265d8", name="battle_001265d8", size_bytes="284"),
+                ]
+                break
+    return rows
+
+
+def functions():
+    rows = function_rows()
     return sorted((int(r["address"], 16), r["name"], r["group"]) for r in rows)
 
 

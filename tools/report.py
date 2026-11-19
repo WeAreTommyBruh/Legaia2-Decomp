@@ -27,7 +27,6 @@ Usage: report.py [OUT.json]      (default report/report.json)
 """
 
 import collections
-import csv
 import glob
 import json
 import os
@@ -262,8 +261,7 @@ def main(argv):
     funcs = [f for f in asm_build.functions() if text["addr"] <= f[0] < text["addr"] + text["size"]]
     ends = [f[0] for f in funcs[1:]] + [text["addr"] + text["size"]]
     starts = {a for a, _, _ in funcs}
-    with open(os.path.join(ROOT, "decomp", "functions.csv")) as f:
-        rows = list(csv.DictReader(f))
+    rows = asm_build.function_rows()
     source_file = {int(r["address"], 16): r["source_file"] for r in rows}
     csrc = c_sources()
     # work in progress (wip/*.c, `// WIP func_XXXXXXXX`): compiled as the unit's base so that

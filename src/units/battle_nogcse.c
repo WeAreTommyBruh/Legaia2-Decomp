@@ -141,3 +141,313 @@ void battle_001298e8(int actor)
 }
 
 #undef BATTLE_ASSET_NAMES
+
+int func_001269E0(int);
+
+// MATCH func_001266F8
+void battle_001266f8(void)
+{
+    int i = 0, offset = 0;
+    int *slot = D_003279A0;
+
+    do {
+        int present = *slot++;
+        int actor = i++;
+
+        if (present) {
+            int *entry = (int *)(offset + D_004A1A20);
+            int *stats = (int *)entry[1297];
+            int first, second;
+
+            first = stats[14];
+            entry[1304] = first;
+            second = stats[15];
+            entry[1306] = first;
+            entry[1305] = second;
+            entry[1307] = second;
+            if (func_001269E0(actor))
+                *(unsigned *)(offset + D_004A1A20 + 4816) |= 0x800;
+        }
+        offset += 5472;
+    } while (i < 10);
+}
+
+extern int *D_003279A0_122DE0[] __asm__("D_003279A0");
+extern char D_004308C8[], D_0042FDA0[];
+void func_001621F8(int, char *, int);
+
+// MATCH func_00122DE0
+void battle_00122de0(int skip)
+{
+    int i;
+    register int offset __asm__("$16") = 0;
+
+    for (i = 0; i < 20; i++, offset += 5472) {
+        if (skip != i) {
+            char *entry = (char *)(offset + D_004A1A20);
+
+            if (*(int *)(entry + 4956) != 0) {
+                int value;
+                int *actor;
+                register int base __asm__("$3");
+
+                func_001118F8(D_004308C8, i);
+                base = D_004A1A20;
+                base = offset + base;
+                func_001621F8(*(int *)(base + 4956), D_0042FDA0, 6523);
+                entry = (char *)(offset + D_004A1A20);
+                value = *(int *)(entry + 4952);
+                actor = D_003279A0_122DE0[i];
+                *(int *)(entry + 4956) = 0;
+                actor[38] = value;
+            }
+        }
+    }
+}
+
+typedef struct {
+    char pad[16];
+    char *primaryMotion;
+    char gap[12];
+    char *attackA;
+    char *attackB;
+    int pad40;
+    int hasMotion;
+    char *effect;
+    char *alternateMotion;
+} BattleNames_129BE8;
+
+extern int D_004A1AAC, D_004A1A20;
+extern void *D_004A1AA8;
+extern void *D_003279A0_129BE8[] __asm__("D_003279A0");
+extern char D_004316D8[], D_00431718[], D_00431730[], D_00431628[], D_00431638[];
+void func_001118F8_129BE8(char *, ...) __asm__("func_001118F8");
+extern void func_0021ECB0(void *, char *, void *);
+extern void func_0021EBE8(void *, char *, int, int);
+extern void func_0021EE50(void *, char *, int, int);
+#define SLOT() (offset + D_004A1A20)
+#define NAMES() (*(BattleNames_129BE8 **)(SLOT() + 5380))
+// MATCH func_00129BE8
+void battle_00129be8(int selected)
+{
+    int actor, offset;
+    D_004A1AAC = 2;
+    func_001118F8_129BE8(D_004316D8);
+    actor = 0;
+    offset = 0;
+    do {
+        BattleNames_129BE8 *names = NAMES();
+        char *name;
+        if (names == 0)
+            goto next;
+        if (D_003279A0_129BE8[actor] == 0)
+            goto next;
+        if (names->hasMotion) {
+            if ((name = names->alternateMotion) != 0) {
+                func_001118F8_129BE8(D_00431718, name);
+                func_0021ECB0(D_004A1AA8, NAMES()->alternateMotion, D_003279A0_129BE8[actor]);
+            } else {
+                func_001118F8_129BE8(D_00431730, names->primaryMotion);
+                func_0021ECB0(D_004A1AA8, NAMES()->primaryMotion, D_003279A0_129BE8[actor]);
+            }
+        }
+        if (actor != selected)
+            goto next;
+        if ((name = NAMES()->attackB) != 0) {
+            func_001118F8_129BE8(D_00431628, name);
+            func_0021EBE8(D_004A1AA8, NAMES()->attackB, SLOT(), 0x179c00);
+        }
+        if ((name = NAMES()->attackA) != 0) {
+            func_001118F8_129BE8(D_00431628, name);
+            func_0021EBE8(D_004A1AA8, NAMES()->attackA, SLOT(), 0x1c4c00);
+        }
+        if ((name = NAMES()->effect) != 0) {
+            func_001118F8_129BE8(D_00431638, name);
+            func_0021EE50(D_004A1AA8, NAMES()->effect, SLOT(), 0);
+        }
+next:
+        offset += 5472;
+    } while (++actor < 20);
+}
+
+#undef NAMES
+#undef SLOT
+
+typedef struct { char pad[32]; float position[3]; char gap[84]; float original[3]; } ScrollActor;
+extern ScrollActor *D_003279A0_124258[] __asm__("D_003279A0");
+extern int D_004A1A20;
+extern int D_004A13D4,D_004A6E44,D_004A6C9C;
+extern float D_004A6C60;
+extern float D_0055AB80[];
+extern char D_00430C88[], D_00430CA0[];
+int func_00127F70(void),func_00129E78(void);
+void func_001118F8_124258(char *, ...) __asm__("func_001118F8");
+void func_0012A6E0(float),func_00127168(void),func_0024DD98(void),func_0011DBB0(int,float);
+// MATCH func_00124258
+void battle_00124258(void)
+{
+    if (D_004A13D4 == 14 || func_00127F70() || !func_00129E78()) return;
+    if (D_004A6E44) func_0012A6E0(-D_004A6C60);
+    func_00127168();
+    if (!D_004A6C9C) {
+        func_001118F8_124258(D_00430C88);
+        func_0024DD98();
+        return;
+    }
+    func_001118F8_124258(D_00430CA0, D_004A13D4);
+    {
+        int i;
+        char *p = (char *)D_004A1A20;
+        ScrollActor **slot = D_003279A0_124258;
+        for (i = 0; i < 10; ++slot,++i,p+=5472) {
+            ScrollActor *a = *slot;
+            if (a) {
+                a->position[0] += D_0055AB80[0];
+                a->position[2] += D_0055AB80[2];
+                a->original[0] += D_0055AB80[0];
+                a->original[2] += D_0055AB80[2];
+            }
+            *(unsigned *)(p+4816) &= 0xfdffffffu;
+        }
+    }
+    {
+        float zero = 0.0f, one = 1.0f;
+
+        D_0055AB80[0] = zero;
+        D_0055AB80[1] = zero;
+        D_0055AB80[2] = zero;
+        D_0055AB80[3] = one;
+        func_0011DBB0(0, one);
+    }
+}
+
+typedef struct {
+    char pad[56];
+    int active;
+} BattleMotion_AA18;
+typedef struct {
+    char pad[4816];
+    unsigned flags;
+    char gap[368];
+    BattleMotion_AA18 *motion;
+    char gap2[44];
+    unsigned flags2;
+    char gap3[64];
+    char state;
+} BattleActor_AA18;
+
+extern int D_004A1A20, D_004A6D98, D_004A6C40, D_004A1AAC, D_004A6DB8, D_004A6CA4, D_004A6E88;
+extern void *D_003279A0_12AA18[] __asm__("D_003279A0");
+extern char D_00431828[], D_00431850[], D_00431888[];
+extern int func_001118F8(char *, ...);
+extern void func_0011D588(int, int);
+extern int func_0012C808(int);
+extern void func_001266F8(void);
+extern void func_0012A958(void);
+extern int func_0027C308(void);
+extern void func_00126798(void);
+extern void func_00127930(void);
+#define SLOT() ((BattleActor_AA18 *)(offset + D_004A1A20))
+// MATCH func_0012AA18
+int battle_0012aa18(void)
+{
+    int current = D_004A6D98;
+    int i, offset;
+    unsigned motionFlag;
+    if (D_004A6C40 != 0)
+        return current;
+    D_004A6C40 = 1;
+    D_004A1AAC = 0;
+    i = 0;
+    motionFlag = 0x40000;
+    offset = 0;
+    do {
+        register BattleActor_AA18 *actor __asm__("$2");
+        if (D_003279A0_12AA18[i] == 0)
+            goto advance;
+        if (SLOT()->flags & motionFlag) {
+            func_001118F8(D_00431828, i);
+            func_0011D588(current, -1);
+        }
+        actor = SLOT();
+        actor->state = 0;
+        actor->flags &= ~0x40000U;
+        if (D_003279A0_12AA18[i] != 0 && SLOT()->motion->active)
+            SLOT()->state = 1;
+        actor = SLOT();
+        if (!(actor->flags & 0x20000000))
+            goto advance;
+        if (!(actor->flags2 & 0x200))
+            goto advance;
+        actor->state = 0;
+        func_0012C808(i);
+advance:
+        offset += 5472;
+    } while (++i < 20);
+    func_001266F8();
+    func_0012A958();
+    current = func_0027C308();
+    func_001118F8(D_00431850, current);
+    func_00126798();
+    if (D_004A6DB8 != 0) {
+        if (current < 0) {
+            D_004A6E88 = 0;
+            func_00127930();
+        }
+    } else if (D_004A6CA4 != current)
+        D_004A6E88 = 120;
+    func_001118F8(D_00431888, current);
+    return current;
+}
+
+#undef SLOT
+
+extern int D_004A13D4,D_004A6E24,D_004A6C18,D_004A1A20;
+extern char D_004A1920[],D_00430530[],D_00430540[];
+void func_001118F8_11D3F0(char *, ...) __asm__("func_001118F8");
+int func_00277788(void),func_00277F80(void);
+#define ENTRY() (actor*5472+D_004A1A20)
+#define FLAGS() (*(int *)(ENTRY()+4816))
+// MATCH func_0011D3F0
+int battle_0011d3f0(int actor, int motion)
+{
+    int result;
+    unsigned mask, flags;
+    if (D_004A13D4 == 14)
+        return 0;
+    if (D_004A6E24)
+        func_00239568(D_004A1920,actor);
+    if (D_004A6C18 == 1)
+        return 0;
+    mask = *(unsigned *)(*(int *)(ENTRY()+5456) + motion*156);
+    result = 0;
+    if ((mask & 0x40000041) == 0x40000041 || (mask & 0x40)) {
+        int current = FLAGS();
+        result = 1;
+        if (!(current & 0x300)) FLAGS()
+            = current | 0x100;
+    }
+    if (FLAGS() & 0x100) {
+        result = 1;
+        if (!func_00277788()) FLAGS() = (FLAGS() & -257)
+            | 0x200;
+    }
+    flags = FLAGS();
+    if (flags & 0x100)
+        result = 1;
+    if (flags & 0x200) {
+        result = 1;
+        if (D_004A6E24)
+            func_00239568(D_00430530);
+        if (func_00277F80())
+            goto finish;
+        if (D_004A6E24)
+            func_001118F8_11D3F0(D_00430540);
+        FLAGS() &= -513;
+    }
+finish:
+    return result;
+}
+
+#undef FLAGS
+#undef ENTRY
