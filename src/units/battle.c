@@ -1,5 +1,42 @@
 /* Functions of this report unit, matched by hand. */
 #include "../common.h"
+#include "battle_load.h"
+
+typedef struct {
+    char bytes[16];
+} BattleTransformBlock;
+
+typedef struct {
+    char pad[32];
+    union {
+        float position[4];
+        BattleTransformBlock block;
+    } transform;
+    char gap[80];
+    BattleTransformBlock originalTransform;
+} BattleModel_11ADC0;
+
+extern char D_004A1910[], D_00321AA0[];
+extern int D_002F9804[];
+int func_001118F8_11ADC0(char *, ...) __asm__("func_001118F8");
+BattleModel_11ADC0 *func_00246D88(char *, int);
+void func_00246188(BattleModel_11ADC0 *, int, int, int);
+
+// MATCH func_0011ADC0
+BattleModel_11ADC0 *battle_0011adc0(int id, const float *position)
+{
+    BattleModel_11ADC0 *model;
+
+    func_001118F8_11ADC0(D_004A1910, id);
+    model = func_00246D88(D_00321AA0, D_002F9804[0]);
+    model->transform.position[0] = position[0];
+    model->transform.position[1] = position[1];
+    model->transform.position[2] = position[2];
+    model->originalTransform = model->transform.block;
+    if (id)
+        func_00246188(model, id, 0, 0);
+    return model;
+}
 
 extern int D_004A1660;
 // MATCH func_00127EE8
@@ -175,4 +212,117 @@ void battle_0012a6e0(float a) {
       D_003279A0[i]->f68 -= a;
     }
   }
+}
+
+extern int D_004A1A20_129E10 __asm__("D_004A1A20");
+int func_00127430(void);
+int func_0012C448(int);
+
+// MATCH func_00129E10
+int battle_00129e10(void)
+{
+    int state;
+
+    if (func_00127430())
+        return 0;
+    if (func_0012C448(D_004A6D94))
+        return 0;
+
+    state = *(int *)(D_004A6D94 * 5472 + D_004A1A20_129E10 + 4836);
+    if (state == 1)
+        return 0;
+    if (state == 2)
+        return 0;
+    else
+        return 1;
+}
+
+extern float D_0049FE54, D_004A167C;
+extern volatile float D_0049FE58;
+extern int D_004A6C2C;
+
+// MATCH func_0012A7F8
+void battle_0012a7f8(int mode, float scale)
+{
+    if (scale >= 0.0f)
+        D_004A6DAC = scale;
+    D_004A6C2C = mode;
+
+    switch (mode) {
+    case 0:
+        D_004A167C = 0.0f;
+        break;
+    case 1:
+        D_004A167C = D_0049FE54;
+        break;
+    case 2:
+        D_004A167C = D_0049FE58;
+        break;
+    }
+}
+
+extern int D_004A12A4;
+extern char D_00431B88[], D_00431B98[];
+int func_00196FF8(void);
+int func_0018B2A8(char *);
+void func_0018B7C8(char *, char *);
+void func_0018B668(char *, char *);
+
+// MATCH func_0012CBE8
+int battle_0012cbe8(BattleLoadList *list)
+{
+    int size;
+
+    if (func_00196FF8())
+        return 1;
+    if (list->remaining != 0) {
+        int current;
+        BattleLoadEntry *entry;
+        char *buffer;
+
+        list->remaining--;
+        size = func_0018B2A8(list->entries[list->current].name);
+        if (size < 0) {
+            func_001118F8(D_00431B88);
+            return 0;
+        }
+        if (list->totalSize + size > 0x125000) {
+            func_001118F8(D_00431B98);
+            return 0;
+        }
+        if (D_004A12A4 == 10)
+            func_0018B7C8(list->entries[list->current].name, list->buffer);
+        else
+            func_0018B668(list->entries[list->current].name, list->buffer);
+
+        current = list->current;
+        entry = &list->entries[current];
+        buffer = list->buffer;
+        list->entries[current].size = size;
+        entry->data = buffer;
+        list->totalSize += size;
+        list->buffer += size;
+        list->current++;
+        return 1;
+    }
+    return 0;
+}
+
+extern int D_004A1AAC;
+int func_00126058(void);
+
+// MATCH func_00129B78
+int battle_00129b78(void)
+{
+    int state = D_004A1AAC;
+
+    if (state == 1)
+        return 1;
+    if (state == 2 || state == 0) {
+        int ready = func_00126058();
+
+        if (ready != 0)
+            return 1;
+    }
+    return 0;
 }
