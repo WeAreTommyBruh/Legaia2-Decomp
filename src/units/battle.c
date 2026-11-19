@@ -665,3 +665,49 @@ void battle_001260b0(void)
     func_001118F8(D_00430F70);
     D_003210E0[40] = D_004A1A70;
 }
+
+typedef struct { char pad[12]; unsigned flags; char rest[12]; } BattleConfig_1241F0;
+extern BattleConfig_1241F0 D_00323B40[];
+extern int D_004A13D4, D_004A1A50, D_004A6D94;
+extern char *D_004A1A20_1241F0 __asm__("D_004A1A20");
+
+
+// MATCH func_001241F0
+int battle_001241f0(int actor)
+{
+    int expected;
+    register int result __asm__("$2");
+    if (!(D_00323B40[D_004A13D4].flags & 8))
+        return 0;
+    if (D_004A1A50 & 16)
+        return 0;
+    expected = D_004A6D94;
+    result = 0;
+    if (expected == actor)
+        result = *(signed char *)(5472 * actor + D_004A1A20_1241F0 + 5305) != 0;
+    return result;
+}
+
+typedef struct { char pad[1188]; int state; } Substate;
+typedef struct { char pad[1240]; Substate *substate; } Context;
+typedef struct { char pad[56]; int count; } ActorAction;
+extern Context *D_004A1A3C_1269E0 __asm__("D_004A1A3C");
+extern int D_004A1A20_1269E0 __asm__("D_004A1A20");
+int func_001227B8(void);
+// MATCH func_001269E0
+int battle_001269e0(int actor)
+{
+    Substate *state;
+    register int result __asm__("$2");
+    int busy;
+
+    if (func_00127430() && (state = D_004A1A3C_1269E0->substate) && !state->state) {
+        result = 0;
+    } else {
+        busy = func_001227B8();
+        result = 0;
+        if (!busy)
+            result = (*(ActorAction **)(actor * 5472 + D_004A1A20_1269E0 + 5188))->count <= busy;
+    }
+    return result;
+}

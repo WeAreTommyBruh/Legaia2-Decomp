@@ -451,3 +451,145 @@ finish:
 
 #undef FLAGS
 #undef ENTRY
+
+extern int D_004A6C78;
+// MATCH func_00120588
+void battle_00120588(int actor)
+{
+    int offset = actor * 5472;
+    int base = D_004A1A20;
+    int *entry = (int *)(offset + base);
+    int count = entry[1226];
+    if (count != 0) {
+        signed char *p;
+        int start;
+        int id;
+        register int *out __asm__("$4");
+        int end = count + offset;
+        start = base + 5151;
+        id = D_004A6C78;
+        p = (signed char *)(end + start);
+        out = entry;
+        do {
+            int next = count - 1;
+            if (*p != id)
+                break;
+            count = next;
+            p--;
+        } while (count > 0);
+        out[1226] = count;
+        {
+            register int next __asm__("$2") = id - 1;
+            D_004A6C78 = next;
+        }
+    }
+}
+
+extern int D_004A1A20;
+extern int D_004A1AA8_125388 __asm__("D_004A1AA8");
+extern int D_00321820[];
+extern char D_00404318[], D_00404778[], D_00430D98[], D_00430DD8[];
+extern int func_001118F8(char *, ...);
+extern void func_0021EB20(int, char *, char *, int);
+
+// MATCH func_00125388
+void battle_00125388(int actor, char *arg)
+{
+    int offset, index;
+    char *entry;
+    char *name = arg;
+    register int slotBase __asm__("$2");
+
+    func_001118F8(D_00430D98);
+    offset = actor * 5472;
+    slotBase = D_004A1A20;
+    entry = (char *)(offset + slotBase);
+    index = *(int *)(entry + 4964);
+    if (*(unsigned *)(entry + 4816) & 0x40000000u)
+        func_0021EB20(D_004A1AA8_125388, name, D_00404318 + index * 112,
+                      D_00321820[*(int *)(entry + 4948)]);
+
+
+    offset += D_004A1A20;
+    if (*(unsigned *)(offset + 4816) & 0x20000000u) {
+        char *base = D_00404778;
+        char *data;
+        int type;
+        base -= 11200;
+        data = base + index * 112;
+        type = *(int *)(offset + 4964);
+        index = *(int *)(offset + 4948) + 3;
+        if (type == 165 || type == 214 || type == 340)
+            index = 6;
+        func_0021EB20(D_004A1AA8_125388, name, data, D_00321820[index]);
+        func_001118F8(D_00430DD8, name, index);
+    }
+}
+
+typedef struct {
+    char *name;
+    char pad[108];
+} BattleNameRecord_128058;
+
+extern int D_004A6DF0, D_004A6DF4, D_004A1A20;
+extern int D_00314CC8[];
+extern BattleNameRecord_128058 D_004047A0[];
+extern char *D_0055B320[];
+extern int D_00324490[];
+extern int func_002DD36C(const char *, const char *);
+extern int func_001118F8(char *, ...);
+extern int func_0023C728(void *, int);
+
+// MATCH func_00128058
+void battle_00128058(int input, int unused, char *name)
+{
+    register int actor __asm__("$23") = input;
+    int count, matches;
+    int fmtBase;
+    int i;
+    if (actor < 4)
+        return;
+    count = 0;
+    matches = 0;
+    if (D_004A6DF0 >= 0) {
+        matches = 1;
+        i = 0;
+        fmtBase = 0x430000;
+
+        for (; i < 4; i++) {
+            int id = D_00314CC8[i];
+            if (id >= 0 && func_002DD36C(name, D_004047A0[id].name) == 0) {
+                if (D_004A6DF0 != i)
+                    matches++;
+            }
+        }
+        if (matches >= 2) {
+            for (i = 0; i < D_004A6DF0 + 1; i++) {
+                int id = D_00314CC8[i];
+                if (id >= 0) {
+                    int same = func_002DD36C(name, D_004047A0[id].name);
+                    if (same == 0)
+                        count++;
+                }
+            }
+        }
+    } else {
+        i = 0;
+        fmtBase = 0x430000;
+        if (D_004A6DF4 > 0) do {
+            int same = func_002DD36C(D_0055B320[i], name);
+            if (same == 0)
+                count++;
+        } while (++i < D_004A6DF4);
+        if (count)
+            count++;
+        __asm__ ("" : "+r"(fmtBase));
+    }
+    /* The format at D_00431398 uses separate high and low address loads. */
+    func_001118F8((char *)(fmtBase + 0x1398), count, matches);
+    if (count) {
+        register int offset __asm__("$6") = actor * 5472;
+
+        func_0023C728((void *)(D_004A1A20 + offset + 4872), D_00324490[count - 1]);
+    }
+}
