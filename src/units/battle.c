@@ -711,3 +711,17 @@ int battle_001269e0(int actor)
     }
     return result;
 }
+
+typedef struct { int pad; int size; void *data; char *name; } Ent_0012CD20;
+typedef struct { Ent_0012CD20 e[8]; int pad[2]; int n; } Tab_0012CD20;
+typedef struct { char pad[0x14]; char *name; } Req_0012CD20;
+extern int D_004A1A20_12CD20 __asm__("D_004A1A20"), D_004A6DF0_12CD20 __asm__("D_004A6DF0");
+extern char D_0042FDA0_12CD20[] __asm__("D_0042FDA0"), D_00431BB8_12CD20[] __asm__("D_00431BB8"), D_00431BD8_12CD20[] __asm__("D_00431BD8");
+int func_002DD36C_12CD20(void *, void *) __asm__("func_002DD36C");
+void *func_00162130_12CD20(int, void *, int) __asm__("func_00162130");
+void func_002DC650_12CD20(void *, void *, int) __asm__("func_002DC650");
+void func_001118F8_12CD20(void *, ...) __asm__("func_001118F8");
+void *func_0018B508_12CD20(void *, void *) __asm__("func_0018B508");
+// MATCH func_0012CD20
+void *battle_0012cd20(Tab_0012CD20 *t, int b, Req_0012CD20 *r) { char buf[16]; char *name; void *p; int i, off, c; char **q; int *sz;  if (*(unsigned *)(b * 0x1560 + D_004A1A20_12CD20 + 0x12d0) & 0x60000000) { if (D_004A6DF0_12CD20 < 0) { name = r->name; goto load; } i = 0; if (i < t->n) { q = &t->e[0].name; do { off = i * 16; if (func_002DD36C_12CD20(r->name, *q) == 0) { sz = &t->e[0].size; sz = (int *)((char *)sz + off); p = func_00162130_12CD20(*sz, D_0042FDA0_12CD20, 0x2eb7); func_002DC650_12CD20(p, *(void **)((char *)t + off + 8), *sz); func_001118F8_12CD20(D_00431BB8_12CD20, p); return p; } i++; q += 4; } while (i < t->n); } } name = r->name; load: if (name != 0) { p = func_0018B508_12CD20(name, buf); func_001118F8_12CD20(D_00431BD8_12CD20, p); return p; } return 0; }
+
