@@ -725,3 +725,22 @@ void *func_0018B508_12CD20(void *, void *) __asm__("func_0018B508");
 // MATCH func_0012CD20
 void *battle_0012cd20(Tab_0012CD20 *t, int b, Req_0012CD20 *r) { char buf[16]; char *name; void *p; int i, off, c; char **q; int *sz;  if (*(unsigned *)(b * 0x1560 + D_004A1A20_12CD20 + 0x12d0) & 0x60000000) { if (D_004A6DF0_12CD20 < 0) { name = r->name; goto load; } i = 0; if (i < t->n) { q = &t->e[0].name; do { off = i * 16; if (func_002DD36C_12CD20(r->name, *q) == 0) { sz = &t->e[0].size; sz = (int *)((char *)sz + off); p = func_00162130_12CD20(*sz, D_0042FDA0_12CD20, 0x2eb7); func_002DC650_12CD20(p, *(void **)((char *)t + off + 8), *sz); func_001118F8_12CD20(D_00431BB8_12CD20, p); return p; } i++; q += 4; } while (i < t->n); } } name = r->name; load: if (name != 0) { p = func_0018B508_12CD20(name, buf); func_001118F8_12CD20(D_00431BD8_12CD20, p); return p; } return 0; }
 
+typedef struct {
+    char pad[20];
+    void (*callback)(void);
+    char gap[12];
+    float value;
+    char rest[180];
+    void *state;
+} BattleActor_126EA0_00126EA0;
+
+extern BattleActor_126EA0_00126EA0 *D_003279A0_126EA0[] __asm__("D_003279A0");
+extern int D_004A1A20_126EA0 __asm__("D_004A1A20");
+extern char D_00431278_126EA0[] __asm__("D_00431278");
+void func_001118F8_126EA0(char *, ...) __asm__("func_001118F8");
+void func_00124B68_126EA0(void) __asm__("func_00124B68");
+float func_00127498_126EA0(void *) __asm__("func_00127498");
+
+// MATCH func_00126EA0
+void BatPlayerRevive(int id) { BattleActor_126EA0_00126EA0 **slot = &D_003279A0_126EA0[id]; BattleActor_126EA0_00126EA0 *actor; int offset; int entry; int flags, e2;  if (*slot == 0) { func_001118F8_126EA0(D_00431278_126EA0, id); return; } offset = id * 5472; entry = (offset + D_004A1A20_126EA0); *(char *)(entry + 4940) = 1; e2 = offset + D_004A1A20_126EA0; flags = (*(int *)(entry + 4816) | 0x4000001) & ~0x800; actor = *slot; *(int *)(e2 + 5204) = 0; *(int *)(e2 + 4944) = 0; actor->state = 0; actor->callback = func_00124B68_126EA0; *(int *)(entry + 4816) = flags; (*slot)->value = func_00127498_126EA0((void *)0x70003e00); if (id < 4) *(int *)(offset + D_004A1A20_126EA0 + 4816) |= 0x40000000; else *(int *)(offset + D_004A1A20_126EA0 + 4816) |= 0x20000000; }
+
