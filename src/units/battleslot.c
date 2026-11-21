@@ -48,3 +48,26 @@ extern V8_00294CB0 D_004A6788[3]; extern char D_00343028_00294CB0[] __asm__("D_0
 void func_00294560(void *, int); void func_001649E0(void *); void func_0010C2B0(char *, int, int, int, int, int, int);
 // MATCH func_00294CB0
 int battleslot_00294cb0(O3_00294CB0 *o) { if (--o->w == 0 || (D_004A12D8_00294CB0 & 0x200040)) { func_00294560(o, 0); func_001649E0(o); o->v = D_004A6788[0]; func_0010C2B0(D_00343028_00294CB0, 120, 13, 1, 1, 0, 0); } return -1; }
+
+typedef struct { char p0[0x34]; unsigned w34; char p1[0xc]; int w44; } X_00294E50;
+typedef struct { char p[78]; short h; int w80; } S_00294E50;
+typedef struct { char p[16]; unsigned long long *cur; } G_00294E50;
+extern char D_00499658_294E50[] __asm__("D_00499658");
+extern char *D_0041EEA8_294E50[] __asm__("D_0041EEA8");
+extern G_00294E50 D_00314C20_294E50 __asm__("D_00314C20");
+extern char D_004A6798_294E50[] __asm__("D_004A6798"), D_0041EE98_294E50[] __asm__("D_0041EE98");
+extern int func_00164A00_294E50(void *) __asm__("func_00164A00");
+extern int func_00164CD8_294E50(void *) __asm__("func_00164CD8");
+extern int func_00130FD8_294E50(char *) __asm__("func_00130FD8");
+extern void func_00239568_294E50(char *, int, int, char *) __asm__("func_00239568");
+extern void func_0024BC98_294E50(int, int, int, int, void *) __asm__("func_0024BC98");
+extern void func_00294718_294E50(void *) __asm__("func_00294718");
+extern void func_00190328_294E50(void *) __asm__("func_00190328");
+extern void func_00190420_294E50(void *) __asm__("func_00190420");
+extern void func_00164668_294E50(void *) __asm__("func_00164668");
+extern void func_0012CF78_294E50(void) __asm__("func_0012CF78");
+extern void func_001633E8_294E50(int, int, void *) __asm__("func_001633E8");
+extern int func_00294BA8_294E50(void) __asm__("func_00294BA8");
+// MATCH func_00294E50
+void battleslot_00294e50(S_00294E50 *s) { char *str; int n; unsigned long long *p; if (s->h == -1 && (int)s->w80 == (int)func_00294BA8_294E50) return; if (func_00164A00_294E50(s) != 0) str = D_0041EEA8_294E50[func_00164CD8_294E50(s) - 1]; else str = D_00499658_294E50; n = func_00130FD8_294E50(str); func_00239568_294E50(D_004A6798_294E50, 160 - n / 2, 128, str); func_0024BC98_294E50(((X_00294E50 *)s)->w44, 0x3140, 0x3c00, 0, &D_00314C20_294E50); func_00294718_294E50(s); func_00190328_294E50(&D_00314C20_294E50); p = D_00314C20_294E50.cur; p[0] = 0x44; p[1] = 0x42; p[2] = (unsigned long long)((X_00294E50 *)s)->w34 | 0x3f80000000000000ULL; p[3] = 1; p[4] = 0x156; D_00314C20_294E50.cur = p + 6; p[5] = 0; func_001633E8_294E50(0x100, 0x60, D_0041EE98_294E50); func_00190420_294E50(&D_00314C20_294E50); func_00164668_294E50((char *)s + 60); func_0012CF78_294E50(); }
+
