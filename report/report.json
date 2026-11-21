@@ -1,15 +1,15 @@
 {
  "measures": {
-  "fuzzy_match_percent": 22.015127,
+  "fuzzy_match_percent": 22.088512,
   "total_code": "2022208",
-  "matched_code": "442004",
-  "matched_code_percent": 21.857494,
+  "matched_code": "443488",
+  "matched_code_percent": 21.93088,
   "total_data": "1770364",
   "matched_data": "2444",
   "matched_data_percent": 0.1380507,
   "total_functions": 6256,
-  "matched_functions": 4489,
-  "matched_functions_percent": 71.75512,
+  "matched_functions": 4490,
+  "matched_functions_percent": 71.771095,
   "total_units": 155
  },
  "units": [
@@ -2289,11 +2289,11 @@
     "total_code": "88704",
     "total_functions": 207,
     "total_units": 1,
-    "fuzzy_match_percent": 31.349206349206348,
-    "matched_code": "27808",
-    "matched_code_percent": 31.349206349206348,
-    "matched_functions": 174,
-    "matched_functions_percent": 84.05797101449275,
+    "fuzzy_match_percent": 33.02218614718615,
+    "matched_code": "29292",
+    "matched_code_percent": 33.02218614718615,
+    "matched_functions": 175,
+    "matched_functions_percent": 84.54106280193237,
     "total_data": "444",
     "matched_data": "444",
     "matched_data_percent": 100.0
@@ -2313,7 +2313,7 @@
      "name": ".text",
      "metadata": {},
      "size": "89088",
-     "fuzzy_match_percent": 31.564295977011493
+     "fuzzy_match_percent": 33.23455459770115
     },
     {
      "name": ".rodata",
@@ -2426,128 +2426,129 @@
      "address": "35368"
     },
     {
-     "name": "battle_00122138",
-     "size": "1484",
-     "metadata": {},
-     "address": "37016"
-    },
-    {
      "name": "battle_00122800",
      "size": "1500",
      "metadata": {},
-     "address": "38504"
+     "address": "37016"
     },
     {
      "name": "battle_00123118",
      "size": "940",
      "metadata": {},
-     "address": "40008"
+     "address": "38520"
     },
     {
      "name": "battle_001234c8",
      "size": "2904",
      "metadata": {},
-     "address": "40952"
+     "address": "39464"
     },
     {
      "name": "battle_001243a0",
      "size": "1704",
      "metadata": {},
-     "address": "43856"
+     "address": "42368"
     },
     {
      "name": "battle_00124b68",
      "size": "1844",
      "metadata": {},
-     "address": "45560"
+     "address": "44072"
     },
     {
      "name": "battle_001254d0",
      "size": "2916",
      "metadata": {},
-     "address": "47408"
+     "address": "45920"
     },
     {
      "name": "battle_00126410",
      "size": "444",
      "metadata": {},
-     "address": "50328"
+     "address": "48840"
     },
     {
      "name": "battle_00127600",
      "size": "652",
      "metadata": {},
-     "address": "50776"
+     "address": "49288"
     },
     {
      "name": "battle_001284d8",
      "size": "2436",
      "metadata": {},
-     "address": "51432"
+     "address": "49944"
     },
     {
      "name": "battle_00128e70",
      "size": "1220",
      "metadata": {},
-     "address": "53872"
+     "address": "52384"
     },
     {
      "name": "battle_001294c8",
      "size": "392",
      "metadata": {},
-     "address": "55096"
+     "address": "53608"
     },
     {
      "name": "battle_0012b228",
      "size": "2512",
      "metadata": {},
-     "address": "55488"
+     "address": "54000"
     },
     {
      "name": "battle_0012bbf8",
      "size": "1500",
      "metadata": {},
-     "address": "58000"
+     "address": "56512"
     },
     {
      "name": "battle_0012c1f0",
      "size": "592",
      "metadata": {},
-     "address": "59504"
+     "address": "58016"
     },
     {
      "name": "battle_0012c498",
      "size": "872",
      "metadata": {},
-     "address": "60096"
+     "address": "58608"
     },
     {
      "name": "battle_00118638",
      "size": "200",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "60968"
+     "address": "59480"
     },
     {
      "name": "battle_0011bb28",
      "size": "308",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "61168"
+     "address": "59680"
     },
     {
      "name": "battle_0011dfe0",
      "size": "208",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "61480"
+     "address": "59992"
     },
     {
      "name": "battle_00121980",
      "size": "104",
      "fuzzy_match_percent": 100.0,
      "metadata": {},
-     "address": "61688"
+     "address": "60200"
+    },
+    {
+     "name": "battle_00122138",
+     "size": "1484",
+     "fuzzy_match_percent": 100.0,
+     "metadata": {},
+     "address": "60304"
     },
     {
      "name": "battle_00126798",
@@ -48372,16 +48373,16 @@
    "id": "game",
    "name": "Game code (attributed to a .cpp file)",
    "measures": {
-    "fuzzy_match_percent": 20.540298,
+    "fuzzy_match_percent": 20.757214,
     "total_code": "684140",
-    "matched_code": "138272",
-    "matched_code_percent": 20.211067,
+    "matched_code": "139756",
+    "matched_code_percent": 20.427982,
     "total_data": "848",
     "matched_data": "848",
     "matched_data_percent": 100.0,
     "total_functions": 2043,
-    "matched_functions": 1428,
-    "matched_functions_percent": 69.89721,
+    "matched_functions": 1429,
+    "matched_functions_percent": 69.94616,
     "total_units": 77
    }
   },
