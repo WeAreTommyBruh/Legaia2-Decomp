@@ -209,6 +209,13 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   multi-note sibling, ops~26, same copy), 2d48f8 (1 word: missing `daddu $2,$3` copy of `se[prog+1]`; use `break` not `return r` at the loop end), 2d4768 (3 words:
   `lw ent` before `sll`), 2d33d8 (register swap), 2d5050 (or-association order), 2d0e78 (1,800 bytes, untouched), 2d3430, 2d3190, 2d40a8.
 
+## Session 35 (Claude + two Sonnet 5.5 subagents at the user's request, Battle; 9 functions)
+
+- Matched 11bb28, 127930, 129e80, 1219e8, 127bb8, 127d50 (both -fexceptions, battle_eh.c), 12a1b8, battleslot 294e50. Codex matched 11d8a8/126b20 in parallel.
+- Fixes: `int` callee return type for lone $2/$3 swaps; unfolded GS constant via `float fq = 1.0f; (u_long)*(u_int *)&fq << 32 | (u_long)0x80 << 24`; `-fno-cse-skip-blocks` stops a 0.0f constant being shared across blocks; `-fno-strength-reduce` keeps per-iteration `i*156` mults (12bbf8); `lui $1; ld` = a double literal (0.01 at 0x4315C0 in 1294c8).
+- emit.py breaks multi-name prototype lines (`extern int a(..), b(..) __asm__("x") __asm__("y");`) and writes mid-file `// cflags:` lines that apply to the whole unit: split/move by hand. commit.sh hardcodes the Codex co-author line.
+- Near misses in build/work/w/*.best.c: 120428 (8 words, store alias), 11dbb0 (33/ops9), 11d588 (34/ops~10), 12d540 (ops3, extra copy pseudos), 127600 (ops5), 12bbf8 (ops5, -fno-strength-reduce), 12c498 (ops7), 11bc88 (ops9), 123118 (ops14), 12c1f0 (ops22), 12d108 (unrolled-by-2 loop), 1212a8/11f5f0 (right size, ops 70-90).
+
 ## Session 33c (Claude, 20.60% -> 20.82%, goal 21% not reached; user asked to stop)
 
 - Matched 12: 248340, 2231d8, 21a130, 1bacd8, 1734f0, 1f5780, 2a2a38, 2a2420, 295a30, 16a7c0, 12b088, 295b88.
