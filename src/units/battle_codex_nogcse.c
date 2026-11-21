@@ -402,3 +402,51 @@ void battle_00124020(int actor)
         } while ((again = i < count));
     }
 }
+
+extern int D_004A1A50, D_004A6D94, D_004A1A20;
+
+// MATCH func_00124168
+int battle_00124168(int input)
+{
+    register int actor __asm__("$8") = input;
+    register int current __asm__("$7");
+    register int base __asm__("$4");
+    register int stride __asm__("$2");
+    int result;
+
+    if (D_004A1A50 & 0x10)
+        return 0;
+
+    current = D_004A6D94;
+    if (actor < 4) {
+        stride = 5472;
+        base = D_004A1A20;
+        if (*(int *)(current * stride + base + 4812) == 100)
+            return 0;
+    } else {
+        stride = 5472;
+        base = D_004A1A20;
+        if (*(int *)(current * stride + base + 4812) == 101)
+            return 0;
+    }
+
+    {
+        register int selected __asm__("$4");
+        register int address __asm__("$3");
+        register int savedBase __asm__("$6") = base;
+        register int scale __asm__("$5") = 5472;
+
+        selected = current * scale;
+        address = selected + savedBase;
+        __asm__ volatile ("" : "+r"(address));
+        selected = *(int *)(address + 4812);
+        result = 0;
+        if (selected == actor) {
+            result = actor * scale;
+            address = result + savedBase;
+            __asm__ ("" : "+r"(address));
+            result = *(signed char *)(address + 5305) != 0;
+        }
+    }
+    return result;
+}
