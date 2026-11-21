@@ -122,3 +122,70 @@ void battle_001283f0(void)
 done:
     return;
 }
+
+extern int D_004A12B0;
+extern int D_0053F900[];
+extern void func_002A53B0(int *, int, int, int);
+extern void func_002A5EC0(int *);
+// MATCH func_00126848
+void battle_00126848(int image, int options, int x, int y, int rightMargin, int bottomMargin)
+{
+    int imageId;
+    int imageOptions;
+    register int scaledX __asm__("$13");
+    register int margin __asm__("$2");
+    int width;
+    register int height __asm__("$8");
+    short screenWidth;
+    int remainingWidth;
+    int alternate;
+    register int leftControl __asm__("$2");
+    register int rightControl __asm__("$6");
+    register int enabled __asm__("$5");
+    int scaledY;
+    int *packet;
+
+    imageId = image;
+    imageOptions = options;
+    scaledX = x;
+    screenWidth = 512;
+    margin = rightMargin;
+
+    if (!imageId)
+        return;
+    width = screenWidth - margin;
+    alternate = D_004A12B0 & 1;
+    height = 256 - bottomMargin;
+    leftControl = 2240;
+    __asm__("" : "+r"(leftControl));
+    rightControl = leftControl;
+    __asm__("" : "+r"(rightControl));
+    rightControl = alternate ? 0 : rightControl;
+    __asm__("" : "+r"(height));
+    packet = D_0053F900;
+    remainingWidth = width;
+    width = remainingWidth - scaledX;
+    __asm__("" : "+r"(rightControl));
+    height -= y;
+    enabled = 1;
+    scaledY = y << 4;
+    leftControl = alternate ? leftControl : 0;
+    packet[29] = enabled;
+    scaledX <<= 4;
+    packet[22] = rightControl;
+    width <<= 4;
+    height <<= 4;
+    packet[21] = leftControl;
+    packet[26] = imageOptions;
+    packet[25] = imageId;
+    packet[15] = scaledX;
+    packet[16] = scaledY;
+    packet[17] = width;
+    packet[18] = height;
+    packet[10] = 27648;
+    packet[11] = 30976;
+    packet[12] = 10240;
+    packet[13] = 3584;
+    func_002A53B0(packet, 128, 128, 128);
+    func_002A5EC0(packet);
+}

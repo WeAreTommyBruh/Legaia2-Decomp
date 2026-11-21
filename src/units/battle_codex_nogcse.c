@@ -450,3 +450,124 @@ int battle_00124168(int input)
     }
     return result;
 }
+
+typedef struct {
+    char pad[40];
+    int source;
+    int target;
+} BattleTransition_11DBB0;
+
+extern BattleTransition_11DBB0 D_003244F0[];
+extern char *D_004A1A20_11DBB0 __asm__("D_004A1A20");
+extern void *D_003279A0[];
+extern char D_004305D8[];
+extern int func_00127F70(void);
+extern void func_0024DD98(void);
+extern void func_0021B550(char *);
+extern void func_0024D048(float, int);
+extern void func_0024D8C0(int, float, float, int, int);
+extern int func_0024CFC8(void);
+
+// MATCH func_0011DBB0
+void battle_0011dbb0(float step, int input)
+{
+    int frames;
+    int limit;
+    int i;
+    int offset;
+    void **actors;
+    void **actorTable;
+    int range;
+    int stride;
+    int running;
+    int source, target;
+    int same;
+    BattleTransition_11DBB0 *transition;
+    int mode = input;
+
+    if (func_00127F70())
+        return;
+    switch (mode) {
+    case 0:
+        transition = D_003244F0;
+        same = -1;
+        goto setSame;
+    case 1: {
+        int from;
+        register int to __asm__("$4");
+        from = D_004A6D94;
+        to = D_004A6D9C;
+        D_003244F0->source = from;
+        D_003244F0->target = to;
+        break;
+    }
+    case 2: {
+        register int selected __asm__("$4") = D_004A6D94;
+        D_003244F0->target = -1;
+        __asm__("" : "+r"(selected));
+        D_003244F0->source = selected;
+        break;
+    }
+    case 3:
+        same = D_004A6D94;
+        __asm__ volatile ("" : : "r"(same));
+        transition = D_003244F0;
+    setSame:
+        transition->source = same;
+        transition->target = same;
+        break;
+    }
+    frames = 0;
+    limit = 12;
+    if (mode == 0) {
+        limit = 30;
+        func_0024DD98();
+    }
+    actorTable = D_003279A0;
+    range = mode - 1;
+    stride = 5472;
+
+    offset = 0;
+    do {
+        actors = actorTable;
+        i = 9;
+        do {
+            if (*actors)
+                func_0021B550(D_004A1A20_11DBB0 + offset);
+            offset += 5472;
+            i--;
+            actors++;
+        } while (i >= 0);
+        for (i = 0; i < 10; i++)
+            func_0024D048(step, i);
+        target = D_004A6D9C;
+        if ((unsigned)range < 2) {
+            char *base;
+            register int displacement __asm__("$2");
+            unsigned flags;
+            unsigned mask;
+            mask = 0x400000;
+            base = D_004A1A20_11DBB0;
+            displacement = target * stride;
+            __asm__("" : "+r"(mask), "+r"(base));
+            __asm__("" : "+r"(displacement));
+            flags = *(unsigned *)(displacement + (int)base + 4816);
+            if (flags & mask)
+                func_0024D8C0(0, 1.0f, 1.0f, D_004A6D94, target);
+        }
+        if (mode == 3) {
+            source = D_004A6D94;
+            func_0024D8C0(0, 1.0f, 1.0f, source, source);
+        }
+        if (func_0024CFC8()) {
+            for (i = 0; i < 10; i++)
+                func_0024D048(step, i);
+        }
+        frames++;
+        running = func_0024CFC8();
+        offset = 0;
+        if (frames > limit)
+            running = 0;
+    } while (running);
+    func_001118F8(D_004305D8, frames);
+}
