@@ -571,3 +571,74 @@ void battle_0011dbb0(float step, int input)
     } while (running);
     func_001118F8(D_004305D8, frames);
 }
+
+typedef struct {
+    int pad00;
+    int value;
+    char pad08[44];
+    int flags;
+    char pad38[45];
+    char enabled;
+    char pad66[26];
+} BattleMessageState;
+extern int D_0041AADC[];
+extern int D_004A6DBC, D_004A13D4, D_004A1A50, D_004A6DC0, D_004A6DC4;
+extern float D_0049FE38, D_0049FE3C;
+extern int D_00323B40[];
+extern char *D_004A1A20_129338 __asm__("D_004A1A20");
+extern BattleMessageState D_00323130[];
+extern void func_00235028(float, BattleMessageState *);
+// MATCH func_00129338
+void battle_00129338(void)
+{
+    int i, old, v, t;
+    BattleMessageState *w;
+    int *f;
+
+    if (D_0041AADC[0] == 0) {
+        D_004A6DBC = 0;
+        return;
+    }
+    D_004A6DBC = D_00323B40[D_004A13D4 * 7];
+    if (D_004A1A50 & 2)
+        D_004A6DBC = 0;
+    t = 1;
+    if (D_004A13D4 != 14) {
+        if (D_004A13D4 == 1)
+            t = 0;
+        if (*(unsigned *)(D_004A1A20_129338 + 0x6850) & 0x800)
+            t = 0;
+        if (*(float *)(D_004A1A20_129338 + 0x69d4) != 0.0f)
+            t = 0;
+        if (func_00221D60(D_00326F90, 6, t))
+            D_004A6DBC = 0;
+    }
+    v = D_004A6DBC;
+    if (v != 0 && v != D_004A6DC0) {
+        register int flag __asm__("$3");
+        register BattleMessageState *row __asm__("$4");
+        old = D_004A6DC4 & 1;
+        D_004A6DC4 = old ^ 1;
+        flag = D_00323130[old].flags;
+        row = &D_00323130[D_004A6DC4];
+        __asm__("" : "+r"(row));
+        flag &= ~2;
+        D_00323130[D_004A6DC4].value = v;
+        flag |= 0x80;
+        D_00323130[old].flags = flag;
+        D_004A6DC0 = v;
+        func_00235028(D_0049FE38, row);
+        D_00323130[D_004A6DC4].flags |= 2;
+        D_00323130[D_004A6DC4].enabled = 1;
+    }
+    w = D_00323130;
+    f = &D_00323130[0].flags;
+    i = 1;
+    do {
+        if (!(*f & 2))
+            func_00235028(D_0049FE3C, w);
+        w++;
+        i--;
+        f += 32;
+    } while (i >= 0);
+}
