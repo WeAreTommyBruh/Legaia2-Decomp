@@ -189,3 +189,131 @@ void battle_00126848(int image, int options, int x, int y, int rightMargin, int 
     func_002A53B0(packet, 128, 128, 128);
     func_002A5EC0(packet);
 }
+
+typedef struct {
+    char pad00[32];
+    float x;
+    char pad24[4];
+    float z;
+    char pad2c[24];
+    float angle;
+    char pad48[56];
+    float targetX;
+    char pad84[4];
+    float targetZ;
+} BattleMotion;
+
+extern int D_004A6D34, D_004A6E50, D_004A6D9C, D_004A6DAC, D_004A6C98, D_004A6D94, D_004A6C80;
+extern float D_004A6D30, D_0049FD48, D_0049FD4C, D_0049FD50;
+extern char D_004305C8[];
+extern void *D_004A1AA8;
+extern int func_00129E78(void);
+extern void func_001243A0(int, int);
+extern int func_0021AEE0(char *);
+extern int func_00127FC8(int);
+extern float func_00126930(int, int);
+extern float func_0022F3C8(float, float);
+extern float func_0022F5A0(float, float);
+extern int func_0021F2A8(void *, int, int);
+
+// MATCH func_0011D8A8
+int battle_0011d8a8(int actor, int waitForReads)
+{
+    char *slot;
+    char *base;
+    register char *table __asm__("$4");
+    BattleMotion *motion;
+    BattleMotion *otherMotion;
+    register int result __asm__("$20");
+    int actionIndex, target, reads, secondRead;
+    float dx, dz, limit, nextAngle;
+
+    register int offset __asm__("$2");
+    register char *initialBase __asm__("$4");
+
+    offset = actor * 5472;
+    initialBase = D_004A1A20;
+    slot = (char *)(offset + (int)initialBase);
+    actionIndex = *(int *)(slot + 4984);
+    table = *(char **)(slot + 5456);
+    result = 0;
+    if (!(*(unsigned *)(table + actionIndex * 156) & 0x102)) {
+        result = -1;
+        goto pollReads;
+    }
+    if (!func_00129E78() && !D_004A6E50) {
+        func_001243A0(actor, D_004A6D9C);
+        D_004A6E50 = 1;
+        D_004A6DAC = 0;
+        func_001118F8(D_004305C8);
+    }
+    if (--D_004A6D34 < 0)
+        goto pollReads;
+    {
+        register float current __asm__("$f1");
+        register float empty __asm__("$f0");
+        current = D_004A6D30;
+        empty = 0.0f;
+        if (current == empty)
+            goto pollReads;
+    }
+
+    target = D_004A6D94;
+    if (!D_004A6C98)
+        target = func_0021AEE0(D_004A1A20 + actor * 5472);
+    base = D_004A1A20;
+    motion = *(BattleMotion **)(base + actor * 5472 + 4800);
+    otherMotion = *(BattleMotion **)(base + target * 5472 + 4800);
+    if (!func_00127FC8(D_004A6D9C)) {
+        limit = func_00126930(actor, target);
+        dx = motion->targetX - otherMotion->targetX;
+        dz = motion->targetZ - otherMotion->targetZ;
+    } else {
+        float measured;
+        register float zero __asm__("$f1");
+        limit = func_00126930(actor, actor);
+        measured = motion->x;
+        zero = 0.0f;
+        __asm__("" : "+f"(zero));
+        dx = measured - zero;
+        dz = motion->z - D_0049FD48;
+    }
+
+    {
+        register char *actionBase __asm__("$5") = D_004A1A20;
+        table = *(char **)(actionBase + actor * 5472 + 5456);
+    }
+    if (*(unsigned *)(table + actionIndex * 156) & 0x100) {
+        register int a1 __asm__("$3"), a2 __asm__("$2");
+        nextAngle = func_0022F3C8(-dx, -dz);
+        a1 = (int)(nextAngle * 10.0f);
+        a2 = (int)(motion->angle * 10.0f);
+        __asm__ volatile ("" : : "r"(a1) : "$20");
+        result = 1;
+        if (a1 != a2) {
+            motion->angle += D_0049FD4C;
+            if (motion->angle > D_0049FD50)
+                motion->angle = 0.0f;
+        }
+    } else {
+        motion->angle = func_0022F3C8(dx, dz);
+        if (func_0022F5A0(dx, dz) < limit) {
+            if (!D_004A6E50) {
+                D_004A6D30 = 0.0f;
+                result = 0;
+            }
+        } else {
+            result = 1;
+        }
+    }
+
+pollReads:
+    if (waitForReads && !D_004A6C80) {
+        reads = func_0021F2A8(D_004A1AA8, D_004A6D94, 0);
+        secondRead = func_0021F2A8(D_004A1AA8, D_004A6D94, 1);
+        if (reads | secondRead)
+            return 1;
+        D_004A6C80 = 1;
+    }
+    return result;
+}
