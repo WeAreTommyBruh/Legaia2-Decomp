@@ -1,5 +1,6 @@
 /* Functions of this report unit, matched by hand. */
 #include "../common.h"
+#include "../ghidra.h"
 
 typedef struct { char p[200]; int w; } G_0029B720;
 extern G_0029B720 D_00425710_0029B720 __asm__("D_00425710");
@@ -358,3 +359,6 @@ void FUN_00295b88(O_295B88 *o) {
   o->w108 = 1;
   o->w120 = D_00342CD0_295B88;
 }
+
+// MATCH func_0029B8B8
+int FUN_0029b8b8(int *p, int a, int b, int c, int d, int e) { int r = p[0]; if (r == 0) return 0; if (p[1] != a) return 0; if (p[2] != b) return 0; if (p[3] != c) return 0; if (p[4] != d) return 0; return p[5] == e ? r : 0; }

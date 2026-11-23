@@ -1,5 +1,6 @@
 /* Functions of this report unit, matched by hand. */
 #include "../common.h"
+#include "../ghidra.h"
 
 int func_002CCCA8(int, int, int, int *); int func_002E9F90(int);
 // MATCH func_00195430
@@ -13,3 +14,16 @@ int FUN_00195210(void) { if (D_004A3798 != 0) { func_00194A48((int)D_00321300_00
 int func_002E9950(char *, int); int func_002E9D58(int, int, int); int func_002E9BD8_001954B0(int) __asm__("func_002E9BD8");
 // MATCH func_001954B0
 int FUN_001954b0(char *name, int *out) { int h; int r; h = func_002E9950(name, 1); if (h < 0) return h; r = func_002E9D58(h, 0, 2); *out = r; if (r < 0 || func_002E9D58(h, 0, 0) < 0) { func_002E9BD8_001954B0(h); return -1; } return h; }
+
+int func_002ED640(int, int, void *);
+extern char D_004A37E0[];
+// MATCH func_00195470
+void FUN_00195470(int param_1)
+{
+  int z;
+  do {
+    z = 0;
+loop:
+    if (func_002ED640(param_1, z, D_004A37E0) < 0) goto loop;
+  } while (0);
+}

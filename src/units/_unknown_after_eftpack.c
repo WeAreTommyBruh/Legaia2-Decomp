@@ -36,3 +36,14 @@ void FUN_00203e30(O__00203E30 *o, int a, int b, int c, int d)
         o->w528++;
     }
 }
+
+typedef struct { char p0[8]; int n; char p12[16]; char *tab; signed char st; } O_2031F8;
+int func_002DD4B0(char *, char *);
+// MATCH func_002031F8
+int FUN_002031f8(O_2031F8 *o, char *name)
+{
+  int i, off;
+  if (o->st != 1) return -1;
+  off = 0; for (i = 0; i < o->n; i++) { if (func_002DD4B0(name, o->tab + off) == 0) return i; off += 16; }
+  return -1;
+}

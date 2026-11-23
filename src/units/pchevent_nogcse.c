@@ -10,3 +10,6 @@ typedef struct { char p[208]; float f208; } S_0020C430;
 extern S_0020C430 D_0041EFB0; extern float D_004A6F74;
 // MATCH func_0020C430
 int pchevent_0020c430(void) { float d = (D_004A6F74 - D_0041EFB0.f208) * 0.5f; float q = d * d; if (d < 0) q = -q; D_004A6F74 = D_0041EFB0.f208 + q; if (D_004A6F74 < 0) D_004A6F74 = 0; D_0041EFB0.f208 = D_004A6F74; return 0; }
+
+// MATCH func_0020B910
+void pchevent_0020b910(char *o, int from, int to) { int b; int *d; int *q; int v; int s; int t; b = *(int *)(o + 12); d = (int *)(from * 4 + b); v = *d; s = 1; if (to < from) s = -1; if (from != to) { q = (int *)(from * 4 + (s * 4 + b)); do { t = *q; from += s; q += s; *d = t; d += s; } while (from != to); } (*(int **)(o + 12))[to] = v; }

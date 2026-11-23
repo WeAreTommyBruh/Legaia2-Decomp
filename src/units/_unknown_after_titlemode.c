@@ -1,5 +1,6 @@
 /* Functions of this report unit, matched by hand. */
 #include "../common.h"
+#include "../ghidra.h"
 
 extern long long D_004A12D8; typedef struct { char p[8]; int w; } O_00215A28;
 // MATCH func_00215A28
@@ -68,3 +69,12 @@ void FUN_00215420(int *o) { int p; int n; int a; unsigned v; p = (int)o; n = (*(
 void func_002147B8_002157E0(int *) __asm__("func_002147B8"); void func_00214A68_002157E0(int *, int, int, int) __asm__("func_00214A68");
 // MATCH func_002157E0
 void FUN_002157e0(int *o) { int d; int *p; int nv; register int u __asm__("$5"); unsigned w; p = (int *) o[1]; d = p[1]; nv = (o[2] * 0x78) / d; u = p[0]; w = nv; o[3] = w | (w * 0x100) | (w * 0x10000) | 0x80000000; func_00214A68_002157E0(o, u, 0, 0); func_002147B8_002157E0(o); }
+
+typedef struct { char p[0x2c]; float a; float b; } S;
+// MATCH func_00215F38
+void FUN_00215f38(S *s, int n)
+{
+  float t;
+  if (n == 0) { *(int *)&s->b = 0; return; }
+ t = 0.0f; if (n > 0) t = 1.0f; n = n >= 0 ? n : -n; s->b = (t - s->a) / (float)n;
+}

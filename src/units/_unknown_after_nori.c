@@ -1,5 +1,6 @@
 /* Functions of this report unit, matched by hand. */
 #include "../common.h"
+#include "../ghidra.h"
 
 extern int D_003FEBA8_00294260[] __asm__("D_003FEBA8"); int func_00294220(int);
 // MATCH func_00294260
@@ -74,3 +75,12 @@ void FUN_00294300(void) {
     func_00112C08(buf, &s, 3);
   }
 }
+
+// MATCH func_00291C20
+int FUN_00291c20(char *o, char a, char b) { char *t = *(char **)(o + 0xa8); char **l = (char **)(t + 0x140); unsigned i; for (i = 0; i < *(unsigned *)(t + 12); i++) { char *e = l[i]; if (*(unsigned char *)(e + 32) == a && *(unsigned char *)(e + 33) == b) return i; } return -1; }
+
+// MATCH func_00291C88
+int FUN_00291c88(char *o, char a, char b, int k) { char *t = *(char **)(o + 0xa8); char **l = (char **)(t + 0x140); unsigned i; int c = 0; for (i = 0; i < *(unsigned *)(t + 12); i++) { char *e = l[i]; if (*(unsigned char *)(e + 32) == a && *(unsigned char *)(e + 33) == b) { if (k == c++) return i; } } return -1; }
+
+// MATCH func_00291D58
+int FUN_00291d58(char *o, char a, char b) { char *t = *(char **)(o + 0xa8); char **l = (char **)(t + 0x140); unsigned i; int c = 0; for (i = 0; i < *(unsigned *)(t + 12); i++) { char *e = l[i]; if (*(unsigned char *)(e + 32) == a && *(unsigned char *)(e + 33) == b) c++; } return c; }

@@ -15,3 +15,7 @@ typedef struct { char c[16]; } B16_001E0150;
 void func_001E02A8_1E0150(char *) __asm__("func_001E02A8");
 // MATCH func_001E0150
 void mizuki_001e0150(char *o, char *p) { *(B16_001E0150 *)(o + 112) = *(B16_001E0150 *)p; *(float *)(o + 204) = *(float *)(p + 4); func_001E02A8_1E0150(o); }
+
+typedef struct { float x, y, z, w; } __attribute__((aligned(8))) V4; typedef struct { char p[152]; float f152, f156; char q[8]; int w168, w172; } S;
+// MATCH func_001DFD68
+V4 *mizuki_001dfd68(V4 *o, S *s) { V4 v; v.z = (float)s->w168; v.x = s->f152; v.y = s->f156; v.w = (float)s->w172; *o = v; return o; }

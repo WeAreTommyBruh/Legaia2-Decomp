@@ -1,5 +1,6 @@
 /* Functions of this report unit, matched by hand. */
 #include "../common.h"
+#include "../ghidra.h"
 
 extern float D_005F76C0[3];
 // MATCH func_002478E0
@@ -250,4 +251,36 @@ int FUN_00248340(short *a, short *b, short *c, short *d) {
   func_00249C98(r, u, v);
   if (r[0] + r[1] + r[2] > 0) return 1;
   return -1;
+}
+
+void func_0012D018(void);
+// MATCH func_00247588
+int FUN_00247588(int param_1,int param_2,int param_3)
+
+{
+  int iVar1;
+  int *piVar2;
+  int *piVar3;
+  int iVar4;
+  int iVar5;
+  int m;
+
+  piVar3 = (int *)(param_1 + 0x30);
+  iVar5 = -1;
+  for (iVar4 = 0; iVar4 < 4; iVar4++) { if (piVar3[iVar4] != 0 && (*(int *)(piVar3[iVar4] + 0x34) & 0x40) != 0) iVar5 = iVar4; }
+  { int n; for (n = 0; n < 4; n++) { if (piVar3[n] != 0) *(int *)(piVar3[n] + 0x34) &= ~0x40; } }
+  if (param_3 == 0 && param_2 >= 0) { int *q = piVar3 + param_2; *(int *)(*q + 0x34) |= 0x40; if (param_2 != iVar5) func_0012D018(); }
+  return;
+}
+
+extern int D_00370B08[]; extern int D_003DC5A0[]; extern char D_0045DBB8[];
+int func_00112C08(char *, int *, int);
+// MATCH func_0024A488
+void FUN_0024a488(void)
+{
+  int buf[13]; int i, n;
+  n = 0;
+  for (i = 0; i < 9; i++) buf[n++] = D_00370B08[i];
+  for (i = 0; i < 4; i++) buf[n++] = D_003DC5A0[i];
+  func_00112C08(D_0045DBB8, buf, n);
 }

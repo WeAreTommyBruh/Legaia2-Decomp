@@ -110,3 +110,22 @@ int FUN_00239238(unsigned f) {
   }
   return 0;
 }
+
+typedef struct { char p0[20]; char *n1; char *n2; char p1[28]; char *w56; unsigned *w60; } S37;
+extern S37 D_003D19B8; extern char D_005EFA00[], D_005F2A00[], D_0045C398[], D_0045C3A8[]; extern char D_004A52F4;
+void func_001118F8(char *, ...); int func_0018B7C8(char *, char *); void func_00241938(unsigned *, int, int);
+// MATCH func_00237BC8
+void FUN_00237bc8(void) {
+  unsigned *p1, *p3; unsigned u4;
+  func_001118F8(D_0045C398, D_003D19B8.n2);
+  D_003D19B8.w56 = D_005EFA00;
+  D_003D19B8.w60 = (unsigned *)D_005F2A00;
+  if (D_004A52F4 == 0) {
+    func_0018B7C8(D_003D19B8.n1, D_005EFA00);
+    p1 = D_003D19B8.w60; func_0018B7C8(D_003D19B8.n2, (char *)p1);
+    D_004A52F4 = 1;
+    func_001118F8(D_0045C3A8);
+  }
+  { unsigned *q = D_003D19B8.w60; unsigned n;
+  for (n = 0; n < *q; n++) func_00241938(q + q[n + 1], 0x3140, 0x3c00); }
+}

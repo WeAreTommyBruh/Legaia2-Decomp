@@ -1,5 +1,6 @@
 /* Functions of this report unit, matched by hand. */
 #include "../common.h"
+#include "../ghidra.h"
 typedef int u128 __attribute__((mode(TI)));
 
 typedef struct { char pad[72]; int a; char pad2[8]; int b; } S_001911F0;
@@ -117,3 +118,10 @@ int func_001949D0_1949E0() __asm__("func_001949D0");
 // MATCH func_001949E0
 int FUN_001949e0(char *o) { int n; int r; if (func_001949D0_1949E0() == 0) { n = *(int *)(o + 0x10); r = *(volatile int *)(o + 4) + (((*(volatile int *)(o + 8) - *(int *)(o + 0xc)) + n) % n) * 0x4ce40; } else r = 0; return r; }
 
+typedef struct { int a, b, c, d; } DT;
+void func_002E5B20(int); int func_002E5C60(DT *, int); int func_002E5C40(int);
+// MATCH func_001915A0
+int FUN_001915a0(int dst, int src, int n) { DT t; int id; if (n <= 0) return 0; t.a = src; t.b = dst; t.c = n; t.d = 0; func_002E5B20(0); id = func_002E5C60(&t, 1); while (func_002E5C40(id) >= 0); return n; }
+
+// MATCH func_00192E58
+unsigned *FUN_00192e58(unsigned *p, long q, int a, int b, int c, int d, int e, unsigned f) { unsigned lo = (unsigned long)q & 0xffffffff; p[0] = e << 15 | f; p[1] = d << 14 | (a << 28 | (b << 26 | c << 15)); p[2] = lo; p[3] = q >> 32; return p + 4; }

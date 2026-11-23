@@ -26,3 +26,7 @@ void FUN_00131f10(void) { N_00131F10 *p = 0; if (D_004A3838 != 0) { if (D_004A38
 extern int D_004A14B0; extern char D_00314C20_00130C58[] __asm__("D_00314C20"); void func_00116820(char *, int); void func_00115C48(int, int, int, int, float, float, int, int); void func_00243688(void);
 // MATCH func_00130C58
 void FUN_00130c58(int a, int b, int c, float x, int d) { func_00116820(D_00314C20_00130C58, a); func_00115C48(a, b + 1, c, 0, x, x, D_004A14B0, d); func_00243688(); }
+
+typedef struct { char c[16]; } B16;
+// MATCH func_00130188
+int FUN_00130188(int *a, int i, B16 *out) { char *e; if (i >= a[0]) goto f; e = (char *)(i * 64 + a[1]); if (*(int *)(e + 16) == 0) { f: return 0; } *out = *(B16 *)e; return 1; }

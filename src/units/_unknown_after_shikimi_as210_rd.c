@@ -26,3 +26,6 @@ void FUN_002c7728(void *s) {
     }
   }
 }
+
+// MATCH func_002EDC50
+int FUN_002edc50(void) { int s, v, k; __asm__ volatile("mfc0 %0, $12" : "=r"(s)); s &= 0x10000; if (s) { k = s != 0; __asm__ volatile("nop"); again: __asm__ volatile(".word 0x42000039"); __asm__ volatile(".word 0x0000040f"); __asm__ volatile("mfc0 %0, $12" : "=r"(v)); if ((v & 0x10000) != 0) goto again; } else k = 0; return k; }

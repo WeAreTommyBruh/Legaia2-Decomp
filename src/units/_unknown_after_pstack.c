@@ -336,3 +336,17 @@ void FUN_0025e578(PstackControl_0025E578 *control)
     if (handle)
         func_0025DE30(handle, entry->scale * 420.0f);
 }
+
+extern void *D_003FD960[], *D_003FD9D8[], *D_003FDA60[], *D_003FDAE8[], *D_003FDB70[], *D_003FDBF8[]; extern char D_004A5758[];
+// MATCH func_0025D5F0
+void *FUN_0025d5f0(int a, unsigned b) {
+  if (b >= 64 || a < 0 || a >= 5) return D_004A5758;
+  if ((int)b < 30) return D_003FD960[b];
+  switch (a) {
+  case 0: return D_003FD9D8[b - 30];
+  case 1: return D_003FDA60[b - 30];
+  case 2: return D_003FDAE8[b - 30];
+  case 3: return D_003FDB70[b - 30];
+  case 4: return D_003FDBF8[b - 30];
+  }
+}
