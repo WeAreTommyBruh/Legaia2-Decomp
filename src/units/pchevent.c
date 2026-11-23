@@ -276,3 +276,32 @@ int pchevent_0020c628(int f) {
   }
   return 0;
 }
+
+typedef struct { char p0[32]; float f32, f36, f40; } X_20FA50;
+typedef struct { X_20FA50 *x; } P_20FA50;
+extern int D_004A45E8, D_004A45E4, D_004A4960, D_004A4614, D_004A4618; extern char *D_004A4658_0020FA50 __asm__("D_004A4658");
+extern char **D_004A6F78_0020FA50 __asm__("D_004A6F78"); extern float D_003C0F20[];
+extern char D_004A48D8[], D_004A4790[], D_00455280[];
+P_20FA50 *func_0020BBD8_0020FA50(int) __asm__("func_0020BBD8");
+char *func_00160C70_0020FA50(char *, char *, int) __asm__("func_00160C70");
+int func_002DCE40(char *, char *, ...);
+int func_0020B858(int, char *);
+
+// MATCH func_0020FA50
+int pchevent_0020fa50(int f) {
+  char buf[512];
+  P_20FA50 *p;
+  char *s;
+  register int count __asm__("$3");
+
+  if ((f & 8) && D_004A45E8 >= 0 && (p = func_0020BBD8_0020FA50(D_004A45E8)) != 0) {
+    if (D_004A4614 > 0 && D_004A4618 >= 0) s = func_00160C70_0020FA50(D_004A4658_0020FA50, D_004A48D8, D_004A4618);
+    else s = D_004A4790;
+    func_002DCE40(buf, D_00455280, D_004A6F78_0020FA50[D_004A45E8], s, (double)(D_003C0F20[0] - p->x->f32), (double)(D_003C0F20[1] - p->x->f36), (double)(D_003C0F20[2] - p->x->f40));
+    func_0020B858(D_004A45E4, buf);
+    count = D_004A4960;
+    __asm__("" : "+r"(count));
+    D_004A4960 = count + 1;
+  }
+  return 0;
+}
