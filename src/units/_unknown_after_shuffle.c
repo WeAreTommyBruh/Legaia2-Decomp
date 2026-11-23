@@ -118,3 +118,12 @@ int FUN_001796e0(float *a,float *b,float *c,float *d,float *e,float *f)
     func_0018F138(e, a, b, x/(x-y));
     return 1;
 }
+
+float func_00178BB8_178C80(int, int, int) __asm__("func_00178BB8");
+// MATCH func_00178C80
+int FUN_00178c80(int a, int b, int c, int d) { float x = func_00178BB8_178C80(a, c, d); float y = func_00178BB8_178C80(b, c, d); if (x == 0.0f && y == 0.0f) return 0; if ((x >= 0.0f && y < 0.0f) || (x < 0.0f && y >= 0.0f)) return -1; return 1; }
+
+float func_00178BB8_1790E0(int, int, int) __asm__("func_00178BB8");
+void func_0018EC90_1790E0(void *, int, int, int) __asm__("func_0018EC90");
+// MATCH func_001790E0
+int FUN_001790e0(int a, int b, int c, int d, int e, int f) { float v[4]; float x, y; int t; x = func_00178BB8_1790E0(a, c, d); y = func_00178BB8_1790E0(b, c, d); if ((x >= 0.0f && y >= 0.0f) || (x < 0.0f && y < 0.0f)) return 0; do { if (y < 0.0f) { t = a; a = b; b = t; } } while (0); func_0018EC90_1790E0(v, a, d, e); if (func_00178BB8_1790E0(b, (int)v, d) < 0.0f) return 0; func_0018EC90_1790E0(v, a, e, f); if (func_00178BB8_1790E0(b, (int)v, e) < 0.0f) return 0; func_0018EC90_1790E0(v, a, f, d); if (func_00178BB8_1790E0(b, (int)v, f) < 0.0f) return 0; return 1; }

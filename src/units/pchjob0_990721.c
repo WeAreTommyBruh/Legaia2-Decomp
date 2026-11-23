@@ -33,3 +33,8 @@ int func_0012D3D8_205368(int) __asm__("func_0012D3D8"); void func_001AF908_20536
 // MATCH func_00205368
 void pchjob0_00205368(L_00205368 *l, int idx, int key, int v, int e) { O_00205368 *o; int i, n; unsigned short *p; if (idx >= l->n) return; o = l->it[idx]; n = o->w528; i = 0; if (n <= 0) return; p = o->sh; while (key != *p) { i++; if (i >= n) return; p++; } if (i >= l->it[idx]->w528) return; l->it[idx]->b[i + e] = v; func_001AF908_205368(l->it[idx]->w0, i + e, func_0012D3D8_205368(v)); }
 
+
+
+extern int D_00425510_2078E8[] __asm__("D_00425510");
+// MATCH func_002078E8
+void pchjob0_002078e8(char *p) { char *q; float n, x, z, b; int pad[4]; if (*(short *)(p + 0xbc) <= 0) { D_00425510_2078E8[*(int *)(p + 0xb8) / 32] &= ~(1 << *(int *)(p + 0xb8)); *(int *)(p + 0x18) |= 8; } else { q = *(char **)(p + 0xa4); n = *(short *)(p + 0xbc); x = *(float *)(q + 0x20); b = *(float *)(p + 0x48); z = *(float *)(q + 0x28); (*(short *)(p + 0xbc))--; *(float *)(q + 0x20) = x + (*(float *)(p + 0x40) - x) / n; *(float *)(q + 0x28) = z + (b - z) / n; } }

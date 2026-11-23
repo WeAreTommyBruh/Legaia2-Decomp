@@ -42,3 +42,14 @@ int pchevent_0020beb8(int f)
 done:
   return 0;
 }
+
+
+typedef struct { char c[3]; } S3_0020BA70;
+extern char D_004A45E0_20BA70[] __asm__("D_004A45E0");
+extern char D_00454D80_20BA70[] __asm__("D_00454D80");
+extern int func_002DD5E0_20BA70(char *) __asm__("func_002DD5E0");
+void *func_00162130_20BA70(int, void *, int) __asm__("func_00162130");
+void *func_002DD4CC_20BA70(void *, void *) __asm__("func_002DD4CC");
+extern int func_0018B998_20BA70(int, char *, int) __asm__("func_0018B998");
+// MATCH func_0020BA70
+int pchevent_0020ba70(int *o, int a) { int i, j, n; char *buf, *d; if (o[3] == 0) return 0; n = 0; for (i = 0; i < o[1]; i++) { if (((char **)o[3])[i] != 0) n = n + func_002DD5E0_20BA70(((char **)o[3])[i]) + 2; } buf = func_00162130_20BA70(n, D_00454D80_20BA70, 226); d = buf; if (buf == 0) return 0; for (j = 0; j < o[1]; j++) { if (((char **)o[3])[j] != 0) { func_002DD4CC_20BA70(d, ((char **)o[3])[j]); d += func_002DD5E0_20BA70(((char **)o[3])[j]); *(S3_0020BA70 *)d = *(S3_0020BA70 *)D_004A45E0_20BA70; d += 2; } } return func_0018B998_20BA70(a, buf, n); }
