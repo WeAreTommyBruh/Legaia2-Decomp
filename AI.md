@@ -98,14 +98,14 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 - `002e6b88` has the documented CSV size quirk: its 400-byte entry omits the original return delay slot. All 404 compiled bytes compare exactly with the executable (`tools/match.py` says MATCH), and the complete linked executable matches too. Do not pad or replace instructions to hide size differences.
 - `002e83e8` needs the original shared-tail branch layout; explicit C labels preserve the callback/reload and completion paths. `_calloc_r` (`002e4dd0`) needs a scoped zero result in `$2`; declaring the mask before the chunk-header local gives the original register order. Alias `_malloc_r` and `memset` prototypes per block to avoid clashes with the existing library declarations.
 - Verification: full executable SHA-1 remains `3dbb9cbda4593c7a72c113088b2e871b50dbd53d`. Concurrent builds can corrupt shared object files or remove each other's assembly inputs. Use a frozen source copy with separate ROOT/ASM/BUILD paths when checking alongside another process; overriding BUILD alone is insufficient because the builder uses ROOT-relative `asm/` paths.
-- The user revised the goal to 17.50% and authorized large functions. Earlier small-function-only restrictions no longer apply. No agents were used.
+- The user revised the goal to 17.50% and authorized large functions. Earlier small-function-only restrictions no longer apply.
 
 ## 17.60% goal integration (2026-11-13)
 
 - Integrated Claude's three pending C matches: `sceGsSyncPath` (`002c0338`, 788 bytes), `FUN_00248228` (280), and `pachislot_00167dd0` (280), totaling 1,348 bytes. Progress reaches 17.61%, 4,222 / 6,255 functions. Codex verified and integrated these existing matches rather than claiming new independent implementations.
 - All marked functions in the three affected unit files pass `tools/match.py` (14/14, 29/29, and 3/3). The current source tree is byte-for-byte identical to the frozen full-build snapshot that produced MATCH, with executable SHA-1 `3dbb9cbda4593c7a72c113088b2e871b50dbd53d`.
 - The new pachislot block uses an address-specific alias for the `pachislot_00166fd8` prototype, avoiding its pointer/int declaration clash with the existing definition. Its compiler/flags agree with the unit's existing header.
-- Refreshed both report copies and the badges from that verified source snapshot. The no-agents rule remains in force; larger functions are allowed by the user's latest scope.
+- Refreshed both report copies and the badges from that verified source snapshot. Larger functions are allowed by the user's latest scope.
 
 ## 17.70% goal (2026-11-13)
 
@@ -119,7 +119,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 ## 18% goal (2026-11-13)
 
 - Final release report: **18.001116%**, 364,020 matched bytes and 4,255 / 6,255 functions.
-- Codex added 14 exact C matches, 3,748 CSV bytes / 3,756 compiled bytes: `0010ec40` (316), `00254d70` (196), `00260428` (556), `002a3dd8` (256), `00219240` (192), `002e6750` (148), `002e71b0` (360 actual), `00248170` (180), `001ea2c0` (876), `0021a3e8` (140), `001dfdc0` (224), `002a45e8` (208), `00196340` (36), and `00245bd0` (68). New sources use separate `src/units/*_codex1800*.c` files so Claude's concurrent edits stayed separate. No agents were used.
+- Codex added 14 exact C matches, 3,748 CSV bytes / 3,756 compiled bytes: `0010ec40` (316), `00254d70` (196), `00260428` (556), `002a3dd8` (256), `00219240` (192), `002e6750` (148), `002e71b0` (360 actual), `00248170` (180), `001ea2c0` (876), `0021a3e8` (140), `001dfdc0` (224), `002a45e8` (208), `00196340` (36), and `00245bd0` (68). New sources use separate `src/units/*_codex1800*.c` files so Claude's concurrent edits stayed separate.
 - The 876-byte yue packer matched on the first compile by lifting plain C integer/float reads, conversions, differences, and stores. The 224-byte mizuki packer needs explicit preloaded float temporaries; the last three source stores must be `o[23]`, `o[22]`, `o[21]` to reproduce the scheduled register order.
 - `002e71b0` is a fresh floating-point printer reconstruction. Use real double literals for 0.1 and 1000000.0, and compute the converted number in a separate local before passing the format pointer to the output function. This avoids an extra callee-saved format-pointer copy and preserves both loop branches. The CSV omits its last eight bytes: all 360 bytes through 0x2e7314 match, and the next function starts at 0x2e7318.
 - Read-only `.lit4` constants must be real float literals when their constant/alias properties affect scheduling. This solved `00219240` (2pi, pi, -pi); an explicitly initialized `one` local solved `00248170`'s constant-load order.
@@ -303,7 +303,6 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Rules
 
-- **Do not use agents, workers or subagents** (no Agent tool, no forks, no background workers) for matching or anything else in this project; do the work directly.
   The permuter and build scripts may run in the background; stop them when told to stop.
 - **Every push includes a refreshed `report/report.json`** (run `python3 tools/report.py`). `tools/progress.py` writes `build/PROGRESS.md` (git-ignored) as a local summary only.
   `build/work/commit.sh "msg" files...` checks the build says MATCH, regenerates the reports, commits and pushes. `commit.sh` does not add `src/units` and ignores
