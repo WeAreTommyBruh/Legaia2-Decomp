@@ -316,3 +316,23 @@ unsigned short FUN_00250af0(int index, int slot)
     slot += index;
     return *(unsigned short *)(base + slot + 6680);
 }
+
+typedef struct {
+    int pad0;
+    float scale;
+    int pad8;
+    int handle;
+} PstackControl_0025E578;
+
+void func_0025DE30(int, float);
+
+// MATCH func_0025E578
+void FUN_0025e578(PstackControl_0025E578 *control)
+{
+    register PstackControl_0025E578 *entry __asm__("$5") = control;
+    int handle = entry->handle;
+
+    __asm__("" : "+r"(entry));
+    if (handle)
+        func_0025DE30(handle, entry->scale * 420.0f);
+}
