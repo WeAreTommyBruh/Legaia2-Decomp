@@ -28,3 +28,49 @@ extern char D_004A2BD8_160C70[2] __asm__("D_004A2BD8"); extern char D_004A2BE8_1
 // MATCH func_00160C70
 int FUN_00160c70(char *o, char *k, int n) { int bad; char *r; char *q; if (*(char **)o == 0 || (*(char **)o)[0] != D_004A2BD8_160C70[0] || (*(char **)o)[1] != D_004A2BD8_160C70[1]) bad = 1; else bad = 0; if (bad) r = 0; else { for (q = *(char **)o + 8; !(q[0] == D_004A2BE8_160C70[0] && q[1] == D_004A2BE8_160C70[1] && q[2] == D_004A2BE8_160C70[2]); q = func_00161230_160C70(o, q)) { if (q[0] == k[0] && q[1] == k[1] && q[2] == k[2]) { r = q; goto done; } } r = 0; } done: if (r == 0) return 0; if ((((unsigned char *)r)[3] ^ 1) & 1) return 0; { int cnt = rd32_00160C70((unsigned char *)r + 8); if (n >= cnt) return 0; return *(int *)o + rd32_00160C70((unsigned char *)r + n * 4 + 12); } }
 
+
+static inline unsigned rd32_00160778(const unsigned char *p)
+{
+    return p[0] + (p[1] << 8) + (p[2] << 16) + ((unsigned)p[3] << 24);
+}
+
+// MATCH func_00160778
+int FUN_00160778(char *o, char *key)
+{
+    int invalid, result;
+    char *record, *cursor;
+
+    if (*(char **)o == 0 || (*(char **)o)[0] != D_004A2BD8[0] ||
+        (*(char **)o)[1] != D_004A2BD8[1])
+        invalid = 1;
+    else
+        invalid = 0;
+
+    if (invalid) {
+        record = 0;
+    } else {
+        for (cursor = *(char **)o + 8;
+             !(cursor[0] == D_004A2BE8[0] && cursor[1] == D_004A2BE8[1] &&
+               cursor[2] == D_004A2BE8[2]);
+             cursor = func_00161230(o, cursor)) {
+            if (cursor[0] == key[0] && cursor[1] == key[1] && cursor[2] == key[2]) {
+                record = cursor;
+                goto found;
+            }
+        }
+        record = 0;
+    }
+
+found:
+    result = -1;
+    if (record) {
+        int empty = 0;
+        if ((((unsigned char *)record)[3] ^ 1) & 1) {
+            result = empty;
+        } else {
+            __asm__("" : : "r"(empty));
+            return rd32_00160778((unsigned char *)record + 8);
+        }
+    }
+    return result;
+}

@@ -74,3 +74,97 @@ float FUN_002a7810(float hue, float low, float high)
         return low + (high - low) * (240.0f - hue) / 60.0f;
     return low;
 }
+
+typedef struct { int w[5]; } Row_002A7920;
+extern float D_004A0DA4;
+#define CLEAR_ROW_002A7920(i) { \
+    Row_002A7920 *row = &r[i]; \
+    row->w[3] = 0; \
+    row->w[2] = 0; \
+    row->w[4] = 0; \
+    row->w[1] = 0; \
+}
+
+// MATCH func_002A7920
+void FUN_002a7920(char *o)
+{
+    Row_002A7920 *r = (Row_002A7920 *)o;
+    *(int *)(o + 1888) = 0;
+    *(int *)(o + 1956) = -1;
+    {
+        Row_002A7920 *p = &r[0];
+        p->w[3] = 0;
+        p->w[2] = 0;
+        p->w[1] = 0;
+        p->w[4] = 0;
+    }
+    CLEAR_ROW_002A7920(1)
+    CLEAR_ROW_002A7920(2)
+    CLEAR_ROW_002A7920(3)
+    CLEAR_ROW_002A7920(4)
+    {
+        Row_002A7920 *p = &r[5];
+        p->w[1] = 0;
+        *(int *)(o + 1952) = 0;
+        r[0].w[0] = 0;
+        r[1].w[0] = 0;
+        r[2].w[0] = 0;
+        r[3].w[0] = 0;
+        r[4].w[0] = 0;
+        p->w[3] = 0;
+        p->w[2] = 0;
+        p->w[4] = 0;
+    }
+    r[5].w[0] = 0;
+    {
+        Row_002A7920 *p = &r[6];
+        p->w[4] = 0;
+        p->w[3] = 0;
+        p->w[2] = 0;
+        p->w[1] = 0;
+    }
+    CLEAR_ROW_002A7920(7)
+    CLEAR_ROW_002A7920(8)
+    CLEAR_ROW_002A7920(9)
+    CLEAR_ROW_002A7920(10)
+    {
+        Row_002A7920 *p = &r[11];
+        p->w[1] = 0;
+        r[6].w[0] = 0;
+        r[7].w[0] = 0;
+        r[8].w[0] = 0;
+        r[9].w[0] = 0;
+        r[10].w[0] = 0;
+        p->w[3] = 0;
+        p->w[2] = 0;
+        p->w[4] = 0;
+    }
+    r[11].w[0] = 0;
+    *(int *)(o + 1920) = 0;
+    *(int *)(o + 1924) = 0;
+    *(int *)(o + 1928) = 0;
+    *(int *)(o + 1932) = 0;
+    *(int *)(o + 1936) = 0;
+    {
+        float y;
+        float z;
+        float x = *(float *)o;
+
+        z = 1.0f;
+        __asm__("" : "+f"(z) : : "memory");
+        y = D_004A0DA4;
+        *(volatile float *)(o + 1896) = x;
+        *(volatile float *)(o + 1904) = z;
+        *(volatile float *)(o + 1916) = y;
+        *(volatile int *)(o + 1940) = 0;
+        *(volatile int *)(o + 1944) = 0;
+        *(volatile int *)(o + 1948) = 0;
+        *(volatile int *)(o + 1908) = 0;
+        *(volatile int *)(o + 1912) = 0;
+        *(volatile int *)(o + 1892) = 0;
+        __asm__("" ::: "memory");
+        *(float *)(o + 1900) = x;
+    }
+}
+
+#undef CLEAR_ROW_002A7920
