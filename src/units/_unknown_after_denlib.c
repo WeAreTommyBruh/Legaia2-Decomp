@@ -120,3 +120,20 @@ void FUN_0018cde0(float *p)
     func_00239568(D_004A3688);
     D_004A129C = saved;
 }
+
+extern char D_00440648[];
+
+// MATCH func_0018D050
+void FUN_0018d050(int *values)
+{
+    char buf[128];
+    char *output = buf;
+    int saved = D_004A129C;
+    int a = values[0], b = values[1], c = values[2], d = values[3];
+
+    __asm__("" : "+r"(output) : : "memory");
+    D_004A129C = 1;
+    func_002DCE40_0018CF98(output, D_00440648, a, b, c, d);
+    func_00239568_0018CF98(buf);
+    D_004A129C = saved;
+}

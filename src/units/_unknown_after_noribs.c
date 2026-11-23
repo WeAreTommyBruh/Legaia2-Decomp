@@ -240,3 +240,23 @@ void FUN_00154550(char *state)
     *(float *)(state + 36) = -y;
     *(float *)(state + 40) = *(float *)(state + 88);
 }
+
+void func_00155730(void *, float);
+void func_00155728(void *, float);
+void func_00155720(void *, float);
+void func_00155718(void *, float);
+
+// MATCH func_00155738
+void FUN_00155738(void *object, float a, float b, float c, float d)
+{
+    func_00155730(object, a);
+    func_00155728(object, b);
+    func_00155720(object, c);
+    func_00155718(object, d);
+}
+
+// MATCH func_001557A0
+void *FUN_001557a0(char *object)
+{
+    return object + 80;
+}

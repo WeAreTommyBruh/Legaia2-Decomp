@@ -254,3 +254,29 @@ extern V8_001714A0 D_004A3100[3]; extern char D_0043D6A0_001714A0[] __asm__("D_0
 int func_001644A0(void *); void func_002971C0(int, int); int func_0018B3A8(char *, int); void func_001118F8_001714A0(char *) __asm__("func_001118F8");
 // MATCH func_001714A0
 O5_001714A0 *roulette_001714a0(O5_001714A0 *o) { o->w0 = 0; o->w4 = 0; o->w8 = 0; o->w12 = 0; o->w20 = 0; o->w24 = 0; o->w60 = (int)D_0043D6A0_001714A0; o->w16 = 640; func_001644A0((char *)o + 28); o->v = D_004A3100[0]; func_002971C0(0, 0); o->w40 = 0; o->w36 = func_0018B3A8(D_0043D580_001714A0, 0); if (o->w36 == 0) func_001118F8_001714A0(D_0043D598_001714A0); return o; }
+
+typedef struct { char c[8]; } V8_001703B0;
+typedef struct { char p[60]; int a; int b; int c; char p2[64]; V8_001703B0 x; V8_001703B0 y; } O_001703B0;
+extern V8_001703B0 D_004A30A0_1703B0[2] __asm__("D_004A30A0"), D_004A30D8_1703B0[2] __asm__("D_004A30D8");
+int rand(void);
+static inline unsigned int rnd_001703B0(unsigned int n) { unsigned int r; unsigned int lim = 0x7fffff - 0x800000 % n; do { r = rand() >> 8; } while (r > lim); return r % n; }
+// MATCH func_001703B0
+int roulette_001703b0(O_001703B0 *o) { o->a = 0x4000; o->b = 64; o->c = rnd_001703B0(48) + 48; o->x = D_004A30A0_1703B0[0]; o->y = D_004A30D8_1703B0[0]; return 0; }
+
+typedef struct { char c[8]; } V8_00171748;
+typedef struct { char p[48]; short adj; short pad; int (*fn)(void *); } VT_00171748;
+typedef struct { int w; int n; char p[36]; V8_00171748 v; char p2[8]; VT_00171748 *vt; } O_00171748;
+extern unsigned long long D_004A12D8_171748 __asm__("D_004A12D8");
+extern int D_00335670_171748[] __asm__("D_00335670");
+extern V8_00171748 D_004A3118_171748[2] __asm__("D_004A3118");
+int rand(void);
+static inline unsigned int rnd_00171748(unsigned int n) { unsigned int r; unsigned int lim = 0x7fffff - 0x800000 % n; do { r = rand() >> 8; } while (r > lim); return r % n; }
+// MATCH func_00171748
+int roulette_00171748(O_00171748 *o) { o->w = 20971; o->vt->fn((char *)o + o->vt->adj); if (D_004A12D8_171748 & 0x200040) { o->n = D_00335670_171748[rnd_00171748(8)] * 16 + 256; o->v = D_004A3118_171748[0]; } return 0; }
+
+
+typedef struct { char c[8]; } V8_001707D8;
+typedef struct { int p0; int n; char p[84]; int a; int t; char p2[36]; V8_001707D8 x; V8_001707D8 y; } O_001707D8;
+void func_00171460_1707D8(void *, int) __asm__("func_00171460");
+// MATCH func_001707D8
+int roulette_001707d8(O_001707D8 *o) { int n; o->a = 1; if (o->t++ >= 10) { n = o->n; o->t = 0; if (n == 0) { o->x = o->y; return 0; } else if (n >= 2000) { o->n = n - 1000; func_00171460_1707D8(o, 1000); return 0; } else if (n >= 200) { o->n = n - 100; func_00171460_1707D8(o, 100); return 0; } else if (n >= 20) { o->n = n - 10; func_00171460_1707D8(o, 10); return 0; } else { o->n = n - 1; func_00171460_1707D8(o, 1); } } return 0; }
