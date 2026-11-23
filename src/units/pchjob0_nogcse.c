@@ -39,3 +39,13 @@ void pchjob0_00205dd8(N__00205DD8 *p)
         func_00205C08(p);
     }
 }
+
+typedef struct { int a, x, y; int pad[7]; int w40[54]; } R_00205090;
+typedef struct { char p[360]; R_00205090 *w360; } X_00205090;
+typedef struct O_00205090 { X_00205090 *w0; int q[64]; int p[64]; int pad; int w520, w524, w528, w532, w536; unsigned short sh[64]; char b[64]; char t[64]; } O_00205090;
+typedef struct { int n; O_00205090 *it[1]; } L_00205090;
+extern int D_00425710[];
+
+
+// MATCH func_00205090
+void pchjob0_00205090(L_00205090 *l, int x, int y, int d) { O_00205090 *o; R_00205090 *r; int i, n, dx, dy; if (l->n > 0) { l->it[l->n - 1]->w536 = d; o = l->it[l->n - 1]; n = o->w528; if (o->w0 != 0 && n > 0) { r = o->w0->w360; dx = x - r->x; dy = y - r->y; for (i = 0; i < n; i++) { r->x += dx; r->y += dy; r++; } } } }

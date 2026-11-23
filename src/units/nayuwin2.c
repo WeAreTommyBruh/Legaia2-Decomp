@@ -246,3 +246,25 @@ void nayuwin2_001ab8f0(int a, int b, int c, int d, int e, int f,
     }
     func_001AB940(a, b, c, d, e, f, values);
 }
+
+extern void *D_0036CBC0_1AB800[] __asm__("D_0036CBC0");
+extern char D_00314C20_1AB800[] __asm__("D_00314C20"), D_00444670_1AB800[] __asm__("D_00444670");
+extern char *D_004A382C_1AB800 __asm__("D_004A382C"), *D_004A3830_1AB800 __asm__("D_004A3830");
+void func_002393B8_1AB800(int, int) __asm__("func_002393B8");
+void func_0024BD50_1AB800(void *, int, int, int, void *, void *, int) __asm__("func_0024BD50");
+void func_001B0398_1AB800(void *, int) __asm__("func_001B0398");
+void *nayuwin2_001ad858(void *);
+// MATCH func_001AB800
+void nayuwin2_001ab800(void) { int i; char *w; func_002393B8_1AB800(9, 0xa06060); func_002393B8_1AB800(10, 0x408040); func_002393B8_1AB800(11, 0x6060a0); for (i = 0; i < 9; i++) func_0024BD50_1AB800(D_0036CBC0_1AB800[i], 0x3140, 0x3c00, 0, D_00314C20_1AB800, D_00444670_1AB800, 481); for (w = D_004A382C_1AB800; w != 0; w = nayuwin2_001ad858(w)) { if (w == D_004A3830_1AB800) func_001B0398_1AB800(w, 1); else func_001B0398_1AB800(w, 0); } }
+
+typedef struct { char p[8]; int y; char q[12]; int h; } E_1ad960_001AD960;
+int nayuwin2_001af130(void *, int, int);
+// MATCH func_001AD960
+void nayuwin2_001ad960(char *o, int b) { int i, top, y, d; E_1ad960_001AD960 *e; if (b < 0) return; *(int *)(o + 72) = b; i = nayuwin2_001af130(o, *(int *)(o + 68), b); if (i < 0) return; e = (E_1ad960_001AD960 *)(i * 256 + *(int *)(o + 360)); top = *(int *)(o + 132); y = e->y + top - (*(unsigned char *)(o + 107) & 1); if (y < 6) { *(int *)(o + 132) = top + (d = 6 - y); } else { d = (int)*(float *)(o + 280) - (y + e->h) - 6; if (d < 0) *(int *)(o + 132) = top + d; } }
+
+typedef struct { int z; int b; int a; int i; } A_1ae2e8_001AE2E8;
+extern long D_004A12D8_1AE2E8 __asm__("D_004A12D8"), D_004A12E0_1AE2E8 __asm__("D_004A12E0"), D_004A12C8_1AE2E8 __asm__("D_004A12C8");
+int nayuwin2_001af130(void *, int, int);
+// MATCH func_001AE2E8
+void nayuwin2_001ae2e8(char *o, int k) { A_1ae2e8_001AE2E8 s; if (*(int *)(o + 112) == 0 && k == 0) return; if (*(int *)(o + 116) == 0 && k == 1) return; if (k == 0) { D_004A12D8_1AE2E8 = 0; D_004A12E0_1AE2E8 = 0; D_004A12C8_1AE2E8 = 0; } s.z = 0; s.a = *(int *)(o + 68); s.b = *(int *)(o + 72); s.i = nayuwin2_001af130(o, s.a, s.b); if (k == 0) (*(void (**)(A_1ae2e8_001AE2E8 *))(o + 112))(&s); else (*(void (**)(A_1ae2e8_001AE2E8 *))(o + 116))(&s); }
+

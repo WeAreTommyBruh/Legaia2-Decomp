@@ -64,3 +64,8 @@ void pchjob0_00204d68(L__00204D68 *l, int a, int b, int c, int d)
 // MATCH func_002056A8
 int pchjob0_002056a8(int *o, int x, int y) { if (x < -1 || y < -1 || o[4] < x || o[5] < y) return 0; { int a = x + 1; int b = y + 1; return o[7] + (a + b * (o[4] + 1)) * 8; } }
 
+typedef struct { int n; int p[4]; } L_00204C58;
+extern char D_00454730_204C58[] __asm__("D_00454730"); int func_00162130_204C58(int, char *, int) __asm__("func_00162130"); int func_00203D08_204C58(int) __asm__("func_00203D08");
+// MATCH func_00204C58
+int pchjob0_00204c58(L_00204C58 *o) { int *p; int n = o->n; int v; if (n >= 4) return 0; p = o->p; p += n; v = func_00203D08_204C58(func_00162130_204C58(796, D_00454730_204C58, 631)); n = o->n; *p = v; o->n = n + 1; return 1; }
+

@@ -65,3 +65,23 @@ int FUN_00235c48(float *ox, float *oy, int *p, int q, float x, float y) {
   *oy = r[1] - p[1];
   return p[2];
 }
+
+typedef struct { int unk0[4]; u64 *p; } PacketBuf_002313A8;
+extern PacketBuf_002313A8 D_00342CD0_2313A8 __asm__("D_00342CD0");
+void FUN_00190328(PacketBuf_002313A8 *); void FUN_00190420(PacketBuf_002313A8 *);
+#define GS_SET_CLAMP(wms, wmt, minu, maxu, minv, maxv) \
+    ((u64)(wms) | ((u64)(wmt) << 2) | ((u64)(minu) << 4) | ((u64)(maxu) << 14) | \
+     ((u64)(minv) << 24) | ((u64)(maxv) << 34))
+// MATCH func_002313A8
+void FUN_002313a8(int wms, int wmt, int minu, int maxu, int minv, int maxv) { u64 *p; FUN_00190328(&D_00342CD0_2313A8); p = D_00342CD0_2313A8.p; p[0] = GS_SET_CLAMP(wms, wmt, minu, maxu, minv, maxv); p[1] = 8; D_00342CD0_2313A8.p = p + 2; FUN_00190420(&D_00342CD0_2313A8); }
+
+typedef struct { float x, y, z, w; } Vec4_00231460;
+typedef struct { Vec4_00231460 pos[0x80]; int unk800; int handle[1]; } PosTable_00231460;
+extern int D_004A14AC_231460 __asm__("D_004A14AC");
+int FUN_002306e8(int, int, int, int);
+void FUN_0021b600(int);
+void FUN_00231d98(float, float, float);
+void FUN_0022ecb0(int);
+// MATCH func_00231460
+void FUN_00231460(int p, int i, int c, int d) { int save = D_004A14AC_231460; int h = (*(PosTable_00231460 **)(p + 0x90))->handle[i]; if (!(*(int *)(h + 0x18) & 0x4000000)) { FUN_002306e8(p, i, c, d); } else { FUN_0021b600(h); if ((*(int *)(p + 0x18) & 0x400000) && *(unsigned short *)(p + 0xbc) < 2) *(float *)(h + 0xc4) = *(float *)(p + 0xc4); *(int *)(h + 0x18) = (*(int *)(h + 0x18) | 0x2000) & 0xfffffebf; *(int *)(h + 0x18) |= *(int *)(p + 0x18) & 0x140; *(char *)(h + 0xd1) = *(char *)(p + 0xd1); FUN_00231d98(*(float *)(h + 0x40), *(float *)(h + 0x44), *(float *)(h + 0x48)); FUN_0022ecb0(h); } D_004A14AC_231460 = save; }
+

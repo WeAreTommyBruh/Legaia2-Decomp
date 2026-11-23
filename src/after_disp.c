@@ -218,6 +218,23 @@ int FUN_002311e0(int p, int i)
     return 1;
 }
 
+/* sets the current texture and writes its TEX0_1 to the packet */
+// MATCH func_00231238
+void FUN_00231238(int tbp, int tw, int th, int tbw)
+{
+    u64 *p;
+    D_004A147C = tbp;
+    D_004A1480 = tbw;
+    D_004A1484 = tw;
+    D_004A1488 = th;
+    FUN_00190328(&D_00342CD0);
+    p = D_00342CD0.p;
+    p[0] = GS_SET_TEX0(tbp, tbw, 0x13, tw, th, 1, 0, 0x3c00, 0, 0, 0, 1);
+    p[1] = GS_TEX0_1;
+    D_00342CD0.p = p + 2;
+    FUN_00190420(&D_00342CD0);
+}
+
 /* writes TEX0_1 for the current texture to the packet */
 // MATCH func_00231308
 void FUN_00231308(void)
