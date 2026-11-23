@@ -26,3 +26,30 @@ void func_00161690_161868(void *) __asm__("func_00161690");
 // MATCH func_00161868
 void FUN_00161868(int param_1) { int *puVar1; int *puVar2; int *puVar3; if ((unsigned)param_1 < (unsigned)D_004A6F44_161868[1]) { puVar3 = (int *)(*D_004A6F44_161868 + param_1 * -0x80); puVar1 = (int *)*puVar3; for (puVar2 = puVar1; puVar1 != puVar3; puVar2 = puVar1) { puVar1 = (int *)*puVar1; func_00161690_161868(puVar2 + 0x20); } } }
 
+
+typedef struct PochilibNode {
+    struct PochilibNode *next;
+    int value;
+} PochilibNode;
+
+extern PochilibNode **D_004A6F44_001620F0 __asm__("D_004A6F44");
+
+// MATCH func_001620F0
+void FUN_001620f0(void)
+{
+    PochilibNode *head = *D_004A6F44_001620F0;
+    register PochilibNode *node __asm__("$2") = head->next;
+    register int count __asm__("$3") = 1;
+
+    if (node == head)
+        return;
+
+    do {
+        node = node->next;
+        if (node == head)
+            return;
+    } while (++count != 21);
+
+    node = node->next;
+    node->value = 0;
+}

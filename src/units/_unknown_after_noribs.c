@@ -221,3 +221,22 @@ void FUN_00154638(float *m, char *s) {
   func_001118F8(D_0043B370, (double)m[24], (double)m[25], (double)m[26], (double)m[27]);
   func_001118F8(D_0043B388, (double)m[28], (double)m[29], (double)m[30], (double)m[31]);
 }
+
+typedef int CopyQuadword_00154550 __attribute__((mode(TI)));
+
+void func_00153690(char *, char *);
+
+// MATCH func_00154550
+void FUN_00154550(char *state)
+{
+    float x, y;
+
+    func_00153690(state + 192, state + 64);
+    x = *(volatile float *)(state + 80);
+    y = *(volatile float *)(state + 84);
+    *(CopyQuadword_00154550 *)(state + 48) = *(CopyQuadword_00154550 *)(state + 80);
+    *(CopyQuadword_00154550 *)(state + 16) = *(CopyQuadword_00154550 *)(state + 96);
+    *(float *)(state + 32) = x;
+    *(float *)(state + 36) = -y;
+    *(float *)(state + 40) = *(float *)(state + 88);
+}

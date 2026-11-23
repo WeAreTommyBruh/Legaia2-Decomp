@@ -305,3 +305,32 @@ int pchevent_0020fa50(int f) {
   }
   return 0;
 }
+
+typedef struct { char pad[32]; float x; char pad36[4]; float z; } Position_0020F4D0;
+typedef struct { Position_0020F4D0 *position; } Actor_0020F4D0;
+
+extern char D_00455198[];
+Actor_0020F4D0 *func_0020BBD8_0020F4D0(int) __asm__("func_0020BBD8");
+
+// MATCH func_0020F4D0
+int pchevent_0020f4d0(int flags)
+{
+    char buf[512];
+    Actor_0020F4D0 *actor;
+
+    if (flags & 8) {
+        if (D_004A45E8 >= 0) {
+            actor = func_0020BBD8_0020F4D0(D_004A45E8);
+            if (actor != 0) {
+                func_002DCE40(buf, D_00455198,
+                    ({ register int *names __asm__("$3") = D_004A6F78;
+                       names[D_004A45E8]; }),
+                    (double)({ Position_0020F4D0 *pos = actor->position; pos->x; }),
+                    (double)actor->position->z);
+                func_0020B858(D_004A45E4, buf);
+                D_004A4960++;
+            }
+        }
+    }
+    return 0;
+}
