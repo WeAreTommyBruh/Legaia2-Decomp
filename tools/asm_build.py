@@ -170,6 +170,15 @@ def function_rows():
                     dict(row, address="001265d8", name="battle_001265d8", size_bytes="284"),
                 ]
                 break
+    # The export includes the accessor after the setter wrapper's tail jump.
+    if not any(int(row["address"], 16) == 0x1557A0 for row in rows):
+        for index, row in enumerate(rows):
+            if int(row["address"], 16) == 0x155738 and int(row["size_bytes"]) == 112:
+                rows[index:index + 1] = [
+                    dict(row, size_bytes="104"),
+                    dict(row, address="001557a0", name="FUN_001557a0", size_bytes="8"),
+                ]
+                break
     return rows
 
 
