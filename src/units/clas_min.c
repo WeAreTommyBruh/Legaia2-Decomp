@@ -272,3 +272,11 @@ void func_002BEE78_2A0C70(void *, int, int, float, int) __asm__("func_002BEE78")
 void func_002BEE90_2A0C70(void *, int, float, float, float, int, int) __asm__("func_002BEE90");
 // MATCH func_002A0C70
 void clas_min_002a0c70(C_002A0C70 *c, int k) { if (c->f & 0x4000000) { if (k == 0) { func_002BEE78_2A0C70(c, 22, 0, 0.0f, 0); func_002BEE78_2A0C70(c, 22, 30, 128.0f, 0); func_002BEE90_2A0C70(c, 2, 0.0f, 0.0f, 0.0f, 25, 0); func_002BEE90_2A0C70(c, 5, 1.0f, 0.0f, 0.0f, 512, 0); } else { func_002BEE78_2A0C70(c, 22, 0, 128.0f, 0); func_002BEE90_2A0C70(c, 5, 1.0f, 0.0f, 0.0f, 512, 0); } c->f &= ~0x4000000; } }
+
+
+typedef struct { int pad0; int arr[14]; int id; int cnt; int mode; float f; int pad4c; } C_2A1150_002A1150;
+extern int D_004A69B4_2A1150 __asm__("D_004A69B4");
+int func_0029C6F8_2A1150(int) __asm__("func_0029C6F8");
+void shikimi_002b1d48(int a0, int a1, int a2, float x0, float x1, float x2, float x3, float x4, float x5);
+// MATCH func_002A1150
+void clas_min_002a1150(C_2A1150_002A1150 *p, int i) { if (p->id == -1) return; { int m = p->mode; if (m != 1) { if (m < 2) { if (m == 0) goto blk; goto out; } else if (m != 3) goto out; blk: shikimi_002b1d48(func_0029C6F8_2A1150(-1), D_004A69B4_2A1150 + p->cnt, 106, 0.0f, p->f, 0.0f, 0.0f, 0.0f, (float)p->arr[i]); } else { shikimi_002b1d48(func_0029C6F8_2A1150(-1), D_004A69B4_2A1150 + p->cnt, 106, 0.0f, p->f, 0.0f, 1.0f, 0.0f, (float)p->arr[i]); } } out: shikimi_002b1d48(func_0029C6F8_2A1150(-1), D_004A69B4_2A1150 + p->cnt, 124, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f); shikimi_002b1d48(func_0029C6F8_2A1150(-1), D_004A69B4_2A1150 + p->cnt, 1, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f); if (p->mode == 3) { if (++p->cnt >= 10) p->cnt = 0; } else { if (++p->cnt >= 4) p->cnt = 0; } }

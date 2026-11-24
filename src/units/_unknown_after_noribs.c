@@ -282,3 +282,13 @@ int FUN_00154d20(O_00154D20 *o, int v) { int i; if (v == 0) return 0; i = 0; o->
 typedef struct { char p[196]; int a[33]; char q[332 - 328]; int n; } O_00154DB8;
 // MATCH func_00154DB8
 int FUN_00154db8(O_00154DB8 *o, int v) { int i; if (v == 0) return 0; i = 0; o->a[32] = v; while (o->a[i] != v) i++; if (i == 32) return 0; o->n--; o->a[32] = 0; for (; i < 32; i++) o->a[i] = o->a[i + 1]; return 1; }
+
+
+extern int D_004A29F4_152198 __asm__("D_004A29F4"), D_004A140C_152198 __asm__("D_004A140C"), D_004A24EC_152198 __asm__("D_004A24EC"), D_004A24F0_152198 __asm__("D_004A24F0");
+extern char D_0043B198_152198[] __asm__("D_0043B198");
+void func_00152258_152198(void) __asm__("func_00152258");
+void func_00152078_152198(void) __asm__("func_00152078");
+void func_00152198_152198(unsigned) __asm__("func_00152198");
+void func_0023F090_152198(int, int, char *, void (*)(unsigned)) __asm__("func_0023F090");
+// MATCH func_00152198
+void FUN_00152198(unsigned a) { if (a != 0) switch (D_004A29F4_152198) { case 0: if (D_004A140C_152198 & 0x200) { func_0023F090_152198(96, 80, D_0043B198_152198, func_00152198_152198); D_004A24EC_152198 = 1; } if (a & 8) { func_00152258_152198(); D_004A24EC_152198 = 0; } if (a & 4) D_004A24EC_152198 = 0; break; case 1: if (D_004A140C_152198 & 0x200) { D_004A24F0_152198 = D_004A29F4_152198; func_00152078_152198(); return; } break; } return; }

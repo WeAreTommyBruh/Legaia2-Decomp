@@ -63,3 +63,9 @@ void FUN_0021a130(unsigned i) {
     func_0018F020((*p)->m32, &(*p)->f128, m);
   }
 }
+
+
+extern char D_00456B28_21A2B8[] __asm__("D_00456B28"), D_00456B40_21A2B8[] __asm__("D_00456B40"), D_00456B50_21A2B8[] __asm__("D_00456B50"), D_004A4CF8_21A2B8[] __asm__("D_004A4CF8"); typedef struct { char p[4984]; int w; char q[484]; } E_0021A2B8; extern E_0021A2B8 *D_004A1A20_21A2B8 __asm__("D_004A1A20");
+void func_001118F8_21A2B8(char *, ...) __asm__("func_001118F8"); int func_002469A0_21A2B8(char *, char *) __asm__("func_002469A0"); void func_0021A280_21A2B8(int, int, int, int) __asm__("func_0021A280"); void func_001252A0_21A2B8(int) __asm__("func_001252A0");
+// MATCH func_0021A2B8
+int FUN_0021a2b8(char *o, char *a, char *b) { short n = *(short *)(o + 174); func_001118F8_21A2B8(D_00456B28_21A2B8, a); func_001118F8_21A2B8(D_00456B40_21A2B8, a); func_001118F8_21A2B8(D_004A4CF8_21A2B8, func_002469A0_21A2B8(o, a)); func_001118F8_21A2B8(D_00456B28_21A2B8, b); func_001118F8_21A2B8(D_00456B50_21A2B8, b); func_001118F8_21A2B8(D_004A4CF8_21A2B8, func_002469A0_21A2B8(o, b)); func_0021A280_21A2B8(n, 1, func_002469A0_21A2B8(o, a), 0); func_0021A280_21A2B8(n, 2, func_002469A0_21A2B8(o, b), 0x40000009); { register E_0021A2B8 *b __asm__("$2") = D_004A1A20_21A2B8; *(int *)(o + 192) = 0; b[n].w = 0; } func_001252A0_21A2B8(n); return 0; }

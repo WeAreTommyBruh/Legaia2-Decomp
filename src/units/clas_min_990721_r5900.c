@@ -63,3 +63,7 @@ void clas_min_002a2420(M_2A2420 *m) {
     func_001118F8(D_0049AEB0, m->w0);
   }
 }
+
+
+// MATCH func_002A1CC8
+int clas_min_002a1cc8(char *o, int k) { int i = 0; if (*(int *)(o + 0x108) != 0) { char *pb = o + 0x108; int s6 = 6; int m = 0x110; o += 0x104; do { if (k == 0) i = s6; if (k == *(int *)(i * m + o)) i = s6; i++; } while (i < 5 && *(int *)(i * m + pb) != 0); } return i > 5; }

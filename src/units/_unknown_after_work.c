@@ -289,3 +289,22 @@ typedef struct { char p[16]; char *w16; } P_00247B40;
 extern P_00247B40 *D_004A1524_247B40 __asm__("D_004A1524");
 // MATCH func_00247B40
 void FUN_00247b40(int a, int b) { P_00247B40 *p = D_004A1524_247B40; unsigned long long *q = (unsigned long long *)p->w16; q[0] = ((unsigned long long)b << 16) | a; q[1] = 3; p->w16 = (char *)(q + 2); }
+
+
+typedef struct { char p[16]; long *w16; } P_00247BC8;
+typedef union { float f; unsigned u; } FU;
+extern float *D_004A1528_247BC8 __asm__("D_004A1528"); extern P_00247BC8 *D_004A1524_247BC8 __asm__("D_004A1524"); extern long *D_004A1544_247BC8 __asm__("D_004A1544"); extern char D_005F76C0_247BC8[] __asm__("D_005F76C0");
+void func_0022D470_247BC8(int, int, void *) __asm__("func_0022D470");
+// MATCH func_00247BC8
+void FUN_00247bc8(float x, float y, float s) { long *q; P_00247BC8 *p; FU a, b; float *v; if (D_004A1528_247BC8 != 0) { x = x * *D_004A1528_247BC8; y = y * *D_004A1528_247BC8; } func_0022D470_247BC8(0x70003e40, 0x70003d00, D_005F76C0_247BC8); v = (float *)0x70003b70; a.f = x + v[180] * s; b.f = y + v[181] * s; p = D_004A1524_247BC8; q = p->w16; q[1] = 2; p->w16 = q + 2; D_004A1544_247BC8 = q; q[0] = (unsigned long)a.u | (unsigned long)b.u << 32; }
+
+
+extern int D_004A14B8_248B28 __asm__("D_004A14B8");
+void func_0018DF68_248B28(void *, void *) __asm__("func_0018DF68");
+void func_0018F6B0_248B28(void *, void *, void *) __asm__("func_0018F6B0");
+void func_0018F6E8_248B28(void *, void *, void *) __asm__("func_0018F6E8");
+typedef struct { char pad[720]; float a[4]; float b[4]; } W_248B28_00248B28;
+#define WK ((W_248B28_00248B28 *)0x70003b70)
+#define SF(a) (*(float *)(a))
+// MATCH func_00248B28
+void FUN_00248b28(float x, float y, float z) { if (x == 1.0f && y == 1.0f && z == 1.0f) return; if (D_004A14B8_248B28 == 0) { func_0018DF68_248B28((void *)0x70003d80, (void *)0x70003f80); D_004A14B8_248B28 = 1; } WK->a[0] = x; WK->a[1] = y; WK->a[2] = z; WK->a[3] = 1.0f; func_0018F6B0_248B28((void *)0x70003f80, (void *)0x70003f80, (void *)0x70003e40); WK->b[0] = 1.0f; WK->b[1] = 1.0f; WK->b[2] = 1.0f; WK->b[3] = 1.0f; if (x < 0.0f) SF(0x70003e50) = -1.0f; if (y < 0.0f) SF(0x70003e54) = -1.0f; if (z < 0.0f) SF(0x70003e58) = -1.0f; func_0018F6B0_248B28((void *)0x70003c80, (void *)0x70003c80, (void *)0x70003e50); SF(0x70003e60) = 1.0f / x; SF(0x70003e64) = 1.0f / y; SF(0x70003e68) = 1.0f / z; SF(0x70003e6c) = 1.0f; func_0018F6E8_248B28((void *)0x70003d80, (void *)0x70003e60, (void *)0x70003d80); }

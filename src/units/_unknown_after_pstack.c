@@ -364,3 +364,16 @@ extern E_0025AB78 D_00400498_25AB78[] __asm__("D_00400498");
 void func_0025ADB8_25AB78(void) __asm__("func_0025ADB8");
 // MATCH func_0025AB78
 int FUN_0025ab78(void) { int r = 0; E_0025AB78 *e, *end; func_0025ADB8_25AB78(); e = D_00400498_25AB78; end = e + 5; do { if (e->h270 != 0 || e->w272 != 0 || e->w276 != 0 || e->w280 != 0 || e->w284 != 0 || e->w288 != 0) r = 1; e++; } while ((int)e < (int)end); return r; }
+
+
+typedef struct { char s[8]; } N8_25E768_0025E768;
+typedef struct { int pad0; float t; int f8; int ptr; int state; int a; int b; int c; int d; N8_25E768_0025E768 name; } O_25E768_0025E768;
+extern float D_004A098C_25E768 __asm__("D_004A098C"), D_004A0990_25E768 __asm__("D_004A0990");
+extern N8_25E768_0025E768 D_004A59C0_25E768[] __asm__("D_004A59C0"), D_004A59C8_25E768[] __asm__("D_004A59C8"), D_004A59D0_25E768[] __asm__("D_004A59D0"), D_004A59D8_25E768[] __asm__("D_004A59D8");
+extern char D_00343010_25E768[] __asm__("D_00343010");
+int func_0025DE88_25E768(float, int, void *) __asm__("func_0025DE88");
+void func_001E3F20_25E768(void *, int) __asm__("func_001E3F20");
+int func_001E2C60_25E768(void *, int, int, int) __asm__("func_001E2C60");
+void func_001E3380_25E768(void *, int, int) __asm__("func_001E3380");
+// MATCH func_0025E768
+int FUN_0025e768(O_25E768_0025E768 *o) { float t; int r; t = o->t - D_004A098C_25E768; o->t = t; if (t < D_004A0990_25E768) { o->t = D_004A0990_25E768; o->name = D_004A59C0_25E768[0]; return 1; } if (o->ptr == 0) return 1; r = func_0025DE88_25E768(t * 420.0f, o->ptr, o); if (r == 2) { o->ptr = 0; o->state = 3; func_001E3F20_25E768(D_00343010_25E768, o->a); o->a = 0; func_001E3F20_25E768(D_00343010_25E768, o->b); o->b = 0; o->d = func_001E2C60_25E768(D_00343010_25E768, o->c, 0, 0); o->name = D_004A59C8_25E768[0]; } else if (r == 3) { o->state = 2; o->ptr = 0; if (o->a) func_001E3380_25E768(D_00343010_25E768, o->a, 0); if (o->b) func_001E3380_25E768(D_00343010_25E768, o->b, 1); o->f8 = 8; o->name = D_004A59D0_25E768[0]; } else if (r == 4) { o->state = 2; o->ptr = 0; o->name = D_004A59D8_25E768[0]; } return 1; }

@@ -2384,3 +2384,21 @@ void FUN_002bf848(void) { register unsigned t __asm__("$4") = 0; R(0x10003c10) =
 // MATCH func_002E7120
 int FUN_002e7120(double d) { long e; unsigned long u; { union { double d; unsigned long u; } x; x.d = d; u = x.u; } e = (u << 1) >> 53; e -= 0x433; if (e < -0x35) return 0; if (0xc < e) return 9999; u = (u << 12) >> 12; u |= 0x10000000000000UL; if (e < 0) { e = -e; u = u >> (int)(e - 2); if ((u & 3) == 3) u = (u >> 2) + 1; else u = u >> 2; } else u = u << (int)e; return (int)u; }
 
+
+
+typedef struct { u_long NLOOP:15; u_long EOP:1; u_long pad16:16; u_long id:14; u_long PRE:1; u_long PRIM:11; u_long FLG:2; u_long NREG:4; u_long REGS0:4; u_long REGS1:4; u_long REGS2:4; u_long REGS3:4; u_long REGS4:4; u_long REGS5:4; u_long REGS6:4; u_long REGS7:4; u_long REGS8:4; u_long REGS9:4; u_long REGS10:4; u_long REGS11:4; u_long REGS12:4; u_long REGS13:4; u_long REGS14:4; u_long REGS15:4; } __attribute__((aligned(16))) GifTag;
+typedef struct { u_long FBP:9; u_long rest:55; } FB_002C12B0;
+typedef struct { u_long pmode, smode2; FB_002C12B0 dispfb; u_long display, bgcolor; } DispEnv_002C12B0;
+typedef struct { FB_002C12B0 frame1; u_long l[15]; } DrawEnv1_002C12B0;
+typedef struct { FB_002C12B0 frame2; u_long l[15]; } DrawEnv2_002C12B0;
+typedef struct { u_long l[12]; } Clear_002C12B0;
+typedef struct { DispEnv_002C12B0 disp[2]; GifTag giftag0; DrawEnv1_002C12B0 draw01; DrawEnv2_002C12B0 draw02; Clear_002C12B0 clear0; GifTag giftag1; DrawEnv1_002C12B0 draw11; DrawEnv2_002C12B0 draw12; Clear_002C12B0 clear1; } DBuffDc_002C12B0;
+typedef struct { short sceGsInterMode, sceGsOutMode, sceGsFFMode, sceGsVersion; } GParam_002C12B0;
+void *func_002BF838_2C12B0(void) __asm__("func_002BF838");
+void func_002BF960_2C12B0(void *, short, short, short, short, short) __asm__("func_002BF960");
+void func_002BFCD8_002C12B0(void *, short, short, short, short, short) __asm__("func_002BFCD8");
+void func_002C1888_2C12B0(void *, short, short, short, short, short) __asm__("func_002C1888");
+void func_002C1780_2C12B0(void *, short, short, short, short, short, int, int, int, int, int) __asm__("func_002C1780");
+int func_002C16B8_2C12B0(short, short, short) __asm__("func_002C16B8");
+// MATCH func_002C12B0
+void FUN_002c12b0(DBuffDc_002C12B0 *db, short psm, short w, short h, short ztest, short zpsm, short clear) { GParam_002C12B0 *gp; int r; gp = func_002BF838_2C12B0(); func_002BF960_2C12B0(&db->disp[0], psm, w, h, 0, 0); func_002BF960_2C12B0(&db->disp[1], psm, w, h, 0, 0); func_002BFCD8_002C12B0(&db->draw01, psm, w, h, ztest, zpsm); func_002C1888_2C12B0(&db->draw02, psm, w, h, ztest, zpsm); func_002BFCD8_002C12B0(&db->draw11, psm, w, h, ztest, zpsm); func_002C1888_2C12B0(&db->draw12, psm, w, h, ztest, zpsm); if (clear) { func_002C1780_2C12B0(&db->clear0, ztest, 2048 - (w >> 1), 2048 - (h >> 1), w, h, 0, 0, 0, 0, 0); func_002C1780_2C12B0(&db->clear1, ztest, 2048 - (w >> 1), 2048 - (h >> 1), w, h, 0, 0, 0, 0, 0); } *(u128 *)&db->giftag0 = 0; *(u128 *)&db->giftag1 = 0; db->giftag0.NLOOP = clear ? 22 : 16; db->giftag0.EOP = 1; db->giftag0.NREG = 1; db->giftag0.REGS0 = 0xe; db->giftag1.NLOOP = clear ? 22 : 16; db->giftag1.EOP = 1; db->giftag1.NREG = 1; db->giftag1.REGS0 = 0xe; r = func_002C16B8_2C12B0(psm, w, h); if ((*(u_long *)gp & 0xffff0000ffffUL) == 0x100000001UL || gp->sceGsInterMode == 0) { { short v = r >> 1; db->disp[1].dispfb.FBP = v; db->draw01.frame1.FBP = r >> 1; db->draw02.frame2.FBP = r >> 1; } } }

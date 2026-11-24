@@ -45,3 +45,11 @@ char *FUN_00163080(int *p, int i) { if (p == 0) return 0; if (i < 0) return 0; i
 extern char D_0043C7E8_163D88[] __asm__("D_0043C7E8"); void func_00163E68_163D88(char *, char *) __asm__("func_00163E68");
 // MATCH func_00163D88
 char *FUN_00163d88(char *o, int a, int b) { *(int *)(o + 88) = 0; *(float *)(o + 36) = 1.0f; *(float *)(o + 40) = 1.0f; *(char **)(o + 104) = D_0043C7E8_163D88; *(int *)(o + 100) = b; *(float *)(o + 44) = 1.0f; *(int *)(o + 84) = 1; *(int *)(o + 68) = 50; *(int *)(o + 72) = 0; *(int *)(o + 76) = 0; *(float *)(o + 48) = 1.0f; *(int *)(o + 80) = 0; *(int *)(o + 12) = 0; *(int *)(o + 56) = 128; *(int *)(o + 64) = 0x808080; *(int *)(o + 16) = 0; *(int *)(o + 20) = 0; *(int *)(o + 0) = a; *(int *)(o + 24) = 0; func_00163E68_163D88(o, o + 100); return o; }
+
+
+extern char D_004A2CA8_163B50[] __asm__("D_004A2CA8");
+extern unsigned char D_0049EA60_163B50[] __asm__("D_0049EA60");
+int func_002DCE40_163B50(void *, void *, ...) __asm__("func_002DCE40");
+void func_00163780_163B50(int, int, void *) __asm__("func_00163780");
+// MATCH func_00163B50
+void FUN_00163b50(int x, int y, int v, int n, short *f) { char buf[64]; char *p; int w, i, m; func_002DCE40_163B50(buf, D_004A2CA8_163B50, n, v); w = f[2] - f[0]; if (n > 0) { i = n; m = 12; p = buf; do { { int c = *p; int d = c - '0'; if (((D_0049EA60_163B50 + 1)[c] & 4) != 0) func_00163780_163B50(x, y, (short *)((char *)f + d * m)); } x += w; i--; p++; } while (i != 0); } }

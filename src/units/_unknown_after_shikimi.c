@@ -3139,3 +3139,13 @@ extern int D_0062B5C0_2C9AA0[] __asm__("D_0062B5C0"); extern char D_0062B380_2C9
 int func_002E8928_2C9AA0(void *, int, int, void *, int, void *, int, int, int) __asm__("func_002E8928");
 // MATCH func_002C9AA0
 int FUN_002c9aa0(int a, int b) { if (D_0062B3D0_2C9AA0[a][b].f16 == 0) return 0; D_0062B5C0_2C9AA0[0] = 14; D_0062B5C0_2C9AA0[1] = a; D_0062B5C0_2C9AA0[2] = b; D_0062B5C0_2C9AA0[4] = 1; if (func_002E8928_2C9AA0(D_0062B380_2C9AA0, 1, 0, D_0062B5C0_2C9AA0, 128, D_0062B5C0_2C9AA0, 128, 0, 0) < 0) return 0; D_0062B3D0_2C9AA0[a][b].f16 = 0; return D_0062B5C0_2C9AA0[3]; }
+
+
+
+typedef struct { char b[4]; } S4_2ecc40_002ECC40;
+typedef struct { int pad[9]; int w36; S4_2ecc40_002ECC40 w40; } T_2ecc40_002ECC40;
+extern T_2ecc40_002ECC40 D_006359C0_2ECC40[] __asm__("D_006359C0"); extern int D_00429930_2ECC40[] __asm__("D_00429930"); extern S4_2ecc40_002ECC40 D_006357C0_2ECC40[] __asm__("D_006357C0"); extern S4_2ecc40_002ECC40 D_006359E8_2ECC40[] __asm__("D_006359E8");
+int func_002E8758_2ECC40(void *, int, int) __asm__("func_002E8758");
+int func_002E8928_2ECC40(void *, int, int, int, int, void *, int, int, int) __asm__("func_002E8928");
+// MATCH func_002ECC40
+int FUN_002ecc40(void) { int i; if (D_00429930_2ECC40[0] < 0) { loop: if (func_002E8758_2ECC40(D_006359C0_2ECC40, 0x80000006, 0) < 0) return -1; if (D_006359C0_2ECC40[0].w36 != 0) { D_00429930_2ECC40[0] = 0; if (func_002E8928_2ECC40(D_006359C0_2ECC40, 255, 0, 0, 0, D_006357C0_2ECC40, 4, 0, 0) < 0) return -65537; D_006359E8_2ECC40[0] = D_006357C0_2ECC40[0]; return 0; } i = 0x100000; while (i--) ; goto loop; } return 0; }

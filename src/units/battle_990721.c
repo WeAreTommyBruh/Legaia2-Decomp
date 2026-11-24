@@ -311,3 +311,11 @@ void battle_00122138(void)
     D_004A6E74_122138 = 0;
 }
 
+
+
+typedef struct { char p0[4824]; int f4824; char p1[76]; int cnt; char sel[244]; char f5152[44]; int n; char p2[272]; } E5472_00120428;
+typedef struct { char p0[40]; float x40, x44; char p1[4]; unsigned int fl; char p2[72]; } S128_00120428;
+extern E5472_00120428 *D_004A1A20_120428 __asm__("D_004A1A20"); extern S128_00120428 D_003D1A98_120428[] __asm__("D_003D1A98"), D_00322330_120428[] __asm__("D_00322330"); extern int D_004A1A4C_120428 __asm__("D_004A1A4C"), D_004A1A48_120428 __asm__("D_004A1A48"); extern char D_004A6C78_120428 __asm__("D_004A6C78");
+void func_001297A0_120428(int, int, int, int, int, int) __asm__("func_001297A0");
+// MATCH func_00120428
+void battle_00120428(int a, int b) { int c = D_004A1A20_120428[a].cnt; int i; if (D_004A1A4C_120428 == 0) { D_004A1A4C_120428 = 1; D_004A1A20_120428[a].cnt = 0; for (i = 0; i < D_004A1A20_120428[a].n; i++) { D_004A1A20_120428[a].sel[i] = 0; D_003D1A98_120428[i].x40 = 0; D_003D1A98_120428[i].x44 = 0; } c = 0; } if (c < D_004A1A20_120428[a].n) { func_001297A0_120428(901, 7, 1, 0, 0, 0); D_00322330_120428[b].x40 = 0; D_00322330_120428[b].x44 = 0; D_00322330_120428[b].fl |= 1; D_004A1A20_120428[a].f4824 = 1; D_004A1A20_120428[a].sel[c] = b; if (++D_004A1A20_120428[a].cnt == D_004A1A20_120428[a].n) D_004A1A48_120428 = 1; D_004A1A20_120428[a].f5152[c] = D_004A6C78_120428; } }

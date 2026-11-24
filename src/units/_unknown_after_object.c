@@ -104,3 +104,9 @@ int t = *(int *)(p + 0x3110); D_004A71F4 = p; D_004A71F8 = 0; D_004A14A0 = 0; D_
   if (D_004A71F8 == 0) D_004A14A0 = 1;
   return D_004A71F8;
 }
+
+
+typedef struct { int fd; volatile int n, pos, buf; int base; volatile int err; } F_00245AC8;
+int func_002E69C8_245AC8(int, int, int) __asm__("func_002E69C8"); int func_002E6A00_245AC8(int, int, int) __asm__("func_002E6A00");
+// MATCH func_00245AC8
+void FUN_00245ac8(int op, unsigned n, F_00245AC8 *f) { int r; switch (op) { case 1: if (f->pos + n > 0x100000) break; { int m = n & 0xffff; int p = f->pos; int b = f->base; r = func_002E69C8_245AC8(f->fd, b + p, m); } if (r < 0) f->err = -1; f->pos += r; return; case 2: f->err = f->pos; f->pos = 0; return; case 3: r = func_002E6A00_245AC8(f->fd, f->buf, f->n & 0xffff); if (r < 0) break; { int b = f->buf; int m = f->n; f->buf = b + r; f->n = m - r; } return; case 6: break; case 4: if (f->n == 0) return; break; case 5: return; } f->err = -1; }

@@ -120,3 +120,17 @@ void FUN_00116358(int p1, S_116358 *src, int p3, int p4, int p5)
     s.y -= 2;
     func_00114660(5, s.x, s.y, o->c104, 2, p3, p4, 17);
 }
+
+
+typedef struct { char p0[60]; int f60; char p64[112]; } E_116510_00116510;
+typedef struct { float a, b, w, h, s; int i20, i24; char p28[184]; } T_116510_00116510;
+extern E_116510_00116510 D_00419D18_116510[] __asm__("D_00419D18");
+extern T_116510_00116510 D_00368A14_116510[] __asm__("D_00368A14");
+extern int D_004A1B24_116510 __asm__("D_004A1B24");
+int func_002561B8_116510(int, int) __asm__("func_002561B8"); int func_002561F8_116510(int, int) __asm__("func_002561F8"); unsigned func_00256218_116510(int, int) __asm__("func_00256218"); int battle_0012af38(int);
+void func_00115090_116510(float, float, void *, int, int, int, int, float, int, int) __asm__("func_00115090");
+void func_0023CB68_116510(int) __asm__("func_0023CB68");
+void func_00114478_116510(int, int, int, int, int, int) __asm__("func_00114478");
+int func_00114660_116510(int, int, int, int, int, int, int, int) __asm__("func_00114660");
+// MATCH func_00116510
+void FUN_00116510(int a, int b, int *p, int p4, int p5, int p6) { int o, hp, idx, i, k; unsigned f; T_116510_00116510 *e; o = func_002561B8_116510(b, a); if (o == 0) return; hp = func_002561F8_116510(b, a); idx = -1; i = 0; do { if (a == battle_0012af38(i)) idx = i; i++; } while (i < 3); if (idx < 0) return; if (D_00419D18_116510[idx].f60 < hp) { p5 = 64; p6 = 0x404040; } f = func_00256218_116510(b, a); k = 10; if ((f & 4) == 0) { k = (f & 0x20000) ? 6 : 0; if ((f & 0x200000) != 0) k = 6; if ((f & 0x40000) != 0) k = 2; if ((f & 0x100000) != 0) k = 4; if ((f & 2) != 0) k = 8; if ((f & 0x200) != 0) k = k + 1; } e = &D_00368A14_116510[k]; func_00115090_116510(e->a, e->b, p, (int)e->w, (int)e->h, e->i20, e->i24, e->s, p4, p5); func_0023CB68_116510(p4); { int x = p[0], y = p[1]; D_004A1B24_116510 = 2; func_00114478_116510(o, x + 12, y, 10, 10, p6); } D_004A1B24_116510 = 0; func_0023CB68_116510(128); func_00114660_116510(5, p[0] + 128, p[1], hp, 3, p4, p5, 17); }

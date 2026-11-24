@@ -48,3 +48,13 @@ extern int D_0035A780_001E92B0[] __asm__("D_0035A780");
 void func_001E52B0(int); int func_001E7CB0(int, int); int akari_001e2628(int, int);
 // MATCH func_001E92B0
 void yue_001e92b0(int p1, int p2, int p3) { if (*(int *)(p1 + 0x88) == 0) { if (0 < p2) { func_001E52B0(*(int *)(p1 + 0x84)); akari_001e2628(p1, (int)((char *)D_0035A780_001E92B0 + *(int *)(p1 + 0x84) * 0x100)); } } else if (p2 == 0) { func_001E7CB0(*(int *)(p1 + 0x84), p3); } if ((unsigned)p2 < 2) *(int *)(p1 + 0x88) = p2; }
+
+
+
+typedef struct { int pad0; float x; float y; int padc; float a; float b; int pad18; int n; int pad20; } K_1EA680_001EA680;
+typedef struct { char pad0[124]; int max; char pad80[720]; int trk[7]; } A_1EA680_001EA680;
+typedef struct { float n, x, y, d, b; } T_1EA680_001EA680;
+typedef struct { int pad0; T_1EA680_001EA680 t[7]; } D_1EA680_001EA680;
+#define SET(k) { K_1EA680_001EA680 *e = (K_1EA680_001EA680 *)(o + p->trk[k]); d->t[k].n = (float)e->n; d->t[k].x = e->x; d->t[k].y = e->y; d->t[k].d = e->a - e->b; d->t[k].b = e->b; }
+// MATCH func_001EA680
+void yue_001ea680(A_1EA680_001EA680 *p, D_1EA680_001EA680 *d, int i) { int o; if (p->max < i || i < 0) i = 0; o = i * 36; SET(0) SET(1) SET(2) SET(3) SET(4) SET(5) SET(6) }

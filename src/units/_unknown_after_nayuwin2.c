@@ -153,3 +153,11 @@ void FUN_001bacd8(O_1BACD8 *o) {
     func_0010C2B0(D_00343028, 0, 2, 0, 1, 0, 0);
   }
 }
+
+
+typedef struct { char p[16]; unsigned long *w16; } S_001B2D58;
+typedef struct { int x[4]; int y[4]; unsigned char c[4]; } L_001B2D58;
+extern S_001B2D58 D_00314C20_1B2D58 __asm__("D_00314C20");
+void func_00190328_1B2D58(S_001B2D58 *) __asm__("func_00190328"); void func_00190420_1B2D58(S_001B2D58 *) __asm__("func_00190420");
+// MATCH func_001B2D58
+void FUN_001b2d58(int a0, int *pos, int w, int h, int a, int c) { L_001B2D58 l; unsigned long *p; l.x[0] = pos[0] * 32 + 0x6c00; l.y[0] = pos[1] * 16 + 0x7900; l.x[1] = (pos[0] + w) * 32 + 0x6c00; l.y[1] = (pos[1] + h) * 16 + 0x7900; l.c[1] = c >> 8; l.c[2] = c >> 16; l.c[0] = c; func_00190328_1B2D58(&D_00314C20_1B2D58); p = D_00314C20_1B2D58.w16; p[0] = 68; p[1] = 66; p[2] = 0x31001; p[4] = 78; p[3] = 71; p[5] = 0; p[6] = (unsigned long)l.c[0] | (unsigned long)l.c[1] << 8 | (unsigned long)l.c[2] << 16 | (long)a << 24 | 0x3f80000000000000UL; p[7] = 1; p[8] = (long)l.x[0] | (long)l.y[0] << 16 | 0x1000000000000UL; p[9] = 5; p[10] = (long)l.x[1] | (long)l.y[1] << 16 | 0x1000000000000UL; p[11] = 5; p[12] = 0x5000d; p[13] = 71; D_00314C20_1B2D58.w16 = p + 14; func_00190420_1B2D58(&D_00314C20_1B2D58); }

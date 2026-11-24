@@ -132,3 +132,8 @@ void func_00213480_213640(void *, void *, void *, void *, void *, int, int) __as
 void func_00213548_213640(void *, int, int, int, void *) __asm__("func_00213548");
 // MATCH func_00213640
 int FUN_00213640(void *m, int c1, int c2, int ch, int f1, int f2, V4_213640_00213640 *o1, V4_213640_00213640 *o2) { Clip_213640_00213640 *clip; Ch_213640_00213640 *p; short v[2]; V4_213640_00213640 t; int swap; if (c1 != c2 || (f1 + 1 != f2 && f1 - 1 != f2)) { func_00213548_213640(m, c1, ch, f1, o1); func_00213548_213640(m, c2, ch, f2, o2); return 1; } { swap = 0; if (f1 - 1 == f2) { f1 = f2; swap = 1; } clip = func_00212F00_213640(m); p = (Ch_213640_00213640 *)((char *)clip + clip->off52 + ch * 24); func_00213480_213640(m, &v[0], &v[1], clip, p, p->k6, f1); o1->x = (float)(v[0] << clip->sh); o2->x = (float)(v[1] << clip->sh); func_00213480_213640(m, &v[0], &v[1], clip, p, p->k8, f1); o1->y = (float)(v[0] << clip->sh); o2->y = (float)(v[1] << clip->sh); func_00213480_213640(m, &v[0], &v[1], clip, p, p->k10, f1); o1->z = (float)(v[0] << clip->sh); o2->z = (float)(v[1] << clip->sh); if (swap) { t = *o1; *o1 = *o2; *o2 = t; } } return 1; }
+
+
+
+// MATCH func_00212A48
+int FUN_00212a48(char *s, int **a, int **b, int n) { int i; int *p = *(int **)(s + 12); i = 0; if (p) { for (; i != n; ) { p = (int *)*p; if (!p) return 0; i++; } } if (!p) return 0; *a = p + 2; *b = p + 18; return 1; }
