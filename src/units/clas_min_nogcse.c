@@ -61,3 +61,12 @@ void *func_00162130_2A4338(int, void *, int) __asm__("func_00162130");
 // MATCH func_002A4338
 void clas_min_002a4338(N__002A4338 **q, int v) { N__002A4338 *n; N__002A4338 *p; while (*q != 0) q = (N__002A4338 **)*q; n = func_00162130_2A4338(8, D_0049A700_2A4338, 3919); do { n->next = 0; } while (0); *q = n; n->v = v; }
 
+typedef struct { char p[8]; short adj; char p2[2]; void (*fn)(void *, int); } VT_29C900_0029C900;
+typedef struct N_29C900_0029C900 { char p[28]; struct N_29C900_0029C900 *next; } N_29C900_0029C900;
+typedef struct { char p[60]; VT_29C900_0029C900 *vt; } C_29C900_0029C900;
+typedef struct { char p[28]; N_29C900_0029C900 *head; C_29C900_0029C900 *cur; } O_29C900_0029C900;
+void func_002BF330_29C900(void *, int) __asm__("func_002BF330");
+int clas_min_0029ca78(void *, void *);
+// MATCH func_0029C900
+void clas_min_0029c900(O_29C900_0029C900 *o) { N_29C900_0029C900 *n; C_29C900_0029C900 *c; clas_min_0029ca78(o, o); while (o->head != 0) { n = o->head; o->head = n->next; if (n != 0) func_002BF330_29C900(n, 3); } c = o->cur; if (c != 0) { c->vt->fn((char *)c + c->vt->adj, 3); o->cur = 0; } }
+

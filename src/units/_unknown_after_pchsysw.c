@@ -30,3 +30,12 @@ void FUN_00130c58(int a, int b, int c, float x, int d) { func_00116820(D_00314C2
 typedef struct { char c[16]; } B16;
 // MATCH func_00130188
 int FUN_00130188(int *a, int i, B16 *out) { char *e; if (i >= a[0]) goto f; e = (char *)(i * 64 + a[1]); if (*(int *)(e + 16) == 0) { f: return 0; } *out = *(B16 *)e; return 1; }
+
+typedef struct { char pad[20]; int v[8]; char pad2[12]; } E64_00130218;
+typedef struct { int x; E64_00130218 *l; } H_00130218;
+// MATCH func_00130218
+int FUN_00130218(H_00130218 *a, int b, int c) { int i; for (i = 0; i < 8; i++) { if (a->l[b].v[i] == c) return 1; if (a->l[b].v[i] < 0) break; } return 0; }
+
+int func_00130AD8_130BA0(int) __asm__("func_00130AD8"); int func_00130B50_130BA0(int) __asm__("func_00130B50");
+// MATCH func_00130BA0
+int FUN_00130ba0(int p) { int c = p & 0xffff; if ((unsigned)(p = c - 0x8140) >= 0x6f00) return -1; if ((unsigned)(c - 0x889f) < 0xfd4) { if ((c & 0xff) >= 128) c--; c = (((((c & 0xff00) - 0x8800) >> 8) * 188 + (c & 0xff) - 158) & 0xffff); c += 424; } else if ((unsigned)p < 599) c = func_00130AD8_130BA0(c); else c = func_00130B50_130BA0(c); return c; }

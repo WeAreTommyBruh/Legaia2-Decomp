@@ -283,3 +283,8 @@ void FUN_0021a650(O_21A650 *o, int k) {
   o->b[2] = x->v64.z;
   func_001118F8(D_00456C30, k, (double)o->a[0], (double)o->a[1], (double)o->a[2]);
 }
+
+typedef struct { char p0[56]; int w56; } Q_21AF68_0021AF68;
+typedef struct { char p0[4816]; unsigned flags; char p4820[368]; Q_21AF68_0021AF68 *q; char p5192[164]; float e, f; char p5364[96]; float c, a, b; } O_21AF68_0021AF68;
+// MATCH func_0021AF68
+float FUN_0021af68(O_21AF68_0021AF68 *o) { float v, c; if (o->a < o->b) o->c = o->b; else o->c = o->a; { float lo = o->e, hi = o->f; c = o->c; v = lo < hi ? hi : lo; } if ((o->flags & 0x40000000) && o->q->w56 == 0) { c = c + c; v = v + v; } return c < v ? v : c; }

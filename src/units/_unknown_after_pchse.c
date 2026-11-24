@@ -123,3 +123,12 @@ extern const float D_004A0480_213AE8 __asm__("D_004A0480"), D_004A0484_213AE8 __
 int func_00212F00_213AE8(int, int) __asm__("func_00212F00"); int func_00213150_213AE8(int, int) __asm__("func_00213150"); int func_00213410_213AE8(int, int, int, int, int) __asm__("func_00213410"); void func_0018EED8_213AE8(float *, float) __asm__("func_0018EED8");
 // MATCH func_00213AE8
 int FUN_00213ae8(int a, int b, int c, int d, float *out) { int p, e; float f; p = func_00212F00_213AE8(a, b); e = p + *(int *)(p + 52) + c * 24; f = func_00213150_213AE8(a, b) != 0 ? 0.000383495120331645f : 0.00153398048132658f; out[0] = (float)func_00213410_213AE8(a, p, e, *(unsigned short *)(e + 12), d); out[1] = (float)func_00213410_213AE8(a, p, e, *(unsigned short *)(e + 14), d); out[2] = (float)func_00213410_213AE8(a, p, e, *(unsigned short *)(e + 16), d); func_0018EED8_213AE8(out, f); return 1; }
+
+typedef struct { float x, y, z, w; } V4_213640_00213640;
+typedef struct { char pad0[4]; signed char sh; char pad5[47]; int off52; } Clip_213640_00213640;
+typedef struct { char pad0[6]; unsigned short k6, k8, k10; } Ch_213640_00213640;
+void *func_00212F00_213640(void *) __asm__("func_00212F00");
+void func_00213480_213640(void *, void *, void *, void *, void *, int, int) __asm__("func_00213480");
+void func_00213548_213640(void *, int, int, int, void *) __asm__("func_00213548");
+// MATCH func_00213640
+int FUN_00213640(void *m, int c1, int c2, int ch, int f1, int f2, V4_213640_00213640 *o1, V4_213640_00213640 *o2) { Clip_213640_00213640 *clip; Ch_213640_00213640 *p; short v[2]; V4_213640_00213640 t; int swap; if (c1 != c2 || (f1 + 1 != f2 && f1 - 1 != f2)) { func_00213548_213640(m, c1, ch, f1, o1); func_00213548_213640(m, c2, ch, f2, o2); return 1; } { swap = 0; if (f1 - 1 == f2) { f1 = f2; swap = 1; } clip = func_00212F00_213640(m); p = (Ch_213640_00213640 *)((char *)clip + clip->off52 + ch * 24); func_00213480_213640(m, &v[0], &v[1], clip, p, p->k6, f1); o1->x = (float)(v[0] << clip->sh); o2->x = (float)(v[1] << clip->sh); func_00213480_213640(m, &v[0], &v[1], clip, p, p->k8, f1); o1->y = (float)(v[0] << clip->sh); o2->y = (float)(v[1] << clip->sh); func_00213480_213640(m, &v[0], &v[1], clip, p, p->k10, f1); o1->z = (float)(v[0] << clip->sh); o2->z = (float)(v[1] << clip->sh); if (swap) { t = *o1; *o1 = *o2; *o2 = t; } } return 1; }

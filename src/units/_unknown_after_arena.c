@@ -172,3 +172,23 @@ extern float D_003CBB90_224A18[] __asm__("D_003CBB90"), D_005E88C0_224A18[] __as
 // MATCH func_00224A18
 int FUN_00224a18(int a) { if (a == 0) return 0; if ((D_004A140C_224A18 & 8) == 0) return 0; { float *s = D_003CBB90_224A18, *d = D_005E88C0_224A18; d[4] = s[4]; d[5] = s[5]; d[6] = s[6]; d[8] = s[8]; d[9] = s[9]; d[10] = s[10]; d[20] = s[20]; } return 0; }
 
+typedef struct { short pad0[4]; short adj8; short pad10; void (*fn12)(void *, int); char pad16[24]; short adj40; short pad42; void (*fn44)(void *); } VT2268_002268D0;
+#define I(o, n) (*(int *)((char *)(o) + (n)))
+#define VT(o) (*(VT2268_002268D0 **)((char *)(o) + 2116))
+extern int D_004A6598_2268D0 __asm__("D_004A6598");
+extern volatile float D_004A0598_2268D0 __asm__("D_004A0598");
+extern int D_003279A0_2268D0[] __asm__("D_003279A0");
+extern char D_0045A7E8_2268D0[] __asm__("D_0045A7E8"), D_0045A800_2268D0[] __asm__("D_0045A800");
+void func_002709C0_2268D0(void) __asm__("func_002709C0");
+void func_00229528_2268D0(void *, int) __asm__("func_00229528");
+void func_00229400_2268D0(void *) __asm__("func_00229400");
+void func_00126830_2268D0(int, int) __asm__("func_00126830");
+void func_00127168_2268D0(void) __asm__("func_00127168");
+void func_00126798_2268D0(void) __asm__("func_00126798");
+void func_001118F8_2268D0(void *) __asm__("func_001118F8");
+void func_0021A3E8_2268D0(int, int, int, int) __asm__("func_0021A3E8");
+void func_00129DE8_2268D0(void) __asm__("func_00129DE8");
+void func_0012CAB8_2268D0(float) __asm__("func_0012CAB8");
+void func_0023FE68_2268D0(void *, int) __asm__("func_0023FE68");
+// MATCH func_002268D0
+void FUN_002268d0(char *o) { unsigned char *p, *q, *r; int v; unsigned char *w, *x; int flag; int k; flag = 0; if (I(o, 1240) != 0) { FUN_002268d0((char *)I(o, 1240)); p = (char *)I(o, 1240); if (p != 0) { VT(p)->fn12(p + VT(p)->adj8, 3); } I(o, 1240) = 0; flag = 1; } else if (I(o, 1188) == 0) { D_004A6598_2268D0 = I(o, 1212); func_002709C0_2268D0(); } func_00229528_2268D0(o, 1); func_00229400_2268D0(o); func_00126830_2268D0(0, 0); VT(o)->fn44(o + VT(o)->adj40); *((unsigned char *)I(o, 1784) + 210) = 0; w = (unsigned char *)I(o, 1796); v = I(o, 1208); x = (unsigned char *)I(o, 1792); I(w, 4816) = v; I(w, 5348) = 128; x[210] = 128; r = (unsigned char *)I(o, 1792); r[209] = 128; if (I(o, 1188) == 0) { func_00127168_2268D0(); if (I(o, 1248) == 1 && flag) goto skip; if (I(o, 1096) == 0 || I(o, 1092) == 0) { *(short *)((char *)I(o, 1784) + 188) = 0; } } skip: func_00126798_2268D0(); if (I(o, 2072) != 0) { if (I(o, 1236) != 0) { func_001118F8_2268D0(D_0045A7E8_2268D0); func_0021A3E8_2268D0(D_003279A0_2268D0[I(o, 1176)], 0, 0, 0); func_0021A3E8_2268D0(I(o, 1792), 0, 0, 0); } else { func_001118F8_2268D0(D_0045A800_2268D0); func_0021A3E8_2268D0(I(o, 1792), 0, 0, 0); } } if (I(o, 1248) != 1 && I(o, 1236) == 0) { func_00129DE8_2268D0(); } q = (char *)I(o, 1788); p = (char *)I(o, 1796); I(q, 4816) &= 0xffefffff; I(p, 4816) &= 0xffefffff; k = I(o, 1780); if ((unsigned)(k - 28) < 2 || k == 26 || k == 36) { func_0012CAB8_2268D0(D_004A0598_2268D0); } if (*(short *)((char *)I(o, 1784) + 172) == 217) { func_0023FE68_2268D0((char *)I(o, 1784), 0); } }

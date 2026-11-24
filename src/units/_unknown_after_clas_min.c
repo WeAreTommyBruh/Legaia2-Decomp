@@ -168,3 +168,17 @@ void FUN_002a7920(char *o)
 }
 
 #undef CLEAR_ROW_002A7920
+
+typedef struct { char p[1888]; volatile int st; char p2[60]; volatile int a, b; } T_2A89B8_002A89B8;
+typedef struct { T_2A89B8_002A89B8 *t; int cmd; int a, b; } C_2A89B8_002A89B8;
+// MATCH func_002A89B8
+void FUN_002a89b8(C_2A89B8_002A89B8 *c) { switch (c->cmd) { case 1: c->t->st = 0; c->cmd = 0; break; case 2: { T_2A89B8_002A89B8 *t = c->t; int b = c->b, a = c->a; t->st = 1; t->b = b; t->a = a; } c->cmd = 0; break; case 3: c->t->st = 2; c->cmd = 0; break; } }
+
+float func_0022F3C8_2A8EB0(float, float) __asm__("func_0022F3C8");
+// MATCH func_002A8EB0
+void FUN_002a8eb0(float *p) { float s; s = __builtin_sqrtf(p[0] * p[0] + p[2] * p[2]); p[5] = s; p[4] = func_0022F3C8_2A8EB0(p[1], s); p[3] = func_0022F3C8_2A8EB0(p[0], p[2]); }
+
+typedef struct { char c[16]; } B16_2A8FB0_002A8FB0;
+extern int D_004A13EC_2A8FB0 __asm__("D_004A13EC");
+// MATCH func_002A8FB0
+void FUN_002a8fb0(char *o, char *p) { *(int *)(o + 180) = D_004A13EC_2A8FB0; *(float *)(o + 176) = *(float *)(p + 208); *(B16_2A8FB0_002A8FB0 *)(o + 112) = *(B16_2A8FB0_002A8FB0 *)p; *(B16_2A8FB0_002A8FB0 *)(o + 128) = *(B16_2A8FB0_002A8FB0 *)(p + 16); *(B16_2A8FB0_002A8FB0 *)(o + 144) = *(B16_2A8FB0_002A8FB0 *)(p + 32); *(long long *)(o + 160) = *(long long *)(p + 192); *(long long *)(o + 168) = *(long long *)(p + 200); }

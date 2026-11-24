@@ -6,7 +6,8 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **20.82% of code (421,036 bytes), 4430 / 6255 functions matched (2026-11-18, session 33c; 21% requested, stopped by the user at 20.82%).**
+- **23.79% of code (481,064 bytes), 4638 / 6255 functions matched (2026-11-24, session 36: four Opus subagents, 42 functions).**
+- Session 33c reached 20.82% (421,036 bytes, 4430 functions; 21% requested, stopped by the user).
 - Session 33b reached 20.60% (416,584 bytes, 4418 functions).
 - Session 33 first reached 20.36% (411,688 bytes, 4402 functions). Total code is 2,022,208 bytes.
 - Session 32 ended at 20.19% (408,304 bytes, 4385 functions; 20.30% was requested there and not reached).
@@ -308,7 +309,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
   `build/work/commit.sh "msg" files...` checks the build says MATCH, regenerates the reports, commits and pushes. `commit.sh` does not add `src/units` and ignores
   `AI.md`; add those explicitly (or commit by hand). If a push is rejected: `git pull --rebase origin main`, rebuild, push again.
 - **Assembly policy.** A function counts as matched only when its source compiles to its bytes. Allowed assembly, all user-approved:
-  - single hardware instructions inside normal C functions (`sync`, `.word 0x42000038` = ei, `.word 0x42000039` = di, `mfc0`, `cfc2/ctc2`, `cache`, `syscall`, and VU0 quad loads/stores
+  - single hardware instructions inside normal C functions (`sync`, `.word 0x42000038` = ei, `.word 0x42000039` = di, `mfc0`, `cfc2/ctc2`, `cache`, `syscall`, a lone `__asm__ volatile("nop")` (user-approved 2026-11-23, 2edc50), and VU0 quad loads/stores
     `lqc2`/`sqc2` written as `__asm__ volatile("sqc2 $vf0, 0(%0)" : : "r"(p));`, approved by the user 2026-11-18, used in 153b40);
   - the 161 syscall wrappers as `int NAME(void) { register int n __asm__("$3") = N; __asm__ volatile("syscall" : : "r"(n)); }` (the compiler emits the `li`, `jr` and delay slot);
   - register-bound locals (`register int t __asm__("$2");`, no instruction) to pin a temp's hard register, and empty `__asm__ volatile ("" : : "r"(x));` priority nudges (both user-approved, used sparingly: 2d5990, 2d5d80);
@@ -540,6 +541,7 @@ Near misses (words off; drafts are in `build/work/w/`):
   double-sided with arbitrary winding (feathers, cloth), so the fragment shader flips normals that face away from the viewer (otherwise a black/white checker) and back-face culling is
   meaningless. Test setup that works headless: a small Node server with HTTP Range for the ISO, `LegaiaViewer.load({size, slice})`, then POST `snapshot()` PNGs back to disk.
 - `FORMATS.md`, `PROGRESS.md` and `handoff.md` were removed from the repo (still in git history). Format details live in the docstrings of the `tools/` scripts.
+- The repo now lives at `/mnt/a651921e-efe7-48b4-ad06-7270e9717b9f/Legaia 2 Decomp`; `build/work` helpers hardcode `/home/tommy/src/Legaia 2 Decomp`, which is a symlink to it (recreate the symlink if helpers fail with `No module named 'asm_build'`).
 - The scratch Python venv with Pillow/numpy used for image work is `/tmp/claude-1000/imgvenv` (not part of the repo).
 - README badges and the clone URL point at WeAreTommyBruh/Legaia2-Decomp; update them if the repo is renamed.
 - Memory notes for this project live in `~/.claude/projects/-home-tommy-src-Legaia-2-Decomp/memory/`.

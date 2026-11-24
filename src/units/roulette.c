@@ -280,3 +280,9 @@ typedef struct { int p0; int n; char p[84]; int a; int t; char p2[36]; V8_001707
 void func_00171460_1707D8(void *, int) __asm__("func_00171460");
 // MATCH func_001707D8
 int roulette_001707d8(O_001707D8 *o) { int n; o->a = 1; if (o->t++ >= 10) { n = o->n; o->t = 0; if (n == 0) { o->x = o->y; return 0; } else if (n >= 2000) { o->n = n - 1000; func_00171460_1707D8(o, 1000); return 0; } else if (n >= 200) { o->n = n - 100; func_00171460_1707D8(o, 100); return 0; } else if (n >= 20) { o->n = n - 10; func_00171460_1707D8(o, 10); return 0; } else { o->n = n - 1; func_00171460_1707D8(o, 1); } } return 0; }
+
+typedef struct { char p[8]; int w8, w12; char p16[4]; int w20; char p24[40]; int w64; char p68[48]; int w116; } O_171F68_00171F68;
+int rand(void);
+static inline unsigned rnd_171F68_00171F68(int n) { unsigned lim, r; if (n == 0) return 0; lim = 0x7fffff - 0x800000 % n; do { r = rand() >> 8; } while (lim < r); return r % (unsigned)n; }
+// MATCH func_00171F68
+void roulette_00171f68(O_171F68_00171F68 *o) { int v; o->w64 = 250; o->w20 = 0; o->w116 = 0; v = rnd_171F68_00171F68(12) << 16; o->w8 = v; o->w12 = v; }

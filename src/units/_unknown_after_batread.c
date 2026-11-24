@@ -16,3 +16,7 @@ int func_00196FF8(void);
 int battle_0012a938(void);
 // MATCH func_00220B08
 int FUN_00220b08(int a) { if (a == 0) D_004A6FC8 = 0; D_004A6FC8 = a; if (battle_0012a938() != 0 || func_00196FF8() != 0) return 1; return 0; }
+
+extern int D_00425510_220B88[] __asm__("D_00425510");
+// MATCH func_00220B88
+void FUN_00220b88(int *p) { int v = *p; if (v != 7) { if (v != 8) return; D_00425510_220B88[1] |= 0x1000000; } else D_00425510_220B88[1] |= 0x2000000; }

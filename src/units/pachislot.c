@@ -427,3 +427,14 @@ int pachislot_0016a7c0(P_16A7C0 *p) {
   } else if (f & 0xa) func_00168BC0(p);
   return 0;
 }
+
+typedef struct { char c[8]; } V8_1661C8_001661C8;
+typedef struct { char p[56]; short adj56; char p58[2]; void (*fn60)(void *); char p64[8]; short adj72; char p74[2]; int (*fn76)(void *); } VT_1661C8_001661C8;
+typedef struct { char p[20]; int n; } H_1661C8_001661C8;
+typedef struct { H_1661C8_001661C8 *h; char p4[6]; short pos; char p12[36]; VT_1661C8_001661C8 *vt; int w52; int busy; char p60[8]; V8_1661C8_001661C8 v68; } O_1661C8_001661C8;
+extern V8_1661C8_001661C8 D_004A2D48_1661C8[3] __asm__("D_004A2D48");
+void func_00164A38_1661C8(void *, int) __asm__("func_00164A38");
+int rand(void);
+static inline unsigned rnd_1661C8_001661C8(int n) { unsigned lim, r; if (n == 0) return 0; lim = 0x7fffff - 0x800000 % n; do { r = rand() >> 8; } while (lim < r); return r % (unsigned)n; }
+// MATCH func_001661C8
+void pachislot_001661c8(O_1661C8_001661C8 *o) { int k; if (o->busy != 0) return; k = o->pos - rnd_1661C8_001661C8(2); if (k < 0) k += o->h->n; if (o->vt->fn76((char *)o + o->vt->adj72) != 0 && o->w52 == k) { o->v68 = D_004A2D48_1661C8[0]; func_00164A38_1661C8(o, o->w52); o->vt->fn60((char *)o + o->vt->adj56); } }

@@ -137,3 +137,7 @@ extern char D_0042ED98_111400[] __asm__("D_0042ED98"), D_0042EDA8_111400[] __asm
 int func_001118F8_111400(void *, ...) __asm__("func_001118F8");
 // MATCH func_00111400
 int SyncCheck(int p) { int a, b; func_001118F8_111400(D_0042ED98_111400); a = R(0x10000000) - D_004A6BFC_111400; func_001118F8_111400(D_0042EDA8_111400); b = D_004A6BB8_111400 - D_004A6BF8_111400 - 1; func_001118F8_111400(D_0042EDB8_111400); if (p == 0) { R(0x10000010) = 0x9f; D_004A6BFC_111400 = R(0x10000000); D_004A6BF8_111400 = D_004A6BB8_111400; } return b * 1000 + a; }
+
+typedef int u128x __attribute__((mode(TI)));
+// MATCH func_0010F3E0
+void FUN_0010f3e0(u128x *p, int n) { int c = n / 16; int i; if (c > 0) { i = c; do { *p++ = 0; } while (--i); } }

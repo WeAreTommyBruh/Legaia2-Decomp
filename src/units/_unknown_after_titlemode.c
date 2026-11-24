@@ -78,3 +78,8 @@ void FUN_00215f38(S *s, int n)
   if (n == 0) { *(int *)&s->b = 0; return; }
  t = 0.0f; if (n > 0) t = 1.0f; n = n >= 0 ? n : -n; s->b = (t - s->a) / (float)n;
 }
+
+typedef struct { int a0; void ***a4; int a8; int a12; } S_2153a8_002153A8;
+void func_00214A68_2153A8() __asm__("func_00214A68");
+// MATCH func_002153A8
+void FUN_002153a8(S_2153a8_002153A8 *s) { void ***t = s->a4; s->a12 = 0x80787878; func_00214A68_2153A8(s, *t, 0, 0); }

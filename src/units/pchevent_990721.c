@@ -53,3 +53,13 @@ void *func_002DD4CC_20BA70(void *, void *) __asm__("func_002DD4CC");
 extern int func_0018B998_20BA70(int, char *, int) __asm__("func_0018B998");
 // MATCH func_0020BA70
 int pchevent_0020ba70(int *o, int a) { int i, j, n; char *buf, *d; if (o[3] == 0) return 0; n = 0; for (i = 0; i < o[1]; i++) { if (((char **)o[3])[i] != 0) n = n + func_002DD5E0_20BA70(((char **)o[3])[i]) + 2; } buf = func_00162130_20BA70(n, D_00454D80_20BA70, 226); d = buf; if (buf == 0) return 0; for (j = 0; j < o[1]; j++) { if (((char **)o[3])[j] != 0) { func_002DD4CC_20BA70(d, ((char **)o[3])[j]); d += func_002DD5E0_20BA70(((char **)o[3])[j]); *(S3_0020BA70 *)d = *(S3_0020BA70 *)D_004A45E0_20BA70; d += 2; } } return func_0018B998_20BA70(a, buf, n); }
+
+typedef struct { int p0; int n; int cnt; int *a; } A__0020B760;
+extern char D_00454D80_20B760[] __asm__("D_00454D80"); int *func_00162130_20B760(int, char *, int) __asm__("func_00162130"); void func_001621F8_20B760(void *, char *, int) __asm__("func_001621F8");
+// MATCH func_0020B760
+void pchevent_0020b760(A__0020B760 *o, int m) { int i; int *p; int n; if (o->a != 0 && o->n <= m && (p = func_00162130_20B760(m << 2, D_00454D80_20B760, 153)) != 0) { n = o->n; for (i = 0; i < n; i++) p[i] = o->a[i]; for (; i < m; i++) p[i] = 0; func_001621F8_20B760(o->a, D_00454D80_20B760, 158); o->a = p; o->n = m; } }
+
+typedef struct { int n0; int n; int cnt; int *a; } A__0020B660;
+extern char D_00454D80_0020B660[] __asm__("D_00454D80"); int *func_00162130_20B660(int, char *, int) __asm__("func_00162130"); void func_001621F8_20B660(void *, char *, int) __asm__("func_001621F8");
+// MATCH func_0020B660
+void pchevent_0020b660(A__0020B660 *o) { int i; int *p; int n; int j; if (o->a != 0) { o->cnt = 0; for (i = 0; i < o->n; i++) { if (o->a[i] != 0) { func_001621F8_20B660((void *)o->a[i], D_00454D80_0020B660, 132); o->a[i] = 0; } } if (o->n0 != o->n) { func_001621F8_20B660(o->a, D_00454D80_0020B660, 140); o->n = o->n0; p = func_00162130_20B660(o->n0 << 2, D_00454D80_0020B660, 142); o->a = p; n = o->n; for (j = 0; j < n; j++) p[j] = 0; } } }

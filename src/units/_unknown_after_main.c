@@ -50,3 +50,9 @@ void FUN_00111f90(void)
   D_003212C0.f = 0;
   D_003212C0.l = 0x20;
 }
+
+typedef struct { int off; char p[32]; } E_1129A0_001129A0;
+typedef struct { char p[8]; int n; char p2[4]; E_1129A0_001129A0 e[1]; } H_1129A0_001129A0;
+int func_00112B00_1129A0(void **) __asm__("func_00112B00");
+// MATCH func_001129A0
+int FUN_001129a0(H_1129A0_001129A0 **o, int i) { int r; E_1129A0_001129A0 *e = (*o)->e; int n = (*o)->n; if (i >= n) { r = 0; } else if (n - 1 == i) { r = func_00112B00_1129A0(o) - e[i].off; } else { r = e[i + 1].off - e[i].off; } return r; }

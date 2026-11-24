@@ -12,3 +12,9 @@ void FUN_002491d8(void) {
   func_0018EB98(0x70003c80, &D_003DA170[--D_004A565C]);
   func_0018EB98(0x70003f80, &D_003DA170[--D_004A565C]);
 }
+
+extern int D_004A7210_24A058 __asm__("D_004A7210"), D_004A720C_24A058 __asm__("D_004A720C"); extern char D_005F7700_24A058[] __asm__("D_005F7700"), D_005F7740_24A058[] __asm__("D_005F7740"); extern int D_005F77C0_24A058[] __asm__("D_005F77C0");
+int func_002E8928_24A058(char *, int, int, char *, int, int *, int, int, int) __asm__("func_002E8928"); int func_002E8B18_24A058(char *) __asm__("func_002E8B18");
+// MATCH func_0024A058
+int FUN_0024a058(int *o) { int *p; int i; if (D_004A7210_24A058 == 0 || D_004A720C_24A058 == 0) return 0; func_002E8928_24A058(D_005F7700_24A058, 2, 1, D_005F7740_24A058, 128, D_005F77C0_24A058, 128, 0, 0); while (func_002E8B18_24A058(D_005F7700_24A058) != 0); p = D_005F77C0_24A058; o[0] = *p++; o[1] = *p++; o[2] = *p++; o[3] = *p++; o[4] = *p++; o[5] = *p; return 0; }
+

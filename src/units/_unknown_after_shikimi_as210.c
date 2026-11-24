@@ -2375,3 +2375,12 @@ void FUN_002d33d8(Trk_2D33D8 *t)
     t->time += v * 0x1000;
   }
 }
+
+#define R(a) (*(volatile unsigned *)(a))
+extern u128 D_004260B0_2BF848[2] __asm__("D_004260B0");
+// MATCH func_002BF848
+void FUN_002bf848(void) { register unsigned t __asm__("$4") = 0; R(0x10003c10) = 1; R(0x10003c20) = 2; __asm__ volatile("sync"); __asm__ volatile("cfc2 %0, $28" : "+r"(t)); t = t | 0x200; __asm__ volatile("ctc2 %0, $28" : : "r"(t));  __asm__ volatile("sync.p"); *(volatile u128 *)0x10005000 = D_004260B0_2BF848[0]; *(volatile u128 *)0x10005000 = D_004260B0_2BF848[1]; R(0x10003000) = 1; }
+
+// MATCH func_002E7120
+int FUN_002e7120(double d) { long e; unsigned long u; { union { double d; unsigned long u; } x; x.d = d; u = x.u; } e = (u << 1) >> 53; e -= 0x433; if (e < -0x35) return 0; if (0xc < e) return 9999; u = (u << 12) >> 12; u |= 0x10000000000000UL; if (e < 0) { e = -e; u = u >> (int)(e - 2); if ((u & 3) == 3) u = (u >> 2) + 1; else u = u >> 2; } else u = u << (int)e; return (int)u; }
+

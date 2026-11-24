@@ -47,3 +47,8 @@ int FUN_002031f8(O_2031F8 *o, char *name)
   off = 0; for (i = 0; i < o->n; i++) { if (func_002DD4B0(name, o->tab + off) == 0) return i; off += 16; }
   return -1;
 }
+
+typedef struct { int p0; int *ptr[64]; int on[67]; int n; char p532[8]; short h[64]; char c[64]; char k[64]; } O_203EC0_00203EC0;
+extern int D_00400644_203EC0[] __asm__("D_00400644");
+// MATCH func_00203EC0
+void FUN_00203ec0(O_203EC0_00203EC0 *o, int a, int b0, int c) { register int b __asm__("$9") = b0; if (o->n < 64) { o->k[o->n] = 104; o->h[o->n] = a; o->c[o->n] = b; { int n = o->n; o->on[n] = 1; o->ptr[n] = D_00400644_203EC0 + c * 118; } o->n++; } }

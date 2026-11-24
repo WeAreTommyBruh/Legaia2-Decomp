@@ -127,3 +127,15 @@ float func_00178BB8_1790E0(int, int, int) __asm__("func_00178BB8");
 void func_0018EC90_1790E0(void *, int, int, int) __asm__("func_0018EC90");
 // MATCH func_001790E0
 int FUN_001790e0(int a, int b, int c, int d, int e, int f) { float v[4]; float x, y; int t; x = func_00178BB8_1790E0(a, c, d); y = func_00178BB8_1790E0(b, c, d); if ((x >= 0.0f && y >= 0.0f) || (x < 0.0f && y < 0.0f)) return 0; do { if (y < 0.0f) { t = a; a = b; b = t; } } while (0); func_0018EC90_1790E0(v, a, d, e); if (func_00178BB8_1790E0(b, (int)v, d) < 0.0f) return 0; func_0018EC90_1790E0(v, a, e, f); if (func_00178BB8_1790E0(b, (int)v, e) < 0.0f) return 0; func_0018EC90_1790E0(v, a, f, d); if (func_00178BB8_1790E0(b, (int)v, f) < 0.0f) return 0; return 1; }
+
+typedef struct { float x, y, z, w; } V_179c88_00179C88;
+void func_0018F0B0_179C88(void *, void *, void *) __asm__("func_0018F0B0");
+void func_0018ED30_179C88(void *) __asm__("func_0018ED30");
+int func_001795A0_179C88(int, void *, void *, void *) __asm__("func_001795A0");
+float func_0018EAF8_179C88(void *, int) __asm__("func_0018EAF8");
+float func_0018EAF8b(V_179c88_00179C88 *, V_179c88_00179C88 *) __asm__("func_0018EAF8");
+void func_0018EF60_179C88(void *, void *, void *, float) __asm__("func_0018EF60");
+float func_00178BB8_179C88(void *, void *, void *) __asm__("func_00178BB8");
+void func_0018F0B0b(V_179c88_00179C88 *, V_179c88_00179C88 *, int) __asm__("func_0018F0B0");
+// MATCH func_00179C88
+int FUN_00179c88(V_179c88_00179C88 *a, V_179c88_00179C88 *b, int p4, int p5, int p6, V_179c88_00179C88 *out, V_179c88_00179C88 *n, float *dist, float r) { V_179c88_00179C88 dir; V_179c88_00179C88 q; int pts[4]; V_179c88_00179C88 h; V_179c88_00179C88 m; int *pp; int ret; int i; float d, best, s1, s2, u; func_0018F0B0_179C88(&dir, b, a); best = 16777216.0f; ret = 0; func_0018ED30_179C88(&dir); pts[0] = p4; i = 2; pts[1] = p5; pts[2] = p6; pp = pts; do { if (func_001795A0_179C88(*pp, a, b, &h) != 0) { d = func_0018EAF8_179C88(&h, *pp); if (!(r < d)) { u = __builtin_sqrtf((r + 1.0f) * (r + 1.0f) - d * d); func_0018EF60_179C88(&q, &h, &dir, -u); s1 = func_00178BB8_179C88(&q, &dir, a); s2 = func_00178BB8_179C88(&q, &dir, b); if (!(0.0f < s1 * s2)) { d = func_0018EAF8b(a, &q); if (!(best <= d)) { best = d; func_0018F0B0b(&m, &q, *pp); ret = 1; func_0018ED30_179C88(&m); u = func_00178BB8_179C88(b, &m, &q); func_0018EF60_179C88(n, b, &m, -u + 1.0f); *out = q; out->w = 1.0f; n->w = 1.0f; } } } } pp++; } while (--i >= 0); if (dist != 0) { *dist = best; } return ret; }

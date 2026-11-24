@@ -284,3 +284,8 @@ void FUN_0024a488(void)
   for (i = 0; i < 4; i++) buf[n++] = D_003DC5A0[i];
   func_00112C08(D_0045DBB8, buf, n);
 }
+
+typedef struct { char p[16]; char *w16; } P_00247B40;
+extern P_00247B40 *D_004A1524_247B40 __asm__("D_004A1524");
+// MATCH func_00247B40
+void FUN_00247b40(int a, int b) { P_00247B40 *p = D_004A1524_247B40; unsigned long long *q = (unsigned long long *)p->w16; q[0] = ((unsigned long long)b << 16) | a; q[1] = 3; p->w16 = (char *)(q + 2); }

@@ -74,3 +74,7 @@ found:
     }
     return result;
 }
+
+extern char D_004A2BD8_160718 __asm__("D_004A2BD8"), D_004A2BD9_160718 __asm__("D_004A2BD9");
+// MATCH func_00160718
+int FUN_00160718(unsigned char **pp) { char *s = (char *)*pp; int bad; if (s == 0 || s[0] != D_004A2BD8_160718 || s[1] != D_004A2BD9_160718) bad = 1; else bad = 0; if (bad) return 0; return (short)((*pp)[2] + (*pp)[3] * 256) - 2; }

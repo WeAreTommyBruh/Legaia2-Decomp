@@ -22,3 +22,8 @@ void th_tex_0022c0b8(void); void th_tex_0022cf58(long);
 // MATCH func_001DE088
 int nayuki_001de088(int param_1) { register int v __asm__("$4"); if (*(int *)(param_1 + 0x50) <= (int)*(float *)(param_1 + 0x44) && *(char *)(param_1 + 0x4c) != 0 && (v = *(int *)(param_1 + 0xa08)) != 0) { th_tex_0022c0b8(); th_tex_0022cf58(*(int *)(param_1 + 0xa08)); return 1; } return 0; }
 
+typedef struct { float x, y, z, w; } V4_1D8F60_001D8F60;
+typedef struct { char p[140]; int on; } E_1D8F60_001D8F60;
+typedef struct { char p0[88]; V4_1D8F60_001D8F60 *v; char p92[124]; int total; int step; char p224[308]; E_1D8F60_001D8F60 *e; } O_1D8F60_001D8F60;
+// MATCH func_001D8F60
+void nayuki_001d8f60(O_1D8F60_001D8F60 *o, float *s) { int i, n; E_1D8F60_001D8F60 *e; n = o->step * (o->total / o->step); i = 0; if (n > 0) { e = o->e; do { if (e[i].on != 0) { V4_1D8F60_001D8F60 *d = (V4_1D8F60_001D8F60 *)(i * 16 + (int)o->v); d->x = s[0]; d->y = s[1]; d->z = s[2]; d->w = s[3]; } i += *(volatile int *)&o->step; } while (i < n); } }

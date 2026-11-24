@@ -260,3 +260,8 @@ void clas_min_002a46c0(float *p) {
     }
   }
 }
+
+typedef struct { char p[28]; int lim, cnt, on, lo, hi; } S_29ED20_0029ED20;
+int rand(void);
+// MATCH func_0029ED20
+int clas_min_0029ed20(S_29ED20_0029ED20 *o) { int r, n; if (o->on == 0) return 0; n = o->cnt + 1; o->cnt = n; if (o->lim < n) { o->cnt = 0; r = rand(); o->lim = o->lo + r % (o->hi - o->lo); return 1; } return 0; }

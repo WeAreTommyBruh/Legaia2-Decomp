@@ -84,3 +84,7 @@ int FUN_00291c88(char *o, char a, char b, int k) { char *t = *(char **)(o + 0xa8
 
 // MATCH func_00291D58
 int FUN_00291d58(char *o, char a, char b) { char *t = *(char **)(o + 0xa8); char **l = (char **)(t + 0x140); unsigned i; int c = 0; for (i = 0; i < *(unsigned *)(t + 12); i++) { char *e = l[i]; if (*(unsigned char *)(e + 32) == a && *(unsigned char *)(e + 33) == b) c++; } return c; }
+
+extern int D_00314D08_278648[] __asm__("D_00314D08"); extern char *D_004A1A20_278648 __asm__("D_004A1A20");
+// MATCH func_00278648
+int FUN_00278648(int a, int b) { int *q = (int *)(D_004A1A20_278648 + 0x12e4); int *p = D_00314D08_278648; int i = 0; do { i++; if (*p == a) { int r = 0; if (*q == b) r = 1; return r; } q += 0x558; p++; } while (i < 3); return -1; }

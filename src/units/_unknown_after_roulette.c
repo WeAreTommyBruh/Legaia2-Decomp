@@ -100,3 +100,11 @@ void FUN_00173980(char *o) {
     d = idx > 0 ? (short)e + dl : dl;
     fn(o + d);
 }
+
+typedef struct { char p[120]; int on; char p124[212]; int base; int cnt; } O_173AF0_00173AF0;
+extern float D_004A00B4_173AF0 __asm__("D_004A00B4");
+void func_00172D98_173AF0(void *) __asm__("func_00172D98");
+int rand(void);
+static inline unsigned rnd_173AF0_00173AF0(int n) { unsigned lim, r; if (n == 0) return 0; lim = 0x7fffff - 0x800000 % n; do { r = rand() >> 8; } while (lim < r); return r % (unsigned)n; }
+// MATCH func_00173AF0
+void FUN_00173af0(O_173AF0_00173AF0 *o) { int b, h; if (o->on == 0) return; if (--o->cnt > 0) return; b = o->base; h = (int)((float)b * D_004A00B4_173AF0); { int d = b - h; o->cnt = rnd_173AF0_00173AF0(h * 2) + d; } func_00172D98_173AF0(o); }

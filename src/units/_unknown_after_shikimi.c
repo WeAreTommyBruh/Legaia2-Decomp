@@ -3132,3 +3132,10 @@ int FUN_002ed9a0(char *arg, int mode) {
   }
   return 0;
 }
+
+typedef struct { char pad[16]; int f16; char p2[8]; } E28_002C9AA0;
+extern E28_002C9AA0 D_0062B3D0_2C9AA0[][4] __asm__("D_0062B3D0");
+extern int D_0062B5C0_2C9AA0[] __asm__("D_0062B5C0"); extern char D_0062B380_2C9AA0[] __asm__("D_0062B380");
+int func_002E8928_2C9AA0(void *, int, int, void *, int, void *, int, int, int) __asm__("func_002E8928");
+// MATCH func_002C9AA0
+int FUN_002c9aa0(int a, int b) { if (D_0062B3D0_2C9AA0[a][b].f16 == 0) return 0; D_0062B5C0_2C9AA0[0] = 14; D_0062B5C0_2C9AA0[1] = a; D_0062B5C0_2C9AA0[2] = b; D_0062B5C0_2C9AA0[4] = 1; if (func_002E8928_2C9AA0(D_0062B380_2C9AA0, 1, 0, D_0062B5C0_2C9AA0, 128, D_0062B5C0_2C9AA0, 128, 0, 0) < 0) return 0; D_0062B3D0_2C9AA0[a][b].f16 = 0; return D_0062B5C0_2C9AA0[3]; }

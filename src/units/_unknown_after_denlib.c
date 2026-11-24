@@ -137,3 +137,7 @@ void FUN_0018d050(int *values)
     func_00239568_0018CF98(buf);
     D_004A129C = saved;
 }
+
+int rand(void);
+// MATCH func_0018D928
+unsigned FUN_0018d928(int n) { unsigned lim, r; if (n == 0) return 0; lim = 0x7fffff - 0x800000 % n; do { r = rand() >> 8; } while (lim < r); return r % (unsigned)n; }
