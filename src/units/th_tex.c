@@ -16,3 +16,10 @@ typedef struct { char c[16]; } B16_0022C0E0;
 void func_0022C158_22C0E0(char *, int, int, int, int, float) __asm__("func_0022C158");
 // MATCH func_0022C0E0
 void th_tex_0022c0e0(char *o, B16_0022C0E0 *s, int a2) { *(B16_0022C0E0 *)(o + *(int *)(o + 12336) * 80) = *s; func_0022C158_22C0E0(o, 0, 0, 0, a2, 0.0f); }
+
+
+
+typedef struct { char p[40]; int n; float f; int w48; char p2[28]; } E_22CED8_0022CED8;
+typedef struct { E_22CED8_0022CED8 e[128]; char p[2132]; int flag; } O_22CED8_0022CED8;
+// MATCH func_0022CED8
+int th_tex_0022ced8(O_22CED8_0022CED8 *o) { E_22CED8_0022CED8 *e; float v; int i; o->flag = 0; for (i = 0; i < 128; i++) { e = &o->e[i]; if (e->n > 0) { v = e->f + 0.0625f; e->f = v; if (2.0f < v) e->f = 2.0f; e->n = *(volatile int *)&e->n - 4; if (e->n < 0) e->n = 0; else o->flag = 1; } else { e->w48 = 0; } } return o->flag; }

@@ -86,3 +86,15 @@ void flare_0015e148(float *p,float angle,float scale)
     p4[2] = D_0049FF90;
     p4[3] = 1.0f;
 }
+
+
+extern char D_0043BB00_15E068[] __asm__("D_0043BB00");
+extern char D_0043BB10_15E068[] __asm__("D_0043BB10");
+void *func_00162130_15E068(int, void *, int) __asm__("func_00162130");
+void func_001118F8_15E068(void *) __asm__("func_001118F8");
+void func_002C0838_15E068(void *, int, int, int, short, short, short, short) __asm__("func_002C0838");
+void func_002E5B20_15E068(int) __asm__("func_002E5B20");
+void func_002C0AF8_15E068(void *, unsigned) __asm__("func_002C0AF8");
+void func_002C0338_15E068(int, int) __asm__("func_002C0338");
+// MATCH func_0015E068
+void *flare_0015e068(int x, int y, int w, int h) { char buf[112]; void *p = func_00162130_15E068(w * h * 4 + 15, D_0043BB00_15E068, 49); if (p == 0) func_001118F8_15E068(D_0043BB10_15E068); func_002C0838_15E068(buf, 4480, 10, 48, x, y, w, h); func_002E5B20_15E068(0); func_002C0AF8_15E068(buf, (unsigned)p & 0xfffffff0); func_002C0338_15E068(0, 0); return p; }

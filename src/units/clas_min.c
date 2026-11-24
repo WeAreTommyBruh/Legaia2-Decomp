@@ -265,3 +265,10 @@ typedef struct { char p[28]; int lim, cnt, on, lo, hi; } S_29ED20_0029ED20;
 int rand(void);
 // MATCH func_0029ED20
 int clas_min_0029ed20(S_29ED20_0029ED20 *o) { int r, n; if (o->on == 0) return 0; n = o->cnt + 1; o->cnt = n; if (o->lim < n) { o->cnt = 0; r = rand(); o->lim = o->lo + r % (o->hi - o->lo); return 1; } return 0; }
+
+
+typedef struct { char p[496]; unsigned int f; } C_002A0C70;
+void func_002BEE78_2A0C70(void *, int, int, float, int) __asm__("func_002BEE78");
+void func_002BEE90_2A0C70(void *, int, float, float, float, int, int) __asm__("func_002BEE90");
+// MATCH func_002A0C70
+void clas_min_002a0c70(C_002A0C70 *c, int k) { if (c->f & 0x4000000) { if (k == 0) { func_002BEE78_2A0C70(c, 22, 0, 0.0f, 0); func_002BEE78_2A0C70(c, 22, 30, 128.0f, 0); func_002BEE90_2A0C70(c, 2, 0.0f, 0.0f, 0.0f, 25, 0); func_002BEE90_2A0C70(c, 5, 1.0f, 0.0f, 0.0f, 512, 0); } else { func_002BEE78_2A0C70(c, 22, 0, 128.0f, 0); func_002BEE90_2A0C70(c, 5, 1.0f, 0.0f, 0.0f, 512, 0); } c->f &= ~0x4000000; } }

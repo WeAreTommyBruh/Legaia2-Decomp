@@ -135,4 +135,3 @@ int darts_0016e388(O_0016E388 *o) { int x; int y; int z; func_0018F068_0016E388(
 extern int D_004A2FA0_16CF10 __asm__("D_004A2FA0"); extern float D_004A000C_16CF10 __asm__("D_004A000C"); void func_0016EC88_16CF10(char *) __asm__("func_0016EC88");
 // MATCH func_0016CF10
 void darts_0016cf10(char *o) { int i; int *p; float f; *(int *)(o + 32) = 5; *(int *)(o + 24) = 0; *(int *)(o + 36) = 0; *(int *)(o + 40) = 0; D_004A2FA0_16CF10 = -1; *(int *)(o + 44) = 0; *(int *)(o + 68) = 0; *(int *)(o + 72) = 0; *(int *)(o + 76) = 0; *(int *)(o + 80) = 0; f = D_004A000C_16CF10; p = *(int **)(o + 16); i = 4; do { char *q = (char *)*p; *(float *)(q + 36) = f; p++; i--; } while (i >= 0); func_0016EC88_16CF10(o); }
-

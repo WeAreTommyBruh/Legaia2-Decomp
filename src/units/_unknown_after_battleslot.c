@@ -362,3 +362,15 @@ void FUN_00295b88(O_295B88 *o) {
 
 // MATCH func_0029B8B8
 int FUN_0029b8b8(int *p, int a, int b, int c, int d, int e) { int r = p[0]; if (r == 0) return 0; if (p[1] != a) return 0; if (p[2] != b) return 0; if (p[3] != c) return 0; if (p[4] != d) return 0; return p[5] == e ? r : 0; }
+
+
+extern int D_004A6B40_29B3B8 __asm__("D_004A6B40");
+extern int D_00425510_29B3B8[] __asm__("D_00425510");
+extern float D_004A6968_29B3B8 __asm__("D_004A6968"), D_004A696C_29B3B8 __asm__("D_004A696C"), D_004A6970_29B3B8 __asm__("D_004A6970"), D_004A6974_29B3B8 __asm__("D_004A6974");
+extern int D_004A6978_29B3B8 __asm__("D_004A6978");
+extern int D_005F961C_29B3B8[] __asm__("D_005F961C");
+extern char D_00424968_29B3B8[] __asm__("D_00424968"), D_00424A98_29B3B8[] __asm__("D_00424A98"), D_004248E8_29B3B8[] __asm__("D_004248E8"), D_00424C18_29B3B8[] __asm__("D_00424C18");
+void *func_0029C738_29B3B8(void) __asm__("func_0029C738");
+void *func_002DD4CC_29B3B8(void *, void *) __asm__("func_002DD4CC");
+// MATCH func_0029B3B8
+void FUN_0029b3b8(void) { D_004A6B40_29B3B8 |= 1; D_00425510_29B3B8[2] |= 0x10; D_004A6968_29B3B8 = *(float *)(func_0029C738_29B3B8() + 32); D_004A696C_29B3B8 = *(float *)(func_0029C738_29B3B8() + 36); D_004A6970_29B3B8 = *(float *)(func_0029C738_29B3B8() + 40); D_004A6974_29B3B8 = *(float *)(func_0029C738_29B3B8() + 68); func_002DD4CC_29B3B8(D_00424968_29B3B8, D_00424A98_29B3B8); func_002DD4CC_29B3B8(D_004248E8_29B3B8, D_00424C18_29B3B8); D_004A6978_29B3B8 = D_005F961C_29B3B8[0]; }

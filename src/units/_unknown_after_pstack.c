@@ -350,3 +350,17 @@ void *FUN_0025d5f0(int a, unsigned b) {
   case 4: return D_003FDBF8[b - 30];
   }
 }
+
+
+extern char *D_003FDC80_25D6D0[] __asm__("D_003FDC80"); extern char *D_003FDCF8_25D6D0[] __asm__("D_003FDCF8"); extern char *D_003FDD80_25D6D0[] __asm__("D_003FDD80"); extern char *D_003FDE08_25D6D0[] __asm__("D_003FDE08");
+extern char *D_003FDE90_25D6D0[] __asm__("D_003FDE90"); extern char *D_003FDF18_25D6D0[] __asm__("D_003FDF18");
+extern char D_004A5758_25D6D0[] __asm__("D_004A5758");
+// MATCH func_0025D6D0
+char *FUN_0025d6d0(int a, unsigned b) { if (b >= 64 || a < 0 || a >= 5) return D_004A5758_25D6D0; if ((int)b < 30) return D_003FDC80_25D6D0[b]; switch (a) { case 0: return D_003FDCF8_25D6D0[b - 30]; case 1: return D_003FDD80_25D6D0[b - 30]; case 2: return D_003FDE08_25D6D0[b - 30]; case 3: return D_003FDE90_25D6D0[b - 30]; case 4: return D_003FDF18_25D6D0[b - 30];  } }
+
+
+typedef struct { char p[270]; short h270; int w272, w276, w280, w284, w288; char q[472 - 292]; } E_0025AB78;
+extern E_0025AB78 D_00400498_25AB78[] __asm__("D_00400498");
+void func_0025ADB8_25AB78(void) __asm__("func_0025ADB8");
+// MATCH func_0025AB78
+int FUN_0025ab78(void) { int r = 0; E_0025AB78 *e, *end; func_0025ADB8_25AB78(); e = D_00400498_25AB78; end = e + 5; do { if (e->h270 != 0 || e->w272 != 0 || e->w276 != 0 || e->w280 != 0 || e->w284 != 0 || e->w288 != 0) r = 1; e++; } while ((int)e < (int)end); return r; }

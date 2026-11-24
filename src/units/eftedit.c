@@ -20,3 +20,12 @@ void func_001FDC50_1FEE18(int, int, float) __asm__("func_001FDC50");
 void func_001EA680_1FEE18(int, void *, int) __asm__("func_001EA680");
 // MATCH func_001FEE18
 void eftedit_001fee18(int a, int b) { float buf[128]; int i, base, k; float *p; k = func_001FDBE0_1FEE18(3, 998); base = D_004A4458_1FEE18; i = 1; k = func_001F60B0_1FEE18(k); base += k * 4; func_001EA680_1FEE18(*(int *)(base + 304), buf, b); p = buf + 1; do { func_001FDC50_1FEE18(7, i, *p); i++; p++; } while (i < 36); }
+
+
+extern char *D_004A4458_1FED78 __asm__("D_004A4458");
+int func_001FDBE0_1FED78(int, int) __asm__("func_001FDBE0");
+int func_001F60B0_1FED78(int) __asm__("func_001F60B0");
+void func_001EA630_1FED78(int, void *) __asm__("func_001EA630");
+void func_001FDC50_1FED78(float, int, int) __asm__("func_001FDC50");
+// MATCH func_001FED78
+void eftedit_001fed78(void) { float buf[128]; int i; float *p; int t = func_001FDBE0_1FED78(3, 998); char *b = D_004A4458_1FED78; int k = func_001F60B0_1FED78(t); b += k * 4; func_001EA630_1FED78(*(int *)(b + 304), buf); func_001FDC50_1FED78((float)(int)buf[0], 22, 2); for (i = 1, p = buf + 1; i < 8; i++, p++) func_001FDC50_1FED78(*p, 22, i + 2); }

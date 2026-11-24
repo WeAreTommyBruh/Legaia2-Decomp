@@ -61,3 +61,17 @@ extern char D_004A380A_1E2B40 __asm__("D_004A380A"); int func_001E2C60_1E2B40(in
 typedef struct { int pad[76]; int v[64]; int k[64]; } S_001E2B40;
 // MATCH func_001E2B40
 int akari_001e2b40(int a, int *h, int c, int d, int e) { int n; int j; int t; S_001E2B40 * r; int i; if (D_004A380A_1E2B40 == 0) return 0; if (h == 0) return 0; r = (S_001E2B40 *)func_001E2C60_1E2B40(a, h); if (r == 0) return 0; n = h[75]; if (n > 0) { i = 0; j = n; do { switch ((&r->v[i])[64]) { case 1: t = r->v[i]; func_001E24C0_1E2B40(t, func_001E24F8_1E2B40(t) + e); break; case 2: t = r->v[i]; func_001E24C0_1E2B40(t, func_001E24F8_1E2B40(t) + e); break; case 3: t = r->v[i]; func_001E24C0_1E2B40(t, func_001E24F8_1E2B40(t) + e); break; } i++; } while (--j); } return (int)r; }
+
+
+typedef struct { char p[300]; int n; int h[64]; int t[64]; } O_001E2DA0;
+typedef struct { float x, y, z; } V_001E2DA0;
+extern char D_004A380A_1E2DA0 __asm__("D_004A380A");
+int akari_001e2678(void *, O_001E2DA0 *) __asm__("func_001E2678");
+void nayuki_001d8f30(int, V_001E2DA0 *) __asm__("func_001D8F30");
+void nayuki_001d8fe8(int, V_001E2DA0 *) __asm__("func_001D8FE8");
+void mizuki_001e0150(int, V_001E2DA0 *) __asm__("func_001E0150");
+void mizuki_001dfea0(int, V_001E2DA0 *) __asm__("func_001DFEA0");
+void yue_001e94e0(int, float, float, float) __asm__("func_001E94E0");
+void yue_001e9558(int, float, float, float) __asm__("func_001E9558");
+// MATCH func_001E2DA0
+int akari_001e2da0(void *a, O_001E2DA0 *o, V_001E2DA0 *p, V_001E2DA0 *r) { int i, n; int *h; int v; if (D_004A380A_1E2DA0 == 0) return 0; if (o == 0) return 0; if (akari_001e2678(a, o) == 0) return 0; n = o->n; h = o->h; for (i = 0; i < n; h++, i++) { switch (h[64]) { case 1: v = *h; if (p) nayuki_001d8f30(v, p); if (r) nayuki_001d8fe8(v, r); break; case 2: v = *h; if (p) mizuki_001e0150(v, p); if (r) mizuki_001dfea0(v, r); break; case 3: v = *h; if (p) yue_001e94e0(v, p->x, p->y, p->z); if (r) yue_001e9558(v, r->x, r->y, r->z); break; } } return 1; }

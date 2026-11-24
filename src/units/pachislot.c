@@ -438,3 +438,14 @@ int rand(void);
 static inline unsigned rnd_1661C8_001661C8(int n) { unsigned lim, r; if (n == 0) return 0; lim = 0x7fffff - 0x800000 % n; do { r = rand() >> 8; } while (lim < r); return r % (unsigned)n; }
 // MATCH func_001661C8
 void pachislot_001661c8(O_1661C8_001661C8 *o) { int k; if (o->busy != 0) return; k = o->pos - rnd_1661C8_001661C8(2); if (k < 0) k += o->h->n; if (o->vt->fn76((char *)o + o->vt->adj72) != 0 && o->w52 == k) { o->v68 = D_004A2D48_1661C8[0]; func_00164A38_1661C8(o, o->w52); o->vt->fn60((char *)o + o->vt->adj56); } }
+
+
+typedef struct { char p[8]; short adj; short pad; void (*fn)(void *, int); } VT_0016BF38;
+typedef struct { char p[568]; VT_0016BF38 *vt; } Obj_0016BF38;
+extern int D_004A12A4_16BF38 __asm__("D_004A12A4");
+extern Obj_0016BF38 *D_004A2F24_16BF38 __asm__("D_004A2F24");
+extern int D_002F9804_16BF38[] __asm__("D_002F9804");
+int func_0016AE08_16BF38(Obj_0016BF38 *) __asm__("func_0016AE08"); int func_001673B8_16BF38(Obj_0016BF38 *) __asm__("func_001673B8"); void func_00294260_16BF38(int) __asm__("func_00294260");
+void func_00246AD0_16BF38(int) __asm__("func_00246AD0"); void func_00108D10_16BF38(void) __asm__("func_00108D10"); void func_001972D0_16BF38(void) __asm__("func_001972D0");
+// MATCH func_0016BF38
+void pachislot_0016bf38(void) { if (D_004A12A4_16BF38 != 25) return; if (D_004A2F24_16BF38 != 0 && func_0016AE08_16BF38(D_004A2F24_16BF38) < 0) { func_00294260_16BF38(func_001673B8_16BF38(D_004A2F24_16BF38)); if (D_004A2F24_16BF38 != 0) D_004A2F24_16BF38->vt->fn((char *)D_004A2F24_16BF38 + D_004A2F24_16BF38->vt->adj, 3); D_004A2F24_16BF38 = 0; D_004A12A4_16BF38 = 14; return; } func_00246AD0_16BF38(D_002F9804_16BF38[0]); func_00108D10_16BF38(); func_001972D0_16BF38(); }

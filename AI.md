@@ -6,7 +6,7 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **23.79% of code (481,064 bytes), 4638 / 6255 functions matched (2026-11-24, session 36: four Opus subagents, 42 functions).**
+- **24.11% of code (487,588 bytes), 4669 / 6255 functions matched (2026-11-24, session 36: four Opus subagents per round, 42 + 31 functions).**
 - Session 33c reached 20.82% (421,036 bytes, 4430 functions; 21% requested, stopped by the user).
 - Session 33b reached 20.60% (416,584 bytes, 4418 functions).
 - Session 33 first reached 20.36% (411,688 bytes, 4402 functions). Total code is 2,022,208 bytes.

@@ -260,3 +260,25 @@ void *FUN_001557a0(char *object)
 {
     return object + 80;
 }
+
+
+typedef int u128_t __attribute__((mode(TI)));
+typedef struct { char pad[48]; short adj; short pad2; int (*fn)(void *); } VT_001549A0;
+typedef struct { char pad[52]; VT_001549A0 *vt; } Obj_001549A0;
+void func_0018EC18_1549A0(void *, int) __asm__("func_0018EC18");
+void func_0018E3A8_1549A0(void *, void *, void *, void *) __asm__("func_0018E3A8");
+void func_0018F6E8_1549A0(void *, void *, void *) __asm__("func_0018F6E8");
+void func_0018E538_1549A0(float, float, float, void *) __asm__("func_0018E538");
+void func_0018F3D8_1549A0(void *, void *, void *) __asm__("func_0018F3D8");
+// MATCH func_001549A0
+void FUN_001549a0(Obj_001549A0 *o, char *p) { u128_t t; char *m = p + 64; func_0018EC18_1549A0(&t, o->vt->fn((char *)o + o->vt->adj)); *(u128_t *)(p + 48) = t; *(int *)(p + 60) = 0; func_0018E3A8_1549A0(m, p, &t, p + 32); func_0018F6E8_1549A0(m, p + 16, m); func_0018E538_1549A0(1.0f, 1.0f, 1.0f, (void *)0x70003ec0); func_0018F3D8_1549A0(m, (void *)0x70003ec0, m); }
+
+
+typedef struct { char p[176]; int a[5]; char q[328 - 196]; int n; } O_00154D20;
+// MATCH func_00154D20
+int FUN_00154d20(O_00154D20 *o, int v) { int i; if (v == 0) return 0; i = 0; o->a[4] = v; while (o->a[i] != v) i++; if (i == 4) return 0; o->n--; o->a[4] = 0; for (; i < 4; i++) o->a[i] = o->a[i + 1]; return 1; }
+
+
+typedef struct { char p[196]; int a[33]; char q[332 - 328]; int n; } O_00154DB8;
+// MATCH func_00154DB8
+int FUN_00154db8(O_00154DB8 *o, int v) { int i; if (v == 0) return 0; i = 0; o->a[32] = v; while (o->a[i] != v) i++; if (i == 32) return 0; o->n--; o->a[32] = 0; for (; i < 32; i++) o->a[i] = o->a[i + 1]; return 1; }

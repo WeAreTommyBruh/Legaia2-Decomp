@@ -268,3 +268,12 @@ int nayuwin2_001af130(void *, int, int);
 // MATCH func_001AE2E8
 void nayuwin2_001ae2e8(char *o, int k) { A_1ae2e8_001AE2E8 s; if (*(int *)(o + 112) == 0 && k == 0) return; if (*(int *)(o + 116) == 0 && k == 1) return; if (k == 0) { D_004A12D8_1AE2E8 = 0; D_004A12E0_1AE2E8 = 0; D_004A12C8_1AE2E8 = 0; } s.z = 0; s.a = *(int *)(o + 68); s.b = *(int *)(o + 72); s.i = nayuwin2_001af130(o, s.a, s.b); if (k == 0) (*(void (**)(A_1ae2e8_001AE2E8 *))(o + 112))(&s); else (*(void (**)(A_1ae2e8_001AE2E8 *))(o + 116))(&s); }
 
+
+typedef struct { char p0[4]; int s; char p8[72]; int f80, f84; char p88[4]; int f92, f96; char p100[8]; int n; char p112[28]; char b[5][44]; } W_001AF660;
+void nayuwin2_001ae420(W_001AF660 *, float) __asm__("func_001AE420");
+void func_001B78D8_1AF660(void *) __asm__("func_001B78D8");
+void nayuwin2_001ad888(W_001AF660 *, int) __asm__("func_001AD888");
+void nayuwin2_001ae728(W_001AF660 *, int) __asm__("func_001AE728");
+void nayuwin2_001ae4a0(W_001AF660 *) __asm__("func_001AE4A0");
+// MATCH func_001AF660
+void nayuwin2_001af660(W_001AF660 *p, unsigned int k) { if (k >= 2) return; if (k == 1 && p->s == 1 && p->n > 0) { p->f96 = 0; p->f92 = 0; nayuwin2_001ae420(p, 1.0f); func_001B78D8_1AF660(p->b[0]); func_001B78D8_1AF660(p->b[1]); func_001B78D8_1AF660(p->b[2]); func_001B78D8_1AF660(p->b[3]); func_001B78D8_1AF660(p->b[4]); nayuwin2_001ad888(p, -1); p->f80 = 0; } else if ((k == 1 && p->s == 0) || p->n > 0) { p->f96 = 0; p->f92 = 0; nayuwin2_001ae420(p, 1.0f); func_001B78D8_1AF660(p->b[0]); func_001B78D8_1AF660(p->b[1]); func_001B78D8_1AF660(p->b[2]); func_001B78D8_1AF660(p->b[3]); func_001B78D8_1AF660(p->b[4]); nayuwin2_001ad888(p, -1); p->f80 = p->f84; nayuwin2_001ae728(p, 0); } else if (k == 0) { nayuwin2_001ae4a0(p); } p->s = k; }

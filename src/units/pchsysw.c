@@ -177,3 +177,10 @@ typedef struct { B16_0012E040 v; char pad[32]; float f48; float f52; int w56; in
 void *func_0012D9D8_12E040(int) __asm__("func_0012D9D8"); void func_0012DA28_12E040(int, void *) __asm__("func_0012DA28");
 // MATCH func_0012E040
 void pchsysw_0012e040(int a0, int b, B16_0012E040 *v, float x, float y) { P_12e040_0012E040 *p = func_0012D9D8_12E040(a0); if (p != 0) { p->v = *v; p->f48 = x; p->f52 = y; func_0012DA28_12E040(a0, p); func_0012DA28_12E040(a0, (void *)p->w56); func_0012DA28_12E040(a0, (void *)p->w60); } }
+
+
+typedef struct { int p[4]; int on; int head; int q[10]; } S_0012F840;
+typedef struct { int n; S_0012F840 *s; } M_0012F840;
+void func_0012F8E0_12F840(void *, int, int) __asm__("func_0012F8E0");
+// MATCH func_0012F840
+void pchsysw_0012f840(M_0012F840 *m, int i) { if (i < m->n && m->s[i].on != 0) { while (m->s[i].head >= 0) func_0012F8E0_12F840(m, i, m->s[i].head); } }

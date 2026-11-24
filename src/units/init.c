@@ -61,3 +61,7 @@ int *init_0024ae70(int a, int x, int y)
 extern unsigned D_004A13D8;
 // MATCH func_0024C640
 unsigned init_0024c640(void) { unsigned u, v; u = D_004A13D8 + (D_004A13D8 * 5 + 1); v = ((u >> 16) + (u << 16)) | (((u & 0xff00) >> 8) + ((u & 0xff) << 8)); D_004A13D8 = v; return v; }
+
+
+// MATCH func_0024BCA8
+int init_0024bca8(unsigned short *t, int x) { int i = (x & 7) + x / 32 * 32 + ((x & 31) / 16 * 8 + (x & 15) / 8 * 16); int *p = 0; if (((unsigned char *)t)[2] & 1) { if (t[0] == 0x41) p = (int *)(t + 16); else p = (int *)(t + 64); } if (p != 0) return p[i]; return 0; }
