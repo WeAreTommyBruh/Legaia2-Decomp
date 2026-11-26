@@ -6,7 +6,8 @@ from the original code, so `python3 tools/asm_build.py all` must always print `M
 
 ## Current progress
 
-- **24.54% of code (496,244 bytes), 4694 / 6255 functions matched (2026-11-24, session 36: four Opus subagents per round, 42 + 31 + 16 + 9 functions).**
+- **26.33% of code, 4803 / 6257 functions matched (2026-11-26, session 40: three Opus subagents in one checkout, claims via `mkdir build/work/claims40/<addr>`, one new `src/units/<group>_s40_<addr>.c` per function; tips in git-ignored `build/work/s40_notes.md`).**
+- 24.54% of code (496,244 bytes), 4694 / 6255 functions matched (2026-11-24, session 36: four Opus subagents per round, 42 + 31 + 16 + 9 functions).
 - Session 33c reached 20.82% (421,036 bytes, 4430 functions; 21% requested, stopped by the user).
 - Session 33b reached 20.60% (416,584 bytes, 4418 functions).
 - Session 33 first reached 20.36% (411,688 bytes, 4402 functions). Total code is 2,022,208 bytes.
