@@ -292,3 +292,9 @@ void func_00152198_152198(unsigned) __asm__("func_00152198");
 void func_0023F090_152198(int, int, char *, void (*)(unsigned)) __asm__("func_0023F090");
 // MATCH func_00152198
 void FUN_00152198(unsigned a) { if (a != 0) switch (D_004A29F4_152198) { case 0: if (D_004A140C_152198 & 0x200) { func_0023F090_152198(96, 80, D_0043B198_152198, func_00152198_152198); D_004A24EC_152198 = 1; } if (a & 8) { func_00152258_152198(); D_004A24EC_152198 = 0; } if (a & 4) D_004A24EC_152198 = 0; break; case 1: if (D_004A140C_152198 & 0x200) { D_004A24F0_152198 = D_004A29F4_152198; func_00152078_152198(); return; } break; } return; }
+
+// MATCH func_001557A8
+void *FUN_001557a8(char *object)
+{
+    return object + 64;
+}
