@@ -55,3 +55,28 @@ void func_0022F268_246AD0(void *) __asm__("func_0022F268");
 // MATCH func_00246AD0
 void work_00246ad0(int *o) { int *n = (int *) (*o); int *c; unsigned int new_var; unsigned u; while (n != 0) { c = n; u = c[6]; n = (int *) (*c); new_var = 6; c[6] = c[6] & 0xfffffbff; if ((c[6] & 8) != 0) { if ((c[6] & 0x2000000) != 0) { func_00246140_246AD0(c); func_00246DC0_246AD0(c); } u = c[new_var]; c[6] = u | 0x2000000; } else if (c[4] != 0) { ((void (*)(int *)) c[4])(c); if (func_001114E8_246AD0() == 0) { func_0022F268_246AD0(c); } } }  }
 
+
+typedef struct { char pad[152]; int *offsets; } Work_246A80;
+
+// MATCH func_00246A80
+int work_00246a80(Work_246A80 *work, int *out)
+{
+    int *header = work->offsets;
+    int *cursor, *base;
+    int remaining, count;
+
+    if (!header)
+        return 0;
+    count = *header;
+    base = header;
+    if (count > 0) {
+        remaining = count;
+        __asm__("" : : "r"(remaining));
+        cursor = base + 1;
+        __asm__("" : "+r"(base));
+        do {
+            *out++ = (int)base + *cursor++ + 8;
+        } while (--remaining);
+    }
+    return count;
+}

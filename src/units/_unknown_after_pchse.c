@@ -137,3 +137,41 @@ int FUN_00213640(void *m, int c1, int c2, int ch, int f1, int f2, V4_213640_0021
 
 // MATCH func_00212A48
 int FUN_00212a48(char *s, int **a, int **b, int n) { int i; int *p = *(int **)(s + 12); i = 0; if (p) { for (; i != n; ) { p = (int *)*p; if (!p) return 0; i++; } } if (!p) return 0; *a = p + 2; *b = p + 18; return 1; }
+
+typedef struct Subnode_2128C8 {
+    struct Subnode_2128C8 *next;
+} Subnode_2128C8;
+typedef struct Node_2128C8 {
+    struct Node_2128C8 *next;
+    int pad[3];
+    Subnode_2128C8 *children;
+} Node_2128C8;
+typedef struct { int pad[2]; Node_2128C8 *list; } List_2128C8;
+
+// MATCH func_002128C8
+int FUN_002128c8(List_2128C8 *list, int index)
+{
+    Node_2128C8 *node = list->list;
+    int count;
+    Subnode_2128C8 *child;
+
+    count = 0;
+    if (!node)
+        goto absent;
+    if (index != 0) {
+        do {
+            node = node->next;
+            if (!node)
+                goto absent;
+            count++;
+        } while (count != index);
+    }
+    if (!node) {
+absent:
+        return 0;
+    }
+    count = 0;
+    for (child = node->children; child; child = child->next)
+        count++;
+    return count;
+}

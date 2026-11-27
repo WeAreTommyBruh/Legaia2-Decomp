@@ -3149,3 +3149,25 @@ int func_002E8758_2ECC40(void *, int, int) __asm__("func_002E8758");
 int func_002E8928_2ECC40(void *, int, int, int, int, void *, int, int, int) __asm__("func_002E8928");
 // MATCH func_002ECC40
 int FUN_002ecc40(void) { int i; if (D_00429930_2ECC40[0] < 0) { loop: if (func_002E8758_2ECC40(D_006359C0_2ECC40, 0x80000006, 0) < 0) return -1; if (D_006359C0_2ECC40[0].w36 != 0) { D_00429930_2ECC40[0] = 0; if (func_002E8928_2ECC40(D_006359C0_2ECC40, 255, 0, 0, 0, D_006357C0_2ECC40, 4, 0, 0) < 0) return -65537; D_006359E8_2ECC40[0] = D_006357C0_2ECC40[0]; return 0; } i = 0x100000; while (i--) ; goto loop; } return 0; }
+
+typedef struct { char a, b; unsigned char prog; char q[13]; } Ch_2D4768;
+typedef struct { char p[16]; Ch_2D4768 ch[16]; } Ent_2D4768;
+typedef struct { volatile unsigned flags; int pc; Ent_2D4768 *ent; } Trk_2D4768;
+Trk_2D4768 *func_002CFF20_2D4768(unsigned) __asm__("func_002CFF20");
+// MATCH func_002D4768
+int FUN_002d4768(unsigned ch, int prog, int mode) {
+  int r = -1;
+  if (ch < 48 && prog >= 0 && prog < 16) {
+    Trk_2D4768 *t = func_002CFF20_2D4768(ch);
+    t->flags |= 0x2000;
+    if (t->flags & 1) {
+      Ent_2D4768 *ent = t->ent;
+      if (mode == 0) {
+        unsigned v = ent->ch[prog].prog;
+        if (v != 0xff) r = v;
+      }
+    }
+    t->flags &= ~0x2000;
+  }
+  return r;
+}

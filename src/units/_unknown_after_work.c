@@ -308,3 +308,12 @@ typedef struct { char pad[720]; float a[4]; float b[4]; } W_248B28_00248B28;
 #define SF(a) (*(float *)(a))
 // MATCH func_00248B28
 void FUN_00248b28(float x, float y, float z) { if (x == 1.0f && y == 1.0f && z == 1.0f) return; if (D_004A14B8_248B28 == 0) { func_0018DF68_248B28((void *)0x70003d80, (void *)0x70003f80); D_004A14B8_248B28 = 1; } WK->a[0] = x; WK->a[1] = y; WK->a[2] = z; WK->a[3] = 1.0f; func_0018F6B0_248B28((void *)0x70003f80, (void *)0x70003f80, (void *)0x70003e40); WK->b[0] = 1.0f; WK->b[1] = 1.0f; WK->b[2] = 1.0f; WK->b[3] = 1.0f; if (x < 0.0f) SF(0x70003e50) = -1.0f; if (y < 0.0f) SF(0x70003e54) = -1.0f; if (z < 0.0f) SF(0x70003e58) = -1.0f; func_0018F6B0_248B28((void *)0x70003c80, (void *)0x70003c80, (void *)0x70003e50); SF(0x70003e60) = 1.0f / x; SF(0x70003e64) = 1.0f / y; SF(0x70003e68) = 1.0f / z; SF(0x70003e6c) = 1.0f; func_0018F6E8_248B28((void *)0x70003d80, (void *)0x70003e60, (void *)0x70003d80); }
+typedef struct { unsigned int word[4]; } MatrixRow_2489D8;
+// MATCH func_002489D8
+void FUN_002489d8(const MatrixRow_2489D8 *rows)
+{
+    __asm__ volatile("lqc2 $vf10, %0" : : "m"(rows[0]));
+    __asm__ volatile("lqc2 $vf11, %0" : : "m"(rows[1]));
+    __asm__ volatile("lqc2 $vf12, %0" : : "m"(rows[2]));
+    __asm__ volatile("lqc2 $vf13, %0" : : "m"(rows[3]));
+}
