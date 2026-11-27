@@ -13,6 +13,12 @@ Almost everything is C. The exceptions are the libvu0 routines (VU0 coprocessor 
 [![Data](badges/data.svg?v=2761)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 [![Units](badges/units.svg?v=143-154)](https://wearetommybruh.github.io/Legaia2-Decomp/#progress)
 
+## ROM patcher (beta)
+
+I made a ROM patcher for Legaia 2. It works with the USA and PAL versions. Pick your own ISO and the mods you want, then download the patched ISO. It's still in beta and it all runs in your browser.
+
+[Open the ROM patcher](https://wearetommybruh.github.io/Legaia2-Decomp/legaia2-mod-patcher.html)
+
 # Setup
 
 Required Tools
